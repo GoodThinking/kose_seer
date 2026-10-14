@@ -303,23 +303,14 @@ export class ItemManager extends BaseManager {
         if (!addedItems.has(itemId)) {
           addedItems.add(itemId);
           
-          // flag: 0=装备物品(显示人物身上), 2=收藏物品, 3=超能NONO物品
-          // 根据请求范围设置 flag（对齐 go-server）
-          let itemFlag = 0;
-          if (itemType1 === 300001 && itemType2 === 500000) {
-            itemFlag = 2; // 收藏物品栏
-          } else if (itemType1 === 100001 && itemType2 === 500000) {
-            itemFlag = 3; // 超能NONO物品栏
-          }
-          // 其余(100001-101000、1300001-1400000、全量等)保持 0
-          
-          Logger.Debug(`[ItemManager] 物品详情: itemId=${itemId}, count=${item.count}, expireTime=${item.expireTime}, flag=${itemFlag}, range=${itemType1}-${itemType2}`);
+          // 第四个 uint32 是客户端 itemLevel，不是分类标记；当前库存无等级字段，0 表示基础图标。
+          Logger.Debug(`[ItemManager] 物品详情: itemId=${itemId}, count=${item.count}, expireTime=${item.expireTime}, level=0, range=${itemType1}-${itemType2}`);
           
           filteredItems.push({
             itemId: item.itemId,
             count: item.count,
             expireTime: item.expireTime,
-            unknown: itemFlag
+            unknown: 0
           });
         }
       }
