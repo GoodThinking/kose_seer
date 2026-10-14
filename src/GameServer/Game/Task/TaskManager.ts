@@ -1,6 +1,7 @@
 import { CompleteStarterTask } from './CompleteStarterTask';
 import { CompleteItemTask } from './CompleteItemTask';
 import { CompleteBalanceTask } from './CompleteBalanceTask';
+import { DecodeTask96Buffer } from './Task96Buffer';
 import { SaveAcceptedTask, SaveCompletedTask, SaveTaskBuffer } from './SaveTaskState';
 import { TaskData } from '../../../DataBase/models/TaskData';
 import { Logger } from '../../../shared/utils/Logger';
@@ -344,33 +345,7 @@ export class TaskManager extends BaseManager {
    */
   public GetTaskBuffer(taskId: number): number[] {
     const buffer = this.TaskData.GetTaskBuffer(taskId);
-    if (taskId === 96) {
-      const keys = Object.keys(buffer).sort();
-      const legacyKeys = ['0', '1', '2', '3', '4'];
-      const progressKeys = Array.from({ length: 20 }, (_, i) => String(i));
-      const sortedProgressKeys = [...progressKeys].sort();
-      if (keys.length === legacyKeys.length && keys.every((key, i) => key === legacyKeys[i])) {
-        const bytes: number[] = [];
-        for (let i = 0; i < 5; i++) {
-          const value = buffer[i];
-          if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) {
-            throw new Error('Invalid legacy task 96 UInt32 buffer');
-          }
-          const encoded = Buffer.alloc(4);
-          encoded.writeUInt32BE(value, 0);
-          bytes.push(...encoded);
-        }
-        return bytes;
-      }
-      if (keys.length === progressKeys.length && keys.every((key, i) => key === sortedProgressKeys[i])) {
-        const bytes = progressKeys.map(key => buffer[Number(key)]);
-        if (bytes.some(value => !Number.isInteger(value) || value < 0 || value > 0xff)) {
-          throw new Error('Invalid persisted task 96 progress byte');
-        }
-        return bytes;
-      }
-      throw new Error('Unknown persisted task 96 buffer shape');
-    }
+    if (taskId === 96) return DecodeTask96Buffer(buffer);
     return [
       buffer[0] || 0,
       buffer[1] || 0,

@@ -1,7 +1,8 @@
 import { PlayerInstance } from '../Player/PlayerInstance';
 import { CommitBalanceReward, BalanceReward } from '../Reward/CommitBalanceReward';
-import { TaskStatus } from '../../../DataBase/models/TaskData';
+import { ITaskBuffer, TaskStatus } from '../../../DataBase/models/TaskData';
 import { GoldToWire } from '../../../shared/protocol/GoldCurrency';
+import { DecodeTask96Buffer } from './Task96Buffer';
 
 export async function CompleteBalanceTask(player: PlayerInstance, taskId: number, reward: BalanceReward): Promise<void> {
   await CommitBalanceReward(player, reward, async (driver, now) => {
@@ -21,16 +22,27 @@ export async function CompleteBalanceTask(player: PlayerInstance, taskId: number
     }
     if (taskId === 88) GoldToWire(player.Data.gold + (reward.gold ?? 0));
     if (taskId === 96) {
-      const bytes = buffer?.xinBytes;
-      if (bytes && (!Array.isArray(bytes) || bytes.length !== 100 ||
-          bytes.some((n: number) => !Number.isInteger(n) || n < 0 || n > 255))) {
-        throw new Error('Invalid task 96 progress bytes');
+      const xinBytes = buffer?.xinBytes;
+      let stages: number[];
+      if (xinBytes !== undefined) {
+        if (!Array.isArray(xinBytes) || xinBytes.length !== 100 ||
+            xinBytes.some((n: number) => !Number.isInteger(n) || n < 0 || n > 0xff)) {
+          throw new Error('Invalid task 96 progress bytes');
+        }
+        stages = xinBytes;
+      } else {
+        stages = DecodeTask96Buffer(buffer as ITaskBuffer | undefined);
       }
-      const stages = bytes ?? [buffer?.[0], buffer?.[1], buffer?.[2], buffer?.[3]];
       if (![0, 1, 2].every(i => stages[i] === 1)) throw new Error('Task 96 progress incomplete');
       if (!player.Data.hasNono || !(player.Data.nonoState & 2)) throw new Error('Task 96 requires following NoNo');
-      buffers[taskId] = bytes ? { ...buffer, xinBytes: bytes.map((n: number, i: number) => i === 3 ? 1 : n) }
-        : { ...buffer, 3: 1 };
+      if (xinBytes !== undefined) {
+        buffers[taskId] = { ...buffer, xinBytes: xinBytes.map((n: number, i: number) => i === 3 ? 1 : n) };
+      } else {
+        const normalized: ITaskBuffer = { ...buffer };
+        stages.forEach((byte, i) => { normalized[i] = byte; });
+        normalized[3] = 1;
+        buffers[taskId] = normalized;
+      }
     }
     const completed = { ...task, status: TaskStatus.COMPLETED, completeTime: now };
     list[taskId] = completed;
