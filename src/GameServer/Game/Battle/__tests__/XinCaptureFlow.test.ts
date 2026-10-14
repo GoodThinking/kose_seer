@@ -58,6 +58,16 @@ describe('capture handler through real GivePet and temporary SQLite', () => {
     if (!body) data.writeUInt32BE(id);
     await new CatchMonsterHandler().Handle(session(), new HeadInfo(), data);
   }
+  function makeNextEnemyCounterLethal() {
+    const turnService = (player.BattleManager as any)._turnService;
+    const executeEnemyTurn = turnService.ExecuteEnemyTurn.bind(turnService);
+    jest.spyOn(turnService, 'ExecuteEnemyTurn').mockImplementationOnce((battle: any) => {
+      const result = executeEnemyTurn(battle);
+      battle.player.hp = 0;
+      result.defenderRemainHp = 0;
+      return result;
+    });
+  }
   async function stored() {
     const pets = await db.Query<{pet_list: string}>('SELECT pet_list FROM player_pets WHERE owner_id = ?', [uid]);
     const items = await db.Query<{item_list: string}>('SELECT item_list FROM player_items WHERE owner_id = ?', [uid]);
@@ -160,6 +170,54 @@ describe('capture handler through real GivePet and temporary SQLite', () => {
     await reload();
     expect(player.PetManager.PetData.PetList).toHaveLength(1);
     expect(player.ItemManager.GetItemCount(300001)).toBe(1);
+  });
+
+  test('failed catch lethal counter keeps battle open for a healthy replacement', async () => {
+    const protocol = Config.Game.clientProtocol;
+    Config.Game.clientProtocol = 'kose';
+    try {
+      const battle = await seed(2, 300001);
+      const replacement = player.PetManager.GetPetsInBag().find(p => p.catchTime !== battle.player.catchTime)!;
+      jest.spyOn(Math, 'random').mockReturnValue(0.99);
+      makeNextEnemyCounterLethal();
+
+      await request(300001);
+
+      expect(packets.filter(p => [2409, 2505, 2506].includes(p.readUInt32BE(5))).map(p => p.readUInt32BE(5)))
+        .toEqual([2409, 2505]);
+      expect(catchPackets()[0].readInt32BE(13)).toBe(0);
+      expect(battle.isOver).toBe(false);
+      expect(player.BattleManager.GetCurrentBattle()).toBe(battle);
+      expect(battle.player.hp).toBe(0);
+      expect(player.PetManager.GetPetByCatchTime(replacement.catchTime)?.hp).toBeGreaterThan(0);
+      expect(player.ItemManager.GetItemCount(300001)).toBe(1);
+      expect((await stored()).items[0].count).toBe(1);
+
+      await action(new ChangePetHandler(), replacement.catchTime);
+      expect(packets.filter(p => [2409, 2505, 2407].includes(p.readUInt32BE(5))).map(p => p.readUInt32BE(5)))
+        .toEqual([2409, 2505, 2407, 2505]);
+      expect(battle.player.catchTime).toBe(replacement.catchTime);
+      expect(packets.some(p => p.readUInt32BE(5) === 2506)).toBe(false);
+    } finally {Config.Game.clientProtocol = protocol;}
+  });
+
+  test('failed catch lethal counter ends battle when no healthy replacement remains', async () => {
+    const protocol = Config.Game.clientProtocol;
+    Config.Game.clientProtocol = 'kose';
+    try {
+      const battle = await seed(1, 300001);
+      jest.spyOn(Math, 'random').mockReturnValue(0.99);
+      makeNextEnemyCounterLethal();
+
+      await request(300001);
+
+      expect(packets.filter(p => [2409, 2505, 2506].includes(p.readUInt32BE(5))).map(p => p.readUInt32BE(5)))
+        .toEqual([2409, 2505, 2506]);
+      expect(battle.isOver).toBe(true);
+      expect(player.BattleManager.GetCurrentBattle()).toBeNull();
+      expect(player.ItemManager.GetItemCount(300001)).toBe(1);
+      expect((await stored()).items[0].count).toBe(1);
+    } finally {Config.Game.clientProtocol = protocol;}
   });
 
   test('no capsule, unknown item and malformed requests do not mutate SQLite', async () => {

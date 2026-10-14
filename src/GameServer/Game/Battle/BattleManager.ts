@@ -1421,13 +1421,7 @@ export class BattleManager extends BaseManager {
       await this.ExecuteEnemyCounterAndSend(isCurrent);
       if (!isCurrent()) return;
 
-      // 检查是否被打败
-      if (battle.player.hp <= 0) {
-        battle.isOver = true;
-        await this.EmitPetDeadEventsIfNeeded(isCurrent);
-        if (!isCurrent()) return;
-        await this.HandleFightOver(0, 0, isCurrent);
-      }
+      if (await this.CheckPlayerPetDeath(isCurrent)) return;
 
       Logger.Info(`[BattleManager] 捕获失败后敌人反击: 玩家HP=${this._currentBattle?.player.hp}, 敌人HP=${this._currentBattle?.enemy.hp}`);
     }
