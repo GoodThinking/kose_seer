@@ -157,7 +157,8 @@ describe('ordinary PVE victory through real reward managers and temporary SQLite
     const stop = async () => {entered(); await gate;};
     if (stage === 'HP sync') {
       const sync = (player.BattleManager as any).SyncBattlePetHP.bind(player.BattleManager);
-      jest.spyOn(player.BattleManager as any, 'SyncBattlePetHP').mockImplementation(async () => {await sync(); await stop();});
+      // Pause only the escaping request; logout must run its own real HP synchronization.
+      jest.spyOn(player.BattleManager as any, 'SyncBattlePetHP').mockImplementationOnce(async () => {await sync(); await stop();});
     } else if (stage === 'escape event') {
       // Actual registered callback: exercise EventBus.Dispatch's real asynchronous wait.
       player.EventBus.Once(BattleEventType.ESCAPE_RESULT, stop);

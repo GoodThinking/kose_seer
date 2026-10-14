@@ -240,94 +240,92 @@ export class PetManager extends BaseManager {
    * 处理将精灵放到仓库（flag=0）
    */
   public async HandlePetRelease(catchTime: number): Promise<void> {
-    if (this.PetData.HasPendingGrant()) {
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5000));
-      return;
-    }
-    const pet = this.PetData.GetPetByCatchTime(catchTime);
-    
-    if (!pet) {
-      Logger.Warn(`[PetManager] 精灵不存在: UserID=${this.UserID}, CatchTime=${catchTime}`);
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5001));
-      return;
-    }
-
-    if (!pet.isInBag) {
-      Logger.Warn(`[PetManager] 精灵不在背包中: UserID=${this.UserID}, CatchTime=${catchTime}`);
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5001));
-      return;
-    }
-
-    // 将精灵移到仓库
-    pet.isInBag = false;
-    
-    // 如果是首发精灵，需要取消首发状态
-    if (pet.isDefault) {
-      pet.isDefault = false;
-      
-      // 设置新的首发精灵（背包中的第一只）
-      const bagPets = this.PetData.GetPetsInBag();
-      if (bagPets.length > 0) {
-        bagPets[0].isDefault = true;
+    const release = await this.PetData.AcquireMutation();
+    let committed = false;
+    try {
+      if (this.PetData.HasPendingGrant()) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5000));
+        return;
       }
-    }
-
-    // 获取新的首发精灵的 catchTime
-    const defaultPet = this.PetData.PetList.find(p => p.isDefault);
-    const firstPetTime = defaultPet ? defaultPet.catchTime : 0;
-
-    await DatabaseHelper.Instance.SavePetData(this.PetData);
-    await this.Player.SendPacket(new PacketPetRelease(0, firstPetTime, 0, undefined, this.Player.ClientProtocol));
-    Logger.Info(`[PetManager] 将精灵放到仓库: UserID=${this.UserID}, CatchTime=${catchTime}, NewDefaultCatchTime=${firstPetTime}`);
+      const pet = this.PetData.GetPetByCatchTime(catchTime);
+      if (!pet || !pet.isInBag) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5001));
+        return;
+      }
+      await this.commitPetBagUpdate(pet, pets => {
+        const candidate = pets.find(p => p.catchTime === catchTime)!;
+        candidate.isInBag = false;
+        if (candidate.isDefault) {
+          candidate.isDefault = false;
+          const next = pets.filter(p => p.isInBag).sort((a, b) =>
+            Number(b.isDefault) - Number(a.isDefault) || a.catchTime - b.catchTime)[0];
+          if (next) next.isDefault = true;
+        }
+      });
+      committed = true;
+      const firstPetTime = this.GetDefaultPet()?.catchTime ?? 0;
+      await this.Player.SendPacket(new PacketPetRelease(0, firstPetTime, 0, undefined, this.Player.ClientProtocol));
+      Logger.Info(`[PetManager] 将精灵放到仓库: UserID=${this.UserID}, CatchTime=${catchTime}, NewDefaultCatchTime=${firstPetTime}`);
+    } catch (error) {
+      Logger.Error('[PetManager] HandlePetRelease failed', error as Error);
+      if (!committed) await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5000));
+    } finally { release(); }
   }
 
   /**
    * 处理将精灵放入背包（从仓库取出，或确认获得新精灵）
    */
   public async HandlePetTakeOut(catchTime: number): Promise<void> {
-    if (this.PetData.HasPendingGrant()) {
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5000));
-      return;
-    }
-    const pet = this.PetData.GetPetByCatchTime(catchTime);
-    
-    if (!pet) {
-      Logger.Warn(`[PetManager] 精灵不存在: UserID=${this.UserID}, CatchTime=${catchTime}`);
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5001));
-      return;
-    }
+    const release = await this.PetData.AcquireMutation();
+    let committed = false;
+    try {
+      if (this.PetData.HasPendingGrant()) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5000));
+        return;
+      }
+      const pet = this.PetData.GetPetByCatchTime(catchTime);
+      const bagCount = this.PetData.GetPetsInBag().length;
+      if (!pet || (!pet.isInBag && bagCount >= 6)) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5001));
+        return;
+      }
+      await this.commitPetBagUpdate(pet, pets => {
+        const candidate = pets.find(p => p.catchTime === catchTime)!;
+        if (!candidate.isInBag) {
+          candidate.isInBag = true;
+          candidate.isRoomShow = false;
+          if (bagCount === 0) candidate.isDefault = true;
+        }
+      });
+      committed = true;
+      const firstPetTime = this.GetDefaultPet()?.catchTime ?? 0;
+      const petProto = this.petInfoToProto(pet);
+      await this.Player.SendPacket(new PacketPetRelease(0, firstPetTime, 1, petProto, this.Player.ClientProtocol));
+      Logger.Info(`[PetManager] 取回精灵响应: UserID=${this.UserID}, PetCatchTime=${catchTime}, FirstPetTime=${firstPetTime}`);
+    } catch (error) {
+      Logger.Error('[PetManager] HandlePetTakeOut failed', error as Error);
+      if (!committed) await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5000));
+    } finally { release(); }
+  }
 
-    // 检查背包是否已满
-    const bagCount = this.PetData.GetPetsInBag().length;
-    if (!pet.isInBag && bagCount >= 6) {
-      Logger.Warn(`[PetManager] 背包已满: UserID=${this.UserID}, BagCount=${bagCount}`);
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_RELEASE).setResult(5001));
-      return;
-    }
-
-    // 如果精灵在仓库中，将其移到背包
-    if (!pet.isInBag) {
-      pet.isInBag = true;
-      pet.isRoomShow = false;
-      // 客户端 PetManager.add 将空背包的第一只设为首发；同步持久化该状态。
-      if (bagCount === 0) pet.isDefault = true;
-      Logger.Info(`[PetManager] 将精灵从仓库取回背包: UserID=${this.UserID}, CatchTime=${catchTime}, PetId=${pet.petId}`);
-    } else {
-      Logger.Info(`[PetManager] 确认精灵在背包中: UserID=${this.UserID}, CatchTime=${catchTime}, PetId=${pet.petId}`);
-    }
-
-    // 获取当前首发精灵的 catchTime
-    const defaultPet = this.PetData.PetList.find(p => p.isDefault);
-    const firstPetTime = defaultPet ? defaultPet.catchTime : 0;
-
-    // 与存仓路径一致：响应前调用保存，避免只依赖 Proxy 的 100ms 防抖。
-    // DataSaver 当前会捕获写入异常，此处不能据此保证数据库故障时的持久化。
-    await DatabaseHelper.Instance.SavePetData(this.PetData);
-
-    // 发送确认响应（包含精灵信息）
-    const petProto = this.petInfoToProto(pet);
-    await this.Player.SendPacket(new PacketPetRelease(0, firstPetTime, 1, petProto, this.Player.ClientProtocol));
-    Logger.Info(`[PetManager] 取回精灵响应: UserID=${this.UserID}, PetCatchTime=${catchTime}, FirstPetTime=${firstPetTime}`);
+  /** These bag operations publish membership/default/order only after strict persistence. */
+  private async commitPetBagUpdate(pet: IPetInfo, update: (pets: IPetInfo[]) => void): Promise<void> {
+    const planned: IPetInfo[] = JSON.parse(JSON.stringify(this.PetData.PetList));
+    update(planned);
+    const candidate = planned.find(p => p.catchTime === pet.catchTime)!;
+    await this.PetData.CommitPetUpdate(pet, candidate, staged => {
+      staged.PetList = planned;
+      return DatabaseHelper.Instance.SavePetData(staged, true);
+    }, () => {
+      const current = new Map(this.PetData.PetList.map(p => [p.catchTime, p]));
+      planned.forEach((next, index) => {
+        const live = current.get(next.catchTime)!;
+        if (live.isInBag !== next.isInBag) live.isInBag = next.isInBag;
+        if (live.isDefault !== next.isDefault) live.isDefault = next.isDefault;
+        if (live.isRoomShow !== next.isRoomShow) live.isRoomShow = next.isRoomShow;
+        if (this.PetData.PetList[index] !== live) this.PetData.PetList[index] = live;
+      });
+    });
   }
 
   /**
@@ -391,54 +389,34 @@ export class PetManager extends BaseManager {
    * 这样登录和其他地方就不需要额外排序了
    */
   public async HandlePetDefault(catchTime: number): Promise<void> {
-    if (this.PetData.HasPendingGrant()) {
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_DEFAULT).setResult(5000));
-      return;
-    }
-    const pet = this.PetData.GetPetByCatchTime(catchTime);
-    
-    if (pet && pet.isInBag) {
-      // 1. 清除其他精灵的首发标记
-      this.PetData.PetList.forEach(p => p.isDefault = false);
-      
-      // 2. 设置当前精灵为首发
-      pet.isDefault = true;
-      
-      // 3. 调整数组顺序：将首发精灵移到背包精灵的第一位
-      // 找到所有背包精灵的索引
-      const bagIndices: number[] = [];
-      this.PetData.PetList.forEach((p, index) => {
-        if (p.isInBag) {
-          bagIndices.push(index);
+    const release = await this.PetData.AcquireMutation();
+    let committed = false;
+    try {
+      if (this.PetData.HasPendingGrant()) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_DEFAULT).setResult(5000));
+        return;
+      }
+      const pet = this.PetData.GetPetByCatchTime(catchTime);
+      if (!pet || !pet.isInBag) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_DEFAULT).setResult(5001));
+        return;
+      }
+      await this.commitPetBagUpdate(pet, pets => {
+        pets.forEach(p => p.isDefault = p.catchTime === catchTime);
+        const selectedIndex = pets.findIndex(p => p.catchTime === catchTime);
+        const firstBagIndex = pets.findIndex(p => p.isInBag);
+        if (selectedIndex !== firstBagIndex) {
+          const [selected] = pets.splice(selectedIndex, 1);
+          pets.splice(firstBagIndex, 0, selected);
         }
       });
-      
-      // 找到首发精灵在数组中的位置
-      const defaultPetIndex = this.PetData.PetList.findIndex(p => p.catchTime === catchTime);
-      
-      if (defaultPetIndex !== -1 && bagIndices.length > 0) {
-        // 如果首发精灵不在第一个背包位置，则移动它
-        const firstBagIndex = bagIndices[0];
-        if (defaultPetIndex !== firstBagIndex) {
-          // 从原位置移除
-          const [defaultPet] = this.PetData.PetList.splice(defaultPetIndex, 1);
-          // 插入到第一个背包位置
-          this.PetData.PetList.splice(firstBagIndex, 0, defaultPet);
-          
-          Logger.Debug(
-            `[PetManager] 调整精灵顺序: PetId=${pet.petId} 从索引${defaultPetIndex}移到${firstBagIndex}`
-          );
-        }
-      }
-      
-      // BaseData 自动保存（包括数组顺序的变化）
-      
+      committed = true;
       await this.Player.SendPacket(new PacketPetDefault());
       Logger.Info(`[PetManager] 设置首发精灵: UserID=${this.UserID}, PetId=${pet.petId}, CatchTime=${catchTime}`);
-    } else {
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_DEFAULT).setResult(5001));
-      Logger.Warn(`[PetManager] 设置首发精灵失败: UserID=${this.UserID}, CatchTime=${catchTime}`);
-    }
+    } catch (error) {
+      Logger.Error('[PetManager] HandlePetDefault failed', error as Error);
+      if (!committed) await this.Player.SendPacket(new PacketEmpty(CommandID.PET_DEFAULT).setResult(5000));
+    } finally { release(); }
   }
 
   /**
@@ -530,6 +508,12 @@ export class PetManager extends BaseManager {
       const activeSkills = newSkills.slice(0, Math.max(0, 4 - candidate.skillArray.length));
       const unactiveSkills = newSkills.slice(activeSkills.length);
       candidate.skillArray.push(...activeSkills);
+
+      // Validate the actual protocol fields before committing an otherwise unreadable reward.
+      const experience = GetPetExperienceFields(candidate, this.Player.ClientProtocol);
+      if (!Object.values(experience).every(value => Number.isSafeInteger(value) && value >= 0 && value <= 0xffffffff)) {
+        throw new Error('Pet experience projection exceeds uint32');
+      }
 
       // 战斗结算前先保存属性并准备客户端的属性/技能提示；catchTime 保持原实例身份。
       await this.PetData.CommitPetUpdate(pet, candidate);

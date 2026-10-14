@@ -1168,7 +1168,7 @@ export class BattleManager extends BaseManager {
       return;
     }
 
-    // Only the pinned client's basic HP and PP medicines are supported.
+    // Only the pinned client's five fixed-HP medicines and basic PP medicine are supported.
     const isPP = itemId === 300016;
     const medicine = ItemSystem.GetItem(itemId) as (IItemInfo & { HP?: number; PP?: number; ItemType?: number }) | null;
     const healAmount = isPP ? medicine?.PP : medicine?.HP;
@@ -1176,7 +1176,7 @@ export class BattleManager extends BaseManager {
     const itemData = this.Player.ItemManager.ItemData;
     const petData = this.Player.PetManager.PetData;
     const item = itemData.ItemList.find(entry => entry.itemId === itemId);
-    if ((!isPP && itemId !== 300011) || medicine?.ItemType !== (isPP ? 2 : 1) || !Number.isInteger(healAmount) ||
+    if ((!isPP && ![300011, 300012, 300013, 300014, 300015].includes(itemId)) || medicine?.ItemType !== (isPP ? 2 : 1) || !Number.isInteger(healAmount) ||
         !healAmount || healAmount <= 0 || !pet || !item) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
       return;
@@ -1235,9 +1235,12 @@ export class BattleManager extends BaseManager {
         if (isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
         return;
       }
+      // Retain a committed heal on its owning battle; invalidation still blocks packets and counterattacks.
+      if (this._currentBattle === battle && battle.player.catchTime === targetCatchTime) {
+        battle.player.hp = nextHp;
+        this._battlePetHPMap.set(targetCatchTime, nextHp);
+      }
       if (!isCurrent()) return;
-      battle.player.hp = nextHp;
-      this._battlePetHPMap.set(targetCatchTime, nextHp);
       await this.Player.SendPacket(new PacketUsePetItem(this.UserID, itemId, battle.player.hp, actualHeal));
       Logger.Info(`[BattleManager] 使用道具: UserID=${this.UserID}, ItemId=${itemId}, Heal=${actualHeal}`);
       await this.ContinueNieoMedicineTurn(catchTime, isCurrent);
@@ -1506,6 +1509,17 @@ export class BattleManager extends BaseManager {
     // 如果是PVP战斗，通知对手战斗结束（对手获胜）
     if (this._currentBattle.isPvp === true && this._currentBattle.player2Id) {
       await this._pvpService.OnLogout();
+    } else if (this._currentBattle.isPvp !== true) {
+      // A medicine operation owns BeginMutation until its persistence outcome is published.
+      const release = await this.Player.ItemManager.ItemData.AcquireReward();
+      try {
+        await this.Player.PetManager.PetData.WaitForStagedSave();
+        await this.SyncBattlePetHP();
+        this.CleanupBattle();
+      } finally {
+        release();
+      }
+      return;
     }
 
     // 清理本地战斗数据

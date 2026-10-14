@@ -27,6 +27,7 @@ import { createDefaultPetInfo } from '../../../../shared/models/PetModel';
 import { createDefaultPlayerInfo } from '../../../../shared/models/PlayerModel';
 import { GameEventBus } from '../../Event/GameEventBus';
 import { GameConfig } from '../../../../shared/config/game/GameConfig';
+import { ItemSystem } from '../../Item/ItemSystem';
 
 describe('2406 medicine admission and real SQLite consumption', () => {
   const uid = 190601, caught = 1700000601, db = DatabaseManager.Instance, helper = DatabaseHelper.Instance;
@@ -41,6 +42,11 @@ describe('2406 medicine admission and real SQLite consumption', () => {
     else {b.writeUInt32BE(catchTime); b.writeUInt32BE(itemId, 4); b.writeUInt32BE(last, 8);}
     return b;
   }
+  function nieoBody(itemId: number, catchTime = caught) {
+    const b = Buffer.alloc(12);
+    b.writeUInt32BE(catchTime); b.writeUInt32BE(itemId, 4);
+    return b;
+  }
   const request = (b = body()) => new UsePetItemHandler().Handle(session(), new HeadInfo(), b);
   const replies = () => packets.filter(p => p.readUInt32BE(5) === 2406);
   function pause() {
@@ -53,13 +59,13 @@ describe('2406 medicine admission and real SQLite consumption', () => {
     const [i] = await db.Query<{item_list: string}>('SELECT item_list FROM player_items WHERE owner_id=?', [uid]);
     return {pets: JSON.parse(p.pet_list), items: JSON.parse(i.item_list)};
   }
-  async function seed(count = 2, hp = 321) {
+  async function seed(count = 2, hp = 321, itemId = 300011) {
     player.BattleManager = new BattleManager(player);
     player.MapSpawnManager = {GetMapOgres: () => [{petId: 8, originalPetId: 8, shiny: 0}], OnBattleEnd: () => {}} as any;
     player.PetManager.PetData.PetList = [Object.assign(createDefaultPetInfo(uid, 7), {
       catchTime: caught, hp: hp || 321, maxHp: 500, level: 50, atk: 500, speed: 500, isDefault: true, skillArray: [10001],
     })];
-    player.ItemManager.ItemData.ItemList = count ? [{itemId: 300011, count, expireTime: 0}] : [];
+    player.ItemManager.ItemData.ItemList = count ? [{itemId, count, expireTime: 0}] : [];
     await helper.SavePetData(player.PetManager.PetData); await helper.SaveItemData(player.ItemManager.ItemData); await settle();
     await player.BattleManager.HandleFightNpcMonster(0); await player.BattleManager.HandleReadyToFight();
     const battle = player.BattleManager.GetCurrentBattle()!;
@@ -119,6 +125,104 @@ describe('2406 medicine admission and real SQLite consumption', () => {
     await reload(); expect(player.PetManager.GetPetByCatchTime(caught)!.hp).toBe(341);
     expect(player.ItemManager.GetItemCount(300011)).toBe(1);
   });
+  test.each([300011, 300012, 300013, 300014, 300015].flatMap((itemId, index) =>
+    [321, 490].map(hp => [itemId, [20, 50, 100, 150, 200][index], hp])))
+  ('fixed Nieo HP medicine %i with configured HP %i at hp %i consumes once and queues a counterattack', async (itemId, configuredHP, hp) => {
+    Config.Game.clientProtocol = 'kose';
+    expect((ItemSystem.GetItem(itemId) as any).HP).toBe(configuredHP);
+    expect((ItemSystem.GetItem(itemId) as any).ItemType).toBe(1);
+    const battle = await seed(2, hp, itemId);
+    const healed = Math.min(configuredHP, 500 - hp);
+    await request(nieoBody(itemId));
+    expect(packets.map(p => p.readUInt32BE(5))).toEqual([2406, 2505]);
+    expect(replies()[0].readInt32BE(13)).toBe(0);
+    expect(replies()[0].readUInt32BE(21)).toBe(itemId);
+    expect(replies()[0].readUInt32BE(25)).toBe(hp + healed);
+    expect(replies()[0].readInt32BE(29)).toBe(healed);
+    // The emitted counterattack may miss or use a non-damaging skill.
+    expect(battle.player.hp).toBeLessThanOrEqual(hp + healed);
+    expect((await stored()).pets[0].hp).toBe(hp + healed);
+    expect((await stored()).items.find((item: any) => item.itemId === itemId).count).toBe(1);
+    await reload();
+    expect(player.ItemManager.GetItemCount(itemId)).toBe(1);
+    expect(player.PetManager.GetPetByCatchTime(caught)!.hp).toBe(hp + healed);
+  });
+  test.each([300011, 300012, 300013, 300014, 300015].flatMap(itemId =>
+    [[itemId, 2, 500], [itemId, 0, 321]]))
+  ('fixed Nieo HP medicine %i with stock %i and hp %i rejects without consumption', async (itemId, count, hp) => {
+    Config.Game.clientProtocol = 'kose';
+    const battle = await seed(count, hp, itemId), before = await stored();
+    await request(nieoBody(itemId));
+    expect(packets.map(p => p.readUInt32BE(5))).toEqual([2406]);
+    expect(replies()[0].readInt32BE(13)).toBe(5001);
+    expect(battle.player.hp).toBe(hp); expect(await stored()).toEqual(before);
+  });
+  test.each([300010, 300017, 300020, 300021, 300022, 999999])
+  ('fixed Nieo unrelated medicine %i stays rejected even with stock', async itemId => {
+    Config.Game.clientProtocol = 'kose';
+    const battle = await seed(2, 321, itemId), before = await stored();
+    await request(nieoBody(itemId));
+    expect(replies()[0].readInt32BE(13)).toBe(5001);
+    expect(battle.player.hp).toBe(321); expect(await stored()).toEqual(before);
+  });
+  test.each([false, true])('fixed Nieo basic PP medicine full=%s preserves its original behavior', async full => {
+    Config.Game.clientProtocol = 'kose';
+    const battle = await seed(2, 321, 300016);
+    const max = battle.player.skills.map(id => GameConfig.GetSkillById(id)!.MaxPP);
+    battle.player.skillPP = max.map(pp => full ? pp : pp - 3);
+    const before = await stored();
+    await request(nieoBody(300016));
+    expect(replies()[0].readInt32BE(13)).toBe(full ? 5001 : 0);
+    expect(battle.player.skillPP).toEqual(max);
+    expect(packets.map(p => p.readUInt32BE(5))).toEqual(full ? [2406] : [2406, 2505]);
+    if (full) expect(await stored()).toEqual(before);
+    else {
+      expect(replies()[0].readInt32BE(29)).toBe(0);
+      expect((await stored()).items[0].count).toBe(1);
+    }
+  });
+
+  test.each([['ItemType', 2], ['HP', 0], ['HP', 1.5]] as const)
+  ('fixed Nieo supported HP medicine still rejects invalid %s=%s configuration', async (field, value) => {
+    Config.Game.clientProtocol = 'kose';
+    const battle = await seed(2, 321, 300014), before = await stored();
+    const configured = ItemSystem.GetItem(300014)!;
+    jest.spyOn(ItemSystem, 'GetItem').mockReturnValue({...configured, [field]: value} as any);
+    await request(nieoBody(300014));
+    expect(replies()[0].readInt32BE(13)).toBe(5001);
+    expect(battle.player.hp).toBe(321); expect(await stored()).toEqual(before);
+  });
+
+  test('logout synchronization after an in-flight fixed HP save preserves the committed heal', async () => {
+    Config.Game.clientProtocol = 'kose';
+    const battle = await seed(2, 321, 300014), stop = pause(), save = helper.SavePetData.bind(helper);
+    jest.spyOn(helper, 'SavePetData').mockImplementation(async (data, strict) => {
+      await save(data, strict);
+      if (strict) await stop.wait();
+    });
+    const medicine = request(nieoBody(300014));
+    await stop.ready;
+    expect((await stored()).pets[0].hp).toBe(471);
+    // Reproduce the separately-owned logout synchronization contract without editing OnLogout.
+    player.BattleManager.InvalidatePendingCapture();
+    const logout = (async () => {
+      const release = await player.ItemManager.ItemData.AcquireReward();
+      try {
+        await player.PetManager.PetData.WaitForStagedSave();
+        await (player.BattleManager as any).SyncBattlePetHP();
+        (player.BattleManager as any).CleanupBattle();
+        await save(player.PetManager.PetData, true);
+      } finally { release(); }
+    })();
+    try {
+      stop.release(); await Promise.all([medicine, logout]);
+      expect(packets).toHaveLength(0); // Invalidated medicine cannot notify or counterattack.
+      expect((await stored()).pets[0].hp).toBe(471);
+      expect((await stored()).items[0].count).toBe(1);
+      expect(player.PetManager.GetPetByCatchTime(caught)!.hp).toBe(471);
+    } finally {stop.release(); await medicine; await logout;}
+  });
+
   test('no stock and wrong medicine types cannot heal for free', async () => {
     const battle = await seed(0), before = await stored();
     for (const id of [300011, 300001, 300016, 300021, 999999]) await request(body(id));

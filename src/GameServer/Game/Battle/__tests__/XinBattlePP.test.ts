@@ -261,10 +261,15 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
     jest.spyOn(helper, 'SaveItemData').mockImplementation(async (data, strict) => {
       await save(data, strict); if (strict) {entered(); await gate;}
     });
-    const pending = ppItem(); let successor: any, snapshot = '';
+    const pending = ppItem(); let successor: any, snapshot = '', logout: Promise<void> | undefined;
     try {
       await ready; await ppItem();
-      if (transition === 'logout') await player.BattleManager.OnLogout();
+      if (transition === 'logout') {
+        let completed = false;
+        logout = player.BattleManager.OnLogout().then(() => { completed = true; });
+        await new Promise<void>(resolve => setImmediate(resolve));
+        expect(completed).toBe(false);
+      }
       else {
         player.MapManager = new MapManager(player); player.MapSpawnManager = new MapSpawnManager(player);
         OnlineTracker.Instance.PlayerLogin(uid, session()); OnlineTracker.Instance.UpdatePlayerMap(uid, 301);
@@ -277,12 +282,13 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
         }
       }
       release(); await pending;
+      await logout;
       expect(old.player.skillPP).toEqual(pp); expect(old.player.hp).toBe(hp);
       if (successor) expect(JSON.stringify(successor)).toBe(snapshot);
       expect(commandPackets(2406).map(p => p.readInt32BE(13))).toEqual([5001]);
       expect(player.ItemManager.GetItemCount(300016)).toBe(1);
       expect((player.BattleManager as any)._petItemInProgress).toBe(false);
       await reload(); expect(player.ItemManager.GetItemCount(300016)).toBe(1);
-    } finally {release(); await pending; OnlineTracker.Instance.PlayerLogout(uid);}
+    } finally {release(); await pending; await logout; OnlineTracker.Instance.PlayerLogout(uid);}
   });
 });

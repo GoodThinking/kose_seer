@@ -267,6 +267,7 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
    * 增加货币
    */
   public async AddCurrency(userId: number, energy?: number, coins?: number, gold?: number): Promise<boolean> {
+    if (coins !== undefined && !Number.isSafeInteger(coins)) return false;
     const updates: string[] = [];
     const values: any[] = [];
 
@@ -286,9 +287,15 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
     if (updates.length === 0) return false;
 
     values.push(userId);
+    // coins is a whole-unit uint32 login field; reject rather than truncate/saturate.
+    let predicate = 'user_id = ?';
+    if (coins !== undefined && coins !== 0) {
+      predicate += ' AND coins BETWEEN 0 AND 4294967295 AND coins + ? BETWEEN 0 AND 4294967295';
+      values.push(coins);
+    }
 
     const result = await this._db.Execute(
-      `UPDATE players SET ${updates.join(', ')} WHERE user_id = ?`,
+      `UPDATE players SET ${updates.join(', ')} WHERE ${predicate}`,
       values
     );
 
