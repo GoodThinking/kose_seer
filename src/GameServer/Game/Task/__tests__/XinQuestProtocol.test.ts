@@ -136,6 +136,51 @@ describe('XIN task buffer and completion flow', () => {
     expect(sent.at(-1)!.serialize('kose').subarray(8)).toEqual(progress);
   });
 
+  it('reads the legacy five-UInt32 task 96 buffer as its exact UInt32BE byte stream', async () => {
+    const { player, manager, sent } = createPlayer();
+    player.ClientProtocol = 'kose';
+    manager.TaskData.TaskBuffers.set(96, { 0: 16777216, 1: 65536, 2: 0, 3: 0, 4: 0 });
+    manager.TaskData.TaskList.set(96, {
+      taskId: 96, status: TaskStatus.ACCEPTED, acceptTime: 1, completeTime: 0,
+    });
+
+    await new GetTaskBufHandler().Handle({ Player: player } as any, {} as any, Buffer.from([0, 0, 0, 96]));
+
+    let payload = sent[0].serialize('kose').subarray(8);
+    expect(payload).toEqual(Buffer.from('0100000000010000000000000000000000000000', 'hex'));
+    expect(manager.TaskData.GetTask(96)?.status).toBe(TaskStatus.ACCEPTED);
+
+    const query = Buffer.from([0, 0, 0, 96]);
+    for (let stage = 0; stage < 3; stage++) {
+      payload[stage] = 1;
+      await new AddTaskBufHandler().Handle(
+        { Player: player } as any, {} as any, Buffer.concat([query, payload])
+      );
+      await new GetTaskBufHandler().Handle({ Player: player } as any, {} as any, query);
+      payload = sent.at(-1)!.serialize('kose').subarray(8);
+      expect([...payload.subarray(0, 4)]).toEqual([0, 1, 2, 3].map(i => i <= stage ? 1 : 0));
+    }
+    const row = manager.TaskData.ToRow();
+    manager.TaskData = TaskData.FromRow({ owner_id: player.Uid, ...row });
+    expect(manager.GetTaskBuffer(96)).toEqual([...payload]);
+    expect(manager.TaskData.GetTask(96)?.status).toBe(TaskStatus.ACCEPTED);
+    expect(player.Data.coins).toBe(0);
+    expect(player.ItemManager.GiveItem).not.toHaveBeenCalled();
+  });
+
+  it('keeps a canonical twenty-byte task 96 buffer unchanged and rejects mixed legacy shapes', async () => {
+    const { player, manager, sent } = createPlayer();
+    player.ClientProtocol = 'kose';
+    const bytes = Array.from({ length: 20 }, (_, i) => (i * 13) & 0xff);
+    manager.TaskData.TaskBuffers.set(96, Object.fromEntries(bytes.map((value, i) => [i, value])));
+    await new GetTaskBufHandler().Handle({ Player: player } as any, {} as any, Buffer.from([0, 0, 0, 96]));
+    expect(sent[0].serialize('kose').subarray(8)).toEqual(Buffer.from(bytes));
+
+    manager.TaskData.TaskBuffers.set(96, { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 });
+    await new GetTaskBufHandler().Handle({ Player: player } as any, {} as any, Buffer.from([0, 0, 0, 96]));
+    expect(sent.at(-1)!.getResult()).toBe(5000);
+  });
+
   it('rejects a truncated XIN buffer instead of changing saved task state', async () => {
     const { player, manager, sent } = createPlayer();
     const request = Buffer.alloc(103);
