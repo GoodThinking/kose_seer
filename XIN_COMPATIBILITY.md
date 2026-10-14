@@ -120,3 +120,31 @@ The ten-digit business balance `2147483647` then fits its existing box. Output
 SHA256 is `3a0b5fa8a2f0e53b42a1396276304f36534e8c2a850c6974d6bc851c54424512`;
 ABC scripts, geometry and all other uncompressed bytes are unchanged. Generated
 SWFs and account credentials are release artifacts, not repository source.
+# 2026-10-14: fixed Nieo capture rejection recovery
+
+The pinned fight module closes its controls and stops its timer before CMD
+2409. Nonzero responses are dispatched as SocketErrorEvent in the deployed
+Nieo core, so the normal fight-controller CMD listener never restores controls
+on 5001. The original capsule button also decrements inventory before ACK.
+
+`scripts/patch-capture-recovery.cjs` rebuilds only CatchPetItemCategory from the
+pinned original fight module. Its response/error listeners clear on ACK or
+destruction. Inventory decrements on normal capture responses or consumed
+reward-save failure 5003, never on precondition rejection 5001. Rejections write
+a readable battle-log message and resume the existing controls/timer; the
+handled error does not enter the generic deferred Alarm queue. Neither the
+server HP eligibility rule nor capture RNG, rewards or enemy turns change.
+
+Re-export verification: 261 classes, only this class changed; all other SWF
+tags remain identical. Actual method-body event fixtures pass 20 cases across
+source and re-export, including last-capsule rejection, success/failure ACK,
+unrelated errors and listener destruction. Existing capture server tests pass
+26 cases. Hidden-browser local QA confirms full-HP rejection retains 100
+ordinary capsules and permits the next manual skill; damaged-target capture
+consumes one intermediate capsule (100 to 99), shows success, returns to map
+and adds one stored pet with the six-pet bag unchanged. Static checks do not
+substitute for these UI results.
+
+Install only `client/overlay/resource/module/PetFightDLL.swf`; removing this
+overlay restores the unchanged original asset. See the patch README for input
+identity and rebuild arguments. No database migration is part of this patch.
