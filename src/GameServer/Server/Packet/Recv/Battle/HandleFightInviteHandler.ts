@@ -82,7 +82,8 @@ export class HandleFightInviteHandler implements IHandler {
           inviterPets,
           targetId,
           invite.targetNick,
-          targetPets
+          targetPets,
+          inviterSession.Player.ClientProtocol
         )
       );
       
@@ -94,7 +95,8 @@ export class HandleFightInviteHandler implements IHandler {
           targetPets,
           inviterId,
           invite.inviterNick,
-          inviterPets
+          inviterPets,
+          targetSession.Player.ClientProtocol
         )
       );
       

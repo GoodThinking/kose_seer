@@ -5,8 +5,22 @@
 
 import { BattleAlgorithm, SkillCategory, IPetBaseStats, IDamageOptions } from '../BattleAlgorithm';
 import { createAttacker, createDefender, createPetWithStages } from './BattleTestHelpers';
+import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
+import { ConfigKeys, ConfigPaths, ConfigType } from '../../../../shared/config/ConfigDefinitions';
+import { GameConfig } from '../../../../shared/config/game/GameConfig';
+import { BattleInitService } from '../services/BattleInitService';
+import { BossAbilityConfig } from '../BossAbility/BossAbilityConfig';
+import { createDefaultPetInfo } from '../../../../shared/models/PetModel';
 
 describe('BattleAlgorithm - 战斗算法测试', () => {
+  beforeAll(async () => {
+    for (const key of [ConfigKeys.PET_CONFIG, ConfigKeys.SPT_CONFIG, ConfigKeys.SKILL_CONFIG]) {
+      ConfigRegistry.Instance.Register(key, ConfigPaths[key], ConfigType.XML);
+    }
+    ConfigRegistry.Instance.Register(ConfigKeys.NATURES_CONFIG, ConfigPaths[ConfigKeys.NATURES_CONFIG], ConfigType.JSON);
+    ConfigRegistry.Instance.Register(ConfigKeys.BOSS_ABILITIES, ConfigPaths[ConfigKeys.BOSS_ABILITIES], ConfigType.JSON);
+    await ConfigRegistry.Instance.Initialize();
+  });
   
   // 测试用精灵种族值
   const mockPetStats: IPetBaseStats = {
@@ -42,6 +56,35 @@ describe('BattleAlgorithm - 战斗算法测试', () => {
       
       expect(stats.attack).toBeGreaterThan(236); // 攻击提升
       expect(stats.spAtk).toBeLessThan(236);     // 特攻降低
+    });
+
+    test('合法性格0使用孤独修正，undefined仍使用平衡缺省', () => {
+      const lonely = BattleAlgorithm.CalculateStats(mockPetStats, 100, 31, undefined, 0);
+      expect(lonely).toMatchObject({hp: 341, attack: 259, defence: 212, spAtk: 236, speed: 236});
+      const absent = BattleAlgorithm.CalculateStats(mockPetStats, 100, 31, undefined, undefined);
+      const neutral = BattleAlgorithm.CalculateStats(mockPetStats, 100, 31, undefined, 21);
+      expect(absent).toEqual(neutral);
+      expect(absent).toMatchObject({attack: 236, defence: 236});
+    });
+
+    test('实际BOSS创建入口保留配置nature0及自定义HP', async () => {
+      const configured = BossAbilityConfig.Instance.GetBossConfigByMapAndParam(10, 0)!;
+      expect(configured).toMatchObject({petId: 166, nature: 0, level: 80});
+      const before = JSON.stringify(configured);
+      const carried = Object.assign(createDefaultPetInfo(924001, 4), {
+        level: 5, hp: 21, maxHp: 21, isDefault: true, skillArray: [10004, 20002],
+      });
+      const service = new BattleInitService({Uid: 924001, PetManager: {GetPetsInBag: () => [carried]}} as any);
+      const battle = await service.CreateBossBattle(10, 0);
+      expect(battle).not.toBeNull();
+      const species = GameConfig.GetPetById(166)!;
+      const attackBase = (species.Atk * 2 + configured.dv) * configured.level / 100 + 5;
+      const defenceBase = (species.Def * 2 + configured.dv) * configured.level / 100 + 5;
+      expect(battle!.enemy.attack).toBe(Math.floor(attackBase * 1.1));
+      expect(battle!.enemy.defence).toBe(Math.floor(defenceBase * 0.9));
+      expect(battle!.enemy.hp).toBe(configured.customHP);
+      expect(battle!.enemy.maxHp).toBe(configured.customHP);
+      expect(JSON.stringify(configured)).toBe(before);
     });
 
     test('应该正确应用学习力', () => {

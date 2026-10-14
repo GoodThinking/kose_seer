@@ -17,6 +17,9 @@ import {
 } from './BattleTestHelpers';
 import { EffectTiming } from '../effects/core/EffectContext';
 import { BattleStatus } from '../../../../shared/models/BattleModel';
+import { BattleCore } from '../BattleCore';
+import { BattleEffectIntegration } from '../BattleEffectIntegration';
+import { createBattlePetProxy } from '../BattlePetProxy';
 
 describe('BattleEffectSystem - 技能效果测试', () => {
 
@@ -123,22 +126,23 @@ describe('BattleEffectSystem - 技能效果测试', () => {
     });
 
     test('状态回合应该可以减少', () => {
-      let pet = createPetWithStatus(BattleStatus.PARALYSIS, 2);
-
-      // 模拟回合开始
-      if (pet.statusTurns && pet.statusTurns > 0) {
-        pet.statusTurns--;
-      }
-
-      expect(pet.statusTurns).toBe(1);
-
-      // 再减少一次
-      if (pet.statusTurns && pet.statusTurns > 0) {
-        pet.statusTurns--;
-      }
-
-      expect(pet.statusTurns).toBe(0);
+      const pet = createBattlePetProxy(createAttacker());
+      pet.status = BattleStatus.PARALYSIS;
+      pet.statusTurns = 2;
+      const battle = {player: pet, enemy: createBattlePetProxy(createDefender()), turn: 1} as any;
+      expect(pet.statusDurations![BattleStatus.PARALYSIS]).toBe(2);
+      expect(BattleCore.CanAct(pet)).toEqual({canAct: false, reason: 'paralysis'});
+      expect(pet.statusDurations![BattleStatus.PARALYSIS]).toBe(1);
+      expect(pet.statusArray[BattleStatus.PARALYSIS]).toBe(1);
+      BattleEffectIntegration.OnTurnStart(battle);
+      expect(pet.status).toBe(BattleStatus.PARALYSIS);
+      expect(BattleCore.CanAct(pet)).toEqual({canAct: false, reason: 'paralysis'});
+      expect(pet.statusDurations![BattleStatus.PARALYSIS]).toBe(0);
+      BattleEffectIntegration.OnTurnStart(battle);
       expect(pet.status).toBeUndefined();
+      expect(pet.statusTurns).toBe(0);
+      expect(pet.statusArray[BattleStatus.PARALYSIS]).toBe(0);
+      expect(BattleCore.CanAct(pet)).toEqual({canAct: true});
     });
 
     test('多个异常状态应正确存储', () => {

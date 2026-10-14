@@ -1,4 +1,4 @@
-import { BufferWriter } from '../../utils';
+import { ClientProtocol } from '../../protocol/ClientProtocol';
 
 /**
  * Proto基类
@@ -48,7 +48,7 @@ export abstract class BaseProto {
   /**
    * 序列化为Buffer
    */
-  abstract serialize(): Buffer;
+  abstract serialize(protocol?: ClientProtocol): Buffer;
 
   /**
    * 辅助方法：构建固定长度的字符串Buffer

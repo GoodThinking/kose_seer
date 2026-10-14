@@ -51,6 +51,11 @@
         ]
       }
     },
+    "96": {
+      "name": "旅途中的伙伴",
+      "type": "normal",
+      "rewards": { "coins": 1000, "special": [{ "type": 3, "value": 500 }] }
+    },
     "88": {
       "name": "治愈伤痛",
       "type": "normal",

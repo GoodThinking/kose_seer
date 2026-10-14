@@ -51,6 +51,38 @@ export interface IPetCalculatedStats {
  */
 export class PetCalculator {
 
+  /** YieldingEV 顺序与精灵配置/属性包一致：体力、攻击、防御、特攻、特防、速度。 */
+  public static ApplyBattleEV(pet: IPetInfo, defeatedPetId: number): boolean {
+    const config = GameConfig.GetPetById(defeatedPetId);
+    if (!config) throw new Error(`Missing defeated pet config: ${defeatedPetId}`);
+    // 兼容旧配置未声明产出；不能给未知产出默认加点。
+    if (config.YieldingEV === undefined) return false;
+    const raw = String(config.YieldingEV).trim().split(/\s+/);
+    if (raw.length !== 6 || raw.some(value => !/^\d+$/.test(value))) {
+      throw new Error(`Invalid YieldingEV: ${defeatedPetId}`);
+    }
+    const gains = raw.map(Number);
+    if (gains.some(value => !Number.isSafeInteger(value))) {
+      throw new Error(`Invalid YieldingEV: ${defeatedPetId}`);
+    }
+    const fields = ['evHp', 'evAtk', 'evDef', 'evSpAtk', 'evSpDef', 'evSpeed'] as const;
+    const current = fields.map(field => pet[field]);
+    const total = current.reduce((sum, value) => sum + value, 0);
+    if (current.some(value => !Number.isInteger(value) || !this.IsValidEV(value)) || total > 510) {
+      throw new Error('Invalid pet EV state');
+    }
+    let remaining = 510 - total;
+    let changed = false;
+    // 接近总上限时按配置六项顺序截断，不跨属性转移被单项上限截断的点数。
+    fields.forEach((field, index) => {
+      const gain = Math.min(gains[index], 255 - current[index], remaining);
+      pet[field] += gain;
+      remaining -= gain;
+      changed = changed || gain > 0;
+    });
+    return changed;
+  }
+
   /**
    * 获取精灵的种族值
    * 

@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
 import { CommandID } from '../../../../protocol/CommandID';
@@ -13,7 +14,7 @@ export class GetPetListRspProto extends BaseProto {
     super(CommandID.GET_PET_LIST);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(1024);
     
     // 写入精灵数量
@@ -21,7 +22,14 @@ export class GetPetListRspProto extends BaseProto {
     
     // 写入每个精灵的信息
     for (const pet of this.pets) {
-      const petData = pet.serialize();
+      if (protocol === 'xin-20261013') {
+        // PetManager.getStorageList uses PetListInfo(input), not full PetInfo.
+        for (const value of [pet.id, pet.catchTime, pet.level, pet.skinID, pet.shiny]) {
+          writer.WriteUInt32(value);
+        }
+        continue;
+      }
+      const petData = pet.serialize(protocol);
       writer.WriteBytes(petData);
     }
     

@@ -22,17 +22,26 @@ export class GetTaskBufHandler implements IHandler {
     const taskId = req.taskId;
 
     try {
+      if (player.ClientProtocol === 'xin-20261013' && (body.length !== 4 || taskId === 0)) {
+        await player.SendPacket(new PacketGetTaskBuf(taskId, [], undefined, 5001));
+        return;
+      }
       Logger.Debug(`[GetTaskBufHandler] 用户 ${player.Uid} 获取任务 ${taskId} 的缓存`);
 
       // 获取任务缓存（调用 Manager 方法）
-      const bufferValues = player.TaskManager.GetTaskBuffer(taskId);
+      const bufferValues = player.ClientProtocol === 'xin-20261013'
+        ? []
+        : player.TaskManager.GetTaskBuffer(taskId);
+      const rawBuffer = player.ClientProtocol === 'xin-20261013'
+        ? player.TaskManager.GetTaskBufferBytes(taskId, 100)
+        : undefined;
 
       // 发送响应
-      await player.SendPacket(new PacketGetTaskBuf(taskId, bufferValues));
+      await player.SendPacket(new PacketGetTaskBuf(taskId, bufferValues, rawBuffer));
       Logger.Debug(`[GetTaskBufHandler] 发送任务 ${taskId} 的缓存成功`);
     } catch (error) {
       Logger.Error(`[GetTaskBufHandler] 失败: taskId=${taskId}`, error as Error);
-      await player.SendPacket(new PacketGetTaskBuf(taskId, [0, 0, 0, 0, 0]));
+      await player.SendPacket(new PacketGetTaskBuf(taskId, [0, 0, 0, 0, 0], undefined, 5000));
     }
   }
 }

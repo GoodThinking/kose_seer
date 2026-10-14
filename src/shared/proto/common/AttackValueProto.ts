@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../protocol/ClientProtocol';
 import { BaseProto } from '../base/BaseProto';
 import { BufferWriter } from '../../utils';
 
@@ -42,7 +43,7 @@ export class AttackValueProto extends BaseProto {
     super(0);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(300);
     
     writer.WriteUInt32(this.userId);
@@ -63,9 +64,14 @@ export class AttackValueProto extends BaseProto {
     
     writer.WriteUInt32(this.isCrit);
     
-    // 状态数组 (20字节)
-    for (let i = 0; i < 20; i++) {
-      writer.WriteUInt8(this.status[i] || 0);
+    // XIN AttackValue reads 50 signed bytes; KOSE retains its original 20.
+    const statusCount = protocol === 'xin-20261013' ? 50 : 20;
+    for (let i = 0; i < statusCount; i++) {
+      if (protocol === 'xin-20261013') {
+        writer.WriteInt8(this.status[i] ?? 0);
+      } else {
+        writer.WriteUInt8(this.status[i] || 0);
+      }
     }
     
     // 战斗等级 (6字节) - 使用有符号字节匹配Lua端
@@ -73,9 +79,11 @@ export class AttackValueProto extends BaseProto {
       writer.WriteInt8(this.battleLv[i] || 0);
     }
     
-    writer.WriteUInt32(this.maxShield);
-    writer.WriteUInt32(this.curShield);
-    writer.WriteUInt32(this.petType);
+    if (protocol === 'kose') {
+      writer.WriteUInt32(this.maxShield);
+      writer.WriteUInt32(this.curShield);
+      writer.WriteUInt32(this.petType);
+    }
     
     return writer.ToBuffer();
   }

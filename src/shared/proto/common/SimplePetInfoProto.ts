@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../protocol/ClientProtocol';
 import { BaseProto } from '../base/BaseProto';
 import { BufferWriter } from '../../utils';
 
@@ -16,12 +17,13 @@ export class SimplePetInfoProto extends BaseProto {
   catchRect: number = 0;       // 捕获区域
   catchLevel: number = 0;      // 捕获等级
   skinID: number = 0;          // 皮肤ID
+  shiny: number = 0;           // 异色方案ID（0=普通）
 
   constructor() {
     super(0);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(200);
     
     writer.WriteUInt32(this.petId);
@@ -45,6 +47,13 @@ export class SimplePetInfoProto extends BaseProto {
     writer.WriteUInt32(this.catchRect);
     writer.WriteUInt32(this.catchLevel);
     writer.WriteUInt32(this.skinID);
+    if (protocol === 'xin-20261013') {
+      writer.WriteUInt32(this.shiny);
+      // No verified KOSE mapping for freeForbidden, boss, ornament,
+      // skillProton, skillProtonCount,
+      // abilityMark, skillMark, commonMark, commonMarkActived.
+      for (let i = 0; i < 9; i++) writer.WriteUInt32(0);
+    }
     
     return writer.ToBuffer();
   }
@@ -88,6 +97,11 @@ export class SimplePetInfoProto extends BaseProto {
 
   setSkinID(value: number): this {
     this.skinID = value;
+    return this;
+  }
+
+  setShiny(value: number): this {
+    this.shiny = value;
     return this;
   }
 }

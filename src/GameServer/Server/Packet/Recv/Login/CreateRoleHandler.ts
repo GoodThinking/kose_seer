@@ -22,9 +22,7 @@ export class CreateRoleHandler implements IHandler {
     const req = CreateRoleReqProto.fromBuffer(body);
     Logger.Info(`创建角色: userID=${req.userID}, nickname=${req.nickname}, color=${req.color}`);
 
-    // 使用 session 中的 userID 
-    const actualUserID = session.UserID || req.userID;
-    await this._loginManager.CreatePlayer(session, actualUserID, req.nickname, req.color);
+    await this._loginManager.CreatePlayer(session, req.userID, req.nickname, req.color);
   }
 }
 

@@ -5,6 +5,7 @@ import { BaseRepository } from '../BaseRepository';
 import { IPlayerInfo, createDefaultPlayerInfo } from '../../../shared/models';
 import { GameConfig } from '../../../shared/config/game/GameConfig';
 import { Logger } from '../../../shared/utils/Logger';
+import { IDriver } from '../../drivers/IDriver';
 
 /**
  * 数据库玩家行类型
@@ -659,7 +660,7 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
   /**
    * 根据 user_id 批量更新 players 指定列
    */
-  public async UpdateByUserIdColumns(userId: number, updates: Record<string, any>): Promise<boolean> {
+  public async UpdateByUserIdColumns(userId: number, updates: Record<string, any>, driver?: IDriver): Promise<boolean> {
     const entries = Object.entries(updates)
       .filter(([key, value]) => key !== 'user_id' && value !== undefined);
 
@@ -673,13 +674,28 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
     const values = entries.map(([, value]) => value);
     values.push(userId);
 
-    const result = await this._db.Execute(
-      `UPDATE players SET ${setClause} WHERE user_id = ?`,
-      values
-    );
+    const sql = `UPDATE players SET ${setClause} WHERE user_id = ?`;
+    const result = driver ? await driver.execute(sql, values) : await this._db.Execute(sql, values);
 
     // 只要 SQL 成功执行即视为成功（值相同可能 affectedRows=0）
     return result.affectedRows >= 0;
+  }
+
+  /** One transaction transfers pool points into the complete pet snapshot. */
+  public async CommitExperienceAllocation(
+    userId: number, expectedBalance: number, balance: number, petList: string
+  ): Promise<void> {
+    await this._db.Transaction(async driver => {
+      const player = await driver.execute(
+        'UPDATE players SET allocatable_exp = ? WHERE user_id = ? AND allocatable_exp = ?',
+        [balance, userId, expectedBalance]
+      );
+      if (player.affectedRows !== 1) throw new Error('Experience pool changed or player missing');
+      const pets = await driver.execute(
+        'UPDATE player_pets SET pet_list = ? WHERE owner_id = ?', [petList, userId]
+      );
+      if (pets.affectedRows !== 1) throw new Error('Pet data missing during experience allocation');
+    });
   }
 
   private toPlayerInfo(row: IPlayerRow): IPlayerInfo {

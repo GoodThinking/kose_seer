@@ -1,3 +1,4 @@
+import { Config } from '../../../shared/config/ServerConfig';
 import { PacketBuilder } from '../../../shared/protocol/PacketBuilder';
 import { PacketMainLogin, PacketGameLogin, PacketCreateRole } from '../../Server/Packet/Send/Login';
 import { PacketChangeCloth } from '../../Server/Packet/Send/Item/PacketChangeCloth';
@@ -8,6 +9,10 @@ import { IClientSession } from '../../Server/Packet/IHandler';
 import { PlayerManager } from '../Player/PlayerManager';
 import { OnlineTracker } from '../Player/OnlineTracker';
 import { MainLoginRspProto, CreateRoleRspProto } from '../../../shared/proto';
+import { timingSafeEqual } from 'crypto';
+import { SessionKeyFromWire } from '../../../shared/protocol/SessionToken';
+import { PacketEmpty } from '../../Server/Packet/Send/PacketEmpty';
+import { CommandID } from '../../../shared/protocol/CommandID';
 
 /**
  * 登录结果码 (与客户端 ParseLoginSocketError.as 保持一致)
@@ -55,6 +60,14 @@ export class LoginManager {
   private _sessionRepo: SessionRepository;
   private _playerRepo: PlayerRepository;
   private _playerManager: PlayerManager;
+  private readonly authenticatedConnections = new WeakMap<IClientSession, { accountId: number; sessionKey: string }>();
+
+  private PasswordMatches(wire: Buffer | undefined, stored: string): boolean {
+    if (!Buffer.isBuffer(wire) || wire.length !== 32 || !/^[0-9a-fA-F]{32}$/.test(stored)) return false;
+    const text = wire.toString('ascii');
+    if (!/^[0-9a-fA-F]{32}$/.test(text) || !wire.equals(Buffer.from(text, 'ascii'))) return false;
+    return timingSafeEqual(Buffer.from(text.toLowerCase(), 'ascii'), Buffer.from(stored.toLowerCase(), 'ascii'));
+  }
 
   constructor(packetBuilder: PacketBuilder) {
     this._packetBuilder = packetBuilder;
@@ -73,7 +86,7 @@ export class LoginManager {
       proto.getCmdId(),
       userID,
       proto.getResult(),
-      proto.serialize()
+      proto.serialize(Config.Game.clientProtocol)
     );
     session.Socket.write(packet);
   }
@@ -85,6 +98,8 @@ export class LoginManager {
    * @param passwordMD5 密码MD5
    */
   public async HandleMainLogin(session: IClientSession, userID: number, passwordMD5?: Buffer): Promise<void> {
+    this.authenticatedConnections.delete(session);
+    delete session.AuthenticatedSessionKey;
     try {
       // 验证账号是否存在
       const account = await this._accountRepo.FindAccountById(userID);
@@ -95,13 +110,10 @@ export class LoginManager {
       }
 
       // 验证密码
-      if (passwordMD5) {
-        const passwordStr = passwordMD5.toString('utf8').replace(/\0/g, '').trim();
-        if (passwordStr && account.passwordHash !== passwordStr) {
-          Logger.Warn(`[LoginManager] 密码错误: ${userID}`);
-          this.sendProto(session, userID, new MainLoginRspProto().setResult(LoginResult.PASSWORD_ERROR));
-          return;
-        }
+      if (!this.PasswordMatches(passwordMD5, account.passwordHash)) {
+        Logger.Warn(`[LoginManager] 密码错误: ${userID}`);
+        this.sendProto(session, userID, new MainLoginRspProto().setResult(LoginResult.PASSWORD_ERROR));
+        return;
       }
 
       // 检查账号状态
@@ -126,9 +138,12 @@ export class LoginManager {
       const proto = new MainLoginRspProto()
         .setSession(sessionInfo.sessionKey)
         .setRoleCreated(roleCreated);
+      this.authenticatedConnections.set(session, { accountId: userID, sessionKey: sessionInfo.sessionKey });
+      session.UserID = userID;
       this.sendProto(session, userID, proto);
 
     } catch (err) {
+      this.authenticatedConnections.delete(session);
       const error = err instanceof Error ? err : new Error(String(err));
       Logger.Error(`[LoginManager] 登录失败: ${userID}`, error);
       this.sendProto(session, userID, new MainLoginRspProto().setResult(LoginResult.SYSTEM_ERROR));
@@ -142,6 +157,8 @@ export class LoginManager {
    * @param passwordMD5 密码MD5
    */
   public async HandleEmailLogin(session: IClientSession, email: string, passwordMD5?: Buffer): Promise<void> {
+    this.authenticatedConnections.delete(session);
+    delete session.AuthenticatedSessionKey;
     try {
       // 1. 根据邮箱查找账号
       const account = await this._accountRepo.FindByEmail(email);
@@ -152,16 +169,12 @@ export class LoginManager {
       }
 
       const userID = account.id;
-      session.UserID = userID; // 设置session的UserID
 
       // 2. 验证密码
-      if (passwordMD5) {
-        const passwordStr = passwordMD5.toString('utf8').replace(/\0/g, '').trim();
-        if (passwordStr && account.passwordHash !== passwordStr) {
-          Logger.Warn(`[LoginManager] 邮箱登录密码错误: ${email}`);
-          this.sendProto(session, userID, new MainLoginRspProto().setResult(LoginResult.PASSWORD_ERROR));
-          return;
-        }
+      if (!this.PasswordMatches(passwordMD5, account.passwordHash)) {
+        Logger.Warn(`[LoginManager] 邮箱登录密码错误: ${email}`);
+        this.sendProto(session, userID, new MainLoginRspProto().setResult(LoginResult.PASSWORD_ERROR));
+        return;
       }
 
       // 3. 检查账号状态
@@ -190,9 +203,12 @@ export class LoginManager {
       const proto = new MainLoginRspProto()
         .setSession(sessionInfo.sessionKey)
         .setRoleCreated(roleCreated);
+      this.authenticatedConnections.set(session, { accountId: userID, sessionKey: sessionInfo.sessionKey });
+      session.UserID = userID;
       this.sendProto(session, userID, proto);
 
     } catch (err) {
+      this.authenticatedConnections.delete(session);
       const error = err instanceof Error ? err : new Error(String(err));
       Logger.Error(`[LoginManager] 邮箱登录失败: ${email}`, error);
       this.sendProto(session, 0, new MainLoginRspProto().setResult(LoginResult.SYSTEM_ERROR));
@@ -219,13 +235,16 @@ export class LoginManager {
    * @param sessionData 会话标识
    */
   public async HandleGameLogin(session: IClientSession, userID: number, sessionData?: Buffer): Promise<void> {
+    delete session.AuthenticatedSessionKey;
     try {
-      let sessionKey: string | undefined;
-
-      // 提取会话标识 (前8字节)
-      if (sessionData && sessionData.length >= 8) {
-        sessionKey = sessionData.subarray(0, 8).toString('utf8').replace(/\0/g, '');
+      const sessionKey = SessionKeyFromWire(sessionData);
+      const validSession = await this._sessionRepo.ValidateSession(sessionKey, userID);
+      const account = validSession ? await this._accountRepo.FindAccountById(userID) : null;
+      if (!validSession || !account || account.status !== 0) {
+        this.sendProto(session, userID, new PacketEmpty(CommandID.LOGIN_IN).setResult(LoginResult.PROTOCOL_ERROR));
+        return;
       }
+      session.UserID = userID;
 
       // 获取玩家数据
       const player = await this._playerRepo.FindByUserId(userID);
@@ -239,33 +258,22 @@ export class LoginManager {
       // 更新登录次数
       await this._playerRepo.IncrementLoginCount(userID);
 
-      // 随机登录地图（除新账号外）
-      // 新账号判断：mapID == 515 表示在新手地图，保持不变
-      // 老玩家：随机传送到 1-9 地图（排除mapID=2）
-      // 新手任务判断：curFreshStage < maxFreshStage 表示新手任务未完成，保持新手地图
-      if (player.mapID !== 515 && player.curFreshStage >= player.maxFreshStage) {
-        // 可选地图：1, 4, 5, 6, 7, 8, 9（排除2）
-        const availableMaps = [1, 4, 5, 6, 7, 8, 9];
-        const randomMapId = availableMaps[Math.floor(Math.random() * availableMaps.length)];
-        player.mapID = randomMapId;
-        await this._playerRepo.UpdatePlayerMap(userID, randomMapId);
-        Logger.Info(`[LoginManager] 老玩家随机登录地图: userID=${userID}, mapID=${randomMapId}`);
-      } else {
-        // 新手任务未完成，保持新手地图
-        if (player.mapID !== 515) {
-          player.mapID = 515;
-          await this._playerRepo.UpdatePlayerMap(userID, 515);
-        }
-        Logger.Info(`[LoginManager] 新手任务未完成，保持新手地图: userID=${userID}, curFreshStage=${player.curFreshStage}, maxFreshStage=${player.maxFreshStage}`);
-      }
+      // Restore the saved map and coordinates. Registration already selects the starter map.
+      // Random relocation can send a reconnecting player into an uncached map resource.
 
       // 创建Player实例
       const playerInstance = await this._playerManager.CreatePlayer(session, userID, player.nick);
+      if (session.Player !== playerInstance || playerInstance.Uid !== userID) {
+        throw new Error('Authenticated player binding was not established');
+      }
+      session.AuthenticatedSessionKey = sessionKey;
 
-      Logger.Info(`[LoginManager] 游戏登录成功: userID=${userID}, nick=${player.nick}`);
+      const loginData = playerInstance.Data;
+      Logger.Info(`[LoginManager] 游戏登录成功: userID=${userID}, nick=${loginData.nick}`);
       
-      // 构建登录响应
-      const proto = this._packetGameLogin.BuildProto(player, sessionKey);
+      // CreatePlayer may flush a retained old cache before loading the new instance.
+      // Use initialized data, including the persisted default Super NoNo entitlement.
+      const proto = this._packetGameLogin.BuildProto(loginData, sessionKey);
       
       Logger.Debug(`[LoginManager] 发送登录响应: loginCnt=${proto.loginCnt}, timeLimit=${proto.timeLimit}, mapId=${proto.mapId}, curStage=${proto.curStage}, maxStage=${proto.maxStage}, curFreshStage=${proto.curFreshStage}, maxFreshStage=${proto.maxFreshStage}`);
       Logger.Debug(`[LoginManager] regTime=${proto.regTime} (${new Date(proto.regTime * 1000).toISOString()}), userId=${proto.userId}, nick=${proto.nickname}`);
@@ -350,7 +358,7 @@ export class LoginManager {
       
       // 构建并发送 2001 (ENTER_MAP)
       const userInfo = playerInstance.MapManager.buildUserInfo(userID, playerInstance.Data, x, y, playerInstance);
-      await playerInstance.SendPacket(new PacketEnterMap(userInfo));
+      await playerInstance.SendPacket(new PacketEnterMap(userInfo, 0, playerInstance.ClientProtocol));
       
       // 发送 2003 (LIST_MAP_PLAYER) - 包含同地图所有人
       await playerInstance.MapManager.sendMapPlayerList(mapId);
@@ -369,6 +377,7 @@ export class LoginManager {
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       Logger.Error(`[LoginManager] 游戏登录失败: ${userID}`, error);
+      delete session.AuthenticatedSessionKey;
       const proto = this._packetGameLogin.BuildProto({ userID, nick: '', coins: 0, energy: 0, vipLevel: 0, vipValue: 0, clothCount: 0, clothes: [], mapID: 0, posX: 0, posY: 0 } as any, undefined);
       this.sendProto(session, userID, proto.setResult(LoginResult.SYSTEM_ERROR));
     }
@@ -406,6 +415,17 @@ export class LoginManager {
    */
   public async CreatePlayer(session: IClientSession, userID: number, nickname: string, color: number = 0): Promise<void> {
     try {
+      const authenticated = this.authenticatedConnections.get(session);
+      if (!authenticated || authenticated.accountId !== userID || session.UserID !== userID ||
+          !(await this._sessionRepo.ValidateSession(authenticated.sessionKey, userID))) {
+        this.sendProto(session, userID, new CreateRoleRspProto().setResult(LoginResult.PROTOCOL_ERROR));
+        return;
+      }
+      const account = await this._accountRepo.FindAccountById(userID);
+      if (!account || account.status !== 0 || account.roleCreated) {
+        this.sendProto(session, userID, new CreateRoleRspProto().setResult(LoginResult.PROTOCOL_ERROR));
+        return;
+      }
       // 1. 创建玩家记录（使用 Repository）
       // 注意：PlayerData 不走 DataSaver，而是通过 PlayerRepository 直接操作数据库
       await this._playerRepo.CreatePlayer(userID, nickname, color);
@@ -419,6 +439,7 @@ export class LoginManager {
 
       Logger.Info(`[LoginManager] 创建玩家成功: userID=${userID}, nick=${nickname}, color=${color}`);
       const proto = new CreateRoleRspProto().setSession(sessionInfo.sessionKey);
+      this.authenticatedConnections.set(session, { accountId: userID, sessionKey: sessionInfo.sessionKey });
       this.sendProto(session, userID, proto);
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));

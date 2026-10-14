@@ -30,7 +30,10 @@ const NO_SAVE_FIELDS = new Set([
   'bossAchievement',  // 复杂对象，单独处理
   '_saveTimer',       // 内部状态
   '_pendingSave',     // 内部状态
-  '_dirtyFields'      // 内部状态
+  '_dirtyFields',     // 内部状态
+  '_expAllocation',
+  '_publishingExp',
+  '_balanceReward', '_currencyOperations', '_currencyWait', '_currencyDone'
 ]);
 
 /**
@@ -43,6 +46,67 @@ const NO_SAVE_FIELDS = new Set([
  * - 提供静态方法 GetPlayerByUid 便捷访问
  */
 export class PlayerData implements IPlayerInfo {
+  private _expAllocation: Promise<void> | null = null;
+  private _publishingExp: boolean = false;
+  private _balanceReward = false;
+  private _currencyOperations = 0;
+  private _currencyWait: Promise<void> | null = null;
+  private _currencyDone: (() => void) | null = null;
+
+  public async WaitForCurrencyOperations(): Promise<void> { await this._currencyWait; }
+
+  /** Covers DB-first currency writes until their cache publication finishes. */
+  public BeginCurrencyOperation(): (() => void) | null {
+    if (this._balanceReward) return null;
+    if (!this._currencyOperations) {
+      this._currencyWait = new Promise<void>(resolve => { this._currencyDone = resolve; });
+    }
+    this._currencyOperations++;
+    return () => {
+      if (!--this._currencyOperations) {
+        this._currencyDone?.();
+        this._currencyWait = null;
+        this._currencyDone = null;
+      }
+    };
+  }
+
+  /** Reuses the pool/save gate; inventories are reserved by the caller first. */
+  public BeginBalanceReward(): {
+    publish: (coins: number, gold: number, experience: number) => void; release: () => void
+  } {
+    if (this._currencyOperations) throw new Error('Currency operation pending');
+    const pool = this.BeginExpAllocation();
+    this._balanceReward = true;
+    return {
+      publish: (coins, gold, experience) => {
+        this._publishingExp = true;
+        try { this.coins = coins; this.gold = gold; }
+        finally { this._publishingExp = false; }
+        pool.publish(experience);
+        this.ClearDirtyFields(['coins', 'gold', 'allocatableExp']);
+      },
+      release: () => { this._balanceReward = false; pool.release(); },
+    };
+  }
+
+  public HasExpAllocation(): boolean { return !!this._expAllocation; }
+  public async WaitForExpAllocation(): Promise<void> { await this._expAllocation; }
+
+  /** Hold the pool field stable without blocking unrelated player dirty fields. */
+  public BeginExpAllocation(): { publish: (balance: number) => void; release: () => void } {
+    if (this._expAllocation) throw new Error('Experience allocation already pending');
+    let done!: () => void;
+    this._expAllocation = new Promise<void>(resolve => { done = resolve; });
+    return {
+      publish: balance => {
+        this._publishingExp = true;
+        try { this.allocatableExp = balance; } finally { this._publishingExp = false; }
+        this.ClearDirtyFields(['allocatableExp']);
+      },
+      release: () => { this._expAllocation = null; done(); },
+    };
+  }
   // ============ 基本信息 ============
   userID: number;
   regTime: number;
@@ -332,6 +396,10 @@ export class PlayerData implements IPlayerInfo {
   private createProxy(): PlayerData {
     return new Proxy(this, {
       set: (target, property: string, value) => {
+        if (((property === 'allocatableExp' && this._expAllocation) ||
+            (this._balanceReward && (property === 'coins' || property === 'gold'))) && !this._publishingExp) {
+          throw new Error('Experience allocation pending persistence');
+        }
         const oldValue = (target as any)[property];
         // 调试日志
        // Logger.Debug(`[PlayerData] Proxy set: ${property} = ${value}, 黑名单=${NO_SAVE_FIELDS.has(property)}`);

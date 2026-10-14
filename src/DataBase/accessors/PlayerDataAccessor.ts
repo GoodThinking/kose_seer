@@ -9,6 +9,7 @@ import { PlayerData } from '../models/PlayerData';
 import { DataCache } from '../cache/DataCache';
 import { PlayerRepository } from '../repositories/Player/PlayerRepository';
 import { Logger } from '../../shared/utils';
+import { DatabaseManager } from '../DatabaseManager';
 
 /**
  * PlayerData 访问器
@@ -78,16 +79,25 @@ export class PlayerDataAccessor {
     let dirtyFields: string[] = [];
 
     try {
-      dirtyFields = data.GetDirtyFields();
-      const updates = await this.buildColumnUpdates(data, dirtyFields);
-
-      if (Object.keys(updates).length === 0) {
-        Logger.Debug(`[PlayerDataAccessor] No fields to persist: uid=${data.userID}`);
-        return;
+      // Metadata lookup must happen outside the exclusive driver connection.
+      const columnsMeta = await this._playerRepo.GetPlayerColumnsMeta();
+      let saved = false;
+      while (!saved) {
+        await data.WaitForExpAllocation();
+        saved = await DatabaseManager.Instance.WithConnection(async driver => {
+          // Allocation may start while this save waits for the connection.
+          if (data.HasExpAllocation()) return false;
+          dirtyFields = data.GetDirtyFields();
+          const values = new Map(dirtyFields.map(field => [field, JSON.stringify((data as any)[field])]));
+          const updates = this.buildColumnUpdates(data, dirtyFields, columnsMeta);
+          if (Object.keys(updates).length > 0) {
+            await this._playerRepo.UpdateByUserIdColumns(data.userID, updates, driver);
+          }
+          // A later mutation during the await still needs its own save.
+          data.ClearDirtyFields(dirtyFields.filter(field => JSON.stringify((data as any)[field]) === values.get(field)));
+          return true;
+        });
       }
-
-      await this._playerRepo.UpdateByUserIdColumns(data.userID, updates);
-      data.ClearDirtyFields(dirtyFields);
       Logger.Debug(`[PlayerDataAccessor] PlayerData saved: uid=${data.userID}`);
       return;
     } catch (error) {
@@ -99,14 +109,15 @@ export class PlayerDataAccessor {
     }
 
   }
-  private async buildColumnUpdates(data: PlayerData, dirtyFields: string[]): Promise<Record<string, any>> {
+  private buildColumnUpdates(data: PlayerData, dirtyFields: string[], columnsMeta: Map<string, {type: string}>): Record<string, any> {
     const updates: Record<string, any> = {};
-    const columnsMeta = await this._playerRepo.GetPlayerColumnsMeta();
     const sourceFields = dirtyFields.length > 0
       ? dirtyFields
       : Object.keys(data as unknown as Record<string, any>);
 
     for (const prop of sourceFields) {
+      // Clean cached wallet fields must not overwrite committed balances.
+      if (['coins', 'gold', 'allocatableExp'].includes(prop) && !dirtyFields.includes(prop)) continue;
       const rawValue = (data as any)[prop];
       const column = this.toColumnName(prop);
       if (!column || column === 'user_id') continue;

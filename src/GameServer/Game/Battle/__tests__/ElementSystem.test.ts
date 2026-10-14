@@ -98,9 +98,10 @@ describe('ElementSystem - 属性克制系统测试', () => {
 
   describe('单属性攻击双属性', () => {
     test('双克制应该返回4.0x', () => {
-      // 假设有草/地面双属性精灵，水系攻击
-      // 水克草(2.0) + 水克地面(2.0) = 4.0
-      const result = ElementSystem.CalcSingleVsDual(2, 1, 7);
+      // 水系攻击火/地面：两项各自为2.0；保留原mock克制表。
+      expect(ElementSystem.GetEffectiveness(2, 3)).toBe(2.0);
+      expect(ElementSystem.GetEffectiveness(2, 7)).toBe(2.0);
+      const result = ElementSystem.CalcSingleVsDual(2, 3, 7);
       expect(result).toBe(4.0);
     });
 

@@ -16,7 +16,7 @@ export class PacketAcceptTask extends BaseProto {
     proto.taskId = taskId;
 
     if (result !== 0) {
-      proto.setResult(result);
+      this.setResult(result);
     }
 
     this._data = proto.serialize();

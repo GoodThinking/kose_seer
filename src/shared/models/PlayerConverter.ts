@@ -22,7 +22,7 @@ export function PlayerInfoToLoginProto(player: IPlayerInfo, sessionKey?: string)
   proto.viped = player.vipLevel > 0;
   proto.dsFlag = 0;
   proto.color = player.color || 0;
-  proto.texture = player.texture || 1;
+  proto.texture = player.texture;
   proto.energy = player.energy;
   proto.coins = player.coins;
   proto.fightBadge = player.fightBadge || 0;

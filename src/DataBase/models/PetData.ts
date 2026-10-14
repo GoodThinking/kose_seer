@@ -18,7 +18,56 @@ import { BaseData } from './BaseData';
  * - 通过 DatabaseHelper 统一管理加载和保存
  * - 提供静态方法 GetPetDataByUid 便捷访问
  */
+const reservedPetIdentities = new WeakMap<PetData, Set<number>>();
+
 export class PetData extends BaseData {
+  private _mutationTail: Promise<void> = Promise.resolve();
+  private _stagedSave: Promise<void> | null = null;
+  private _publishing: boolean = false;
+
+  /** Shared by managers using this cached PetData, not just one session manager. */
+  public async AcquireMutation(): Promise<() => void> {
+    const previous = this._mutationTail;
+    let release!: () => void;
+    this._mutationTail = new Promise<void>(resolve => { release = resolve; });
+    await previous;
+    return release;
+  }
+
+  public async WaitForStagedSave(): Promise<void> { await this._stagedSave; }
+  public HasStagedSave(): boolean { return !!this._stagedSave; }
+
+  protected assertCanMutate(): void {
+    if (this._stagedSave && !this._publishing) throw new Error('Pet update pending persistence');
+  }
+
+  /** Save a detached candidate; readers and autosave retain the committed state. */
+  public async CommitPetUpdate(
+    pet: IPetInfo,
+    candidate: IPetInfo,
+    persist: (staged: PetData) => Promise<void> = staged => DatabaseHelper.Instance.SavePetData(staged, true),
+    onCommitted?: () => void
+  ): Promise<void> {
+    if (this.HasPendingGrant() || this._stagedSave) throw new Error('Pet mutation already pending');
+    let release!: () => void;
+    this._stagedSave = new Promise<void>(resolve => { release = resolve; });
+    try {
+      // No constructor/Proxy: this isolated save object must not schedule autosaves.
+      const staged = Object.assign(Object.create(PetData.prototype), {
+        Uid: this.Uid,
+        PetList: this.PetList.map(existing => existing === pet ? candidate : existing),
+      }) as PetData;
+      await persist(staged);
+      this._publishing = true;
+      try {
+        Object.assign(pet, candidate);
+        onCommitted?.();
+      } finally { this._publishing = false; }
+    } finally {
+      this._stagedSave = null;
+      release();
+    }
+  }
   /** 用户ID（主键） */
   public Uid: number;
 
@@ -29,7 +78,7 @@ export class PetData extends BaseData {
     // 调用父类构造函数，传入黑名单字段和数组字段
     super(
       uid,
-      [], // 额外的黑名单字段（父类已包含 Uid, _saveTimer, _pendingSave）
+      ['_mutationTail', '_stagedSave', '_publishing'],
       ['PetList'] // 需要深度 Proxy 的数组字段
     );
     
@@ -83,7 +132,22 @@ export class PetData extends BaseData {
   /**
    * 添加精灵
    */
+  public HasPendingGrant(): boolean {
+    return !!reservedPetIdentities.get(this)?.size;
+  }
+
+  public ReserveIdentity(catchTime: number): () => void {
+    this.assertCanMutate();
+    let pending = reservedPetIdentities.get(this);
+    if (!pending) { pending = new Set(); reservedPetIdentities.set(this, pending); }
+    if (pending.has(catchTime) || this.GetPetByCatchTime(catchTime)) throw new Error('Pet identity already in use');
+    pending.add(catchTime);
+    return () => { pending!.delete(catchTime); };
+  }
+
   public async AddPet(pet: IPetInfo): Promise<void> {
+    // A staged starter also reserves its bag slot and first-pet status.
+    if (reservedPetIdentities.get(this)?.size) throw new Error('Pet grant pending atomic reward');
     this.PetList.push(pet);
     // 自动触发保存（通过 Proxy）
     

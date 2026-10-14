@@ -4,9 +4,11 @@ import { Opcode, InjectType } from '../../../../../shared/decorators';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { PacketGoldCheckRemain } from '../../Send/User/PacketGoldCheckRemain';
 import { Logger } from '../../../../../shared/utils';
+import { PacketEmpty } from '../../Send/PacketEmpty';
+import { GoldToWire } from '../../../../../shared/protocol/GoldCurrency';
 
 /**
- * [CMD: 1105 GOLD_CHECK_REMAIN] 查询赛尔豆余额
+ * [CMD: 1105 GOLD_CHECK_REMAIN] 查询金豆余额
  */
 @Opcode(CommandID.GOLD_CHECK_REMAIN, InjectType.NONE)
 export class GoldCheckRemainHandler implements IHandler {
@@ -14,10 +16,14 @@ export class GoldCheckRemainHandler implements IHandler {
     const player = session.Player;
     if (!player) return;
 
-    const coins = player.Data.coins;
+    const gold = player.Data.gold;
+    try { GoldToWire(gold); } catch {
+      await player.SendPacket(new PacketEmpty(CommandID.GOLD_CHECK_REMAIN).setResult(5000));
+      return;
+    }
     
-    await player.SendPacket(new PacketGoldCheckRemain(coins));
+    await player.SendPacket(new PacketGoldCheckRemain(gold));
     
-    Logger.Info(`[GoldCheckRemainHandler] 查询赛尔豆余额: UserID=${player.Data.userID}, Coins=${coins}`);
+    Logger.Info(`[GoldCheckRemainHandler] 查询金豆余额: UserID=${player.Data.userID}, Gold=${gold}`);
   }
 }

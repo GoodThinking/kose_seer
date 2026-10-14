@@ -34,6 +34,7 @@ export interface ITaskInfo {
  */
 export interface ITaskBuffer {
   [index: number]: number;  // 索引 0-4 对应缓存值
+  xinBytes?: number[]; // 独立保存，避免覆盖或误读旧 UInt32 缓存
 }
 
 /**
@@ -195,6 +196,34 @@ export class TaskData extends BaseData {
     const buffer = this.GetTaskBuffer(taskId);
     buffer[index] = value;
     // 自动触发保存（通过 Proxy）
+  }
+
+  /**
+   * 保存 XIN 客户端传来的原始任务缓存区。
+   *
+   * XIN 的 2204 请求以 taskId 后的整个 ByteArray 为缓存内容；不能把它
+   * 拆成 KOSE 旧路径中的 index/value。仍使用既有 JSON 列来持久化每个字节，
+   * 因而不需要数据库结构迁移。
+   */
+  public SetTaskBufferBytes(taskId: number, bytes: Buffer): void {
+    const buffer: ITaskBuffer = { ...this.TaskBuffers.get(taskId), xinBytes: Array.from(bytes) };
+    this.TaskBuffers.set(taskId, buffer);
+  }
+
+  /**
+   * 读取 XIN 原始任务缓存区。旧的五个 UInt32 缓存不具备逐字节语义，
+   * 因此不会被猜测性迁移到 XIN 格式。
+   */
+  public GetTaskBufferBytes(taskId: number, length: number): Buffer {
+    const buffer = this.TaskBuffers.get(taskId);
+    if (!buffer?.xinBytes) {
+      return Buffer.alloc(length);
+    }
+    if (buffer.xinBytes.length !== length ||
+        buffer.xinBytes.some(value => !Number.isInteger(value) || value < 0 || value > 0xff)) {
+      throw new Error('Invalid persisted XIN task buffer');
+    }
+    return Buffer.from(buffer.xinBytes);
   }
 
   /**

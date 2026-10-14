@@ -6,12 +6,24 @@ import { BossAbilityConfig } from '../BossAbility/BossAbilityConfig';
 import { BossSpecialRules } from '../BossSpecialRules';
 import { ItemGainSource, PetObtainSource } from '../../Event/EventTypes';
 
+export interface VictoryRewardResult {
+  status: 'complete' | 'partial' | 'failed';
+  failedStage?: 'experience' | 'coins' | 'items' | 'spt';
+  expGained: number;
+  coinsGained: number;
+  levelUp: boolean;
+  newLevel: number;
+  droppedItems: { itemId: number; count: number }[];
+  rewardItems: Array<{ itemId: number; itemCnt: number }>;
+}
+
 /**
  * 战斗奖励服务
  * 负责处理战斗胜利后的奖励：经验、金币、捕获等
  */
 export class BattleRewardService {
   private _player: PlayerInstance;
+  private readonly pendingSPTRewards = new Set<number>();
 
   constructor(player: PlayerInstance) {
     this._player = player;
@@ -31,14 +43,13 @@ export class BattleRewardService {
     mapId?: number,
     slot?: number,
     originalPetId?: number
-  ): Promise<{
-    expGained: number;
-    coinsGained: number;
-    levelUp: boolean;
-    newLevel: number;
-    droppedItems: { itemId: number; count: number }[];
-    rewardItems: Array<{ itemId: number; itemCnt: number }>;  // 用于显示奖励弹窗
-  }> {
+  ): Promise<VictoryRewardResult> {
+    const result: VictoryRewardResult = {
+      status: 'complete', expGained: 0, coinsGained: 0, levelUp: false,
+      newLevel: battle.player.level, droppedItems: [], rewardItems: []
+    };
+    let stage: NonNullable<VictoryRewardResult['failedStage']> = 'experience';
+    let sptRewards: { itemId: number; count: number }[] = [];
     try {
       // 1. 计算经验奖励（从配置或默认计算）
       const expGained = this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot);
@@ -48,54 +59,45 @@ export class BattleRewardService {
 
       // 3. 给精灵增加经验（使用catchTime查找精灵）
       const catchTime = battle.player.catchTime;
-      const levelUp = await this._player.PetManager.HandleAddPetExpByCatchTime(catchTime, expGained);
-      const pet = this._player.PetManager.GetPetByCatchTime(catchTime);
-      const newLevel = pet ? pet.level : battle.player.level;
+      if (!this._player.PetManager.GetPetByCatchTime(catchTime)) throw new Error('Reward pet missing');
+      // PetManager commits its detached candidate before publishing or notifying.
+      result.levelUp = await this._player.PetManager.HandleAddPetExpByCatchTime(catchTime, expGained, battle.enemy.id);
+      const rewardedPet = this._player.PetManager.GetPetByCatchTime(catchTime);
+      if (!rewardedPet) throw new Error('Reward pet disappeared');
+      result.expGained = expGained;
+      result.newLevel = rewardedPet.level;
 
       // 4. 给玩家增加金币
-      await this._player.AddCurrency(undefined, coinsGained);
+      stage = 'coins';
+      if (coinsGained > 0 && !await this._player.AddCurrency(undefined, coinsGained)) {
+        throw new Error('Currency reward was not persisted');
+      }
+      result.coinsGained = coinsGained;
 
       // 5. 处理掉落物品（使用originalPetId查找配置，如果没有则使用当前petId）
+      stage = 'items';
       const droppedItems = this.ProcessDropItems(mapId, slot, originalPetId || battle.enemy.id);
       for (const drop of droppedItems) {
-        await this._player.ItemManager.GiveItem(drop.itemId, drop.count, ItemGainSource.DROP);
+        if (!await this._player.ItemManager.GiveItem(drop.itemId, drop.count, ItemGainSource.DROP)) {
+          throw new Error(`Drop reward was not persisted: ${drop.itemId}`);
+        }
+        result.droppedItems.push(drop);
         Logger.Info(`[BattleRewardService] 掉落物品已添加到背包: ItemId=${drop.itemId}, Count=${drop.count}`);
       }
 
       // 6. 处理SPT首次击败奖励（如果是BOSS战斗）
-      const sptRewards = await this.ProcessSPTFirstDefeatReward(battle, mapId);
-      
-      // 7. 构建奖励列表（用于显示弹窗）
-      const rewardItems: Array<{ itemId: number; itemCnt: number }> = [];
-      
-      // 添加金币奖励（itemId=1表示赛尔豆）
-      if (coinsGained > 0) {
-        rewardItems.push({ itemId: 1, itemCnt: coinsGained });
-      }
-      
-      // 添加经验奖励（itemId=3表示积累经验）
-      if (expGained > 0) {
-        rewardItems.push({ itemId: 3, itemCnt: expGained });
-      }
-      
-      // 添加掉落物品
-      for (const drop of droppedItems) {
-        rewardItems.push({ itemId: drop.itemId, itemCnt: drop.count });
-      }
-
-      // 添加SPT首次击败奖励
-      for (const reward of sptRewards) {
-        rewardItems.push({ itemId: reward.itemId, itemCnt: reward.count });
-      }
-
-      Logger.Info(`[BattleRewardService] 战斗奖励: UserID=${userId}, Exp=${expGained}, Coins=${coinsGained}, LevelUp=${levelUp}, Drops=${droppedItems.length}, SPTRewards=${sptRewards.length}, RewardItems=${rewardItems.length}`);
-
-      return { expGained, coinsGained, levelUp, newLevel, droppedItems, rewardItems };
-
+      stage = 'spt';
+      sptRewards = await this.ProcessSPTFirstDefeatReward(battle, mapId);
     } catch (error) {
       Logger.Error(`[BattleRewardService] 处理奖励失败: ${error}`);
-      return { expGained: 0, coinsGained: 0, levelUp: false, newLevel: battle.player.level, droppedItems: [], rewardItems: [] };
+      result.failedStage = stage;
+      result.status = result.expGained || result.coinsGained || result.droppedItems.length ? 'partial' : 'failed';
     }
+    // Never erase committed components or announce a calculated-but-uncommitted reward.
+    if (result.coinsGained > 0) result.rewardItems.push({ itemId: 1, itemCnt: result.coinsGained });
+    for (const drop of [...result.droppedItems, ...sptRewards]) result.rewardItems.push({ itemId: drop.itemId, itemCnt: drop.count });
+    Logger.Info(`[BattleRewardService] 战斗奖励: UserID=${userId}, Status=${result.status}, Stage=${result.failedStage || '-'}, Exp=${result.expGained}, Coins=${result.coinsGained}`);
+    return result;
   }
 
   /**
@@ -160,28 +162,34 @@ export class BattleRewardService {
       );
     }
 
-    // 标记为已击败（通过 ChallengeProgressManager）
-    this._player.ChallengeProgressManager.MarkSPTBossDefeated(sptInfo.sptId);
-    Logger.Info(`[BattleRewardService] SPT BOSS首次击败: MapId=${battle.bossMapId}, Param2=${battle.bossParam2}, SPTId=${sptInfo.sptId}, PetName=${bossConfig.petName}`);
-
-    // 奖励精灵
-    if (sptInfo.rewardPetId && sptInfo.rewardPetId > 0) {
-      const catchTime = Math.floor(Date.now() / 1000);
-      const success = await this._player.PetManager.GivePet(sptInfo.rewardPetId, 1, catchTime, PetObtainSource.BATTLE_REWARD);
-      if (success) {
+    // 在首次 await 前占用同实例的首胜发奖；失败后允许下一次显式挑战。
+    if (this.pendingSPTRewards.has(sptInfo.sptId)) return rewards;
+    this.pendingSPTRewards.add(sptInfo.sptId);
+    try {
+      if (sptInfo.rewardPetId && sptInfo.rewardPetId > 0) {
+        const catchTime = Math.floor(Date.now() / 1000);
+        const success = await this._player.PetManager.GivePet(sptInfo.rewardPetId, 1, catchTime, PetObtainSource.BATTLE_REWARD);
+        if (!success) {
+          Logger.Warn(`[BattleRewardService] SPT发宠拒绝，保留首胜资格: SPTId=${sptInfo.sptId}`);
+          throw new Error('SPT pet reward was rejected');
+        }
         Logger.Info(`[BattleRewardService] SPT奖励精灵已发放: PetId=${sptInfo.rewardPetId}`);
-        // 注意：精灵奖励不添加到rewardItems，因为客户端会通过精灵列表更新显示
       }
-    }
 
-    // 奖励物品
-    if (sptInfo.rewardItemId && sptInfo.rewardItemId > 0) {
-      await this._player.ItemManager.GiveItem(sptInfo.rewardItemId, 1, ItemGainSource.DROP);
-      rewards.push({ itemId: sptInfo.rewardItemId, count: 1 });
-      Logger.Info(`[BattleRewardService] SPT奖励物品已发放: ItemId=${sptInfo.rewardItemId}`);
-    }
+      this._player.ChallengeProgressManager.MarkSPTBossDefeated(sptInfo.sptId);
+      Logger.Info(`[BattleRewardService] SPT BOSS首次击败: MapId=${battle.bossMapId}, Param2=${battle.bossParam2}, SPTId=${sptInfo.sptId}, PetName=${bossConfig.petName}`);
 
-    return rewards;
+      if (sptInfo.rewardItemId && sptInfo.rewardItemId > 0) {
+        if (!await this._player.ItemManager.GiveItem(sptInfo.rewardItemId, 1, ItemGainSource.DROP)) {
+          throw new Error('SPT item reward was not persisted');
+        }
+        rewards.push({ itemId: sptInfo.rewardItemId, count: 1 });
+        Logger.Info(`[BattleRewardService] SPT奖励物品已发放: ItemId=${sptInfo.rewardItemId}`);
+      }
+      return rewards;
+    } finally {
+      this.pendingSPTRewards.delete(sptInfo.sptId);
+    }
   }
 
   /**
@@ -207,15 +215,7 @@ export class BattleRewardService {
         return false;
       }
 
-      // 检查背包空间
-      const bagSpace = await this._player.PetManager.GetBagSpace();
-
-      if (bagSpace <= 0) {
-        Logger.Warn(`[BattleRewardService] 背包已满: UserID=${userId}`);
-        return false;
-      }
-
-      // 使用 PetManager 的 GivePet 方法
+      // GivePet owns bag capacity and sends overflow pets to storage.
       const success = await this._player.PetManager.GivePet(battle.enemy.id, battle.enemy.level, catchTime, PetObtainSource.CATCH);
 
       if (success) {
@@ -335,7 +335,7 @@ export class BattleRewardService {
   /**
    * 检查精灵是否可以捕获
    */
-  private IsCatchable(petId: number, mapId?: number, slot?: number): boolean {
+  public IsCatchable(petId: number, mapId?: number, slot?: number): boolean {
     // 尝试从配置读取
     if (mapId !== undefined && slot !== undefined) {
       const ogreConfig = this.GetOgreConfig(mapId, slot, petId);

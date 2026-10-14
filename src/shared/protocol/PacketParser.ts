@@ -1,5 +1,5 @@
 import { HeadInfo } from './HeadInfo';
-import { GetCommandName } from './CommandID';
+import { CommandID, GetCommandName } from './CommandID';
 import { CmdMeta } from './CommandMeta';
 import { Logger } from '../utils';
 
@@ -35,7 +35,7 @@ export class PacketParser {
 
     // 检查包长度是否合法
     if (packetLength < this._headLength || packetLength > 8388608) {
-      Logger.Error(`[收包] 非法包长度: ${packetLength}, 原始数据: ${this._buffer.subarray(0, Math.min(32, this._buffer.length)).toString('hex')}`);
+      Logger.Error(`[收包] 非法包长度: ${packetLength}`);
       this._buffer = Buffer.alloc(0);
       return null;
     }
@@ -60,7 +60,9 @@ export class PacketParser {
     Logger.Info(`[收包] ${cmdName}(${head.CmdID})${desc} | UserID=${head.UserID} | Seq=${head.Result} | BodyLen=${body.length}`);
 
     // 使用元数据智能解析Body
-    if (body.length > 0) {
+    const containsCredentials = head.CmdID === CommandID.REGISTER ||
+      head.CmdID === CommandID.MAIN_LOGIN_IN || head.CmdID === CommandID.LOGIN_IN;
+    if (body.length > 0 && !containsCredentials) {
       const bodyStr = CmdMeta.ParseBody(head.CmdID, body, true);
       Logger.Debug(`[收包] Body: ${bodyStr}`);
       // 添加hex dump用于调试

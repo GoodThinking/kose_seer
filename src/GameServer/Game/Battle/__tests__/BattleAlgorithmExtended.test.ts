@@ -5,8 +5,18 @@
 
 import { BattleAlgorithm, SkillCategory, IPetBaseStats } from '../BattleAlgorithm';
 import { createAttacker, createDefender, createPetWithStages, createEffectContextSimple } from './BattleTestHelpers';
+import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
+import { ConfigKeys, ConfigPaths, ConfigType } from '../../../../shared/config/ConfigDefinitions';
+import { BattleCore } from '../BattleCore';
 
 describe('BattleAlgorithm - 扩展测试', () => {
+  beforeAll(async () => {
+    for (const key of [ConfigKeys.PET_CONFIG, ConfigKeys.SPT_CONFIG, ConfigKeys.SKILL_CONFIG]) {
+      ConfigRegistry.Instance.Register(key, ConfigPaths[key], ConfigType.XML);
+    }
+    ConfigRegistry.Instance.Register(ConfigKeys.NATURES_CONFIG, ConfigPaths[ConfigKeys.NATURES_CONFIG], ConfigType.JSON);
+    await ConfigRegistry.Instance.Initialize();
+  });
 
   describe('能力等级组合测试', () => {
     test('攻击+2 防御-1 应该造成更高伤害', () => {
@@ -91,22 +101,27 @@ describe('BattleAlgorithm - 扩展测试', () => {
       const attackerStats = { hp: 300, maxHp: 300, attack: 200, defence: 150, spAtk: 200, spDef: 160, speed: 150 };
       const defenderStats = { hp: 280, maxHp: 280, attack: 180, defence: 200, spAtk: 150, spDef: 180, speed: 120 };
 
-      // 草系精灵使用草系技能（本系）
-      const stabResult = BattleAlgorithm.CalculateDamage(
-        attackerStats, defenderStats,
-        1, 1, 100, 80, 1, // 草系攻击草系
-        SkillCategory.PHYSICAL
-      );
+      // 固定技能、普通系防守方、随机与暴击，仅改变攻击者是否同系。
+      const random = jest.spyOn(Math, 'random').mockReturnValue(0.5);
+      try {
+        const stabResult = BattleAlgorithm.CalculateDamage(
+          attackerStats, defenderStats,
+          1, 8, 100, 80, 1,
+          SkillCategory.PHYSICAL, undefined, undefined, {isCrit: false}
+        );
 
-      // 草系精灵使用火系技能（非本系）
-      const nonStabResult = BattleAlgorithm.CalculateDamage(
-        attackerStats, defenderStats,
-        3, 1, 100, 80, 3, // 火系攻击草系
-        SkillCategory.PHYSICAL
-      );
+        const nonStabResult = BattleAlgorithm.CalculateDamage(
+          attackerStats, defenderStats,
+          8, 8, 100, 80, 1,
+          SkillCategory.PHYSICAL, undefined, undefined, {isCrit: false}
+        );
 
-      // 本系加成应该使伤害更高
-      expect(stabResult.damage).toBeGreaterThan(nonStabResult.damage);
+        expect(stabResult.effectiveness).toBe(1);
+        expect(nonStabResult.effectiveness).toBe(1);
+        expect(stabResult.damage).toBe(96);
+        expect(nonStabResult.damage).toBe(64);
+        expect(stabResult.damage / nonStabResult.damage).toBe(1.5);
+      } finally { random.mockRestore(); }
     });
   });
 
@@ -194,25 +209,39 @@ describe('BattleAlgorithm - 扩展测试', () => {
       expect(lowAcc).toBeLessThan(100);
     });
 
-    test('命中率不应该超过100%或低于0%', () => {
+    test('中间命中阈值允许超过100，实际命中判定饱和', () => {
       const cases = [
-        [100, 6, -6],
-        [100, 10, -10],
-        [80, -6, 6],
-        [80, -10, 10],
+        [100, 6, -6, 900],
+        [100, 10, -10, 900],
+        [80, -6, 6, 8],
+        [80, -10, 10, 8],
       ];
 
-      for (const [base, acc, eva] of cases) {
+      for (const [base, acc, eva, expected] of cases) {
         const result = BattleAlgorithm.CalculateAccuracy(base, acc, eva);
         expect(result).toBeGreaterThanOrEqual(0);
-        expect(result).toBeLessThanOrEqual(100);
+        expect(result).toBe(expected);
       }
+      const attacker = createAttacker({battleLv: [0, 0, 0, 0, 0, 6]});
+      const defender = createDefender({battleLv: [0, 0, 0, 0, 0, -6]});
+      const skill = {id: 10006, name: '命中分支测试', category: 1, type: 8, power: 40,
+        maxPP: 35, accuracy: 80, critRate: 0, priority: 0, mustHit: false};
+      expect(BattleAlgorithm.CalculateAccuracy(80, 6, -6)).toBe(720);
+      const random = jest.spyOn(Math, 'random');
+      try {
+        for (const roll of [0, 0.5, 0.999999999999]) {
+          random.mockReturnValue(roll);
+          expect(BattleCore.CheckHit(attacker, defender, skill)).toBe(true);
+        }
+      } finally { random.mockRestore(); }
     });
 
-    test('命中率50%时，命中+1闪避-1应该变为100%', () => {
-      // 50% * (4/3) / (2/3) = 50% * 2 = 100%
+    test('按当前生产等级表，基础50、命中+1、闪避-1阈值为88', () => {
+      // 当前4/3、3/4规则：floor(50 * (4/3) / (3/4)) = 88；XIN规则尚未验证。
+      expect(BattleAlgorithm.GetAccuracyStageMultiplier(1)).toBe(4 / 3);
+      expect(BattleAlgorithm.GetAccuracyStageMultiplier(-1)).toBe(3 / 4);
       const result = BattleAlgorithm.CalculateAccuracy(50, 1, -1);
-      expect(result).toBe(100);
+      expect(result).toBe(88);
     });
   });
 
@@ -220,11 +249,12 @@ describe('BattleAlgorithm - 扩展测试', () => {
     test('应该正确应用印章加成', () => {
       const attackerStats = { hp: 300, maxHp: 300, attack: 200, defence: 150, spAtk: 200, spDef: 160, speed: 150 };
       const defenderStats = { hp: 280, maxHp: 280, attack: 180, defence: 200, spAtk: 150, spDef: 180, speed: 120 };
-
+      const random = jest.spyOn(Math, 'random').mockReturnValue(0.5);
+      try {
       const normal = BattleAlgorithm.CalculateDamage(
         attackerStats, defenderStats,
         1, 1, 100, 80, 1,
-        SkillCategory.PHYSICAL
+        SkillCategory.PHYSICAL, undefined, undefined, {isCrit: false}
       );
 
       const withBonus = BattleAlgorithm.CalculateDamage(
@@ -232,20 +262,24 @@ describe('BattleAlgorithm - 扩展测试', () => {
         1, 1, 100, 80, 1,
         SkillCategory.PHYSICAL,
         undefined, undefined,
-        { sealBonus: 1.2 } // 20%印章加成
+        { isCrit: false, sealBonus: 1.2 } // 20%印章加成
       );
 
       expect(withBonus.damage).toBeGreaterThan(normal.damage);
+      expect(normal.damage).toBe(96);
+      expect(withBonus.damage).toBe(115);
+      } finally { random.mockRestore(); }
     });
 
     test('应该正确应用战队加成', () => {
       const attackerStats = { hp: 300, maxHp: 300, attack: 200, defence: 150, spAtk: 200, spDef: 160, speed: 150 };
       const defenderStats = { hp: 280, maxHp: 280, attack: 180, defence: 200, spAtk: 150, spDef: 180, speed: 120 };
-
+      const random = jest.spyOn(Math, 'random').mockReturnValue(0.5);
+      try {
       const normal = BattleAlgorithm.CalculateDamage(
         attackerStats, defenderStats,
         1, 1, 100, 80, 1,
-        SkillCategory.PHYSICAL
+        SkillCategory.PHYSICAL, undefined, undefined, {isCrit: false}
       );
 
       const withBonus = BattleAlgorithm.CalculateDamage(
@@ -253,10 +287,13 @@ describe('BattleAlgorithm - 扩展测试', () => {
         1, 1, 100, 80, 1,
         SkillCategory.PHYSICAL,
         undefined, undefined,
-        { teamBonus: 1.1 } // 10%战队加成
+        { isCrit: false, teamBonus: 1.1 } // 10%战队加成
       );
 
       expect(withBonus.damage).toBeGreaterThan(normal.damage);
+      expect(normal.damage).toBe(96);
+      expect(withBonus.damage).toBe(105);
+      } finally { random.mockRestore(); }
     });
   });
 
@@ -290,10 +327,11 @@ describe('BattleAlgorithm - 扩展测试', () => {
       // 固执 (攻击+10%, 特攻-10%)
       const stubborn = BattleAlgorithm.CalculateStats(baseStats, 100, 31, undefined, 1);
 
-      // 慢吞吞 (速度-10%, 攻击+10%)
-      const slow = BattleAlgorithm.CalculateStats(baseStats, 100, 31, undefined, 2);
+      // ID3勇敢 (速度-10%, 攻击+10%)，两种性格的攻击加成相同。
+      const slow = BattleAlgorithm.CalculateStats(baseStats, 100, 31, undefined, 3);
 
-      expect(stubborn.attack).toBeGreaterThan(slow.attack);
+      expect(stubborn.attack).toBe(259);
+      expect(slow.attack).toBe(stubborn.attack);
       expect(slow.speed).toBeLessThan(stubborn.speed);
     });
 

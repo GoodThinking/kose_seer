@@ -3,7 +3,8 @@
     "game": {
       "enabled": true,
       "port": 9999,
-      "host": "0.0.0.0"
+      "host": "0.0.0.0",
+      "clientProtocol": "kose"
     },
     "regist": {
       "enabled": true

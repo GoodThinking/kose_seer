@@ -3,6 +3,7 @@ import { HeadInfo } from '../../../../../shared/protocol';
 import { Opcode, InjectType } from '../../../../../shared/decorators';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { UsePetItemReqProto } from '../../../../../shared/proto/packets/req/battle/UsePetItemReqProto';
+import { PacketEmpty } from '../../Send/PacketEmpty';
 
 /**
  * [CMD: 2406 USE_PET_ITEM] 使用精灵道具
@@ -13,7 +14,13 @@ export class UsePetItemHandler implements IHandler {
     const player = session.Player;
     if (!player) return;
 
-    const req = UsePetItemReqProto.fromBuffer(body);
-    await player.BattleManager.HandleUsePetItem(req.itemId);
+    let req: UsePetItemReqProto;
+    try {
+      req = UsePetItemReqProto.fromBuffer(body, player.ClientProtocol);
+    } catch {
+      await player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+      return;
+    }
+    await player.BattleManager.HandleUsePetItem(req.itemId, req.catchTime);
   }
 }

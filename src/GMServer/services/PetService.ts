@@ -141,7 +141,7 @@ export class PetService {
     newPet.isInBag = isInBag;
     
     // 添加到背包或仓库
-    petData.AddPet(newPet);
+    await petData.AddPet(newPet);
     
     Logger.Info(`[PetService] 发送精灵成功: uid=${uid}, petId=${petId}, level=${level}, isInBag=${isInBag}, catchTime=${newPet.catchTime}, skills=${newPet.skillArray.join(',')}`);
     

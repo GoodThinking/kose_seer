@@ -1,3 +1,5 @@
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
+import { PetInfoProto } from '../../../common/PetInfoProto';
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
 import { CommandID } from '../../../../protocol/CommandID';
@@ -139,7 +141,7 @@ export class LoginRspProto extends BaseProto {
   taskList: number[] = new Array(500).fill(0);
   
   // 精灵列表
-  petList: any[] = [];
+  petList: PetInfoProto[] = [];
   
   // 服装列表
   clothList: Array<{ id: number; level: number }> = [];
@@ -150,11 +152,18 @@ export class LoginRspProto extends BaseProto {
   // Boss成就列表 (200个)
   bossAchievement: boolean[] = new Array(200).fill(false);
 
+  // Extra XIN records have no persisted KOSE equivalent yet.
+  bufferRecordArr: number[] = new Array(200).fill(0);
+  curKingStage: number = 0;
+  maxKingStage: number = 0;
+  maxKingHeroStage: number = 0;
+  serverID: number = 0;
+
   constructor() {
     super(CommandID.LOGIN_IN);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(2048);
 
     // 基础信息
@@ -203,6 +212,9 @@ export class LoginRspProto extends BaseProto {
       writer.WriteUInt8(this.dailyResArr[i]);
     }
     
+    if (protocol === 'xin-20261013') {
+      for (let i = 0; i < 200; i++) writer.WriteUInt8(this.bufferRecordArr[i] ?? 0);
+    }
     writer.WriteUInt32(this.teacherID);
     writer.WriteUInt32(this.studentID);
     writer.WriteUInt32(this.graduationCount);
@@ -214,6 +226,11 @@ export class LoginRspProto extends BaseProto {
     writer.WriteUInt32(this.maxStage);
     writer.WriteUInt32(this.curFreshStage);
     writer.WriteUInt32(this.maxFreshStage);
+    if (protocol === 'xin-20261013') {
+      writer.WriteUInt32(this.curKingStage);
+      writer.WriteUInt32(this.maxKingStage);
+      writer.WriteUInt32(this.maxKingHeroStage);
+    }
     writer.WriteUInt32(this.maxArenaWins);
     writer.WriteUInt32(this.twoTimes);
     writer.WriteUInt32(this.threeTimes);
@@ -278,7 +295,7 @@ export class LoginRspProto extends BaseProto {
         const pet = this.petList[i];
         const beforeSize = writer.ToBuffer().length;
         // 写入完整的精灵信息（使用 PetInfoProto 的简化版本）
-        const petBytes = pet.serialize();
+        const petBytes = pet.serialize(protocol);
         writer.WriteBytes(petBytes);
         const afterSize = writer.ToBuffer().length;
         console.log(`[LoginRspProto] 精灵 ${i + 1}/${petCount}: ${petBytes.length} bytes (总大小: ${afterSize})`);
@@ -300,6 +317,15 @@ export class LoginRspProto extends BaseProto {
         writer.WriteUInt32(cloth.level || 0);
         console.log(`[LoginRspProto] 服装 ${i + 1}/${clothCount}: id=${cloth.id}, level=${cloth.level || 0}`);
       }
+    }
+
+    if (protocol === 'xin-20261013') {
+      // Achievement title IDs are not yet mapped to KOSE curTitle.
+      writer.WriteUInt32(0);
+      writer.WriteUInt32(this.serverID);
+      // ignored word, goldenName, totalAchieve, achieRank, nonoChangeToPet
+      writer.WriteBytes(Buffer.alloc(5 * 4));
+      return writer.ToBuffer();
     }
 
     // ========== 当前称号 ==========

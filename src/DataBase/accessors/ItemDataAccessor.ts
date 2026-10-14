@@ -39,7 +39,7 @@ export class ItemDataAccessor {
   /**
    * 保存 ItemData
    */
-  public async Save(data: ItemData): Promise<void> {
-    return DataSaver.Instance.Save('item', data);
+  public async Save(data: ItemData, throwOnError: boolean = false): Promise<void> {
+    return DataSaver.Instance.Save('item', data, throwOnError);
   }
 }

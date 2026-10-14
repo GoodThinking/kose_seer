@@ -19,6 +19,8 @@ export enum SessionType {
 export interface IClientSession {
   Socket: Socket;
   UserID: number;
+  /** Set only after a fully validated 1001 binds this connection to its player. */
+  AuthenticatedSessionKey?: string;
   Address: string;
   Player?: PlayerInstance;  // 玩家实例（登录后设置）
   Crypto?: CryptoHandler;    // 加密处理器

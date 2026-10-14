@@ -1,6 +1,7 @@
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
 import { CommandID } from '../../../../protocol/CommandID';
+import { SessionKeyToWire } from '../../../../protocol/SessionToken';
 
 /**
  * [CMD: CREATE_ROLE (108)] 创建角色响应
@@ -22,9 +23,7 @@ export class CreateRoleRspProto extends BaseProto {
    * 辅助方法：设置Session
    */
   setSession(sessionKey: string | undefined): this {
-    if (sessionKey) {
-      this.session = this.buildBuffer(sessionKey, 16);
-    }
+    this.session = SessionKeyToWire(sessionKey);
     return this;
   }
 }

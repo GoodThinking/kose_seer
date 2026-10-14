@@ -119,6 +119,7 @@ export class EffectTrigger {
 
       // 5. 解析 SideEffectArg 参数
       const effectArgs = this.ParseEffectArgs(skill.sideEffectArg);
+      const healBindingArgs = this.ParseHealBindingArgs(skill.sideEffectArg);
       context.effectArgs = effectArgs;
 
       // 6. 执行原子效果组合
@@ -151,6 +152,7 @@ export class EffectTrigger {
           this.PropagateArgsToNestedAtoms(atomConfigWithArgs, argMap);
         }
 
+        if (!this.ResolveDamageHealBindings(atomConfigWithArgs, effectConfig.args, healBindingArgs)) continue;
         const atom = AtomicEffectFactory.getInstance().create(atomConfigWithArgs as IAtomicEffectParams);
         if (!atom) {
           Logger.Warn(`[EffectTrigger] 创建原子效果失败: type=${atomConfig.type}`);
@@ -225,7 +227,9 @@ export class EffectTrigger {
 
       // 2. 解析所有参数，按每个效果的argsNum分割
       const allArgs = this.ParseEffectArgs(skill.sideEffectArg);
+      const allHealArgs = this.ParseHealBindingArgs(skill.sideEffectArg);
       let argOffset = 0;
+      let healArgOffsetKnown = true;
 
       // 3. 按顺序处理每个效果
       for (let i = 0; i < effectIds.length; i++) {
@@ -235,12 +239,14 @@ export class EffectTrigger {
         const effectConfig = SkillEffectsConfig.Instance.GetEffectById(effectId);
         if (!effectConfig) {
           Logger.Warn(`[EffectTrigger] 效果配置不存在: effectId=${effectId}`);
+          healArgOffsetKnown = false;
           continue;
         }
 
         // 提取当前效果的参数
         const argsNum = effectConfig.argsNum || (effectConfig.args ? effectConfig.args.length : 0);
         const effectArgs = allArgs.slice(argOffset, argOffset + argsNum);
+        const healBindingArgs = healArgOffsetKnown ? allHealArgs.slice(argOffset, argOffset + argsNum) : [];
         argOffset += argsNum;
 
         // 检查是否有原子效果组合配置
@@ -291,6 +297,7 @@ export class EffectTrigger {
             this.PropagateArgsToNestedAtoms(atomConfigWithArgs, argMap);
           }
 
+          if (!this.ResolveDamageHealBindings(atomConfigWithArgs, effectConfig.args, healBindingArgs)) continue;
           const atom = AtomicEffectFactory.getInstance().create(atomConfigWithArgs as IAtomicEffectParams);
           if (!atom) {
             Logger.Warn(`[EffectTrigger] 创建原子效果失败: type=${atomConfig.type}`);
@@ -406,6 +413,40 @@ export class EffectTrigger {
     'level': 'change',
     'probability': 'value',
   };
+
+  /** Strict parsing only for explicit healing bindings; keep legacy atom parsing unchanged. */
+  private static ParseHealBindingArgs(args?: string | number): number[] {
+    if (typeof args === 'number') return [args];
+    if (typeof args !== 'string' || !args.trim()) return [];
+    return args.trim().split(/\s+/).map(Number);
+  }
+
+  /** Normalize declared external units to HealEffect's ratio on the per-call clone. */
+  private static ResolveDamageHealBindings(
+    atom: any, definitions: Array<{ name: string }> | undefined, args: number[]
+  ): boolean {
+    if (atom.type === 'heal' && atom.mode === 'damage_percent' &&
+        ('valueArg' in atom || 'valueUnit' in atom)) {
+      const index = definitions?.findIndex(def => def.name === atom.valueArg) ?? -1;
+      const input = index >= 0 ? args[index] : undefined;
+      const valid = typeof input === 'number' && Number.isFinite(input) &&
+        ((atom.valueUnit === 'percent' && input >= 0) ||
+         (atom.valueUnit === 'divisor' && Number.isInteger(input) && input > 0));
+      if (!valid) {
+        Logger.Warn(`[EffectTrigger] 无效治疗参数绑定: ${atom.valueArg}/${atom.valueUnit}`);
+        return false;
+      }
+      atom.value = atom.valueUnit === 'percent' ? input! / 100 : 1 / input!;
+      delete atom.valueArg;
+      delete atom.valueUnit;
+    }
+    for (const branch of ['then', 'else']) {
+      if (Array.isArray(atom[branch])) {
+        atom[branch] = atom[branch].filter((child: any) => this.ResolveDamageHealBindings(child, definitions, args));
+      }
+    }
+    return true;
+  }
 
   /**
    * 将参数传播到嵌套的 then/else 子效果中

@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
 import { CommandID } from '../../../../protocol/CommandID';
@@ -13,12 +14,12 @@ export class GetPetInfoRspProto extends BaseProto {
     super(CommandID.GET_PET_INFO);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     if (!this.petInfo) {
       return Buffer.alloc(0);
     }
     
-    return this.petInfo.serialize();
+    return this.petInfo.serialize(protocol);
   }
 
   setPetInfo(petInfo: PetInfoProto): this {

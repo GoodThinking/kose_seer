@@ -13,6 +13,7 @@ import { BroadcastService } from '../Broadcast/BroadcastService';
 import { PacketGoldBuyProduct } from '../../Server/Packet/Send/User/PacketGoldBuyProduct';
 import { PacketEmpty } from '../../Server/Packet/Send/PacketEmpty';
 import { CommandID } from '../../../shared/protocol/CommandID';
+import { GoldToWire } from '../../../shared/protocol/GoldCurrency';
 
 /**
  * 物品管理器
@@ -65,6 +66,15 @@ export class ItemManager extends BaseManager {
    * @param count 购买数量
    */
   public async HandleItemBuy(itemId: number, count: number): Promise<void> {
+    const release = this.ItemData.BeginMutation();
+    if (!release) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.ITEM_BUY).setResult(5000));
+      return;
+    }
+    try { await this.BuyItem(itemId, count); } finally { release(); }
+  }
+
+  private async BuyItem(itemId: number, count: number): Promise<void> {
     const playerData = this.Player.Data;
 
     // 检查唯一性
@@ -125,6 +135,11 @@ export class ItemManager extends BaseManager {
    * @returns 是否成功
    */
   public async GiveItem(itemId: number, count: number, source: ItemGainSource = ItemGainSource.GIVE): Promise<boolean> {
+    // Reward callers may not check false. Wait outside the DB queue instead of dropping their grant.
+    while (this.ItemData.HasPendingReward()) await this.ItemData.WaitForReward();
+    let release = source === ItemGainSource.DROP
+      ? await this.ItemData.AcquireReward() : this.ItemData.BeginMutation()!;
+    let dropCommitted = false;
     try {
       // 调试日志
       Logger.Debug(`[ItemManager] GiveItem 开始: UserId=${this.UserID}, ItemId=${itemId}, Count=${count}, ItemData.Uid=${this.ItemData?.Uid}`);
@@ -136,10 +151,16 @@ export class ItemManager extends BaseManager {
       }
 
       // 添加物品（直接修改 ItemData）
-      this.ItemData.AddItem(itemId, count, 0x057E40);
-      
-      Logger.Debug(`[ItemManager] 准备保存 ItemData: Uid=${this.ItemData.Uid}`);
-      await DatabaseHelper.Instance.SaveItemData(this.ItemData);
+      if (source === ItemGainSource.DROP) {
+        await this.ItemData.CommitDrop(itemId, count);
+        dropCommitted = true;
+        // Event listeners may grant another item; never hold the reservation across them.
+        release(); release = () => {};
+      } else {
+        this.ItemData.AddItem(itemId, count, 0x057E40);
+        Logger.Debug(`[ItemManager] 准备保存 ItemData: Uid=${this.ItemData.Uid}`);
+        await DatabaseHelper.Instance.SaveItemData(this.ItemData);
+      }
       
       // 如果是服装物品，同步到 PlayerData.clothes
       if (itemId >= 100000) {
@@ -161,8 +182,9 @@ export class ItemManager extends BaseManager {
       return true;
     } catch (error) {
       Logger.Error(`[ItemManager] 赠送物品异常: ${error}`);
-      return false;
-    }
+      // Notification failure cannot turn a committed drop into a retryable failed grant.
+      return dropCommitted;
+    } finally { release(); }
   }
 
   // ==================== 公开查询/操作 API ====================
@@ -187,6 +209,7 @@ export class ItemManager extends BaseManager {
    * @returns 是否成功消耗
    */
   public ConsumeItem(itemId: number, count: number): boolean {
+    if (this.ItemData.HasPendingReward()) return false;
     const item = this.ItemData.ItemList.find(i => i.itemId === itemId);
     if (!item || item.count < count) return false;
 
@@ -313,6 +336,11 @@ export class ItemManager extends BaseManager {
    * @param count 购买数量
    */
   public async HandleGoldBuyProduct(productId: number, count: number): Promise<void> {
+    const release = this.ItemData.BeginMutation();
+    if (!release) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.GOLD_BUY_PRODUCT).setResult(5000));
+      return;
+    }
     try {
       // 验证数量
       if (count <= 0) {
@@ -356,13 +384,17 @@ export class ItemManager extends BaseManager {
       const totalCost = unitPrice * count;
 
       // 检查金豆是否足够
-      const currentGold = this.Player.Data.gold || 0;
+      const currentGold = this.Player.Data.gold;
+      GoldToWire(currentGold);
       if (currentGold < totalCost) {
         Logger.Warn(`[ItemManager] 金豆不足: 需要=${totalCost}, 拥有=${currentGold}`);
         await this.Player.SendPacket(new PacketEmpty(CommandID.GOLD_BUY_PRODUCT).setResult(10016));
         return;
       }
 
+      // Validate wire units before payment; preserve the live balance read after async inventory work.
+      GoldToWire(totalCost);
+      GoldToWire(currentGold - totalCost);
       // 扣除金豆
       this.Player.Data.gold = currentGold - totalCost;
 
@@ -380,7 +412,7 @@ export class ItemManager extends BaseManager {
       }
 
       // 发送成功响应
-      await this.Player.SendPacket(new PacketGoldBuyProduct(totalCost, this.Player.Data.gold || 0));
+      await this.Player.SendPacket(new PacketGoldBuyProduct(totalCost, this.Player.Data.gold));
 
       Logger.Info(
         `[ItemManager] 金豆购买成功: UserID=${this.UserID}, ` +
@@ -391,7 +423,7 @@ export class ItemManager extends BaseManager {
     } catch (error) {
       Logger.Error(`[ItemManager] HandleGoldBuyProduct 处理失败`, error as Error);
       await this.Player.SendPacket(new PacketEmpty(CommandID.GOLD_BUY_PRODUCT).setResult(5000));
-    }
+    } finally { release(); }
   }
 
   /**

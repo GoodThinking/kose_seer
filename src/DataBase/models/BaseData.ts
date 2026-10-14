@@ -14,6 +14,8 @@ import { Logger } from '../../shared/utils/Logger';
  * 数据基类
  */
 export abstract class BaseData {
+  /** Subclasses may reject writes while an isolated state is being committed. */
+  protected assertCanMutate(): void {}
   /** 用户ID（主键） - 子类必须初始化 */
   public Uid!: number;
 
@@ -60,6 +62,7 @@ export abstract class BaseData {
   protected createProxy<T extends BaseData>(target: T): T {
     return new Proxy(target, {
       set: (obj, property: string, value) => {
+        if (!this._noSaveFields.has(property)) this.assertCanMutate();
         // 如果是数组字段，为数组创建深度 Proxy 并缓存
         if (this._arrayFields.has(property) && Array.isArray(value)) {
           const wrappedArray = this.wrapArrayWithProxy(value);
@@ -110,6 +113,7 @@ export abstract class BaseData {
     return new Proxy(wrappedItems, {
       set: (target, property, value) => {
         if (property === 'length' || !isNaN(Number(property))) {
+          this.assertCanMutate();
           // 数组长度变化或索引赋值
           if (typeof value === 'object' && value !== null) {
             target[property as any] = this.wrapObjectWithProxy(value);
@@ -128,6 +132,7 @@ export abstract class BaseData {
         // 拦截数组方法
         if (property === 'push') {
           return (...items: T[]) => {
+            this.assertCanMutate();
             const wrappedItems = items.map(item => this.wrapObjectWithProxy(item));
             const result = Array.prototype.push.apply(target, wrappedItems);
             this.scheduleSave();
@@ -137,6 +142,7 @@ export abstract class BaseData {
         
         if (property === 'splice') {
           return (...args: any[]) => {
+            this.assertCanMutate();
             // splice 的新增元素需要包装
             const wrappedArgs = args.map((arg, index) => {
               if (index >= 2 && typeof arg === 'object' && arg !== null) {
@@ -152,6 +158,7 @@ export abstract class BaseData {
         
         if (property === 'unshift') {
           return (...items: T[]) => {
+            this.assertCanMutate();
             const wrappedItems = items.map(item => this.wrapObjectWithProxy(item));
             const result = Array.prototype.unshift.apply(target, wrappedItems);
             this.scheduleSave();
@@ -161,6 +168,7 @@ export abstract class BaseData {
         
         if (property === 'pop' || property === 'shift') {
           return () => {
+            this.assertCanMutate();
             const result = Array.prototype[property].call(target);
             this.scheduleSave();
             return result;
@@ -182,6 +190,7 @@ export abstract class BaseData {
 
     return new Proxy(obj, {
       set: (target, property: string, value) => {
+        this.assertCanMutate();
         (target as any)[property] = value;
         // 对象属性修改时触发保存
         this.scheduleSave();

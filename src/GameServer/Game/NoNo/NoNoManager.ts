@@ -1,3 +1,6 @@
+import { ApplyDefaultSuperNono } from './DefaultSuperNono';
+import { DatabaseHelper } from '../../../DataBase/DatabaseHelper';
+import { Config } from '../../../shared/config/ServerConfig';
 import { BaseManager } from '../Base/BaseManager';
 import { PacketNoNoInfo, PacketNoNoCure, PacketNoNoPlay, PacketNoNoFollowOrHoom, PacketGetDiamond, PacketNoNoGetChip, PacketNoNoIsInfo, PacketOpenSuperNono, PacketNoNoOpen } from '../../Server/Packet/Send/NoNo';
 import { PacketVipCo } from '../../Server/Packet/Send/Vip';
@@ -23,6 +26,7 @@ export class NoNoManager extends BaseManager {
    */
   public async Initialize(): Promise<void> {
     const playerData = this.Player.Data;
+    if (ApplyDefaultSuperNono(playerData)) await DatabaseHelper.Instance.SavePlayerData(playerData);
     if (playerData.hasNono) {
       // nonoState 是32位标志:
       // Bit 0 (值 1) = HasNoNo - 是否拥有NoNo
@@ -561,6 +565,14 @@ export class NoNoManager extends BaseManager {
     try {
       const playerData = this.Player.Data;
       
+      if (Config.Game.defaultSuperNono === true) {
+        if (ApplyDefaultSuperNono(playerData)) await DatabaseHelper.Instance.SavePlayerData(playerData);
+        await this.Player.SendPacket(new PacketOpenSuperNono(0));
+        await this.Player.SendPacket(new PacketVipCo(this.UserID, 2, 0, playerData.vipEndTime,
+          playerData.nonoSuperLevel, playerData.nonoSuperEnergy, playerData.nonoSuperStage));
+        await this.HandleNoNoInfo();
+        return;
+      }
       // 检查是否有NoNo
       if (!playerData.hasNono) {
         await this.Player.SendPacket(new PacketOpenSuperNono(1)); // 失败

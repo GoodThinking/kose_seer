@@ -30,7 +30,6 @@ export class MainLoginHandler implements IHandler {
       // 米米号登�?
       const req = MainLoginReqProto.fromMimiLogin(body);
       Logger.Info(`米米号登录 UserID=${head.UserID}`);
-      session.UserID = head.UserID;
       await this._loginManager.HandleMainLogin(session, head.UserID, req.passwordMD5);
     }
   }

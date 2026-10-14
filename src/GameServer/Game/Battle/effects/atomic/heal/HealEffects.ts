@@ -4,7 +4,7 @@ import { IEffectContext, IEffectResult, EffectTiming } from '../../core/EffectCo
 
 /**
  * 回复效果原子效果
- * 回复目标的HP
+ * 计算回复结果，由EffectApplicator统一修改目标HP
  *
  * @example
  * // 回复自身最大HP的50%
@@ -36,11 +36,16 @@ export class HealEffect extends BaseAtomicEffect {
       healAmount = this.params.value;
     } else if (this.params.mode === 'damage_percent' && context.damage) {
       healAmount = Math.floor(context.damage * this.params.value);
+    } else if (this.params.mode === 'max_hp_divisor') {
+      // SideEffect43's value is the denominator n, not a percentage.
+      if (!Number.isInteger(this.params.value) || this.params.value <= 0) return results;
+      healAmount = Math.floor(target.maxHp / this.params.value);
     }
 
     const actualHeal = Math.min(healAmount, target.maxHp - target.hp);
     if (actualHeal > 0) {
-      target.hp += actualHeal;
+      // Every production caller applies this result through EffectApplicator.
+      // Mutating HP here too would heal twice but report only one gain in 2505.
       results.push(this.createResult(
         true,
         this.params.target === 'self' ? 'attacker' : 'defender',
@@ -55,8 +60,9 @@ export class HealEffect extends BaseAtomicEffect {
   public validate(params: any): boolean {
     return params && params.type === AtomicEffectType.HEAL &&
            ['self', 'opponent'].includes(params.target) &&
-           ['percent', 'fixed', 'damage_percent'].includes(params.mode) &&
-           typeof params.value === 'number';
+           ['percent', 'fixed', 'damage_percent', 'max_hp_divisor'].includes(params.mode) &&
+           typeof params.value === 'number' &&
+           (params.mode !== 'max_hp_divisor' || (Number.isInteger(params.value) && params.value > 0));
   }
 }
 

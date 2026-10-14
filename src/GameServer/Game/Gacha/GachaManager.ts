@@ -12,6 +12,17 @@ export class GachaManager extends BaseManager {
   }
 
   public async HandleGacha(times: number): Promise<void> {
+    const release = this.Player.ItemManager.ItemData.BeginMutation();
+    if (!release) {
+      const response = new GachaRspProto();
+      response.setResult(5000);
+      await this.Player.SendPacket(response);
+      return;
+    }
+    try { await this.RollGacha(times); } finally { release(); }
+  }
+
+  private async RollGacha(times: number): Promise<void> {
     const playerData = this.Player.Data;
     const itemManager = this.Player.ItemManager;
 

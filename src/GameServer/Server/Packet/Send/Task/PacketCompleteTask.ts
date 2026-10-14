@@ -16,7 +16,7 @@ export class PacketCompleteTask extends BaseProto {
     proto.items = items.map(item => ({ id: item.itemId, count: item.count }));
 
     if (result !== 0) {
-      proto.setResult(result);
+      this.setResult(result);
     }
 
     this._data = proto.serialize();

@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
 import { BaseProto } from '../../../base/BaseProto';
 import { CommandID } from '../../../../protocol/CommandID';
 import { BufferWriter } from '../../../../utils';
@@ -22,7 +23,7 @@ export class NoteReadyToFightRspProto extends BaseProto {
     super(CommandID.NOTE_READY_TO_FIGHT);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(2048);
     
     // 战斗ID (客户端期望的第一个字段)
@@ -31,17 +32,19 @@ export class NoteReadyToFightRspProto extends BaseProto {
     // 玩家信息
     writer.WriteUInt32(this.playerUserId);
     writer.WriteBytes(this.buildString(this.playerNick, 16));
+    if (protocol === 'xin-20261013') writer.WriteBytes(Buffer.alloc(32));
     writer.WriteUInt32(this.playerPets.length);
     for (const pet of this.playerPets) {
-      writer.WriteBytes(pet.serialize());
+      writer.WriteBytes(pet.serialize(protocol));
     }
     
     // 敌人信息
     writer.WriteUInt32(this.enemyUserId);
     writer.WriteBytes(this.buildString(this.enemyNick, 16));
+    if (protocol === 'xin-20261013') writer.WriteBytes(Buffer.alloc(32));
     writer.WriteUInt32(this.enemyPets.length);
     for (const pet of this.enemyPets) {
-      writer.WriteBytes(pet.serialize());
+      writer.WriteBytes(pet.serialize(protocol));
     }
     
     return writer.ToBuffer();

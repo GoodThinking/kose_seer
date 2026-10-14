@@ -255,7 +255,7 @@ export class BattleTurnService {
   /**
    * 尝试捕获精灵
    * @param battle 战斗信息
-   * @param capsuleID 胶囊物品ID (300001=普通, 300002=中级, 300003=高级, 300004=超级, 300005+=大师球)
+   * @param capsuleID 当前 KOSE 支持的胶囊物品ID 300001..300005
    */
   public Catch(battle: IBattleInfo, capsuleID: number = 300001): {
     success: boolean;
@@ -265,6 +265,9 @@ export class BattleTurnService {
   } {
     // 胶囊ID转精灵球类型
     const ballType = this.GetPokeBallType(capsuleID);
+    if (ballType === undefined) {
+      return {success: false, catchTime: 0, catchRate: 0, shakeCount: 0};
+    }
 
     const isBoss = battle.battleType === 'BOSS';
     const canCapture = BattleCaptureSystem.CanCapture(battle.enemy, isBoss);
@@ -286,7 +289,6 @@ export class BattleTurnService {
     const result = BattleCaptureSystem.AttemptCapture(battle.enemy, ballType, baseCatchRate);
 
     if (result.success) {
-      battle.isOver = true;
       Logger.Info(
         `[BattleTurnService] 捕获成功: Boss=${battle.enemy.id}, ` +
         `捕获率=${result.catchRate.toFixed(2)}%, ` +
@@ -340,9 +342,10 @@ export class BattleTurnService {
 
   /**
    * 将胶囊物品ID转换为精灵球类型
-   * 300001=普通, 300002=中级, 300003=高级, 300004=超级, 300005+=大师球
+   * 保留 KOSE 对 300001..300005 的倍率规则；其他胶囊尚未适配。
+   * 300005 的必中规则是 KOSE 策略，不能由客户端资源证明为 XIN 算法。
    */
-  private GetPokeBallType(capsuleID: number): PokeBallType {
+  public GetPokeBallType(capsuleID: number): PokeBallType | undefined {
     switch (capsuleID) {
       case 300001:
         return PokeBallType.NORMAL;
@@ -352,9 +355,10 @@ export class BattleTurnService {
         return PokeBallType.ADVANCED;
       case 300004:
         return PokeBallType.SUPER;
-      default:
-        // 300005及以上的都视为大师球
+      case 300005:
         return PokeBallType.MASTER;
+      default:
+        return undefined;
     }
   }
 }

@@ -353,10 +353,10 @@ export class BattlePvpService {
     const { firstAttack, secondAttack } = this._buildAttackValuePair(result, player1Id, player2Id);
 
     if (player1Session?.Player) {
-      await player1Session.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack));
+      await player1Session.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack, player1Session.Player.ClientProtocol));
     }
     if (player2Session?.Player) {
-      await player2Session.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack));
+      await player2Session.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack, player2Session.Player.ClientProtocol));
     }
 
     // 更新HP记录

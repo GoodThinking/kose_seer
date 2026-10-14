@@ -119,7 +119,7 @@ export class BattleAlgorithm {
   ): ICalculatedStats {
     // 默认值
     ev = ev || { hp: 0, attack: 0, defence: 0, spAtk: 0, spDef: 0, speed: 0 };
-    natureId = natureId || 21; // 默认害羞(平衡)
+    natureId = natureId ?? 21; // 未提供时使用平衡性格，保留合法ID 0（孤独）
     level = Math.max(1, Math.min(100, level));
 
     // 获取性格修正

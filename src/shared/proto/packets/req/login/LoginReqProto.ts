@@ -1,4 +1,5 @@
 import { BaseProto } from '../../../base/BaseProto';
+import { SessionKeyFromWire } from '../../../../protocol/SessionToken';
 
 /**
  * [CMD: LOGIN_IN (1001)] 游戏登录请求
@@ -20,9 +21,8 @@ export class LoginReqProto extends BaseProto {
    */
   static fromBuffer(buffer: Buffer): LoginReqProto {
     const proto = new LoginReqProto();
-    if (buffer.length >= 16) {
-      proto.session = buffer.subarray(0, 16);
-    }
+    if (buffer.length !== 16) throw new Error('Invalid session wire length');
+    proto.session = Buffer.from(buffer);
     return proto;
   }
 
@@ -30,6 +30,6 @@ export class LoginReqProto extends BaseProto {
    * 获取Session字符串
    */
   getSessionKey(): string {
-    return this.session.subarray(0, 8).toString('utf8').replace(/\0/g, '');
+    return SessionKeyFromWire(this.session);
   }
 }

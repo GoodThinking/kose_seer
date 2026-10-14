@@ -1,21 +1,22 @@
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { GetTaskBufRspProto } from '../../../../../shared/proto/packets/rsp/task/GetTaskBufRspProto';
+import { ClientProtocol } from '../../../../../shared/protocol/ClientProtocol';
 
 export class PacketGetTaskBuf extends BaseProto {
-  private _data: Buffer;
+  private readonly _proto: GetTaskBufRspProto;
 
-  constructor(taskId: number, buffers: number[]) {
+  constructor(taskId: number, buffers: number[], rawBuffer?: Buffer, result: number = 0) {
     super(CommandID.GET_TASK_BUF);
+    this.setResult(result);
 
-    const proto = new GetTaskBufRspProto();
-    proto.taskId = taskId;
-    proto.buffers = buffers;
-
-    this._data = proto.serialize();
+    this._proto = new GetTaskBufRspProto();
+    this._proto.taskId = taskId;
+    this._proto.buffers = buffers.slice();
+    this._proto.rawBuffer = rawBuffer && Buffer.from(rawBuffer);
   }
 
-  public serialize(): Buffer {
-    return this._data;
+  public serialize(protocol: ClientProtocol = 'kose'): Buffer {
+    return this._proto.serialize(protocol);
   }
 }

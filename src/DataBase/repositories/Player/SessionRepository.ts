@@ -2,7 +2,8 @@
  * 会话仓库
  */
 import { BaseRepository } from '../BaseRepository';
-import { ISessionInfo, generateSessionKey } from '../../../shared/models';
+import { ISessionInfo } from '../../../shared/models';
+import { NewSessionKey } from '../../../shared/protocol/SessionToken';
 
 /**
  * 数据库会话行类型
@@ -31,7 +32,7 @@ export class SessionRepository extends BaseRepository<ISessionRow> {
     expireSeconds: number = 3600
   ): Promise<ISessionInfo> {
     const now = Math.floor(Date.now() / 1000);
-    const sessionKey = generateSessionKey();
+    const sessionKey = NewSessionKey();
     const expireTime = now + expireSeconds;
 
     await this._db.Execute(
@@ -82,15 +83,15 @@ export class SessionRepository extends BaseRepository<ISessionRow> {
   /**
    * 验证会话
    */
-  public async ValidateSession(sessionKey: string): Promise<ISessionInfo | null> {
+  public async ValidateSession(sessionKey: string, accountId: number): Promise<ISessionInfo | null> {
     const now = Math.floor(Date.now() / 1000);
 
     const rows = await this._db.Query<ISessionRow>(
-      'SELECT * FROM sessions WHERE session_key = ? AND expire_time > ? AND is_online = 1',
-      [sessionKey, now]
+      'SELECT * FROM sessions WHERE session_key = ? AND account_id = ? AND expire_time > ? AND is_online = 1',
+      [sessionKey, accountId, now]
     );
 
-    if (rows.length === 0) return null;
+    if (rows.length !== 1) return null;
     return this.toSessionInfo(rows[0]);
   }
 

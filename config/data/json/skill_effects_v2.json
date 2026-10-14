@@ -22,7 +22,7 @@
             "type": "heal",
             "target": "self",
             "mode": "damage_percent",
-            "value": 50
+            "value": 0.5
           }
         ]
       }
@@ -1353,6 +1353,36 @@
                 "value": 100
               }
             ]
+          }
+        ]
+      }
+    },
+    {
+      "effectId": 43,
+      "name": "最大体力恢复",
+      "argsNum": 1,
+      "category": "heal",
+      "timing": ["AFTER_DAMAGE_APPLY"],
+      "description": "恢复自身最大体力的1/n，取整后不超过缺失体力",
+      "implemented": true,
+      "implementClass": "HealEffect",
+      "args": [
+        {
+          "index": 0,
+          "name": "value",
+          "type": "number",
+          "description": "最大体力恢复分母n（正整数）",
+          "default": 0
+        }
+      ],
+      "atomicComposition": {
+        "type": "composite",
+        "atoms": [
+          {
+            "type": "heal",
+            "target": "self",
+            "mode": "max_hp_divisor",
+            "value": 0
           }
         ]
       }
@@ -3166,7 +3196,9 @@
             "type": "heal",
             "target": "self",
             "mode": "damage_percent",
-            "value": 50
+            "value": 0,
+            "valueArg": "percent",
+            "valueUnit": "percent"
           }
         ]
       }
@@ -3302,7 +3334,9 @@
             "type": "heal",
             "target": "self",
             "mode": "damage_percent",
-            "value": 50
+            "value": 0,
+            "valueArg": "divisor",
+            "valueUnit": "divisor"
           }
         ]
       }
@@ -5393,7 +5427,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 50
+                "value": 0,
+                "valueArg": "divisor",
+                "valueUnit": "divisor"
               }
             ]
           }
@@ -6214,7 +6250,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 50
+                "value": 0,
+                "valueArg": "divisor",
+                "valueUnit": "divisor"
               }
             ]
           }
@@ -6533,7 +6571,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 100
+                "value": 0,
+                "valueArg": "sameTypeDivisor",
+                "valueUnit": "divisor"
               }
             ],
             "else": [
@@ -6541,7 +6581,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 50
+                "value": 0,
+                "valueArg": "normalDivisor",
+                "valueUnit": "divisor"
               }
             ]
           }
@@ -7249,7 +7291,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 100
+                "value": 0,
+                "valueArg": "statusDivisor",
+                "valueUnit": "divisor"
               }
             ],
             "else": [
@@ -7257,7 +7301,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 50
+                "value": 0,
+                "valueArg": "normalDivisor",
+                "valueUnit": "divisor"
               }
             ]
           }
@@ -10063,15 +10109,23 @@
     {
       "effectId": 458,
       "name": "先手吸血",
-      "argsNum": 0,
+      "argsNum": 1,
       "category": "heal",
       "timing": [
         "AFTER_DAMAGE_APPLY"
       ],
-      "description": "若先出手则造成伤害的50%恢复自身体力",
+      "description": "若先出手则造成攻击伤害的X%恢复自身体力",
       "implemented": true,
       "implementClass": "FirstStrikeDrainEffect",
-      "args": [],
+      "args": [
+        {
+          "index": 0,
+          "name": "percent",
+          "type": "number",
+          "description": "吸血百分比",
+          "default": 50
+        }
+      ],
       "atomicComposition": {
         "type": "composite",
         "atoms": [
@@ -10083,7 +10137,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 50
+                "value": 0,
+                "valueArg": "percent",
+                "valueUnit": "percent"
               }
             ]
           }
@@ -11339,7 +11395,9 @@
                 "type": "heal",
                 "target": "self",
                 "mode": "damage_percent",
-                "value": 50
+                "value": 0,
+                "valueArg": "drainPercent",
+                "valueUnit": "percent"
               }
             ]
           }

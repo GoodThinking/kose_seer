@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../../shared/protocol/ClientProtocol';
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { NoteUseSkillRspProto } from '../../../../../shared/proto/packets/rsp/battle/NoteUseSkillRspProto';
@@ -12,7 +13,8 @@ export class PacketNoteUseSkill extends BaseProto {
 
   constructor(
     firstAttack: AttackValueProto,
-    secondAttack: AttackValueProto
+    secondAttack: AttackValueProto,
+    protocol: ClientProtocol = 'kose'
   ) {
     super(CommandID.NOTE_USE_SKILL);
     
@@ -20,7 +22,7 @@ export class PacketNoteUseSkill extends BaseProto {
     proto.setFirstAttack(firstAttack);
     proto.setSecondAttack(secondAttack);
     
-    this._data = proto.serialize();
+    this._data = proto.serialize(protocol);
   }
 
   public serialize(): Buffer {

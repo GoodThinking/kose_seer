@@ -79,6 +79,7 @@ export class MapManager extends BaseManager {
    * 澶勭悊杩涘叆鍦板浘
    */
   public async HandleEnterMap(req: EnterMapReqProto): Promise<void> {
+    this.Player.BattleManager.InvalidatePendingCapture();
     let mapId = req.mapId || 1;
     const mapType = req.mapType;
     const x = req.x || 500;
@@ -117,7 +118,7 @@ export class MapManager extends BaseManager {
     const userInfo = this.buildUserInfo(this.UserID, this.Player.Data, x, y, this.Player);
     const currentWornClothIds = this.BuildWornClothes(this.Player.Data).map(c => c.id);
 
-    await this.Player.SendPacket(new PacketEnterMap(userInfo));
+    await this.Player.SendPacket(new PacketEnterMap(userInfo, 0, this.Player.ClientProtocol));
     Logger.Info('[MapManager] enter map response sent');
 
     if (currentWornClothIds.length > 0) {
@@ -141,7 +142,7 @@ export class MapManager extends BaseManager {
       // TODO: special pet note integration.
     }
 
-    const enterPacket = new PacketEnterMap(userInfo);
+    const enterPacket = new PacketEnterMap(userInfo, 0, this.Player.ClientProtocol);
     const sent = await this._mapVisibility.BroadcastToMap(mapId, enterPacket, {
       excludeUserId: this.UserID
     });
@@ -169,6 +170,7 @@ export class MapManager extends BaseManager {
     Logger.Info('[MapManager] ===== enter map done =====');
   }
   public async HandleLeaveMap(): Promise<void> {
+    this.Player.BattleManager.InvalidatePendingCapture();
     const mapId = this._onlineTracker.GetPlayerMap(this.UserID);
     Logger.Info(`[MapManager] 鐜╁ ${this.UserID} 绂诲紑鍦板浘 ${mapId}`);
 
@@ -208,6 +210,10 @@ export class MapManager extends BaseManager {
   public async HandleListMapPlayer(): Promise<void> {
     const mapId = this._onlineTracker.GetPlayerMap(this.UserID);
     await this.sendMapPlayerList(mapId);
+    // The old client rebuilds the map after battle, then requests this list.
+    // Its earlier battle-end ogre push was discarded while the map was destroyed.
+    if (mapId <= 0 || this._onlineTracker.GetPlayerMap(this.UserID) !== mapId || this.Player.Data.mapID !== mapId) return;
+    await this.Player.SendPacket(new PacketMapOgreList(this.Player.MapSpawnManager.GetMapOgres(mapId)));
   }
 
   /**
@@ -373,6 +379,7 @@ export class MapManager extends BaseManager {
     userInfo.spiritID = defaultPet?.petId || 0;
     userInfo.petDV = defaultPet?.dvHp || 31;
     userInfo.petSkin = defaultPet?.skinId || 0;
+    userInfo.petShiny = defaultPet?.shiny ?? 0;
     userInfo.fightFlag = playerData.fightFlag || 0;
 
     // 甯堝緬淇℃伅

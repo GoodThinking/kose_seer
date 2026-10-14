@@ -14,7 +14,7 @@ export class CatchMonsterHandler implements IHandler {
     if (!player) return;
 
     const req = CatchMonsterReqProto.fromBuffer(body);
-    const capsuleID = req.itemId > 0 ? req.itemId : 300001;
+    const capsuleID = body.length === 4 ? req.itemId : 0;
 
     await player.BattleManager.HandleCatchMonster(capsuleID);
   }

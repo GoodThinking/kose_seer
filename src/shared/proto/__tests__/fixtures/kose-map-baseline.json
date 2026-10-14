@@ -1,0 +1,49 @@
+{
+  "user": {
+    "sysTime": 13,
+    "userID": 1001,
+    "nick": "地图测试",
+    "color": 16,
+    "texture": 17,
+    "vipFlags": 18,
+    "vipStage": 19,
+    "actionType": 20,
+    "x": 21,
+    "y": 22,
+    "action": 23,
+    "direction": 24,
+    "changeShape": 25,
+    "spiritTime": 26,
+    "spiritID": 27,
+    "petDV": 28,
+    "petSkin": 29,
+    "fightFlag": 30,
+    "teacherID": 31,
+    "studentID": 32,
+    "nonoState": 33,
+    "nonoColor": 34,
+    "superNono": 35,
+    "playerForm": 36,
+    "transTime": 37,
+    "teamId": 38,
+    "teamCoreCount": 39,
+    "teamIsShow": 40,
+    "teamLogoBg": 41,
+    "teamLogoIcon": 42,
+    "teamLogoColor": 43,
+    "teamTxtColor": 44,
+    "teamLogoWord": "ABCD",
+    "clothes": [
+      {
+        "id": 10002,
+        "level": 3
+      },
+      {
+        "id": 10003,
+        "level": 4
+      }
+    ],
+    "curTitle": 47
+  },
+  "hex": "0000000d000003e9e59cb0e59bbee6b58be8af9500000000000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c4142434400000002000027120000000300002713000000040000002f"
+}

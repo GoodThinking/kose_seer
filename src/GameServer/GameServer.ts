@@ -12,7 +12,7 @@ import { PlayerManager } from './Game/Player/PlayerManager';
 // Note: ItemManager, MapManager, PetManager are now created per-player in PlayerInstance
 import { IHandler, SessionType } from './Server/Packet/IHandler';
 import { DatabaseManager } from '../DataBase';
-import { DatabaseHelper } from '../DataBase/DatabaseHelper';
+import { DataSaver } from '../DataBase/savers/DataSaver';
 
 // 导入所有Handler以触发装饰器注册
 import './Server/Packet/Recv';
@@ -30,6 +30,10 @@ export class GameServer {
   // Note: ItemManager, MapManager, PetManager are now created per-player in PlayerInstance
   private _handlers: Map<number, IHandler>;
   private _running: boolean = false;
+  private _stopping = false;
+  private _stopPromise: Promise<void> | null = null;
+  private _requests = new Set<Promise<void>>();
+  private _logouts = new Set<Promise<void>>();
 
   constructor() {
     this._server = createServer();
@@ -92,6 +96,7 @@ export class GameServer {
    */
   private SetupConnectionHandler(): void {
     this._server.on('connection', (socket) => {
+      if (this._stopping) { socket.destroy(); return; }
       const session = this._sessionManager.CreateSession(socket);
 
       socket.on('data', (data) => {
@@ -102,24 +107,37 @@ export class GameServer {
         Logger.Error(`Socket错误: ${session.Address}`, err);
       });
 
-      socket.on('close', async () => {
-        // 只有主连接断开时才登出玩家
-        // 房间连接断开不应该触发登出
-        if (session.UserID > 0 && session.Type === SessionType.MAIN) {
-          Logger.Info(`[GameServer] 玩家断开连接: UserID=${session.UserID}, Address=${session.Address}`);
-          await PlayerManager.GetInstance().RemovePlayer(session.UserID);
-        } else if (session.UserID > 0 && session.Type === SessionType.ROOM) {
-          Logger.Info(`[GameServer] 房间连接断开: UserID=${session.UserID}, Address=${session.Address}`);
-        }
-        this._sessionManager.RemoveSession(session.Address);
+      socket.on('close', () => {
+        const logout = this.HandleSocketClose(session);
+        this._logouts.add(logout);
+        void logout.then(() => this._logouts.delete(logout), err => {
+          this._logouts.delete(logout);
+          Logger.Error(`[GameServer] 玩家断线保存失败: ${session.UserID}`, err as Error);
+        });
       });
     });
+  }
+
+  private async HandleSocketClose(session: IInternalSession): Promise<void> {
+    try {
+      // 只有主连接断开时才登出玩家
+      // 房间连接断开不应该触发登出
+      if (session.UserID > 0 && session.Type === SessionType.MAIN) {
+        Logger.Info(`[GameServer] 玩家断开连接: UserID=${session.UserID}, Address=${session.Address}`);
+        if (session.Player) await PlayerManager.GetInstance().RemovePlayer(session.UserID, session.Player);
+      } else if (session.UserID > 0 && session.Type === SessionType.ROOM) {
+        Logger.Info(`[GameServer] 房间连接断开: UserID=${session.UserID}, Address=${session.Address}`);
+      }
+    } finally {
+      this._sessionManager.RemoveSession(session.Address);
+    }
   }
 
   /**
    * 处理接收到的数据
    */
   private HandleData(session: IInternalSession, data: Buffer): void {
+    if (this._stopping) return;
     // 检查是否是 Flash Socket Policy 请求
     if (!session.PolicyHandled) {
       if (PolicyHandler.Handle(session.Socket, data, session.Address)) {
@@ -133,7 +151,9 @@ export class GameServer {
 
     let packet;
     while ((packet = session.Parser.TryParse()) !== null) {
-      this.ProcessPacket(session, packet.head, packet.body);
+      const request = this.ProcessPacket(session, packet.head, packet.body);
+      this._requests.add(request);
+      void request.then(() => this._requests.delete(request), () => this._requests.delete(request));
     }
   }
 
@@ -158,6 +178,10 @@ export class GameServer {
    */
   public async Start(): Promise<void> {
     if (this._running) return;
+    if (this._stopPromise) await this._stopPromise;
+    this._stopPromise = null;
+    this._stopping = false;
+    DataSaver.Instance.Resume();
     // 1. 注册游戏配置
     // 启动全部服务，Index会先注册配置，所以跳过再次注册
     if (!ConfigRegistry.Instance.GetIsInit()) {
@@ -215,7 +239,15 @@ export class GameServer {
    * 停止服务器
    */
   public async Stop(): Promise<void> {
+    if (this._stopPromise) return this._stopPromise;
     if (!this._running) return;
+    this._stopping = true;
+    this._running = false;
+    this._stopPromise = this.StopOnce();
+    return this._stopPromise;
+  }
+
+  private async StopOnce(): Promise<void> {
 
     Logger.Info('[GameServer] 正在停止服务器...');
 
@@ -226,30 +258,31 @@ export class GameServer {
     // 2. 清理 RegisterManager 定时器
     this._registerManager.Cleanup();
 
-    // 3. 立即保存所有数据
-    Logger.Info('[GameServer] 保存所有玩家数据...');
-    await DatabaseHelper.Instance.SaveAll();
+    // Stop listening now; accepted requests finish before their players log out.
+    const networkClosed = new Promise<void>((resolve, reject) => {
+      if (!this._server.listening) { resolve(); return; }
+      this._server.close(err => err ? reject(err) : resolve());
+    });
+    DataSaver.Instance.BeginShutdown();
+    await this.Drain(this._requests);
+    const removals = PlayerManager.GetInstance().GetAllPlayers().map(player =>
+      PlayerManager.GetInstance().RemovePlayer(player.Uid));
+    for (const session of this._sessionManager.GetAllSessions()) session.Socket.destroy();
+    const settled = await Promise.allSettled(removals);
+    await networkClosed;
+    await this.Drain(this._logouts);
+    const failed = settled.find((result): result is PromiseRejectedResult => result.status === 'rejected');
+    if (failed) throw failed.reason;
 
-    // 4. 关闭数据库连接
+    Logger.Info('[GameServer] 严格保存最终玩家数据...');
+    await DataSaver.Instance.FlushForShutdown();
     await DatabaseManager.Instance.Shutdown();
-
-    // // 5. 关闭网络服务（使用Promise等待）
-    // await new Promise<void>((resolve) => {
-    //   this._server.close(() => {
-    //     this._running = false;
-    //     Logger.Info('[GameServer] 网络服务已关闭');
-    //     resolve();
-    //   });
-      
-    //   // 设置超时，防止卡住
-    //   setTimeout(() => {
-    //     Logger.Warn('[GameServer] 关闭网络服务超时，强制继续');
-    //     this._running = false;
-    //     resolve();
-    //   }, 5000);
-    // });
     
     Logger.Info('[GameServer] 已停止');
+  }
+
+  private async Drain(operations: Set<Promise<void>>): Promise<void> {
+    while (operations.size) await Promise.all(Array.from(operations));
   }
 
   /**

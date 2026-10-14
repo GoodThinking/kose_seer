@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../../shared/protocol/ClientProtocol';
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { NoteReadyToFightRspProto } from '../../../../../shared/proto/packets/rsp/battle/NoteReadyToFightRspProto';
@@ -16,7 +17,8 @@ export class PacketNoteReadyToFight extends BaseProto {
     playerPets: SimplePetInfoProto[],
     enemyUserId: number,
     enemyNick: string,
-    enemyPets: SimplePetInfoProto[]
+    enemyPets: SimplePetInfoProto[],
+    protocol: ClientProtocol = 'kose'
   ) {
     super(CommandID.NOTE_READY_TO_FIGHT);
     
@@ -24,7 +26,7 @@ export class PacketNoteReadyToFight extends BaseProto {
     proto.setPlayerInfo(playerUserId, playerNick, playerPets);
     proto.setEnemyInfo(enemyUserId, enemyNick, enemyPets);
     
-    this._data = proto.serialize();
+    this._data = proto.serialize(protocol);
   }
 
   public serialize(): Buffer {

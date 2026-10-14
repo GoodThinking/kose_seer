@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../../shared/protocol/ClientProtocol';
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { GetPetListRspProto } from '../../../../../shared/proto/packets/rsp/pet/GetPetListRspProto';
@@ -10,11 +11,11 @@ import { PetInfoProto } from '../../../../../shared/proto/common/PetInfoProto';
 export class PacketGetPetList extends BaseProto {
   private _data: Buffer;
 
-  constructor(pets: PetInfoProto[]) {
+  constructor(pets: PetInfoProto[], protocol: ClientProtocol = 'kose') {
     super(CommandID.GET_PET_LIST);
     const proto = new GetPetListRspProto();
     proto.pets = pets;
-    this._data = proto.serialize();
+    this._data = proto.serialize(protocol);
   }
 
   public serialize(): Buffer {

@@ -1,3 +1,5 @@
+import { Config } from '../../../shared/config/ServerConfig';
+import { ClientProtocol } from '../../../shared/protocol/ClientProtocol';
 import { IClientSession } from '../../Server/Packet/IHandler';
 import { PacketBuilder } from '../../../shared/protocol/PacketBuilder';
 import { Logger } from '../../../shared/utils';
@@ -111,8 +113,13 @@ export class PlayerInstance {
   }
 
   /**
-   * 获取 Session
+   * 当前实例配置的客户端报文格式（不改变包头版本）
    */
+  public get ClientProtocol(): ClientProtocol {
+    return Config.Game.clientProtocol ?? 'kose';
+  }
+
+  /** 获取 Session */
   public get Session(): IClientSession {
     return this._session;
   }
@@ -125,7 +132,7 @@ export class PlayerInstance {
     try {
       const cmdId = proto.getCmdId();
       const result = proto.getResult();
-      const bodyData = proto.serialize();
+      const bodyData = proto.serialize(this.ClientProtocol);
 
       const packet = this._packetBuilder.Build(
         cmdId,
@@ -182,6 +189,8 @@ export class PlayerInstance {
 
     // 清理 Session 中的 Player 引用
     this._session.Player = undefined;
+    // A replaced connection may close later; it no longer owns this UID.
+    this._session.UserID = 0;
 
     // 销毁事件总线
     this.EventBus.Destroy();
@@ -251,12 +260,17 @@ export class PlayerInstance {
    * 添加货币
    */
   public async AddCurrency(energy?: number, coins?: number): Promise<boolean> {
-    const success = await this._playerRepo.AddCurrency(this.Uid, energy, coins);
-    if (success) {
-      if (energy !== undefined) this.Data.energy += energy;
-      if (coins !== undefined) this.Data.coins += coins;
-    }
-    return success;
+    await this.Data.WaitForExpAllocation();
+    const release = this.Data.BeginCurrencyOperation();
+    if (!release) return false;
+    try {
+      const success = await this._playerRepo.AddCurrency(this.Uid, energy, coins);
+      if (success) {
+        if (energy !== undefined) this.Data.energy += energy;
+        if (coins !== undefined) this.Data.coins += coins;
+      }
+      return success;
+    } finally { release(); }
   }
 
   /**

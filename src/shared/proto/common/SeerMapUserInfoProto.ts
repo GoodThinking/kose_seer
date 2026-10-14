@@ -1,5 +1,6 @@
 import { BaseProto } from '../base/BaseProto';
 import { BufferWriter } from '../../utils';
+import { ClientProtocol } from '../../protocol/ClientProtocol';
 
 /**
  * 赛尔号地图用户信息
@@ -30,6 +31,7 @@ export class SeerMapUserInfoProto extends BaseProto {
   spiritTime: number = 0;       // 精灵捕获时间 (catchTime)
   spiritID: number = 0;         // 精灵ID
   petDV: number = 31;           // 精灵DV值
+  petShiny: number = 0;         // XIN 异色，来自持久化宠物 shiny
   petSkin: number = 0;          // 精灵皮肤
   fightFlag: number = 0;        // 战斗标志
   
@@ -64,11 +66,13 @@ export class SeerMapUserInfoProto extends BaseProto {
     super(0);  // 通用Proto不需要cmdId
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
+    const xin = protocol === 'xin-20261013';
     const writer = new BufferWriter(1024);
     
     // 1. 基本信息
-    writer.WriteUInt32(this.sysTime);
+    // XIN 的 MapController/UserListCmdListener 直接从 userID 开始读取。
+    if (!xin) writer.WriteUInt32(this.sysTime);
     writer.WriteUInt32(this.userID);
     writer.WriteBytes(this.buildString(this.nick, 16));
     writer.WriteUInt32(this.color);
@@ -90,7 +94,15 @@ export class SeerMapUserInfoProto extends BaseProto {
     writer.WriteUInt32(this.spiritTime);
     writer.WriteUInt32(this.spiritID);
     writer.WriteUInt32(this.petDV);
+    if (xin) writer.WriteUInt32(this.petShiny);
     writer.WriteUInt32(this.petSkin);
+    if (xin) {
+      // 尚未建立 KOSE 到 XIN 的成就、坐骑、装饰、特殊属性映射。
+      writer.WriteUInt32(0); // achievementsId
+      writer.WriteUInt32(0); // petRide
+      writer.WriteUInt32(0); // petOrnament
+      writer.WriteUInt32(0); // petAbilityType
+    }
     writer.WriteUInt32(this.fightFlag);
     
     // 5. 师徒信息
@@ -109,10 +121,20 @@ export class SeerMapUserInfoProto extends BaseProto {
     writer.WriteUInt32(this.teamId);
     writer.WriteUInt32(this.teamCoreCount);
     writer.WriteUInt32(this.teamIsShow);
-    writer.WriteUInt32(this.teamLogoBg);
-    writer.WriteUInt32(this.teamLogoIcon);
-    writer.WriteUInt32(this.teamLogoColor);
-    writer.WriteUInt32(this.teamTxtColor);
+    if (xin) {
+      // UserInfo.setForPeoleInfo 使用四个大端 readShort。
+      const logo = Buffer.alloc(8);
+      logo.writeInt16BE(this.teamLogoBg, 0);
+      logo.writeInt16BE(this.teamLogoIcon, 2);
+      logo.writeInt16BE(this.teamLogoColor, 4);
+      logo.writeInt16BE(this.teamTxtColor, 6);
+      writer.WriteBytes(logo);
+    } else {
+      writer.WriteUInt32(this.teamLogoBg);
+      writer.WriteUInt32(this.teamLogoIcon);
+      writer.WriteUInt32(this.teamLogoColor);
+      writer.WriteUInt32(this.teamTxtColor);
+    }
     writer.WriteBytes(this.buildString(this.teamLogoWord, 4));
     
     // 8. 服装列表
@@ -122,8 +144,13 @@ export class SeerMapUserInfoProto extends BaseProto {
       writer.WriteUInt32(cloth.level);
     }
     
-    // 9. 称号
-    writer.WriteUInt32(this.curTitle);
+    // 9. XIN 的列表探测器优先读取完整尾部；每条记录都写两个字段。
+    if (xin) {
+      writer.WriteUInt32(0); // goldenName
+      writer.WriteUInt32(0); // nonoChangeToPet
+    } else {
+      writer.WriteUInt32(this.curTitle);
+    }
     
     return writer.ToBuffer();
   }

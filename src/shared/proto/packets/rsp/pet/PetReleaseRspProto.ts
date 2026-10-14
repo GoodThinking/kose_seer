@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
 import { CommandID } from '../../../../protocol/CommandID';
@@ -17,7 +18,7 @@ export class PetReleaseRspProto extends BaseProto {
     super(CommandID.PET_RELEASE);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(1024);
     
     writer.WriteUInt32(this.homeEnergy);
@@ -26,7 +27,7 @@ export class PetReleaseRspProto extends BaseProto {
     
     // 如果flag != 0，写入精灵信息
     if (this.flag !== 0 && this.petInfo) {
-      const petData = this.petInfo.serialize();
+      const petData = this.petInfo.serialize(protocol);
       writer.WriteBytes(petData);
     }
     

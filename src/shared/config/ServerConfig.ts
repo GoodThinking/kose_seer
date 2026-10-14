@@ -1,3 +1,4 @@
+import { ClientProtocol, ResolveClientProtocol } from '../protocol/ClientProtocol';
 import { Logger } from '../utils';
 import { ConfigLoader } from './ConfigLoader';
 import { ConfigKeys, ConfigPaths } from './ConfigDefinitions';
@@ -11,9 +12,13 @@ export interface IServerConfig {
       enabled: boolean;
       port: number;
       host: string;
+      clientProtocol?: ClientProtocol;
+      defaultSuperNono?: boolean;
+      cumulativePetExperience?: boolean; // 固定旧Nieo客户端需要累计经验输出；默认关闭
     };
     regist: {
       enabled: boolean;
+      mode?: 'email' | 'invite';
     };
     email: {
       enabled: boolean;
@@ -103,6 +108,20 @@ export class ServerConfig {
       return this.GetDefaultConfig();
     }
     
+    config.services.game.clientProtocol = ResolveClientProtocol(config.services.game.clientProtocol);
+    if (config.services.regist.mode !== undefined &&
+        config.services.regist.mode !== 'email' && config.services.regist.mode !== 'invite') {
+      throw new Error('Invalid registration mode');
+    }
+    if (config.services.game.defaultSuperNono !== undefined &&
+        typeof config.services.game.defaultSuperNono !== 'boolean') {
+      throw new Error('Invalid defaultSuperNono setting');
+    }
+    if (config.services.game.cumulativePetExperience !== undefined &&
+        typeof config.services.game.cumulativePetExperience !== 'boolean') {
+      throw new Error('Invalid cumulativePetExperience setting');
+    }
+    config.services.game.cumulativePetExperience ??= false;
     return config;
   }
 
@@ -115,10 +134,12 @@ export class ServerConfig {
         game: {
           enabled: true,
           port: 9999,
-          host: '0.0.0.0'
+          host: '0.0.0.0',
+          cumulativePetExperience: false
         },
         regist: {
-          enabled: true
+          enabled: true,
+          mode: 'email'
         },
         email: {
           enabled: true

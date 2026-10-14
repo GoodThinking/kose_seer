@@ -151,7 +151,7 @@ export interface IStatusInflictorParams extends IAtomicEffectParams {
 export interface IHealParams extends IAtomicEffectParams {
   type: AtomicEffectType.HEAL;
   target: 'self' | 'opponent';
-  mode: 'percent' | 'fixed' | 'damage_percent';
+  mode: 'percent' | 'fixed' | 'damage_percent' | 'max_hp_divisor';
   value: number;
 }
 

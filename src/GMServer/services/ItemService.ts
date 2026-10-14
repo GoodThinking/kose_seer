@@ -33,6 +33,7 @@ export class ItemService {
     if (!itemData) {
       throw new Error('玩家物品数据不存在');
     }
+    if (itemData.HasPendingReward()) throw new Error('Inventory reward pending');
 
     const item = itemData.ItemList.find(i => i.itemId === itemId);
     if (!item) {

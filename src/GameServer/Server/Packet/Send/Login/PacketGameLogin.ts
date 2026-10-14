@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../../../../shared/protocol/ClientProtocol';
 import { PacketBuilder } from '../../../../../shared/protocol/PacketBuilder';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { IPlayerInfo, PlayerInfoToLoginProto } from '../../../../../shared/models';
@@ -20,7 +21,7 @@ export class PacketGameLogin {
    * @param player 玩家数据 (成功时需要)
    * @param sessionKey 会话标识
    */
-  public Build(userID: number, result: number = 0, player?: IPlayerInfo, sessionKey?: string): Buffer {
+  public Build(userID: number, result: number = 0, player?: IPlayerInfo, sessionKey?: string, protocol: ClientProtocol = 'kose'): Buffer {
     // 失败时返回空 body
     if (result !== 0 || !player) {
       return this._packetBuilder.Build(
@@ -36,7 +37,7 @@ export class PacketGameLogin {
       CommandID.LOGIN_IN,
       userID,
       result,
-      proto.serialize()
+      proto.serialize(protocol)
     );
   }
 

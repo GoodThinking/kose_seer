@@ -1,6 +1,7 @@
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { GoldBuyProductRspProto } from '../../../../../shared/proto/packets/rsp/user/GoldBuyProductRspProto';
+import { GoldToWire } from '../../../../../shared/protocol/GoldCurrency';
 
 /**
  * 使用金豆购买商品响应包
@@ -14,8 +15,8 @@ export class PacketGoldBuyProduct extends BaseProto {
     
     const proto = new GoldBuyProductRspProto();
     proto.setUnknown(0);
-    proto.setPayGold(payGold * 100);  // 转换为 * 100
-    proto.setGold(remainingGold * 100);  // 转换为 * 100
+    proto.setPayGold(GoldToWire(payGold));
+    proto.setGold(GoldToWire(remainingGold));
     
     this._data = proto.serialize();
   }

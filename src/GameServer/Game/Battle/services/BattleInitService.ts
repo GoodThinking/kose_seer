@@ -1,3 +1,4 @@
+import { ElementType } from '../ElementSystem';
 import { Logger } from '../../../../shared/utils';
 import { PlayerInstance } from '../../Player/PlayerInstance';
 import { IBattleInfo, IBattlePet, BattleStatus, BattleType } from '../../../../shared/models/BattleModel';
@@ -450,7 +451,7 @@ export class BattleInitService {
   }
 
   /**
-   * 创建新手战斗（mapId=1）
+   * 创建新手战斗（mapId=515）
    * 根据玩家精灵属性生成克制对手：草系→火系→水系→草系
    */
   private async CreateFreshBattle(userId: number): Promise<IBattleInfo | null> {
@@ -460,16 +461,16 @@ export class BattleInitService {
       if (!playerData) return null;
 
       // 2. 根据玩家精灵属性生成克制对手
-      // 草系(1)→火系(2)→水系(3)→草系(1)
+      // 属性枚举来自 elements.json：草=1、水=2、火=3。
       let enemyPetId: number;
       switch (playerData.type) {
-        case 1: // 草系 -> 火系
+        case ElementType.GRASS: // 草系 -> 火系
           enemyPetId = 7;   // 小火猴
           break;
-        case 2: // 火系 -> 水系
+        case ElementType.FIRE: // 火系 -> 水系
           enemyPetId = 4;   // 伊优
           break;
-        case 3: // 水系 -> 草系
+        case ElementType.WATER: // 水系 -> 草系
           enemyPetId = 1;   // 布布种子
           break;
         default:

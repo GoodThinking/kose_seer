@@ -5,6 +5,8 @@ import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { GetRoomAddressReqProto } from '../../../../../shared/proto/packets/req/room/GetRoomAddressReqProto';
 import { GetRoomAddressRspProto } from '../../../../../shared/proto/packets/rsp/room/GetRoomAddressRspProto';
 import { Logger } from '../../../../../shared/utils/Logger';
+import { PacketBuilder } from '../../../../../shared/protocol/PacketBuilder';
+import { RoomTicketBinding } from './RoomTicketBinding';
 
 /**
  * 获取房间地址处理器
@@ -36,12 +38,7 @@ export class GetRoomAddressHandler implements IHandler {
       // TODO: 实现独立的房间服务器
       // 当前返回主服务器信息，客户端会检测到是同一个服务器（isIlk=true）
       
-      // 构建session（24字节，包含用户认证信息）
-      const sessionBuffer = Buffer.alloc(24);
-      sessionBuffer.writeUInt32BE(player.Uid, 0);
-      sessionBuffer.writeUInt32BE(targetUserId, 4);
-      sessionBuffer.writeBigUInt64BE(BigInt(Date.now()), 8);
-      // 剩余8字节保留
+      const sessionBuffer = await RoomTicketBinding.Instance.Issue(session, targetUserId);
 
       // 获取当前服务器IP和端口
       // TODO: 从配置读取
@@ -62,13 +59,7 @@ export class GetRoomAddressHandler implements IHandler {
     } catch (error) {
       Logger.Error(`[GetRoomAddressHandler] 处理失败: uid=${player.Uid}`, error as Error);
       
-      // 发生错误时返回默认地址
-      const sessionBuffer = Buffer.alloc(24);
-      sessionBuffer.writeUInt32BE(player.Uid, 0);
-      
-      const rsp = new GetRoomAddressRspProto();
-      rsp.setAddress(sessionBuffer, 0x7F000001, 9999);
-      await player.SendPacket(rsp);
+      session.Socket.write(new PacketBuilder().Build(CommandID.GET_ROOM_ADDRES, session.UserID, 5001));
     }
   }
 }

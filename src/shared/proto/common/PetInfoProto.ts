@@ -1,3 +1,4 @@
+import { ClientProtocol } from '../../protocol/ClientProtocol';
 import { BaseProto } from '../base/BaseProto';
 import { BufferWriter } from '../../utils';
 
@@ -18,6 +19,7 @@ export interface IPetEffect {
   status: number;      // 状态 (UInt8) 2=已激活
   leftCount: number;   // 剩余次数 (UInt8)
   effectID: number;    // 特性ID (UInt16)
+  args?: number[];     // XIN: eight little-endian UInt16 effect arguments
   arg1: number;        // 参数1 (UInt8)
   arg2: number;        // 参数2 (UInt8)
 }
@@ -61,11 +63,23 @@ export class PetInfoProto extends BaseProto {
   effects: IPetEffect[] = [];        // 效果列表
   skinID: number = 0;                // 皮肤ID
 
+  // XIN extensions without a KOSE gameplay source remain unset.
+  abilityType: number = 0;
+  addMaxHP: number = 0;
+  addMoreMaxHP: number = 0;
+  addAttack: number = 0;
+  addDefence: number = 0;
+  addSA: number = 0;
+  addSD: number = 0;
+  addSpeed: number = 0;
+  peteffect: number = 0;
+  shiny: number = 0;
+
   constructor() {
     super(0);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(256);
     
     // 1. 基础信息
@@ -73,6 +87,7 @@ export class PetInfoProto extends BaseProto {
     writer.WriteBytes(this.buildString(this.name, 16));
     writer.WriteUInt32(this.dv);
     writer.WriteUInt32(this.nature);
+    if (protocol === 'xin-20261013') writer.WriteUInt32(this.abilityType);
     writer.WriteUInt32(this.level);
     writer.WriteUInt32(this.exp);
     writer.WriteUInt32(this.lvExp);
@@ -87,6 +102,11 @@ export class PetInfoProto extends BaseProto {
     writer.WriteUInt32(this.s_d);
     writer.WriteUInt32(this.speed);
     
+    if (protocol === 'xin-20261013') {
+      for (const value of [this.addMaxHP, this.addMoreMaxHP, this.addAttack,
+        this.addDefence, this.addSA, this.addSD, this.addSpeed]) writer.WriteUInt32(value);
+    }
+
     // 3. 努力值
     writer.WriteUInt32(this.ev_hp);
     writer.WriteUInt32(this.ev_attack);
@@ -118,6 +138,13 @@ export class PetInfoProto extends BaseProto {
       writer.WriteUInt8(effect.status);          // 1 byte
       writer.WriteUInt8(effect.leftCount);       // 1 byte
       writer.WriteUInt16(effect.effectID);       // 2 bytes
+      if (protocol === 'xin-20261013') {
+        const args = effect.args ?? [effect.arg1, effect.arg2];
+        const data = Buffer.alloc(16);
+        for (let i = 0; i < 8; i++) data.writeUInt16LE(args[i] ?? 0, i * 2);
+        writer.WriteBytes(data);
+        continue;
+      }
       writer.WriteUInt8(effect.arg1);            // 1 byte
       writer.WriteUInt8(0);                      // 1 byte (unused)
       writer.WriteUInt8(effect.arg2);            // 1 byte
@@ -127,9 +154,16 @@ export class PetInfoProto extends BaseProto {
       }
     }
 
+    if (protocol === 'xin-20261013') writer.WriteUInt32(this.peteffect);
+
     // 7. 皮肤
     writer.WriteUInt32(this.skinID);
     
+    if (protocol === 'xin-20261013') {
+      writer.WriteUInt32(this.shiny);
+      // freeForbidden, boss, ornament, skillProton, skillProtonCount, four marks
+      writer.WriteBytes(Buffer.alloc(9 * 4));
+    }
     return writer.ToBuffer();
   }
 }

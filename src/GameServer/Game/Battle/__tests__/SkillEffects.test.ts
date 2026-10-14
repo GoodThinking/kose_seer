@@ -3,6 +3,7 @@
  * 测试各种技能效果的实际计算结果
  */
 
+import { EffectApplicator } from '../EffectApplicator';
 import { AtomicEffectFactory } from '../effects/atomic/core/AtomicEffectFactory';
 import { AtomicEffectType, ConditionType } from '../effects/atomic/core/IAtomicEffect';
 import { IEffectContext, EffectTiming } from '../effects/core/EffectContext';
@@ -258,14 +259,16 @@ describe('SkillEffects - 技能效果实际测试', () => {
         type: AtomicEffectType.HEAL,
         target: 'self',
         mode: 'percent',
-        value: 50
+        value: 0.5
       });
 
       const context = createMockContext();
       context.attacker.hp = 50;
       context.attacker.maxHp = 100;
       
-      effect!.execute(context);
+      const results = effect!.execute(context);
+      expect(context.attacker.hp).toBe(50);
+      EffectApplicator.Apply(results, context.attacker, context.defender);
 
       // 50HP + 50% = 100HP
       expect(context.attacker.hp).toBe(100);
@@ -283,7 +286,9 @@ describe('SkillEffects - 技能效果实际测试', () => {
       context.attacker.hp = 50;
       context.attacker.maxHp = 100;
       
-      effect!.execute(context);
+      const results = effect!.execute(context);
+      expect(context.attacker.hp).toBe(50);
+      EffectApplicator.Apply(results, context.attacker, context.defender);
 
       // 50HP + 30HP = 80HP
       expect(context.attacker.hp).toBe(80);
@@ -301,7 +306,9 @@ describe('SkillEffects - 技能效果实际测试', () => {
       context.attacker.hp = 90;
       context.attacker.maxHp = 100;
       
-      effect!.execute(context);
+      const results = effect!.execute(context);
+      expect(context.attacker.hp).toBe(90);
+      EffectApplicator.Apply(results, context.attacker, context.defender);
 
       // 应该被限制在100HP
       expect(context.attacker.hp).toBe(100);
@@ -583,7 +590,9 @@ describe('SkillEffects - 技能效果实际测试', () => {
       context.attacker.maxHp = 100;
       
       expect(() => {
-        effect!.execute(context);
+        const results = effect!.execute(context);
+      expect(context.attacker.hp).toBe(0);
+      EffectApplicator.Apply(results, context.attacker, context.defender);
       }).not.toThrow();
       
       // 从0回复到50

@@ -12,6 +12,8 @@ import { OnlineTracker } from './OnlineTracker';
 export class PlayerManager {
   private static _instance: PlayerManager;
   private _players: Map<number, PlayerInstance> = new Map();
+  private _removals: Map<number, Promise<void>> = new Map();
+  private _creations: Map<number, Promise<void>> = new Map();
   private _packetBuilder: PacketBuilder;
   private _serverManager?: ServerManager;
 
@@ -43,21 +45,45 @@ export class PlayerManager {
    * 创建玩家实例
    */
   public async CreatePlayer(session: IClientSession, userID: number, nickname: string): Promise<PlayerInstance> {
+    const previous = this._creations.get(userID) ?? Promise.resolve();
+    let release!: () => void;
+    const pending = new Promise<void>(resolve => { release = resolve; });
+    this._creations.set(userID, pending);
+    await previous;
+    try {
+      return await this.CreatePlayerOnce(session, userID, nickname);
+    } catch (error) {
+      if (!session.Player) session.UserID = 0;
+      throw error;
+    } finally {
+      release();
+      if (this._creations.get(userID) === pending) this._creations.delete(userID);
+    }
+  }
+
+  private async CreatePlayerOnce(session: IClientSession, userID: number, nickname: string): Promise<PlayerInstance> {
+    if (session.Socket.destroyed) throw new Error('登录连接已关闭');
     // 如果玩家已存在，先移除旧的
     if (this._players.has(userID)) {
       Logger.Warn(`[PlayerManager] 玩家已存在，移除旧实例: ${userID}`);
       await this.RemovePlayer(userID);
     }
+    if (session.Socket.destroyed) throw new Error('登录连接已关闭');
 
     // 创建新的玩家实例（不再需要传 nickname）
     const player = new PlayerInstance(session, userID, this._packetBuilder);
     await player.Initialize();
+    if (session.Socket.destroyed) {
+      await player.OnLogout();
+      throw new Error('登录连接已关闭');
+    }
 
     // 添加到管理器
     this._players.set(userID, player);
     
     // 设置到Session
     session.Player = player;
+    session.UserID = userID;
 
     // 注册到在线追踪系统
     OnlineTracker.Instance.PlayerLogin(userID, session);
@@ -81,7 +107,16 @@ export class PlayerManager {
   /**
    * 移除玩家实例
    */
-  public async RemovePlayer(userID: number): Promise<void> {
+  public async RemovePlayer(userID: number, expectedPlayer?: PlayerInstance): Promise<void> {
+    if (expectedPlayer && this._players.get(userID) !== expectedPlayer) return;
+    const pending = this._removals.get(userID);
+    if (pending) return pending;
+    const removal = this.RemovePlayerOnce(userID);
+    this._removals.set(userID, removal);
+    try { await removal; } finally { this._removals.delete(userID); }
+  }
+
+  private async RemovePlayerOnce(userID: number): Promise<void> {
     const player = this._players.get(userID);
     if (player) {
       await player.OnLogout();

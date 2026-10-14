@@ -6,7 +6,8 @@ import { RoomLoginReqProto } from '../../../../../shared/proto/packets/req/room/
 import { RoomLoginRspProto } from '../../../../../shared/proto/packets/rsp/room/RoomLoginRspProto';
 import { EnterMapReqProto } from '../../../../../shared/proto/packets/req/map/EnterMapReqProto';
 import { Logger } from '../../../../../shared/utils/Logger';
-import { PlayerManager } from '../../../../Game/Player/PlayerManager';
+import { PacketBuilder } from '../../../../../shared/protocol/PacketBuilder';
+import { RoomTicketBinding } from './RoomTicketBinding';
 
 /**
  * 房间登录处理器
@@ -24,6 +25,10 @@ import { PlayerManager } from '../../../../Game/Player/PlayerManager';
 export class RoomLoginHandler implements IHandler {
   public async Handle(session: IClientSession, head: HeadInfo, body: Buffer): Promise<void> {
     try {
+      if (body.length !== 44) {
+        session.Socket.write(new PacketBuilder().Build(CommandID.ROOM_LOGIN, head.UserID, 5001));
+        return;
+      }
       const req = RoomLoginReqProto.fromBuffer(body);
       
       // 从session中读取userId（前4字节）
@@ -34,24 +39,11 @@ export class RoomLoginHandler implements IHandler {
         `mapType=${req.param1}, pos=(${req.param2}, ${req.param3})`
       );
 
-      // 从PlayerManager获取已存在的Player对象
-      const player = PlayerManager.GetInstance().GetPlayer(userId);
-      if (!player) {
-        Logger.Error(`[RoomLoginHandler] 玩家不在线: userId=${userId}`);
-        const rsp = new RoomLoginRspProto();
-        rsp.setResult(5001); // 玩家不存在
-        
-        // 直接通过socket发送（因为session还没有Player）
-        const packet = Buffer.concat([
-          Buffer.from([0x00, 0x00, 0x00, 0x00]), // length placeholder
-          Buffer.from([0x27, 0x11]), // cmdId 10001
-          Buffer.from([0x00, 0x00, 0x00, 0x00]), // userId
-          Buffer.from([0x00, 0x00, 0x00, 0x00]), // seqId
-          Buffer.from([0x00, 0x00, 0x13, 0xB9]), // result 5001
-          rsp.serialize()
-        ]);
-        packet.writeUInt32BE(packet.length, 0);
-        session.Socket.write(packet);
+      // Authenticate the whole ticket before binding the room connection or entering a map.
+      const player = await RoomTicketBinding.Instance.Validate(session, head.UserID, req.roomId, req.session);
+      if (!player || !RoomTicketBinding.Instance.CanBind(session, player, req.roomId, req.session)) {
+        Logger.Warn(`[RoomLoginHandler] 房间认证未通过: userId=${userId}, roomId=${req.roomId}`);
+        session.Socket.write(new PacketBuilder().Build(CommandID.ROOM_LOGIN, head.UserID, 5001));
         return;
       }
 
@@ -66,7 +58,7 @@ export class RoomLoginHandler implements IHandler {
 
       // 返回成功响应（空响应）
       const rsp = new RoomLoginRspProto();
-      await player.SendPacket(rsp);
+      session.Socket.write(new PacketBuilder().Build(CommandID.ROOM_LOGIN, userId, rsp.getResult(), rsp.serialize()));
 
       // 自动触发ENTER_MAP处理
       // 因为客户端在ROOM_LOGIN后没有发送ENTER_MAP，服务端主动触发
@@ -85,6 +77,7 @@ export class RoomLoginHandler implements IHandler {
 
     } catch (error) {
       Logger.Error(`[RoomLoginHandler] 处理失败`, error as Error);
+      session.Socket.write(new PacketBuilder().Build(CommandID.ROOM_LOGIN, head.UserID, 5001));
     }
   }
 }

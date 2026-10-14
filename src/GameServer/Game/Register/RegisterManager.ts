@@ -3,6 +3,9 @@ import { PacketRegister, PacketSendEmailCode, PacketRequestRegister } from '../.
 import { AccountRepository } from '../../../DataBase';
 import { Logger } from '../../../shared/utils';
 import { IClientSession } from '../../Server/Packet/IHandler';
+import { Config } from '../../../shared/config/ServerConfig';
+import { InvitationRepository } from '../../../DataBase/repositories/Player/InvitationRepository';
+import { createHash } from 'crypto';
 
 /**
  * 注册结果码
@@ -64,6 +67,10 @@ export class RegisterManager {
    * @param email 邮箱地址
    */
   public async HandleSendEmailCode(session: IClientSession, email: string): Promise<void> {
+    if (Config.Regist.mode === 'invite') {
+      session.Socket.write(this._packetSendEmailCode.Build('', RegisterResult.INVALID_CODE));
+      return;
+    }
     try {
       Logger.Info(`[RegisterManager] 发送验证码请求: email=${email}`);
 
@@ -86,7 +93,7 @@ export class RegisterManager {
         code = existingCode.code;
         codeRes = existingCode.codeRes;
         const remainingTime = Math.ceil((existingCode.expireTime - Date.now()) / 1000);
-        Logger.Info(`[RegisterManager] 使用现有验证码: email=${email}, code=${code}, 剩余有效期=${remainingTime}秒`);
+        Logger.Info(`[RegisterManager] 使用现有验证码: 剩余有效期=${remainingTime}秒`);
       } else {
         // 生成新的6位数验证码
         code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -99,15 +106,14 @@ export class RegisterManager {
           expireTime: Date.now() + 300000 // 5分钟
         });
 
-        Logger.Info(`[RegisterManager] 生成新验证码: email=${email}, code=${code}, 有效期=5分钟`);
+        Logger.Info('[RegisterManager] 生成邮箱验证码，有效期=5分钟');
       }
 
       // 3. 发送响应，result=0表示成功
       const packet = this._packetSendEmailCode.Build(codeRes, RegisterResult.SUCCESS);
       session.Socket.write(packet);
 
-      Logger.Info(`[RegisterManager] ✅ 验证码已发送: code=${code}, result=0 (成功)`);
-      Logger.Info(`[RegisterManager] 📧 验证码内容: ${code}`);
+      Logger.Info('[RegisterManager] 邮箱验证码响应已发送');
       Logger.Info(`[RegisterManager] 💡 客户端将显示: "发送验证码成功，请查看邮箱"`);
 
     } catch (err) {
@@ -139,7 +145,7 @@ export class RegisterManager {
       );
       session.Socket.write(buffer);
       
-      Logger.Info(`[RegisterManager] 验证码已通过系统消息推送: ${code}`);
+      Logger.Info('[RegisterManager] 验证码已通过系统消息推送');
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       Logger.Error('[RegisterManager] 推送验证码消息失败', error);
@@ -161,8 +167,12 @@ export class RegisterManager {
     emailCode: string,
     emailCodeRes: string
   ): Promise<void> {
+    if (Config.Regist.mode === 'invite') {
+      await this.HandleInviteRegister(session, password, email, emailCode);
+      return;
+    }
     try {
-      Logger.Info(`[RegisterManager] 注册请求: email=${email}, code=${emailCode}, codeRes=${emailCodeRes}`);
+      Logger.Info('[RegisterManager] 邮箱注册请求');
 
       // 1. 验证邮箱验证码
       const savedCode = this._emailCodes.get(email);
@@ -184,7 +194,7 @@ export class RegisterManager {
       // 只验证用户输入的验证码，不验证 codeRes
       // 因为验证码通过错误码返回，客户端无法正确保存 codeRes
       if (savedCode.code !== emailCode) {
-        Logger.Warn(`[RegisterManager] 验证码错误: ${email}, expected=${savedCode.code}, got=${emailCode}`);
+        Logger.Warn('[RegisterManager] 验证码错误');
         const packet = this._packetRegister.Build(0, RegisterResult.INVALID_CODE);
         session.Socket.write(packet);
         return;
@@ -203,7 +213,6 @@ export class RegisterManager {
       const crypto = require('crypto');
       const passwordHash = crypto.createHash('md5').update(password).digest('hex');
       
-      Logger.Debug(`[RegisterManager] 密码 hash: 明文长度=${password.length}, MD5=${passwordHash}`);
 
       // 4. 创建账号
       const userID = await this._accountRepo.CreateAccount(email, passwordHash);
@@ -224,6 +233,33 @@ export class RegisterManager {
       const packet = this._packetRegister.Build(0, RegisterResult.SYSTEM_ERROR);
       session.Socket.write(packet);
     }
+  }
+
+  private async HandleInviteRegister(
+    session: IClientSession, password: string, email: string, code: string
+  ): Promise<void> {
+    let userId = 0;
+    let result = RegisterResult.SYSTEM_ERROR;
+    try {
+      if (!password || Buffer.byteLength(password, 'utf8') > 32 ||
+          Buffer.byteLength(email, 'utf8') > 64 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        result = RegisterResult.SYSTEM_ERROR;
+      } else {
+        const passwordHash = createHash('md5').update(password).digest('hex');
+        const created = await new InvitationRepository().Register(email, passwordHash, code);
+        if (created.kind === 'created') {
+          userId = created.userId;
+          result = RegisterResult.SUCCESS;
+        } else {
+          result = created.kind === 'account_exists' ? RegisterResult.ACCOUNT_EXISTS : RegisterResult.INVALID_CODE;
+        }
+      }
+    } catch {
+      // Do not put driver errors or submitted secrets in registration logs.
+      Logger.Error('[RegisterManager] Invitation registration failed');
+    }
+    // Sending failure cannot roll back or turn a committed account into a retryable grant.
+    session.Socket.write(this._packetRegister.Build(userId, result));
   }
 
   /**

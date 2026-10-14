@@ -42,6 +42,9 @@ import {
 import { PacketMapBoss, PacketMapOgreList } from '../../Server/Packet/Send/Map';
 import { PvpBattleManager } from './PvpBattleManager';
 import { BossAbilityConfig } from './BossAbility';
+import { DatabaseHelper } from '../../../DataBase/DatabaseHelper';
+import { BattleCaptureSystem } from './BattleCaptureSystem';
+import { ItemSystem, IItemInfo } from '../Item/ItemSystem';
 
 /**
  * 战斗管理器
@@ -63,6 +66,28 @@ export class BattleManager extends BaseManager {
 
   // 当前战斗实例（会话级别）
   private _currentBattle: IBattleInfo | null = null;
+  private _catchInProgress = false;
+  private _petItemInProgress = false;
+  private _petItemStorageUncertain = false;
+  private _battleActionsInProgress = 0;
+  private _battleEpoch = 0;
+  private readonly _finishedBattles = new WeakSet<IBattleInfo>();
+  private readonly _escapingBattles = new WeakSet<IBattleInfo>();
+
+  // Packet dispatch is concurrent. Serialize consumable actions against other battle actions.
+  private async RunBattleAction(command: number, action: () => Promise<void>): Promise<void> {
+    if (this._catchInProgress || this._petItemInProgress) {
+      await this.Player.SendPacket(new PacketEmpty(command).setResult(5001));
+      return;
+    }
+    this._battleActionsInProgress++;
+    try { await action(); } finally { this._battleActionsInProgress--; }
+  }
+
+  /** Map entry/leave invalidates pending battle work before its first await, including same-map reentry. */
+  public InvalidatePendingCapture(): void {
+    this._battleEpoch++;
+  }
 
   // 当前战斗的野怪槽位（用于战斗结束后刷新）
   private _currentBattleSlot: number = -1;
@@ -71,6 +96,7 @@ export class BattleManager extends BaseManager {
 
   // 记录战斗中所有参与过的精灵HP（用于战斗结束时同步）
   private _battlePetHPMap: Map<number, number> = new Map(); // catchTime -> HP
+  private readonly _battlePetPPMap = new Map<number, Map<number, number>>(); // PVE catchTime -> skillId -> PP
   private _emittedDeadCatchTimes: Set<number> = new Set();
 
   constructor(player: PlayerInstance) {
@@ -115,8 +141,14 @@ export class BattleManager extends BaseManager {
     const skillIndex = pet.skills.indexOf(skillId);
     if (skillIndex !== -1 && pet.skillPP && pet.skillPP[skillIndex] > 0) {
       pet.skillPP[skillIndex]--;
+      this.RememberBattlePetPP(pet);
       Logger.Debug(`[BattleManager] 扣除技能PP: SkillId=${skillId}, 剩余PP=${pet.skillPP[skillIndex]}`);
     }
+  }
+
+  private RememberBattlePetPP(pet: IBattlePet): void {
+    if (!this._currentBattle || this._currentBattle.isPvp || this._currentBattle.player !== pet || !pet.skillPP) return;
+    this._battlePetPPMap.set(pet.catchTime, new Map(pet.skills.map((id, index) => [id, pet.skillPP![index]])));
   }
 
   /**
@@ -269,15 +301,16 @@ export class BattleManager extends BaseManager {
     } as IBattleRoundEndEvent);
   }
 
-  private async EmitAttackResultEvents(result: ITurnResult): Promise<void> {
-    if (!this._currentBattle) return;
+  private async EmitAttackResultEvents(result: ITurnResult, isCurrent: () => boolean = () => true): Promise<void> {
+    const battle = this._currentBattle;
+    if (!battle || !isCurrent()) return;
 
     const emitSingle = async (attack?: IAttackResult): Promise<void> => {
-      if (!attack || attack.skillId <= 0) return;
+      if (!isCurrent() || !attack || attack.skillId <= 0) return;
 
-      const attackerIsPlayer = attack.userId === this._currentBattle!.userId;
-      const attackerPet = attackerIsPlayer ? this._currentBattle!.player : this._currentBattle!.enemy;
-      const targetPet = attackerIsPlayer ? this._currentBattle!.enemy : this._currentBattle!.player;
+      const attackerIsPlayer = attack.userId === battle.userId;
+      const attackerPet = attackerIsPlayer ? battle.player : battle.enemy;
+      const targetPet = attackerIsPlayer ? battle.enemy : battle.player;
 
       await this.Player.EventBus.Emit({
         type: BattleEventType.ATTACK_RESULT,
@@ -300,14 +333,16 @@ export class BattleManager extends BaseManager {
   private async EmitStatusChangeEvents(before: {
     player: { status?: number; turns: number };
     enemy: { status?: number; turns: number };
-  }): Promise<void> {
-    if (!this._currentBattle) return;
+  }, isCurrent: () => boolean = () => true): Promise<void> {
+    const battle = this._currentBattle;
+    if (!battle || !isCurrent()) return;
 
     const emitTransition = async (
       pet: IBattlePet,
       prevStatus?: number,
       prevTurns: number = 0
     ): Promise<void> => {
+      if (!isCurrent()) return;
       const currentStatus = pet.status;
       const currentTurns = pet.statusTurns || 0;
 
@@ -323,6 +358,7 @@ export class BattleManager extends BaseManager {
           statusTurns: prevTurns,
           isAdd: false,
         } as IStatusChangeEvent);
+        if (!isCurrent()) return;
       }
 
       if (currentStatus !== undefined) {
@@ -338,11 +374,11 @@ export class BattleManager extends BaseManager {
       }
     };
 
-    await emitTransition(this._currentBattle.player, before.player.status, before.player.turns);
-    await emitTransition(this._currentBattle.enemy, before.enemy.status, before.enemy.turns);
+    await emitTransition(battle.player, before.player.status, before.player.turns);
+    await emitTransition(battle.enemy, before.enemy.status, before.enemy.turns);
   }
 
-  private async EmitPetDeadEventsIfNeeded(): Promise<void> {
+  private async EmitPetDeadEventsIfNeeded(isCurrent: () => boolean = () => true): Promise<void> {
     if (!this._currentBattle) return;
 
     const emitDead = async (pet: IBattlePet, killerPetId: number): Promise<void> => {
@@ -361,6 +397,7 @@ export class BattleManager extends BaseManager {
     };
 
     await emitDead(this._currentBattle.player, this._currentBattle.enemy.petId);
+    if (!isCurrent()) return;
     await emitDead(this._currentBattle.enemy, this._currentBattle.player.petId);
   }
 
@@ -369,9 +406,11 @@ export class BattleManager extends BaseManager {
    * 检查玩家精灵是否阵亡，同步HP，检查是否还有健康精灵
    * @returns true 表示已处理（调用方应return），false 表示未阵亡
    */
-  private async CheckPlayerPetDeath(): Promise<boolean> {
+  private async CheckPlayerPetDeath(isCurrent: () => boolean = () => true): Promise<boolean> {
+    if (!isCurrent()) return true;
     if (!this._currentBattle || this._currentBattle.player.hp > 0) return false;
-    await this.EmitPetDeadEventsIfNeeded();
+    await this.EmitPetDeadEventsIfNeeded(isCurrent);
+    if (!isCurrent()) return true;
 
     // 同步当前精灵的HP（阵亡）
     const currentPet = this.Player.PetManager.GetPetsInBag()
@@ -389,7 +428,7 @@ export class BattleManager extends BaseManager {
     if (!hasHealthyPet) {
       Logger.Info(`[BattleManager] 所有精灵阵亡，战斗失败: UserID=${this.UserID}`);
       this._currentBattle.isOver = true;
-      await this.HandleFightOver(0, 0);
+      await this.HandleFightOver(0, 0, isCurrent);
       return true;
     }
 
@@ -400,7 +439,7 @@ export class BattleManager extends BaseManager {
   /**
    * PvE敌方反击并发送结果（换精灵/捕捉失败后）
    */
-  private async ExecuteEnemyCounterAndSend(): Promise<void> {
+  private async ExecuteEnemyCounterAndSend(isCurrent: () => boolean = () => true): Promise<void> {
     if (!this._currentBattle) return;
 
     const enemyAttackResult = this._turnService.ExecuteEnemyTurn(this._currentBattle);
@@ -422,7 +461,8 @@ export class BattleManager extends BaseManager {
       this._currentBattle.enemy.type, this._currentBattle.enemy
     );
 
-    await this.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack));
+    await this.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack, this.Player.ClientProtocol));
+    if (!isCurrent()) return;
     this.UpdatePlayerHPRecord();
   }
 
@@ -485,15 +525,17 @@ export class BattleManager extends BaseManager {
   /**
    * PvE战斗结束后清理地图（移除野怪、推送更新）
    */
-  private async CleanupPveMap(): Promise<void> {
-    if (this._currentBattleSlot < 0) return;
+  private async CleanupPveMap(isCurrent: () => boolean = () => true): Promise<void> {
+    if (!isCurrent() || this._currentBattleSlot < 0) return;
 
     this.Player.MapSpawnManager.OnBattleEnd(this._currentBattleSlot);
     Logger.Info(`[BattleManager] 战斗结束，移除野怪: userId=${this.UserID}, slot=${this._currentBattleSlot}`);
 
     await this.SendOgreListUpdate();
+    if (!isCurrent()) return;
 
     if (this._currentBattleMapId >= 0 && await this.IsBossBattle(this._currentBattleMapId, this._currentBattleSlot)) {
+      if (!isCurrent()) return;
       await this.SendBossRemovalNotification(this._currentBattleSlot);
     }
   }
@@ -505,6 +547,7 @@ export class BattleManager extends BaseManager {
    * 用于更换精灵时更新战斗状态
    */
   private UpdateBattlePet(battlePet: any, newPet: any, petConfig: any): void {
+    this.RememberBattlePetPP(battlePet);
     // 获取技能
     const playerSkills = newPet.skillArray.filter((s: number) => s > 0);
     const finalSkills = playerSkills.length > 0 ? playerSkills : [10001];
@@ -514,7 +557,8 @@ export class BattleManager extends BaseManager {
       const skillConfig = GameConfig.GetSkillById(skillId);
       const maxPP = skillConfig?.MaxPP || 20;
       Logger.Debug(`[BattleManager] UpdateBattlePet: SkillId=${skillId}, MaxPP=${maxPP}, SkillName=${skillConfig?.Name || 'Unknown'}`);
-      return maxPP;
+      const savedPP = this._currentBattle?.isPvp ? undefined : this._battlePetPPMap.get(newPet.catchTime)?.get(skillId);
+      return savedPP === undefined ? maxPP : Math.min(maxPP, savedPP);
     });
 
     Logger.Debug(`[BattleManager] UpdateBattlePet: Skills=${JSON.stringify(finalSkills)}, PPs=${JSON.stringify(skillPPs)}`);
@@ -597,7 +641,10 @@ export class BattleManager extends BaseManager {
    * 清理旧战斗数据，初始化HP记录
    */
   private InitializeBattle(battle: IBattleInfo): void {
+    this._battleEpoch++;
     this._currentBattle = battle;
+    this._battlePetPPMap.clear();
+    this.RememberBattlePetPP(battle.player);
     this._battlePetHPMap.clear();
     this._emittedDeadCatchTimes.clear();
     this._battlePetHPMap.set(battle.player.catchTime, battle.player.hp);
@@ -614,6 +661,7 @@ export class BattleManager extends BaseManager {
    */
   private CleanupBattle(): void {
     this._currentBattle = null;
+    this._battlePetPPMap.clear();
     this._currentBattleSlot = -1;
     this._currentBattleMapId = -1;
     this._currentBattleOriginalPetId = -1;
@@ -631,6 +679,10 @@ export class BattleManager extends BaseManager {
    * 发送 2408 确认 + NOTE_READY_TO_FIGHT (2503)
    */
   public async HandleFightNpcMonster(monsterIndex: number): Promise<void> {
+    return this.RunBattleAction(CommandID.FIGHT_NPC_MONSTER, () => this.FightNpcMonster(monsterIndex));
+  }
+
+  private async FightNpcMonster(monsterIndex: number): Promise<void> {
     try {
       // 清理旧战斗（如果存在）
       if (this._currentBattle) {
@@ -744,6 +796,10 @@ export class BattleManager extends BaseManager {
    * 3. 如果仍未找到，记录警告
    */
   public async HandleChallengeBoss(mapId: number, param2: number): Promise<void> {
+    return this.RunBattleAction(CommandID.CHALLENGE_BOSS, () => this.ChallengeBoss(mapId, param2));
+  }
+
+  private async ChallengeBoss(mapId: number, param2: number): Promise<void> {
     try {
       // 清理旧战斗（如果存在）
       if (this._currentBattle) {
@@ -834,6 +890,10 @@ export class BattleManager extends BaseManager {
    * - 未匹配到配置时回退到盖亚
    */
   public async HandleFightSpecialPet(mapId: number, param2: number): Promise<void> {
+    return this.RunBattleAction(CommandID.FIGHT_SPECIAL_PET, () => this.FightSpecialPet(mapId, param2));
+  }
+
+  private async FightSpecialPet(mapId: number, param2: number): Promise<void> {
     try {
       // 清理旧战斗
       if (this._currentBattle) {
@@ -888,6 +948,10 @@ export class BattleManager extends BaseManager {
    * 发送 NOTE_START_FIGHT (2504)
    */
   public async HandleReadyToFight(): Promise<void> {
+    return this.RunBattleAction(CommandID.READY_TO_FIGHT, () => this.ReadyToFight());
+  }
+
+  private async ReadyToFight(): Promise<void> {
     // 检查是否是PVP战斗
     const pvpRoom = PvpBattleManager.Instance.GetPlayerRoom(this.Player.Uid);
 
@@ -934,38 +998,52 @@ export class BattleManager extends BaseManager {
    * CMD 2405: USE_SKILL
    */
   public async HandleUseSkill(skillId: number): Promise<void> {
+    return this.RunBattleAction(CommandID.USE_SKILL, () => this.UseSkill(skillId));
+  }
+
+  private async UseSkill(skillId: number): Promise<void> {
+    const battle = this._currentBattle;
+    const epoch = this._battleEpoch, mapId = this.Player.Data.mapID;
+    const isCurrent = () => this._currentBattle === battle && this._battleEpoch === epoch && this.Player.Data.mapID === mapId;
     await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL));
 
-    if (!this._currentBattle || this._currentBattle.isOver) {
+    if (!battle || !isCurrent() || battle.isOver) {
       Logger.Warn(`[BattleManager] 没有进行中的战斗: UserID=${this.UserID}`);
       return;
     }
 
-    if (this._currentBattle.isPvp === true) {
+    if (battle.isPvp === true) {
       await this._pvpService.HandleUseSkill(skillId);
       return;
     }
 
     // PvE战斗
-    this.DeductSkillPP(this._currentBattle.player, skillId);
-    const currentTurn = this._currentBattle.turn;
+    this.DeductSkillPP(battle.player, skillId);
+    const currentTurn = battle.turn;
     await this.EmitRoundStartEvent(currentTurn + 1);
+    if (!isCurrent() || battle.isOver) return;
     const statusBefore = this.CaptureStatusSnapshot();
 
-    const result = this._turnService.ExecuteTurn(this._currentBattle, skillId);
+    const result = this._turnService.ExecuteTurn(battle, skillId);
     const { firstAttack, secondAttack } = this.BuildAttackValuePair(result, this.UserID, 0);
 
-    await this.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack));
+    await this.Player.SendPacket(new PacketNoteUseSkill(firstAttack, secondAttack, this.Player.ClientProtocol));
+    if (!isCurrent()) return;
     this.UpdatePlayerHPRecord();
-    await this.EmitAttackResultEvents(result);
-    await this.EmitStatusChangeEvents(statusBefore);
-    await this.EmitPetDeadEventsIfNeeded();
-    await this.EmitRoundEndEvent(this._currentBattle.turn, result.isOver, result.winner);
+    await this.EmitAttackResultEvents(result, isCurrent);
+    if (!isCurrent()) return;
+    await this.EmitStatusChangeEvents(statusBefore, isCurrent);
+    if (!isCurrent()) return;
+    await this.EmitPetDeadEventsIfNeeded(isCurrent);
+    if (!isCurrent()) return;
+    await this.EmitRoundEndEvent(battle.turn, result.isOver, result.winner);
+    if (!isCurrent()) return;
 
-    if (await this.CheckPlayerPetDeath()) return;
+    if (await this.CheckPlayerPetDeath(isCurrent)) return;
+    if (!isCurrent()) return;
 
     if (result.isOver) {
-      await this.HandleFightOver(result.winner || 0, result.reason || 0);
+      await this.HandleFightOver(result.winner || 0, result.reason || 0, isCurrent);
     }
 
     Logger.Info(`[BattleManager] 使用技能: UserID=${this.UserID}, SkillId=${skillId}, Turn=${currentTurn}`);
@@ -976,32 +1054,45 @@ export class BattleManager extends BaseManager {
   /**
    * 处理战斗结束
    */
-  private async HandleFightOver(winnerId: number, reason: number): Promise<void> {
-    if (!this._currentBattle) return;
+  private async HandleFightOver(winnerId: number, reason: number, stillValid: () => boolean = () => true): Promise<void> {
+    const battle = this._currentBattle;
+    if (!battle || !stillValid() || this._finishedBattles.has(battle)) return;
+    // Claim this battle before the first await. Partial rewards must never be replayed automatically.
+    this._finishedBattles.add(battle);
+    const epoch = this._battleEpoch;
+    const isCurrent = () => this._currentBattle === battle && this._battleEpoch === epoch && stillValid();
 
-    const isPvp = this._currentBattle.isPvp === true;
+    const isPvp = battle.isPvp === true;
 
     await this.SyncBattlePetHP();
+    if (!isCurrent()) return;
 
-    const battleEndResults = BattleEffectIntegration.OnBattleEnd(this._currentBattle, winnerId);
+    const battleEndResults = BattleEffectIntegration.OnBattleEnd(battle, winnerId);
     Logger.Debug(`[BattleManager] 战斗结束效果: ${battleEndResults.length}个结果`);
 
     // PVE胜利奖励
     let rewardItems: Array<{ itemId: number; itemCnt: number }> = [];
+    let rewardSettlement: { rewardStatus: 'complete' | 'partial' | 'failed'; rewardFailedStage?: string } | undefined;
     if (!isPvp && winnerId === this.UserID) {
       const reward = await this._rewardService.ProcessVictoryReward(
         this.UserID,
-        this._currentBattle,
+        battle,
         this._currentBattleMapId >= 0 ? this._currentBattleMapId : undefined,
         this._currentBattleSlot >= 0 ? this._currentBattleSlot : undefined,
         this._currentBattleOriginalPetId >= 0 ? this._currentBattleOriginalPetId : undefined
       );
+      if (!isCurrent()) return;
       rewardItems = reward.rewardItems;
+      rewardSettlement = { rewardStatus: reward.status, rewardFailedStage: reward.failedStage };
+      if (reward.status !== 'complete') {
+        Logger.Error(`[BattleManager] Reward settlement ${reward.status}: Stage=${reward.failedStage}; committed rewards retained, automatic replay disabled`);
+      }
       Logger.Info(`[BattleManager] 战斗胜利奖励: Exp=${reward.expGained}, Coins=${reward.coinsGained}, LevelUp=${reward.levelUp}, Drops=${reward.droppedItems.length}, RewardItems=${rewardItems.length}`);
     }
 
     // 发送战斗结束包
     await this.SendFightOverPacket(this.Player, reason, winnerId);
+    if (!isCurrent()) return;
 
     // PVP通知对手
     if (isPvp) {
@@ -1010,12 +1101,15 @@ export class BattleManager extends BaseManager {
 
     // PVE清理地图
     if (!isPvp) {
-      await this.CleanupPveMap();
+      await this.CleanupPveMap(isCurrent);
+      if (!isCurrent()) return;
     }
 
     // 延迟推送物品奖励弹窗（仅PVE）
     if (!isPvp && rewardItems.length > 0) {
       setTimeout(async () => {
+        // Normal cleanup clears currentBattle; a new battle/map/logout changes the epoch instead.
+        if (this._battleEpoch !== epoch) return;
         await this.Player.SendPacket(new PacketBattleReward(rewardItems));
         Logger.Info(`[BattleManager] 推送物品奖励弹窗: RewardItems=${rewardItems.length}`);
       }, 1200);
@@ -1026,18 +1120,20 @@ export class BattleManager extends BaseManager {
       type: BattleEventType.BATTLE_END,
       timestamp: Date.now(),
       playerId: this.UserID,
-      battleType: this.GetBattleTypeForEvent(this._currentBattle),
+      battleType: this.GetBattleTypeForEvent(battle),
       mapId: this._currentBattleMapId,
       isVictory: winnerId === this.UserID,
-      playerPetId: this._currentBattle.player.petId,
-      enemyPetId: this._currentBattle.enemy.petId,
-      rounds: this._currentBattle.roundCount || 0,
+      playerPetId: battle.player.petId,
+      enemyPetId: battle.enemy.petId,
+      rounds: battle.roundCount || 0,
       extra: {
-        sptId: this._currentBattle.enemy.id,
+        sptId: battle.enemy.id,
         dropItems: rewardItems.map(r => ({ itemId: r.itemId, count: r.itemCnt })),
+        ...rewardSettlement,
       },
     } as IBattleEndEvent);
 
+    if (!isCurrent()) return;
     this.CleanupBattle();
 
     Logger.Info(`[BattleManager] 战斗结束: Winner=${winnerId}, Reason=${reason}, IsPvp=${isPvp}`);
@@ -1049,26 +1145,112 @@ export class BattleManager extends BaseManager {
    * 处理使用精灵道具
    * CMD 2406: USE_PET_ITEM
    */
-  public async HandleUsePetItem(itemId: number): Promise<void> {
-    if (!this._currentBattle || this._currentBattle.isOver) {
+  public async HandleUsePetItem(itemId: number, catchTime?: number): Promise<void> {
+    // Keep a failed-save compensation inside the inventory operation, excluding staged task rewards.
+    const release = this.Player.ItemManager.ItemData.BeginMutation();
+    if (!release) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5000));
+      return;
+    }
+    try {
+      await this.RunBattleAction(CommandID.USE_PET_ITEM, () => this.UsePetItem(itemId, catchTime));
+    } finally { release(); }
+  }
+
+  private async UsePetItem(itemId: number, catchTime?: number): Promise<void> {
+    const battle = this._currentBattle;
+    if (!battle || battle.isOver || battle.isPvp || this._petItemStorageUncertain || this._battleActionsInProgress > 1 ||
+        (this.Player.ClientProtocol === 'xin-20261013' && catchTime !== battle.player.catchTime) ||
+        (catchTime !== undefined && catchTime !== battle.player.catchTime) ||
+        (this._currentBattleMapId >= 0 && this.Player.Data.mapID !== this._currentBattleMapId) ||
+        battle.player.hp <= 0 || (itemId !== 300016 && battle.player.hp >= battle.player.maxHp)) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
       return;
     }
 
-    const healAmount = 50;
-    const oldHp = this._currentBattle.player.hp;
-    this._currentBattle.player.hp = Math.min(
-      this._currentBattle.player.maxHp,
-      this._currentBattle.player.hp + healAmount
-    );
-    const actualHeal = this._currentBattle.player.hp - oldHp;
+    // Only the pinned client's basic HP and PP medicines are supported.
+    const isPP = itemId === 300016;
+    const medicine = ItemSystem.GetItem(itemId) as (IItemInfo & { HP?: number; PP?: number; ItemType?: number }) | null;
+    const healAmount = isPP ? medicine?.PP : medicine?.HP;
+    const pet = this.Player.PetManager.GetPetByCatchTime(battle.player.catchTime);
+    const itemData = this.Player.ItemManager.ItemData;
+    const petData = this.Player.PetManager.PetData;
+    const item = itemData.ItemList.find(entry => entry.itemId === itemId);
+    if ((!isPP && itemId !== 300011) || medicine?.ItemType !== (isPP ? 2 : 1) || !Number.isInteger(healAmount) ||
+        !healAmount || healAmount <= 0 || !pet || !item) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+      return;
+    }
+    const restoredPP = isPP ? battle.player.skills.map((id, index) => {
+      const maxPP = GameConfig.GetSkillById(id)?.MaxPP;
+      const pp = battle.player.skillPP?.[index];
+      if (!Number.isInteger(maxPP) || !maxPP || maxPP <= 0 ||
+          pp === undefined || !Number.isInteger(pp) || pp < 0 || pp > maxPP) return Number.NaN;
+      return Math.min(maxPP, pp + healAmount);
+    }) : [];
+    if ((isPP && (!restoredPP.length || restoredPP.some(pp => !Number.isInteger(pp)) ||
+        !restoredPP.some((pp, index) => pp > battle.player.skillPP![index]))) ||
+        !this.Player.ItemManager.ConsumeItem(itemId, 1)) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+      return;
+    }
 
-    await this.Player.SendPacket(new PacketUsePetItem(
-      this.UserID, itemId,
-      this._currentBattle.player.hp, actualHeal
-    ));
+    const epoch = this._battleEpoch, mapId = this.Player.Data.mapID, targetCatchTime = battle.player.catchTime;
+    const isCurrent = () => this._currentBattle === battle && this._battleEpoch === epoch &&
+      this.Player.Data.mapID === mapId && battle.player.catchTime === targetCatchTime;
+    this._petItemInProgress = true;
+    try {
+      try {
+        await DatabaseHelper.Instance.SaveItemData(itemData, true);
+      } catch (error) {
+        // Undo only our one-unit delta; never replace the inventory or overwrite a replacement entry.
+        const currentItem = itemData.ItemList.find(entry => entry.itemId === itemId);
+        if (currentItem === item) currentItem.count += 1;
+        else if (!currentItem && item.count === 0) itemData.ItemList.push({...item, count: 1});
+        this._petItemStorageUncertain = true;
+        Logger.Error('[BattleManager] Medicine inventory save failed; further medicine use disabled', error as Error);
+        if (isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+        return;
+      }
+      if (!isCurrent()) return;
+      if (isPP) {
+        battle.player.skillPP = restoredPP;
+        this.RememberBattlePetPP(battle.player);
+        await this.Player.SendPacket(new PacketUsePetItem(this.UserID, itemId, battle.player.hp, 0));
+        await this.ContinueNieoMedicineTurn(catchTime, isCurrent);
+        return;
+      }
+      const oldHp = battle.player.hp;
+      const nextHp = Math.min(battle.player.maxHp, oldHp + healAmount);
+      const actualHeal = nextHp - oldHp;
+      const oldPetHp = pet.hp;
+      pet.hp = nextHp;
+      try {
+        await DatabaseHelper.Instance.SavePetData(petData, true);
+      } catch (error) {
+        // Restore only our pending HP write, preserving any independently changed/replaced pet.
+        if (pet.hp === nextHp) pet.hp = oldPetHp;
+        this._petItemStorageUncertain = true;
+        Logger.Error('[BattleManager] Medicine HP save failed; further medicine use disabled', error as Error);
+        if (isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+        return;
+      }
+      if (!isCurrent()) return;
+      battle.player.hp = nextHp;
+      this._battlePetHPMap.set(targetCatchTime, nextHp);
+      await this.Player.SendPacket(new PacketUsePetItem(this.UserID, itemId, battle.player.hp, actualHeal));
+      Logger.Info(`[BattleManager] 使用道具: UserID=${this.UserID}, ItemId=${itemId}, Heal=${actualHeal}`);
+      await this.ContinueNieoMedicineTurn(catchTime, isCurrent);
+    } finally {
+      this._petItemInProgress = false;
+    }
+  }
 
-    Logger.Info(`[BattleManager] 使用道具: UserID=${this.UserID}, ItemId=${itemId}, Heal=${actualHeal}`);
+  private async ContinueNieoMedicineTurn(catchTime: number | undefined, isCurrent: () => boolean): Promise<void> {
+    // Nieo's item animation resumes a queued NOTE_USE_SKILL before enabling the next turn.
+    if (this.Player.ClientProtocol !== 'kose' || catchTime === undefined || !isCurrent()) return;
+    await this.ExecuteEnemyCounterAndSend(isCurrent);
+    if (isCurrent()) await this.CheckPlayerPetDeath(isCurrent);
   }
 
   /**
@@ -1076,6 +1258,10 @@ export class BattleManager extends BaseManager {
    * CMD 2407: CHANGE_PET
    */
   public async HandleChangePet(catchTime: number): Promise<void> {
+    return this.RunBattleAction(CommandID.CHANGE_PET, () => this.ChangePet(catchTime));
+  }
+
+  private async ChangePet(catchTime: number): Promise<void> {
     if (!this._currentBattle || this._currentBattle.isOver) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.CHANGE_PET).setResult(5001));
       return;
@@ -1142,40 +1328,71 @@ export class BattleManager extends BaseManager {
    * @param capsuleID 胶囊物品ID
    */
   public async HandleCatchMonster(capsuleID: number = 300001): Promise<void> {
-    if (!this._currentBattle || this._currentBattle.isOver) {
+    if (this._catchInProgress || this._battleActionsInProgress > 0 || !this._currentBattle || this._currentBattle.isOver || this._currentBattle.isPvp) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.CATCH_MONSTER).setResult(5001));
       return;
     }
 
-    const catchResult = this._turnService.Catch(this._currentBattle, capsuleID);
-    await this.Player.EventBus.Emit({
-      type: BattleEventType.CATCH_RESULT,
-      timestamp: Date.now(),
-      playerId: this.UserID,
-      targetPetId: this._currentBattle.enemy.id,
-      success: catchResult.success,
-      capsuleId: capsuleID,
-    } as ICatchResultEvent);
+    if (this._turnService.GetPokeBallType(capsuleID) === undefined ||
+        (this._currentBattleMapId >= 0 && this.Player.Data.mapID !== this._currentBattleMapId) ||
+        !BattleCaptureSystem.CanCapture(this._currentBattle.enemy, this._currentBattle.battleType === BattleType.BOSS).canCapture ||
+        !this._rewardService.IsCatchable(this._currentBattle.enemy.id,
+          this._currentBattleMapId >= 0 ? this._currentBattleMapId : undefined,
+          this._currentBattleSlot >= 0 ? this._currentBattleSlot : undefined) ||
+        !this.Player.ItemManager.ConsumeItem(capsuleID, 1)) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.CATCH_MONSTER).setResult(5001));
+      return;
+    }
+
+    const battle = this._currentBattle;
+    const mapId = this._currentBattleMapId, slot = this._currentBattleSlot;
+    const playerMapId = this.Player.Data.mapID, epoch = this._battleEpoch;
+    const isCurrent = () => this._currentBattle === battle && this._battleEpoch === epoch &&
+      this.Player.Data.mapID === playerMapId;
+    this._catchInProgress = true;
+    try {
+      await DatabaseHelper.Instance.SaveItemData(this.Player.ItemManager.ItemData);
+      if (!isCurrent()) return;
+      await this.ProcessCatchAttempt(capsuleID, battle, mapId, slot, isCurrent);
+    } finally {
+      this._catchInProgress = false;
+    }
+  }
+
+  private async ProcessCatchAttempt(
+    capsuleID: number, battle: IBattleInfo, mapId: number, slot: number, isCurrent: () => boolean
+  ): Promise<void> {
+    const catchResult = this._turnService.Catch(battle, capsuleID);
 
     if (catchResult.success) {
+      await this.SyncBattlePetHP();
+      if (!isCurrent()) return;
       const success = await this._rewardService.ProcessCatch(
         this.UserID,
-        this._currentBattle,
+        battle,
         catchResult.catchTime,
-        this._currentBattleMapId >= 0 ? this._currentBattleMapId : undefined,
-        this._currentBattleSlot >= 0 ? this._currentBattleSlot : undefined
+        mapId >= 0 ? mapId : undefined,
+        slot >= 0 ? slot : undefined
       );
+      // GivePet may already have committed the original target. Never retry/refund or finalize a successor battle.
+      if (!isCurrent()) return;
 
       if (success) {
-        const enemyId = this._currentBattle.enemy.id;
+        battle.isOver = true;
+        const enemyId = battle.enemy.id;
+        await this.EmitCatchResult(true, capsuleID, battle);
+        if (!isCurrent()) return;
 
         await this.Player.SendPacket(new PacketCatchMonster(catchResult.catchTime, enemyId));
+        if (!isCurrent()) return;
 
         // 发送战斗结束协议（reason=6表示捕捉成功）
         await this.SendFightOverPacket(this.Player, 6, this.UserID);
+        if (!isCurrent()) return;
 
         // 清理地图
-        await this.CleanupPveMap();
+        await this.CleanupPveMap(isCurrent);
+        if (!isCurrent()) return;
 
         this.CleanupBattle();
 
@@ -1184,26 +1401,32 @@ export class BattleManager extends BaseManager {
           `捕获率=${catchResult.catchRate.toFixed(2)}%, 摇晃次数=${catchResult.shakeCount}`
         );
       } else {
-        // 捕获成功但入库失败（理论上不应该发生，因为 GivePet 已处理背包满情况）
+        await this.EmitCatchResult(false, capsuleID, battle);
+        if (!isCurrent()) return;
         await this.Player.SendPacket(new PacketEmpty(CommandID.CATCH_MONSTER).setResult(5003));
         Logger.Error(`[BattleManager] 捕获成功但入库失败: UserID=${this.UserID}`);
       }
     } else {
       // 捕获失败
-      await this.Player.SendPacket(new PacketCatchMonster(0, this._currentBattle.enemy.id));
+      await this.EmitCatchResult(false, capsuleID, battle);
+      if (!isCurrent()) return;
+      await this.Player.SendPacket(new PacketCatchMonster(0, battle.enemy.id));
+      if (!isCurrent()) return;
       Logger.Info(
         `[BattleManager] 捕获失败: UserID=${this.UserID}, ` +
         `捕获率=${catchResult.catchRate.toFixed(2)}%, 摇晃次数=${catchResult.shakeCount}`
       );
 
       // 敌方反击
-      await this.ExecuteEnemyCounterAndSend();
+      await this.ExecuteEnemyCounterAndSend(isCurrent);
+      if (!isCurrent()) return;
 
       // 检查是否被打败
-      if (this._currentBattle.player.hp <= 0) {
-        this._currentBattle.isOver = true;
-        await this.EmitPetDeadEventsIfNeeded();
-        await this.HandleFightOver(0, 0);
+      if (battle.player.hp <= 0) {
+        battle.isOver = true;
+        await this.EmitPetDeadEventsIfNeeded(isCurrent);
+        if (!isCurrent()) return;
+        await this.HandleFightOver(0, 0, isCurrent);
       }
 
       Logger.Info(`[BattleManager] 捕获失败后敌人反击: 玩家HP=${this._currentBattle?.player.hp}, 敌人HP=${this._currentBattle?.enemy.hp}`);
@@ -1215,31 +1438,60 @@ export class BattleManager extends BaseManager {
    * CMD 2410: ESCAPE_FIGHT
    */
   public async HandleEscapeFight(): Promise<void> {
-    if (!this._currentBattle || this._currentBattle.isOver) {
+    return this.RunBattleAction(CommandID.ESCAPE_FIGHT, () => this.EscapeFight());
+  }
+
+  private async EscapeFight(): Promise<void> {
+    const battle = this._currentBattle;
+    if (!battle || battle.isOver || (battle.isPvp !== true && this._escapingBattles.has(battle))) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.ESCAPE_FIGHT).setResult(5001));
       return;
     }
+    const epoch = this._battleEpoch, mapId = this.Player.Data.mapID;
+    // Scope this continuation guard to PVE; leave the existing PVP escape behavior unchanged.
+    const isCurrent = battle.isPvp === true ? () => true : () =>
+      this._currentBattle === battle && this._battleEpoch === epoch && this.Player.Data.mapID === mapId;
 
-    Logger.Info(`[BattleManager] 逃跑成功: UserID=${this.UserID}`);
+    // Claim only this PVE battle before the first await; a successor must not share its lock.
+    if (battle.isPvp !== true) this._escapingBattles.add(battle);
+    try {
+      Logger.Info(`[BattleManager] 逃跑成功: UserID=${this.UserID}`);
 
-    await this.SyncBattlePetHP();
+      await this.SyncBattlePetHP();
+      if (!isCurrent()) return;
 
-    await this.Player.SendPacket(new PacketEscapeFight(1));
-    await this.Player.EventBus.Emit({
-      type: BattleEventType.ESCAPE_RESULT,
-      timestamp: Date.now(),
-      playerId: this.UserID,
-      success: true,
-      reason: 'player_escape',
-    } as IEscapeResultEvent);
+      await this.Player.SendPacket(new PacketEscapeFight(1));
+      if (!isCurrent()) return;
+      await this.Player.EventBus.Emit({
+        type: BattleEventType.ESCAPE_RESULT,
+        timestamp: Date.now(),
+        playerId: this.UserID,
+        success: true,
+        reason: 'player_escape',
+      } as IEscapeResultEvent);
+      if (!isCurrent()) return;
 
-    // 发送战斗结束包 (reason=1 表示逃跑)
-    await this.SendFightOverPacket(this.Player, 1, 0);
+      // 发送战斗结束包 (reason=1 表示逃跑)
+      await this.SendFightOverPacket(this.Player, 1, 0);
+      if (!isCurrent()) return;
 
-    this.CleanupBattle();
+      this.CleanupBattle();
+    } finally {
+      this._escapingBattles.delete(battle);
+    }
   }
 
   // ==================== 查询/生命周期 ====================
+  private async EmitCatchResult(success: boolean, capsuleId: number, battle: IBattleInfo): Promise<void> {
+    await this.Player.EventBus.Emit({
+      type: BattleEventType.CATCH_RESULT,
+      timestamp: Date.now(),
+      playerId: this.UserID,
+      targetPetId: battle.enemy.id,
+      success,
+      capsuleId,
+    } as ICatchResultEvent);
+  }
 
   /**
    * 获取当前战斗状态
@@ -1252,6 +1504,7 @@ export class BattleManager extends BaseManager {
    * 玩家登出时清理战斗
    */
   public async OnLogout(): Promise<void> {
+    this._battleEpoch++;
     if (!this._currentBattle) return;
 
     Logger.Info(`[BattleManager] 玩家登出，清理战斗: UserID=${this.UserID}`);
@@ -1290,7 +1543,8 @@ export class BattleManager extends BaseManager {
         .setCatchTime(pet.catchTime)
         .setCatchMap(301)
         .setCatchLevel(pet.level)
-        .setSkinID(0);
+        .setSkinID(this.Player.ClientProtocol === 'xin-20261013' ? pet.skinId ?? 0 : 0)
+        .setShiny(this.Player.ClientProtocol === 'xin-20261013' ? pet.shiny ?? 0 : 0);
     });
   }
 
@@ -1319,7 +1573,8 @@ export class BattleManager extends BaseManager {
       playerPets,
       0,
       actualEnemyNickname,
-      enemyPets
+      enemyPets,
+      this.Player.ClientProtocol
     ));
   }
 

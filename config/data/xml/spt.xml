@@ -1,4 +1,4 @@
-﻿<!-- MonsterID从1开始，EvolvesFrom=0表示最初形态，EvolvesTo=0表示最终状态 -->
+<!-- MonsterID从1开始，EvolvesFrom=0表示最初形态，EvolvesTo=0表示最终状态 -->
 <!-- DefName默认名字，
 Type种族，GrowthTypethType成长类型，YieldingExp被击败时产出的经验值，YieldingEV被击败时产出的努力值，EvolvingLv进化等级 -->
 <!-- CatchRate="" 捕获概率	-->
@@ -1231,6 +1231,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesFrom="0" EvolvesTo="0" FreeForbidden="1" FuseMaster="0" FuseSub="0" Gender="1"
 		PetClass="26" FormParam="0" CharacterAttrParam="0" GradeParam="5" AddSeParam="1">
 		<LearnableMoves>
+			<Move ID="20363" LearningLv="1" />
 			<Move ID="10006" LearningLv="1" />
 			<Move ID="20006" LearningLv="4" />
 			<Move ID="10166" LearningLv="8" />
@@ -1249,15 +1250,10 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20087" LearningLv="60" />
 			<Move ID="10175" LearningLv="64" />
 			<Move ID="10176" LearningLv="70" />
-			<!-- <SpMove ID="10823" />
-			<SpMove ID="10824" />
-			<SpMove ID="10825" />
-			<SpMove ID="20363" />
-			<SpMove ID="20364" />
-			<SpMove ID="13582" />
-			<SpMove ID="13583" />
-			<SpMove ID="13584" />
-			<SpMove ID="13585" /> -->
+			<Move ID="20364" LearningLv="70" />
+			<Move ID="10824" LearningLv="70" />
+			<Move ID="10823" LearningLv="70" />
+			<Move ID="10825" LearningLv="70" />
 		</LearnableMoves>
 	</Monster>
 	<Monster ID="71" DefName="派派" Type="6" GrowthType="3" HP="55" Atk="58" Def="50" SpAtk="45"
@@ -1265,6 +1261,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesTo="0" EvolvingLv="17" FreeForbidden="1" FuseMaster="0" FuseSub="1" PetClass="27"
 		FormParam="0" CharacterAttrParam="2" GradeParam="1" AddSeParam="0" EvolvFlag="3">
 		<LearnableMoves>
+			<Move ID="20363" LearningLv="1" />
 			<Move ID="10128" LearningLv="1" />
 			<Move ID="20065" LearningLv="5" />
 			<Move ID="10177" LearningLv="10" />
@@ -1649,6 +1646,21 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10129" LearningLv="6" />
 			<Move ID="20004" LearningLv="11" />
 			<Move ID="10284" LearningLv="16" />
+			<Move ID="10159" LearningLv="24" />
+			<Move ID="20040" LearningLv="28" />
+			<Move ID="10262" LearningLv="32" />
+			<Move ID="10259" LearningLv="37" />
+			<Move ID="20118" LearningLv="40" />
+			<Move ID="10263" LearningLv="44" />
+			<Move ID="10264" LearningLv="48" />
+			<Move ID="10260" LearningLv="51" />
+			<Move ID="20119" LearningLv="55" />
+			<Move ID="10164" LearningLv="60" />
+			<Move ID="10261" LearningLv="67" />
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="10129" LearningLv="6" />
+			<Move ID="20004" LearningLv="11" />
+			<Move ID="10284" LearningLv="16" />
 			<Move ID="10267" LearningLv="24" />
 			<Move ID="10172" LearningLv="28" />
 			<Move ID="20120" LearningLv="32" />
@@ -1671,6 +1683,21 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10129" LearningLv="6" />
 			<Move ID="20004" LearningLv="11" />
 			<Move ID="10284" LearningLv="16" />
+			<Move ID="10159" LearningLv="24" />
+			<Move ID="20040" LearningLv="28" />
+			<Move ID="10262" LearningLv="32" />
+			<Move ID="10259" LearningLv="37" />
+			<Move ID="20118" LearningLv="40" />
+			<Move ID="10263" LearningLv="44" />
+			<Move ID="10264" LearningLv="48" />
+			<Move ID="10260" LearningLv="51" />
+			<Move ID="20119" LearningLv="55" />
+			<Move ID="10164" LearningLv="60" />
+			<Move ID="10261" LearningLv="67" />
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="10129" LearningLv="6" />
+			<Move ID="20004" LearningLv="11" />
+			<Move ID="10284" LearningLv="16" />
 			<Move ID="10202" LearningLv="24" />
 			<Move ID="10216" LearningLv="28" />
 			<Move ID="20064" LearningLv="32" />
@@ -1689,6 +1716,21 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesTo="96" EvolvingLv="27" FuseMaster="0" FuseSub="1" Gender="1" PetClass="35"
 		FormParam="0" CharacterAttrParam="6" GradeParam="0" AddSeParam="0">
 		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="10129" LearningLv="6" />
+			<Move ID="20004" LearningLv="11" />
+			<Move ID="10284" LearningLv="16" />
+			<Move ID="10159" LearningLv="24" />
+			<Move ID="20040" LearningLv="28" />
+			<Move ID="10262" LearningLv="32" />
+			<Move ID="10259" LearningLv="37" />
+			<Move ID="20118" LearningLv="40" />
+			<Move ID="10263" LearningLv="44" />
+			<Move ID="10264" LearningLv="48" />
+			<Move ID="10260" LearningLv="51" />
+			<Move ID="20119" LearningLv="55" />
+			<Move ID="10164" LearningLv="60" />
+			<Move ID="10261" LearningLv="67" />
 			<Move ID="10157" LearningLv="1" />
 			<Move ID="10011" LearningLv="5" />
 			<Move ID="20125" LearningLv="9" />
@@ -2200,21 +2242,16 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20160" LearningLv="73" />
 			<Move ID="10372" LearningLv="78" />
 			<Move ID="10369" LearningLv="85" />
-			<!--超模技能删掉-->
-			<!--<Move
-			ID="26026" LearningLv="86" Rec="1" Tag="2"/>-->
-			<!--<Move
-			ID="31836" LearningLv="87" Rec="1" Tag="4"/>-->
-			<!--<Move
-			ID="26027" LearningLv="88" Rec="1" Tag="3"/>-->
-			<!--<Move
-			ID="31837" LearningLv="89" Rec="1" Tag="4"/>-->
+			<Move ID="26026" LearningLv="86" />
+			<Move ID="31836" LearningLv="87" />
+			<Move ID="26027" LearningLv="88" />
+			<Move ID="31837" LearningLv="89" />
 		</LearnableMoves>
 	</Monster>
 
 	<Monster ID="125" DefName="萨格罗斯" Type="11" IsLarge="1" GrowthType="4" HP="132" Atk="122"
 		Def="100" SpAtk="75" SpDef="98" Spd="113" YieldingExp="130" CatchRate="0"
-		YieldingEV="0 1 1 0 0 0" EvolvesFrom="123" EvolvesTo="0" FreeForbidden="1" FuseMaster="0" FuseSub="0" Gender="1"
+		YieldingEV="0 1 1 0 0 0" FreeForbidden="1" FuseMaster="0" FuseSub="0" Gender="1"
 		PetClass="45" FormParam="0" CharacterAttrParam="0" GradeParam="1" AddSeParam="0">
 		<LearnableMoves>
 			<Move ID="10361" LearningLv="1" />
@@ -4940,6 +4977,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10477" LearningLv="21" />
 			<Move ID="10742" LearningLv="25" />
 			<Move ID="20325" LearningLv="29" />
+			<Move ID="10739" LearningLv="33" />
+			<Move ID="10527" LearningLv="37" />
+			<Move ID="20326" LearningLv="41" />
+			<Move ID="10740" LearningLv="45" />
+			<Move ID="20055" LearningLv="49" />
+			<Move ID="10743" LearningLv="53" />
+			<Move ID="20327" LearningLv="57" />
+			<Move ID="10741" LearningLv="61" />
+			<Move ID="10737" LearningLv="1" />
+			<Move ID="20283" LearningLv="5" />
+			<Move ID="10738" LearningLv="9" />
+			<Move ID="10522" LearningLv="13" />
+			<Move ID="20324" LearningLv="17" />
+			<Move ID="10477" LearningLv="21" />
+			<Move ID="10742" LearningLv="25" />
+			<Move ID="20325" LearningLv="29" />
 			<Move ID="10745" LearningLv="34" />
 			<Move ID="20328" LearningLv="38" />
 			<Move ID="10746" LearningLv="42" />
@@ -4963,6 +5016,38 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10477" LearningLv="21" />
 			<Move ID="10742" LearningLv="25" />
 			<Move ID="20325" LearningLv="29" />
+			<Move ID="10739" LearningLv="33" />
+			<Move ID="10527" LearningLv="37" />
+			<Move ID="20326" LearningLv="41" />
+			<Move ID="10740" LearningLv="45" />
+			<Move ID="20055" LearningLv="49" />
+			<Move ID="10743" LearningLv="53" />
+			<Move ID="20327" LearningLv="57" />
+			<Move ID="10741" LearningLv="61" />
+			<Move ID="10737" LearningLv="1" />
+			<Move ID="20283" LearningLv="5" />
+			<Move ID="10738" LearningLv="9" />
+			<Move ID="10522" LearningLv="13" />
+			<Move ID="20324" LearningLv="17" />
+			<Move ID="10477" LearningLv="21" />
+			<Move ID="10742" LearningLv="25" />
+			<Move ID="20325" LearningLv="29" />
+			<Move ID="10745" LearningLv="34" />
+			<Move ID="20328" LearningLv="38" />
+			<Move ID="10746" LearningLv="42" />
+			<Move ID="20329" LearningLv="46" />
+			<Move ID="10747" LearningLv="50" />
+			<Move ID="20330" LearningLv="54" />
+			<Move ID="10744" LearningLv="58" />
+			<Move ID="10748" LearningLv="62" />
+			<Move ID="10737" LearningLv="1" />
+			<Move ID="20283" LearningLv="5" />
+			<Move ID="10738" LearningLv="9" />
+			<Move ID="10522" LearningLv="13" />
+			<Move ID="20324" LearningLv="17" />
+			<Move ID="10477" LearningLv="21" />
+			<Move ID="10742" LearningLv="25" />
+			<Move ID="20325" LearningLv="29" />
 			<Move ID="10749" LearningLv="34" />
 			<Move ID="10752" LearningLv="38" />
 			<Move ID="20331" LearningLv="42" />
@@ -4978,6 +5063,38 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesFrom="269" EvolvesTo="0" FuseMaster="1" FuseSub="1" Gender="1" PetClass="103"
 		FormParam="0" CharacterAttrParam="0" GradeParam="1" AddSeParam="0">
 		<LearnableMoves>
+			<Move ID="10737" LearningLv="1" />
+			<Move ID="20283" LearningLv="5" />
+			<Move ID="10738" LearningLv="9" />
+			<Move ID="10522" LearningLv="13" />
+			<Move ID="20324" LearningLv="17" />
+			<Move ID="10477" LearningLv="21" />
+			<Move ID="10742" LearningLv="25" />
+			<Move ID="20325" LearningLv="29" />
+			<Move ID="10739" LearningLv="33" />
+			<Move ID="10527" LearningLv="37" />
+			<Move ID="20326" LearningLv="41" />
+			<Move ID="10740" LearningLv="45" />
+			<Move ID="20055" LearningLv="49" />
+			<Move ID="10743" LearningLv="53" />
+			<Move ID="20327" LearningLv="57" />
+			<Move ID="10741" LearningLv="61" />
+			<Move ID="10737" LearningLv="1" />
+			<Move ID="20283" LearningLv="5" />
+			<Move ID="10738" LearningLv="9" />
+			<Move ID="10522" LearningLv="13" />
+			<Move ID="20324" LearningLv="17" />
+			<Move ID="10477" LearningLv="21" />
+			<Move ID="10742" LearningLv="25" />
+			<Move ID="20325" LearningLv="29" />
+			<Move ID="10745" LearningLv="34" />
+			<Move ID="20328" LearningLv="38" />
+			<Move ID="10746" LearningLv="42" />
+			<Move ID="20329" LearningLv="46" />
+			<Move ID="10747" LearningLv="50" />
+			<Move ID="20330" LearningLv="54" />
+			<Move ID="10744" LearningLv="58" />
+			<Move ID="10748" LearningLv="62" />
 			<Move ID="10737" LearningLv="1" />
 			<Move ID="20283" LearningLv="5" />
 			<Move ID="10738" LearningLv="9" />
@@ -5254,7 +5371,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 	</Monster>
 	<Monster ID="288" DefName="厄斯沃姆" Type="6" IsLarge="1" GrowthType="3" HP="95" Atk="115" Def="80"
 		SpAtk="85" SpDef="80" Spd="98" YieldingExp="117" CatchRate="0" YieldingEV="0 1 0 0 0 1"
-		EvolvesFrom="287" EvolvesTo="0" FuseMaster="1" FuseSub="1" PetClass="109" FormParam="0"
+		EvolvesFrom="287" FuseMaster="1" FuseSub="1" PetClass="109" FormParam="0"
 		CharacterAttrParam="0" GradeParam="1" AddSeParam="0">
 		<LearnableMoves>
 			<Move ID="10001" LearningLv="1" />
@@ -6246,7 +6363,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 	</Monster>
 	<Monster ID="340" DefName="托雷塔斯" Type="6" IsLarge="1" GrowthType="4" HP="110" Atk="110" Def="90"
 		SpAtk="110" SpDef="90" Spd="85" YieldingExp="130" CatchRate="0" YieldingEV="1 1 0 1 0 0"
-		EvolvesFrom="339" EvolvesTo="0" FuseMaster="0" FuseSub="0" PetClass="129" FormParam="0"
+		EvolvesFrom="339" FuseMaster="0" FuseSub="0" PetClass="129" FormParam="0"
 		CharacterAttrParam="6" GradeParam="1" AddSeParam="0" IsFuseMon="1">
 		<LearnableMoves>
 			<Move ID="10128" LearningLv="1" />
@@ -6773,6 +6890,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20412" LearningLv="65" />
 			<Move ID="10902" LearningLv="69" />
 			<Move ID="10906" LearningLv="73" />
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20045" LearningLv="8" />
+			<Move ID="10047" LearningLv="15" />
+			<Move ID="10353" LearningLv="22" />
+			<Move ID="20405" LearningLv="29" />
+			<Move ID="10896" LearningLv="33" />
+			<Move ID="10899" LearningLv="37" />
+			<Move ID="20406" LearningLv="41" />
+			<Move ID="10647" LearningLv="45" />
+			<Move ID="10900" LearningLv="49" />
+			<Move ID="20407" LearningLv="53" />
+			<Move ID="10897" LearningLv="57" />
+			<Move ID="20408" LearningLv="61" />
+			<Move ID="10901" LearningLv="65" />
+			<Move ID="20409" LearningLv="69" />
+			<Move ID="10898" LearningLv="73" />
 		</LearnableMoves>
 	</Monster>
 	<Monster ID="368" DefName="炽翼蝶" Type="3" IsLarge="1" GrowthType="4" HP="102" Atk="88" Def="75"
@@ -6780,6 +6913,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesFrom="366" EvolvesTo="0" FreeForbidden="1" FuseMaster="1" FuseSub="1" Gender="2"
 		PetClass="140" FormParam="0" CharacterAttrParam="6" GradeParam="1" AddSeParam="0">
 		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20045" LearningLv="8" />
+			<Move ID="10047" LearningLv="15" />
+			<Move ID="10353" LearningLv="22" />
+			<Move ID="20405" LearningLv="29" />
+			<Move ID="10896" LearningLv="33" />
+			<Move ID="10899" LearningLv="37" />
+			<Move ID="20406" LearningLv="41" />
+			<Move ID="10647" LearningLv="45" />
+			<Move ID="10900" LearningLv="49" />
+			<Move ID="20407" LearningLv="53" />
+			<Move ID="10897" LearningLv="57" />
+			<Move ID="20408" LearningLv="61" />
+			<Move ID="10901" LearningLv="65" />
+			<Move ID="20409" LearningLv="69" />
+			<Move ID="10898" LearningLv="73" />
 			<Move ID="10001" LearningLv="1" />
 			<Move ID="20045" LearningLv="8" />
 			<Move ID="10353" LearningLv="15" />
@@ -6808,6 +6957,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10047" LearningLv="15" />
 			<Move ID="10353" LearningLv="22" />
 			<Move ID="20405" LearningLv="29" />
+			<Move ID="10896" LearningLv="33" />
+			<Move ID="10899" LearningLv="37" />
+			<Move ID="20406" LearningLv="41" />
+			<Move ID="10647" LearningLv="45" />
+			<Move ID="10900" LearningLv="49" />
+			<Move ID="20407" LearningLv="53" />
+			<Move ID="10897" LearningLv="57" />
+			<Move ID="20408" LearningLv="61" />
+			<Move ID="10901" LearningLv="65" />
+			<Move ID="20409" LearningLv="69" />
+			<Move ID="10898" LearningLv="73" />
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20045" LearningLv="8" />
+			<Move ID="10047" LearningLv="15" />
+			<Move ID="10353" LearningLv="22" />
+			<Move ID="20405" LearningLv="29" />
 			<Move ID="10912" LearningLv="33" />
 			<Move ID="10337" LearningLv="37" />
 			<Move ID="20421" LearningLv="41" />
@@ -6826,6 +6991,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesTo="371" EvolvingLv="20" FuseMaster="0" FuseSub="1" PetClass="141" FormParam="0"
 		CharacterAttrParam="2" GradeParam="1" AddSeParam="0">
 		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20045" LearningLv="8" />
+			<Move ID="10047" LearningLv="15" />
+			<Move ID="10353" LearningLv="22" />
+			<Move ID="20405" LearningLv="29" />
+			<Move ID="10896" LearningLv="33" />
+			<Move ID="10899" LearningLv="37" />
+			<Move ID="20406" LearningLv="41" />
+			<Move ID="10647" LearningLv="45" />
+			<Move ID="10900" LearningLv="49" />
+			<Move ID="20407" LearningLv="53" />
+			<Move ID="10897" LearningLv="57" />
+			<Move ID="20408" LearningLv="61" />
+			<Move ID="10901" LearningLv="65" />
+			<Move ID="20409" LearningLv="69" />
+			<Move ID="10898" LearningLv="73" />
 			<Move ID="10234" LearningLv="1" />
 			<Move ID="20273" LearningLv="7" />
 			<Move ID="10922" LearningLv="12" />
@@ -6921,6 +7102,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10135" LearningLv="21" />
 			<Move ID="20423" LearningLv="25" />
 			<Move ID="10927" LearningLv="29" />
+			<Move ID="20424" LearningLv="33" />
+			<Move ID="10929" LearningLv="37" />
+			<Move ID="20425" LearningLv="41" />
+			<Move ID="10449" LearningLv="45" />
+			<Move ID="10930" LearningLv="49" />
+			<Move ID="20426" LearningLv="53" />
+			<Move ID="10928" LearningLv="57" />
+			<Move ID="10931" LearningLv="61" />
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20065" LearningLv="5" />
+			<Move ID="10943" LearningLv="9" />
+			<Move ID="20422" LearningLv="13" />
+			<Move ID="10916" LearningLv="17" />
+			<Move ID="10135" LearningLv="21" />
+			<Move ID="20423" LearningLv="25" />
+			<Move ID="10927" LearningLv="29" />
 			<Move ID="20427" LearningLv="33" />
 			<Move ID="10933" LearningLv="37" />
 			<Move ID="20428" LearningLv="41" />
@@ -6936,6 +7133,22 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesTo="377" EvolvingLv="30" FuseMaster="0" FuseSub="1" Gender="1" PetClass="143"
 		FormParam="0" CharacterAttrParam="2" GradeParam="0" AddSeParam="0">
 		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20065" LearningLv="5" />
+			<Move ID="10943" LearningLv="9" />
+			<Move ID="20422" LearningLv="13" />
+			<Move ID="10916" LearningLv="17" />
+			<Move ID="10135" LearningLv="21" />
+			<Move ID="20423" LearningLv="25" />
+			<Move ID="10927" LearningLv="29" />
+			<Move ID="20424" LearningLv="33" />
+			<Move ID="10929" LearningLv="37" />
+			<Move ID="20425" LearningLv="41" />
+			<Move ID="10449" LearningLv="45" />
+			<Move ID="10930" LearningLv="49" />
+			<Move ID="20426" LearningLv="53" />
+			<Move ID="10928" LearningLv="57" />
+			<Move ID="10931" LearningLv="61" />
 			<Move ID="10086" LearningLv="1" />
 			<Move ID="20353" LearningLv="4" />
 			<Move ID="10706" LearningLv="7" />
@@ -14518,6 +14731,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		EvolvesFrom="797" EvolvesTo="0" FreeForbidden="1" FuseMaster="0" FuseSub="0" Gender="1"
 		PetClass="315" FormParam="0" CharacterAttrParam="1" GradeParam="5" AddSeParam="1">
 		<LearnableMoves>
+			<Move ID="21890" LearningLv="1" />
 			<Move ID="10223" LearningLv="1" />
 			<Move ID="20865" LearningLv="5" />
 			<Move ID="11923" LearningLv="9" />
@@ -14534,6 +14748,21 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="11927" LearningLv="53" />
 			<Move ID="20982" LearningLv="57" />
 			<Move ID="11925" LearningLv="61" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			<SpMove ID="21890" />
 			<SpMove ID="13582" />
 			<SpMove ID="13583" />
@@ -17726,10 +17955,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20525" LearningLv="29" />
 			<Move ID="11851" LearningLv="33" />
 			<Move ID="12299" LearningLv="37" />
-			<!--性别相关技能,
-			未实装-->
-			<!--<Move
-			ID="21193" LearningLv="41"/>-->
+			<Move ID="21193" LearningLv="41" />
 			<Move ID="12297" LearningLv="45" />
 			<Move ID="21194" LearningLv="49" />
 			<Move ID="12300" LearningLv="53" />
@@ -17781,15 +18007,9 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="11222" LearningLv="29" />
 			<Move ID="21196" LearningLv="33" />
 			<Move ID="11808" LearningLv="37" />
-			<!--性别相关技能,
-			未实装-->
-			<!--<Move
-			ID="21197" LearningLv="41"/>-->
+			<Move ID="21197" LearningLv="41" />
 			<Move ID="12301" LearningLv="45" />
-			<!--性别相关技能,
-			未实装-->
-			<!--<Move
-			ID="12304" LearningLv="49"/>-->
+			<Move ID="12304" LearningLv="49" />
 			<Move ID="21210" LearningLv="53" />
 			<Move ID="12302" LearningLv="57" />
 			<Move ID="12305" LearningLv="61" />
@@ -27286,7 +27506,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		</LearnableMoves>
 	</Monster>
 	<Monster ID="1450" DefName="沃安" Type="12" GrowthType="4" HP="72" Atk="48" Def="42" SpAtk="75"
-		SpDef="49" Spd="63" YieldingExp="70" CatchRate="0" YieldingEV="0 0 0 1 0 0" EvolvesFrom="0"
+		SpDef="49" Spd="63" YieldingExp="70" CatchRate="40" YieldingEV="0 0 0 1 0 0" EvolvesFrom="0"
 		EvolvesTo="1451" EvolvingLv="38" FuseMaster="0" FuseSub="0" Gender="2" PetClass="616"
 		FormParam="0" CharacterAttrParam="1" GradeParam="0" AddSeParam="0">
 		<LearnableMoves>
@@ -28356,9 +28576,8 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 		</LearnableMoves>
 	</Monster>
 
-	<Monster ID="2470" DefName="萨罗德" Type="11" GrowthType="4" HP="132" Atk="122" Def="100"
-		SpAtk="75" SpDef="98" Spd="113" YieldingExp="70" CatchRate="0" YieldingEV="0 1 0 0 0 0"
-		EvolvesFrom="0" EvolvesTo="125" EvolvingLv="50" FreeForbidden="1" FuseMaster="0" FuseSub="0"
+	<Monster ID="2470" DefName="萨罗德" Type="11" GrowthType="4" HP="70" Atk="80" Def="44"
+		SpAtk="50" SpDef="43" Spd="75" YieldingExp="100" CatchRate="0" YieldingEV="0 1 0 0 0 0" FreeForbidden="1" FuseMaster="0" FuseSub="0"
 		Gender="1" PetClass="45" FormParam="0" CharacterAttrParam="0" GradeParam="1" AddSeParam="0">
 		<LearnableMoves>
 			<Move ID="10361" LearningLv="1" />
@@ -28371,13 +28590,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10356" LearningLv="38" />
 			<Move ID="20161" LearningLv="43" />
 			<Move ID="10376" LearningLv="48" />
-			<!-- <Move ID="10373" LearningLv="53"/>
-			<Move ID="23403" LearningLv="58"/>
-			<Move ID="10377" LearningLv="63"/>
-			<Move ID="10374" LearningLv="68"/>
-			<Move ID="20163" LearningLv="73"/>
-			<Move ID="10378" LearningLv="78"/>
-			<Move ID="10375" LearningLv="85"/> -->
+			<Move ID="10373" LearningLv="53" />
 		</LearnableMoves>
 	</Monster>
 
@@ -29216,4 +29429,232 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 	<Monster ID="1400641" DefName="皓月流光·波西利亚" RealId="" />
 	<Monster ID="1400642" DefName="都市漫游·蒂小朵" RealId="" />
 	<Monster ID="1400643" DefName="莫伊莱" RealId="4210" />
+	<Monster ID="100001" DefName="幽光鼠" Type="5" GrowthType="4" HP="56" Atk="65" Def="37" SpAtk="38" SpDef="35" Spd="57" YieldingExp="70" CatchRate="0" EvolvesFrom="0" EvolvesTo="100002" EvolvingLv="23" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20004" LearningLv="5" />
+			<Move ID="20006" LearningLv="9" />
+			<Move ID="10011" LearningLv="13" />
+			<Move ID="10040" LearningLv="18" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100002" DefName="黑电鼠" Type="5" GrowthType="4" HP="77" Atk="85" Def="52" SpAtk="57" SpDef="50" Spd="78" YieldingExp="100" CatchRate="0" EvolvesFrom="100001" EvolvesTo="100003" EvolvingLv="44" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20004" LearningLv="5" />
+			<Move ID="20006" LearningLv="9" />
+			<Move ID="10011" LearningLv="13" />
+			<Move ID="10040" LearningLv="18" />
+			<Move ID="20016" LearningLv="23" />
+			<Move ID="20011" LearningLv="28" />
+			<Move ID="10041" LearningLv="35" />
+			<Move ID="10015" LearningLv="42" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100003" DefName="暗雷鼠" Type="5" GrowthType="4" HP="114" Atk="120" Def="85" SpAtk="90" SpDef="80" Spd="106" YieldingExp="130" CatchRate="0" EvolvesFrom="100002" EvolvesTo="0" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20004" LearningLv="5" />
+			<Move ID="20006" LearningLv="9" />
+			<Move ID="10011" LearningLv="13" />
+			<Move ID="10040" LearningLv="18" />
+			<Move ID="20016" LearningLv="23" />
+			<Move ID="20011" LearningLv="28" />
+			<Move ID="10041" LearningLv="35" />
+			<Move ID="10015" LearningLv="42" />
+			<Move ID="20018" LearningLv="49" />
+			<Move ID="10010" LearningLv="56" />
+			<Move ID="50001" LearningLv="61" />
+			<Move ID="50002" LearningLv="68" />
+			<Move ID="50003" LearningLv="75" />
+			<Move ID="50004" LearningLv="81" />
+			<Move ID="50005" LearningLv="87" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100004" DefName="维利" Type="2" GrowthType="4" HP="56" Atk="46" Def="51" SpAtk="66" SpDef="52" Spd="50" YieldingExp="70" CatchRate="0" EvolvesFrom="0" EvolvesTo="100002" EvolvingLv="21" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10004" LearningLv="1" />
+			<Move ID="20003" LearningLv="4" />
+			<Move ID="20092" LearningLv="7" />
+			<Move ID="10184" LearningLv="10" />
+			<Move ID="10185" LearningLv="13" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100005" DefName="维尔达" Type="2" GrowthType="4" HP="77" Atk="85" Def="52" SpAtk="57" SpDef="50" Spd="78" YieldingExp="100" CatchRate="0" EvolvesFrom="100004" EvolvesTo="100006" EvolvingLv="39" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10004" LearningLv="1" />
+			<Move ID="20003" LearningLv="4" />
+			<Move ID="20092" LearningLv="7" />
+			<Move ID="10184" LearningLv="10" />
+			<Move ID="10185" LearningLv="13" />
+			<Move ID="20093" LearningLv="16" />
+			<Move ID="10070" LearningLv="19" />
+			<Move ID="10186" LearningLv="23" />
+			<Move ID="10190" LearningLv="27" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100006" DefName="暗晶鸭" Type="2" GrowthType="4" HP="114" Atk="120" Def="85" SpAtk="90" SpDef="80" Spd="106" YieldingExp="130" CatchRate="0" EvolvesFrom="100005" EvolvesTo="0" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10004" LearningLv="1" />
+			<Move ID="20003" LearningLv="4" />
+			<Move ID="20092" LearningLv="7" />
+			<Move ID="10184" LearningLv="10" />
+			<Move ID="10185" LearningLv="13" />
+			<Move ID="20093" LearningLv="16" />
+			<Move ID="10070" LearningLv="19" />
+			<Move ID="10186" LearningLv="23" />
+			<Move ID="10190" LearningLv="27" />
+			<Move ID="50010" LearningLv="31" />
+			<Move ID="10155" LearningLv="35" />
+			<Move ID="20094" LearningLv="39" />
+			<Move ID="50011" LearningLv="43" />
+			<Move ID="10187" LearningLv="48" />
+			<Move ID="10191" LearningLv="53" />
+			<Move ID="20095" LearningLv="58" />
+			<Move ID="50012" LearningLv="61" />
+			<Move ID="10188" LearningLv="64" />
+			<Move ID="10192" LearningLv="67" />
+			<Move ID="10189" LearningLv="70" />
+			<Move ID="50013" LearningLv="73" />
+			<Move ID="50014" LearningLv="76" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100007" DefName="沙克" Type="1" GrowthType="4" HP="59" Atk="55" Def="46" SpAtk="34" SpDef="52" Spd="52" YieldingExp="75" CatchRate="0" EvolvesFrom="0" EvolvesTo="100008" EvolvingLv="32" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20004" LearningLv="4" />
+			<Move ID="10113" LearningLv="7" />
+			<Move ID="10112" LearningLv="11" />
+			<Move ID="10116" LearningLv="14" />
+			<Move ID="10338" LearningLv="17" />
+			<Move ID="20020" LearningLv="20" />
+			<Move ID="10237" LearningLv="23" />
+			<Move ID="20027" LearningLv="26" />
+			<Move ID="50018" LearningLv="29" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100008" DefName="沙其卡" Type="1" GrowthType="4" HP="123" Atk="115" Def="95" SpAtk="74" SpDef="90" Spd="100" YieldingExp="125" CatchRate="0" EvolvesFrom="100007" EvolvesTo="0" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10001" LearningLv="1" />
+			<Move ID="20004" LearningLv="4" />
+			<Move ID="10113" LearningLv="7" />
+			<Move ID="10112" LearningLv="11" />
+			<Move ID="10116" LearningLv="14" />
+			<Move ID="10338" LearningLv="17" />
+			<Move ID="20020" LearningLv="20" />
+			<Move ID="10237" LearningLv="23" />
+			<Move ID="20027" LearningLv="26" />
+			<Move ID="50018" LearningLv="29" />
+			<Move ID="10318" LearningLv="33" />
+			<Move ID="10600" LearningLv="37" />
+			<Move ID="10602" LearningLv="41" />
+			<Move ID="50017" LearningLv="45" />
+			<Move ID="20261" LearningLv="49" />
+			<Move ID="50015" LearningLv="53" />
+			<Move ID="10601" LearningLv="57" />
+			<Move ID="10603" LearningLv="61" />
+			<Move ID="20262" LearningLv="64" />
+			<Move ID="50016" LearningLv="67" />
+			<Move ID="10604" LearningLv="70" />
+			<Move ID="50019" LearningLv="73" />
+			<Move ID="50020" LearningLv="76" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100009" DefName="巴利" Type="3" GrowthType="4" HP="54" Atk="48" Def="45" SpAtk="59" SpDef="45" Spd="47" YieldingExp="70" CatchRate="0" EvolvesFrom="0" EvolvesTo="100010" EvolvingLv="21" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10047" LearningLv="1" />
+			<Move ID="10087" LearningLv="6" />
+			<Move ID="20177" LearningLv="11" />
+			<Move ID="10302" LearningLv="16" />
+			<Move ID="10412" LearningLv="20" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100010" DefName="巴希斯" Type="3" GrowthType="4" HP="81" Atk="59" Def="61" SpAtk="80" SpDef="62" Spd="72" YieldingExp="100" CatchRate="0" EvolvesFrom="100009" EvolvesTo="100011" EvolvingLv="41" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10047" LearningLv="1" />
+			<Move ID="10087" LearningLv="6" />
+			<Move ID="20177" LearningLv="11" />
+			<Move ID="10302" LearningLv="16" />
+			<Move ID="10412" LearningLv="20" />
+			<Move ID="20013" LearningLv="24" />
+			<Move ID="50023" LearningLv="28" />
+			<Move ID="10411" LearningLv="32" />
+			<Move ID="10413" LearningLv="36" />
+			<Move ID="20178" LearningLv="40" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="100011" DefName="巴赛特" Type="3" GrowthType="4" HP="124" Atk="78" Def="84" SpAtk="117" SpDef="85" Spd="109" YieldingExp="130" CatchRate="0" EvolvesFrom="100010" EvolvesTo="0" FreeForbidden="1" IsDark="1">
+		<LearnableMoves>
+			<Move ID="10047" LearningLv="1" />
+			<Move ID="10087" LearningLv="6" />
+			<Move ID="20177" LearningLv="11" />
+			<Move ID="10302" LearningLv="16" />
+			<Move ID="10412" LearningLv="20" />
+			<Move ID="20013" LearningLv="24" />
+			<Move ID="50023" LearningLv="28" />
+			<Move ID="10411" LearningLv="32" />
+			<Move ID="10413" LearningLv="36" />
+			<Move ID="20178" LearningLv="40" />
+			<Move ID="50021" LearningLv="44" />
+			<Move ID="10417" LearningLv="47" />
+			<Move ID="10414" LearningLv="50" />
+			<Move ID="50022" LearningLv="53" />
+			<Move ID="20179" LearningLv="56" />
+			<Move ID="10418" LearningLv="59" />
+			<Move ID="50024" LearningLv="62" />
+			<Move ID="10415" LearningLv="65" />
+			<Move ID="10419" LearningLv="68" />
+			<Move ID="50025" LearningLv="71" />
+			<Move ID="20180" LearningLv="74" />
+			<Move ID="50026" LearningLv="77" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="110001" DefName="闪光吉尔" Type="3" GrowthType="4" HP="49" Atk="52" Def="45" SpAtk="63" SpDef="52" Spd="67" YieldingExp="70" CatchRate="15" EvolvesFrom="0" EvolvesTo="110002" EvolvingLv="22" IsRareMon="1">
+		<LearnableMoves>
+			<Move ID="10006" LearningLv="1" />
+			<Move ID="20002" LearningLv="5" />
+			<Move ID="10007" LearningLv="9" />
+			<Move ID="20042" LearningLv="13" />
+			<Move ID="10079" LearningLv="17" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="110002" DefName="闪光里诺" Type="3" GrowthType="4" HP="73" Atk="64" Def="61" SpAtk="84" SpDef="68" Spd="83" YieldingExp="100" CatchRate="0" EvolvesFrom="110001" EvolvesTo="110003" EvolvingLv="43" FreeForbidden="1">
+		<LearnableMoves>
+			<Move ID="10006" LearningLv="1" />
+			<Move ID="20002" LearningLv="5" />
+			<Move ID="10007" LearningLv="9" />
+			<Move ID="20042" LearningLv="13" />
+			<Move ID="10079" LearningLv="17" />
+			<Move ID="20018" LearningLv="21" />
+			<Move ID="10080" LearningLv="25" />
+			<Move ID="10077" LearningLv="29" />
+		</LearnableMoves>
+	</Monster>
+	<Monster ID="110003" DefName="闪光洛拉斯" Type="3" GrowthType="4" HP="98" Atk="84" Def="95" SpAtk="115" SpDef="88" Spd="107" YieldingExp="130" CatchRate="0" EvolvesFrom="110002" EvolvesTo="0" FreeForbidden="1">
+		<LearnableMoves>
+			<Move ID="10006" LearningLv="1" />
+			<Move ID="20002" LearningLv="5" />
+			<Move ID="10007" LearningLv="9" />
+			<Move ID="20042" LearningLv="13" />
+			<Move ID="10079" LearningLv="17" />
+			<Move ID="20018" LearningLv="21" />
+			<Move ID="10080" LearningLv="25" />
+			<Move ID="10077" LearningLv="29" />
+			<Move ID="10081" LearningLv="33" />
+			<Move ID="10034" LearningLv="37" />
+			<Move ID="20043" LearningLv="40" />
+			<Move ID="10056" LearningLv="43" />
+			<Move ID="10083" LearningLv="46" />
+			<Move ID="10082" LearningLv="49" />
+			<Move ID="20044" LearningLv="52" />
+			<Move ID="10009" LearningLv="55" />
+			<Move ID="10085" LearningLv="58" />
+			<Move ID="10035" LearningLv="61" />
+			<Move ID="50006" LearningLv="64" />
+			<Move ID="10084" LearningLv="67" />
+			<Move ID="50007" LearningLv="71" />
+			<Move ID="50008" LearningLv="75" />
+			<Move ID="50009" LearningLv="79" />
+		</LearnableMoves>
+	</Monster>
 </Monsters>

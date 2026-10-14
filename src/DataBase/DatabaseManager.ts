@@ -11,6 +11,24 @@ import { Logger } from '../shared/utils';
 export class DatabaseManager {
   private static _instance: DatabaseManager | null = null;
   private _driver: IDriver | null = null;
+  private operationTail: Promise<void> = Promise.resolve();
+  private closing = false;
+  private shutdownPromise: Promise<void> | null = null;
+
+  /** Serializes access to the driver, whose transaction connection is shared.
+   * Callbacks must use the supplied driver, not re-enter this manager. */
+  public async WithConnection<T>(callback: (driver: IDriver) => Promise<T>): Promise<T> {
+    if (this.closing) throw new Error('数据库正在关闭');
+    return this.Enqueue(callback);
+  }
+
+  private async Enqueue<T>(callback: (driver: IDriver) => Promise<T>): Promise<T> {
+    const previous = this.operationTail;
+    let release!: () => void;
+    this.operationTail = new Promise<void>(resolve => { release = resolve; });
+    await previous;
+    try { return await callback(this.Driver); } finally { release(); }
+  }
 
   private constructor() {
     // 使用统一配置
@@ -30,6 +48,7 @@ export class DatabaseManager {
    * 初始化数据库连接
    */
   public async Initialize(): Promise<void> {
+    if (this.shutdownPromise) await this.shutdownPromise;
     if (this._driver?.isConnected()) {
       Logger.Warn('[DatabaseManager] 数据库已连接');
       return;
@@ -63,6 +82,8 @@ export class DatabaseManager {
     }
 
     await this._driver.connect();
+    this.closing = false;
+    this.shutdownPromise = null;
     Logger.Info('[DatabaseManager] 数据库连接成功');
   }
 
@@ -70,10 +91,14 @@ export class DatabaseManager {
    * 关闭数据库连接
    */
   public async Shutdown(): Promise<void> {
-    if (this._driver) {
-      await this._driver.disconnect();
+    if (this.shutdownPromise) return this.shutdownPromise;
+    if (!this._driver) return;
+    this.closing = true;
+    this.shutdownPromise = this.Enqueue(async driver => {
+      await driver.disconnect();
       this._driver = null;
-    }
+    });
+    return this.shutdownPromise;
   }
 
   /**
@@ -97,29 +122,31 @@ export class DatabaseManager {
    * 查询数据
    */
   public async Query<T = any>(sql: string, params?: any[]): Promise<T[]> {
-    return this.Driver.query<T>(sql, params);
+    return this.WithConnection(driver => driver.query<T>(sql, params));
   }
 
   /**
    * 执行SQL
    */
   public async Execute(sql: string, params?: any[]): Promise<{ affectedRows: number; insertId: number }> {
-    return this.Driver.execute(sql, params);
+    return this.WithConnection(driver => driver.execute(sql, params));
   }
 
   /**
    * 执行事务
    * @param callback 事务回调函数
    */
-  public async Transaction<T>(callback: () => Promise<T>): Promise<T> {
-    await this.Driver.beginTransaction();
-    try {
-      const result = await callback();
-      await this.Driver.commit();
-      return result;
-    } catch (err) {
-      await this.Driver.rollback();
-      throw err;
-    }
+  public async Transaction<T>(callback: (driver: IDriver) => Promise<T>): Promise<T> {
+    return this.WithConnection(async driver => {
+      await driver.beginTransaction();
+      try {
+        const result = await callback(driver);
+        await driver.commit();
+        return result;
+      } catch (err) {
+        await driver.rollback();
+        throw err;
+      }
+    });
   }
 }

@@ -1,4 +1,5 @@
 import { BaseProto } from '../../../base/BaseProto';
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
 import { CommandID } from '../../../../protocol/CommandID';
 import { SeerMapUserInfoProto } from '../../../common/SeerMapUserInfoProto';
 
@@ -14,8 +15,8 @@ export class EnterMapRspProto extends BaseProto {
     this.userInfo = userInfo || new SeerMapUserInfoProto();
   }
 
-  serialize(): Buffer {
-    return this.userInfo.serialize();
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
+    return this.userInfo.serialize(protocol);
   }
 
   // 链式调用辅助方法

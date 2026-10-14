@@ -249,6 +249,7 @@ class ServiceManager {
       Logger.Info('[ServiceManager] 停止游戏服务器...');
       const gameStopPromise = this._gameServer.Stop().catch((err) => {
         Logger.Error('[ServiceManager] 停止游戏服务器失败', err as Error);
+        throw err;
       });
       stopPromises.push(gameStopPromise);
     }
@@ -266,18 +267,23 @@ class ServiceManager {
       Logger.Info('[ServiceManager] 停止代理服务器...');
       const proxyStopPromise = this._proxyServer.Stop().catch((err) => {
         Logger.Error('[ServiceManager] 停止代理服务器失败', err as Error);
+        throw err;
       });
       stopPromises.push(proxyStopPromise);
     }
     
-    // 等待所有服务停止，最多等待 8 秒
-    await Promise.race([
-      Promise.all(stopPromises),
-      new Promise<void>((resolve) => setTimeout(() => {
-        Logger.Warn('[ServiceManager] 停止服务超时，强制继续');
-        resolve();
-      }, 8000))
-    ]);
+    // A failed or timed-out final save must reach gracefulShutdown's exit(1).
+    let stopTimeout: NodeJS.Timeout | undefined;
+    try {
+      await Promise.race([
+        Promise.all(stopPromises),
+        new Promise<void>((_resolve, reject) => {
+          stopTimeout = setTimeout(() => reject(new Error('停止服务超时，数据保存未确认完成')), 8000);
+        })
+      ]);
+    } finally {
+      if (stopTimeout) clearTimeout(stopTimeout);
+    }
     
     Logger.Info('[ServiceManager] 所有服务已停止');
   }

@@ -11,7 +11,7 @@ export class PacketAddTaskBuf extends BaseProto {
     const proto = new AddTaskBufRspProto();
 
     if (result !== 0) {
-      proto.setResult(result);
+      this.setResult(result);
     }
 
     this._data = proto.serialize();

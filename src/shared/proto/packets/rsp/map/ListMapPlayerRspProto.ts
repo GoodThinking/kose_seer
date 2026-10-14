@@ -1,5 +1,6 @@
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
+import { ClientProtocol } from '../../../../protocol/ClientProtocol';
 import { CommandID } from '../../../../protocol/CommandID';
 import { SeerMapUserInfoProto } from '../../../common/SeerMapUserInfoProto';
 
@@ -13,7 +14,7 @@ export class ListMapPlayerRspProto extends BaseProto {
     super(CommandID.LIST_MAP_PLAYER);
   }
 
-  serialize(): Buffer {
+  serialize(protocol: ClientProtocol = 'kose'): Buffer {
     const writer = new BufferWriter(4096);
     
     // 写入玩家数量
@@ -21,7 +22,7 @@ export class ListMapPlayerRspProto extends BaseProto {
     
     // 写入每个玩家的信息
     for (const player of this.players) {
-      writer.WriteBytes(player.serialize());
+      writer.WriteBytes(player.serialize(protocol));
     }
     
     return writer.ToBuffer();

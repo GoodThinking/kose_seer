@@ -1,6 +1,7 @@
 import { BaseProto } from '../../../base/BaseProto';
 import { BufferWriter } from '../../../../utils';
 import { CommandID } from '../../../../protocol/CommandID';
+import { SessionKeyToWire } from '../../../../protocol/SessionToken';
 
 /**
  * [CMD: MAIN_LOGIN_IN (104)] 主登录响应
@@ -24,14 +25,7 @@ export class MainLoginRspProto extends BaseProto {
    * 辅助方法：设置Session
    */
   setSession(sessionKey: string | undefined): this {
-    if (sessionKey) {
-      this.session = this.buildBuffer(sessionKey, 16);
-    } else {
-      // 随机生成session
-      for (let i = 0; i < 16; i++) {
-        this.session[i] = Math.floor(Math.random() * 256);
-      }
-    }
+    this.session = SessionKeyToWire(sessionKey);
     return this;
   }
 

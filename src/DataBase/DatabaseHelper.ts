@@ -71,8 +71,8 @@ export class DatabaseHelper {
     return ItemDataAccessor.Instance.Get(uid);
   }
 
-  public async SaveItemData(data: ItemData): Promise<void> {
-    return ItemDataAccessor.Instance.Save(data);
+  public async SaveItemData(data: ItemData, throwOnError: boolean = false): Promise<void> {
+    return ItemDataAccessor.Instance.Save(data, throwOnError);
   }
 
   // ==================== PetData ====================
@@ -85,8 +85,8 @@ export class DatabaseHelper {
     return PetDataAccessor.Instance.Get(uid);
   }
 
-  public async SavePetData(data: PetData): Promise<void> {
-    return PetDataAccessor.Instance.Save(data);
+  public async SavePetData(data: PetData, throwOnError: boolean = false): Promise<void> {
+    return PetDataAccessor.Instance.Save(data, throwOnError);
   }
 
   // ==================== MailData ====================
@@ -113,8 +113,8 @@ export class DatabaseHelper {
     return TaskDataAccessor.Instance.Get(uid);
   }
 
-  public async SaveTaskData(data: TaskData): Promise<void> {
-    return TaskDataAccessor.Instance.Save(data);
+  public async SaveTaskData(data: TaskData, throwOnError: boolean = false): Promise<void> {
+    return TaskDataAccessor.Instance.Save(data, throwOnError);
   }
 
   // ==================== PlayerData ====================
