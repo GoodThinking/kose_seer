@@ -37,6 +37,27 @@ export class PetData extends BaseData {
   public async WaitForStagedSave(): Promise<void> { await this._stagedSave; }
   public HasStagedSave(): boolean { return !!this._stagedSave; }
 
+  /** Publish the complete room selection only after its single save commits. */
+  public async CommitRoomDisplay(selected: Set<number>): Promise<void> {
+    if (this.HasPendingGrant() || this._stagedSave) throw new Error('Pet mutation already pending');
+    let release!: () => void;
+    this._stagedSave = new Promise<void>(resolve => { release = resolve; });
+    try {
+      const staged = Object.assign(Object.create(PetData.prototype), {
+        Uid: this.Uid,
+        PetList: this.PetList.map(pet => ({...pet, isRoomShow: !pet.isInBag && selected.has(pet.catchTime)})),
+      }) as PetData;
+      await DatabaseHelper.Instance.SavePetData(staged, true);
+      this._publishing = true;
+      try {
+        this.PetList.forEach(pet => { pet.isRoomShow = !pet.isInBag && selected.has(pet.catchTime); });
+      } finally { this._publishing = false; }
+    } finally {
+      this._stagedSave = null;
+      release();
+    }
+  }
+
   protected assertCanMutate(): void {
     if (this._stagedSave && !this._publishing) throw new Error('Pet update pending persistence');
   }

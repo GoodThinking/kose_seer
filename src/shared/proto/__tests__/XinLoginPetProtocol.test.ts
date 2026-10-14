@@ -155,7 +155,7 @@ describe('XIN login and pet boundaries', () => {
     expect(decoded).toMatchObject({skinID:42, shiny:3});
     Object.defineProperty(player, 'ClientProtocol', {value:'kose'});
     await manager.HandleGetPetList();
-    expect(packets[1].getCmdId()).toBe(2324);
+    expect(packets[1].getCmdId()).toBe(2303);
     expect(packets[1].serialize().length).toBe(4 + 2 * 12);
     expect(manager.GetPetProtoList([first])[0].skinID).toBe(0);
   });

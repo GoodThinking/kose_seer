@@ -1,14 +1,15 @@
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { PetRoomListRspProto, IPetListInfo } from '../../../../../shared/proto/packets/rsp/pet/PetRoomListRspProto';
+import { CommandID } from '../../../../../shared/protocol/CommandID';
 
 /**
- * [CMD: 2324 PET_ROOM_LIST] 获取精灵仓库列表响应包
+ * KOSE简表：2303完整库存，2324基地展示名单，2323展示保存确认。
  */
 export class PacketPetRoomList extends BaseProto {
   private _data: Buffer;
 
-  constructor(petList: IPetListInfo[]) {
-    const proto = new PetRoomListRspProto();
+  constructor(petList: IPetListInfo[], command: number = CommandID.PET_ROOM_LIST) {
+    const proto = new PetRoomListRspProto(command);
     super(proto.getCmdId());
     proto.setPetList(petList);
     this._data = proto.serialize();

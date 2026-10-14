@@ -16,6 +16,7 @@ import { IPetInfo, createDefaultPetInfo } from '../../../shared/models/PetModel'
 import { PetInfoProto } from '../../../shared/proto/common/PetInfoProto';
 import { PetData } from '../../../DataBase/models/PetData';
 import { DatabaseHelper } from '../../../DataBase/DatabaseHelper';
+import { DatabaseManager } from '../../../DataBase/DatabaseManager';
 import { PlayerRepository } from '../../../DataBase/repositories/Player/PlayerRepository';
 import { PacketPetSetExp } from '../../Server/Packet/Send/Pet/PacketPetSetExp';
 import { PacketPetGetExp } from '../../Server/Packet/Send/Pet/PacketPetGetExp';
@@ -111,7 +112,7 @@ export class PetManager extends BaseManager {
       skinID: pet.skinId || 0
     }));
     
-    await this.Player.SendPacket(new PacketPetRoomList(petListInfos));
+    await this.Player.SendPacket(new PacketPetRoomList(petListInfos, CommandID.GET_PET_LIST));
     Logger.Info(`[PetManager] 获取精灵列表（所有精灵）: UserID=${this.UserID}, Count=${petListInfos.length}`);
   }
 
@@ -120,6 +121,22 @@ export class PetManager extends BaseManager {
    * 排序规则：按 catchTime 升序排列（越早获得越靠前）
    */
   public async HandleGetPetRoomList(roomType: number): Promise<void> {
+    if (this.Player.ClientProtocol === 'kose') {
+      // Fixed Nieo 2324 requests the room owner's UID, not a storage type.
+      let pets = this.PetData.PetList;
+      if (roomType !== this.UserID) {
+        const rows = await DatabaseManager.Instance.Query<{pet_list: string}>(
+          'SELECT pet_list FROM player_pets WHERE owner_id = ?', [roomType]
+        );
+        pets = rows[0]?.pet_list ? JSON.parse(rows[0].pet_list) : [];
+      }
+      const shown = pets.filter(pet => pet.isRoomShow === true && !pet.isInBag)
+        .sort((a, b) => a.catchTime - b.catchTime).slice(0, 5);
+      await this.Player.SendPacket(new PacketPetRoomList(shown.map(pet => ({
+        id: pet.petId, catchTime: pet.catchTime, skinID: pet.skinId || 0,
+      }))));
+      return;
+    }
     const storagePets = this.PetData.GetPetsInStorage();
     
     // 排序：按 catchTime 升序
@@ -134,6 +151,40 @@ export class PetManager extends BaseManager {
     
     await this.Player.SendPacket(new PacketPetRoomList(petList));
     Logger.Info(`[PetManager] 获取精灵仓库列表: UserID=${this.UserID}, RoomType=${roomType}, Count=${petList.length}`);
+  }
+
+  public async HandlePetRoomShow(body: Buffer): Promise<void> {
+    const command = CommandID.PET_ROOM_SHOW;
+    if (this.Player.ClientProtocol !== 'kose' || body.length < 4) {
+      await this.Player.SendPacket(new PacketEmpty(command).setResult(5001));
+      return;
+    }
+    const count = body.readUInt32BE(0);
+    if (count > 5 || body.length !== 4 + count * 8) {
+      await this.Player.SendPacket(new PacketEmpty(command).setResult(5001));
+      return;
+    }
+    const release = await this.PetData.AcquireMutation();
+    try {
+      const selected = new Set<number>();
+      for (let i = 0; i < count; i++) {
+        const catchTime = body.readUInt32BE(4 + i * 8);
+        const pet = this.PetData.GetPetByCatchTime(catchTime);
+        if (!pet || pet.isInBag || pet.petId !== body.readUInt32BE(8 + i * 8) || selected.has(catchTime)) {
+          await this.Player.SendPacket(new PacketEmpty(command).setResult(5001));
+          return;
+        }
+        selected.add(catchTime);
+      }
+      await this.PetData.CommitRoomDisplay(selected);
+      const shown = this.PetData.GetPetsInStorage().filter(pet => pet.isRoomShow);
+      await this.Player.SendPacket(new PacketPetRoomList(shown.map(pet => ({
+        id: pet.petId, catchTime: pet.catchTime, skinID: pet.skinId || 0,
+      })), command));
+    } catch (error) {
+      Logger.Error('[PetManager] 基地展示名单保存失败', error as Error);
+      await this.Player.SendPacket(new PacketEmpty(command).setResult(5000));
+    } finally { release(); }
   }
 
   /**
@@ -257,6 +308,7 @@ export class PetManager extends BaseManager {
     // 如果精灵在仓库中，将其移到背包
     if (!pet.isInBag) {
       pet.isInBag = true;
+      pet.isRoomShow = false;
       // 客户端 PetManager.add 将空背包的第一只设为首发；同步持久化该状态。
       if (bagCount === 0) pet.isDefault = true;
       Logger.Info(`[PetManager] 将精灵从仓库取回背包: UserID=${this.UserID}, CatchTime=${catchTime}, PetId=${pet.petId}`);

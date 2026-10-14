@@ -44,6 +44,7 @@ export interface IPetInfo {
   effectList: IPetEffectInfo[];  // 特性列表
   isDefault: boolean;            // 是否首发
   isInBag: boolean;              // 是否在背包（false=在仓库）
+  isRoomShow?: boolean;          // 基地展示名单；旧存档未设置时不展示
   position: number;              // 背包位置
   nick: string;                  // 昵称
   obtainTime: number;            // 获得时间

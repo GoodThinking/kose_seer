@@ -12,5 +12,6 @@ export * from './PetGetExpHandler';
 export * from './PetSetExpHandler';
 export * from './PetOneCureHandler';
 export * from './PetRoomListHandler';
+export * from './PetRoomShowHandler';
 export * from './PetEvolutionHandler';
 export * from './SkillSortHandler';

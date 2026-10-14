@@ -4,7 +4,7 @@ import { BaseProto } from '../../../base/BaseProto';
  * [CMD: 2324 PET_ROOM_LIST] 获取精灵仓库列表请求
  */
 export class PetRoomListReqProto extends BaseProto {
-  roomType: number = 0;  // 房间类型（1=仓库）
+  roomType: number = 0;  // KOSE客户端此字段为房间主人UID；XIN保持既有参数
 
   constructor() {
     super(0);

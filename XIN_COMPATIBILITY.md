@@ -99,3 +99,24 @@ python3 ../xin-site-research/validate-kose-generated.py
 已审查并集成三个 Astra 会话的 14 个源码增量和 3 个专用测试，主目录统一构建通过，6 套件 46 项通过。首次从外层目录运行导致配置相对路径缺失，保留该失败日志；在仓库根目录执行规定命令后全部通过，不是通过修改断言规避失败。
 
 新增任务 100 字节缓存及错误码透传、宠物取出响应前显式保存、玩家战斗皮肤/异色透传。任务与宠物的正常 SQLite 重载路径已测；数据库故障、并发领奖、捕捉和新客户端端到端尚未验收。证据位于 ../xin-site-research/evidence/kose-integrated-{tests,build}.log；范围与下一阶段见 ../kose-xin-parallel/PROJECT_STATUS.md。公网仍为原部署。
+
+## KOSE fixed Nieo: inventory and room display
+
+The fixed Nieo client consumes command 2303 as the complete inventory (12-byte
+id/catchTime/skinID summaries), and command 2324 as the named room owner's
+exhibition. The 2324 request contains that owner's UID, not a storage type.
+Storage ownership alone does not mean a pet is exhibited. Optional `isRoomShow`
+flags in the existing pet JSON persist the explicit exhibition, with absent old
+flags meaning hidden. A stored pet taken into the bag is removed from exhibition.
+Command 2323 saves the owner's selection: count plus catchTime/petId pairs, at
+most five entries. Identity, duplicates, bag ownership and exact length are
+validated before one staged save; failed saves do not publish candidate flags.
+The XIN room-list branch keeps its prior behavior.
+
+For the fixed `ExpAdmPanel.swf`, `scripts/patch-exp-panel.cjs` verifies input
+SHA256 `dc33f997cf21acb7adf337d5b97de8f5d6e46aa09c67a3a801bc2ae98f49af8e` and
+changes only DefineEditText character 24 fontHeight from 280 to 240 twips.
+The ten-digit business balance `2147483647` then fits its existing box. Output
+SHA256 is `3a0b5fa8a2f0e53b42a1396276304f36534e8c2a850c6974d6bc851c54424512`;
+ABC scripts, geometry and all other uncompressed bytes are unchanged. Generated
+SWFs and account credentials are release artifacts, not repository source.

@@ -24,8 +24,8 @@ export interface IPetListInfo {
 export class PetRoomListRspProto extends BaseProto {
   petList: IPetListInfo[] = [];
 
-  constructor() {
-    super(CommandID.PET_ROOM_LIST);
+  constructor(command: number = CommandID.PET_ROOM_LIST) {
+    super(command);
   }
 
   serialize(): Buffer {
