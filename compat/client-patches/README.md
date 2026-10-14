@@ -13,3 +13,13 @@ java -jar ffdec.jar -importScript PetFightDLL.swf PetFightDLL.patched.swf compat
 ```
 
 两个 SWF 分别导入，只编译各目录内列出的修改类。构建后重新导出目标类并比较方法体，核对只有目标 DoABC 改变、其他编码标签与帧头不变；正常领奖只发一次、刷新不重发，用药成功与拒绝均须验证。无网络回复时的库存读回仍依赖既有连接错误处理；不能用统一退款猜测是否消费。
+
+## 塞西利亚星地图40初始化
+
+`map40-init/`只修改MapProcess_40.init：地图缺少旧活动/任务122专用控件时跳过相应表现初始化，保留基础阿克希亚、任务8和地图出口。输入核心SHA256 `a89814ac8913c1c8d183337a9bc92bfa58d374a6ae3bb81ec9cadabba9b9dab1`，输出 `b468240b55fa29c71c6d7c8dec3479e0da4370353b4a4e762d9832838e11bfea`；实际地图40SHA256 `6ebafb1b3e4d02d7bbe10915beeb639eaf5129e8a6c9007bf840c53727d773aa`。
+
+```sh
+java -jar ffdec.jar -onerror abort -importScript NieoCore.task96.swf NieoCore.map40.swf compat/client-patches/map40-init
+```
+
+仅目标DoABC变化，其余1981标签、任务96及既有Task88保持；不强关加载遮罩或吞掉必需控件错误。任务122旧活动控件缺失时不声称其玩法可用。地图导航/重登入图/出口/基础BOSS交互需实际UI验收。
