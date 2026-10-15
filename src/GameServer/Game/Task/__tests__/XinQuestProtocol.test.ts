@@ -4,6 +4,7 @@ import { AddTaskBufHandler } from '../../../../GameServer/Server/Packet/Recv/Tas
 import { AcceptTaskHandler } from '../../../../GameServer/Server/Packet/Recv/Task/AcceptTaskHandler';
 import { CompleteTaskHandler } from '../../../../GameServer/Server/Packet/Recv/Task/CompleteTaskHandler';
 import { GetTaskBufHandler } from '../../../../GameServer/Server/Packet/Recv/Task/GetTaskBufHandler';
+import { IClientSession } from '../../../../GameServer/Server/Packet/IHandler';
 import { TaskManager } from '../TaskManager';
 import * as taskState from '../SaveTaskState';
 import * as itemTask from '../CompleteItemTask';
@@ -18,6 +19,7 @@ import { Migration012FixAllTables } from '../../../../DataBase/migrations/script
 import { PlayerInstance } from '../../Player/PlayerInstance';
 import { PacketBuilder } from '../../../../shared/protocol/PacketBuilder';
 import { Handlers } from '../../../../shared/decorators/Opcode';
+import { HeadInfo } from '../../../../shared/protocol/HeadInfo';
 import '../../../../GameServer/Server/Packet/Recv/Task';
 
 describe('XIN task buffer and completion flow', () => {
@@ -112,27 +114,40 @@ describe('XIN task buffer and completion flow', () => {
     expect(player.SendPacket.mock.calls.at(-1)[0].getResult()).toBe(5003);
   });
 
-  it('round-trips Nieo task 96 boolean progress through the normal handlers and reload', async () => {
+  it.each([[94, 4], [96, 3]])('round-trips fixed Nieo task %i boolean progress through handlers and reload', async (progressTaskId, stageCount) => {
     const { player, manager, sent } = createPlayer();
     player.ClientProtocol = 'kose';
-    const session: any = { Player: player };
-    const query = Buffer.from([0, 0, 0, 96]);
-    await new GetTaskBufHandler().Handle(session, {} as any, query);
+    // This fixture exercises only handlers that read Player.
+    const session = { Player: player } as unknown as IClientSession;
+    const head = new HeadInfo();
+    const query = Buffer.alloc(4);
+    query.writeUInt32BE(progressTaskId);
+    await new GetTaskBufHandler().Handle(session, head, query);
     let progress = sent.at(-1)!.serialize('kose').subarray(8);
     expect(progress).toEqual(Buffer.alloc(20));
-    for (let stage = 0; stage < 3; stage++) {
+    manager.TaskData.TaskBuffers.set(progressTaskId, {
+      0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 20: 7, xinBytes: [9]
+    });
+    for (let stage = 0; stage < stageCount; stage++) {
       // TasksManager.sendCompletePro writes one Boolean at the stage position.
       progress[stage] = 1;
-      await new AddTaskBufHandler().Handle(session, {} as any, Buffer.concat([query, progress]));
+      await new AddTaskBufHandler().Handle(session, head, Buffer.concat([query, progress]));
       expect(sent.at(-1)!.getResult()).toBe(0);
-      await new GetTaskBufHandler().Handle(session, {} as any, query);
+      if (stage === 0) {
+        expect(Object.keys(manager.TaskData.TaskBuffers.get(progressTaskId)!).sort()).toEqual(
+          Array.from({ length: 20 }, (_, i) => String(i)).sort()
+        );
+      }
+      await new GetTaskBufHandler().Handle(session, head, query);
       progress = sent.at(-1)!.serialize('kose').subarray(8);
-      expect([...progress.subarray(0, 4)]).toEqual([0, 1, 2, 3].map(i => i <= stage ? 1 : 0));
+      expect([...progress.subarray(0, stageCount)]).toEqual(
+        Array.from({ length: stageCount }, (_, i) => i <= stage ? 1 : 0)
+      );
     }
     const row = manager.TaskData.ToRow();
     manager.TaskData = TaskData.FromRow({ owner_id: player.Uid, ...row });
-    expect(manager.GetTaskBuffer(96).slice(0, 4)).toEqual([1, 1, 1, 0]);
-    await new GetTaskBufHandler().Handle(session, {} as any, query);
+    expect(manager.GetTaskBuffer(progressTaskId).slice(0, stageCount)).toEqual(new Array(stageCount).fill(1));
+    await new GetTaskBufHandler().Handle(session, head, query);
     expect(sent.at(-1)!.serialize('kose').subarray(8)).toEqual(progress);
   });
 
@@ -204,6 +219,19 @@ describe('XIN task buffer and completion flow', () => {
     expect([...Array(7).keys()].map(index => response.readUInt32BE(index * 4))).toEqual([
       taskId, 1, 1, 2, 3, 4, 5,
     ]);
+  });
+
+  it.each([94, 96])('round-trips fixed Nieo task %i response bytes through the proto', progressTaskId => {
+    const expected = Array.from({ length: 20 }, (_, i) => (i * 13) & 0xff);
+    const encoded = new GetTaskBufRspProto();
+    encoded.taskId = progressTaskId;
+    encoded.buffers = expected;
+
+    const decoded = new GetTaskBufRspProto();
+    decoded.deserialize(encoded.serialize('kose'));
+
+    expect(decoded.taskId).toBe(progressTaskId);
+    expect(decoded.buffers).toEqual(expected);
   });
 
   it('retains packet snapshots and reports corrupted persisted bytes as an error', async () => {

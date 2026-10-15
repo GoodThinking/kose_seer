@@ -6,12 +6,12 @@ import { ClientProtocol } from '../../../../protocol/ClientProtocol';
  * 获取任务缓存响应
  * CMD 2203: GET_TASK_BUF
  * 
- * 响应格式：taskId(4) + flag(4) + buf[0..4] (5个4字节 = 20字节缓存)
+ * 响应格式：taskId(4) + flag(4) + 20字节任务缓存
  */
 export class GetTaskBufRspProto extends BaseProto {
   public taskId: number = 0;
   public flag: number = 1;  // 1 表示有缓存数据
-  public buffers: number[] = [0, 0, 0, 0, 0];  // 5个缓存值
+  public buffers: number[] = [0, 0, 0, 0, 0];
   /** XIN 客户端读取 taskId/flag 后将余下内容作为不透明 ByteArray。 */
   public rawBuffer?: Buffer;
 
@@ -38,10 +38,10 @@ export class GetTaskBufRspProto extends BaseProto {
     buffer.writeUInt32BE(this.flag, offset);
     offset += 4;
 
-    if (this.taskId === 96) {
+    if (this.taskId === 94 || this.taskId === 96) {
       this.buffers.forEach((value, i) => {
         if (i >= 20 || !Number.isInteger(value) || value < 0 || value > 255) {
-          throw new Error('Invalid KOSE task 96 progress byte');
+          throw new Error(`Invalid KOSE task ${this.taskId} progress byte`);
         }
         buffer.writeUInt8(value, offset + i);
       });
@@ -66,6 +66,14 @@ export class GetTaskBufRspProto extends BaseProto {
       this.flag = buffer.readUInt32BE(offset);
       offset += 4;
     }
+    if (buffer.length === 108) {
+      this.rawBuffer = Buffer.from(buffer.subarray(offset));
+      return;
+    }
+    if (buffer.length === 28 && (this.taskId === 94 || this.taskId === 96)) {
+      this.buffers = Array.from(buffer.subarray(offset));
+      return;
+    }
     if (buffer.length >= 28) {
       this.buffers = [];
       for (let i = 0; i < 5; i++) {
@@ -81,8 +89,9 @@ export class GetTaskBufRspProto extends BaseProto {
   }
 
   public setBuffers(buffers: number[]): this {
-    this.buffers = buffers.slice(0, 5);
-    while (this.buffers.length < 5) {
+    const length = this.taskId === 94 || this.taskId === 96 ? 20 : 5;
+    this.buffers = buffers.slice(0, length);
+    while (this.buffers.length < length) {
       this.buffers.push(0);
     }
     return this;

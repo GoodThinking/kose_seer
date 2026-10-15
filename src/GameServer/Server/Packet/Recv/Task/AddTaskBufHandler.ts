@@ -24,8 +24,8 @@ export class AddTaskBufHandler implements IHandler {
     const bufferValue = req.bufferValue;
 
     try {
-      if (player.ClientProtocol === 'kose' && taskId === 96) {
-        // Fixed Nieo sends taskId followed by the 20-byte TaskBufInfo buffer.
+      if (player.ClientProtocol === 'kose' && (taskId === 94 || taskId === 96)) {
+        // Fixed Nieo sends taskId followed by the complete 20-byte TaskBufInfo buffer.
         if (req.rawBuffer.length !== 20) {
           await player.SendPacket(new PacketAddTaskBuf(5001));
           return;

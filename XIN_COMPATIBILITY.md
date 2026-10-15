@@ -234,3 +234,21 @@ its last encounter rerolls the pool. There is no periodic ten-second refresh;
 the global interval and rate fields alone do not control the generator.
 Game acceptance remains with the user; compilation and configuration loading
 do not establish UI or encounter acceptance.
+
+## 2026-10-16: fixed Nieo task 94 progress bytes
+
+The fixed Nieo client reads and writes task 94 progress as one 20-byte
+`TaskBufInfo` buffer. The KOSE handler previously interpreted the first byte as
+an index and the next four bytes as a UInt32 value. Stage 0 therefore remained
+false, so `XixiDialog` never reached its gas-collector ownership check and a
+click on mechanic Cici produced no dialog.
+
+CMD 2203 and CMD 2204 now preserve all 20 bytes for tasks 94 and 96. The next
+successful progress write replaces stale mixed fields with canonical byte keys
+`0..19`; XIN's independent 100-byte path and other KOSE five-UInt32 task buffers
+remain unchanged. This release does not edit player saves or change item ID
+`100055`, collection requirements, rewards, or task order.
+
+TypeScript compilation and four focused protocol regressions pass, covering
+task 94/96 handler persistence, stale-shape replacement, reload, and response
+serialization/deserialization. Game UI acceptance remains with the user.
