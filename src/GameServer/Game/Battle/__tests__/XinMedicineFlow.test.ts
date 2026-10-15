@@ -321,6 +321,8 @@ describe('2406 medicine admission and real SQLite consumption', () => {
     try {
       await stop.ready; await request();
       expect(replies()[0].readInt32BE(13)).toBe(5001);
+      // The accepted skill debit is durable before its success acknowledgement; medicine still changes nothing.
+      before.pets[0].skillPP = {10001: 34};
       expect(battle.player.hp).toBe(321); expect(await stored()).toEqual(before);
       player.BattleManager.InvalidatePendingCapture();
     } finally {stop.release(); await pending;}

@@ -1,3 +1,4 @@
+import { GetPetSkillPP, ReconcilePetPP, GetSkillMaxPP } from './PetPP';
 import { BaseManager } from '../Base/BaseManager';
 import { Logger } from '../../../shared/utils';
 import { PlayerInstance } from '../Player/PlayerInstance';
@@ -24,7 +25,6 @@ import { PacketPetEvolution } from '../../Server/Packet/Send/Pet/PacketPetEvolut
 import { PacketNoteUpdateProp } from '../../Server/Packet/Send/Pet/PacketNoteUpdateProp';
 import { PacketNoteUpdateSkill } from '../../Server/Packet/Send/Pet/PacketNoteUpdateSkill';
 import { IUpdatePropInfo } from '../../../shared/proto/packets/rsp/pet/NoteUpdatePropRspProto';
-import { IUpdateSkillInfo } from '../../../shared/proto/packets/rsp/pet/NoteUpdateSkillRspProto';
 import { SptSystem } from './SptSystem';
 import { PetCalculator } from './PetCalculator';
 import { GetPetExperienceFields } from './PetExperienceProjection';
@@ -357,29 +357,91 @@ export class PetManager extends BaseManager {
   /**
    * 处理治疗精灵
    */
-  public async HandlePetCure(petId?: number): Promise<void> {
-    let success = false;
-    
-    if (petId) {
-      // 治疗单个精灵
-      const pet = this.PetData.GetPet(petId);
-      if (pet) {
-        pet.hp = pet.maxHp;
-        success = true;
-      }
-    } else {
-      // 治疗所有精�?
-      const pets = this.PetData.GetPetsInBag();
-      pets.forEach(pet => pet.hp = pet.maxHp);
-      success = pets.length > 0;
-    }
-    
-    if (success) {
-      await DatabaseHelper.Instance.SavePetData(this.PetData);
-      await this.Player.SendPacket(new PacketPetCure());
-    } else {
+  public async HandlePetCure(catchTime?: number): Promise<void> {
+    const recovery = this.Player.BattleManager.BeginOutOfBattleRecovery();
+    if (!recovery) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.PET_CURE).setResult(5001));
+      return;
     }
+    let releaseInventory: (() => void) | undefined, release: (() => void) | undefined;
+    let committed = false;
+    try {
+      releaseInventory = await this.Player.ItemManager.ItemData.AcquireReward();
+      release = await this.PetData.AcquireMutation();
+      if (!recovery.isCurrent()) return;
+      const pet = catchTime ? this.PetData.GetPetByCatchTime(catchTime) : undefined;
+      const pets = catchTime ? pet ? [pet] : [] : this.PetData.GetPetsInBag();
+      if (!pets.length) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_CURE).setResult(5001));
+        return;
+      }
+      await this.commitPetRecovery(pets, 0);
+      committed = true;
+      if (!recovery.isCurrent()) return;
+      await this.Player.SendPacket(new PacketPetCure());
+    } catch (error) {
+      Logger.Error(committed ? '[PetManager] Recovery committed; response delivery failed' : '[PetManager] Pet recovery was not persisted', error as Error);
+      if (!committed && recovery.isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.PET_CURE).setResult(5000));
+    } finally { release?.(); releaseInventory?.(); recovery.release(); }
+  }
+
+  private async commitPetRecovery(pets: IPetInfo[], cost: number): Promise<void> {
+    const candidates = new Map(pets.map(pet => {
+      const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
+      candidate.hp = candidate.maxHp;
+      candidate.skillPP = ReconcilePetPP(candidate, true);
+      return [pet.catchTime, candidate] as const;
+    }));
+    let gate: ReturnType<typeof this.Player.Data.BeginBalanceReward> | undefined;
+    try {
+      if (cost) {
+        gate = this.Player.Data.BeginBalanceReward();
+      }
+      await this.PetData.CommitPetUpdate(pets[0], candidates.get(pets[0].catchTime)!, async staged => {
+        staged.PetList = staged.PetList.map(pet => candidates.get(pet.catchTime) || pet);
+        if (!cost) {
+          await DatabaseHelper.Instance.SavePetData(staged, true);
+          return;
+        }
+        await DatabaseManager.Instance.WithConnection(async driver => {
+          let committed = false;
+          await driver.beginTransaction();
+          try {
+            const [row] = await driver.query<{coins: number; gold: number; allocatable_exp: number}>(
+              'SELECT coins, gold, allocatable_exp FROM players WHERE user_id = ?', [this.UserID]);
+            if (!row) throw new Error('Recovery wallet missing');
+            const stored = [row.coins, row.gold, row.allocatable_exp];
+            const keys = ['coins', 'gold', 'allocatableExp'] as const;
+            const dirty = this.Player.Data.GetDirtyFields();
+            const balances = keys.map((key, i) => {
+              const cached = this.Player.Data[key];
+              if (!dirty.includes(key) && cached !== stored[i]) throw new Error('Recovery wallet cache stale');
+              const value = dirty.includes(key) ? cached : stored[i];
+              if (!Number.isSafeInteger(value) || value < 0) throw new Error('Invalid recovery balance');
+              return value;
+            });
+            if (balances[0] < cost) throw new Error('Recovery coins insufficient');
+            balances[0] -= cost;
+            const petWrite = await driver.execute('UPDATE player_pets SET pet_list = ? WHERE owner_id = ?',
+              [staged.ToRow().pet_list, this.UserID]);
+            const walletWrite = await driver.execute('UPDATE players SET coins = ?, gold = ?, allocatable_exp = ? WHERE user_id = ?',
+              [...balances, this.UserID]);
+            if (petWrite.affectedRows !== 1 || walletWrite.affectedRows !== 1) throw new Error('Recovery storage row missing');
+            const [savedPet] = await driver.query<{pet_list: string}>('SELECT pet_list FROM player_pets WHERE owner_id = ?', [this.UserID]);
+            const [savedWallet] = await driver.query<{coins: number; gold: number; allocatable_exp: number}>(
+              'SELECT coins, gold, allocatable_exp FROM players WHERE user_id = ?', [this.UserID]);
+            if (savedPet?.pet_list !== staged.ToRow().pet_list || !savedWallet ||
+                [savedWallet.coins, savedWallet.gold, savedWallet.allocatable_exp].some((value, i) => value !== balances[i])) {
+              throw new Error('Recovery readback mismatch');
+            }
+            await driver.commit(); committed = true;
+            gate!.publish(balances[0], balances[1], balances[2]);
+          } catch (error) { if (!committed) await driver.rollback(); throw error; }
+        });
+      }, () => {
+        for (const pet of pets.slice(1)) Object.assign(pet, candidates.get(pet.catchTime)!);
+      });
+    } finally { gate?.release(); }
   }
 
   /**
@@ -508,6 +570,7 @@ export class PetManager extends BaseManager {
       const activeSkills = newSkills.slice(0, Math.max(0, 4 - candidate.skillArray.length));
       const unactiveSkills = newSkills.slice(activeSkills.length);
       candidate.skillArray.push(...activeSkills);
+      candidate.skillPP = ReconcilePetPP(candidate);
 
       // Validate the actual protocol fields before committing an otherwise unreadable reward.
       const experience = GetPetExperienceFields(candidate, this.Player.ClientProtocol);
@@ -659,6 +722,7 @@ export class PetManager extends BaseManager {
       const { SptSystem } = await import('./SptSystem');
       const defaultSkills = SptSystem.GetDefaultSkills(petId, level);
       newPet.skillArray = defaultSkills.slice(0, 4).map(skill => skill.id);
+      newPet.skillPP = ReconcilePetPP(newPet);
       Logger.Debug(`[PetManager] 设置技能: ${newPet.skillArray.join(',')}`);
       
       // 前面的异步准备可能与其他发放交错。检查与 AddPet 的同步插入之间不再 await。
@@ -742,7 +806,7 @@ export class PetManager extends BaseManager {
       const maxPP = skillConfig?.MaxPP || 20;
       return {
         id: skillId,
-        pp: maxPP,      // 当前PP（满值）
+        pp: GetPetSkillPP(pet, skillId), // Persisted current PP, including zero
         maxPp: maxPP    // 最大PP
       };
     });
@@ -809,48 +873,10 @@ export class PetManager extends BaseManager {
    * @param pet 精灵信息
    * @param newSkills 新学会的技能ID列表
    */
-  private async sendNoteUpdateSkill(pet: IPetInfo, newSkills: number[]): Promise<void> {
-    if (newSkills.length === 0) {
-      return;
+  private async sendNoteUpdateSkill(pet: IPetInfo, newSkills: number[], activeSkills: number[], unactiveSkills: number[]): Promise<void> {
+    if (newSkills.length) {
+      await this.Player.SendPacket(new PacketNoteUpdateSkill([{catchTime: pet.catchTime, activeSkills, unactiveSkills}]));
     }
-
-    // 区分 activeSkills 和 unactiveSkills
-    const activeSkills: number[] = [];
-    const unactiveSkills: number[] = [];
-
-    // 如果技能槽未满（< 4），新技能是 activeSkills（直接学习）
-    if (pet.skillArray.length < 4) {
-      // 自动添加到技能槽（会触发自动保存）
-      for (const skillId of newSkills) {
-        if (pet.skillArray.length < 4) {
-          pet.skillArray.push(skillId);
-          activeSkills.push(skillId);
-          Logger.Info(`[PetManager] 自动学习技能: PetId=${pet.petId}, SkillId=${skillId}`);
-        } else {
-          // 技能槽已满，剩余技能需要替换
-          unactiveSkills.push(skillId);
-        }
-      }
-      
-      // 触发保存：重新赋值数组以触发 Proxy
-      // 注意：push() 操作会触发 Proxy，但为了保险起见，重新赋值确保保存
-      pet.skillArray = [...pet.skillArray];
-    } else {
-      // 如果技能槽已满（= 4），新技能是 unactiveSkills（需要替换）
-      unactiveSkills.push(...newSkills);
-    }
-
-    const updateInfos: IUpdateSkillInfo[] = [{
-      catchTime: pet.catchTime,
-      activeSkills: activeSkills,
-      unactiveSkills: unactiveSkills
-    }];
-
-    // 客户端 activeSkills 表示已学会；正常保存路径应在通知前落盘新增技能。
-    if (activeSkills.length > 0) {
-      await DatabaseHelper.Instance.SavePetData(this.PetData);
-    }
-    await this.Player.SendPacket(new PacketNoteUpdateSkill(updateInfos));
   }
 
   /**
@@ -926,6 +952,7 @@ export class PetManager extends BaseManager {
       const activeSkills = newSkills.slice(0, Math.max(0, 4 - candidate.skillArray.length));
       const unactiveSkills = newSkills.slice(activeSkills.length);
       candidate.skillArray.push(...activeSkills);
+      candidate.skillPP = ReconcilePetPP(candidate);
       await this.PetData.CommitPetUpdate(pet, candidate,
         staged => new PlayerRepository().CommitExperienceAllocation(
           this.UserID, expectedBalance, balance, staged.ToRow().pet_list
@@ -1005,27 +1032,16 @@ export class PetManager extends BaseManager {
         await this.Player.SendPacket(new PacketEmpty(CommandID.PET_EVOLVTION).setResult(5001));
         return;
       }
-      // 冲突检查与身份赋值之间不 await，避免同实例并发进化占用同一个身份。
-      pet.petId = evolvesTo;
-      pet.catchTime = evolvedCatchTime;
-      Logger.Info(`[PetManager] 更新 catchTime: OldCatchTime=${oldCatchTime}, NewCatchTime=${pet.catchTime}`);
-
-      // 5. 重新计算属性（进化后种族值可能改变）
-      this.recalculateStats(pet);
-
-      // 6. 检查进化后是否学会新技能
-      const newSkills: number[] = [];
-      const learnedMoves = SptSystem.GetNewMovesOnLevelUp(pet.petId, pet.level);
-      for (const move of learnedMoves) {
-        newSkills.push(move.id);
-        Logger.Info(`[PetManager] 进化后学会新技能: PetId=${pet.petId}, Level=${pet.level}, SkillId=${move.id}`);
-      }
-
-      // 7. 正常存储路径在成功响应前保存，不依赖 Proxy 的延迟保存。
-      // DataSaver 的历史吞错行为仍由公共存储层负责，本调用不提供事务保证。
-      await DatabaseHelper.Instance.SavePetData(this.PetData);
-
-      Logger.Info(`[PetManager] 精灵进化成功: UserID=${this.UserID}, OldPetId=${oldPetId}, NewPetId=${evolvesTo}, Level=${pet.level}, NewSkills=${newSkills.length}`);
+      const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
+      candidate.petId = evolvesTo;
+      candidate.catchTime = evolvedCatchTime;
+      this.recalculateStats(candidate);
+      const newSkills = SptSystem.GetNewMovesOnLevelUp(candidate.petId, candidate.level).map(move => move.id);
+      const activeSkills = newSkills.slice(0, Math.max(0, 4 - candidate.skillArray.length));
+      const unactiveSkills = newSkills.slice(activeSkills.length);
+      candidate.skillArray.push(...activeSkills);
+      candidate.skillPP = ReconcilePetPP(candidate);
+      await this.PetData.CommitPetUpdate(pet, candidate);
 
       // 8. 发送成功响应
       await this.Player.SendPacket(new PacketPetEvolution(0));
@@ -1037,7 +1053,7 @@ export class PetManager extends BaseManager {
 
       // 10. 如果进化后学会了新技能，推送 NOTE_UPDATE_SKILL (2507)
       if (newSkills.length > 0) {
-        await this.sendNoteUpdateSkill(pet, newSkills);
+        await this.sendNoteUpdateSkill(pet, newSkills, activeSkills, unactiveSkills);
         Logger.Info(`[PetManager] 推送 NOTE_UPDATE_SKILL: PetId=${pet.petId}, NewSkills=[${newSkills.join(', ')}]`);
       }
 
@@ -1110,20 +1126,10 @@ export class PetManager extends BaseManager {
 
       // 5. 记录旧技能
       const oldSkillId = pet.skillArray[slotIndex] || 0;
-      const oldSkills = [...pet.skillArray];
-
-      // 6. 替换技能
-      pet.skillArray[slotIndex] = skillId;
-      
-      // 7. 触发保存：重新赋值数组以触发 Proxy
-      // 注意：直接修改数组元素不会触发 BaseData 的 Proxy，需要重新赋值整个数组
-      pet.skillArray = [...pet.skillArray];
-      try {
-        await DatabaseHelper.Instance.SavePetData(this.PetData, true);
-      } catch (error) {
-        pet.skillArray = oldSkills;
-        throw error;
-      }
+      const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
+      candidate.skillArray[slotIndex] = skillId;
+      candidate.skillPP = ReconcilePetPP(candidate);
+      await this.PetData.CommitPetUpdate(pet, candidate);
 
       Logger.Info(
         `[PetManager] 精灵学习技能成功: UserID=${this.UserID}, PetId=${pet.petId}, ` +
@@ -1222,18 +1228,10 @@ export class PetManager extends BaseManager {
       }
 
       // 5. 替换技能
-      const oldSkills = [...pet.skillArray];
-      pet.skillArray[oldSkillIndex] = newSkillId;
-
-      // 6. 触发保存：重新赋值数组以触发 Proxy
-      pet.skillArray = [...pet.skillArray];
-      // 显式失败必须恢复技能，避免后续自动保存落入失败变更。
-      try {
-        await DatabaseHelper.Instance.SavePetData(this.PetData, true);
-      } catch (error) {
-        pet.skillArray = oldSkills;
-        throw error;
-      }
+      const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
+      candidate.skillArray[oldSkillIndex] = newSkillId;
+      candidate.skillPP = ReconcilePetPP(candidate);
+      await this.PetData.CommitPetUpdate(pet, candidate);
 
       Logger.Info(
         `[PetManager] 精灵技能替换成功: UserID=${this.UserID}, PetId=${pet.petId}, ` +
@@ -1259,62 +1257,48 @@ export class PetManager extends BaseManager {
    * - 非VIP用户扣除20赛尔豆
    * - VIP用户免费
    * 
-   * 注意：客户端会自动恢复技能PP，服务器端不需要处理
+   * HP and current skill PP are committed together before the client confirmation.
    */
   public async HandlePetOneCure(catchTime: number, clientCoins: number = 0): Promise<void> {
+    const recovery = this.Player.BattleManager.BeginOutOfBattleRecovery();
+    if (!recovery) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(5001));
+      return;
+    }
+    let releaseInventory: (() => void) | undefined, release: (() => void) | undefined;
+    let committed = false;
     try {
-      Logger.Debug(`[PetManager] HandlePetOneCure: UserID=${this.UserID}, CatchTime=${catchTime}`);
-      Logger.Debug(`[PetManager] 当前精灵列表: ${JSON.stringify(this.PetData.PetList.map(p => ({ petId: p.petId, catchTime: p.catchTime, hp: p.hp })))}`);
-
-      // 1. 查找精灵
+      releaseInventory = await this.Player.ItemManager.ItemData.AcquireReward();
+      release = await this.PetData.AcquireMutation();
+      if (!recovery.isCurrent()) return;
       const pet = this.PetData.GetPetByCatchTime(catchTime);
-      
       if (!pet) {
-        Logger.Warn(`[PetManager] 精灵不存在: UserID=${this.UserID}, CatchTime=${catchTime}`);
         await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(5001));
         return;
       }
-
-      Logger.Debug(`[PetManager] 找到精灵: PetId=${pet.petId}, HP=${pet.hp}/${pet.maxHp}`);
-
-      // 2. 检查是否需要恢复
-      if (pet.hp >= pet.maxHp) {
-        Logger.Debug(`[PetManager] 精灵HP已满: UserID=${this.UserID}, PetId=${pet.petId}`);
+      const pp = ReconcilePetPP(pet);
+      if (pet.hp >= pet.maxHp && Object.entries(pp).every(([id, value]) => value === GetSkillMaxPP(Number(id)))) {
         await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(5002));
         return;
       }
-
-      // 3. 计算费用（非VIP用户需要支付20赛尔豆）
-      const isVip = this.Player.Data.vip > 0; // 假设vip字段表示VIP状态
-      const cost = isVip ? 0 : 20;
-
-      // 4. 检查赛尔豆是否足够
-      if (!isVip && this.Player.Data.coins < cost) {
-        Logger.Warn(`[PetManager] 赛尔豆不足: UserID=${this.UserID}, 需要=${cost}, 拥有=${this.Player.Data.coins}`);
-        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(10016)); // 10016: 赛尔豆不足
+      const cost = this.Player.Data.vip > 0 ? 0 : 20;
+      if (this.Player.Data.coins < cost) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(10016));
         return;
       }
-
-      // 5. 扣除赛尔豆（非VIP）
-      if (!isVip) {
-        this.Player.Data.coins -= cost;
+      if (cost) {
+        await this.Player.Data.WaitForCurrencyOperations();
+        await this.Player.Data.WaitForExpAllocation();
       }
-
-      // 6. 恢复HP到满值
-      pet.hp = pet.maxHp;
-
-      Logger.Info(
-        `[PetManager] 恢复精灵HP: UserID=${this.UserID}, PetId=${pet.petId}, ` +
-        `HP=${pet.hp}/${pet.maxHp}, 消耗赛尔豆=${cost}, 剩余=${this.Player.Data.coins}, ` +
-        `VIP=${isVip}, CatchTime=${catchTime}`
-      );
-
-      // 7. 发送成功响应（只发送catchTime，客户端会在本地更新HP和PP）
+      if (!recovery.isCurrent()) return;
+      await this.commitPetRecovery([pet], cost);
+      committed = true;
+      if (!recovery.isCurrent()) return;
       await this.Player.SendPacket(new PacketPetOneCure(catchTime));
     } catch (error) {
-      Logger.Error(`[PetManager] HandlePetOneCure failed`, error as Error);
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(5000));
-    }
+      Logger.Error(committed ? '[PetManager] Recovery committed; response delivery failed' : '[PetManager] Pet recovery was not persisted', error as Error);
+      if (!committed && recovery.isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.PET_ONE_CURE).setResult(5000));
+    } finally { release?.(); releaseInventory?.(); recovery.release(); }
   }
 
   /**
@@ -1385,13 +1369,10 @@ export class PetManager extends BaseManager {
 
       // 6. 更新技能顺序
       const oldSkills = [...pet.skillArray];
-      pet.skillArray = newSkills;
-      try {
-        await DatabaseHelper.Instance.SavePetData(this.PetData, true);
-      } catch (error) {
-        pet.skillArray = oldSkills;
-        throw error;
-      }
+      const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
+      candidate.skillArray = newSkills;
+      candidate.skillPP = ReconcilePetPP(candidate);
+      await this.PetData.CommitPetUpdate(pet, candidate);
 
       Logger.Info(
         `[PetManager] 技能排序成功: UserID=${this.UserID}, PetId=${pet.petId}, ` +

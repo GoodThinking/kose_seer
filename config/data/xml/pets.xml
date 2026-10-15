@@ -1657,10 +1657,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20119" LearningLv="55" />
 			<Move ID="10164" LearningLv="60" />
 			<Move ID="10261" LearningLv="67" />
-			<Move ID="10001" LearningLv="1" />
-			<Move ID="10129" LearningLv="6" />
-			<Move ID="20004" LearningLv="11" />
-			<Move ID="10284" LearningLv="16" />
 			<Move ID="10267" LearningLv="24" />
 			<Move ID="10172" LearningLv="28" />
 			<Move ID="20120" LearningLv="32" />
@@ -1694,10 +1690,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20119" LearningLv="55" />
 			<Move ID="10164" LearningLv="60" />
 			<Move ID="10261" LearningLv="67" />
-			<Move ID="10001" LearningLv="1" />
-			<Move ID="10129" LearningLv="6" />
-			<Move ID="20004" LearningLv="11" />
-			<Move ID="10284" LearningLv="16" />
 			<Move ID="10202" LearningLv="24" />
 			<Move ID="10216" LearningLv="28" />
 			<Move ID="20064" LearningLv="32" />
@@ -2242,10 +2234,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20160" LearningLv="73" />
 			<Move ID="10372" LearningLv="78" />
 			<Move ID="10369" LearningLv="85" />
-			<Move ID="26026" LearningLv="86" />
-			<Move ID="31836" LearningLv="87" />
-			<Move ID="26027" LearningLv="88" />
-			<Move ID="31837" LearningLv="89" />
 		</LearnableMoves>
 	</Monster>
 
@@ -4985,14 +4973,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10743" LearningLv="53" />
 			<Move ID="20327" LearningLv="57" />
 			<Move ID="10741" LearningLv="61" />
-			<Move ID="10737" LearningLv="1" />
-			<Move ID="20283" LearningLv="5" />
-			<Move ID="10738" LearningLv="9" />
-			<Move ID="10522" LearningLv="13" />
-			<Move ID="20324" LearningLv="17" />
-			<Move ID="10477" LearningLv="21" />
-			<Move ID="10742" LearningLv="25" />
-			<Move ID="20325" LearningLv="29" />
 			<Move ID="10745" LearningLv="34" />
 			<Move ID="20328" LearningLv="38" />
 			<Move ID="10746" LearningLv="42" />
@@ -5024,14 +5004,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10743" LearningLv="53" />
 			<Move ID="20327" LearningLv="57" />
 			<Move ID="10741" LearningLv="61" />
-			<Move ID="10737" LearningLv="1" />
-			<Move ID="20283" LearningLv="5" />
-			<Move ID="10738" LearningLv="9" />
-			<Move ID="10522" LearningLv="13" />
-			<Move ID="20324" LearningLv="17" />
-			<Move ID="10477" LearningLv="21" />
-			<Move ID="10742" LearningLv="25" />
-			<Move ID="20325" LearningLv="29" />
 			<Move ID="10745" LearningLv="34" />
 			<Move ID="20328" LearningLv="38" />
 			<Move ID="10746" LearningLv="42" />
@@ -5040,14 +5012,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20330" LearningLv="54" />
 			<Move ID="10744" LearningLv="58" />
 			<Move ID="10748" LearningLv="62" />
-			<Move ID="10737" LearningLv="1" />
-			<Move ID="20283" LearningLv="5" />
-			<Move ID="10738" LearningLv="9" />
-			<Move ID="10522" LearningLv="13" />
-			<Move ID="20324" LearningLv="17" />
-			<Move ID="10477" LearningLv="21" />
-			<Move ID="10742" LearningLv="25" />
-			<Move ID="20325" LearningLv="29" />
 			<Move ID="10749" LearningLv="34" />
 			<Move ID="10752" LearningLv="38" />
 			<Move ID="20331" LearningLv="42" />
@@ -5079,14 +5043,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10743" LearningLv="53" />
 			<Move ID="20327" LearningLv="57" />
 			<Move ID="10741" LearningLv="61" />
-			<Move ID="10737" LearningLv="1" />
-			<Move ID="20283" LearningLv="5" />
-			<Move ID="10738" LearningLv="9" />
-			<Move ID="10522" LearningLv="13" />
-			<Move ID="20324" LearningLv="17" />
-			<Move ID="10477" LearningLv="21" />
-			<Move ID="10742" LearningLv="25" />
-			<Move ID="20325" LearningLv="29" />
 			<Move ID="10745" LearningLv="34" />
 			<Move ID="20328" LearningLv="38" />
 			<Move ID="10746" LearningLv="42" />
@@ -5095,20 +5051,10 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20330" LearningLv="54" />
 			<Move ID="10744" LearningLv="58" />
 			<Move ID="10748" LearningLv="62" />
-			<Move ID="10737" LearningLv="1" />
-			<Move ID="20283" LearningLv="5" />
-			<Move ID="10738" LearningLv="9" />
-			<Move ID="10522" LearningLv="13" />
-			<Move ID="20324" LearningLv="17" />
-			<Move ID="10477" LearningLv="21" />
-			<Move ID="10742" LearningLv="25" />
-			<Move ID="20325" LearningLv="29" />
 			<Move ID="10754" LearningLv="34" />
-			<Move ID="10527" LearningLv="38" />
 			<Move ID="20334" LearningLv="42" />
 			<Move ID="10755" LearningLv="46" />
 			<Move ID="20335" LearningLv="50" />
-			<Move ID="10743" LearningLv="54" />
 			<Move ID="20336" LearningLv="58" />
 			<Move ID="10756" LearningLv="62" />
 		</LearnableMoves>
@@ -6878,7 +6824,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20045" LearningLv="8" />
 			<Move ID="10353" LearningLv="15" />
 			<Move ID="20405" LearningLv="22" />
-			<Move ID="10047" LearningLv="29" />
 			<Move ID="10903" LearningLv="33" />
 			<Move ID="20126" LearningLv="37" />
 			<Move ID="10904" LearningLv="41" />
@@ -6890,11 +6835,7 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20412" LearningLv="65" />
 			<Move ID="10902" LearningLv="69" />
 			<Move ID="10906" LearningLv="73" />
-			<Move ID="10001" LearningLv="1" />
-			<Move ID="20045" LearningLv="8" />
 			<Move ID="10047" LearningLv="15" />
-			<Move ID="10353" LearningLv="22" />
-			<Move ID="20405" LearningLv="29" />
 			<Move ID="10896" LearningLv="33" />
 			<Move ID="10899" LearningLv="37" />
 			<Move ID="20406" LearningLv="41" />
@@ -6916,8 +6857,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10001" LearningLv="1" />
 			<Move ID="20045" LearningLv="8" />
 			<Move ID="10047" LearningLv="15" />
-			<Move ID="10353" LearningLv="22" />
-			<Move ID="20405" LearningLv="29" />
 			<Move ID="10896" LearningLv="33" />
 			<Move ID="10899" LearningLv="37" />
 			<Move ID="20406" LearningLv="41" />
@@ -6929,11 +6868,8 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10901" LearningLv="65" />
 			<Move ID="20409" LearningLv="69" />
 			<Move ID="10898" LearningLv="73" />
-			<Move ID="10001" LearningLv="1" />
-			<Move ID="20045" LearningLv="8" />
 			<Move ID="10353" LearningLv="15" />
 			<Move ID="20405" LearningLv="22" />
-			<Move ID="10047" LearningLv="29" />
 			<Move ID="10253" LearningLv="33" />
 			<Move ID="20413" LearningLv="37" />
 			<Move ID="10908" LearningLv="41" />
@@ -6968,11 +6904,6 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="10901" LearningLv="65" />
 			<Move ID="20409" LearningLv="69" />
 			<Move ID="10898" LearningLv="73" />
-			<Move ID="10001" LearningLv="1" />
-			<Move ID="20045" LearningLv="8" />
-			<Move ID="10047" LearningLv="15" />
-			<Move ID="10353" LearningLv="22" />
-			<Move ID="20405" LearningLv="29" />
 			<Move ID="10912" LearningLv="33" />
 			<Move ID="10337" LearningLv="37" />
 			<Move ID="20421" LearningLv="41" />
@@ -7110,21 +7041,12 @@ Diyracemin 2017-4-25 自定义种族值的最大值和最小值-->
 			<Move ID="20426" LearningLv="53" />
 			<Move ID="10928" LearningLv="57" />
 			<Move ID="10931" LearningLv="61" />
-			<Move ID="10001" LearningLv="1" />
-			<Move ID="20065" LearningLv="5" />
-			<Move ID="10943" LearningLv="9" />
-			<Move ID="20422" LearningLv="13" />
-			<Move ID="10916" LearningLv="17" />
-			<Move ID="10135" LearningLv="21" />
-			<Move ID="20423" LearningLv="25" />
-			<Move ID="10927" LearningLv="29" />
 			<Move ID="20427" LearningLv="33" />
 			<Move ID="10933" LearningLv="37" />
 			<Move ID="20428" LearningLv="41" />
 			<Move ID="10932" LearningLv="45" />
 			<Move ID="10934" LearningLv="49" />
 			<Move ID="20429" LearningLv="53" />
-			<Move ID="10928" LearningLv="57" />
 			<Move ID="10935" LearningLv="61" />
 		</LearnableMoves>
 	</Monster>

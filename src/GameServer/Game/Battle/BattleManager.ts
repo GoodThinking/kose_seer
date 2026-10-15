@@ -1,3 +1,5 @@
+import { GetPetSkillPP, GetSkillMaxPP, ReconcilePetPP } from '../Pet/PetPP';
+import { DatabaseManager } from '../../../DataBase/DatabaseManager';
 import { BaseManager } from '../Base/BaseManager';
 import { Logger } from '../../../shared/utils';
 import { PlayerInstance } from '../Player/PlayerInstance';
@@ -68,6 +70,8 @@ export class BattleManager extends BaseManager {
   private _currentBattle: IBattleInfo | null = null;
   private _catchInProgress = false;
   private _petItemInProgress = false;
+  private _ppSaveInProgress = false;
+  private _petRecoveryInProgress = false;
   private _petItemStorageUncertain = false;
   private _battleActionsInProgress = 0;
   private _battleEpoch = 0;
@@ -76,7 +80,7 @@ export class BattleManager extends BaseManager {
 
   // Packet dispatch is concurrent. Serialize consumable actions against other battle actions.
   private async RunBattleAction(command: number, action: () => Promise<void>): Promise<void> {
-    if (this._catchInProgress || this._petItemInProgress) {
+    if (this._catchInProgress || this._petItemInProgress || this._ppSaveInProgress || this._petRecoveryInProgress) {
       await this.Player.SendPacket(new PacketEmpty(command).setResult(5001));
       return;
     }
@@ -144,6 +148,19 @@ export class BattleManager extends BaseManager {
       this.RememberBattlePetPP(pet);
       Logger.Debug(`[BattleManager] 扣除技能PP: SkillId=${skillId}, 剩余PP=${pet.skillPP[skillIndex]}`);
     }
+  }
+
+  /** 2306/2310 are out-of-battle recovery, never a substitute for a 2406 turn. */
+  public BeginOutOfBattleRecovery(): { isCurrent: () => boolean; release: () => void } | null {
+    if (this._currentBattle || this._battleActionsInProgress || this._petRecoveryInProgress ||
+        PvpBattleManager.Instance.GetPlayerRoom(this.UserID)) return null;
+    const epoch = this._battleEpoch, mapId = this.Player.Data.mapID;
+    this._petRecoveryInProgress = true;
+    return {
+      isCurrent: () => this._battleEpoch === epoch && this.Player.Data.mapID === mapId &&
+        !this._currentBattle && !PvpBattleManager.Instance.GetPlayerRoom(this.UserID),
+      release: () => { this._petRecoveryInProgress = false; },
+    };
   }
 
   private RememberBattlePetPP(pet: IBattlePet): void {
@@ -558,7 +575,7 @@ export class BattleManager extends BaseManager {
       const maxPP = skillConfig?.MaxPP || 20;
       Logger.Debug(`[BattleManager] UpdateBattlePet: SkillId=${skillId}, MaxPP=${maxPP}, SkillName=${skillConfig?.Name || 'Unknown'}`);
       const savedPP = this._currentBattle?.isPvp ? undefined : this._battlePetPPMap.get(newPet.catchTime)?.get(skillId);
-      return savedPP === undefined ? maxPP : Math.min(maxPP, savedPP);
+      return this._currentBattle?.isPvp ? maxPP : savedPP === undefined ? GetPetSkillPP(newPet, skillId) : Math.min(maxPP, savedPP);
     });
 
     Logger.Debug(`[BattleManager] UpdateBattlePet: Skills=${JSON.stringify(finalSkills)}, PPs=${JSON.stringify(skillPPs)}`);
@@ -641,6 +658,7 @@ export class BattleManager extends BaseManager {
    * 清理旧战斗数据，初始化HP记录
    */
   private InitializeBattle(battle: IBattleInfo): void {
+    if (this._petRecoveryInProgress) throw new Error('Out-of-battle pet recovery pending');
     this._battleEpoch++;
     this._currentBattle = battle;
     this._battlePetPPMap.clear();
@@ -1005,20 +1023,54 @@ export class BattleManager extends BaseManager {
     const battle = this._currentBattle;
     const epoch = this._battleEpoch, mapId = this.Player.Data.mapID;
     const isCurrent = () => this._currentBattle === battle && this._battleEpoch === epoch && this.Player.Data.mapID === mapId;
-    await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL));
-
     if (!battle || !isCurrent() || battle.isOver) {
-      Logger.Warn(`[BattleManager] 没有进行中的战斗: UserID=${this.UserID}`);
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL).setResult(5001));
       return;
     }
 
     if (battle.isPvp === true) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL));
       await this._pvpService.HandleUseSkill(skillId);
       return;
     }
 
-    // PvE战斗
-    this.DeductSkillPP(battle.player, skillId);
+    const index = battle.player.skills.indexOf(skillId);
+    if (index < 0 || !battle.player.skillPP || battle.player.skillPP[index] <= 0) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL).setResult(5001));
+      return;
+    }
+    this._ppSaveInProgress = true;
+    try {
+      const release = await this.Player.PetManager.PetData.AcquireMutation();
+      try {
+        if (!isCurrent()) return;
+        const pet = this.Player.PetManager.GetPetByCatchTime(battle.player.catchTime);
+        if (!pet) throw new Error('Battle PP pet missing');
+        if (pet.skillArray.some(id => id > 0) && !pet.skillArray.includes(skillId)) {
+          await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL).setResult(5001));
+          return;
+        }
+        const candidate = JSON.parse(JSON.stringify(pet));
+        candidate.skillPP = ReconcilePetPP(candidate);
+        battle.player.skills.forEach((id, i) => {
+          const pp = battle.player.skillPP![i] - (i === index ? 1 : 0);
+          if (!Number.isInteger(pp) || pp < 0 || pp > GetSkillMaxPP(id)) throw new Error('Invalid battle PP');
+          if (id in candidate.skillPP) candidate.skillPP[id] = pp;
+        });
+        await this.Player.PetManager.PetData.CommitPetUpdate(pet, candidate);
+        if (this._currentBattle === battle) {
+          battle.player.skillPP[index]--;
+          this.RememberBattlePetPP(battle.player);
+        }
+      } finally { release(); }
+    } catch (error) {
+      Logger.Error('[BattleManager] PP consumption was not persisted', error as Error);
+      if (isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL).setResult(5000));
+      return;
+    } finally { this._ppSaveInProgress = false; }
+    if (!isCurrent()) return;
+    await this.Player.SendPacket(new PacketEmpty(CommandID.USE_SKILL));
+    if (!isCurrent()) return;
     const currentTurn = battle.turn;
     await this.EmitRoundStartEvent(currentTurn + 1);
     if (!isCurrent() || battle.isOver) return;
@@ -1146,6 +1198,24 @@ export class BattleManager extends BaseManager {
    * CMD 2406: USE_PET_ITEM
    */
   public async HandleUsePetItem(itemId: number, catchTime?: number): Promise<void> {
+    if (itemId === 300016) {
+      const inventory = this.Player.ItemManager.ItemData;
+      if (this._ppSaveInProgress || this._petItemInProgress || this._catchInProgress || inventory.HasPendingReward()) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+        return;
+      }
+      const epoch = this._battleEpoch, battle = this._currentBattle, mapId = this.Player.Data.mapID;
+      this._ppSaveInProgress = true;
+      let release: (() => void) | undefined;
+      try {
+        // An exclusive existing reservation protects the detached inventory snapshot until publication.
+        release = await inventory.AcquireReward();
+        this._ppSaveInProgress = false;
+        if (this._battleEpoch !== epoch || this._currentBattle !== battle || this.Player.Data.mapID !== mapId) return;
+        await this.RunBattleAction(CommandID.USE_PET_ITEM, () => this.UsePetItem(itemId, catchTime));
+      } finally { this._ppSaveInProgress = false; release?.(); }
+      return;
+    }
     // Keep a failed-save compensation inside the inventory operation, excluding staged task rewards.
     const release = this.Player.ItemManager.ItemData.BeginMutation();
     if (!release) {
@@ -1176,6 +1246,10 @@ export class BattleManager extends BaseManager {
     const itemData = this.Player.ItemManager.ItemData;
     const petData = this.Player.PetManager.PetData;
     const item = itemData.ItemList.find(entry => entry.itemId === itemId);
+    if (isPP && pet && pet.skillArray.some(id => id > 0) && battle.player.skills.some(id => !pet.skillArray.includes(id))) {
+      await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+      return;
+    }
     if ((!isPP && ![300011, 300012, 300013, 300014, 300015].includes(itemId)) || medicine?.ItemType !== (isPP ? 2 : 1) || !Number.isInteger(healAmount) ||
         !healAmount || healAmount <= 0 || !pet || !item) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
@@ -1190,7 +1264,7 @@ export class BattleManager extends BaseManager {
     }) : [];
     if ((isPP && (!restoredPP.length || restoredPP.some(pp => !Number.isInteger(pp)) ||
         !restoredPP.some((pp, index) => pp > battle.player.skillPP![index]))) ||
-        !this.Player.ItemManager.ConsumeItem(itemId, 1)) {
+        (isPP ? !Number.isSafeInteger(item.count) || item.count < 1 : !this.Player.ItemManager.ConsumeItem(itemId, 1))) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
       return;
     }
@@ -1200,6 +1274,53 @@ export class BattleManager extends BaseManager {
       this.Player.Data.mapID === mapId && battle.player.catchTime === targetCatchTime;
     this._petItemInProgress = true;
     try {
+      if (isPP) {
+        const release = await petData.AcquireMutation();
+        try {
+          if (!isCurrent()) return;
+          if (pet.skillArray.some(id => id > 0) && battle.player.skills.some(id => !pet.skillArray.includes(id))) {
+            await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+            return;
+          }
+          const candidate = JSON.parse(JSON.stringify(pet));
+          candidate.skillPP = ReconcilePetPP(candidate);
+          battle.player.skills.forEach((id, i) => { candidate.skillPP[id] = restoredPP[i]; });
+          await petData.CommitPetUpdate(pet, candidate, staged => DatabaseManager.Instance.WithConnection(async driver => {
+            let inventory = itemData.ItemList.map(entry => ({...entry}));
+            const consumed = inventory.find(entry => entry.itemId === itemId);
+            if (!consumed || !Number.isSafeInteger(consumed.count) || consumed.count < 1) throw new Error('PP medicine stock changed');
+            consumed.count--;
+            if (consumed.count === 0) inventory = inventory.filter(entry => entry.itemId !== itemId);
+            const petList = staged.ToRow().pet_list, itemList = JSON.stringify(inventory);
+            let committed = false;
+            await driver.beginTransaction();
+            try {
+              const items = await driver.execute('UPDATE player_items SET item_list = ? WHERE owner_id = ?', [itemList, this.UserID]);
+              const pets = await driver.execute('UPDATE player_pets SET pet_list = ? WHERE owner_id = ?', [petList, this.UserID]);
+              if (items.affectedRows !== 1 || pets.affectedRows !== 1) throw new Error('PP medicine storage row missing');
+              const [savedPet] = await driver.query<{pet_list: string}>('SELECT pet_list FROM player_pets WHERE owner_id = ?', [this.UserID]);
+              const [savedItems] = await driver.query<{item_list: string}>('SELECT item_list FROM player_items WHERE owner_id = ?', [this.UserID]);
+              if (savedPet?.pet_list !== petList || savedItems?.item_list !== itemList) throw new Error('PP medicine readback mismatch');
+              await driver.commit(); committed = true;
+              // Publish before releasing the DB connection; queued inventory autosaves see the committed count.
+              itemData.ItemList = inventory;
+            } catch (error) { if (!committed) await driver.rollback(); throw error; }
+          }));
+          if (this._currentBattle === battle && battle.player.catchTime === targetCatchTime) {
+            battle.player.skillPP = restoredPP;
+            this.RememberBattlePetPP(battle.player);
+          }
+        } catch (error) {
+          this._petItemStorageUncertain = true;
+          Logger.Error('[BattleManager] PP medicine transaction failed', error as Error);
+          if (isCurrent()) await this.Player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM).setResult(5001));
+          return;
+        } finally { release(); }
+        if (!isCurrent()) return;
+        await this.Player.SendPacket(new PacketUsePetItem(this.UserID, itemId, battle.player.hp, 0));
+        await this.ContinueNieoMedicineTurn(catchTime, isCurrent);
+        return;
+      }
       try {
         await DatabaseHelper.Instance.SaveItemData(itemData, true);
       } catch (error) {
@@ -1213,13 +1334,6 @@ export class BattleManager extends BaseManager {
         return;
       }
       if (!isCurrent()) return;
-      if (isPP) {
-        battle.player.skillPP = restoredPP;
-        this.RememberBattlePetPP(battle.player);
-        await this.Player.SendPacket(new PacketUsePetItem(this.UserID, itemId, battle.player.hp, 0));
-        await this.ContinueNieoMedicineTurn(catchTime, isCurrent);
-        return;
-      }
       const oldHp = battle.player.hp;
       const nextHp = Math.min(battle.player.maxHp, oldHp + healAmount);
       const actualHeal = nextHp - oldHp;
@@ -1502,7 +1616,14 @@ export class BattleManager extends BaseManager {
    */
   public async OnLogout(): Promise<void> {
     this._battleEpoch++;
-    if (!this._currentBattle) return;
+    if (!this._currentBattle) {
+      if (this._petRecoveryInProgress) {
+        const release = await this.Player.ItemManager.ItemData.AcquireReward();
+        try { await this.Player.PetManager.PetData.WaitForStagedSave(); }
+        finally { release(); }
+      }
+      return;
+    }
 
     Logger.Info(`[BattleManager] 玩家登出，清理战斗: UserID=${this.UserID}`);
 
@@ -1539,7 +1660,7 @@ export class BattleManager extends BaseManager {
         const skillConfig = GameConfig.GetSkillById(skillId);
         return {
           id: skillId,
-          pp: skillConfig?.MaxPP || 20
+          pp: this._currentBattle?.isPvp ? skillConfig?.MaxPP || 20 : GetPetSkillPP(pet, skillId)
         };
       });
 

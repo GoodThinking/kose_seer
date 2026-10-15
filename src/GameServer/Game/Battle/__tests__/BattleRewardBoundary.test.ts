@@ -232,7 +232,7 @@ describe('reward boundaries through real battle handlers and SQLite', () => {
     expect((await stored()).coins).toBe(0);
   });
   test('injected SQLite write failure remains separate and cannot replay rewards', async () => {
-    await seed(); await db.Execute("CREATE TRIGGER reject_reward_save BEFORE UPDATE OF pet_list ON player_pets BEGIN SELECT RAISE(ABORT, 'controlled sqlite reward error'); END");
+    await seed(); await db.Execute("CREATE TRIGGER reject_reward_save BEFORE UPDATE OF pet_list ON player_pets WHEN json_extract(NEW.pet_list, '$[0].exp') != json_extract(OLD.pet_list, '$[0].exp') BEGIN SELECT RAISE(ABORT, 'controlled sqlite reward error'); END");
     try {
       await skill(); const after = await replay(); expect(after.pets[0].exp).toBe(0); expect(after.coins).toBe(100); expect(after.items).toEqual([]);
       expect(settlement()).toMatchObject({rewardStatus: 'failed', rewardFailedStage: 'experience'});

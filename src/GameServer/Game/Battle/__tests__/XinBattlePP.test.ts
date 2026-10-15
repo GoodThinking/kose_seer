@@ -147,7 +147,7 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
   });
 
 
-  test.each(['kose', 'xin-20261013'] as const)('%s real learned skill → PP medicine → switch back → victory persists without PP schema', async protocol => {
+  test.each(['kose', 'xin-20261013'] as const)('%s real learned skill → PP medicine → switch back → victory persists current PP', async protocol => {
     Config.Game.clientProtocol = protocol;
     const battle = await seed(1, true);
     for (let i = 0; i < 6; i++) await skill();
@@ -174,11 +174,11 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
     expect(expected.pets.find(p => p.catchTime === catchTime)!.skillArray).toEqual([10004]);
     expect(expected.coins).toBe(125); expect(player.ItemManager.GetItemCount(300016)).toBe(0);
     expect(player.ItemManager.GetItemCount(300001)).toBe(2);
-    expect(expected.pets.every(p => !('skillPP' in p))).toBe(true);
+    expect(expected.pets.find(p => p.catchTime === catchTime)!.skillPP![10004]).toBe(33);
     await settle(1250); expect(commandPackets(2202)).toHaveLength(1);
     await new FightNpcMonsterHandler().Handle(session(), new HeadInfo(), Buffer.alloc(4));
     await new ReadyToFightHandler().Handle(session(), new HeadInfo(), Buffer.alloc(0));
-    expect(player.BattleManager.GetCurrentBattle()!.player.skillPP).toEqual([35]);
+    expect(player.BattleManager.GetCurrentBattle()!.player.skillPP).toEqual([33]);
     expect(commandPackets(2506)).toHaveLength(1);
   });
 
@@ -229,14 +229,14 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
     const battle = await seed();
     for (let i = 0; i < 6; i++) await skill();
     expect(battle.player.skillPP).toEqual([29]);
-    const save = helper.SaveItemData.bind(helper);
+    const data = player.PetManager.PetData, commit = data.CommitPetUpdate.bind(data);
     let entered!: () => void, release!: () => void;
     const ready = new Promise<void>(resolve => { entered = resolve; });
     const gate = new Promise<void>(resolve => { release = resolve; });
-    jest.spyOn(helper, 'SaveItemData').mockImplementation(async (data, strict) => {
-      await save(data, strict);
-      if (strict) { entered(); await gate; }
-    });
+    jest.spyOn(data, 'CommitPetUpdate').mockImplementationOnce((pet, candidate, persist, onCommitted) =>
+      commit(pet, candidate, async staged => {
+        await persist!(staged); entered(); await gate;
+      }, onCommitted));
     const pending = ppItem();
     try {
       await ready;
@@ -255,12 +255,14 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
 
   test.each(['leave', 'logout', 'successor'])('pending PP save excludes duplicate and invalidates after %s', async transition => {
     const old = await seed(); await skill();
-    const pp = [...old.player.skillPP!], hp = old.player.hp, save = helper.SaveItemData.bind(helper);
+    const pp = [...old.player.skillPP!], hp = old.player.hp;
+    const data = player.PetManager.PetData, commit = data.CommitPetUpdate.bind(data);
     let entered!: () => void, release!: () => void;
     const ready = new Promise<void>(r => {entered = r;}), gate = new Promise<void>(r => {release = r;});
-    jest.spyOn(helper, 'SaveItemData').mockImplementation(async (data, strict) => {
-      await save(data, strict); if (strict) {entered(); await gate;}
-    });
+    jest.spyOn(data, 'CommitPetUpdate').mockImplementationOnce((pet, candidate, persist, onCommitted) =>
+      commit(pet, candidate, async staged => {
+        await persist!(staged); entered(); await gate;
+      }, onCommitted));
     const pending = ppItem(); let successor: any, snapshot = '', logout: Promise<void> | undefined;
     try {
       await ready; await ppItem();
@@ -283,7 +285,8 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
       }
       release(); await pending;
       await logout;
-      expect(old.player.skillPP).toEqual(pp); expect(old.player.hp).toBe(hp);
+      expect(old.player.skillPP).toEqual(transition === 'successor' ? pp : [35]); expect(old.player.hp).toBe(hp);
+      expect((await stored()).pets.find(p => p.catchTime === catchTime)!.skillPP![10004]).toBe(35);
       if (successor) expect(JSON.stringify(successor)).toBe(snapshot);
       expect(commandPackets(2406).map(p => p.readInt32BE(13))).toEqual([5001]);
       expect(player.ItemManager.GetItemCount(300016)).toBe(1);
