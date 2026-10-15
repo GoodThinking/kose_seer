@@ -4,7 +4,7 @@ import { GameConfig } from '../../../../shared/config/game/GameConfig';
 import { MapSpawnManager } from '../MapSpawnManager';
 import { IMapOgreSlot } from '../../../../shared/config/game/interfaces/IMapOgreConfig';
 
-describe('UAT-007 ordinary map spawns and custom evolution mixing', () => {
+describe('ordinary map spawns with initial evolution forms', () => {
   let playerMock: any;
 
   beforeAll(async () => {
@@ -35,6 +35,7 @@ describe('UAT-007 ordinary map spawns and custom evolution mixing', () => {
       expect(Number.isInteger(map.maxCount) && map.maxCount >= map.minCount && map.maxCount <= 9).toBe(true);
       for (const ogre of map.ogres) {
         expect(GameConfig.GetPetById(ogre.petId)).not.toBeNull();
+        expect(Number(GameConfig.GetPetById(ogre.petId)!.EvolvesFrom || 0)).toBe(0);
         expect(Number.isInteger(ogre.slot) && ogre.slot >= 0 && ogre.slot <= 8).toBe(true);
         expect(ogre.isBoss).not.toBe(true);
         expect(Number.isFinite(ogre.weight) && ogre.weight > 0).toBe(true);
@@ -50,14 +51,13 @@ describe('UAT-007 ordinary map spawns and custom evolution mixing', () => {
     }
   });
 
-  test('Map 20 (海洋星浅水区) only spawns water/flying pets (贝尔, 阿布, 毛毛) and never electric pets', () => {
-    expect(GameConfig.GetMapConfigById(20).ogres.map((o: IMapOgreSlot) => o.petId)).toEqual([30, 31, 22]);
+  test('Map 20 only spawns initial water/flying pets and never electric pets', () => {
     const spawnMgr = new MapSpawnManager(playerMock);
     spawnMgr.OnEnterMap(20);
     const ogres = spawnMgr.GetMapOgres(20).filter(o => o.petId > 0);
     expect(ogres.length).toBeGreaterThan(0);
     for (const o of ogres) {
-      expect([30, 31, 22]).toContain(o.originalPetId);
+      expect([30, 22]).toContain(o.originalPetId);
       expect(o.originalPetId).not.toBe(13); // 比比鼠 (电系) must NOT appear on Ocean Star
     }
   });
@@ -81,26 +81,4 @@ describe('UAT-007 ordinary map spawns and custom evolution mixing', () => {
     }
   });
 
-  test('Map 57 (尼古尔星) mixes 1st and 2nd evolution forms (米隆 235 & 米洛尼 236)', () => {
-    const spawnMgr = new MapSpawnManager(playerMock);
-    spawnMgr.OnEnterMap(57);
-    const mapConf = GameConfig.GetMapConfigById(57);
-    expect(mapConf).not.toBeNull();
-    const petIds = mapConf.ogres.map((o: any) => o.petId);
-    expect(petIds).toEqual([235, 236]);
-    const firstForm = GameConfig.GetPetById(235)!;
-    expect(Number(firstForm.EvolvesTo)).toBe(236);
-    expect(mapConf.ogres.find((o: IMapOgreSlot) => o.petId === 236)!.minLevel).toBeGreaterThanOrEqual(Number(firstForm.EvolvingLv));
-  });
-
-  test('Map 30 (赫尔卡星表面) spawns electric pets (比比鼠 13, 闪电鼠 14, 闪光电击兔 286)', () => {
-    const spawnMgr = new MapSpawnManager(playerMock);
-    spawnMgr.OnEnterMap(30);
-    const mapConf = GameConfig.GetMapConfigById(30);
-    const petIds = mapConf.ogres.map((o: any) => o.petId);
-    expect(petIds).toContain(13); // 比比鼠
-    expect(petIds).toContain(14); // 闪电鼠
-    expect(petIds).toContain(286); // 闪光电击兔
-    expect(petIds).not.toContain(30); // 贝尔 (水系) must NOT appear on Helka
-  });
 });

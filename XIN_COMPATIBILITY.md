@@ -205,3 +205,32 @@ R18/R22 Core and a pinned `item` linkage template. SVG icons are authored in
 TypeScript and ActionScript compilation passed. Per the user's repair/test split,
 automated tests and game/UI acceptance were not run; the user owns acceptance.
 Existing battle fixtures include the new migration so their schema stays valid.
+
+## 2026-10-15: initial-form wild encounters and shiny weights
+
+Ordinary encounter pools in `config/data/json/map-ogres.json` now follow
+`pets.xml`'s `EvolvesFrom` chain to its initial form. Duplicate family entries
+merge their weights, retaining the first entry's level range, drops and capture
+settings. The existing map keys, empty maps and per-visit spawn counts remain.
+BOSS paths, owned pets and player saves are outside this change.
+
+The existing generator draws each ordinary slot independently with replacement:
+`P(entry) = entry.weight / sum(enabled non-BOSS weights)`. Fixed shiny entries
+already have `shiny=1`; they skip the separate `shinyRate` replacement roll.
+Before this change, map10 allocated 15% to shiny Pipi and 25% to its evolved
+form, or 40% shiny per slot. Maps30 and31 allocated 15% to shiny entries.
+
+The three existing shiny-bearing maps now allocate exactly 5% total weight to
+initial shiny forms. Map10 uses Pipi:shiny Pipi = 19:1; map30 uses Bibishu:shiny
+Lili = 19:1; map31 uses Luoqi:Lili:shiny Lili = 209:114:17. Relative frequencies
+within each non-shiny pool remain unchanged. Other maps gain no shiny species.
+Non-shiny rare species keep their family weights; `IsRareMon` does not add a
+separate rarity roll. For example, Xiaodouya in map11 and Mobi in map25 remain
+15% per slot. These custom probabilities are not official historical rates.
+
+For N independent slots, `P(at least one shiny) = 1 - (1 - 0.05)^N`:
+9.75%, 14.2625% and 18.549375% for 2, 3 and 4 slots. Entering a map or clearing
+its last encounter rerolls the pool. There is no periodic ten-second refresh;
+the global interval and rate fields alone do not control the generator.
+Game acceptance remains with the user; compilation and configuration loading
+do not establish UI or encounter acceptance.
