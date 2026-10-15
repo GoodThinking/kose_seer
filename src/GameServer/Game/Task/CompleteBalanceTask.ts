@@ -2,7 +2,7 @@ import { PlayerInstance } from '../Player/PlayerInstance';
 import { CommitBalanceReward, BalanceReward } from '../Reward/CommitBalanceReward';
 import { ITaskBuffer, TaskStatus } from '../../../DataBase/models/TaskData';
 import { GoldToWire } from '../../../shared/protocol/GoldCurrency';
-import { DecodeTask96Buffer } from './Task96Buffer';
+import { DecodeKoseTaskBuffer } from './Task96Buffer';
 
 export async function CompleteBalanceTask(player: PlayerInstance, taskId: number, reward: BalanceReward): Promise<void> {
   await CommitBalanceReward(player, reward, async (driver, now) => {
@@ -31,7 +31,7 @@ export async function CompleteBalanceTask(player: PlayerInstance, taskId: number
         }
         stages = xinBytes;
       } else {
-        stages = DecodeTask96Buffer(buffer as ITaskBuffer | undefined);
+        stages = DecodeKoseTaskBuffer(buffer as ITaskBuffer | undefined, 96);
       }
       if (![0, 1, 2].every(i => stages[i] === 1)) throw new Error('Task 96 progress incomplete');
       if (!player.Data.hasNono || !(player.Data.nonoState & 2)) throw new Error('Task 96 requires following NoNo');

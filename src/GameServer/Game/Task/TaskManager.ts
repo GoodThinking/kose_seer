@@ -1,7 +1,7 @@
 import { CompleteStarterTask } from './CompleteStarterTask';
 import { CompleteItemTask } from './CompleteItemTask';
 import { CompleteBalanceTask } from './CompleteBalanceTask';
-import { DecodeTask96Buffer } from './Task96Buffer';
+import { DecodeKoseTaskBuffer } from './Task96Buffer';
 import { SaveAcceptedTask, SaveCompletedTask, SaveTaskBuffer } from './SaveTaskState';
 import { TaskData } from '../../../DataBase/models/TaskData';
 import { Logger } from '../../../shared/utils/Logger';
@@ -329,9 +329,9 @@ export class TaskManager extends BaseManager {
     }));
   }
 
-  /** 保存旧 Nieo 任务进度的逐字节值，不将布尔进度解释为 UInt32。 */
+  /** 保存 fixed Nieo 任务进度的完整逐字节值，不将布尔进度解释为 UInt32。 */
   public async SetTaskProgressBytes(taskId: number, bytes: Buffer): Promise<void> {
-    await SaveTaskBuffer(this.TaskData, taskId, current => ({ ...current, ...Array.from(bytes) }));
+    await SaveTaskBuffer(this.TaskData, taskId, () => Object.fromEntries(Array.from(bytes, (value, index) => [index, value])));
   }
 
   /** 保存 XIN 2204 请求中的完整任务缓存区。 */
@@ -345,7 +345,7 @@ export class TaskManager extends BaseManager {
    */
   public GetTaskBuffer(taskId: number): number[] {
     const buffer = this.TaskData.GetTaskBuffer(taskId);
-    if (taskId === 96) return DecodeTask96Buffer(buffer);
+    if (taskId === 94 || taskId === 96) return DecodeKoseTaskBuffer(buffer, taskId);
     return [
       buffer[0] || 0,
       buffer[1] || 0,
