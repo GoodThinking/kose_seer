@@ -422,6 +422,8 @@ export const CommandID = {
 
   // ============ 自定义扩展 (10xxxx) ============
   SHINY_CONFIG_GET: 109001,          // 获取异色配置
+  REWARD_BOOST_USE: 109002,          // 使用限时战斗奖励道具
+  REWARD_BOOST_STATUS: 109003,       // 查询服务器加成截止时间
 } as const;
 
 export type CommandIDType = typeof CommandID[keyof typeof CommandID];

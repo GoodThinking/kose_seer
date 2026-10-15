@@ -52,7 +52,8 @@ export interface IPetCalculatedStats {
 export class PetCalculator {
 
   /** YieldingEV 顺序与精灵配置/属性包一致：体力、攻击、防御、特攻、特防、速度。 */
-  public static ApplyBattleEV(pet: IPetInfo, defeatedPetId: number): boolean {
+  public static ApplyBattleEV(pet: IPetInfo, defeatedPetId: number, multiplier = 1): boolean {
+    if (!Number.isSafeInteger(multiplier) || multiplier < 1) throw new Error('Invalid learning reward multiplier');
     const config = GameConfig.GetPetById(defeatedPetId);
     if (!config) throw new Error(`Missing defeated pet config: ${defeatedPetId}`);
     // 兼容旧配置未声明产出；不能给未知产出默认加点。
@@ -75,7 +76,7 @@ export class PetCalculator {
     let changed = false;
     // 接近总上限时按配置六项顺序截断，不跨属性转移被单项上限截断的点数。
     fields.forEach((field, index) => {
-      const gain = Math.min(gains[index], 255 - current[index], remaining);
+      const gain = Math.min(gains[index] * multiplier, 255 - current[index], remaining);
       pet[field] += gain;
       remaining -= gain;
       changed = changed || gain > 0;

@@ -11,6 +11,7 @@ import { DataCache } from '../../../../DataBase/cache/DataCache';
 import { ChallengeProgressDataAccessor } from '../../../../DataBase/accessors/ChallengeProgressDataAccessor';
 import { Migration012FixAllTables } from '../../../../DataBase/migrations/scripts/012_fix_all_tables';
 import { Migration018CreateChallengeProgressTable } from '../../../../DataBase/migrations/scripts/018_create_challenge_progress_table';
+import { Migration022CreateRewardBoosts } from '../../../../DataBase/migrations/scripts/022_create_reward_boosts';
 import { Config } from '../../../../shared/config/ServerConfig';
 import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
 import { ConfigKeys, ConfigPaths, ConfigTypes } from '../../../../shared/config/ConfigDefinitions';
@@ -62,6 +63,7 @@ describe('SPT first-win pet rejection with real PetManager and SQLite', () => {
     expect(BossAbilityConfig.Instance.GetBossConfigByMapAndParam(12, 0)?.spt).toMatchObject({sptId: 1, rewardPetId: 46});
     await db.Initialize();
     await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY, coins INTEGER NOT NULL DEFAULT 100)');
+    await db.Execute(new Migration022CreateRewardBoosts().upSQLite()[0]);
     const petDDL = new Migration012FixAllTables().upSQLite().find(sql => sql.startsWith('CREATE TABLE IF NOT EXISTS player_pets'));
     await db.Execute(petDDL!);
     const challengeDDL = new Migration018CreateChallengeProgressTable().upSQLite().find(sql => sql.includes('CREATE TABLE IF NOT EXISTS player_challenge_progress'));

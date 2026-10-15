@@ -166,3 +166,40 @@ UAT-011 has a code fix and TypeScript compilation evidence. At the user's reques
 automated tests and game/UI verification are not run in this round; the user owns
 acceptance. The existing skill fixtures now supply the required wallet and
 inventory state. This note does not claim runtime acceptance.
+
+## 2026-10-15: five-hour reward cards
+
+The fixed Nieo coin shop now includes `399901` 十倍经验卡, `399902` 十倍学习力卡,
+and `399903` 十倍赛尔豆卡, each costing 100赛尔豆. Configuration lives in the
+existing `items.xml`: `type="reward_boost"`, `RewardBoostKind`,
+`RewardMultiplier="10"`, `RewardDurationSeconds="18000"`. Unused cards do not
+expire. A purchase atomically saves the coin payment and inventory grant.
+
+Click a card in the storage bag's 收藏物品 tab and confirm to consume one. The
+bag's 战斗加成状态 button reads server expiry times, including after reconnect.
+CMD109002 accepts exactly one item-ID uint32 and returns item ID, remaining
+quantity, expiry, server time. CMD109003 accepts an empty body and returns server
+time followed by experience, learning, coin expiry timestamps. All words are
+big-endian uint32. Failed use does not consume the card or start its effect.
+
+Migration22 adds `player_reward_boosts`, keyed by account and reward kind. Its
+absolute Unix-second expiry survives logout and service restarts. Reusing a kind
+sets expiry to `max(serverNow, oldExpiry) + 18000`; the multiplier stays 10. All
+three kinds can coexist. Expiry is checked once at PvE victory settlement, with
+`expiry > serverNow`; there are no online-only countdowns or expiry timers.
+
+The experience card multiplies the normal battle experience by 10 and grants
+that amount to both the fighting pet and stored experience, in one transaction.
+Without the card, battle storage behavior stays unchanged. Stored points are not
+multiplied again when allocated. The existing pool cap `2147483647` remains;
+reaching it does not suppress pet experience. Learning gains are multiplied before
+the existing per-stat255/total510 caps. Coins multiply only the ordinary battle
+coin reward. Tasks, receiver claims, item drops, PvP, losses and escapes gain no
+new multiplier or reward path.
+
+Client assets are built by `scripts/build-reward-boosts.cjs`, using the pinned
+R18/R22 Core and a pinned `item` linkage template. SVG icons are authored in
+`compat/client-patches/reward-boosts/icons/`; generated SWFs stay outside Git.
+TypeScript and ActionScript compilation passed. Per the user's repair/test split,
+automated tests and game/UI acceptance were not run; the user owns acceptance.
+Existing battle fixtures include the new migration so their schema stays valid.

@@ -6,6 +6,7 @@ import { DatabaseHelper } from '../../../../DataBase/DatabaseHelper';
 import { DatabaseManager } from '../../../../DataBase/DatabaseManager';
 import { DataCache } from '../../../../DataBase/cache/DataCache';
 import { Migration012FixAllTables } from '../../../../DataBase/migrations/scripts/012_fix_all_tables';
+import { Migration022CreateRewardBoosts } from '../../../../DataBase/migrations/scripts/022_create_reward_boosts';
 import { Config } from '../../../../shared/config/ServerConfig';
 import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
 import { ConfigKeys, ConfigPaths, ConfigType } from '../../../../shared/config/ConfigDefinitions';
@@ -69,6 +70,7 @@ describe('experience notifications and persisted skills', () => {
     await db.Initialize();
     await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY)');
     await db.Execute(new Migration012FixAllTables().upSQLite().find(sql => sql.startsWith('CREATE TABLE IF NOT EXISTS player_pets'))!);
+    await db.Execute(new Migration022CreateRewardBoosts().upSQLite()[0]);
   });
   beforeEach(async () => {
     uid++;

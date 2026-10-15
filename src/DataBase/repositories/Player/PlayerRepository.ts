@@ -688,8 +688,8 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
     return result.affectedRows >= 0;
   }
 
-  /** One transaction transfers pool points into the complete pet snapshot. */
-  public async CommitExperienceAllocation(
+  /** Commit a pool allocation or battle grant together with the complete pet snapshot. */
+  public async CommitPetExperience(
     userId: number, expectedBalance: number, balance: number, petList: string
   ): Promise<void> {
     await this._db.Transaction(async driver => {

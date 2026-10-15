@@ -187,6 +187,9 @@ export interface IItem {
   Hide?: number;
   hideNum?: number;
   Sort?: number;
+  RewardBoostKind?: string;
+  RewardMultiplier?: number;
+  RewardDurationSeconds?: number;
 }
 
 /**

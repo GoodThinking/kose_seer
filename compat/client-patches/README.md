@@ -18,3 +18,21 @@ java -jar ffdec.jar -importScript PetFightDLL.swf PetFightDLL.patched.swf compat
 `skill-list-dedup/` 只修改 PetSelectPanel.handler 的普通列表合并，按技能 ID 保留首次出现项，保留服务端新增技能、原有已装备排除及黑色精灵分支。修复同一候选列表重复为两份而产生的多余分页。输入 PetSelectPanel.swf SHA256：`a1eaa2fc8ff71f453642d33213dcfd8b0c5f70d230e9a05634799d89a29ca2e1`；输出：`626371d2a8cd3d00fbd110028c4c84c2f942115f84a2cf729aa3b9374422ea44`。使用 JPEXS `-importScript` 单独导入此目录，不替换 Core、战斗或其他 UI 模块。导出源码中的 SWF 元数据仅从导入源中移除，输出帧头和全部非目标编码标签保持逐字节一致。
 
 验证：22 项合并模型与反导出检查通过，两次构建输出相同；后台合成客户端候选由 6 页恢复为 3 页，属性技能可选择、保存并重登回显。此修复不改变技能效果或学习资格。
+
+## 限时十倍战斗奖励道具
+
+`reward-boosts/` 保存背包类补丁和三张48px自绘SVG图标。只在`type=reward_boost`
+的道具上增加点击使用；背包提供“战斗加成状态”服务器查询。购买入口沿用实验室道具商城，
+三种卡各100赛尔豆，不更改旧商品。商城、道具和说明的嵌入XML各追加三条。
+
+构建入口 `scripts/build-reward-boosts.cjs`，参数 `--core`、`--icon-template`、
+`--out`、`--java`、`--ffdec` 均须显式提供。固定输入Core SHA256
+`b468240b55fa29c71c6d7c8dec3479e0da4370353b4a4e762d9832838e11bfea`；
+图标模板SHA256 `710cbe6e3d8cfb0af85b2ef771712c602d0cb60702261b34487a6342957934b4`。
+产出Core SHA256 `680a80a3f03e1f1aa9c5e7dc8c20f34907222d9ca4c0b641bc9030018dab9dce`。
+帧头和非目标标签保持，1928个非BagPanel类的resolved pcode逐文件一致。
+
+道具ID399901/399902/399903分别为经验、学习力、赛尔豆卡。图标保留`item`链接，放到
+`client/overlay/resource/item/petItem/icon/ID.swf`；Core仍替换assets/dll原位置，
+不新增overlay/dll遮蔽。构建证明见生成目录`client-build-proof.json`，其中明确记录
+本轮未运行自动测试和游戏UI；实际购买、使用、重登和到期表现由用户验收。

@@ -36,6 +36,12 @@ import { PacketPetRoomList } from '../../Server/Packet/Send/Pet/PacketPetRoomLis
 import { PacketSkillSort } from '../../Server/Packet/Send/Pet/PacketSkillSort';
 import { IMapPetShowEvent } from '../Map/MapEventTypes';
 import { MapEventType, PetEventType, IPetObtainedEvent, IPetEvolutionEvent, PetObtainSource } from '../Event/EventTypes';
+
+export interface BattleExperienceBoost {
+  learningMultiplier: number;
+  storedExperience: number;
+}
+
 /**
  * 精灵管理器
  * 处理精灵相关的所有逻辑：获取精灵信息、精灵列表、治疗、展示等
@@ -549,9 +555,15 @@ export class PetManager extends BaseManager {
   /**
    * 处理增加精灵经验（按catchTime查找）
    */
-  public async HandleAddPetExpByCatchTime(catchTime: number, expAmount: number, defeatedPetId?: number): Promise<boolean> {
+  public async HandleAddPetExpByCatchTime(
+    catchTime: number, expAmount: number, defeatedPetId?: number, boost?: BattleExperienceBoost
+  ): Promise<boolean> {
     const release = await this.PetData.AcquireMutation();
+    let releasePool: (() => void) | undefined;
     try {
+      if (boost && (defeatedPetId === undefined || !Number.isSafeInteger(boost.storedExperience) || boost.storedExperience < 0)) {
+        throw new Error('Invalid battle experience boost');
+      }
       const pet = this.PetData.GetPetByCatchTime(catchTime);
       if (!pet) {
         Logger.Warn(`[PetManager] 精灵未找到: CatchTime=${catchTime}`);
@@ -561,7 +573,7 @@ export class PetManager extends BaseManager {
       const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
       // 仅胜利结算传入被击败精灵 ID；直接加经验和经验分配不附赠学习力。
       // 与经验共用一个候选快照、变更锁和严格持久化边界。
-      const evChanged = defeatedPetId !== undefined && PetCalculator.ApplyBattleEV(candidate, defeatedPetId);
+      const evChanged = defeatedPetId !== undefined && PetCalculator.ApplyBattleEV(candidate, defeatedPetId, boost?.learningMultiplier ?? 1);
       candidate.exp += expAmount;
       const result = this.checkLevelUp(candidate);
       const levelUp = candidate.level > pet.level;
@@ -580,7 +592,28 @@ export class PetManager extends BaseManager {
       }
 
       // 战斗结算前先保存属性并准备客户端的属性/技能提示；catchTime 保持原实例身份。
-      await this.PetData.CommitPetUpdate(pet, candidate);
+      if (boost && boost.storedExperience > 0) {
+        await this.Player.Data.WaitForExpAllocation();
+        const pool = this.Player.Data.BeginExpAllocation();
+        releasePool = pool.release;
+        const expectedBalance = this.Player.Data.allocatableExp;
+        if (!Number.isSafeInteger(expectedBalance) || expectedBalance < 0 || expectedBalance > 0x7fffffff) {
+          throw new Error('Invalid experience pool balance');
+        }
+        const balance = Math.min(0x7fffffff, expectedBalance + boost.storedExperience);
+        if (balance > expectedBalance) {
+          await this.PetData.CommitPetUpdate(pet, candidate,
+            staged => new PlayerRepository().CommitPetExperience(this.UserID, expectedBalance, balance, staged.ToRow().pet_list),
+            () => pool.publish(balance));
+        } else {
+          // A full pool must not prevent the pet's ordinary battle reward.
+          await this.PetData.CommitPetUpdate(pet, candidate);
+        }
+        releasePool();
+        releasePool = undefined;
+      } else {
+        await this.PetData.CommitPetUpdate(pet, candidate);
+      }
       await this.sendNoteUpdateProp([pet], 0);
       if (newSkills.length > 0) {
         await this.Player.SendPacket(new PacketNoteUpdateSkill([{catchTime, activeSkills, unactiveSkills}]));
@@ -588,7 +621,7 @@ export class PetManager extends BaseManager {
       Logger.Info(`[PetManager] 精灵获得经验: CatchTime=${catchTime}, PetId=${pet.petId}, Exp=${expAmount}, LevelUp=${levelUp}, NewLevel=${pet.level}`);
 
       return levelUp;
-    } finally { release(); }
+    } finally { releasePool?.(); release(); }
   }
 
   /**
@@ -955,7 +988,7 @@ export class PetManager extends BaseManager {
       candidate.skillArray.push(...activeSkills);
       candidate.skillPP = ReconcilePetPP(candidate);
       await this.PetData.CommitPetUpdate(pet, candidate,
-        staged => new PlayerRepository().CommitExperienceAllocation(
+        staged => new PlayerRepository().CommitPetExperience(
           this.UserID, expectedBalance, balance, staged.ToRow().pet_list
         ),
         () => pool.publish(balance)

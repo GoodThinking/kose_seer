@@ -14,6 +14,7 @@ import { PacketGoldBuyProduct } from '../../Server/Packet/Send/User/PacketGoldBu
 import { PacketEmpty } from '../../Server/Packet/Send/PacketEmpty';
 import { CommandID } from '../../../shared/protocol/CommandID';
 import { GoldToWire } from '../../../shared/protocol/GoldCurrency';
+import { BuyRewardBoost, GetRewardBoostItem, RewardBoostError } from '../Reward/RewardBoost';
 
 /**
  * 物品管理器
@@ -66,6 +67,23 @@ export class ItemManager extends BaseManager {
    * @param count 购买数量
    */
   public async HandleItemBuy(itemId: number, count: number): Promise<void> {
+    const boost = GetRewardBoostItem(itemId);
+    if (boost) {
+      let committed = false;
+      try {
+        const receipt = await BuyRewardBoost(this.Player, boost, count);
+        committed = true;
+        await this.Player.SendPacket(new PacketItemBuy(receipt.coins, itemId, count, 0));
+        await this.Player.EventBus.Emit({type: ItemEventType.ITEM_GAINED, timestamp: Date.now(),
+          playerId: this.UserID, itemId, count, source: ItemGainSource.BUY} as IItemGainedEvent);
+      } catch (error) {
+        Logger.Error(committed ? '[ItemManager] Boost purchase committed; notification failed' : '[ItemManager] Boost purchase failed',
+          error instanceof Error ? error : new Error(String(error)));
+        if (!committed) await this.Player.SendPacket(new PacketEmpty(CommandID.ITEM_BUY).setResult(
+          error instanceof RewardBoostError ? error.code : 5000));
+      }
+      return;
+    }
     const release = this.ItemData.BeginMutation();
     if (!release) {
       await this.Player.SendPacket(new PacketEmpty(CommandID.ITEM_BUY).setResult(5000));

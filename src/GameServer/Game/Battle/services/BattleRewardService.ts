@@ -5,6 +5,7 @@ import { GameConfig } from '../../../../shared/config/game/GameConfig';
 import { BossAbilityConfig } from '../BossAbility/BossAbilityConfig';
 import { BossSpecialRules } from '../BossSpecialRules';
 import { ItemGainSource, PetObtainSource } from '../../Event/EventTypes';
+import { GetRewardBoostStatus } from '../../Reward/RewardBoost';
 
 export interface VictoryRewardResult {
   status: 'complete' | 'partial' | 'failed';
@@ -51,17 +52,19 @@ export class BattleRewardService {
     let stage: NonNullable<VictoryRewardResult['failedStage']> = 'experience';
     let sptRewards: { itemId: number; count: number }[] = [];
     try {
-      // 1. 计算经验奖励（从配置或默认计算）
-      const expGained = this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot);
-
-      // 2. 计算金币奖励
-      const coinsGained = this.CalculateCoinsReward(battle.enemy.level);
+      // Snapshot all three effects at settlement time; later awaits do not change this battle's rates.
+      const boosts = await GetRewardBoostStatus(userId);
+      const expGained = this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot) * boosts.experience.multiplier;
+      const coinsGained = this.CalculateCoinsReward(battle.enemy.level) * boosts.coins.multiplier;
 
       // 3. 给精灵增加经验（使用catchTime查找精灵）
       const catchTime = battle.player.catchTime;
       if (!this._player.PetManager.GetPetByCatchTime(catchTime)) throw new Error('Reward pet missing');
       // PetManager commits its detached candidate before publishing or notifying.
-      result.levelUp = await this._player.PetManager.HandleAddPetExpByCatchTime(catchTime, expGained, battle.enemy.id);
+      result.levelUp = await this._player.PetManager.HandleAddPetExpByCatchTime(catchTime, expGained, battle.enemy.id, {
+        learningMultiplier: boosts.learning.multiplier,
+        storedExperience: boosts.experience.multiplier > 1 ? expGained : 0
+      });
       const rewardedPet = this._player.PetManager.GetPetByCatchTime(catchTime);
       if (!rewardedPet) throw new Error('Reward pet disappeared');
       result.expGained = expGained;

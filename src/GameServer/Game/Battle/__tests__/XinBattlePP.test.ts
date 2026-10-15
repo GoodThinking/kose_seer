@@ -7,6 +7,7 @@ import { DatabaseHelper } from '../../../../DataBase/DatabaseHelper';
 import { PlayerRepository } from '../../../../DataBase/repositories/Player/PlayerRepository';
 import { Migration012FixAllTables } from '../../../../DataBase/migrations/scripts/012_fix_all_tables';
 import { Migration006CreateItems } from '../../../../DataBase/migrations/scripts/006_create_items';
+import { Migration022CreateRewardBoosts } from '../../../../DataBase/migrations/scripts/022_create_reward_boosts';
 import { Config } from '../../../../shared/config/ServerConfig';
 import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
 import { ConfigKeys, ConfigPaths, ConfigType } from '../../../../shared/config/ConfigDefinitions';
@@ -116,6 +117,7 @@ describe('R11 battle-local PP supply through real handlers and temporary SQLite'
     await db.Execute('INSERT INTO players VALUES (?, 100, 0)', [uid]);
     await db.Execute(new Migration012FixAllTables().upSQLite().find(s => s.startsWith('CREATE TABLE IF NOT EXISTS player_pets'))!);
     await db.Execute(new Migration006CreateItems().upSQLite()[0]);
+    await db.Execute(new Migration022CreateRewardBoosts().upSQLite()[0]);
     player = Object.create(PlayerInstance.prototype);
     Object.defineProperty(player, 'Uid', {value: uid});
     Object.assign(player, {Data: new PlayerData(Object.assign(createDefaultPlayerInfo(uid, 'BattlePPTest'), {mapID: 301, coins: 100})),

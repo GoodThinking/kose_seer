@@ -6,6 +6,7 @@ import { DatabaseManager } from '../../../../DataBase/DatabaseManager';
 import { DatabaseHelper } from '../../../../DataBase/DatabaseHelper';
 import { Migration012FixAllTables } from '../../../../DataBase/migrations/scripts/012_fix_all_tables';
 import { Migration006CreateItems } from '../../../../DataBase/migrations/scripts/006_create_items';
+import { Migration022CreateRewardBoosts } from '../../../../DataBase/migrations/scripts/022_create_reward_boosts';
 import { Config } from '../../../../shared/config/ServerConfig';
 import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
 import { ConfigKeys, ConfigPaths, ConfigType } from '../../../../shared/config/ConfigDefinitions';
@@ -93,6 +94,7 @@ describe('2406 medicine admission and real SQLite consumption', () => {
     await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY)'); await db.Execute('INSERT INTO players VALUES (?)', [uid]);
     await db.Execute(new Migration012FixAllTables().upSQLite().find(s => s.startsWith('CREATE TABLE IF NOT EXISTS player_pets'))!);
     await db.Execute(new Migration006CreateItems().upSQLite()[0]);
+    await db.Execute(new Migration022CreateRewardBoosts().upSQLite()[0]);
     player = Object.create(PlayerInstance.prototype); Object.defineProperty(player, 'Uid', {value: uid});
     Object.assign(player, {Data: Object.assign(createDefaultPlayerInfo(uid, 'MedicineTest'), {mapID: 301}),
       EventBus: new GameEventBus(), _packetBuilder: new PacketBuilder(),
