@@ -5,6 +5,7 @@ import { BaseProto } from '../../../../shared/proto/base/BaseProto';
 import { createDefaultPetInfo, IPetInfo } from '../../../../shared/models/PetModel';
 import { PetManager } from '../PetManager';
 import { SptSystem } from '../SptSystem';
+import { PlayerInstance } from '../../Player/PlayerInstance';
 
 const originalLearnsets: Record<number, number[][]> = {"124": [[10361, 1], [20156, 7], [10363, 12], [10362, 17], [10364, 21], [10366, 26], [20157, 32], [10356, 38], [20158, 43], [10370, 48], [10367, 53], [20159, 58], [10371, 63], [10368, 68], [20160, 73], [10372, 78], [10369, 85]], "300": [[10993, 1], [20498, 5], [10996, 10], [11261, 15], [11274, 20], [10997, 25], [20606, 30], [10994, 35], [20607, 40], [20499, 45], [10998, 50], [20608, 55], [20605, 60], [10995, 70], [10999, 80], [20500, 90], [11000, 100]], "504": [[10079, 1], [20679, 5], [10262, 9], [21084, 13], [12089, 17], [20955, 25], [11882, 29], [21076, 33], [12092, 37], [21077, 41], [12090, 45], [12093, 49], [21078, 53], [12091, 57], [12094, 61], [12095, 65]]};
 
@@ -15,7 +16,13 @@ function petHarness(petId: number, level: number) {
   const packets: BaseProto[] = [];
   const commit = jest.fn(async (current: IPetInfo, candidate: IPetInfo) => Object.assign(current, candidate));
   const release = jest.fn();
-  const manager = new PetManager({ Uid: pet.userId, SendPacket: async (packet: BaseProto) => { packets.push(packet); } } as any);
+  // This fixture supplies only the session-free surface used by PetManager.
+  const player = {
+    Uid: pet.userId,
+    ItemManager: { ItemData: { AcquireReward: async () => () => {} } },
+    SendPacket: async (packet: BaseProto) => { packets.push(packet); }
+  } as unknown as PlayerInstance;
+  const manager = new PetManager(player);
   manager.PetData = {
     GetPetByCatchTime: () => pet,
     AcquireMutation: async () => release,

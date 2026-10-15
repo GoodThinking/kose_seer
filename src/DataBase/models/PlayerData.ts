@@ -36,6 +36,12 @@ const NO_SAVE_FIELDS = new Set([
   '_balanceReward', '_currencyOperations', '_currencyWait', '_currencyDone'
 ]);
 
+/** Holds wallet fields stable until a transaction publishes its committed balances. */
+export interface BalanceRewardGate {
+  publish: (coins: number, gold: number, experience: number) => void;
+  release: () => void;
+}
+
 /**
  * 玩家数据（对应数据库表 players）
  * 
@@ -72,9 +78,7 @@ export class PlayerData implements IPlayerInfo {
   }
 
   /** Reuses the pool/save gate; inventories are reserved by the caller first. */
-  public BeginBalanceReward(): {
-    publish: (coins: number, gold: number, experience: number) => void; release: () => void
-  } {
+  public BeginBalanceReward(): BalanceRewardGate {
     if (this._currencyOperations) throw new Error('Currency operation pending');
     const pool = this.BeginExpAllocation();
     this._balanceReward = true;

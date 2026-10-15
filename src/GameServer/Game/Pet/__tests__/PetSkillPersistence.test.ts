@@ -6,9 +6,13 @@ import { DatabaseHelper } from '../../../../DataBase/DatabaseHelper';
 import { DatabaseManager } from '../../../../DataBase/DatabaseManager';
 import { DataCache } from '../../../../DataBase/cache/DataCache';
 import { Migration012FixAllTables } from '../../../../DataBase/migrations/scripts/012_fix_all_tables';
+import { PlayerData } from '../../../../DataBase/models/PlayerData';
+import { ItemData } from '../../../../DataBase/models/ItemData';
+import { createDefaultPlayerInfo } from '../../../../shared/models/PlayerModel';
 import { Config } from '../../../../shared/config/ServerConfig';
 import { ConfigRegistry } from '../../../../shared/config/ConfigRegistry';
 import { ConfigKeys, ConfigPaths, ConfigType } from '../../../../shared/config/ConfigDefinitions';
+import { ItemManager } from '../../Item/ItemManager';
 import { BaseProto } from '../../../../shared/proto/base/BaseProto';
 import { ClientProtocol } from '../../../../shared/protocol/ClientProtocol';
 import { PlayerInstance } from '../../Player/PlayerInstance';
@@ -59,7 +63,7 @@ describe('skill replacement and sorting normal persistence', () => {
     ConfigRegistry.Instance.Register(ConfigKeys.NATURES_CONFIG, ConfigPaths[ConfigKeys.NATURES_CONFIG], ConfigType.JSON);
     await ConfigRegistry.Instance.Initialize();
     await db.Initialize();
-    await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY)');
+    await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY, coins INTEGER NOT NULL DEFAULT 1000, gold INTEGER NOT NULL DEFAULT 0, allocatable_exp INTEGER NOT NULL DEFAULT 0)');
     await db.Execute(new Migration012FixAllTables().upSQLite().find(sql => sql.startsWith('CREATE TABLE IF NOT EXISTS player_pets'))!);
   });
   beforeEach(async () => {
@@ -71,6 +75,9 @@ describe('skill replacement and sorting normal persistence', () => {
     player = Object.create(PlayerInstance.prototype);
     Object.defineProperty(player, 'Uid', {value: uid});
     Object.defineProperty(player, 'ClientProtocol', {get: () => protocol});
+    player.Data = new PlayerData({...createDefaultPlayerInfo(uid, 'SkillTest'), coins: 1000});
+    player.ItemManager = new ItemManager(player);
+    player.ItemManager.ItemData = new ItemData(uid);
     player.EventBus = new GameEventBus();
     player.SendPacket = jest.fn(async (packet: BaseProto) => {
       sent.push({cmd: packet.getCmdId(), result: packet.getResult(), body: packet.serialize(protocol), stored: await stored()});
@@ -89,6 +96,7 @@ describe('skill replacement and sorting normal persistence', () => {
     jest.useRealTimers();
     await settle();
     player.EventBus.Destroy();
+    player.Data.cleanup?.();
     helper.RemoveCache(uid);
   });
   afterAll(async () => {

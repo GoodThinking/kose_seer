@@ -1,4 +1,5 @@
 import { DatabaseManager } from '../../../DataBase/DatabaseManager';
+import type { BalanceRewardGate } from '../../../DataBase/models/PlayerData';
 import { IDriver } from '../../../DataBase/drivers/IDriver';
 import { PlayerInstance } from '../Player/PlayerInstance';
 
@@ -14,7 +15,7 @@ export async function CommitBalanceReward(
     throw new Error('Invalid balance reward');
   }
   const releaseInventory = await player.ItemManager.ItemData.AcquireReward();
-  let gate: ReturnType<typeof player.Data.BeginBalanceReward> | undefined;
+  let gate: BalanceRewardGate | undefined;
   try {
     await player.Data.WaitForExpAllocation();
     await player.Data.WaitForCurrencyOperations();

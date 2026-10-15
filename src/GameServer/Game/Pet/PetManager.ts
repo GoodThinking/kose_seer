@@ -16,6 +16,7 @@ import { CommandID } from '../../../shared/protocol/CommandID';
 import { IPetInfo, createDefaultPetInfo } from '../../../shared/models/PetModel';
 import { PetInfoProto } from '../../../shared/proto/common/PetInfoProto';
 import { PetData } from '../../../DataBase/models/PetData';
+import type { BalanceRewardGate } from '../../../DataBase/models/PlayerData';
 import { DatabaseHelper } from '../../../DataBase/DatabaseHelper';
 import { DatabaseManager } from '../../../DataBase/DatabaseManager';
 import { PlayerRepository } from '../../../DataBase/repositories/Player/PlayerRepository';
@@ -392,7 +393,7 @@ export class PetManager extends BaseManager {
       candidate.skillPP = ReconcilePetPP(candidate, true);
       return [pet.catchTime, candidate] as const;
     }));
-    let gate: ReturnType<typeof this.Player.Data.BeginBalanceReward> | undefined;
+    let gate: BalanceRewardGate | undefined;
     try {
       if (cost) {
         gate = this.Player.Data.BeginBalanceReward();
@@ -1161,8 +1162,13 @@ export class PetManager extends BaseManager {
     oldSkillId: number, 
     newSkillId: number
   ): Promise<void> {
-    const release = await this.PetData.AcquireMutation();
+    let releaseInventory: (() => void) | undefined, release: (() => void) | undefined;
+    let gate: BalanceRewardGate | undefined;
+    let committed = false;
     try {
+      // Keep the same inventory → pet → wallet lock order as paid recovery/rewards.
+      releaseInventory = await this.Player.ItemManager.ItemData.AcquireReward();
+      release = await this.PetData.AcquireMutation();
       // 1. 验证精灵存在
       const pet = this.PetData.GetPetByCatchTime(catchTime);
       if (!pet) {
@@ -1227,24 +1233,77 @@ export class PetManager extends BaseManager {
         return;
       }
 
-      // 5. 替换技能
+      // Fixed Nieo SkillReplacePanel.showDes charges 100 coins only with four skills.
+      let equippedSkillCount = 0;
+      for (const id of pet.skillArray) {
+        if (id > 0) equippedSkillCount++;
+      }
+      const cost = equippedSkillCount >= 4 ? 100 : 0;
       const candidate: IPetInfo = JSON.parse(JSON.stringify(pet));
       candidate.skillArray[oldSkillIndex] = newSkillId;
       candidate.skillPP = ReconcilePetPP(candidate);
-      await this.PetData.CommitPetUpdate(pet, candidate);
+      if (!cost) {
+        await this.PetData.CommitPetUpdate(pet, candidate);
+      } else {
+        await this.Player.Data.WaitForExpAllocation();
+        await this.Player.Data.WaitForCurrencyOperations();
+        gate = this.Player.Data.BeginBalanceReward();
+        if (this.Player.Data.coins < cost) {
+          await this.Player.SendPacket(new PacketEmpty(CommandID.PET_SKILL_SWICTH).setResult(10016));
+          return;
+        }
+        const wallet = gate;
+        await this.PetData.CommitPetUpdate(pet, candidate, staged =>
+          DatabaseManager.Instance.WithConnection(async driver => {
+            await driver.beginTransaction();
+            let saved = false;
+            try {
+              const [row] = await driver.query<{coins: number; gold: number; allocatable_exp: number}>(
+                'SELECT coins, gold, allocatable_exp FROM players WHERE user_id = ?', [this.UserID]);
+              if (!row) throw new Error('Skill awakening wallet missing');
+              const stored = [row.coins, row.gold, row.allocatable_exp];
+              const keys = ['coins', 'gold', 'allocatableExp'] as const;
+              const dirty = this.Player.Data.GetDirtyFields();
+              const balances = keys.map((key, i) => {
+                const cached = this.Player.Data[key];
+                if (!dirty.includes(key) && cached !== stored[i]) throw new Error('Skill awakening wallet cache stale');
+                const value = dirty.includes(key) ? cached : stored[i];
+                if (!Number.isSafeInteger(value) || value < 0) throw new Error('Invalid skill awakening balance');
+                return value;
+              });
+              if (balances[0] < cost) throw new Error('Skill awakening coins insufficient');
+              balances[0] -= cost;
+              const petList = staged.ToRow().pet_list;
+              const petWrite = await driver.execute('UPDATE player_pets SET pet_list = ? WHERE owner_id = ?',
+                [petList, this.UserID]);
+              const walletWrite = await driver.execute('UPDATE players SET coins = ?, gold = ?, allocatable_exp = ? WHERE user_id = ?',
+                [...balances, this.UserID]);
+              if (petWrite.affectedRows !== 1 || walletWrite.affectedRows !== 1) throw new Error('Skill awakening storage row missing');
+              await driver.commit();
+              saved = true;
+              wallet.publish(balances[0], balances[1], balances[2]);
+            } catch (error) {
+              if (!saved) await driver.rollback();
+              throw error;
+            }
+          }));
+      }
+      committed = true;
 
       Logger.Info(
         `[PetManager] 精灵技能替换成功: UserID=${this.UserID}, PetId=${pet.petId}, ` +
-        `Index=${oldSkillIndex}, OldSkill=${oldSkillId}, NewSkill=${newSkillId}`
+        `Index=${oldSkillIndex}, OldSkill=${oldSkillId}, NewSkill=${newSkillId}, Cost=${cost}`
       );
 
       // 7. 发送成功响应
       await this.Player.SendPacket(new PacketSkillSwitch(pet.petId));
     } catch (error) {
-      Logger.Error(`[PetManager] HandleSkillSwitch failed`, error as Error);
-      await this.Player.SendPacket(new PacketEmpty(CommandID.PET_SKILL_SWICTH).setResult(5000));
+      Logger.Error(committed ? '[PetManager] Skill awakening committed; response delivery failed' : '[PetManager] HandleSkillSwitch failed', error as Error);
+      if (!committed) await this.Player.SendPacket(new PacketEmpty(CommandID.PET_SKILL_SWICTH).setResult(5000));
     } finally {
-      release();
+      gate?.release();
+      release?.();
+      releaseInventory?.();
     }
   }
 

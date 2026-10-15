@@ -148,3 +148,21 @@ substitute for these UI results.
 Install only `client/overlay/resource/module/PetFightDLL.swf`; removing this
 overlay restores the unchanged original asset. See the patch README for input
 identity and rebuild arguments. No database migration is part of this patch.
+
+## 2026-10-15: fixed Nieo skill awakening payment
+
+CMD 2312 follows the pinned `SkillReplacePanel.showDes` fee: replacing a skill
+with four equipped skills costs 100赛尔豆 (`players.coins`); fewer than four is
+free. The server derives the fee from the stored pet, never the unused request
+slot words. Normal level-up learning (CMD 2307) remains free.
+
+Paid awakening reserves inventory, pet mutations and the existing wallet gate
+in that order. The detached skill/PP candidate and wallet balances commit in one
+database transaction; failed writes publish neither change. Insufficient coins
+return the existing 10016 error before changing skills. Successful responses keep
+the original payload because the fixed client already subtracts 100 locally.
+
+UAT-011 has a code fix and TypeScript compilation evidence. At the user's request,
+automated tests and game/UI verification are not run in this round; the user owns
+acceptance. The existing skill fixtures now supply the required wallet and
+inventory state. This note does not claim runtime acceptance.
