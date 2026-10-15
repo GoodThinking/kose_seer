@@ -319,13 +319,16 @@ describe('ordinary PVE victory through real reward managers and temporary SQLite
     let release!: () => void, entered!: () => void;
     const gate = new Promise<void>(r => {release = r;});
     const ready = new Promise<void>(r => {entered = r;});
-    let starts = 0;
+    let starts = 0, firstEntered!: () => void;
+    const firstReady = new Promise<void>(r => {firstEntered = r;});
     const emit = player.EventBus.Emit.bind(player.EventBus);
     jest.spyOn(player.EventBus, 'Emit').mockImplementation(async event => {
-      if (event.type === BattleEventType.ROUND_START) {if (++starts === 2) entered(); await gate;}
+      if (event.type === BattleEventType.ROUND_START) {starts++; if (starts === 1) firstEntered(); if (starts === 2) entered(); await gate;}
       await emit(event);
     });
-    const requests = [skill(), skill()];
+    const first = skill();
+    await firstReady; // The first debit has committed; admit the second while both turns remain paused.
+    const requests = [first, skill()];
     await ready; release();
     await Promise.all(requests);
     await reload();
@@ -354,12 +357,14 @@ describe('ordinary PVE victory through real reward managers and temporary SQLite
   });
 
   test('rejected pet reward keeps committed state and reports failed settlement without later rewards', async () => {
-    await seed(); const before = await stored();
+    const battle = await seed(); const before = await stored();
     const error = jest.spyOn(console, 'error').mockImplementation(() => {});
-    await db.Execute("CREATE TRIGGER deny_pet_reward BEFORE UPDATE ON player_pets BEGIN SELECT RAISE(FAIL, 'controlled pet write failure'); END");
+    await db.Execute("CREATE TRIGGER deny_pet_reward BEFORE UPDATE ON player_pets WHEN json_extract(NEW.pet_list, '$[0].exp') != json_extract(OLD.pet_list, '$[0].exp') BEGIN SELECT RAISE(FAIL, 'controlled pet write failure'); END");
     try {
       await skill(); await settle();
       expect(player.PetManager.GetPetByCatchTime(catchTime)!.exp).toBe(0);
+      before.pets[0].skillPP = {10001: 34};
+      before.pets[0].hp = battle.player.hp; // Battle injury persists independently of the rejected experience candidate.
       expect((await stored()).pets).toEqual(before.pets);
       expect((await stored()).coins).toBe(100);
       expect(player.ItemManager.GetItemCount(300001)).toBe(0);
@@ -449,6 +454,7 @@ describe('ordinary PVE victory through real reward managers and temporary SQLite
       await pending;
       expect(packets).toHaveLength(0);
       expect(events).toHaveLength(0);
+      before.pets[0].skillPP = {10001: 34}; // Accepted PP debit survives, while HP/exp/coins/rewards do not advance.
       expect(await stored()).toEqual(before);
       if (successor) {
         expect(player.BattleManager.GetCurrentBattle()).toBe(successor);

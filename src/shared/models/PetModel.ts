@@ -40,6 +40,7 @@ export interface IPetInfo {
   dvSpDef: number;               // 特防个体值
   dvSpeed: number;               // 速度个体值
   nature: number;                // 性格
+  skillPP?: Record<number, number>; // Remaining PP keyed by skill ID; absent legacy entries start full
   skillArray: number[];          // 技能列表
   effectList: IPetEffectInfo[];  // 特性列表
   isDefault: boolean;            // 是否首发

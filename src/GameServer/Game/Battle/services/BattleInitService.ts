@@ -1,3 +1,4 @@
+import { GetPetSkillPP } from '../../Pet/PetPP';
 import { ElementType } from '../ElementSystem';
 import { Logger } from '../../../../shared/utils';
 import { PlayerInstance } from '../../Player/PlayerInstance';
@@ -73,6 +74,7 @@ export class BattleInitService {
       0
     );
     (battlePet as any).effectList = playerData.pet.effectList || [];
+    battlePet.skillPP = playerData.skills.map(id => GetPetSkillPP(playerData.pet, id));
     return battlePet;
   }
 
