@@ -2112,9 +2112,9 @@
         <Item ID="200012" Price="10" Texture="200003" Color="68467945" wd="0" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="3"/>
     </Cat>
     <Cat ID="3" DbCatID="1" Name="精灵道具" Max="999" url="resource/item/petItem/icon/">
-        <Item ID="399901" Name="十倍经验卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="experience" RewardMultiplier="10" RewardDurationSeconds="18000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="399902" Name="十倍学习力卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="learning" RewardMultiplier="10" RewardDurationSeconds="18000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="399903" Name="十倍赛尔豆卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="coins" RewardMultiplier="10" RewardDurationSeconds="18000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="399901" Name="五倍经验卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="experience" RewardMultiplier="5" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="399902" Name="五倍学习力卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="learning" RewardMultiplier="5" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="399903" Name="五倍赛尔豆卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="coins" RewardMultiplier="5" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
         <Item ID="300001" Name="普通精灵胶囊" Rarity="1" ItemType="0" Max="999" Price="200" Bonus="1" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
         <Item ID="300002" Name="中级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="400" Bonus="1.5" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
         <Item ID="300003" Name="高级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="800" Bonus="2" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>

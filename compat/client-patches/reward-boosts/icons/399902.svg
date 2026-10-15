@@ -4,5 +4,5 @@
   <path d="M11 11Q18 7 24 12Q30 7 37 11V25Q30 21 24 26Q18 21 11 25Z" fill="#fff3cc" stroke="#38604b" stroke-width="1.6" stroke-linejoin="round"/>
   <path d="M24 12V26M14 14Q18 12 21 15M14 18Q18 16 21 19M27 15Q30 12 34 14M27 19Q30 16 34 18" fill="none" stroke="#699c68" stroke-width="1.3" stroke-linecap="round"/>
   <rect x="10" y="29" width="29" height="14" rx="4" fill="#396b50"/>
-  <path d="M14 34L17 32V40M14 40H20M24 32H27Q28 32 28 33V39Q28 40 27 40H24Q23 40 23 39V33Q23 32 24 32M32 35L36 39M36 35L32 39" fill="none" stroke="#f4ffe4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23.5 33H18V36H22Q24 36 24 38V39Q24 40.5 22 40.5H18M27.5 35L32.5 40M32.5 35L27.5 40" fill="none" stroke="#f4ffe4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

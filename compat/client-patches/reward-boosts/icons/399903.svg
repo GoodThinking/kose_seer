@@ -7,5 +7,5 @@
   <circle cx="22" cy="15" r="7" fill="#f0ba45" stroke="#c18c35" stroke-width="1.2"/>
   <path d="M25 11H21Q18 11 19 14Q20 16 24 16Q27 19 23 20H19M22 9V22" fill="none" stroke="#8b5b24" stroke-width="1.8" stroke-linecap="round"/>
   <rect x="10" y="29" width="29" height="14" rx="4" fill="#8c6335"/>
-  <path d="M14 34L17 32V40M14 40H20M24 32H27Q28 32 28 33V39Q28 40 27 40H24Q23 40 23 39V33Q23 32 24 32M32 35L36 39M36 35L32 39" fill="none" stroke="#fff3cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23.5 33H18V36H22Q24 36 24 38V39Q24 40.5 22 40.5H18M27.5 35L32.5 40M32.5 35L27.5 40" fill="none" stroke="#fff3cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

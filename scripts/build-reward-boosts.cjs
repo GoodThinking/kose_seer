@@ -64,9 +64,9 @@ async function main() {
   const ids = configured.map(item => Number(item.$.ID)).sort((a, b) => a - b);
   if (JSON.stringify(ids) !== '[399901,399902,399903]') throw new Error('Unexpected reward boost item scope');
   const descriptions = {
-    experience: '使用后5小时内，战斗胜利时出战精灵和储存经验各获得基础经验的10倍。',
-    learning: '使用后5小时内，战斗胜利获得的学习力为基础产出的10倍，仍遵守单项255、总计510上限。',
-    coins: '使用后5小时内，战斗胜利获得的赛尔豆为基础奖励的10倍。'
+    experience: '使用后1小时内，战斗胜利时出战精灵和储存经验各获得基础经验的5倍。',
+    learning: '使用后1小时内，战斗胜利获得的学习力为基础产出的5倍，仍遵守单项255、总计510上限。',
+    coins: '使用后1小时内，战斗胜利获得的赛尔豆为基础奖励的5倍。'
   };
   const dataDir = path.join(out, 'baseline-data');
   ffdec('-selectid', '1,29,31', '-export', 'binaryData', dataDir, core);
@@ -85,7 +85,7 @@ async function main() {
     `\t<item itemID="${item.ID}" name="${item.Name}" productID="" price="${item.Price}" vip="1" moneyType="0"/>`);
   const tipLines = configured.map(({ $: item }) => {
     if (!descriptions[item.RewardBoostKind]) throw new Error('Unknown boost kind');
-    return `\t<item id="${item.ID}" level="3" color="#ffd36e" des="${descriptions[item.RewardBoostKind]}离线照常计时；同类只延长5小时，倍率不叠加。点击背包内此卡使用；可在背包的战斗加成状态查看截止时间。"/>`;
+    return `\t<item id="${item.ID}" level="3" color="#ffd36e" des="${descriptions[item.RewardBoostKind]}离线照常计时；同类只延长1小时，倍率不叠加。点击背包内此卡使用；可在主界面及背包查看实时倒计时。"/>`;
   });
   if (!resources[29].includes('<root>') || !resources[1].includes('<root>')) throw new Error('Embedded XML root missing');
   const xmlFiles = {1: path.join(out, 'item-tips.xml'), 29: path.join(out, 'pet-shop.xml'), 31: path.join(out, 'items.xml')};
@@ -129,7 +129,7 @@ async function main() {
   ffdec('-selectclass', 'com.robot.app.bag.BagPanel', '-export', 'script', path.join(out, 'roundtrip'), candidate);
   const proof = {coreBaselineSha256: digest(fs.readFileSync(core)), coreSha256: digest(fs.readFileSync(candidate)),
     movieHeaderPreserved: true, changedTags: changed, changedClasses, preservedClasses: Object.keys(oldClasses).length - 1,
-    icons, itemIds: ids, shopCurrency: 'coins', pricePerItem: 100, durationSeconds: 18000, multiplier: 10,
+    icons, itemIds: ids, shopCurrency: 'coins', pricePerItem: 100, durationSeconds: 3600, multiplier: 5,
     automatedTestsRun: false, actualGameUiRun: false};
   fs.writeFileSync(path.join(out, 'client-build-proof.json'), JSON.stringify(proof, null, 2) + '\n');
   console.log(JSON.stringify(proof, null, 2));

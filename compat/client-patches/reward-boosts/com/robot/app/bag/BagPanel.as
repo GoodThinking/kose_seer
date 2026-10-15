@@ -37,6 +37,8 @@ package com.robot.app.bag
    import flash.text.TextField;
    import flash.text.TextFormat;
    import flash.utils.ByteArray;
+   import flash.utils.Timer;
+   import flash.events.TimerEvent;
    import org.taomee.effect.ColorFilter;
    import org.taomee.events.SocketEvent;
    import org.taomee.events.SocketErrorEvent;
@@ -132,6 +134,28 @@ package com.robot.app.bag
 
       private var _boostStatusButton:Sprite;
 
+      private var _boostStatusLabel:TextField;
+
+      private var _boostSilent:Boolean = false;
+
+      private static var _boostHud:Sprite;
+
+      private static var _hudBg:Sprite;
+
+      private static var _hudText:TextField;
+
+      private static var _hudTimer:Timer;
+
+      private static var _hudExpExpires:uint = 0;
+
+      private static var _hudLearnExpires:uint = 0;
+
+      private static var _hudCoinsExpires:uint = 0;
+
+      private static var _hudServerOffset:int = 0;
+
+      private static var _activePanel:BagPanel;
+
       public function BagPanel()
       {
          super();
@@ -147,6 +171,9 @@ package com.robot.app.bag
       {
          var _loc1_:MCLoader = null;
          this.bChangeClothes = true;
+         _activePanel = this;
+         ensureHud();
+         this.beginBoostRequest(BOOST_STATUS,0,true);
          LevelManager.appLevel.addChild(this);
          if(!this.bagMC)
          {
@@ -163,6 +190,10 @@ package com.robot.app.bag
 
       public function hide() : void
       {
+         if(_activePanel == this)
+         {
+            _activePanel = null;
+         }
          this.finishBoostRequest();
          this._boostConfirming = false;
          DisplayUtil.removeAllChild(this.qqMC);
@@ -662,10 +693,21 @@ package com.robot.app.bag
          label.mouseEnabled = false;
          this._boostStatusButton.addChild(label);
          this._boostStatusButton.x = 136;
-         this._boostStatusButton.y = 111;
+         this._boostStatusButton.y = 95;
          this._boostStatusButton.buttonMode = true;
          this._boostStatusButton.addEventListener(MouseEvent.CLICK,this.onBoostStatusClick);
          this.bagMC.addChild(this._boostStatusButton);
+
+         this._boostStatusLabel = new TextField();
+         this._boostStatusLabel.defaultTextFormat = new TextFormat("_sans",11,0xb3e5fc,false);
+         this._boostStatusLabel.x = 136;
+         this._boostStatusLabel.y = 120;
+         this._boostStatusLabel.width = 150;
+         this._boostStatusLabel.height = 50;
+         this._boostStatusLabel.mouseEnabled = false;
+         this._boostStatusLabel.selectable = false;
+         this._boostStatusLabel.text = "加成状态：未激活";
+         this.bagMC.addChild(this._boostStatusLabel);
       }
 
       private function onBoostStatusClick(event:MouseEvent) : void
@@ -687,7 +729,7 @@ package com.robot.app.bag
          var id:uint = item.info.itemID;
          var panel:BagPanel = this;
          this._boostConfirming = true;
-         Alert.show("使用一张" + ItemXMLInfo.getName(id) + "？立即生效5小时，离线也计时。同类只延长时间，倍率保持十倍。",function():void
+         Alert.show("使用一张" + ItemXMLInfo.getName(id) + "？立即生效1小时，离线也计时。同类只延长时间，倍率保持五倍。",function():void
          {
             panel._boostConfirming = false;
             if(DisplayUtil.hasParent(panel))
@@ -700,12 +742,13 @@ package com.robot.app.bag
          });
       }
 
-      private function beginBoostRequest(command:uint, itemId:uint = 0) : void
+      private function beginBoostRequest(command:uint, itemId:uint = 0, silent:Boolean = false) : void
       {
          if(this._boostCommand != 0 || this._boostConfirming)
          {
             return;
          }
+         this._boostSilent = silent;
          this._boostCommand = command;
          this._boostItem = itemId;
          SocketConnection.addCmdListener(command,this.onBoostReply);
@@ -756,7 +799,7 @@ package com.robot.app.bag
          }
          var minutes:uint = Math.ceil((expires - now) / 60);
          var date:Date = new Date(Number(expires) * 1000);
-         return "十倍，剩余" + int(minutes / 60) + "小时" + (minutes % 60) + "分（至" +
+         return "五倍，剩余" + int(minutes / 60) + "小时" + (minutes % 60) + "分（至" +
             (date.month + 1) + "月" + date.date + "日 " + date.hours + ":" +
             (date.minutes < 10 ? "0" : "") + date.minutes + "）";
       }
@@ -785,14 +828,39 @@ package com.robot.app.bag
                Alarm.show("道具响应不匹配，请查看战斗加成状态。");
                return;
             }
+            _hudServerOffset = int(fourth) - int(Math.floor(new Date().time / 1000));
+            if(first == 399901)
+            {
+               _hudExpExpires = third;
+            }
+            else if(first == 399902)
+            {
+               _hudLearnExpires = third;
+            }
+            else if(first == 399903)
+            {
+               _hudCoinsExpires = third;
+            }
+            ensureHud();
+            onHudTick(null);
             Alarm.show(ItemXMLInfo.getName(first) + "使用成功！<br>" + this.boostTimeText(third,fourth) +
-               "<br>离线照常计时；背包剩余" + second + "张。");
+               "<br>离线照常计时；背包剩余" + second + "张。<br>主界面已显示加成实时倒计时。");
+            this.beginBoostRequest(BOOST_STATUS,0,true);
          }
          else if(command == BOOST_STATUS)
          {
-            Alarm.show("经验加成：" + this.boostTimeText(second,first) + "<br>学习力加成：" +
-               this.boostTimeText(third,first) + "<br>赛尔豆加成：" + this.boostTimeText(fourth,first) +
-               "<br>三种可同时生效；离线照常计时。经验卡同时增加出战精灵和储存经验。");
+            _hudServerOffset = int(first) - int(Math.floor(new Date().time / 1000));
+            _hudExpExpires = second;
+            _hudLearnExpires = third;
+            _hudCoinsExpires = fourth;
+            ensureHud();
+            onHudTick(null);
+            if(!this._boostSilent)
+            {
+               Alarm.show("经验加成：" + this.boostTimeText(second,first) + "<br>学习力加成：" +
+                  this.boostTimeText(third,first) + "<br>赛尔豆加成：" + this.boostTimeText(fourth,first) +
+                  "<br>三种可同时生效；离线照常计时。经验卡同时增加出战精灵和储存经验。");
+            }
          }
       }
 
@@ -983,6 +1051,137 @@ package com.robot.app.bag
          {
             DisplayUtil.removeForParent(this._arrowMc);
             this._arrowMc = null;
+         }
+      }
+
+
+      private static function ensureHud() : void
+      {
+         if(!_boostHud)
+         {
+            _boostHud = new Sprite();
+            _boostHud.name = "kose_reward_boost_hud";
+            _boostHud.x = 780;
+            _boostHud.y = 55;
+            _boostHud.buttonMode = true;
+            _boostHud.visible = false;
+            _hudBg = new Sprite();
+            _boostHud.addChild(_hudBg);
+            _hudText = new TextField();
+            _hudText.defaultTextFormat = new TextFormat("_sans",11,0xffffff,false);
+            _hudText.mouseEnabled = false;
+            _hudText.selectable = false;
+            _boostHud.addChild(_hudText);
+            _boostHud.addEventListener(MouseEvent.MOUSE_DOWN,onHudMouseDown);
+            _boostHud.addEventListener(MouseEvent.MOUSE_UP,onHudMouseUp);
+            ToolTipManager.add(_boostHud,"战斗加成（按住可拖动位置）");
+         }
+         if(LevelManager.iconLevel && !DisplayUtil.hasParent(_boostHud))
+         {
+            LevelManager.iconLevel.addChild(_boostHud);
+         }
+         if(!_hudTimer)
+         {
+            _hudTimer = new Timer(1000);
+            _hudTimer.addEventListener(TimerEvent.TIMER,onHudTick);
+            _hudTimer.start();
+         }
+      }
+
+      private static function onHudMouseDown(event:MouseEvent) : void
+      {
+         if(_boostHud)
+         {
+            _boostHud.startDrag();
+         }
+      }
+
+      private static function onHudMouseUp(event:MouseEvent) : void
+      {
+         if(_boostHud)
+         {
+            _boostHud.stopDrag();
+         }
+      }
+
+      private static function formatDuration(sec:uint) : String
+      {
+         var h:uint = uint(sec / 3600);
+         var m:uint = uint((sec % 3600) / 60);
+         var s:uint = uint(sec % 60);
+         var mStr:String = (m < 10 ? "0" : "") + m;
+         var sStr:String = (s < 10 ? "0" : "") + s;
+         if(h > 0)
+         {
+            return h + ":" + mStr + ":" + sStr;
+         }
+         return mStr + ":" + sStr;
+      }
+
+      private static function onHudTick(event:TimerEvent = null) : void
+      {
+         ensureHud();
+         var now:uint = uint(Math.floor(new Date().time / 1000) + _hudServerOffset);
+         var lines:Array = [];
+         var bagLines:Array = [];
+         var hasAny:Boolean = false;
+         if(_hudExpExpires > now)
+         {
+            var remExp:uint = _hudExpExpires - now;
+            lines.push("<font color='#59d685'>五倍经验: " + formatDuration(remExp) + "</font>");
+            bagLines.push("经验5x[" + formatDuration(remExp) + "]");
+            hasAny = true;
+         }
+         else
+         {
+            bagLines.push("经验: 未生效");
+         }
+         if(_hudLearnExpires > now)
+         {
+            var remLearn:uint = _hudLearnExpires - now;
+            lines.push("<font color='#59b5cf'>五倍学习力: " + formatDuration(remLearn) + "</font>");
+            bagLines.push("学习5x[" + formatDuration(remLearn) + "]");
+            hasAny = true;
+         }
+         else
+         {
+            bagLines.push("学习: 未生效");
+         }
+         if(_hudCoinsExpires > now)
+         {
+            var remCoins:uint = _hudCoinsExpires - now;
+            lines.push("<font color='#f7c948'>五倍赛尔豆: " + formatDuration(remCoins) + "</font>");
+            bagLines.push("赛尔豆5x[" + formatDuration(remCoins) + "]");
+            hasAny = true;
+         }
+         else
+         {
+            bagLines.push("赛尔豆: 未生效");
+         }
+         if(hasAny)
+         {
+            _boostHud.visible = true;
+            _hudText.htmlText = "<b><font color='#ffd36e'>战斗加成 [可拖动]</font></b><br>" + lines.join("<br>");
+            _hudText.width = 136;
+            _hudText.height = 20 + lines.length * 16;
+            _hudText.x = 6;
+            _hudText.y = 3;
+            if(_hudBg)
+            {
+               _hudBg.graphics.clear();
+               _hudBg.graphics.lineStyle(1,0x1b4d6e,0.9);
+               _hudBg.graphics.beginFill(0x0a1926,0.85);
+               _hudBg.graphics.drawRoundRect(0,0,136,22 + lines.length * 16,8,8);
+               _hudBg.graphics.endFill();
+            }
+         }
+         else
+         {
+            _boostHud.visible = false;
+         }
+         if(_activePanel && DisplayUtil.hasParent(_activePanel) && _activePanel._boostStatusLabel)
+         {
+            _activePanel._boostStatusLabel.text = "加成状态：\n" + bagLines.join("\n");
          }
       }
    }
