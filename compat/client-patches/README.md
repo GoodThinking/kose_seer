@@ -13,3 +13,8 @@ java -jar ffdec.jar -importScript PetFightDLL.swf PetFightDLL.patched.swf compat
 ```
 
 两个 SWF 分别导入，只编译各目录内列出的修改类。构建后重新导出目标类并比较方法体，核对只有目标 DoABC 改变、其他编码标签与帧头不变；正常领奖只发一次、刷新不重发，用药成功与拒绝均须验证。无网络回复时的库存读回仍依赖既有连接错误处理；不能用统一退款猜测是否消费。
+
+
+`skill-list-dedup/` 只修改 PetSelectPanel.handler 的普通列表合并，按技能 ID 保留首次出现项，保留服务端新增技能、原有已装备排除及黑色精灵分支。修复同一候选列表重复为两份而产生的多余分页。输入 PetSelectPanel.swf SHA256：`a1eaa2fc8ff71f453642d33213dcfd8b0c5f70d230e9a05634799d89a29ca2e1`；输出：`626371d2a8cd3d00fbd110028c4c84c2f942115f84a2cf729aa3b9374422ea44`。使用 JPEXS `-importScript` 单独导入此目录，不替换 Core、战斗或其他 UI 模块。导出源码中的 SWF 元数据仅从导入源中移除，输出帧头和全部非目标编码标签保持逐字节一致。
+
+验证：22 项合并模型与反导出检查通过，两次构建输出相同；后台合成客户端候选由 6 页恢复为 3 页，属性技能可选择、保存并重登回显。此修复不改变技能效果或学习资格。
