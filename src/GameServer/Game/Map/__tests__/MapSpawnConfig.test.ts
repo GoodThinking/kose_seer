@@ -20,14 +20,14 @@ describe('ordinary map spawns with initial evolution forms', () => {
     };
   });
 
-  test('122 map keys retain only the six existing empty maps, with valid pet IDs, slots, levels and no bosses', () => {
+  test('122 map keys retain only explicit empty ordinary pools, with valid pet IDs, slots, levels and no bosses', () => {
     const mapConfig = GameConfig.GetMapOgreConfig();
     expect(mapConfig).not.toBeNull();
     const mapKeys = Object.keys(mapConfig!.maps);
     expect(mapKeys).toHaveLength(122);
-    // Existing content gaps are explicit; a new empty map must fail this guard.
+    // Activity, task and unsupported future maps intentionally have no ordinary encounter pool.
     expect(mapKeys.filter(id => mapConfig!.maps[id].ogres.length === 0).map(Number).sort((a, b) => a - b))
-      .toEqual([71, 80, 81, 86, 91, 817]);
+      .toEqual([12, 45, 71, 80, 81, 86, 91, 811, 817]);
     for (const [mapId, map] of Object.entries(mapConfig!.maps)) {
       expect(Number.isInteger(Number(mapId)) && Number(mapId) > 0).toBe(true);
       expect(new Set(map.ogres.map(o => o.slot)).size).toBe(map.ogres.length);
@@ -83,6 +83,25 @@ describe('ordinary map spawns with initial evolution forms', () => {
     }
   });
 
+  test('official boss, activity and task pets stay out of ordinary catchable pools', () => {
+    const excluded = [
+      { mapId: 12, petIds: [65, 68] },
+      { mapId: 45, petIds: [1485] },
+      { mapId: 51, petIds: [153] },
+      { mapId: 105, petIds: [80] },
+      { mapId: 811, petIds: [1491] },
+    ];
+    for (const { mapId, petIds } of excluded) {
+      const configured = GameConfig.GetMapConfigById(mapId).ogres.map((ogre: IMapOgreSlot) => ogre.petId);
+      petIds.forEach(petId => expect(configured).not.toContain(petId));
+    }
+
+    for (const [mapId, petId] of [[29, 872], [343, 397]]) {
+      const ogre = GameConfig.GetMapConfigById(mapId).ogres.find((entry: IMapOgreSlot) => entry.petId === petId);
+      expect(ogre).toEqual(expect.objectContaining({ catchable: false, catchRate: 0 }));
+    }
+  });
+
   test('removed boss additions never enter ordinary ogre or boss spawn lists', () => {
     const removedBosses = [[12, 47], [17, 42], [22, 34], [27, 46], [32, 70],
       [40, 50], [49, 108], [52, 160], [106, 94], [314, 132]];
@@ -94,7 +113,6 @@ describe('ordinary map spawns with initial evolution forms', () => {
         expect(GameConfig.GetMapConfigById(mapId).ogres.map((o: IMapOgreSlot) => o.petId)).not.toContain(bossId);
         expect(spawnMgr.GetMapBosses(mapId)).toEqual([]);
         const activeOgres = spawnMgr.GetMapOgres(mapId).filter(o => o.petId > 0);
-        expect(activeOgres.length).toBeGreaterThan(0);
         expect(activeOgres.map(o => o.originalPetId)).not.toContain(bossId);
       }
     } finally {
