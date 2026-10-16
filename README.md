@@ -18,6 +18,23 @@ python3 scripts/build-silver-wing-native.py \
 这是对已安装银翼功能的纯资源更新，不新增商品或改动价格、购买逻辑、喷火、移速、沼泽通行、数据库或后端。发布时仅覆盖生成清单内的 21 个 `resource/` 文件；不得用本仓库较早的服务器配置或客户端核心覆盖现网。先合并并推送个人仓库的 `main`，再从该基线构建发布；不创建备份，不重启服务。游戏内体验由使用者验收，资源发布前保留原生骨架穿戴检查。
 
 
+## 精灵按钮无响应修复
+
+百倍经验客户端补丁曾把 `PetBagPanel` 和 `FightPetBagPanel` 的 ABC 标签误替换成普通背包 `BagPanel`，导致精灵按钮触发 `VerifyError #1014`。恢复时只替换这两个标签，不回退整个核心，保留现网百倍卡、商店和其他客户端修改。
+
+```bash
+python3 scripts/repair-pet-panels.py \
+  --core /path/to/current/NieoCore.swf \
+  --reference /path/to/healthy/NieoCore.swf \
+  --out /path/to/repaired/NieoCore.swf
+```
+
+参考核心必须来自损坏前、标签布局一致且两个精灵面板完整的版本。工具检查完整 ABC 名称、重复标签内容及标签位置，只接受已确认的双面板覆盖故障；输出必须与输入分离，并验证其余标签逐字节不变。
+
+赛尔豆卡的五倍转百倍补丁统一使用 `scripts/patch-coin-core.py --core <输入核心> --out <输出核心>`，替代临时产物目录中的 `patch_core.py`。它只匹配完整类名 `com/robot/app/bag/BagPanel`，要求恰好修改一个类，并拒绝重复 ABC 名称或缺失精灵面板的输入。不得再按 `BagPanel` 后缀或子串匹配。
+
+修复已用独立 QA 账号在真实客户端确认精灵按钮打开列表、属性和技能。按个人项目约定，先合并并推送 `main`，再仅部署修复后的 `dll/NieoCore.swf`；不备份、不重启服务、不修改账号或精灵存档。已打开的客户端需要强制刷新并重新登录。
+
 ## 友情链接
 [空影的Go端](https://github.com/qq555565/Seer-golang)
 
