@@ -43,6 +43,7 @@ interface IPlayerRow {
   cur_stage: number;
   max_stage: number;
   max_arena_wins: number;
+  learn_times: number;
   has_nono: number;
   super_nono: number;
   nono_state: number;
@@ -688,21 +689,49 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
     return result.affectedRows >= 0;
   }
 
-  /** Commit a pool allocation or battle grant together with the complete pet snapshot. */
-  public async CommitPetExperience(
-    userId: number, expectedBalance: number, balance: number, petList: string
+  /** Commit battle-owned player counters together with the complete pet snapshot. */
+  public async CommitBattlePetReward(
+    userId: number,
+    petList: string,
+    experience?: { expected: number; balance: number },
+    learning?: { expected: number; remaining: number }
   ): Promise<void> {
     await this._db.Transaction(async driver => {
-      const player = await driver.execute(
-        'UPDATE players SET allocatable_exp = ? WHERE user_id = ? AND allocatable_exp = ?',
-        [balance, userId, expectedBalance]
-      );
-      if (player.affectedRows !== 1) throw new Error('Experience pool changed or player missing');
+      const assignments: string[] = [];
+      const conditions: string[] = [];
+      const values: number[] = [];
+      const expected: number[] = [];
+      if (experience) {
+        assignments.push('allocatable_exp = ?');
+        conditions.push('allocatable_exp = ?');
+        values.push(experience.balance);
+        expected.push(experience.expected);
+      }
+      if (learning) {
+        assignments.push('learn_times = ?');
+        conditions.push('learn_times = ?');
+        values.push(learning.remaining);
+        expected.push(learning.expected);
+      }
+      if (assignments.length) {
+        const player = await driver.execute(
+          `UPDATE players SET ${assignments.join(', ')} WHERE user_id = ? AND ${conditions.join(' AND ')}`,
+          [...values, userId, ...expected]
+        );
+        if (player.affectedRows !== 1) throw new Error('Battle reward counters changed or player missing');
+      }
       const pets = await driver.execute(
         'UPDATE player_pets SET pet_list = ? WHERE owner_id = ?', [petList, userId]
       );
-      if (pets.affectedRows !== 1) throw new Error('Pet data missing during experience allocation');
+      if (pets.affectedRows !== 1) throw new Error('Pet data missing during battle reward');
     });
+  }
+
+  /** Commit a pool allocation together with the complete pet snapshot. */
+  public async CommitPetExperience(
+    userId: number, expectedBalance: number, balance: number, petList: string
+  ): Promise<void> {
+    await this.CommitBattlePetReward(userId, petList, {expected: expectedBalance, balance});
   }
 
   private toPlayerInfo(row: IPlayerRow): IPlayerInfo {
@@ -744,6 +773,7 @@ export class PlayerRepository extends BaseRepository<IPlayerRow> {
     player.curStage = row.cur_stage;
     player.maxStage = row.max_stage;
     player.maxArenaWins = row.max_arena_wins;
+    player.learnTimes = row.learn_times || 0;
     player.hasNono = row.has_nono === 1;
     player.superNono = row.super_nono === 1;
     player.nonoState = row.nono_state;

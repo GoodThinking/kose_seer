@@ -131,6 +131,7 @@ package com.robot.app.bag
       private var _boostItem:uint = 0;
 
       private var _boostConfirming:Boolean = false;
+      private var _studyItem:uint = 0;
 
       private var _boostStatusButton:Sprite;
 
@@ -195,6 +196,7 @@ package com.robot.app.bag
             _activePanel = null;
          }
          this.finishBoostRequest();
+         this.finishStudyRequest();
          this._boostConfirming = false;
          DisplayUtil.removeAllChild(this.qqMC);
          currTab = BagTabType.CLOTH;
@@ -261,6 +263,11 @@ package com.robot.app.bag
             {
                _loc3_.buttonMode = true;
                _loc3_.addEventListener(MouseEvent.CLICK,this.onUseRewardBoost);
+            }
+            else if(ItemXMLInfo.getType(_loc2_.itemID) == "study_item")
+            {
+               _loc3_.buttonMode = true;
+               _loc3_.addEventListener(MouseEvent.CLICK,this.onUseStudyItem);
             }
             _loc3_.addEventListener(MouseEvent.ROLL_OVER,this.onShowItemInfo);
             _loc3_.addEventListener(MouseEvent.ROLL_OUT,this.onHideItemInfo);
@@ -667,6 +674,7 @@ package com.robot.app.bag
             _loc1_.clear();
             _loc1_.removeEventListener(MouseEvent.CLICK,this.onChangeCloth);
             _loc1_.removeEventListener(MouseEvent.CLICK,this.onUseRewardBoost);
+            _loc1_.removeEventListener(MouseEvent.CLICK,this.onUseStudyItem);
             _loc1_.removeEventListener(MouseEvent.ROLL_OVER,this.onShowItemInfo);
             _loc1_.removeEventListener(MouseEvent.ROLL_OUT,this.onHideItemInfo);
             _loc1_.buttonMode = false;
@@ -708,6 +716,74 @@ package com.robot.app.bag
          this._boostStatusLabel.selectable = false;
          this._boostStatusLabel.text = "加成状态：未激活";
          this.bagMC.addChild(this._boostStatusLabel);
+      }
+
+      private function onUseStudyItem(event:MouseEvent) : void
+      {
+         if(this._studyItem != 0)
+         {
+            return;
+         }
+         var item:BagListItem = event.currentTarget as BagListItem;
+         if(!item.info || item.info.itemNum == 0)
+         {
+            return;
+         }
+         var panel:BagPanel = this;
+         var id:uint = item.info.itemID;
+         Alert.show("使用一个" + ItemXMLInfo.getName(id) + "？",function():void
+         {
+            if(DisplayUtil.hasParent(panel))
+            {
+               panel.beginStudyRequest(id);
+            }
+         });
+      }
+
+      private function beginStudyRequest(itemId:uint) : void
+      {
+         if(this._studyItem != 0)
+         {
+            return;
+         }
+         this._studyItem = itemId;
+         SocketConnection.addCmdListener(CommandID.USE_STUDY_ITEM,this.onStudyItemUsed);
+         SocketDispatcher.getInstance().addEventListener(SocketErrorEvent.ERROR,this.onStudyItemRejected,false,2);
+         SocketConnection.mainSocket.addEventListener(Event.CLOSE,this.onStudyConnectionClosed);
+         SocketConnection.send(CommandID.USE_STUDY_ITEM,itemId);
+      }
+
+      private function finishStudyRequest() : void
+      {
+         SocketConnection.removeCmdListener(CommandID.USE_STUDY_ITEM,this.onStudyItemUsed);
+         SocketDispatcher.getInstance().removeEventListener(SocketErrorEvent.ERROR,this.onStudyItemRejected);
+         SocketConnection.mainSocket.removeEventListener(Event.CLOSE,this.onStudyConnectionClosed);
+         this._studyItem = 0;
+      }
+
+      private function onStudyItemUsed(event:SocketEvent) : void
+      {
+         var itemId:uint = this._studyItem;
+         this.finishStudyRequest();
+         ItemManager.getCollection();
+         Alarm.show(ItemXMLInfo.getName(itemId) + "使用成功！之后战斗获得的学习力将按道具效果增加。");
+      }
+
+      private function onStudyItemRejected(event:SocketErrorEvent) : void
+      {
+         if(!event.headInfo || event.headInfo.cmdID != CommandID.USE_STUDY_ITEM)
+         {
+            return;
+         }
+         event.stopImmediatePropagation();
+         this.finishStudyRequest();
+         ItemManager.getCollection();
+         Alarm.show("道具使用失败，背包数量未变。");
+      }
+
+      private function onStudyConnectionClosed(event:Event) : void
+      {
+         this.finishStudyRequest();
       }
 
       private function onBoostStatusClick(event:MouseEvent) : void

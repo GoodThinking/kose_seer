@@ -40,6 +40,7 @@ import { MapEventType, PetEventType, IPetObtainedEvent, IPetEvolutionEvent, PetO
 export interface BattleExperienceBoost {
   learningMultiplier: number;
   storedExperience: number;
+  learningUse?: { expected: number; remaining: number };
 }
 
 /**
@@ -564,6 +565,10 @@ export class PetManager extends BaseManager {
       if (boost && (defeatedPetId === undefined || !Number.isSafeInteger(boost.storedExperience) || boost.storedExperience < 0)) {
         throw new Error('Invalid battle experience boost');
       }
+      if (boost?.learningUse && (!Number.isSafeInteger(boost.learningUse.expected) || boost.learningUse.expected < 1 ||
+          boost.learningUse.remaining !== boost.learningUse.expected - 1)) {
+        throw new Error('Invalid learning multiplier use');
+      }
       const pet = this.PetData.GetPetByCatchTime(catchTime);
       if (!pet) {
         Logger.Warn(`[PetManager] 精灵未找到: CatchTime=${catchTime}`);
@@ -591,7 +596,9 @@ export class PetManager extends BaseManager {
         throw new Error('Pet experience projection exceeds uint32');
       }
 
-      // 战斗结算前先保存属性并准备客户端的属性/技能提示；catchTime 保持原实例身份。
+      // Persist legacy use counters with the rewarded pet so neither side can commit alone.
+      let poolChange: { expected: number; balance: number } | undefined;
+      let publishPool: (() => void) | undefined;
       if (boost && boost.storedExperience > 0) {
         await this.Player.Data.WaitForExpAllocation();
         const pool = this.Player.Data.BeginExpAllocation();
@@ -602,18 +609,24 @@ export class PetManager extends BaseManager {
         }
         const balance = Math.min(0x7fffffff, expectedBalance + boost.storedExperience);
         if (balance > expectedBalance) {
-          await this.PetData.CommitPetUpdate(pet, candidate,
-            staged => new PlayerRepository().CommitPetExperience(this.UserID, expectedBalance, balance, staged.ToRow().pet_list),
-            () => pool.publish(balance));
-        } else {
-          // A full pool must not prevent the pet's ordinary battle reward.
-          await this.PetData.CommitPetUpdate(pet, candidate);
+          poolChange = {expected: expectedBalance, balance};
+          publishPool = () => pool.publish(balance);
         }
-        releasePool();
-        releasePool = undefined;
+      }
+      if (poolChange || boost?.learningUse) {
+        await this.PetData.CommitPetUpdate(pet, candidate,
+          staged => new PlayerRepository().CommitBattlePetReward(
+            this.UserID, staged.ToRow().pet_list, poolChange, boost?.learningUse
+          ),
+          () => {
+            publishPool?.();
+            if (boost?.learningUse) this.Player.Data.PublishLearnTimes(boost.learningUse.remaining);
+          });
       } else {
         await this.PetData.CommitPetUpdate(pet, candidate);
       }
+      releasePool?.();
+      releasePool = undefined;
       await this.sendNoteUpdateProp([pet], 0);
       if (newSkills.length > 0) {
         await this.Player.SendPacket(new PacketNoteUpdateSkill([{catchTime, activeSkills, unactiveSkills}]));

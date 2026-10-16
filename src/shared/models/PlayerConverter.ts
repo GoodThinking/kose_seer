@@ -73,7 +73,7 @@ export function PlayerInfoToLoginProto(player: IPlayerInfo, sessionKey?: string)
   proto.autoFight = 0;
   proto.autoFightTimes = 0;
   proto.energyTimes = 0;
-  proto.learnTimes = 0;
+  proto.learnTimes = player.learnTimes || 0;
   proto.monBtlMedal = 0;
   proto.recordCnt = 0;
   proto.obtainTm = 0;

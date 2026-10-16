@@ -174,6 +174,7 @@ export interface IItem {
   DecreMonLv?: number;
   DualEffectTimes?: number;
   TrinalEffectTimes?: number;
+  DualEvTimes?: number;
   AutoBtlTimes?: number;
   EnergyAbsorbTimes?: number;
   NewSeIdx?: number;

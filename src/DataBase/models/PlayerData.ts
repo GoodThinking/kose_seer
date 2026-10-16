@@ -33,7 +33,7 @@ const NO_SAVE_FIELDS = new Set([
   '_dirtyFields',     // 内部状态
   '_expAllocation',
   '_publishingExp',
-  '_balanceReward', '_currencyOperations', '_currencyWait', '_currencyDone'
+  '_balanceReward', '_currencyOperations', '_currencyWait', '_currencyDone', '_consumableMutation'
 ]);
 
 /** Holds wallet fields stable until a transaction publishes its committed balances. */
@@ -58,6 +58,20 @@ export class PlayerData implements IPlayerInfo {
   private _currencyOperations = 0;
   private _currencyWait: Promise<void> | null = null;
   private _currencyDone: (() => void) | null = null;
+  private _consumableMutation: Promise<void> = Promise.resolve();
+
+  public async AcquireConsumableMutation(): Promise<() => void> {
+    const previous = this._consumableMutation;
+    let release!: () => void;
+    this._consumableMutation = new Promise<void>(resolve => { release = resolve; });
+    await previous;
+    return release;
+  }
+
+  public PublishLearnTimes(value: number): void {
+    this.learnTimes = value;
+    this.ClearDirtyFields(['learnTimes']);
+  }
 
   public async WaitForCurrencyOperations(): Promise<void> { await this._currencyWait; }
 

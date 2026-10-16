@@ -206,6 +206,20 @@ TypeScript and ActionScript compilation passed. Per the user's repair/test split
 automated tests and game/UI acceptance were not run; the user owns acceptance.
 Existing battle fixtures include the new migration so their schema stays valid.
 
+## 2026-10-16: legacy learning-power multiplier consumables
+
+Items configured with `type="study_item"` and a positive `DualEvTimes` regain a
+click-and-confirm action in the collection bag and send existing CMD2332
+(`USE_STUDY_ITEM`). The server consumes one item and adds the configured number
+of doubled-learning victories to the persistent `players.learn_times`
+counter in one transaction. A failed transaction changes neither inventory nor
+the counter. Each successful PvE victory consumes one use only when its pet and
+learning gains commit; invalid or failed settlements preserve the use. Timed
+learning cards and this legacy multiplier compose multiplicatively before the
+existing per-stat and total learning caps. Migration23 adds the counter, and
+login/fight-over packets expose its current value through the existing protocol
+field.
+
 ## 2026-10-15: initial-form wild encounters and shiny weights
 
 Ordinary encounter pools in `config/data/json/map-ogres.json` now follow

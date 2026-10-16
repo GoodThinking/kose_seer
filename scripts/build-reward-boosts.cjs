@@ -60,9 +60,14 @@ async function main() {
   if (digest(fs.readFileSync(iconTemplate)) !== '710cbe6e3d8cfb0af85b2ef771712c602d0cb60702261b34487a6342957934b4') throw new Error('Icon linkage template mismatch');
   const itemSource = fs.readFileSync(path.join(repo, 'config/data/xml/items.xml'), 'utf8');
   const itemConfig = await parseStringPromise(itemSource);
-  const configured = itemConfig.Items.Cat.flatMap(cat => cat.Item || []).filter(item => item.$.type === 'reward_boost');
+  const itemEntries = itemConfig.Items.Cat.flatMap(cat => cat.Item || []);
+  const configured = itemEntries.filter(item => item.$.type === 'reward_boost');
+  const studyItems = itemEntries.filter(item => item.$.type === 'study_item');
   const ids = configured.map(item => Number(item.$.ID)).sort((a, b) => a - b);
   if (JSON.stringify(ids) !== '[399901,399902,399903]') throw new Error('Unexpected reward boost item scope');
+  if (!studyItems.length || studyItems.some(item => !Number.isSafeInteger(Number(item.$.DualEvTimes)) || Number(item.$.DualEvTimes) < 1)) {
+    throw new Error('Invalid study item configuration');
+  }
   const descriptions = {
     experience: '使用后1小时内，战斗胜利时出战精灵和储存经验各获得基础经验的5倍。',
     learning: '使用后1小时内，战斗胜利获得的学习力为基础产出的5倍，仍遵守单项255、总计510上限。',
@@ -80,7 +85,13 @@ async function main() {
   if (customLines.length !== 3 || resources[31].includes('type="reward_boost"')) throw new Error('Item XML baseline changed');
   const catOpen = resources[31].match(/<Cat\b[^>]*\bID="3"[^>]*>/g);
   if (!catOpen || catOpen.length !== 1) throw new Error('Pet item category missing');
-  const embeddedItems = resources[31].replace(catOpen[0], catOpen[0] + '\n' + customLines.join('\n'));
+  let embeddedItems = resources[31].replace(catOpen[0], catOpen[0] + '\n' + customLines.join('\n'));
+  for (const { $: item } of studyItems) {
+    const pattern = new RegExp(`<Item\\b(?=[^>]*\\bID="${Number(item.ID)}")(?:(?!<Item\\b)[\\s\\S])*?\\/>`, 'g');
+    const matches = embeddedItems.match(pattern);
+    if (!matches || matches.length !== 1 || /\btype=/.test(matches[0])) throw new Error('Study item baseline changed: ' + item.ID);
+    embeddedItems = embeddedItems.replace(matches[0], matches[0].replace(/\s*\/>$/, ' type="study_item"/>'));
+  }
   const shopLines = configured.map(({ $: item }) =>
     `\t<item itemID="${item.ID}" name="${item.Name}" productID="" price="${item.Price}" vip="1" moneyType="0"/>`);
   const tipLines = configured.map(({ $: item }) => {

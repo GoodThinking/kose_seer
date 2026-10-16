@@ -38,6 +38,7 @@ import { GameConfig } from '../../../../shared/config/game/GameConfig';
 import { GetPetExperienceFields } from '../../Pet/PetExperienceProjection';
 import { PetGetExpHandler } from '../../../Server/Packet/Recv/Pet/PetGetExpHandler';
 import { GetPetInfoHandler } from '../../../Server/Packet/Recv/Pet/GetPetInfoHandler';
+import { UseStudyItemHandler } from '../../../Server/Packet/Recv/Item/UseStudyItemHandler';
 import { PlayerInfoToLoginProto } from '../../../../shared/models/PlayerConverter';
 
 describe('reward boundaries through real battle handlers and SQLite', () => {
@@ -58,13 +59,16 @@ describe('reward boundaries through real battle handlers and SQLite', () => {
   async function stored() {
     const [p] = await db.Query<{pet_list: string}>('SELECT pet_list FROM player_pets WHERE owner_id = ?', [uid]);
     const [i] = await db.Query<{item_list: string}>('SELECT item_list FROM player_items WHERE owner_id = ?', [uid]);
-    const [money] = await db.Query<{coins: number; allocatable_exp: number}>('SELECT coins, allocatable_exp FROM players WHERE user_id = ?', [uid]);
-    return {pets: JSON.parse(p.pet_list) as IPetInfo[], items: JSON.parse(i.item_list), coins: money.coins, pool: money.allocatable_exp};
+    const [money] = await db.Query<{coins: number; allocatable_exp: number; learn_times: number}>(
+      'SELECT coins, allocatable_exp, learn_times FROM players WHERE user_id = ?', [uid]);
+    return {pets: JSON.parse(p.pet_list) as IPetInfo[], items: JSON.parse(i.item_list), coins: money.coins,
+      pool: money.allocatable_exp, learnTimes: money.learn_times};
   }
   async function seed(exp = 0, coins = 100) {
     player.BattleManager = new BattleManager(player);
     player.Data.coins = coins;
-    await db.Execute('UPDATE players SET coins = ? WHERE user_id = ?', [coins, uid]);
+    player.Data.PublishLearnTimes(0);
+    await db.Execute('UPDATE players SET coins = ?, learn_times = 0 WHERE user_id = ?', [coins, uid]);
     player.PetManager.PetData.PetList = [Object.assign(createDefaultPetInfo(uid, 7), {
       catchTime, level: 100, exp, hp: 500, maxHp: 500, atk: 500, def: 500, speed: 500,
       isDefault: true, skillArray: [10001],
@@ -85,6 +89,7 @@ describe('reward boundaries through real battle handlers and SQLite', () => {
     await player.PetManager.Initialize(); await player.ItemManager.Initialize();
     // Currency's source of truth is the players row updated by the actual PlayerRepository.
     player.Data.coins = (await stored()).coins;
+    player.Data.PublishLearnTimes((await stored()).learnTimes);
   }
   beforeAll(async () => {
     const interval = global.setInterval;
@@ -102,8 +107,8 @@ describe('reward boundaries through real battle handlers and SQLite', () => {
     ConfigRegistry.Instance.Register(ConfigKeys.NATURES_CONFIG, ConfigPaths[ConfigKeys.NATURES_CONFIG], ConfigType.JSON);
     await ConfigRegistry.Instance.Initialize(); await db.Initialize();
     // Minimal real currency columns; pets/items use the repository's full SQLite DDL.
-    await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY, coins INTEGER NOT NULL, energy INTEGER NOT NULL, allocatable_exp INTEGER NOT NULL)');
-    await db.Execute('INSERT INTO players VALUES (?, 100, 0, 2147483647)', [uid]);
+    await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY, coins INTEGER NOT NULL, energy INTEGER NOT NULL, allocatable_exp INTEGER NOT NULL, learn_times INTEGER NOT NULL DEFAULT 0)');
+    await db.Execute('INSERT INTO players VALUES (?, 100, 0, 2147483647, 0)', [uid]);
     await db.Execute(new Migration012FixAllTables().upSQLite().find(s => s.startsWith('CREATE TABLE IF NOT EXISTS player_pets'))!);
     await db.Execute(new Migration006CreateItems().upSQLite()[0]);
     await db.Execute(new Migration022CreateRewardBoosts().upSQLite()[0]);
@@ -111,7 +116,7 @@ describe('reward boundaries through real battle handlers and SQLite', () => {
     Object.defineProperty(player, 'Uid', {value: uid});
     Object.assign(player, {Data: new PlayerData(Object.assign(createDefaultPlayerInfo(uid, 'VictoryTest'), {mapID: 301, coins: 100, allocatableExp: 2147483647})),
       _playerRepo: new PlayerRepository(), EventBus: new GameEventBus(),
-      _session: {Socket: {write: (b: Buffer) => packets.push(Buffer.from(b))}}, _packetBuilder: new PacketBuilder(),
+      _session: {Socket: {write: (b: Buffer) => packets.push(Buffer.from(b))}, Player: player}, _packetBuilder: new PacketBuilder(),
       MapSpawnManager: {GetMapOgres: () => [{petId: 8, originalPetId: 8, shiny: 0}], OnBattleEnd: () => {}},
     });
     for (const type of [...Object.values(BattleEventType), ItemEventType.ITEM_GAINED]) {
@@ -162,6 +167,40 @@ describe('reward boundaries through real battle handlers and SQLite', () => {
     expect(after.items).toMatchObject([{itemId: 300001, count: 2}]);
     expect(settlement().rewardStatus).toBe('complete');
     observations.push({case: 'healthy-lv100-full-pool', exp: after.pets[0].exp, coins: after.coins, pool: after.pool, replayAndReload: 'unchanged'});
+  });
+  test('configured study item commits inventory and effect before doubling one victory yield', async () => {
+    await seed();
+    player.ItemManager.ItemData.ItemList = [{itemId: 300035, count: 2, expireTime: 0}];
+    await helper.SaveItemData(player.ItemManager.ItemData, true);
+    const use = Buffer.alloc(4); use.writeUInt32BE(300035);
+    await new UseStudyItemHandler().Handle(session(), new HeadInfo(), use);
+    expect(commandPackets(2332).at(-1)!.readInt32BE(13)).toBe(0);
+    expect(player.ItemManager.GetItemCount(300035)).toBe(1);
+    expect(player.Data.learnTimes).toBe(30);
+    expect((await stored())).toMatchObject({items: [{itemId: 300035, count: 1}], learnTimes: 30});
+
+    await skill();
+    const after = await stored();
+    expect(after.pets[0]).toMatchObject({evSpAtk: 2, evSpeed: 2});
+    expect(after.learnTimes).toBe(29);
+    expect(player.Data.learnTimes).toBe(29);
+  });
+
+  test('failed study item persistence leaves inventory and effect unchanged', async () => {
+    await seed();
+    player.ItemManager.ItemData.ItemList = [{itemId: 300110, count: 1, expireTime: 0}];
+    await helper.SaveItemData(player.ItemManager.ItemData, true);
+    await db.Execute("CREATE TRIGGER deny_study_item BEFORE UPDATE ON players BEGIN SELECT RAISE(ABORT, 'study rejected'); END");
+    try {
+      const use = Buffer.alloc(4); use.writeUInt32BE(300110);
+      await new UseStudyItemHandler().Handle(session(), new HeadInfo(), use);
+      expect(commandPackets(2332).at(-1)!.readInt32BE(13)).toBe(5000);
+      expect(player.ItemManager.GetItemCount(300110)).toBe(1);
+      expect(player.Data.learnTimes).toBe(0);
+      expect(await stored()).toMatchObject({items: [{itemId: 300110, count: 1}], learnTimes: 0});
+    } finally {
+      await db.Execute('DROP TRIGGER deny_study_item');
+    }
   });
   test('healthy exact cumulative experience uint32 boundary serializes after reload', async () => {
     const initial = 0xffffffff - currentBase() - 50;

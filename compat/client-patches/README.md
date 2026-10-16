@@ -24,6 +24,10 @@ java -jar ffdec.jar -importScript PetFightDLL.swf PetFightDLL.patched.swf compat
 `reward-boosts/` 保存背包类补丁和三张48px自绘SVG图标。只在`type=reward_boost`
 的道具上增加点击使用；背包提供“战斗加成状态”服务器查询。购买入口沿用实验室道具商城，
 三种卡各100赛尔豆，不更改旧商品。商城、道具和说明的嵌入XML各追加三条。
+同一背包补丁还为配置 `type=study_item` 且带正数 `DualEvTimes` 的旧道具恢复点击确认，
+并发送原有 CMD2332。构建脚本从服务端 `items.xml` 读取分类和效果次数，再将分类写入
+客户端内嵌道具表；不按道具名称判断。
+
 
 构建入口 `scripts/build-reward-boosts.cjs`，参数 `--core`、`--icon-template`、
 `--out`、`--java`、`--ffdec` 均须显式提供。固定输入Core SHA256

@@ -26,6 +26,7 @@ import { Migration019AddChallengeFieldsToPlayers } from './scripts/019_add_chall
 import { Migration020CreateInvitations } from './scripts/020_create_invitations';
 import { Migration021CreateReceiverClaims } from './scripts/021_create_receiver_claims';
 import { Migration022CreateRewardBoosts } from './scripts/022_create_reward_boosts';
+import { Migration023AddLearnTimes } from './scripts/023_add_learn_times';
 
 /**
  * 所有迁移脚本（按版本号排序）
@@ -51,6 +52,7 @@ const AllMigrations: IMigration[] = [
   new Migration020CreateInvitations(),
   new Migration021CreateReceiverClaims(),
   new Migration022CreateRewardBoosts(),
+  new Migration023AddLearnTimes(),
 ];
 
 export class MigrationRunner {

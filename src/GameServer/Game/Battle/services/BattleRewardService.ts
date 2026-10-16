@@ -52,23 +52,33 @@ export class BattleRewardService {
     let stage: NonNullable<VictoryRewardResult['failedStage']> = 'experience';
     let sptRewards: { itemId: number; count: number }[] = [];
     try {
-      // Snapshot all three effects at settlement time; later awaits do not change this battle's rates.
-      const boosts = await GetRewardBoostStatus(userId);
-      const expGained = this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot) * boosts.experience.multiplier;
-      const coinsGained = this.CalculateCoinsReward(battle.enemy.level) * boosts.coins.multiplier;
+      let expGained = 0;
+      let coinsGained = 0;
+      const releaseEffect = await this._player.Data.AcquireConsumableMutation();
+      try {
+        // Snapshot effects at settlement time; the legacy use counter commits with the rewarded pet.
+        const boosts = await GetRewardBoostStatus(userId);
+        const learnTimes = this._player.Data.learnTimes;
+        if (!Number.isSafeInteger(learnTimes) || learnTimes < 0 || learnTimes > 0xffffffff) {
+          throw new Error('Invalid learning multiplier balance');
+        }
+        expGained = this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot) * boosts.experience.multiplier;
+        coinsGained = this.CalculateCoinsReward(battle.enemy.level) * boosts.coins.multiplier;
 
-      // 3. 给精灵增加经验（使用catchTime查找精灵）
-      const catchTime = battle.player.catchTime;
-      if (!this._player.PetManager.GetPetByCatchTime(catchTime)) throw new Error('Reward pet missing');
-      // PetManager commits its detached candidate before publishing or notifying.
-      result.levelUp = await this._player.PetManager.HandleAddPetExpByCatchTime(catchTime, expGained, battle.enemy.id, {
-        learningMultiplier: boosts.learning.multiplier,
-        storedExperience: boosts.experience.multiplier > 1 ? expGained : 0
-      });
-      const rewardedPet = this._player.PetManager.GetPetByCatchTime(catchTime);
-      if (!rewardedPet) throw new Error('Reward pet disappeared');
-      result.expGained = expGained;
-      result.newLevel = rewardedPet.level;
+        const catchTime = battle.player.catchTime;
+        if (!this._player.PetManager.GetPetByCatchTime(catchTime)) throw new Error('Reward pet missing');
+        result.levelUp = await this._player.PetManager.HandleAddPetExpByCatchTime(catchTime, expGained, battle.enemy.id, {
+          learningMultiplier: boosts.learning.multiplier * (learnTimes > 0 ? 2 : 1),
+          storedExperience: boosts.experience.multiplier > 1 ? expGained : 0,
+          learningUse: learnTimes > 0 ? {expected: learnTimes, remaining: learnTimes - 1} : undefined,
+        });
+        const rewardedPet = this._player.PetManager.GetPetByCatchTime(catchTime);
+        if (!rewardedPet) throw new Error('Reward pet disappeared');
+        result.expGained = expGained;
+        result.newLevel = rewardedPet.level;
+      } finally {
+        releaseEffect();
+      }
 
       // 4. 给玩家增加金币
       stage = 'coins';
