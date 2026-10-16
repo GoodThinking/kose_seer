@@ -669,42 +669,6 @@
             }
           ],
           "isBoss": false
-        },
-        {
-          "slot": 2,
-          "petId": 33,
-          "shiny": 0,
-          "weight": 30,
-          "refreshConfig": {
-            "enabled": true,
-            "refreshInterval": 10,
-            "refreshOnEmpty": false,
-            "refreshAtNight": true,
-            "refreshAtDay": true,
-            "startTime": "00:00",
-            "endTime": "23:59",
-            "useInterval": true,
-            "useSchedule": false,
-            "scheduleTime": [],
-            "shinyRate": 0.08,
-            "shinyPetId": -1
-          },
-          "minLevel": 18,
-          "maxLevel": 20,
-          "level": null,
-          "expReward": 100,
-          "catchRate": 1,
-          "expMultiplier": 1,
-          "catchable": true,
-          "dropItems": [
-            {
-              "itemId": 300001,
-              "dropRate": 0.1,
-              "minCount": 1,
-              "maxCount": 2
-            }
-          ],
-          "isBoss": false
         }
       ]
     },

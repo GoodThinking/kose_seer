@@ -51,14 +51,35 @@ describe('ordinary map spawns with initial evolution forms', () => {
     }
   });
 
-  test('Map 20 only spawns initial water/flying pets and never electric pets', () => {
-    const spawnMgr = new MapSpawnManager(playerMock);
-    spawnMgr.OnEnterMap(20);
-    const ogres = spawnMgr.GetMapOgres(20).filter(o => o.petId > 0);
-    expect(ogres.length).toBeGreaterThan(0);
-    for (const o of ogres) {
-      expect([30, 22]).toContain(o.originalPetId);
-      expect(o.originalPetId).not.toBe(13); // 比比鼠 (电系) must NOT appear on Ocean Star
+  test('Ocean Star layers 20-22 keep their canonical encounter mapping', () => {
+    const layers = [
+      { mapId: 20, mapName: '海洋星浅水区', petIds: [30, 22], petNames: ['贝尔', '毛毛'] },
+      { mapId: 21, mapName: '海洋星深水区', petIds: [33], petNames: ['利牙鱼'] },
+      { mapId: 22, mapName: '海洋星海底', petIds: [198], petNames: ['小鳍鱼'] },
+    ];
+    const random = jest.spyOn(Math, 'random');
+
+    try {
+      for (const { mapId, mapName, petIds, petNames } of layers) {
+        const mapConfig = GameConfig.GetMapConfigById(mapId);
+        expect(mapConfig.name).toBe(mapName);
+        expect(mapConfig.ogres.map((ogre: IMapOgreSlot) => ogre.petId)).toEqual(petIds);
+        expect(petIds.map(petId => GameConfig.GetPetById(petId)?.DefName)).toEqual(petNames);
+
+        const spawnedIds = new Set<number>();
+        for (const randomValue of [0, 0.99]) {
+          random.mockReturnValue(randomValue);
+          const spawnMgr = new MapSpawnManager(playerMock);
+          spawnMgr.OnEnterMap(mapId);
+          const activeOgres = spawnMgr.GetMapOgres(mapId).filter(ogre => ogre.petId > 0);
+          expect(activeOgres.length).toBeGreaterThan(0);
+          expect(activeOgres.every(ogre => petIds.includes(ogre.originalPetId))).toBe(true);
+          activeOgres.forEach(ogre => spawnedIds.add(ogre.originalPetId));
+        }
+        expect([...spawnedIds].sort((a, b) => a - b)).toEqual([...petIds].sort((a, b) => a - b));
+      }
+    } finally {
+      random.mockRestore();
     }
   });
 
