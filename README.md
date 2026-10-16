@@ -2,6 +2,22 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 银翼原生客户端资源
+
+银翼装备 `199901`–`199905` 使用原生矢量轮廓，不再把整套设计图拆成位图贴到角色上。构建器分别绘制正面、前侧、侧面、后侧和背面，按原客户端左右镜像规则生成八方向，并保留 13 帧时间轴和护臂 `muzzle` 挂点。
+
+```bash
+python3 scripts/build-silver-wing-native.py \
+  --out /path/to/client/overlay \
+  --java /path/to/java \
+  --ffdec /path/to/ffdec.jar
+```
+
+构建需要 Python 3、Pillow、Java 和 JPEXS FFDec。输出包含地图、背包预览及图标共 15 个 SWF，以及赛尔工厂的 6 张 PNG。商店图片与穿戴资源使用同一份矢量定义。`compat/client-patches/silver-wing-native/timeline.swf` 只保留既有装备的时间轴字节码和类链接，不包含旧位图。
+
+这是对已安装银翼功能的纯资源更新，不新增商品或改动价格、购买逻辑、喷火、移速、沼泽通行、数据库或后端。发布时仅覆盖生成清单内的 21 个 `resource/` 文件；不得用本仓库较早的服务器配置或客户端核心覆盖现网。先合并并推送个人仓库的 `main`，再从该基线构建发布；不创建备份，不重启服务。游戏内体验由使用者验收，资源发布前保留原生骨架穿戴检查。
+
+
 ## 友情链接
 [空影的Go端](https://github.com/qq555565/Seer-golang)
 
