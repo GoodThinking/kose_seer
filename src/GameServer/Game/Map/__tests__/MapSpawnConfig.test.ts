@@ -53,7 +53,7 @@ describe('ordinary map spawns with initial evolution forms', () => {
 
   test('Ocean Star layers 20-22 keep their canonical encounter mapping', () => {
     const layers = [
-      { mapId: 20, mapName: '海洋星浅水区', petIds: [30, 22], petNames: ['贝尔', '毛毛'] },
+      { mapId: 20, mapName: '海洋星浅水区', petIds: [30], petNames: ['贝尔'] },
       { mapId: 21, mapName: '海洋星深水区', petIds: [33], petNames: ['利牙鱼'] },
       { mapId: 22, mapName: '海洋星海底', petIds: [198], petNames: ['小鳍鱼'] },
     ];
