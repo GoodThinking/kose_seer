@@ -77,20 +77,27 @@ node scripts/build-star-map-scroll.cjs \
 
 Core 仅提供编译依赖，发布内容只有 `client/overlay/module/com/robot/module/app/subMap/Galaxy_1.swf`。构建器验证非字节码标签逐字节保持不变，输出清单记录输入、输出哈希。先合并并推送个人仓库 `main`，再从该基线构建发布；不备份、不重启服务，不改后端或账号存档。已打开的客户端需要刷新重登。
 
-## 银翼原生客户端资源
+## 米币商品改用赛尔豆与自制套装移除
 
-银翼装备 `199901`–`199905` 使用原生矢量轮廓，不再把整套设计图拆成位图贴到角色上。构建器分别绘制正面、前侧、侧面、后侧和背面，按原客户端左右镜像规则生成八方向，并保留 13 帧时间轴和护臂 `muzzle` 挂点。
+原有 84 个米币商品统一按 1 米币兑换 100 赛尔豆计价，保留 VIP 折扣。商城目录、原生购买协议和普通物品购买入口使用同一价格来源。余额不足、重复购买和保存失败均不能发放商品；购买不会消耗米币或修改经验池。
+
+自制极境套装 `199901`–`199905` 已移除，包括商品、提示、喷火、加速与沼泽通行代码，以及工厂页面和 21 个专用资源。原版银翼装备保留。账号清理仅过滤这五个 ID 的背包与穿戴记录，不改余额或其他物品。
 
 ```bash
-python3 scripts/build-silver-wing-native.py \
-  --out /path/to/client/overlay \
+node scripts/build-coin-products.cjs \
+  --server-context /path/to/current/server-source \
+  --core /path/to/R47/NieoCore.swf \
+  --elite /path/to/original/ElietCoinBookPanel.swf \
+  --guide /path/to/original/ShopingGuidePanel.swf \
+  --cloth-book /path/to/original/clothBook.swf \
   --java /path/to/java \
-  --ffdec /path/to/ffdec.jar
+  --ffdec /path/to/ffdec.jar \
+  --out /path/to/release
 ```
 
-构建需要 Python 3、Pillow、Java 和 JPEXS FFDec。输出包含地图、背包预览及图标共 15 个 SWF，以及赛尔工厂的 6 张 PNG。商店图片与穿戴资源使用同一份矢量定义。`compat/client-patches/silver-wing-native/timeline.swf` 只保留既有装备的时间轴字节码和类链接，不包含旧位图。
+构建器校验客户端输入哈希，使用 `compat/server-patches/coin-products` 中的完整模块与商品配置，以及 `compat/client-patches/coin-products` 中的九个 Core 类和原生面板补丁，生成 17 个发布文件。服务器上下文提供既有依赖和 TypeScript 编译选项；只对本次模块做语义检查，不覆盖无关模块。先合并并推送个人仓库 `main`，再从该基线运行构建并按清单发布；用户刷新重登验收实际体验。
 
-这是对已安装银翼功能的纯资源更新，不新增商品或改动价格、购买逻辑、喷火、移速、沼泽通行、数据库或后端。发布时仅覆盖生成清单内的 21 个 `resource/` 文件；不得用本仓库较早的服务器配置或客户端核心覆盖现网。先合并并推送个人仓库的 `main`，再从该基线构建发布；不创建备份，不重启服务。游戏内体验由使用者验收，资源发布前保留原生骨架穿戴检查。
+`node scripts/smoke-coin-products.cjs /path/to/staged/app` 使用临时 SQLite 验证 168 次普通/VIP 目录购买、普通购买入口、余额不足、并发防重、保存失败回滚及已移除套装拒购。该路径必须是带既有依赖的发布副本；脚本不连接游戏账号数据库。
 
 
 ## 精灵按钮无响应修复

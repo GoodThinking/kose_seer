@@ -1,0 +1,19 @@
+[
+xmin -40
+ymin -40
+xmax 6694
+ymax 1005
+wordwrap 1
+multiline 1
+readonly 1
+noselect 1
+html 1
+font 100
+height 280
+color #ffffffff
+align left
+leftmargin 0
+rightmargin 0
+indent 0
+leading 80
+] <p align="left"><font face="SimSun_14pt_st" size="14" color="#ffffff" letterSpacing="0.000000" kerning="1"> &nbsp;&nbsp;&nbsp;赛尔们可以找我罗开用赛尔豆兑换赛尔金豆，方便快捷、一步到位！</font></p>

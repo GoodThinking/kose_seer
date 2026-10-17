@@ -1,0 +1,961 @@
+{
+  "currency": "coins",
+  "rate": 100,
+  "products": [
+    {
+      "productId": 200000,
+      "name": "10金豆",
+      "itemIds": [],
+      "coins": 100,
+      "vipCoins": 100,
+      "goldReward": 10,
+      "vipOnly": true
+    },
+    {
+      "productId": 200001,
+      "name": "50金豆",
+      "itemIds": [],
+      "coins": 450,
+      "vipCoins": 450,
+      "goldReward": 50,
+      "vipOnly": true
+    },
+    {
+      "productId": 200002,
+      "name": "100金豆",
+      "itemIds": [],
+      "coins": 800,
+      "vipCoins": 800,
+      "goldReward": 100,
+      "vipOnly": true
+    },
+    {
+      "productId": 200051,
+      "name": "机械师头灯",
+      "itemIds": [
+        100020
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200052,
+      "name": "机械师工具袋",
+      "itemIds": [
+        100021
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200053,
+      "name": "机械师滑轮",
+      "itemIds": [
+        100022
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200054,
+      "name": "机械师帽檐",
+      "itemIds": [
+        100023
+      ],
+      "coins": 160,
+      "vipCoins": 80,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200055,
+      "name": "机械师装",
+      "itemIds": [
+        100020,
+        100021,
+        100022,
+        100023
+      ],
+      "coins": 760,
+      "vipCoins": 380,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200056,
+      "name": "训练师头罩",
+      "itemIds": [
+        100036
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200057,
+      "name": "训练师手臂",
+      "itemIds": [
+        100037
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200058,
+      "name": "训练师腰带",
+      "itemIds": [
+        100038
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200059,
+      "name": "训练师板鞋",
+      "itemIds": [
+        100039
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200060,
+      "name": "训练师装",
+      "itemIds": [
+        100036,
+        100037,
+        100038,
+        100039
+      ],
+      "coins": 800,
+      "vipCoins": 400,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200061,
+      "name": "黑焰头盔",
+      "itemIds": [
+        100255
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200062,
+      "name": "黑焰动力臂",
+      "itemIds": [
+        100256
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200063,
+      "name": "黑焰弹夹",
+      "itemIds": [
+        100257
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200064,
+      "name": "黑焰动力靴",
+      "itemIds": [
+        100258
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200065,
+      "name": "黑焰面罩",
+      "itemIds": [
+        100259
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200066,
+      "name": "黑焰使徒",
+      "itemIds": [
+        100255,
+        100256,
+        100257,
+        100258,
+        100259
+      ],
+      "coins": 1000,
+      "vipCoins": 500,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200067,
+      "name": "利爪重盔",
+      "itemIds": [
+        100261
+      ],
+      "coins": 400,
+      "vipCoins": 200,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200068,
+      "name": "利爪手臂",
+      "itemIds": [
+        100262
+      ],
+      "coins": 80,
+      "vipCoins": 40,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200069,
+      "name": "利爪腰带",
+      "itemIds": [
+        100263
+      ],
+      "coins": 120,
+      "vipCoins": 60,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200070,
+      "name": "利爪重靴",
+      "itemIds": [
+        100264
+      ],
+      "coins": 240,
+      "vipCoins": 120,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200071,
+      "name": "利爪面罩",
+      "itemIds": [
+        100265
+      ],
+      "coins": 160,
+      "vipCoins": 80,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200072,
+      "name": "利爪机甲",
+      "itemIds": [
+        100261,
+        100262,
+        100263,
+        100264,
+        100265
+      ],
+      "coins": 1000,
+      "vipCoins": 500,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200073,
+      "name": "侦查眼罩",
+      "itemIds": [
+        100162
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200074,
+      "name": "暗能吸纳仪",
+      "itemIds": [
+        100223
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200075,
+      "name": "寒流枪",
+      "itemIds": [
+        100245
+      ],
+      "coins": 240,
+      "vipCoins": 120,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200077,
+      "name": "紫晶扭蛋机",
+      "itemIds": [
+        500522
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200078,
+      "name": "克洛斯基地",
+      "itemIds": [
+        500003
+      ],
+      "coins": 500,
+      "vipCoins": 250,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200079,
+      "name": "桌上足球",
+      "itemIds": [
+        500505
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200080,
+      "name": "幻想椅",
+      "itemIds": [
+        500506
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200081,
+      "name": "悬浮桌",
+      "itemIds": [
+        500507
+      ],
+      "coins": 320,
+      "vipCoins": 160,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200082,
+      "name": "战术研究台",
+      "itemIds": [
+        500508
+      ],
+      "coins": 320,
+      "vipCoins": 160,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200083,
+      "name": "凌光灯",
+      "itemIds": [
+        500509
+      ],
+      "coins": 180,
+      "vipCoins": 90,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200084,
+      "name": "重力篮筐",
+      "itemIds": [
+        500523
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200085,
+      "name": "电磁秋千",
+      "itemIds": [
+        500516
+      ],
+      "coins": 280,
+      "vipCoins": 140,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200086,
+      "name": "雷伊海报",
+      "itemIds": [
+        500806
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200087,
+      "name": "护目镜",
+      "itemIds": [
+        100087
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200088,
+      "name": "防寒帽",
+      "itemIds": [
+        100088
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200089,
+      "name": "防寒腰带",
+      "itemIds": [
+        100089
+      ],
+      "coins": 160,
+      "vipCoins": 80,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200090,
+      "name": "极速滑雪杖",
+      "itemIds": [
+        100090
+      ],
+      "coins": 240,
+      "vipCoins": 120,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200091,
+      "name": "极速滑板",
+      "itemIds": [
+        100091
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200092,
+      "name": "防寒装",
+      "itemIds": [
+        100087,
+        100088,
+        100089,
+        100090,
+        100091
+      ],
+      "coins": 1000,
+      "vipCoins": 500,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200093,
+      "name": "卫兵腰带",
+      "itemIds": [
+        100033
+      ],
+      "coins": 140,
+      "vipCoins": 70,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200094,
+      "name": "卫兵帽子",
+      "itemIds": [
+        100034
+      ],
+      "coins": 220,
+      "vipCoins": 110,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200095,
+      "name": "卫兵鞋",
+      "itemIds": [
+        100035
+      ],
+      "coins": 260,
+      "vipCoins": 130,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200096,
+      "name": "卫兵装",
+      "itemIds": [
+        100033,
+        100034,
+        100035
+      ],
+      "coins": 620,
+      "vipCoins": 310,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200097,
+      "name": "钢特拉头盔",
+      "itemIds": [
+        100306
+      ],
+      "coins": 360,
+      "vipCoins": 180,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200098,
+      "name": "钢特拉面具",
+      "itemIds": [
+        100307
+      ],
+      "coins": 120,
+      "vipCoins": 60,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200099,
+      "name": "钢特拉铠甲",
+      "itemIds": [
+        100308
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200100,
+      "name": "钢特拉腰甲",
+      "itemIds": [
+        100309
+      ],
+      "coins": 180,
+      "vipCoins": 90,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200101,
+      "name": "钢特拉战靴",
+      "itemIds": [
+        100310
+      ],
+      "coins": 240,
+      "vipCoins": 120,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200102,
+      "name": "钢特拉",
+      "itemIds": [
+        100306,
+        100307,
+        100308,
+        100309,
+        100310
+      ],
+      "coins": 1200,
+      "vipCoins": 600,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200103,
+      "name": "奥金兜帽",
+      "itemIds": [
+        100311
+      ],
+      "coins": 380,
+      "vipCoins": 190,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200104,
+      "name": "奥金面甲",
+      "itemIds": [
+        100312
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200105,
+      "name": "奥金护甲",
+      "itemIds": [
+        100313
+      ],
+      "coins": 240,
+      "vipCoins": 120,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200106,
+      "name": "奥金腰带",
+      "itemIds": [
+        100314
+      ],
+      "coins": 220,
+      "vipCoins": 110,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200107,
+      "name": "奥金战靴",
+      "itemIds": [
+        100315
+      ],
+      "coins": 260,
+      "vipCoins": 130,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200108,
+      "name": "奥金之锤",
+      "itemIds": [
+        100311,
+        100312,
+        100313,
+        100314,
+        100315
+      ],
+      "coins": 1200,
+      "vipCoins": 600,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200109,
+      "name": "塞西利亚基地",
+      "itemIds": [
+        500002
+      ],
+      "coins": 580,
+      "vipCoins": 290,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200110,
+      "name": "阿克希亚抱枕",
+      "itemIds": [
+        500511
+      ],
+      "coins": 400,
+      "vipCoins": 200,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200111,
+      "name": "急冻兽摇摆椅",
+      "itemIds": [
+        500512
+      ],
+      "coins": 300,
+      "vipCoins": 150,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200112,
+      "name": "索拉电视机",
+      "itemIds": [
+        500513
+      ],
+      "coins": 320,
+      "vipCoins": 160,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200113,
+      "name": "吞吞花灯",
+      "itemIds": [
+        500515
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200114,
+      "name": "玄冰桌",
+      "itemIds": [
+        500519
+      ],
+      "coins": 260,
+      "vipCoins": 130,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200115,
+      "name": "玄冰凳",
+      "itemIds": [
+        500520
+      ],
+      "coins": 100,
+      "vipCoins": 50,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200116,
+      "name": "浮冰灯",
+      "itemIds": [
+        500521
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200117,
+      "name": "船长画像",
+      "itemIds": [
+        500803
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200118,
+      "name": "光束兜帽",
+      "itemIds": [
+        100329
+      ],
+      "coins": 320,
+      "vipCoins": 160,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200119,
+      "name": "光束重狙",
+      "itemIds": [
+        100330
+      ],
+      "coins": 240,
+      "vipCoins": 120,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200120,
+      "name": "光束护颚",
+      "itemIds": [
+        100331
+      ],
+      "coins": 180,
+      "vipCoins": 90,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200121,
+      "name": "战轮",
+      "itemIds": [
+        100332
+      ],
+      "coins": 260,
+      "vipCoins": 130,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200122,
+      "name": "光束战轮",
+      "itemIds": [
+        100329,
+        100330,
+        100331,
+        100332
+      ],
+      "coins": 1000,
+      "vipCoins": 500,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200123,
+      "name": "疾电重盔",
+      "itemIds": [
+        100334
+      ],
+      "coins": 380,
+      "vipCoins": 190,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200124,
+      "name": "疾电护肩",
+      "itemIds": [
+        100335
+      ],
+      "coins": 260,
+      "vipCoins": 130,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200125,
+      "name": "疾电弹夹",
+      "itemIds": [
+        100336
+      ],
+      "coins": 220,
+      "vipCoins": 110,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200126,
+      "name": "疾电滚轮",
+      "itemIds": [
+        100337
+      ],
+      "coins": 340,
+      "vipCoins": 170,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200127,
+      "name": "疾电",
+      "itemIds": [
+        100334,
+        100335,
+        100336,
+        100337
+      ],
+      "coins": 1200,
+      "vipCoins": 600,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200128,
+      "name": "银翼头盔",
+      "itemIds": [
+        100338
+      ],
+      "coins": 420,
+      "vipCoins": 210,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200129,
+      "name": "银翼双剑",
+      "itemIds": [
+        100339
+      ],
+      "coins": 320,
+      "vipCoins": 160,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200130,
+      "name": "银翼腰带",
+      "itemIds": [
+        100340
+      ],
+      "coins": 200,
+      "vipCoins": 100,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200131,
+      "name": "银翼重靴",
+      "itemIds": [
+        100341
+      ],
+      "coins": 260,
+      "vipCoins": 130,
+      "goldReward": 0,
+      "vipOnly": false
+    },
+    {
+      "productId": 200132,
+      "name": "银翼猎手",
+      "itemIds": [
+        100338,
+        100339,
+        100340,
+        100341
+      ],
+      "coins": 1200,
+      "vipCoins": 600,
+      "goldReward": 0,
+      "vipOnly": false
+    }
+  ]
+}

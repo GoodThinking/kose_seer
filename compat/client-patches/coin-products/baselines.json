@@ -1,0 +1,14 @@
+{
+  "core": {
+    "sha256": "260f4e38521b761f43f89e61e30917ebf5b0428a31da38d9c6858e27ef9f138a"
+  },
+  "elite": {
+    "sha256": "ca38d3617afa34f12a09cf5d65e20933234c2476d5aee6882aadcd4eb5b8c138"
+  },
+  "guide": {
+    "sha256": "44d20b040cc9517ab11b86d9e33dffbb9f372aac132aad89e6dedffac6fd4a93"
+  },
+  "cloth-book": {
+    "sha256": "f7183cd264d701479f7ec91e323a5f160e0ade9e162efe70abd8404a95460511"
+  }
+}
