@@ -34,3 +34,6 @@ Thumbs.db
 *.tmp
 *.temp
 docs/
+
+# 本地运行时
+.runtime/

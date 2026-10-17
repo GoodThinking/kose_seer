@@ -1,0 +1,13 @@
+# 本地运行时和依赖，不参与检索。
+.runtime/
+node_modules/
+dist/
+release/
+logs/
+
+# 二进制资源和数据库。
+*.swf
+*.srom
+*.db
+*.db-shm
+*.db-wal
