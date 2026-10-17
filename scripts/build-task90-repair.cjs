@@ -16,7 +16,7 @@ const check = (condition, message) => { if (!condition) throw new Error(message)
 const sourceRelative = 'src/GameServer/Game/Task/CompleteConfiguredTask.ts';
 const runtimeRelative = 'dist/GameServer/Game/Task/CompleteConfiguredTask.js';
 const configRelative = 'config/data/json/tasks.json';
-const panelRelative = 'resource/module/TaskPanel_90.swf';
+const panelRelative = 'module/com/robot/module/task/TaskPanel_90.swf';
 const baseline = {
   source: '6d2e61ec548c2157103dcc797f94aa7cd4e37392169e09ab63961bce6d35520b',
   runtime: '5be59ae3535f644940a79b22de8d302e98fc94173b3ce3f75e2ac2c25dfae986',
