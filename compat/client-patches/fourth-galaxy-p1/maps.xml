@@ -1,0 +1,31 @@
+<Maps>
+  <map id="318" name="朱雀空间" x="480" y="470" super="318">
+    <Entries/>
+    <changeMapComp/>
+    <funComp/>
+  </map>
+  <map id="484" name="怀特星" x="500" y="360" super="41" sound="BGM_051">
+    <Entries/>
+    <changeMapComp>
+      <component name="door_0" hit="comp_0" targetID="486"/>
+    </changeMapComp>
+    <funComp/>
+  </map>
+  <map id="486" name="怀特矿场" x="80" y="440" super="41" sound="BGM_052">
+    <Entries/>
+    <changeMapComp>
+      <component name="door_0" hit="comp_0" targetID="484"/>
+    </changeMapComp>
+    <funComp/>
+  </map>
+  <map id="494" name="麦兹星" x="760" y="434" super="42" sound="BGM_056">
+    <Entries/>
+    <changeMapComp/>
+    <funComp/>
+  </map>
+  <map id="497" name="SUN星" x="720" y="465" super="43" sound="BGM_059">
+    <Entries/>
+    <changeMapComp/>
+    <funComp/>
+  </map>
+</Maps>

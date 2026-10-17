@@ -2,6 +2,31 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 第四星系入口修复
+
+`compat/client-patches/fourth-galaxy-p1`只修复已上线第四星系的入口阻断，不补充后续地图、精灵或Boss玩法：
+
+- 在当前Core的共享地图表登记朱雀空间（318）、怀特星（484）、怀特矿场（486）、麦兹星（494）和SUN星（497），补齐第四星系归属、悬停说明表及怀特星与矿场的往返连接。星球出生点沿用地图配置；朱雀空间使用地图碰撞数据确认的可行走位置（480，470）。
+- 朱雀圆点与原有星球按钮统一通过`DisplayObject`读取名称，避免把`Sprite`强转为`SimpleButton`造成空引用。
+- 清除官方星图模块夹带的旧Core脚本注册和未引用字节码，让模块使用当前Core；否则旧`BasePeoleModel`会触发`Illegal override of aimatState`。保留原星图图形标签。
+- 从已验证的常驻兑换补丁恢复`MapProcess_5`，保留“原版收集奖励”和16种精灵的常驻兑换；不覆盖当前Core中的其他类。
+
+```bash
+node scripts/build-fourth-galaxy-p1.cjs \
+  --baseline /path/to/captured-live-root \
+  --out /path/to/release \
+  --java /path/to/java \
+  --ffdec /path/to/ffdec.jar
+```
+
+构建使用Node.js、Python 3标准库和FFDec。基线目录须包含当前`client/assets/dll/NieoCore.swf`，以及`client/assets`和`client/overlay`中的`module/com/robot/module/app/subMap/Galaxy_4.swf`。两个星图副本不一致或目标地图已登记时停止构建，不能覆盖更新后的基线。
+
+产物`manifest.json`只列出上述三个客户端文件及更新前后SHA-256。发布前核对线上哈希并备份三个旧文件；不要发布`compiler`目录。此补丁不修改服务端、Boss奖励、野怪配置或玩家存档。布莱克、朱雀完整关卡及其他地图支线仍留待后续实现。
+
+验证采用隔离Ruffle实例：实际点击朱雀与三个星球按钮，加载五张现有地图并确认出生点可行走；初始化地图组件、显示星球悬停说明；打开实验室收集菜单、进入常驻兑换并翻页。离线夹具替代登录和换图网络边界，未连接真实玩家账号，未验证整场Boss战斗或线上兑换扣款。实验室发布类与此前R54发布类字节一致，Core其他类及星图图形标签保持不变。
+
+后续缺项、验证边界、发布证据与接手顺序见[第四星系交接文档](FOURTH_GALAXY_HANDOFF.md)。
+
 ## 稀有精灵、特殊进化与常驻兑换
 
 `compat/server-patches/acquisition-restoration`补齐早期稀有遭遇、原生机关战斗、特殊进化和受阻融合亲本。保留现有33条融合配方，不修改水系融合、元神珠充能和转化流程。
