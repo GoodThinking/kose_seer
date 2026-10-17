@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>怀旧赛尔号 · 客户端验证</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#10222c;color:#d1e4ea;font:14px system-ui;text-align:center;height:100dvh;display:flex;flex-direction:column}
+header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+select,button{font:inherit;color:inherit;background:#163440;border:1px solid #7899a7;border-radius:4px;padding:6px 10px;min-height:36px}
+button{cursor:pointer}button:disabled{opacity:.55;cursor:default}
+:focus-visible{outline:2px solid #8edaff;outline-offset:3px}
+#stage{flex:1;min-height:0;margin:0 16px;display:flex;align-items:center;justify-content:center}
+#game{flex:none;background:#071117;overflow:hidden}
+ruffle-player{display:block;width:100%;height:100%}
+#status{margin:8px 16px;color:#a1b7c0;min-height:20px}
+@media(max-width:600px){header{justify-content:center}#stage{margin:0 8px}}
+</style>
+<header><span>怀旧赛尔号 · 客户端验证</span><div class="controls">
+<a href="/register.html" style="color:#d1e4ea">邀请码注册</a>
+<label for="display-mode">画面</label><select id="display-mode"><option value="fit">适应窗口</option><option value="native">原始大小</option></select>
+<button id="fullscreen" type="button">全屏</button>
+</div></header><main id="stage"><div id="game" aria-label="游戏画面"></div></main><p id="status" role="status">正在加载客户端</p>
+<script>
+const stage = document.getElementById('stage');
+const game = document.getElementById('game');
+const status = document.getElementById('status');
+const displayMode = document.getElementById('display-mode');
+const fullscreen = document.getElementById('fullscreen');
+try { if (localStorage.getItem('seer-display-mode') === 'native') displayMode.value = 'native'; }
+catch { status.textContent = '显示设置仅在本次打开时生效；正在加载客户端'; }
+function resizeGame() {
+ const scale = Math.min(stage.clientWidth / 960, stage.clientHeight / 560, displayMode.value === 'native' ? 1 : Infinity);
+ game.style.width = `${960 * scale}px`;
+ game.style.height = `${560 * scale}px`;
+}
+new ResizeObserver(resizeGame).observe(stage);
+displayMode.addEventListener('change', () => {
+ resizeGame();
+ try { localStorage.setItem('seer-display-mode', displayMode.value); }
+ catch { status.textContent = '画面已调整，浏览器未允许保存显示设置'; }
+});
+fullscreen.disabled = !document.fullscreenEnabled;
+fullscreen.addEventListener('click', async () => {
+ try {
+  if (document.fullscreenElement) await document.exitFullscreen();
+  else await document.documentElement.requestFullscreen();
+ } catch { status.textContent = '无法进入全屏，可继续在窗口中游玩'; }
+});
+document.addEventListener('fullscreenchange', () => {
+ fullscreen.textContent = document.fullscreenElement ? '退出全屏' : '全屏';
+ resizeGame();
+});
+let session = '';
+window.getSessionID = () => session;
+window.saveSessionID = value => { session = String(value); };
+window.clearSessionID = () => { session = ''; };
+window.debugFlash = () => {};
+window.RufflePlayer = { config: { quality: typeof window.orientation === 'undefined' ? 'medium' : null, publicPath: '/ruffle/', deviceFontRenderer: 'canvas', scale: 'showAll', forceScale: true, autoplay: 'on', unmuteOverlay: 'hidden', allowScriptAccess: true, socketProxy: [{host:'127.0.0.1',port:9999,proxyUrl:location.origin.replace(/^http/,'ws')+'/socket'}] } };
+window.addEventListener('load', async () => {
+ try {
+  const response = await fetch('/battle-assets-version.json', { cache: 'no-store' });
+  if (!response.ok) throw new Error('读取战斗资源版本失败');
+  const { version } = await response.json();
+  if (!/^[a-f0-9]{64}$/.test(version)) throw new Error('战斗资源版本无效');
+  const escapedOrigin = location.origin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const battleAsset = new RegExp(`^(${escapedOrigin}/resource/(?:fightResource/(?:pet|skill)/swf/\\d+|module/PetFightDLL)\\.swf)(?:\\?([^#]*))?(#.*)?$`);
+  window.RufflePlayer.config.urlRewriteRules = [[battleAsset, `$1?__battle_v=${version}&$2$3`]];
+  const player = window.RufflePlayer.newest().createPlayer();
+  game.appendChild(player);
+  await player.ruffle().load({url:'/Client.swf',base:location.origin+'/'});
+  status.textContent = '客户端已加载';
+ }
+ catch { status.textContent = '加载失败，请刷新重试'; }
+});
+</script><script src="/ruffle/ruffle.js"></script></html>

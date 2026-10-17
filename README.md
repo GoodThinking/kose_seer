@@ -2,6 +2,21 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 战斗资源版本化缓存
+
+战斗加载器逐个加载精灵和技能，原网页服务对所有资源设置`no-store`，导致同一资源每场重复下载。`compat/client-patches/versioned-assets`使用Ruffle原生`urlRewriteRules`给战斗SWF添加版本参数；不修改Flash战斗逻辑、不共享动画实例，也不修改游戏服务或玩家数据。
+
+每次打开页面请求禁缓存的`/battle-assets-version.json`，扫描精灵/技能SWF和`PetFightDLL.swf`的有效文件元数据，按`overlay`优先生成版本。匹配当前快照且未被修改的资源返回`public, max-age=31536000, immutable`；未带版本、旧版本、快照后变更或新增的文件仍返回`no-store`。HTML、配置、Core和其他资源保持原策略。修改任一战斗资源后，刷新页面即可取得新版本；同一版本在跨场和普通刷新后可继续复用浏览器缓存。
+
+```bash
+node --test scripts/test-versioned-assets.cjs
+node scripts/build-versioned-assets.cjs \
+  --client-dir /path/to/current-client \
+  --out /path/to/release
+```
+
+构建器校验网页服务与首页的现网基线，拒绝覆盖并行修改。先合并推送个人`main`，再从该基线生成三个客户端文件并按清单原子替换；仅重启网页服务，现有WebSocket连接会断开，用户需刷新重登。无需重启游戏服务或创建备份。回归覆盖版本稳定性、资源修改、覆盖层优先级和移除、按需新增、保留mtime的原子替换；真实Ruffle加载验证重复资源零网络传输，以及替换文件后刷新加载新内容。
+
 ## 分子转化仪与精元孵化
 
 补齐原生分子转化仪的2315开始孵化、2316查询与领取协议。普通NoNo和超能NoNo统一孵化1800秒，时长由`essence-hatching.json`配置，客户端成功提示读取服务端返回值。面板只展示`items.xml`中配置了有效孵化目标、等级和时间的精元，保留原有图形和布局。
