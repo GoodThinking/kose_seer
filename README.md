@@ -2,6 +2,21 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 帕诺星系横向滚动修复
+
+星际地图的帕诺星系使用固定的 763×260 可视窗口响应鼠标位置，空白星空和最右侧都可以滚动。原实现依赖移动中的星球图形命中，且右边界比窗口窄约 60 像素，导致右移停顿或无响应。修复保留原有 880 像素行程、缓动速度、星球点击和美术资源。
+
+```bash
+node scripts/build-star-map-scroll.cjs \
+  --core /path/to/current/NieoCore.swf \
+  --module /path/to/original/Galaxy_1.swf \
+  --out /path/to/release \
+  --java /path/to/java \
+  --ffdec /path/to/ffdec.jar
+```
+
+Core 仅提供编译依赖，发布内容只有 `client/overlay/module/com/robot/module/app/subMap/Galaxy_1.swf`。构建器验证非字节码标签逐字节保持不变，输出清单记录输入、输出哈希。先合并并推送个人仓库 `main`，再从该基线构建发布；不备份、不重启服务，不改后端或账号存档。已打开的客户端需要刷新重登。
+
 ## 银翼原生客户端资源
 
 银翼装备 `199901`–`199905` 使用原生矢量轮廓，不再把整套设计图拆成位图贴到角色上。构建器分别绘制正面、前侧、侧面、后侧和背面，按原客户端左右镜像规则生成八方向，并保留 13 帧时间轴和护臂 `muzzle` 挂点。
