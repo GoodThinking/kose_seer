@@ -1,0 +1,58 @@
+{
+  "sourceNotes": "Locations and species follow original web-game acquisition guides and native client contracts. Exact historical random odds are not published; 0.45 follows the existing private-server Bell drop, not an asserted official rate.",
+  "references": [
+    "https://news.7k7k.com/content/20100414/6742.html",
+    "https://news.4399.com/seer/jingyanxinde/201102-14-86384.html",
+    "https://www.bilibili.com/read/cv6998891/",
+    "https://news.4399.com/news/seerwenda/291427.html"
+  ],
+  "energyStone": { "itemId": 400014, "probability": 0.45, "count": 1 },
+  "wildDrops": [
+    { "mapId": 43, "petId": 51, "itemId": 400003 },
+    { "mapId": 10, "petId": 10, "itemId": 400004 },
+    { "mapId": 25, "petId": 22, "itemId": 400004 },
+    { "mapId": 11, "petId": 16, "itemId": 400005 },
+    { "mapId": 20, "petId": 30, "itemId": 400006 },
+    { "mapId": 15, "petId": 38, "itemId": 400007 },
+    { "mapId": 30, "petId": 13, "itemId": 400008 },
+    { "mapId": 26, "petId": 25, "itemId": 400028 },
+    { "mapId": 21, "petId": 33, "itemId": 400029 },
+    { "mapId": 16, "petId": 35, "itemId": 400030 },
+    { "mapId": 105, "petId": 89, "itemId": 400030 },
+    { "mapId": 49, "petId": 105, "itemId": 400031 },
+    { "mapId": 47, "petId": 119, "itemId": 400032 },
+    { "mapId": 54, "petId": 205, "itemId": 400033 },
+    { "mapId": 56, "petId": 211, "itemId": 400034 },
+    { "mapId": 106, "petId": 188, "itemId": 400037 },
+    { "mapId": 60, "petId": 232, "itemId": 400038 },
+    { "mapId": 314, "petId": 128, "itemId": 400039 },
+    { "mapId": 316, "petId": 128, "itemId": 400039 },
+    { "mapId": 338, "petId": 399, "itemId": 400040 }
+  ],
+  "dropProbability": 0.45,
+  "dropCount": 1,
+  "games": [
+    { "mapId": 13, "gameId": 1, "itemId": 400022, "pointsPerItem": 10, "maxCount": 3, "probability": 1, "minimumSeconds": 5 },
+    { "mapId": 51, "gameId": 1, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },
+    { "mapId": 51, "gameId": 2, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },
+    { "mapId": 51, "gameId": 3, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },
+    { "mapId": 51, "gameId": 4, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },
+    { "mapId": 56, "gameId": 1, "itemId": 400027, "pointsPerItem": 100, "maxCount": 1, "probability": 0.45 },
+    { "mapId": 107, "gameId": 1, "itemId": 400015, "pointsPerItem": 100, "maxCount": 1, "probability": 1, "superNono": true }
+  ],
+  "gameRewardNotes": "Native normalized score is 0..100; zero awards nothing. Positive score rounds up by pointsPerItem, capped at maxCount. These reward tiers are private-server choices because original server reward thresholds are unavailable.",
+  "darkGate": { "mapId": 110, "door": 0, "petId": 171, "level": 50 },
+  "bossDrops": [
+    { "mapId": 40, "petId": 50, "itemId": 400003, "probability": 0.45, "count": 1 },
+    { "mapId": 27, "petId": 69, "itemId": 400004, "probability": 0.45, "count": 1 },
+    { "mapId": 110, "petId": 171, "itemId": 400017, "probability": 0.45, "count": 1 },
+    { "mapId": 110, "petId": 171, "itemId": 400015, "probability": 0.45, "count": 1 }
+  ],
+  "fortress": {
+    "mapId": 700001,
+    "itemId": 400035,
+    "count": 1,
+    "mode": "single-player original fortress supply field",
+    "assetUrl": "http://seer.61.com.tw/resource/map/700001.swf"
+  }
+}
