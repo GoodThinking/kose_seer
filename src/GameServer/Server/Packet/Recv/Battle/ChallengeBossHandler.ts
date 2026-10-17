@@ -4,6 +4,8 @@ import { Opcode, InjectType } from '../../../../../shared/decorators';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { ChallengeBossReqProto } from '../../../../../shared/proto/packets/req/battle/ChallengeBossReqProto';
 import { Logger } from '../../../../../shared/utils/Logger';
+import { SummoningField } from '../../../../Game/Map/SummoningField';
+import { PacketEmpty } from '../../Send/PacketEmpty';
 
 /**
  * [CMD: 2411 CHALLENGE_BOSS] 挑战BOSS
@@ -32,6 +34,10 @@ export class ChallengeBossHandler implements IHandler {
     }
 
     const param2 = req.bossId; // 客户端发送的是param2，字段名保持bossId向后兼容
+    if (mapId === SummoningField.MAP_ID && !SummoningField.For(player).CanChallenge(param2)) {
+      await player.SendPacket(new PacketEmpty(CommandID.CHALLENGE_BOSS).setResult(5001));
+      return;
+    }
 
     Logger.Info(
       `[ChallengeBossHandler] 收到挑战BOSS请求: UserID=${player.Uid}, ` +

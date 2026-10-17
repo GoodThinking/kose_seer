@@ -2,6 +2,7 @@ import { IHandler, IClientSession } from '../../IHandler';
 import { HeadInfo } from '../../../../../shared/protocol';
 import { Opcode, InjectType } from '../../../../../shared/decorators';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
+import { SummoningField } from '../../../../Game/Map/SummoningField';
 
 /**
  * 离开地图处理器
@@ -13,6 +14,7 @@ export class LeaveMapHandler implements IHandler {
     const player = session.Player;
     if (!player) return;
 
+    SummoningField.Reset(player);
     await player.MapManager.HandleLeaveMap();
   }
 }

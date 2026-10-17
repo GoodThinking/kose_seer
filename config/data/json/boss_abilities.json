@@ -640,6 +640,21 @@
       "spt": {
         "sptId": 18
       }
+    },
+    {
+      "mapId": 502,
+      "param2": 0,
+      "petId": 115,
+      "petName": "巨型树妖",
+      "level": 40,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": { "exp": 0, "coins": 0 },
+      "spt": { "sptId": 0, "rewardItemId": 400106 },
+      "comment": "精灵召唤场事件BOSS：任一圆环召唤、五次喷火破盾；非SPT，精元由事件首胜事务发放"
     }
   ]
 }

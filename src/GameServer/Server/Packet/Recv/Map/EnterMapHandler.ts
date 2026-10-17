@@ -3,6 +3,7 @@ import { HeadInfo } from '../../../../../shared/protocol';
 import { Opcode, InjectType } from '../../../../../shared/decorators';
 import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { EnterMapReqProto } from '../../../../../shared/proto/packets/req/map/EnterMapReqProto';
+import { SummoningField } from '../../../../Game/Map/SummoningField';
 
 /**
  * 进入地图处理器
@@ -15,6 +16,7 @@ export class EnterMapHandler implements IHandler {
     if (!player) return;
 
     const req = EnterMapReqProto.fromBuffer(body);
+    SummoningField.Reset(player);
     await player.MapManager.HandleEnterMap(req);
   }
 }
