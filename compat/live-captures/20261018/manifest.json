@@ -1,0 +1,103 @@
+{
+  "capturedAt": "2026-10-18",
+  "note": "Production files changed after R54 by other sessions without a commit on main. Text files are stored as captured (dist JS under app/dist-live because dist/ is ignored); binaries are listed by hash only. There is no TypeScript source for these dist edits; app/src on the server still holds the older code.",
+  "core": {
+    "before20261017liekong": "9404854b07cbf7c9a8137452cdee17f41ad52dbe80de35c9fa184dd91032beb9",
+    "liekong": "ca14e537a733a92dcf21db1d7d9811fa3e1783c7324b8c668591ee458ab26b84",
+    "wmfix": "4b6d1069735e01d6cb57006b509a8dcc6870c4b895dac8b28f8295088a9d87b4",
+    "changes": {
+      "liekong": [
+        "com/robot/core/config/xml/GalaxyXMLInfo"
+      ],
+      "wmfix": [
+        "com/robot/app/worldMap/WorldMapPanel"
+      ]
+    }
+  },
+  "files": [
+    {
+      "livePath": "app/config/data/json/boss_abilities.json",
+      "sha256": "b5e4dafd8e27f9ea945c8e9ed1453744e118fe0b1a3e51291aafb6cbf4c62373",
+      "modified": "2026-10-17 22:40:07",
+      "stored": "app/config/data/json/boss_abilities.json"
+    },
+    {
+      "livePath": "app/config/data/json/map-ogres.json",
+      "sha256": "e656beaeb6ba306de0c03971e4b24465a4c054620c617400ade21c55a66a562b",
+      "modified": "2026-10-17 22:51:58",
+      "stored": "app/config/data/json/map-ogres.json"
+    },
+    {
+      "livePath": "app/dist/GameServer/Game/Item/ItemManager.js",
+      "sha256": "ff8965e828357d63fe06ed4f8e110842133f9d4e7b039258d9d9373fe734aecb",
+      "modified": "2026-10-17 23:50:09",
+      "stored": "app/dist-live/GameServer/Game/Item/ItemManager.js"
+    },
+    {
+      "livePath": "app/dist/GameServer/Game/Battle/BattleManager.js",
+      "sha256": "768191607f0d217649a5b3e1367a6a48fb1e12fbcfc4e83049fd0218c30cf601",
+      "modified": "2026-10-17 23:50:09",
+      "stored": "app/dist-live/GameServer/Game/Battle/BattleManager.js"
+    },
+    {
+      "livePath": "app/dist/GameServer/Game/Battle/FreshTower.js",
+      "sha256": "1fd54bb35beeb406af169040221e1af44198ccb102690d18484f5e952966e706",
+      "modified": "2026-10-17 23:50:09",
+      "stored": "app/dist-live/GameServer/Game/Battle/FreshTower.js"
+    },
+    {
+      "livePath": "app/dist/GameServer/Server/Packet/Recv/SoulBead/GetSoulBeadListHandler.js",
+      "sha256": "098f3f51103161f189f1d33d670e9435a5c74a1da181f4bb8d21ea29e25f53b0",
+      "modified": "2026-10-17 23:56:20",
+      "stored": "app/dist-live/GameServer/Server/Packet/Recv/SoulBead/GetSoulBeadListHandler.js"
+    },
+    {
+      "livePath": "app/dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js",
+      "sha256": "edd46898d1c9f6730cd2df90bd435da658fa872c379b858588db01e529a444f9",
+      "modified": "2026-10-18 00:22:58",
+      "stored": "app/dist-live/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js"
+    },
+    {
+      "livePath": "app/dist/GameServer/Server/Packet/Recv/Pet/UsePetItemOutOfFightHandler.js",
+      "sha256": "3660357ba674f23301d6bff2d58425767891b9eb74826a5ecc2c759a06316a49",
+      "modified": "2026-10-18 00:26:09",
+      "stored": "app/dist-live/GameServer/Server/Packet/Recv/Pet/UsePetItemOutOfFightHandler.js"
+    },
+    {
+      "livePath": "client/assets/resource/map/445.swf",
+      "sha256": "8bccfe5966407347191aec09728176f67ffee3dcc4a406deca6e8ab02fedb0c8",
+      "modified": "2026-10-17 22:40:07",
+      "stored": null
+    },
+    {
+      "livePath": "client/assets/resource/map/450.swf",
+      "sha256": "a973eb769653761fe63f4eb904f6338a9b243ddf6d350aa4b0795dd25e0c9bda",
+      "modified": "2026-10-17 22:40:07",
+      "stored": null
+    },
+    {
+      "livePath": "client/assets/resource/map/486.swf",
+      "sha256": "2431ba8fc950017cbcfad159a304dfb82516117322c76ce096a4edb5ed0ff285",
+      "modified": "2026-10-17 22:40:07",
+      "stored": null
+    },
+    {
+      "livePath": "client/assets/resource/map/494.swf",
+      "sha256": "552b985940d7813597931c6b90118b68847efc76dbd72577761d3525e8124ed9",
+      "modified": "2026-10-17 22:40:07",
+      "stored": null
+    },
+    {
+      "livePath": "client/assets/resource/map/497.swf",
+      "sha256": "4a142a1343f5ad2b20a7ed3c731e159544c3da05280514a9b89fd2bc1e7c3879",
+      "modified": "2026-10-17 22:40:07",
+      "stored": null
+    },
+    {
+      "livePath": "client/assets/resource/worldMap.swf",
+      "sha256": "36efe63ff0e438b645ecd17ca799cba11f19e00750eee35bd338b22f361f57dc",
+      "modified": "2026-10-17 22:40:07",
+      "stored": null
+    }
+  ]
+}

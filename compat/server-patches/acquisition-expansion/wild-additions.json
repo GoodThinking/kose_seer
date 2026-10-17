@@ -1,0 +1,195 @@
+{
+  "source": "Dex Foundin locations on registered maps that already spawn wild pets; base forms only, levels and refresh copied from the map's first encounter. Shiny weights target about 5% each.",
+  "additions": [
+    {
+      "mapId": 60,
+      "petId": 269,
+      "name": "眼球",
+      "shiny": 0,
+      "minLevel": 50,
+      "maxLevel": 52,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=塔克星，Core地图60已登记且有野怪池"
+    },
+    {
+      "mapId": 60,
+      "petId": 430,
+      "name": "鲁迪",
+      "shiny": 0,
+      "minLevel": 50,
+      "maxLevel": 52,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=塔克星，Core地图60已登记且有野怪池"
+    },
+    {
+      "mapId": 15,
+      "petId": 406,
+      "name": "沙尔",
+      "shiny": 0,
+      "minLevel": 7,
+      "maxLevel": 8,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=火山星，Core地图15已登记且有野怪池"
+    },
+    {
+      "mapId": 54,
+      "petId": 701,
+      "name": "西蒙",
+      "shiny": 0,
+      "minLevel": 20,
+      "maxLevel": 25,
+      "weight": 50.0,
+      "evidence": "图鉴Foundin=露希欧星，Core地图54已登记且有野怪池"
+    },
+    {
+      "mapId": 54,
+      "petId": 854,
+      "name": "克迪",
+      "shiny": 0,
+      "minLevel": 20,
+      "maxLevel": 25,
+      "weight": 50.0,
+      "evidence": "图鉴Foundin=露希欧星，Core地图54已登记且有野怪池"
+    },
+    {
+      "mapId": 54,
+      "petId": 409,
+      "name": "闪光格林",
+      "shiny": 1,
+      "minLevel": 20,
+      "maxLevel": 25,
+      "weight": 10.53,
+      "evidence": "图鉴Foundin=露希欧星，Core地图54已登记且有野怪池"
+    },
+    {
+      "mapId": 10,
+      "petId": 442,
+      "name": "闪光依依",
+      "shiny": 1,
+      "minLevel": 1,
+      "maxLevel": 2,
+      "weight": 1.05,
+      "evidence": "图鉴Foundin=克洛斯星，Core地图10已登记且有野怪池"
+    },
+    {
+      "mapId": 325,
+      "petId": 528,
+      "name": "乌索",
+      "shiny": 0,
+      "minLevel": 50,
+      "maxLevel": 52,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=艾迪星，Core地图325已登记且有野怪池"
+    },
+    {
+      "mapId": 105,
+      "petId": 650,
+      "name": "吉诺",
+      "shiny": 0,
+      "minLevel": 15,
+      "maxLevel": 18,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=双子阿尔法星，Core地图105已登记且有野怪池"
+    },
+    {
+      "mapId": 484,
+      "petId": 703,
+      "name": "小可",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=怀特星，Core地图484已登记且有野怪池"
+    },
+    {
+      "mapId": 484,
+      "petId": 775,
+      "name": "粉粉",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=怀特星，Core地图484已登记且有野怪池"
+    },
+    {
+      "mapId": 20,
+      "petId": 730,
+      "name": "斯比亚",
+      "shiny": 0,
+      "minLevel": 5,
+      "maxLevel": 6,
+      "weight": 75.0,
+      "evidence": "图鉴Foundin=海洋星，Core地图20已登记且有野怪池"
+    },
+    {
+      "mapId": 494,
+      "petId": 787,
+      "name": "查奥德",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=麦兹星，Core地图494已登记且有野怪池"
+    },
+    {
+      "mapId": 494,
+      "petId": 861,
+      "name": "小火雀",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=麦兹星，Core地图494已登记且有野怪池"
+    },
+    {
+      "mapId": 314,
+      "petId": 831,
+      "name": "隐形蝶",
+      "shiny": 0,
+      "minLevel": 25,
+      "maxLevel": 30,
+      "weight": 50.0,
+      "evidence": "图鉴Foundin=拜伦号，Core地图314已登记且有野怪池"
+    },
+    {
+      "mapId": 404,
+      "petId": 876,
+      "name": "花仙",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 50.0,
+      "evidence": "图鉴Foundin=比格星，Core地图404已登记且有野怪池"
+    },
+    {
+      "mapId": 497,
+      "petId": 882,
+      "name": "酷滑",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=SUN星，Core地图497已登记且有野怪池"
+    },
+    {
+      "mapId": 51,
+      "petId": 941,
+      "name": "维克",
+      "shiny": 0,
+      "minLevel": 20,
+      "maxLevel": 25,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=斯诺星，Core地图51已登记且有野怪池"
+    },
+    {
+      "mapId": 429,
+      "petId": 1228,
+      "name": "科特",
+      "shiny": 0,
+      "minLevel": 60,
+      "maxLevel": 63,
+      "weight": 100.0,
+      "evidence": "图鉴Foundin=拓梯星，Core地图429已登记且有野怪池"
+    }
+  ]
+}

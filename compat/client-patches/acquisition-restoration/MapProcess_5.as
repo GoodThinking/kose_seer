@@ -82,9 +82,13 @@ package com.robot.app.mapProcess
       
       private var docPlayGrapeMC:MovieClip;
 
-      private const exchangePets:Array = [62,108,378,445,448,469,515,526,560,576,596,598,604,618,677,682];
+      private const exchangeGroups:Array = [["草",[243,387,682,688,722,809,919,982,1060,1100,1132,1145,1191,1192,1199,1202,1216,1233,1300,1345,1375,1429,1469,1497]],["水",[108,289,497,502,615,642,684,729,744,761,814,858,866,872,899,905,960,975,988,1004,1030,1117,1129,1140,1180,1200,1230,1297,1304,1339,1439,1480]],["火",[364,526,598,635,677,740,820,889,922,926,963,991,1017,1018,1019,1088,1150,1152,1179,1201,1206,1238,1259,1298,1323,1377,1456,1485]],["飞行",[521,583,612,618,680,818,864,911,939,969,993,996,1013,1050,1142,1166,1167,1231,1258,1306,1364,1403,1446,1488]],["电",[360,486,503,531,602,644,686,708,734,816,908,984,1208,1211,1295,1356,1449,1462]],["机械",[80,143,201,213,287,362,459,539,541,610,724,807,887,897,1054,1220,1277,1330,1337,1483]],["地面",[62,298,482,560,653,662,789,856,924,951,1024,1079,1119,1120,1121,1135,1143,1159,1236,1255,1311,1325,1346,1394,1440,1457,1465,1481]],["普通",[230,325,328,330,366,383,456,484,567,604,652,718,746,756,878,901,953,986,1028,1123,1186,1241]],["冰",[378,445,448,476,555,562,588,592,637,754,845,936,973,1012,1034,1040,1064,1111,1177,1213,1215,1252,1276,1292,1317,1342,1353,1361,1432]],["超能",[196,246,351,381,416,594,646,694,696,710,829,895,913,930,932,977,1007,1015,1042,1053,1080,1161,1183,1225,1239,1278,1279,1280,1332,1391,1398,1459,1473,1475]],["战斗",[122,124,125,126,141,148,397,432,451,488,580,596,620,648,673,675,736,771,812,868,881,928,956,958,1002,1009,1044,1084,1107,1115,1155,1226,1314,1396,1420,1453,1460,1490,1499]],["光",[219,281,370,461,505,564,590,665,833,857,903,934,971,980,998,1069,1092,1122,1222,1265,1289,1373,1450,1464]],["暗影",[217,506,726,749,794,875,915,944,966,1086,1098,1287,1335,1358,1366,1414,1437]],["神秘",[1000]],["龙",[414,469,515,576,825,917,1138,1169,1266,1326]],["圣灵",[1203]],["次元",[1333]]];
 
       private var exchangePending:Boolean = false;
+
+      private var exchangeTypePage:uint = 0;
+
+      private var exchangeGroup:uint = 0;
 
       private var exchangePage:uint = 0;
       
@@ -300,15 +304,15 @@ package com.robot.app.mapProcess
                Alarm.show("兑换正在结算，请稍候。");
                return;
             }
-            NpcDialog.show(NPC.DOCTOR,["请选择精灵收集服务。常驻兑换是私服补充途径，不替代野外捕捉和机关玩法。"],["原版收集奖励","绝版活动精灵常驻兑换","暂时离开"],[function():void
+            NpcDialog.show(NPC.DOCTOR,["请选择精灵收集服务。常驻兑换是私服补充途径，不替代野外捕捉和机关玩法。"],["原版收集奖励","精灵常驻兑换","暂时离开"],[function():void
             {
                curIndex = 1;
                _infoA = [];
                check();
             },function():void
             {
-               exchangePage = 0;
-               showPermanentExchange();
+               exchangeTypePage = 0;
+               showExchangeTypes();
             }]);
          }
          else
@@ -317,26 +321,65 @@ package com.robot.app.mapProcess
          }
       }
 
-      private function showPermanentExchange() : void
+      private function showExchangeTypes() : void
       {
          var options:Array = [];
          var handlers:Array = [];
-         var start:uint = this.exchangePage * 4;
+         var pages:uint = Math.ceil(this.exchangeGroups.length / 4);
+         var start:uint = this.exchangeTypePage * 4;
          var i:uint = start;
-         while(i < Math.min(start + 4,this.exchangePets.length))
+         while(i < Math.min(start + 4,this.exchangeGroups.length))
          {
-            options.push(PetXMLInfo.getName(this.exchangePets[i]) + "：1000赛尔豆");
-            handlers.push(this.exchangeChoice(this.exchangePets[i]));
+            options.push(this.exchangeGroups[i][0] + "系（" + this.exchangeGroups[i][1].length + "只）");
+            handlers.push(this.exchangeGroupChoice(i));
             i++;
          }
          options.push("下一页");
          handlers.push(function():void
          {
-            exchangePage = (exchangePage + 1) % Math.ceil(exchangePets.length / 4);
-            showPermanentExchange();
+            exchangeTypePage = (exchangeTypePage + 1) % pages;
+            showExchangeTypes();
          });
          options.push("离开");
-         NpcDialog.show(NPC.DOCTOR,["第" + (this.exchangePage + 1) + "页。每只消耗1000赛尔豆，获得1级精灵并存入仓库。可重复兑换，无每日限制。"],options,handlers);
+         NpcDialog.show(NPC.DOCTOR,["请选择属性（第" + (this.exchangeTypePage + 1) + "/" + pages + "页）。每只消耗1000赛尔豆，获得1级精灵并存入仓库。可重复兑换，无每日限制。"],options,handlers);
+      }
+
+      private function exchangeGroupChoice(group:uint) : Function
+      {
+         return function():void
+         {
+            exchangeGroup = group;
+            exchangePage = 0;
+            showExchangeGroup();
+         };
+      }
+
+      private function showExchangeGroup() : void
+      {
+         var pets:Array = this.exchangeGroups[this.exchangeGroup][1];
+         var pages:uint = Math.ceil(pets.length / 4);
+         var options:Array = [];
+         var handlers:Array = [];
+         var start:uint = this.exchangePage * 4;
+         var i:uint = start;
+         while(i < Math.min(start + 4,pets.length))
+         {
+            options.push(PetXMLInfo.getName(pets[i]) + "：1000赛尔豆");
+            handlers.push(this.exchangeChoice(pets[i]));
+            i++;
+         }
+         if(pages > 1)
+         {
+            options.push("下一页");
+            handlers.push(function():void
+            {
+               exchangePage = (exchangePage + 1) % pages;
+               showExchangeGroup();
+            });
+         }
+         options.push("返回属性");
+         handlers.push(showExchangeTypes);
+         NpcDialog.show(NPC.DOCTOR,[this.exchangeGroups[this.exchangeGroup][0] + "系第" + (this.exchangePage + 1) + "/" + pages + "页。每只消耗1000赛尔豆，获得1级精灵并存入仓库。"],options,handlers);
       }
 
       private function exchangeChoice(petId:uint) : Function

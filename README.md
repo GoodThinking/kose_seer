@@ -2,6 +2,43 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 战斗威力与先制修正
+
+`scripts/build-battle-modifiers.cjs`修复技能效果里"威力提升""先制提升"整类不生效的问题。原因有三处：技能效果上下文没有技能副本，`PowerModifier`和`PriorityModifier`直接返回；伤害计算不读取`power_modifier`结果；速度判定只统计被动特性。另外，`ConditionalCheck`只实现了6种条件，"提升100%"在配置里写成了乘100。
+
+- 只在`BEFORE_DAMAGE_CALC`和`BEFORE_SPEED_CHECK`时机给效果上下文一份技能副本，同一技能的多个效果可以连乘，不改共享技能配置；其他时机读取技能的原子保持现状。
+- 伤害计算取最后一个成功的`power_modifier`结果作为威力，烧伤减半等原有修正照旧；速度判定只累加技能先制原子的变化量。
+- 补齐`hp_percent_below`、`self_has_status`、`target_has_status`、`same_type`、`self_has_stat_debuff`、`target_has_stat_debuff`。血量阈值优先取技能参数1/X；效果2按描述判定对方体力，效果401比较双方属性。
+- 修正18个效果的倍率：提升100%改为×2，提升50%改为×1.5，`multiplier`字段改为`value`。新增参数映射`powerMultiplier`、`priority`、`powerBoost`，效果37的Y倍、效果454和482的先制+Y、效果179的威力+X按技能参数生效。
+
+```bash
+node scripts/build-battle-modifiers.cjs --context /path/with/typescript --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/test-battle-modifiers.cjs /path/to/isolated/runtime
+```
+
+构建在实际部署的`app/src`、`app/dist`和配置上按锚点定点插入，同步更新source map；配置按效果块解析后重写，并校验语义差异与预期一致。补丁前后`tsc --noEmit`错误数相同。隔离运行时调用真实`ExecuteAttack`和`OnBeforeSpeedCheck`：条件成立时伤害按倍率变化（×2约1.97倍，效果37 Y=3约2.94倍），先制按参数增加；条件不成立时伤害与不带效果的同技能相同；同一测试在补丁前基线上失败（倍率1.0）。
+
+未覆盖：`target_gender`需要战斗精灵性别字段，效果129仍不生效；`super_effective`、`skill_category_physical`只修正了配置倍率，未实现条件（对应效果暂无技能使用）；其余未实现的条件类型和概率条件的X%参数保持原状。
+
+## 精灵获取扩展
+
+`compat/server-patches/acquisition-expansion`按"原版地点优先、兑换兜底"补齐图鉴来源：
+
+- `wild-additions.json`：19个基础形态按图鉴`Foundin`（图鉴注释写明非野外捕捉为"--"）加入已登记、已有野怪池的地图，例如怀特星小可/粉粉、麦兹星查奥德/小火雀、SUN星酷滑。等级、刷新与胶囊掉落沿用同图第一条野怪，权重取同图普通野怪均值；闪光格林、闪光依依各约5%。进化形态靠升级获得。
+- `exchange-groups.json`：实验室"精灵常驻兑换"扩至352只，包含R54的16只和所有仍无来源、但战斗与头像资源齐全的图鉴精灵。客户端先选属性再翻页，每只1000赛尔豆，1级入仓，可重复、无日限。
+- 暗黑武斗场、训练师之门等关卡精灵，以及地图未在客户端登记的后期星球精灵，本轮走兑换，未恢复原关卡。
+
+```bash
+node scripts/build-acquisition-expansion.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-acquisition-expansion.cjs /path/to/isolated/runtime
+python3 -I scripts/audit-pet-acquisition.py --core NieoCore.swf --app /path/to/captured/app --out /path/to/report \
+  [--wild compat/server-patches/acquisition-expansion/wild-additions.json] [--exchange-plan resource-tree.json local-resources.txt]
+```
+
+构建只替换Core的`MapProcess_5`，校验客户端分组与服务端名单完全一致，并逐块校验`map-ogres.json`格式。隔离运行时验证真实刷怪逻辑能刷出全部19只、352只逐只兑换成功且扣费精确、1级均有技能、野外精灵和离开实验室的请求被拒绝。审计按当前配置与代码静态连通：图鉴1498只中1286只可得；其余212只在资源树中缺少战斗或头像资源，未放入兑换，见审计输出。
+
+`compat/live-captures/20261018`保存其他会话在R54后直接改到线上、未进入main的8个文本文件及二进制hash清单；这些dist改动没有TS源码，后续构建必须以线上实际文件为基线。
+
 ## 第四星系入口修复
 
 `compat/client-patches/fourth-galaxy-p1`只修复已上线第四星系的入口阻断，不补充后续地图、精灵或Boss玩法：
