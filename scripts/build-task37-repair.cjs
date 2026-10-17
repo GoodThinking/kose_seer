@@ -12,7 +12,7 @@ const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const check = (condition, message) => {if (!condition) throw new Error(message);};
 const baseline = {
   source: '20067c1bc325ce445306874f0e508a2b9511a38b1e2c25b4e3affc5d7f845039',
-  runtime: 'e7170619eb8326db8294f1ba3a6c9662175ba08d8afaf87d8ac965d5021cb6bc',
+  runtime: 'ca116b8dc445d86c7d44876d60aed9eb04813118b179a1dddcaa3bb0e9a7e363',
   config: '4eb38d3434dedf2b034a6ad8320f1875ef4925aaa7beb00ad2ffd905a71ef342'
 };
 const sourceRelative = 'src/GameServer/Game/Task/CompleteConfiguredTask.ts';
@@ -26,12 +26,18 @@ const compile = text => ts.transpileModule(text, {compilerOptions: options, file
 let source = fs.readFileSync(values.source, 'utf8');
 check(sha(source) === baseline.source, 'Task settlement source changed');
 check(sha(fs.readFileSync(values.runtime)) === baseline.runtime, 'Task settlement runtime changed');
+// Reconstruct the concurrent task-19 runtime change missing from deployed TS.
+// Require byte-for-byte reproduction before applying the survey fix.
+source = replaceOnce(source, '        validateProgress(taskId, config, taskBuffers);',
+  `        const mushroomTurnIn = taskId === 19 && (player.ChallengeProgressManager.HasDefeatedSPTBoss(1) ||
+          taskList[301]?.status === TaskStatus.COMPLETED);
+        if (!mushroomTurnIn) validateProgress(taskId, config, taskBuffers);`);
 check(sha(compile(source).outputText) === baseline.runtime, 'Source does not reproduce deployed settlement');
 function replaceOnce(text, before, after) {
   check(text.split(before).length === 2, 'Expected unique patch anchor');
   return text.replace(before, after);
 }
-const anchor = '        validateProgress(taskId, config, taskBuffers);';
+const anchor = '        if (!mushroomTurnIn) validateProgress(taskId, config, taskBuffers);';
 source = replaceOnce(source, anchor, anchor + `
         if (taskId === 37) {
           const buffer: ITaskBuffer = taskBuffers[taskId];
