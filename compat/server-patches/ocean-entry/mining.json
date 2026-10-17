@@ -1,0 +1,151 @@
+{
+  "source": "Fixed Nieo EnergyController: map/type/tool/daily limits; items.xml: resource IDs. Base yield is one item per completed collection. MapProcess_56: map 56 coral types 17/2054, daily five attempts, ordinary/Super NoNo yields 1/2.",
+  "sites": [
+    {
+      "type": 1,
+      "mapId": 10,
+      "itemId": 400001,
+      "toolId": 100014,
+      "dailyLimit": 5,
+      "count": 1
+    },
+    {
+      "type": 2,
+      "mapId": 21,
+      "itemId": 400001,
+      "toolId": 100014,
+      "dailyLimit": 5,
+      "count": 1
+    },
+    {
+      "type": 3,
+      "mapId": 15,
+      "itemId": 400001,
+      "toolId": 100014,
+      "dailyLimit": 5,
+      "count": 1
+    },
+    {
+      "type": 4,
+      "mapId": 20,
+      "itemId": 400002,
+      "toolId": 100055,
+      "dailyLimit": 2,
+      "count": 1
+    },
+    {
+      "type": 5,
+      "mapId": 25,
+      "itemId": 400002,
+      "toolId": 100055,
+      "dailyLimit": 2,
+      "count": 1
+    },
+    {
+      "type": 6,
+      "mapId": 16,
+      "itemId": 400002,
+      "toolId": 100055,
+      "dailyLimit": 2,
+      "count": 1
+    },
+    {
+      "type": 7,
+      "mapId": 34,
+      "itemId": 400009,
+      "toolId": 100059,
+      "dailyLimit": 1,
+      "count": 1
+    },
+    {
+      "type": 9,
+      "mapId": 105,
+      "itemId": 400010,
+      "toolId": 100014,
+      "dailyLimit": 3,
+      "count": 1
+    },
+    {
+      "type": 10,
+      "mapId": 106,
+      "itemId": 400011,
+      "toolId": 100014,
+      "dailyLimit": 1,
+      "count": 1
+    },
+    {
+      "type": 11,
+      "mapId": 106,
+      "itemId": 400012,
+      "toolId": 100059,
+      "dailyLimit": 1,
+      "count": 1
+    },
+    {
+      "type": 12,
+      "mapId": 49,
+      "itemId": 400016,
+      "toolId": 100014,
+      "dailyLimit": 2,
+      "count": 1
+    },
+    {
+      "type": 14,
+      "mapId": 54,
+      "itemId": 400023,
+      "toolId": 100014,
+      "dailyLimit": 1,
+      "count": 1
+    },
+    {
+      "type": 15,
+      "mapId": 54,
+      "itemId": 400024,
+      "toolId": 100014,
+      "dailyLimit": 1,
+      "count": 1
+    },
+    {
+      "type": 16,
+      "mapId": 54,
+      "itemId": 400025,
+      "toolId": 100059,
+      "dailyLimit": 1,
+      "count": 1
+    },
+    {
+      "type": 17,
+      "mapId": 325,
+      "itemId": 400001,
+      "toolId": 100014,
+      "dailyLimit": 5,
+      "count": 1
+    },
+    {
+      "type": 18,
+      "mapId": 328,
+      "itemId": 400002,
+      "toolId": 100055,
+      "dailyLimit": 2,
+      "count": 1
+    },
+    {
+      "type": 17,
+      "mapId": 56,
+      "itemId": 400026,
+      "nono": "normal",
+      "dailyLimit": 5,
+      "count": 1,
+      "rewardKey": "coral:56"
+    },
+    {
+      "type": 2054,
+      "mapId": 56,
+      "itemId": 400026,
+      "nono": "super",
+      "dailyLimit": 5,
+      "count": 2,
+      "rewardKey": "coral:56"
+    }
+  ]
+}
