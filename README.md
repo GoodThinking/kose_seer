@@ -2,6 +2,33 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 分子转化仪与精元孵化
+
+补齐原生分子转化仪的2315开始孵化、2316查询与领取协议。普通NoNo和超能NoNo统一孵化1800秒，时长由`essence-hatching.json`配置，客户端成功提示读取服务端返回值。面板只展示`items.xml`中配置了有效孵化目标、等级和时间的精元，保留原有图形和布局。
+
+```bash
+node scripts/build-essence-hatching.cjs \
+  --server-context /path/to/current/server/source \
+  --pet-index /path/to/deployed/Pet/index.js \
+  --migration-runner /path/to/deployed/MigrationRunner.js \
+  --items /path/to/deployed/items.xml \
+  --core /path/to/current/NieoCore.swf \
+  --panel /path/to/original/MoleculePanel.swf \
+  --out /path/to/release \
+  --java /path/to/java \
+  --ffdec /path/to/ffdec.jar
+```
+
+迁移24新增`player_essence_hatches`，每个玩家最多保存一个精元及绝对完成时间。开始孵化与扣除一个精元同事务提交；到期查询将精灵保存到仓库并清除孵化记录，原生客户端再用2304协议取入未满的背包。重登、离线和服务重启不重置计时；重复开始不多扣精元，重复领取不多发精灵，写入失败保留原状态。
+
+构建器先确认现网协议索引和迁移注册表可由指定源码逐字节重现，再注册本次模块。Core仅提供编译依赖，不发布Core或改动原始物品配置；只发布孵化模块、注册入口、迁移、时长配置和分子转化仪覆盖资源。先合并并推送个人仓库`main`，再从对应提交构建；不备份、不手工补写账号，重启一次游戏服务，客户端刷新重登。
+
+```bash
+node scripts/test-essence-hatching.cjs /path/to/current/app /path/to/release
+```
+
+运行验证使用当前部署的真实模型、协议和SQLite驱动及独立临时数据库。17个场景覆盖普通/超能NoNo的30分钟边界、重登与重连、并发防重、物品校验、失败回滚、缓存未保存变更、背包满入仓及原生取入背包流程。临时推进时钟只作用于测试进程，验证脚本不修改现网数据库。
+
 ## 帕诺星系星球测绘交付修复
 
 任务37包含10颗星球的测绘和最后一次船长交付。原结算要求11步全部完成，导致已完成全部测绘的玩家提交时因最后一步尚未写入而收到5000。修复只校验前10步，在同一事务中写入第10号进度位、任务完成状态及原有奖励。未完成任意星球仍拒绝，重复提交不重复发奖。
