@@ -16,7 +16,7 @@ const baseline = {
   petIndex: '400720b500116fe715bab881d13f5062fa460dd67f6a2ebb850fe030033c2365',
   migrationRunner: 'b0d927ed725a540f2f54f97cb82e8a2c782928462e25b49b0077b1a7c9e6e493',
   panel: '46e959a044c32892ed0eb4408dbcfbfa23567f32fe2c76a05394591e6b97afb7',
-  items: 'c49b55c2010246ba3bc76ef9b62f1e7ab3323cca6fcb5a6fce4e71a275bc57d6'
+  items: 'b0c688f64e4e5d3af82d9181abef87027c087be4a21b4ace52761528a37077bf'
 };
 const ts = require(path.join(root, 'node_modules/typescript/lib/typescript.js'));
 const tsconfig = ts.readConfigFile(path.join(root, 'tsconfig.json'), ts.sys.readFile);
