@@ -27,6 +27,8 @@ package com.robot.app.mapProcess
    import flash.display.*;
    import flash.events.*;
    import flash.net.SharedObject;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
    import flash.utils.*;
    import org.taomee.events.DynamicEvent;
    import org.taomee.events.SocketEvent;
@@ -158,6 +160,7 @@ package com.robot.app.mapProcess
          this.petbook_btn = conLevel["petBook_btn"];
          ToolTipManager.add(this.petbook_btn,"精灵融合手册");
          this.petbook_btn.addEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
+         this.initColdGun();
          this.initTask_95();
       }
       
@@ -272,7 +275,40 @@ package com.robot.app.mapProcess
       
       public function getItem() : void
       {
-         ItemAction.buyItem(100245,false);
+         ProductAction.buyMoneyProduct(200075);
+      }
+
+      private function initColdGun() : void
+      {
+         var btn:Sprite = new Sprite();
+         var label:TextField = new TextField();
+         var format:TextFormat = new TextFormat();
+         btn.graphics.lineStyle(2,9362175);
+         btn.graphics.beginFill(1455168,0.92);
+         btn.graphics.drawRoundRect(0,0,84,26,8,8);
+         btn.graphics.endFill();
+         format.size = 14;
+         format.color = 16777215;
+         label.defaultTextFormat = format;
+         label.text = "寒流枪";
+         label.width = 84;
+         label.height = 22;
+         label.y = 3;
+         label.selectable = false;
+         label.mouseEnabled = false;
+         btn.addChild(label);
+         btn.x = 808;
+         btn.y = 168;
+         btn.buttonMode = true;
+         btn.mouseChildren = false;
+         btn.addEventListener(MouseEvent.CLICK,this.onColdGun);
+         conLevel.addChild(btn);
+         ToolTipManager.add(btn,"240赛尔豆，超能NoNo半价");
+      }
+
+      private function onColdGun(param1:MouseEvent) : void
+      {
+         ProductAction.buyMoneyProduct(200075);
       }
       
       private function onDoorClick(param1:MouseEvent) : void

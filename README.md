@@ -75,7 +75,7 @@ python3 -I scripts/audit-pet-acquisition.py --core NieoCore.swf --app /path/to/c
 
 构建只替换Core的`MapProcess_5`，校验客户端分组与服务端名单完全一致，并逐块校验`map-ogres.json`格式。隔离运行时验证真实刷怪逻辑能刷出全部19只、352只逐只兑换成功且扣费精确、1级均有技能、野外精灵和离开实验室的请求被拒绝。审计按当前配置与代码静态连通：图鉴1498只中1286只可得；其余212只在资源树中缺少战斗或头像资源，未放入兑换，见审计输出。
 
-`compat/live-captures/20261018`保存其他会话在R54后直接改到线上、未进入main的8个文本文件及二进制hash清单；这些dist改动没有TS源码，后续构建必须以线上实际文件为基线。
+`compat/live-captures/20261018`保存其他会话在R54后直接改到线上、未进入main的8个文本文件及二进制hash清单；这些dist改动没有TS源码，后续构建必须以线上实际文件为基线。其他会话在实验室加的"寒流枪"购买按钮（`buyMoneyProduct(200075)`）已并入`compat/client-patches/acquisition-restoration/MapProcess_5.as`；编译后反编译结果与线上类一致。
 
 ## 第四星系入口修复
 

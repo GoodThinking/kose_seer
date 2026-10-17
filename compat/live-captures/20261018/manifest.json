@@ -15,9 +15,13 @@
       "mapclick": [
         "com/robot/app/worldMap/WorldMapPanel: MapTip try/catch, click ignores unregistered maps, galaxy hover/click use currentTarget",
         "built on the wmfix Core: also dropped the fourth-galaxy tables and both lab exchange versions (restored by build-fourth-galaxy-p1 + build-honor-hall)"
+      ],
+      "coldgun": [
+        "com/robot/app/mapProcess/MapProcess_5: 寒流枪 button and getItem buy money product 200075; built on the honor-hall Core, exchange unchanged; source ported into compat/client-patches/acquisition-restoration/MapProcess_5.as"
       ]
     },
-    "mapclick": "3783b816b4eb3eb130dfebc7c9ba9ce940aa04315ecc4f36e85674fb60e697cc"
+    "mapclick": "3783b816b4eb3eb130dfebc7c9ba9ce940aa04315ecc4f36e85674fb60e697cc",
+    "coldgun": "7b4db2362ddc9201e1bbe2a496c90522b31b860a1243f12ce6133c610ee83dd6"
   },
   "files": [
     {
