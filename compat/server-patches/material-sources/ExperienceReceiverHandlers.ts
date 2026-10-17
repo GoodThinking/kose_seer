@@ -8,6 +8,7 @@ import { ExperienceReceiver, ReceiverAlreadyClaimed } from '../../../../Game/NoN
 import { SuperAnalyzer, AnalyzerAlreadyClaimed } from '../../../../Game/NoNo/SuperAnalyzer';
 import { SuperNonoCoins } from '../../../../Game/NoNo/SuperNonoCoins';
 import { Mining } from '../../../../Game/Item/Mining';
+import { GachaTicket, GachaTicketAlreadyClaimed } from '../../../../Game/Item/GachaTicket';
 import { Logger } from '../../../../../shared/utils';
 
 type Reward = { itemId: number; count: number };
@@ -49,6 +50,7 @@ export class TalkCountHandler implements IHandler {
       if (type === 2001) count = await new SuperNonoCoins(player).Count();
       else if (type === 1004 || type === 2002) count = await new ExperienceReceiver(player).Count(type);
       else if (type === 1501 || type === 2101) count = await new SuperAnalyzer(player).Count(type);
+      else if (type === 2051) count = await new GachaTicket(player).Count();
       else count = await new Mining(player).Count(type);
       await player.SendPacket(new PacketReceiverCount(count));
     } catch {
@@ -76,10 +78,13 @@ export class TalkCateHandler implements IHandler {
         rewards = [{ itemId: 1, count: await new SuperNonoCoins(player).Claim() }];
       } else if (type === 1501 || type === 2101) {
         rewards = [await new SuperAnalyzer(player).Claim(type)];
+      } else if (type === 2051) {
+        rewards = [await new GachaTicket(player).Claim()];
       } else rewards = await new Mining(player).Claim(type);
     } catch (error) {
       await player.SendPacket(new PacketEmpty(CommandID.TALK_CATE).setResult(
-        error instanceof ReceiverAlreadyClaimed || error instanceof AnalyzerAlreadyClaimed ? 5002 : 5000));
+        error instanceof ReceiverAlreadyClaimed || error instanceof AnalyzerAlreadyClaimed ||
+        error instanceof GachaTicketAlreadyClaimed ? 5002 : 5000));
       return;
     }
     try {
