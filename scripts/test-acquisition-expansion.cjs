@@ -3,7 +3,10 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path');
 const app = path.resolve(process.argv[2]);
-const additions = JSON.parse(fs.readFileSync(path.join(__dirname, '../compat/server-patches/acquisition-expansion/wild-additions.json'), 'utf8')).additions;
+// Entries a later round removed on purpose (for example 科特 without battle resources) are no longer expected.
+const removed = JSON.parse(fs.readFileSync(path.join(__dirname, '../compat/server-patches/evolved-encounters/evolved-additions.json'), 'utf8')).remove;
+const additions = JSON.parse(fs.readFileSync(path.join(__dirname, '../compat/server-patches/acquisition-expansion/wild-additions.json'), 'utf8')).additions
+  .filter(entry => !removed.some(r => r.mapId === entry.mapId && r.petId === entry.petId));
 process.chdir(app);
 const load = file => require(path.join(app, 'dist', file));
 load('DataBase/loaders/DataLoader');

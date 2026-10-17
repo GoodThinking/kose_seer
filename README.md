@@ -2,6 +2,23 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 野外进化形态恢复
+
+按用户要求，场景内同时刷新初始形态与进化形态，便于刷学习力和等级。`compat/server-patches/evolved-encounters/evolved-additions.json`的内容如下：
+
+- `restore`：R25归并初始形态时移除、且同族初始形态仍在现网池中的79条进化形态。等级、权重、捕捉与掉落取自R25发布前备份。R28已清除的家族不恢复。
+- `baseWeights`：64个初始形态。R25把同族权重并入了它们，且之后未改动，现退回原权重；未恢复成员的权重仍留在初始形态上。
+- `dexAdditions`：25条图鉴写明同一地点、同族已在池中的进化形态，等级与刷新沿用该族条目，例如麦兹星火尾雀/烈火雀、斯诺星维拉尔/维尔克。卡修/卡修斯属于怀特星Boss线，不放入野外。
+- `remove`：R55加入的科特（1228）资源树中没有战斗资源，在拓梯星改由同地点的科拉岩（1229）替代。
+- 精灵的地图形象路径为：ID大于500取`groupFightResource/pet`，其余取`pet/swf`。只加入地图形象和战斗资源都齐全的精灵；改动地图上的闪光精灵各自重新调为约5%。
+
+```bash
+node scripts/build-evolved-encounters.cjs --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/test-evolved-encounters.cjs /path/to/isolated/runtime
+```
+
+构建逐图校验格式与规划时的基线权重，任何偏差都拒绝；最终结果与按清单计算的预期逐项相等。真实刷怪逻辑在78张图上刷出全部104条新增，拓梯星不再出现科特；R55获取测试在新池上仍全部通过。
+
 ## 瞭望露台每日扭蛋牌
 
 瞭望露台（103）扭蛋机旁的"领取"先用`TALK_COUNT`查询类型2051的当日次数；为0时再用`TALK_CATE`领取2个神奇扭蛋牌（400501）。服务端没有2051分支，请求落入采矿规则后返回5001。`compat/server-patches/gacha-ticket/GachaTicket.ts`按北京时间每日一次发放：必须在103、非忙碌状态；领取记录写入`receiver_claims`（`gacha:ticket`，按日期区分），与库存在同一事务中保存；当天已领取返回5002，客户端此前查询次数为1时会直接提示"你今天已经领取过了"。`ExperienceReceiverHandlers.ts`只增加2051的查询与领取分支。

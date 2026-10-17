@@ -1,0 +1,3781 @@
+{
+  "source": "Restores the evolved forms R25 merged into base forms (original level, weight and settings from the pre-R25 backup) where the family is still in the live pool, plus dex-located evolutions of present families (settings copied from the family entry). The 卡修/卡修斯 boss line stays out of the wild. Shiny entries are rebalanced to about 5% each. Pets without map or battle resources are skipped; 科特1228 (no battle resource) is replaced on 拓梯星 by 科拉岩1229.",
+  "baseWeights": [
+    {
+      "mapId": 11,
+      "petId": 16,
+      "from": 85,
+      "to": 50
+    },
+    {
+      "mapId": 15,
+      "petId": 38,
+      "from": 100,
+      "to": 65
+    },
+    {
+      "mapId": 16,
+      "petId": 35,
+      "from": 100,
+      "to": 60
+    },
+    {
+      "mapId": 17,
+      "petId": 335,
+      "from": 100,
+      "to": 40
+    },
+    {
+      "mapId": 20,
+      "petId": 30,
+      "from": 75,
+      "to": 45
+    },
+    {
+      "mapId": 21,
+      "petId": 33,
+      "from": 100,
+      "to": 60
+    },
+    {
+      "mapId": 25,
+      "petId": 22,
+      "from": 65,
+      "to": 40
+    },
+    {
+      "mapId": 26,
+      "petId": 25,
+      "from": 100,
+      "to": 60
+    },
+    {
+      "mapId": 27,
+      "petId": 249,
+      "from": 100,
+      "to": 60
+    },
+    {
+      "mapId": 36,
+      "petId": 145,
+      "from": 100,
+      "to": 50
+    },
+    {
+      "mapId": 40,
+      "petId": 116,
+      "from": 70,
+      "to": 40
+    },
+    {
+      "mapId": 41,
+      "petId": 65,
+      "from": 100,
+      "to": 65
+    },
+    {
+      "mapId": 43,
+      "petId": 51,
+      "from": 100,
+      "to": 65
+    },
+    {
+      "mapId": 46,
+      "petId": 97,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 47,
+      "petId": 119,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 48,
+      "petId": 184,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 49,
+      "petId": 105,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 54,
+      "petId": 699,
+      "from": 70,
+      "to": 35
+    },
+    {
+      "mapId": 56,
+      "petId": 211,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 57,
+      "petId": 235,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 58,
+      "petId": 228,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 60,
+      "petId": 232,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 61,
+      "petId": 237,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 62,
+      "petId": 240,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 106,
+      "petId": 188,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 325,
+      "petId": 265,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 326,
+      "petId": 267,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 327,
+      "petId": 278,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 328,
+      "petId": 291,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 330,
+      "petId": 293,
+      "from": 80,
+      "to": 45
+    },
+    {
+      "mapId": 331,
+      "petId": 344,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 334,
+      "petId": 373,
+      "from": 100,
+      "to": 40
+    },
+    {
+      "mapId": 338,
+      "petId": 399,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 356,
+      "petId": 840,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 404,
+      "petId": 491,
+      "from": 80,
+      "to": 45
+    },
+    {
+      "mapId": 429,
+      "petId": 523,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 434,
+      "petId": 847,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 437,
+      "petId": 553,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 439,
+      "petId": 557,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 445,
+      "petId": 766,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 448,
+      "petId": 791,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 449,
+      "petId": 801,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 451,
+      "petId": 805,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 453,
+      "petId": 822,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 454,
+      "petId": 827,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 455,
+      "petId": 842,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 459,
+      "petId": 574,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 476,
+      "petId": 742,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 478,
+      "petId": 764,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 481,
+      "petId": 690,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 484,
+      "petId": 706,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 486,
+      "petId": 716,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 496,
+      "petId": 732,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 497,
+      "petId": 738,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 506,
+      "petId": 859,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 667,
+      "petId": 852,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 669,
+      "petId": 884,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 670,
+      "petId": 891,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 671,
+      "petId": 893,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 692,
+      "petId": 1022,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 693,
+      "petId": 1048,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 702,
+      "petId": 1090,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 744,
+      "petId": 1253,
+      "from": 100,
+      "to": 55
+    },
+    {
+      "mapId": 782,
+      "petId": 764,
+      "from": 100,
+      "to": 55
+    }
+  ],
+  "restore": [
+    {
+      "mapId": 10,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 166,
+        "shiny": 1,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.05,
+          "shinyPetId": -1
+        },
+        "minLevel": 38,
+        "maxLevel": 40,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 11,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 17,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 16,
+        "maxLevel": 18,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 15,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 39,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 17,
+        "maxLevel": 20,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 16,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 36,
+        "shiny": 0,
+        "weight": 40,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 22,
+        "maxLevel": 25,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 17,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 336,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 17,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 337,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 38,
+        "maxLevel": 42,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 20,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 31,
+        "shiny": 0,
+        "weight": 30,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 17,
+        "maxLevel": 20,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 21,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 34,
+        "shiny": 0,
+        "weight": 40,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 28,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 25,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 23,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 18,
+        "maxLevel": 20,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 26,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 26,
+        "shiny": 0,
+        "weight": 40,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 20,
+        "maxLevel": 25,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 27,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 250,
+        "shiny": 0,
+        "weight": 40,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 29,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 874,
+        "shiny": 0,
+        "weight": 50,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 35,
+        "maxLevel": 40,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 30,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 14,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 15,
+        "maxLevel": 20,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 30,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 286,
+        "shiny": 1,
+        "weight": 15,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.05,
+          "shinyPetId": -1
+        },
+        "minLevel": 20,
+        "maxLevel": 25,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 31,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 44,
+        "shiny": 0,
+        "weight": 15,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 36,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 146,
+        "shiny": 0,
+        "weight": 50,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 35,
+        "maxLevel": 40,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 40,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 118,
+        "shiny": 0,
+        "weight": 30,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 41,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 66,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 43,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 52,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 30,
+        "maxLevel": 35,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 46,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 98,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 30,
+        "maxLevel": 35,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 47,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 120,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 48,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 185,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 35,
+        "maxLevel": 40,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 49,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 106,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 54,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 700,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 30,
+        "maxLevel": 35,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 56,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 212,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 35,
+        "maxLevel": 40,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 57,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 236,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 58,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 229,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 60,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 234,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 61,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 239,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 62,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 242,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 105,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 90,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 25,
+        "maxLevel": 30,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 106,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 189,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 30,
+        "maxLevel": 35,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 325,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 266,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 326,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 268,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 327,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 280,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 55,
+        "maxLevel": 58,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 328,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 292,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 58,
+        "maxLevel": 60,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 330,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 295,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 58,
+        "maxLevel": 60,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 331,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 345,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 58,
+        "maxLevel": 60,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 333,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 395,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 53,
+        "maxLevel": 56,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 334,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 374,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 58,
+        "maxLevel": 60,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 334,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 375,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 337,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 377,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 338,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 400,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 343,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 398,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 70,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 356,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 841,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 404,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 493,
+        "shiny": 0,
+        "weight": 35,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 429,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 525,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 434,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 848,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 437,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 554,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 439,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 559,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 445,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 767,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 448,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 792,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 449,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 802,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 451,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 806,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 453,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 823,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 454,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 828,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 455,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 843,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 459,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 575,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 476,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 743,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 478,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 765,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 481,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 691,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 484,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 707,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 486,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 717,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 496,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 733,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 497,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 739,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 506,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 860,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 667,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 853,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 669,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 885,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 670,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 892,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 671,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 894,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 679,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 558,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 679,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 548,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 679,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 229,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 679,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 241,
+        "shiny": 0,
+        "weight": 25,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 60,
+        "maxLevel": 65,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 692,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 1023,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 693,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 1049,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 702,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 1091,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 744,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 1254,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    },
+    {
+      "mapId": 782,
+      "source": "R25前原配置",
+      "entry": {
+        "petId": 765,
+        "shiny": 0,
+        "weight": 45,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0.08,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 68,
+        "level": null,
+        "expReward": 100,
+        "catchRate": 1,
+        "expMultiplier": 1,
+        "catchable": true,
+        "dropItems": [
+          {
+            "itemId": 300001,
+            "dropRate": 0.1,
+            "minCount": 1,
+            "maxCount": 2
+          }
+        ],
+        "isBoss": false
+      }
+    }
+  ],
+  "dexAdditions": [
+    {
+      "mapId": 22,
+      "source": "图鉴Foundin=海洋星海底",
+      "copyOf": 198,
+      "entry": {
+        "petId": 199,
+        "shiny": 0,
+        "weight": 70,
+        "minLevel": 15,
+        "maxLevel": 18
+      }
+    },
+    {
+      "mapId": 54,
+      "source": "图鉴Foundin=露希欧星",
+      "copyOf": 205,
+      "entry": {
+        "petId": 206,
+        "shiny": 0,
+        "weight": 30,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 55,
+      "source": "图鉴Foundin=露希欧泥潭",
+      "copyOf": 208,
+      "entry": {
+        "petId": 209,
+        "shiny": 0,
+        "weight": 19,
+        "minLevel": 16,
+        "maxLevel": 17
+      }
+    },
+    {
+      "mapId": 51,
+      "source": "图鉴Foundin=斯诺星",
+      "copyOf": 385,
+      "entry": {
+        "petId": 386,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 333,
+      "source": "图鉴Foundin=普雷空间站",
+      "copyOf": 394,
+      "entry": {
+        "petId": 396,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 53,
+        "maxLevel": 56
+      }
+    },
+    {
+      "mapId": 54,
+      "source": "图鉴Foundin=露希欧星",
+      "copyOf": 409,
+      "entry": {
+        "petId": 410,
+        "shiny": 1,
+        "weight": 10.53,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 54,
+      "source": "图鉴Foundin=露希欧星",
+      "copyOf": 409,
+      "entry": {
+        "petId": 411,
+        "shiny": 1,
+        "weight": 10.53,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 330,
+      "source": "图鉴Foundin=斯科尔浮岛",
+      "copyOf": 422,
+      "entry": {
+        "petId": 423,
+        "shiny": 0,
+        "weight": 20,
+        "minLevel": 55,
+        "maxLevel": 60
+      }
+    },
+    {
+      "mapId": 330,
+      "source": "图鉴Foundin=斯科尔浮岛",
+      "copyOf": 422,
+      "entry": {
+        "petId": 424,
+        "shiny": 0,
+        "weight": 20,
+        "minLevel": 55,
+        "maxLevel": 60
+      }
+    },
+    {
+      "mapId": 60,
+      "source": "图鉴Foundin=塔克星",
+      "copyOf": 430,
+      "entry": {
+        "petId": 431,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 50,
+        "maxLevel": 52
+      }
+    },
+    {
+      "mapId": 404,
+      "source": "图鉴Foundin=比格星",
+      "copyOf": 454,
+      "entry": {
+        "petId": 455,
+        "shiny": 0,
+        "weight": 20,
+        "minLevel": 60,
+        "maxLevel": 65
+      }
+    },
+    {
+      "mapId": 404,
+      "source": "图鉴Foundin=比格星",
+      "copyOf": 491,
+      "entry": {
+        "petId": 492,
+        "shiny": 0,
+        "weight": 80,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 57,
+      "source": "图鉴Foundin=尼古尔星",
+      "copyOf": 569,
+      "entry": {
+        "petId": 570,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 50,
+        "maxLevel": 52
+      }
+    },
+    {
+      "mapId": 494,
+      "source": "图鉴Foundin=麦兹星",
+      "copyOf": 732,
+      "entry": {
+        "petId": 733,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 484,
+      "source": "图鉴Foundin=怀特星",
+      "copyOf": 775,
+      "entry": {
+        "petId": 776,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 494,
+      "source": "图鉴Foundin=麦兹星",
+      "copyOf": 787,
+      "entry": {
+        "petId": 788,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 314,
+      "source": "图鉴Foundin=拜伦号",
+      "copyOf": 831,
+      "entry": {
+        "petId": 832,
+        "shiny": 0,
+        "weight": 50,
+        "minLevel": 25,
+        "maxLevel": 30
+      }
+    },
+    {
+      "mapId": 54,
+      "source": "图鉴Foundin=露希欧星",
+      "copyOf": 854,
+      "entry": {
+        "petId": 855,
+        "shiny": 0,
+        "weight": 50,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 494,
+      "source": "图鉴Foundin=麦兹星",
+      "copyOf": 861,
+      "entry": {
+        "petId": 862,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 494,
+      "source": "图鉴Foundin=麦兹星",
+      "copyOf": 861,
+      "entry": {
+        "petId": 863,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 404,
+      "source": "图鉴Foundin=比格星",
+      "copyOf": 876,
+      "entry": {
+        "petId": 877,
+        "shiny": 0,
+        "weight": 50,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 497,
+      "source": "图鉴Foundin=SUN星",
+      "copyOf": 882,
+      "entry": {
+        "petId": 883,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    },
+    {
+      "mapId": 51,
+      "source": "图鉴Foundin=斯诺星",
+      "copyOf": 941,
+      "entry": {
+        "petId": 942,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 51,
+      "source": "图鉴Foundin=斯诺星",
+      "copyOf": 941,
+      "entry": {
+        "petId": 943,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 20,
+        "maxLevel": 25
+      }
+    },
+    {
+      "mapId": 429,
+      "source": "图鉴Foundin=拓梯星",
+      "copyOf": 1228,
+      "entry": {
+        "petId": 1229,
+        "shiny": 0,
+        "weight": 100,
+        "minLevel": 60,
+        "maxLevel": 63
+      }
+    }
+  ],
+  "remove": [
+    {
+      "mapId": 429,
+      "petId": 1228,
+      "reason": "R55按图鉴加入，但资源树没有战斗资源；由同地点的科拉岩1229替代"
+    }
+  ]
+}
