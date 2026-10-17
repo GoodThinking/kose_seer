@@ -2,6 +2,21 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 帕诺星系星球测绘交付修复
+
+任务37包含10颗星球的测绘和最后一次船长交付。原结算要求11步全部完成，导致已完成全部测绘的玩家提交时因最后一步尚未写入而收到5000。修复只校验前10步，在同一事务中写入第10号进度位、任务完成状态及原有奖励。未完成任意星球仍拒绝，重复提交不重复发奖。
+
+```bash
+node scripts/build-task37-repair.cjs \
+  --server-context /path/to/current/server/source \
+  --source /path/to/deployed/CompleteConfiguredTask.ts \
+  --runtime /path/to/deployed/CompleteConfiguredTask.js \
+  --tasks /path/to/deployed/tasks.json \
+  --out /path/to/release
+```
+
+构建器验证当前结算源码能重现现网JS，并检查补丁模块类型。只发布结算JS、source map、对应TS和任务配置，不覆盖其他现网代码。兼容KOSE的20字节进度、旧五整数进度和XIN原始进度。15个临时SQLite场景验证完整测绘领奖、10种缺失测绘、重复/并发防重及失败回滚。先合并并推送个人仓库main，再从main构建；不备份、不迁移或手工补写账号进度，游戏服务需要重启一次。
+
 ## 露希欧之洋入场与希欧珊瑚采集
 
 地图56的原生客户端入场时先通过2701查询希欧珊瑚的今日采集次数：普通NoNo使用类型17，超能NoNo使用2054。旧配置缺少2054，且17只对应地图325的矿石，导致入场返回5001并中断地图机关初始化。
