@@ -54,6 +54,10 @@ async function finish(player){player.Data.cleanup();await DataSaver.Instance.Sav
       assert.equal(player.Data.coins,state.wallet.coins);assert.equal(player.Data.gold,state.wallet.gold);
       const reloaded=new ItemManager(player);helper.RemoveCache(player.Uid);await reloaded.Initialize();
       for(const itemId of product.itemIds)assert.equal(reloaded.GetItemCount(itemId),1);
+      await reloaded.HandleItemList(0,0,0);
+      const inventoryBody=packets.at(-1).serialize();
+      for(let offset=4;offset<inventoryBody.length;offset+=16)assert.ok(inventoryBody.readUInt32BE(offset+8)>0,'Purchased item must remain usable in native inventory');
+      if(product.productId===200132&&vip===1)results.push({case:'silver-bundle-inventory-wire',hex:inventoryBody.toString('hex')});
       if(product.productId===200128&&vip===1)results.push({case:'silver-helmet-vip-wire',hex:body.toString('hex'),coins:state.wallet.coins,spent:price});
     }
     await finish(player);
@@ -62,6 +66,8 @@ async function finish(player){player.Data.cleanup();await DataSaver.Instance.Sav
     const ordinary=await buyer(vip);await ordinary.player.ItemManager.HandleItemBuy(100338,1);
     const price=vip?210:420;assert.equal(ordinary.packets.at(-1).getResult(),0);
     assert.equal((await saved(ordinary.player)).wallet.coins,10000-price);assert.equal(ordinary.player.ItemManager.GetItemCount(100338),1);
+    await ordinary.player.ItemManager.HandleItemList(100001,101000,2);
+    assert.ok(ordinary.packets.at(-1).serialize().readUInt32BE(12)>0,'Ordinary purchase must be wearable');
     await finish(ordinary.player);
   }
   const low=await buyer(0,100);await request(low.player,200128);assert.equal(low.packets.at(-1).getResult(),10016);assert.equal((await saved(low.player)).wallet.coins,100);assert.deepEqual((await saved(low.player)).items,[]);await finish(low.player);

@@ -83,6 +83,8 @@ Core 仅提供编译依赖，发布内容只有 `client/overlay/module/com/robot
 
 自制极境套装 `199901`–`199905` 已移除，包括商品、提示、喷火、加速与沼泽通行代码，以及工厂页面和 21 个专用资源。原版银翼装备保留。账号清理仅过滤这五个 ID 的背包与穿戴记录，不改余额或其他物品。
 
+购买发放沿用普通购买和掉落的有效期编码 `0x057E40`（360000）。原生背包将有效期 `0` 判为失效，会灰显并禁用穿戴点击；新购装备不能写入该值。修复前已购的四件银翼仅补正有效期，不改变数量或再次扣款。
+
 ```bash
 node scripts/build-coin-products.cjs \
   --server-context /path/to/current/server-source \
@@ -97,7 +99,7 @@ node scripts/build-coin-products.cjs \
 
 构建器校验客户端输入哈希，使用 `compat/server-patches/coin-products` 中的完整模块与商品配置，以及 `compat/client-patches/coin-products` 中的九个 Core 类和原生面板补丁，生成 17 个发布文件。服务器上下文提供既有依赖和 TypeScript 编译选项；只对本次模块做语义检查，不覆盖无关模块。先合并并推送个人仓库 `main`，再从该基线运行构建并按清单发布；用户刷新重登验收实际体验。
 
-`node scripts/smoke-coin-products.cjs /path/to/staged/app` 使用临时 SQLite 验证 168 次普通/VIP 目录购买、普通购买入口、余额不足、并发防重、保存失败回滚及已移除套装拒购。该路径必须是带既有依赖的发布副本；脚本不连接游戏账号数据库。
+`node scripts/smoke-coin-products.cjs /path/to/staged/app` 使用临时 SQLite 验证 168 次普通/VIP 目录购买、普通购买入口、余额不足、并发防重、保存失败回滚及已移除套装拒购；购买后重新加载库存并检查真实2605物品列表包，确保有效期非零、客户端仍可使用。该路径必须是带既有依赖的发布副本；脚本不连接游戏账号数据库。
 
 
 ## 精灵按钮无响应修复

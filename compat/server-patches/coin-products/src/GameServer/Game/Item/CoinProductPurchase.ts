@@ -53,7 +53,7 @@ export async function BuyCoinProduct(player: PlayerInstance, productId: number, 
       if (ItemSystem.IsUniqueItem(itemId) && (previous > 0 || count > 1)) throw new CoinProductError(103203, 'Unique item already owned');
       if (!Number.isSafeInteger(previous) || previous < 0 || previous + count > ItemSystem.GetMaxStack(itemId)) throw new CoinProductError(5001, 'Inventory full');
       if (existing) existing.count += count;
-      else staged.push({itemId, count, expireTime: 0});
+      else staged.push({itemId, count, expireTime: 0x057E40});
     }
     return await DatabaseManager.Instance.WithConnection(async driver => {
       await driver.beginTransaction();
