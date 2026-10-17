@@ -11,8 +11,13 @@
       ],
       "wmfix": [
         "com/robot/app/worldMap/WorldMapPanel"
+      ],
+      "mapclick": [
+        "com/robot/app/worldMap/WorldMapPanel: MapTip try/catch, click ignores unregistered maps, galaxy hover/click use currentTarget",
+        "built on the wmfix Core: also dropped the fourth-galaxy tables and both lab exchange versions (restored by build-fourth-galaxy-p1 + build-honor-hall)"
       ]
-    }
+    },
+    "mapclick": "3783b816b4eb3eb130dfebc7c9ba9ce940aa04315ecc4f36e85674fb60e697cc"
   },
   "files": [
     {

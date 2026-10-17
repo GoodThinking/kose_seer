@@ -2,6 +2,16 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 荣誉大厅登记
+
+世界地图飞船区的`btn_332`指向荣誉大厅（332），当前Core没有登记这张图。`MapConfig.getMapPeopleXY`查不到条目时触发`Error #1009`，进入后一直停在"加载地图"；存档停在332的账号每次登录都会卡住。`compat/client-patches/honor-hall`按台服地图配置登记332：名称荣誉大厅，出生点（830，430），音乐`BGM_002`，`door_0`通往飞船二层走廊（3）。原配置的功勋官`onNpcClickHandler`没有对应地图类，`funComp`留空；精灵王争霸和授勋服务端未实现。
+
+```bash
+node scripts/build-honor-hall.cjs --baseline /path/to/captured-live-root --out /path/to/release
+```
+
+只在地图表和地图介绍表追加332，已登记时拒绝构建，Core其他标签逐字节保留。世界地图`WorldMapPanel`沿用现网版本：点击未登记地图时不切换，因此10039伏魔空间（无地图资源）不会再卡住。
+
 ## 战斗威力与先制修正
 
 `scripts/build-battle-modifiers.cjs`修复技能效果里"威力提升""先制提升"整类不生效的问题。原因有三处：技能效果上下文没有技能副本，`PowerModifier`和`PriorityModifier`直接返回；伤害计算不读取`power_modifier`结果；速度判定只统计被动特性。另外，`ConditionalCheck`只实现了6种条件，"提升100%"在配置里写成了乘100。

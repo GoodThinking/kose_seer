@@ -1,0 +1,9 @@
+<Maps>
+  <map id="332" name="荣誉大厅" x="830" y="430" sound="BGM_002">
+    <Entries/>
+    <changeMapComp>
+      <component name="door_0" hit="comp_0" targetID="3"/>
+    </changeMapComp>
+    <funComp/>
+  </map>
+</Maps>
