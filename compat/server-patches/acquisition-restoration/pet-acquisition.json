@@ -1,0 +1,91 @@
+{
+  "source": "Original native encounter requests and historical locations; appearance probability is explicit private-server tuning, not an official probability.",
+  "disguises": [
+    {
+      "petId": 77,
+      "level": 16,
+      "probability": 0.08,
+      "hostIds": [
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        30,
+        33,
+        35,
+        38,
+        43,
+        51,
+        105,
+        116
+      ]
+    }
+  ],
+  "wild": [
+    {
+      "mapId": 16,
+      "name": "火山星山洞",
+      "petId": 133,
+      "minLevel": 15,
+      "maxLevel": 16,
+      "rareProbability": 0.05
+    },
+    {
+      "mapId": 55,
+      "name": "露希欧泥潭",
+      "petId": 208,
+      "minLevel": 16,
+      "maxLevel": 17,
+      "weight": 19
+    },
+    {
+      "mapId": 55,
+      "name": "露希欧泥潭",
+      "petId": 203,
+      "minLevel": 15,
+      "maxLevel": 16,
+      "weight": 1
+    }
+  ],
+  "mechanisms": [
+    {
+      "mapId": 26,
+      "param2": 0,
+      "petId": 153,
+      "petName": "小莹蜂",
+      "level": 13
+    },
+    {
+      "mapId": 53,
+      "param2": 0,
+      "petId": 178,
+      "petName": "达比拉",
+      "level": 15
+    }
+  ],
+  "exchange": {
+    "groupId": 900001,
+    "mapId": 5,
+    "coins": 1000,
+    "petIds": [
+      62,
+      108,
+      378,
+      445,
+      448,
+      469,
+      515,
+      526,
+      560,
+      576,
+      596,
+      598,
+      604,
+      618,
+      677,
+      682
+    ]
+  }
+}
