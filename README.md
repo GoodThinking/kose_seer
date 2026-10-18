@@ -2,6 +2,17 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 野怪战后刷新
+
+原逻辑：野外战斗结束后，只从当前列表移除被打的野怪，整图打空才重新生成。刷等级时其余野怪一直不变，需要离开地图再进来。现改为：每场野外战斗结束都按地图配置重新抽取野怪，战后推送和客户端重建地图时拿到的都是新列表；站桩Boss（含喷射器已打掉的血量）不受影响，打空最后一只时仍按原逻辑重新进图。
+
+```bash
+node scripts/build-wild-refresh.cjs --context /path/with/typescript --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/test-wild-refresh.cjs /path/to/isolated/runtime
+```
+
+现网`dist`带有后续站桩Boss补丁，与`src`不一致，因此两份文件分别在`OnBattleEnd`中定点插入分支，并核对基线hash。测试用固定随机序列验证战后列表与重新生成的结果一致、站桩Boss血量保持、打空后仍刷新；未打补丁的版本在第一项失败。
+
 ## 裂空星系星图显示
 
 从世界地图点进裂空星系后画面是空的。`Galaxy_4`沿用了其他客户端版本的写法：在世界地图里找`gMc`容器，收到`MAP_HOT`后再把星球图层加进去。现网`worldMap.swf`没有`gMc`，加图层时触发空引用，星球始终不显示。现改为与星系1–3相同的做法：`setup`把图层定位到（122，144），收到`MAP_HOT`后插在`galaxyMC`的上一层。星球坐标在0–300像素之间，不需要横向滚动。
