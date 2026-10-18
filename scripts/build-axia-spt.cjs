@@ -1,0 +1,24 @@
+'use strict';
+const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
+const assert = require('node:assert/strict');
+const {parseArgs} = require('node:util');
+const {values} = parseArgs({options: {baseline: {type: 'string'}, out: {type: 'string'}}});
+assert.ok(values.baseline && values.out, 'Required: --baseline captured-live-app --out release-root');
+const relative = 'config/data/json/boss_abilities.json';
+const before = fs.readFileSync(path.join(path.resolve(values.baseline), relative));
+const config = JSON.parse(before);
+const axia = config.bossConfigs.filter(boss => boss.mapId === 40 && boss.param2 === 0 && boss.petId === 50);
+assert.equal(axia.length, 1, 'Expected one Axia encounter');
+assert.equal(axia[0].spt.sptId, 34, 'Unexpected Axia SPT baseline');
+assert.equal(axia[0].spt.rewardItemId, 400101, 'Unexpected Axia essence');
+assert.ok(!config.bossConfigs.some(boss => boss !== axia[0] && [4,34].includes(boss.spt?.sptId)), 'SPT ID collision');
+axia[0].spt.sptId = 4;
+const after = Buffer.from(JSON.stringify(config, null, 2) + '\n');
+const target = path.join(path.resolve(values.out), 'app', relative);
+fs.mkdirSync(path.dirname(target), {recursive: true});
+fs.writeFileSync(target, after);
+const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const manifest = {files: [{path: 'app/' + relative, before: sha(before), after: sha(after)}],
+  achievementRepair: {from: 34, to: 4}, clientFilesChanged: false};
+fs.writeFileSync(path.join(path.resolve(values.out), 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+console.log(JSON.stringify(manifest));

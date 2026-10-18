@@ -1,0 +1,70 @@
+'use strict';
+const assert = require('node:assert/strict'), fs = require('node:fs'), os = require('node:os'), path = require('node:path');
+const {execFileSync} = require('node:child_process');
+const app = path.resolve(process.argv[2]);
+process.chdir(app);
+const load = file => require(path.join(app, 'dist', file));
+const Database = require(path.join(app, 'node_modules/better-sqlite3'));
+const {ConfigLoader} = load('shared/config/ConfigLoader');
+ConfigLoader.Instance._configDir = path.join(app, 'config');
+ConfigLoader.Instance.Reload();
+const {ChallengeProgressManager} = load('GameServer/Game/Challenge/ChallengeProgressManager');
+const {ConfigRegistry} = load('shared/config/ConfigRegistry');
+const {ConfigKeys, ConfigPaths, ConfigType} = load('shared/config/ConfigDefinitions');
+const {BattleRewardService} = load('GameServer/Game/Battle/services/BattleRewardService');
+const {PacketGetMoreUserInfo} = load('GameServer/Server/Packet/Send/User/PacketGetMoreUserInfo');
+const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'kose-axia-spt-'));
+const filename = path.join(temporary, 'progress.sqlite');
+const db = new Database(filename);
+const baseline = [];
+const repair = apply => JSON.parse(execFileSync(process.execPath, [path.join(__dirname, 'repair-axia-spt.cjs'), '--app', app, '--database', filename, ...(apply ? ['--apply'] : [])], {encoding: 'utf8'}));
+(async () => {
+  db.exec('CREATE TABLE player_challenge_progress(user_id INTEGER PRIMARY KEY,boss_achievement BLOB,max_puni_lv INTEGER,tower_boss_index INTEGER)');
+  ConfigRegistry.Instance.Register(ConfigKeys.BOSS_ABILITIES, ConfigPaths[ConfigKeys.BOSS_ABILITIES], ConfigType.JSON);
+  await ConfigRegistry.Instance.Initialize();
+  for (const [index, old, correct] of [[1,1,0],[2,0,1],[3,1,1],[4,0,0]]) {
+    const flags = Buffer.alloc(200); flags[33] = old; flags[3] = correct; flags[4] = 1; flags[199] = 1;
+    baseline.push(flags);
+    db.prepare('INSERT INTO player_challenge_progress VALUES(?,?,6,2)').run(index, flags);
+  }
+  assert.deepEqual(repair(false).changes.map(change => change.userId), [1,3]);
+  assert.ok(db.prepare('SELECT boss_achievement FROM player_challenge_progress WHERE user_id=1').get().boss_achievement.equals(baseline[0]), 'Preview must not change saved flags');
+  assert.equal(repair(true).changes.length, 2);
+  assert.equal(repair(true).changes.length, 0, 'Repeated repair must be inert');
+  for (const row of db.prepare('SELECT * FROM player_challenge_progress ORDER BY user_id').all()) {
+    const expected = Buffer.from(baseline[row.user_id - 1]);
+    if (expected[33]) {expected[3] = 1; expected[33] = 0;}
+    assert.ok(row.boss_achievement.equals(expected), 'Only the misindexed victory may move');
+    assert.equal(row.max_puni_lv, 6); assert.equal(row.tower_boss_index, 2);
+  }
+  const saved = db.prepare('SELECT boss_achievement FROM player_challenge_progress WHERE user_id=1').get().boss_achievement;
+  const flags = Array.from(saved, value => value === 1);
+  const player = {Uid: 1};
+  player.ChallengeProgressManager = new ChallengeProgressManager(player);
+  player.ChallengeProgressManager._data = {bossAchievement: flags};
+  const manager = player.ChallengeProgressManager;
+  assert.equal(manager.HasDefeatedBoss(40, 0), true, 'Corrected config must recognize saved first victory');
+  assert.equal(manager.GetAchievementBuffer()[3], 1, 'Login must expose native SPT index 4');
+  const packet = new PacketGetMoreUserInfo({userID: 1, nick: 'SptSmoke', bossAchievement: flags}).serialize();
+  assert.equal(packet[32 + 3], 1, 'SPT user-info packet must show Axia defeated');
+  assert.equal(packet[32 + 33], 0, 'Obsolete SPT slot must clear');
+  let essences = 0;
+  player.ItemManager = {GiveItem: async (itemId, count) => {assert.equal(itemId, 400101); essences += count; return true;}};
+  const rewards = new BattleRewardService(player);
+  const battle = {bossMapId: 40, bossParam2: 0, enemy: {id: 50}};
+  assert.deepEqual(await rewards.ProcessSPTFirstDefeatReward(battle, 40), []);
+  assert.equal(essences, 0, 'Migrated victory must not reward again');
+  flags[3] = false;
+  assert.deepEqual(await rewards.ProcessSPTFirstDefeatReward(battle, 40), [{itemId: 400101, count: 1}]);
+  assert.equal(flags[3], true, 'New victory must mark native SPT ID 4');
+  assert.equal(flags[33], false);
+  assert.deepEqual(await rewards.ProcessSPTFirstDefeatReward(battle, 40), []);
+  assert.equal(essences, 1, 'First victory essence must be awarded exactly once');
+  const valid = Buffer.alloc(200); valid[33] = 1;
+  const invalid = Buffer.alloc(34); invalid[33] = 1;
+  db.prepare('INSERT INTO player_challenge_progress VALUES(5,?,0,0)').run(valid);
+  db.prepare('INSERT INTO player_challenge_progress VALUES(6,?,0,0)').run(invalid);
+  assert.throws(() => repair(true), 'Invalid data must abort the whole repair');
+  assert.ok(db.prepare('SELECT boss_achievement FROM player_challenge_progress WHERE user_id=5').get().boss_achievement.equals(valid), 'Transaction must roll back preceding changes');
+  console.log('AXIA_SPT_SMOKE=' + JSON.stringify({savedFlags: 'moved 34 to 4', nativeLoginAndPanel: true, firstRewardOnce: true, previewAndIdempotence: true, rollback: true, database: 'temporary-only'}));
+})().catch(error => {console.error(error); process.exitCode = 1;}).finally(() => {db.close(); fs.rmSync(temporary, {recursive: true, force: true});});
