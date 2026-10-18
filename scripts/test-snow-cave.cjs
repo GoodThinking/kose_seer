@@ -57,15 +57,16 @@ let player;
   player.PetManager.PetData.PetList = [pet];
   await helper.SavePetData(player.PetManager.PetData, true);
   const results = [];
-  for (const [param, petId, level, catchable] of [[0,178,15,true],[1,187,50,false]]) {
-    await player.BattleManager.HandleChallengeBoss(53, param);
+  for (const [mapId, param, petId, level, catchable] of [[26,0,153,13,true],[53,0,178,15,true],[53,1,187,50,false]]) {
+    player.Data.mapID = mapId;
+    await player.BattleManager.HandleChallengeBoss(mapId, param);
     const battle = player.BattleManager.GetCurrentBattle();
-    assert.equal(battle?.enemy.id, petId, 'Native cave request must select its own opponent');
+    assert.equal(battle?.enemy.id, petId, 'Native mechanism request must select its own opponent');
     assert.equal(battle.enemy.level, level);
     assert.equal(battle.bossParam2, param);
     assert.equal(BattleCaptureSystem.BossBlocksCapture(battle), !catchable);
     assert.ok(packets.some(packet => packet.command === 2503), 'Battle must send native ready packet');
-    results.push({mapId: 53, param, petId, level, catchable});
+    results.push({mapId, param, petId, level, catchable});
     player.BattleManager.CleanupBattle();
     packets.length = 0;
   }

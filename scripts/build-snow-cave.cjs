@@ -13,11 +13,15 @@ const lion = config.bossConfigs.filter(boss => boss.mapId === 53 && boss.petId =
 assert.equal(lion.length, 1, 'Expected one cave lion');
 assert.equal(lion[0].param2, 0, 'Expected broken cave slot; do not overwrite a newer configuration');
 assert.equal(config.bossConfigs.filter(boss => boss.mapId === 53).length, 1, 'Unexpected cave encounters');
+assert.equal(config.bossConfigs.filter(boss => boss.mapId === 26).length, 0, 'Unexpected bee encounters');
 const rules = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/data/json/boss_abilities.json'))).bossConfigs;
 const dabira = rules.find(boss => boss.mapId === 53 && boss.param2 === 0 && boss.petId === 178);
 assert.ok(dabira, 'Missing canonical Dabira encounter');
+const bee = rules.find(boss => boss.mapId === 26 && boss.param2 === 0 && boss.petId === 153);
+assert.ok(bee, 'Missing canonical bee encounter');
 lion[0].param2 = 1;
 config.bossConfigs.splice(config.bossConfigs.indexOf(lion[0]) + 1, 0, dabira);
+config.bossConfigs.push(bee);
 const after = Buffer.from(JSON.stringify(config, null, 2) + '\n');
 const target = path.join(path.resolve(values.out), relative);
 fs.mkdirSync(path.dirname(target), {recursive: true});

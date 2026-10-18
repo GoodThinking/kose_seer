@@ -316,6 +316,18 @@
       }
     },
     {
+      "mapId": 26,
+      "param2": 0,
+      "petId": 153,
+      "petName": "小莹蜂",
+      "level": 13,
+      "dv": 15,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": []
+    },
+    {
       "mapId": 53,
       "param2": 1,
       "petId": 187,
