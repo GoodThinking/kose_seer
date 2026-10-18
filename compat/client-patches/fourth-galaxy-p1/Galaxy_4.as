@@ -31,8 +31,6 @@ package com.robot.module.app.subMap
 
       private var myIcon:MovieClip;
 
-      private var mcContainer:Sprite;
-
       private var mapScrollRect:Rectangle;
 
       private var mc:MovieClip;
@@ -100,6 +98,8 @@ package com.robot.module.app.subMap
          mc = new galaxy_plant_4();
          mc.cacheAsBitmap = true;
          addChild(mc);
+         mc.x = 122;
+         mc.y = 144;
          mapScrollRect = new Rectangle(0,0,763,260);
          myIcon = new galaxy_my_icon();
          myIcon.mouseChildren = false;
@@ -110,7 +110,6 @@ package com.robot.module.app.subMap
       public function init(data:Object = null) : void
       {
          mapMC = data as MovieClip;
-         mcContainer = mapMC.getChildByName("gMc") as Sprite;
       }
 
       public function getHot() : void
@@ -139,7 +138,8 @@ package com.robot.module.app.subMap
          var hotMC:MovieClip = null;
          var hot:uint = 0;
          var j:uint = 0;
-         mcContainer.addChild(mc);
+         var index:int = mapMC.getChildIndex(mapMC["galaxyMC"]);
+         mapMC.addChildAt(mc,index + 1);
          SocketConnection.removeCmdListener(CommandID.MAP_HOT,onGetMapHot);
          var data:MapHotInfo = event.data as MapHotInfo;
          var num:uint = uint(mc.numChildren);

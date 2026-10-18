@@ -2,6 +2,17 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 裂空星系星图显示
+
+从世界地图点进裂空星系后画面是空的。`Galaxy_4`沿用了其他客户端版本的写法：在世界地图里找`gMc`容器，收到`MAP_HOT`后再把星球图层加进去。现网`worldMap.swf`没有`gMc`，加图层时触发空引用，星球始终不显示。现改为与星系1–3相同的做法：`setup`把图层定位到（122，144），收到`MAP_HOT`后插在`galaxyMC`的上一层。星球坐标在0–300像素之间，不需要横向滚动。
+
+```bash
+node scripts/build-galaxy4-module.cjs --original /path/to/original/Galaxy_4.swf --baseline /path/to/captured-live-root \
+  --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+```
+
+构建以未裁剪的裂空原版模块（`2679ccca…`）作为编译上下文，沿用`prune-fourth-galaxy-module.py`去掉夹带的旧Core类，并校验结果相对现网模块只改了`Galaxy_4`类；`assets`与`overlay`两份同时更新。
+
 ## 野外进化形态恢复
 
 按用户要求，场景内同时刷新初始形态与进化形态，便于刷学习力和等级。`compat/server-patches/evolved-encounters/evolved-additions.json`的内容如下：
