@@ -3,6 +3,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const net = require('node:net');
+const { pipeline } = require('node:stream');
 const { WebSocketServer } = require('ws');
 const fetchAsset = require('./asset-cache.cjs');
 const battleAssetCache = require('./battle-asset-cache.cjs')(__dirname);
@@ -38,13 +39,25 @@ const server = http.createServer(async (req, res) => {
   }
   if (!file) { console.log('MISSING', pathname); res.writeHead(404).end(); return; }
   console.log('ASSET', pathname);
-  const fd = fs.openSync(file, 'r');
+  let fd;
+  try { fd = fs.openSync(file, 'r'); }
+  catch (error) { console.error(error.message); res.writeHead(500).end(); return; }
   const stat = fs.fstatSync(fd, { bigint: true });
+  // Uncached files still revalidate on every use, so a deployment is seen at once while unchanged files answer 304.
+  const policy = battleAssetCache.cacheControl(pathname, stat, url.searchParams.get('__battle_v'));
+  const etag = `"${stat.dev}-${stat.ino}-${stat.size}-${stat.mtimeNs}"`;
+  res.setHeader('ETag', etag);
+  res.setHeader('Cache-Control', policy === 'no-store' ? 'no-cache' : policy);
+  if ((req.headers['if-none-match'] || '').split(',').some(tag => tag.trim() === etag)) {
+    fs.closeSync(fd);
+    res.writeHead(304).end();
+    return;
+  }
   res.setHeader('Content-Length', String(stat.size));
   res.setHeader('Content-Security-Policy', `default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; connect-src 'self' ${origin.replace(/^http/, 'ws')}; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'`);
   res.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
-  res.setHeader('Cache-Control', battleAssetCache.cacheControl(pathname, stat, url.searchParams.get('__battle_v')));
-  fs.createReadStream(file, { fd }).pipe(res);
+  // pipeline closes the file when the client aborts a download; pipe() kept those descriptors open.
+  pipeline(fs.createReadStream(file, { fd }), res, () => {});
 });
 const wss = new WebSocketServer({ noServer: true, maxPayload: 8 * 1024 * 1024 });
 server.on('upgrade', (req, socket, head) => {

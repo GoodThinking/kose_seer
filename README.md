@@ -2,6 +2,21 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 网页服缓存与句柄修复
+
+`compat/client-patches/versioned-assets/server.cjs`做了三处修改：
+
+- 原先除版本化战斗资源外一律`no-store`，每次刷新页面都要重新下载14MB的Ruffle、1.8MB的Core及界面资源，每次切图也要重下地图和精灵资源。现改为`no-cache`并带`ETag`（设备、inode、大小、修改时间）：浏览器每次仍向服务器确认，部署后立即拿到新文件；文件未变时返回304、不带内容。版本化战斗资源仍为`immutable`长期缓存。
+- 原先用`pipe()`传文件，客户端中途取消下载时文件不会关闭，现网曾累计约160个句柄。现改用`pipeline`，下载中断时关闭文件。
+- 打开文件失败（例如部署了网页服读不到的文件）原先会让网页服进程崩溃，断开所有游戏连接；现返回500。
+
+```bash
+node scripts/build-web-cache.cjs --client-dir /path/to/live/client --out /path/to/release
+node scripts/test-web-cache.cjs /path/with/node_modules-ws [server-source-dir]
+```
+
+测试在临时目录启动真实网页服，验证5项：未变化返回304无正文、替换后旧ETag仍拿到新文件、版本化战斗资源保持`immutable`、中断下载后文件已关闭、无权限文件返回500且服务继续运行。对照：旧版连续5次中断下载后5个文件仍处于打开状态，新版为0。
+
 ## 星系等级分段
 
 按用户选择，野怪等级按星系逐段递增，最高到100级，方便分阶段在不同星系练级：
