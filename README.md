@@ -2,6 +2,20 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 逃跑确认后残留战斗画面修复
+
+`PetFightEntry.onCloseFight`收到`FIGHT_CLOSE`后延迟一秒清理，但原先直到清理完成才移除监听器。在这段时间内收到重复结束事件，会安排多次`clear()`：第二次先添加战斗截图，再因`fighterCon`已被清空触发空对象错误；确认弹窗只能移除第一张截图，残留层继续遮住地图。
+
+`compat/client-patches/escape-close-once/PetFightEntry.as`在第一次收到结束事件时立即移除该监听器，使每场战斗只安排一次退出。下一场战斗仍由原有`init()`重新注册。保留原生延迟、弹窗、属性更新及地图刷新流程。
+
+```bash
+node scripts/build-escape-close-once.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+```
+
+构建以线上`assets`和`overlay`两份`PetFightDLL.swf`为基线，仅替换`PetFightEntry`的ABC标签，其他标签逐字节保持，包括覆盖层已有的背景模糊质量调整。Core仅作为编译依赖，不随战斗模块发布。只发布两份战斗模块，无需重启游戏或网页服务；刷新网页重新登录后取得新的战斗资源版本。
+
+本机Ruffle原生UI回放使用原版事件总线、退出逻辑、Alarm和属性更新清理，轻量替代战斗场景初始化，不登录真实账号。注入两次结束事件时，旧版产生两张截图并在`clear()`触发空对象错误，确认后仍残留一张；修复版只产生一张，确认后清零且显示地图底层。完整游戏实战由用户刷新后验收。
+
 ## 阿克希亚SPT战胜标记修复
 
 原生`PioneerTaskModel`按图鉴SPT编号减1读取成就数组；阿克希亚在客户端目录中为编号4。线上地图40的阿克希亚却配置为34，已有胜利存到了第34位，导致面板不显示。将其修正为4，精元仍为400101，不改变战斗数值或其他Boss配置。仓库默认配置也同步改为正确编号与精元。
