@@ -317,7 +317,7 @@
     },
     {
       "mapId": 53,
-      "param2": 0,
+      "param2": 1,
       "petId": 187,
       "petName": "魔狮迪露",
       "level": 50,
@@ -350,6 +350,18 @@
         "sptId": 10,
         "rewardItemId": 400114
       }
+    },
+    {
+      "mapId": 53,
+      "param2": 0,
+      "petId": 178,
+      "petName": "达比拉",
+      "level": 15,
+      "dv": 15,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": []
     },
     {
       "mapId": 57,

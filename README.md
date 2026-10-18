@@ -2,6 +2,19 @@
 
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
+## 斯诺岩洞挑战映射修复
+
+地图53的达比拉机关发送挑战编号0，魔狮迪露入口发送1。修复前线上`boss_abilities.json`只配置了编号0的魔狮迪露，导致达比拉开战变成魔狮迪露。现将魔狮迪露移到编号1，并补回编号0的15级达比拉；达比拉可捕捉，魔狮迪露保留50级、原有血量、特性与奖励。
+
+魔狮迪露沿用原生隐藏机关：点击场景上方吊环三次，显形后点击挑战。线上Core的`MapProcess_53`仍包含该入口，无需修改客户端资源。此入口已核对原生脚本，未进行游戏内点击验收。
+
+```bash
+node scripts/build-snow-cave.cjs --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/test-snow-cave.cjs /path/to/isolated/runtime
+```
+
+构建基于当前线上配置，仅修改地图53的两个挑战条目；遇到非预期配置则停止。仓库默认配置同步修正，历史线上快照保持原样。烟测使用线上实际战斗管理器与临时SQLite，验证两个编号的对手、等级、捕捉限制及战斗准备包。测试须使用与`better-sqlite3`匹配的Node版本，本轮使用Node22。
+
 ## 网页服缓存与句柄修复
 
 `compat/client-patches/versioned-assets/server.cjs`做了三处修改：
