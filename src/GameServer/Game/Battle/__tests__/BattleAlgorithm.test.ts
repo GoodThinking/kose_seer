@@ -6,6 +6,18 @@
 import { BattleAlgorithm, SkillCategory, IPetBaseStats, IDamageOptions } from '../BattleAlgorithm';
 import { createAttacker, createDefender, createPetWithStages } from './BattleTestHelpers';
 
+jest.mock('../../../../shared/config/game/GameConfig', () => {
+  const actual = jest.requireActual('../../../../shared/config/game/GameConfig');
+  return {
+    ...actual,
+    GameConfig: {
+      ...actual.GameConfig,
+      GetElementConfig: () => require('../../../../../config/data/json/elements.json'),
+      GetNatureConfig: () => require('../../../../../config/data/json/natures.json'),
+    },
+  };
+});
+
 describe('BattleAlgorithm - 战斗算法测试', () => {
   
   // 测试用精灵种族值

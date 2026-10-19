@@ -6,6 +6,18 @@
 import { BattleAlgorithm, SkillCategory, IPetBaseStats } from '../BattleAlgorithm';
 import { createAttacker, createDefender, createPetWithStages, createEffectContextSimple } from './BattleTestHelpers';
 
+jest.mock('../../../../shared/config/game/GameConfig', () => {
+  const actual = jest.requireActual('../../../../shared/config/game/GameConfig');
+  return {
+    ...actual,
+    GameConfig: {
+      ...actual.GameConfig,
+      GetElementConfig: () => require('../../../../../config/data/json/elements.json'),
+      GetNatureConfig: () => require('../../../../../config/data/json/natures.json'),
+    },
+  };
+});
+
 describe('BattleAlgorithm - 扩展测试', () => {
 
   describe('能力等级组合测试', () => {
@@ -174,9 +186,14 @@ describe('BattleAlgorithm - 扩展测试', () => {
       expect(BattleAlgorithm.GetTypeEffectiveness(15, 15)).toBe(2.0); // 龙克龙
     });
 
-    test('圣灵系克暗影和龙', () => {
-      expect(BattleAlgorithm.GetTypeEffectiveness(16, 13)).toBe(2.0); // 圣灵克暗影
-      expect(BattleAlgorithm.GetTypeEffectiveness(16, 15)).toBe(2.0); // 圣灵克龙
+    test('无效和单向克制按官方表计算', () => {
+      expect(BattleAlgorithm.GetTypeEffectiveness(5, 7)).toBe(0); // 电打地面无效
+      expect(BattleAlgorithm.GetTypeEffectiveness(7, 4)).toBe(0); // 地面打飞行无效
+      expect(BattleAlgorithm.GetTypeEffectiveness(12, 1)).toBe(0); // 光打草无效
+      expect(BattleAlgorithm.GetTypeEffectiveness(1, 12)).toBe(2); // 草克光
+      expect(BattleAlgorithm.GetTypeEffectiveness(15, 1)).toBe(0.5); // 龙打草微弱
+      expect(BattleAlgorithm.GetTypeEffectiveness(16, 13)).toBe(1); // 圣灵不克暗影
+      expect(BattleAlgorithm.GetTypeEffectiveness(16, 15)).toBe(0.5); // 圣灵打龙微弱
     });
   });
 

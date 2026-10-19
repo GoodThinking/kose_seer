@@ -6,6 +6,7 @@
  */
 
 import { NatureSystem, StatType } from "./NatureSystem";
+import { ElementSystem } from "./ElementSystem";
 
 /**
  * 精灵种族值接口
@@ -128,13 +129,12 @@ export class BattleAlgorithm {
     // 体力计算（不受性格影响）
     // 公式: (种族值×2 + 个体值 + 学习力÷4) × 等级÷100 + 等级 + 10
     const hp = Math.floor(
-      (baseStats.hp * 2 + iv + Math.floor(ev.hp / 4)) * level / 100 + level + 10
+      (baseStats.hp * 2 + iv + ev.hp / 4) * level / 100 + level + 10
     );
 
-    // 非体力属性计算
-    // 公式: [(种族值×2 + 个体值 + 学习力÷4) × 等级÷100 + 5] × 性格修正
+    // 非体力属性计算。学习力按 ÷4 的小数计入，性格乘完后只取整一次。
     const calcStat = (base: number, evVal: number, natureMod: number): number => {
-      const basePart = (base * 2 + iv + Math.floor(evVal / 4)) * level / 100 + 5;
+      const basePart = (base * 2 + iv + evVal / 4) * level / 100 + 5;
       return Math.floor(basePart * natureMod);
     };
 
@@ -262,11 +262,11 @@ export class BattleAlgorithm {
     // 赛尔号基础伤害公式: (等级×0.4+2) × 威力 × 攻击÷防御 ÷ 50 + 2
     const baseDamage = (level * 0.4 + 2) * power * atkStat / defStat / 50 + 2;
 
-    // 属性克制倍率
+    // 属性克制倍率。单属性查官方克制表，含无效 0 倍。
     const effectiveness = this.GetTypeEffectiveness(skillType, defenderType);
 
-    // 本系加成 (STAB - Same Type Attack Bonus)
-    const stab = skillType === attackerType ? 1.5 : 1.0;
+    // 本系加成：同属性 1.5，否则 1。
+    const stab = ElementSystem.GetSTABMultiplier(attackerType, undefined, skillType, undefined);
 
     // 暴击判定 (默认6.25%几率, 伤害1.5倍)
     let isCrit = options.isCrit !== undefined ? options.isCrit : Math.random() < 0.0625;
@@ -409,49 +409,11 @@ export class BattleAlgorithm {
   // ==================== 属性克制系统 ====================
 
   /**
-   * 属性克制表 (攻击属性 -> 被克制属性列表)
-   * Type: 1草, 2水, 3火, 4飞行, 5电, 6机械, 7地面, 8普通, 9冰, 10超能, 11战斗, 12光, 13暗影, 14神秘, 15龙, 16圣灵
-   */
-  private static readonly TYPE_CHART: { [atkType: number]: number[] } = {
-    [1]: [2, 7],           // 草克水、地面
-    [2]: [3, 7],           // 水克火、地面
-    [3]: [1, 6, 9],        // 火克草、机械、冰
-    [4]: [1, 11],          // 飞行克草、战斗
-    [5]: [2, 4],           // 电克水、飞行
-    [6]: [9],              // 机械克冰
-    [7]: [3, 5, 6],        // 地面克火、电、机械
-    [8]: [],               // 普通无克制
-    [9]: [1, 4, 7, 15],    // 冰克草、飞行、地面、龙
-    [10]: [11],            // 超能克战斗
-    [11]: [8, 9],          // 战斗克普通、冰
-    [12]: [13],            // 光克暗影
-    [13]: [10, 12],        // 暗影克超能、光
-    [14]: [],              // 神秘
-    [15]: [15],            // 龙克龙
-    [16]: [13, 15]         // 圣灵克暗影、龙
-  };
-
-  /**
-   * 获取属性克制倍率
-   * 
-   * @param atkType 攻击属性类型
-   * @param defType 防守属性类型
-   * @returns 克制倍率 (2.0=克制, 0.5=被克制, 1.0=普通)
+   * 单属性克制倍率。数据在 elements.json，规则与官方相同：
+   * 克制 2，普通 1，微弱 0.5，无效 0。不是互为倒数。
    */
   public static GetTypeEffectiveness(atkType: number, defType: number): number {
-    // 检查是否克制
-    const dominated = this.TYPE_CHART[atkType] || [];
-    if (dominated.includes(defType)) {
-      return 2.0; // 克制
-    }
-
-    // 检查是否被克制
-    const dominated2 = this.TYPE_CHART[defType] || [];
-    if (dominated2.includes(atkType)) {
-      return 0.5; // 被克制
-    }
-
-    return 1.0; // 普通
+    return ElementSystem.GetEffectiveness(atkType, defType);
   }
 
   // ==================== 辅助方法 ====================

@@ -141,12 +141,10 @@ export class PetCalculator {
     const fieldName = statFieldMap[statName];
     const raceValue = baseStats[fieldName];
 
-    // 基础计算
-    let stat = Math.floor((raceValue * 2 + dv + ev / 4) * level / 100) + 5;
-
-    // 应用性格修正（性格ID范围：0-24）
+    // 学习力 ÷4 保留小数。性格乘完后只取整一次，和官方公式一致。
+    let stat = (raceValue * 2 + dv + ev / 4) * level / 100 + 5;
+    let natureMultiplier = 1;
     if (nature >= 0 && nature <= 24) {
-      // 映射属性名到 StatType
       const statTypeMap: { [key: string]: StatType } = {
         'atk': StatType.ATTACK,
         'def': StatType.DEFENCE,
@@ -154,15 +152,12 @@ export class PetCalculator {
         'spDef': StatType.SP_DEFENCE,
         'speed': StatType.SPEED
       };
-
       const statType = statTypeMap[statName];
-      if (statType) {
-        const natureMultiplier = NatureSystem.GetStatModifier(nature, statType);
-        stat = Math.floor(stat * natureMultiplier);
-      }
+      if (statType) natureMultiplier = NatureSystem.GetStatModifier(nature, statType);
     }
+    stat = Math.floor(stat * natureMultiplier);
 
-    return Math.max(1, stat); // 确保至少为1
+    return Math.max(1, stat);
   }
 
   /**
