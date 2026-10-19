@@ -14,3 +14,4 @@ export * from './PetOneCureHandler';
 export * from './PetRoomListHandler';
 export * from './PetEvolutionHandler';
 export * from './SkillSortHandler';
+export * from './UsePetItemOutOfFightHandler';
