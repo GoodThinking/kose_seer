@@ -53,3 +53,11 @@ op为0查询、1购买、2装备、3卸下；slot为0能力、1技能。
 回归命令：Node22运行 `scripts/test-countermark.cjs <合并产物的app目录>`。测试仅使用临时SQLite，不访问真实用户。9组覆盖购买并发、存档装卸、错误回滚、技能隔离、体力与跨宠占用、PVP及换宠实际回合、战后脏数据、战斗/交易互斥、协议长度与XML响应。
 
 新表 `player_countermarks` 在首次查询时幂等创建；宠物装备保存于原有 `pet_list` JSON的 `countermarks` 字段。撤回功能时保留库存表和装备字段，防止用户资产被删除。
+
+## 老版背包视觉对齐
+
+刻印面板沿用当前 `PetBagMc` 的亮蓝外壳、银灰圆角边和深蓝内容区，不采用2014年新版背包的装备台布局。现网 `resource/ui.swf` SHA256 为 `b7f8d7dcc9275366300780689e1442eb1af2f01440be1d22daf6fa1240caec0c`。
+
+8枚刻印使用独立绘制的矢量图标，图标在库存、详情、装备孔中复用。历史 `CountermarkXMLInfo.getIconURL` 指向 `countermark/icon/{id}.swf`，但本地资源包没有这8枚对应文件，因此这些图标不标作官方原图。精灵使用现有原版资源。
+
+仅更新刻印面板时，在客户端构建命令追加 `--module-only`，使用 `visual-baseline-hashes.json` 校验当前 Core、模板和已发布刻印模块。该模式仅输出 `client/overlay/module/com/robot/module/book/PetCountermarkBookPanel.swf`，不重新编译或部署 Core。交易、等级、属性和技能效果规则保持不变。

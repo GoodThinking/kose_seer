@@ -1,11 +1,13 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),zlib=require('node:zlib');
 const {execFileSync}=require('node:child_process');
-const {values}=require('node:util').parseArgs({options:{baseline:{type:'string'},out:{type:'string'},java:{type:'string'},ffdec:{type:'string'}}});
+const {values}=require('node:util').parseArgs({options:{baseline:{type:'string'},out:{type:'string'},java:{type:'string'},ffdec:{type:'string'},'module-only':{type:'boolean',default:false}}});
 for(const name of ['baseline','out','java','ffdec']) if(!values[name]) throw Error('Missing --'+name);
 const root=path.resolve(__dirname,'..'),base=path.resolve(values.baseline),out=path.resolve(values.out),src=path.join(root,'compat/client-patches/countermark');
 const check=(v,m)=>{if(!v)throw Error(m);},hash=b=>crypto.createHash('sha256').update(b).digest('hex');
-const inputs=JSON.parse(fs.readFileSync(path.join(src,'baseline-hashes.json'),'utf8'));
+const moduleOnly=values['module-only'];
+const guardFile=moduleOnly?'visual-baseline-hashes.json':'baseline-hashes.json';
+const inputs=JSON.parse(fs.readFileSync(path.join(src,guardFile),'utf8'));
 for(const [file,expected] of Object.entries(inputs)) check(hash(fs.readFileSync(path.join(base,file)))===expected,'Baseline changed; review before updating guard: '+file);
 const corePath='client/assets/dll/NieoCore.swf',templatePath='client/assets/module/com/robot/module/book/PetAmalgamationBookPanel.swf';
 function parse(raw){
@@ -45,17 +47,19 @@ check(replacement&&!replacement.raw.equals(renamed.find(t=>t.code===82).raw),'Mo
 const moduleResult=encode(original,renamed.map(t=>t.code===82?replacement:t));
 const moduleFinal=parse(moduleResult);
 check(moduleFinal.tags.every((t,i)=>t.code===82||t.code===76||t.raw.equals(original.tags[i].raw)),'Module non-code tags changed');
-const coreImport=path.join(compiler,'core-import/scripts/com/robot/app/petbag/ui');fs.mkdirSync(coreImport,{recursive:true});
-fs.copyFileSync(path.join(src,'PetBagPanel.as'),path.join(coreImport,'PetBagPanel.as'));
-run(['-onerror','abort','-importScript',path.join(base,corePath),path.join(compiler,'core-compiled.swf'),path.join(compiler,'core-import')]);
-const coreCompiled=parse(fs.readFileSync(path.join(compiler,'core-compiled.swf')));
-check(core.tags.length===coreCompiled.tags.length,'Core tag count changed');
+const outputs={'client/overlay/module/com/robot/module/book/PetCountermarkBookPanel.swf':moduleResult};
 const changedCore=[];
-for(let i=0;i<core.tags.length;i++)if(!core.tags[i].raw.equals(coreCompiled.tags[i].raw)){check(core.tags[i].code===82&&coreCompiled.tags[i].code===82,'Core non-code tag changed at '+i);changedCore.push(i);}
-check(changedCore.length===1,'Expected exactly one changed Core ABC, got '+changedCore.length);
-const coreResult=encode(core,core.tags.map((t,i)=>changedCore.includes(i)?coreCompiled.tags[i]:t));
-const outputs={'client/assets/dll/NieoCore.swf':coreResult,'client/overlay/module/com/robot/module/book/PetCountermarkBookPanel.swf':moduleResult};
+if(!moduleOnly){
+ const coreImport=path.join(compiler,'core-import/scripts/com/robot/app/petbag/ui');fs.mkdirSync(coreImport,{recursive:true});
+ fs.copyFileSync(path.join(src,'PetBagPanel.as'),path.join(coreImport,'PetBagPanel.as'));
+ run(['-onerror','abort','-importScript',path.join(base,corePath),path.join(compiler,'core-compiled.swf'),path.join(compiler,'core-import')]);
+ const coreCompiled=parse(fs.readFileSync(path.join(compiler,'core-compiled.swf')));
+ check(core.tags.length===coreCompiled.tags.length,'Core tag count changed');
+ for(let i=0;i<core.tags.length;i++)if(!core.tags[i].raw.equals(coreCompiled.tags[i].raw)){check(core.tags[i].code===82&&coreCompiled.tags[i].code===82,'Core non-code tag changed at '+i);changedCore.push(i);}
+ check(changedCore.length===1,'Expected exactly one changed Core ABC, got '+changedCore.length);
+ outputs['client/assets/dll/NieoCore.swf']=encode(core,core.tags.map((t,i)=>changedCore.includes(i)?coreCompiled.tags[i]:t));
+}
 for(const [file,bytes] of Object.entries(outputs)){const target=path.join(out,file);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,bytes);}
-const sourceFiles=['PetCountermarkBookPanel.as','PetBagPanel.as','baseline-hashes.json'];
-const manifest={sourceBaseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),inputs,sources:Object.fromEntries(sourceFiles.map(f=>[f,hash(fs.readFileSync(path.join(src,f)))])),builderSha256:hash(fs.readFileSync(__filename)),files:Object.entries(outputs).map(([file,b])=>({path:file,sha256:hash(b)})),nativeEntry:'精灵背包 > 精灵刻印',moduleClass:'com.robot.module.book.PetCountermarkBookPanel',protocol:{command:2311,group:900002,requestU32:['group','op','catchTime','markId','slot']},changedCoreABC:changedCore,coreOtherABCAndNonCodePreserved:true,moduleNativeTagsPreservedExceptSymbolClass:true,fusionManualUnchanged:true,productionDataWrittenByBuild:false};
+const sourceFiles=moduleOnly?['PetCountermarkBookPanel.as',guardFile]:['PetCountermarkBookPanel.as','PetBagPanel.as',guardFile];
+const manifest={buildMode:moduleOnly?'module-only':'full-v1',coreChanged:!moduleOnly,sourceBaseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),inputs,sources:Object.fromEntries(sourceFiles.map(f=>[f,hash(fs.readFileSync(path.join(src,f)))])),builderSha256:hash(fs.readFileSync(__filename)),files:Object.entries(outputs).map(([file,b])=>({path:file,sha256:hash(b)})),nativeEntry:'精灵背包 > 精灵刻印',moduleClass:'com.robot.module.book.PetCountermarkBookPanel',protocol:{command:2311,group:900002,requestU32:['group','op','catchTime','markId','slot']},changedCoreABC:changedCore,coreOtherABCAndNonCodePreserved:true,moduleNativeTagsPreservedExceptSymbolClass:true,fusionManualUnchanged:true,productionDataWrittenByBuild:false};
 fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify(manifest,null,2));

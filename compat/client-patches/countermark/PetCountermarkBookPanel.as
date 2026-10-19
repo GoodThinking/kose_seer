@@ -8,6 +8,9 @@ package com.robot.module.book
    import com.robot.core.net.SocketConnection;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
+   import flash.display.GradientType;
+   import flash.geom.Matrix;
+   import flash.geom.Rectangle;
    import flash.display.Sprite;
    import flash.events.MouseEvent;
    import flash.events.TimerEvent;
@@ -26,36 +29,37 @@ package com.robot.module.book
    {
       private var ui:Sprite;
       private var body:Sprite;
-      private var actions:Array = [];
       private var state:XML;
       private var petTime:uint = 0;
       private var markId:uint = 0;
       private var kind:String = "ability";
-      private var page:int = 0;
       private var pending:Boolean = false;
       private var uncertain:Boolean = false;
       private var requestTimer:Timer = new Timer(15000,1);
       private var visiblePanel:Boolean = false;
       private var message:String = "正在读取刻印资料…";
-      private var pendingOp:uint = 0;
       private var portraitURL:String = "";
       private var portraitBox:Sprite;
       private var wantedPortrait:uint = 0;
+      private var petLoads:Array = [];
+      private var generation:uint = 0;
       public function PetCountermarkBookPanel() { super(); }
       public function init(data:Object = null):void {
          if(data != null && data.catchTime != null) petTime = uint(data.catchTime);
       }
       public function setup():void {
          if(ui != null) return;
-         ui = new Sprite(); ui.name = "countermarkPanel";
-         ui.graphics.lineStyle(3,0x69DDF7); ui.graphics.beginFill(0x0B416A);
-         ui.graphics.drawRoundRect(0,0,920,520,18,18); ui.graphics.endFill();
-         label(ui,"精灵刻印",26,16,300,36,26,0xF1FBFF,true);
-         label(ui,"能力孔 · 技能孔   /   100级精灵专属",28,62,600,24,13,0xACD9F0);
-         var close:Sprite = button(ui,"关闭",824,24,72,32,"close");
+         ui = new Sprite();ui.name="countermarkPanel";
+         ui.graphics.lineStyle(3,0x173B5C);ui.graphics.beginFill(0xCCD6DE);ui.graphics.drawRoundRect(0,0,920,520,26,26);ui.graphics.endFill();
+         ui.graphics.lineStyle(2,0xF3F7F8);ui.graphics.beginFill(0x2DA7E4);ui.graphics.drawRoundRect(9,6,902,508,18,18);ui.graphics.endFill();
+         ui.graphics.lineStyle(2,0x10628F);ui.graphics.moveTo(15,65);ui.graphics.lineTo(905,65);
+         label(ui,"精灵刻印",31,15,230,42,27,0xF6FCFF,true);
+         label(ui,"为精灵装上专属刻印",261,29,310,25,13,0xE2F6FF);
+         button(ui,"关闭",829,19,65,32,"close");
          ui.addEventListener(MouseEvent.CLICK,onClick);
-         body = new Sprite(); ui.addChild(body);
+         body=new Sprite();ui.addChild(body);
       }
+
       public function show():void {
          setup(); if(visiblePanel) return;
          visiblePanel = true; ui.x = 20; ui.y = 20;
@@ -78,12 +82,15 @@ package com.robot.module.book
       }
       public function destroy():void {
          hide(); if(ui != null) ui.removeEventListener(MouseEvent.CLICK,onClick);
-         ui = null; body = null; state = null; actions = [];
+         ui = null; body = null; state = null;
       }
       private function cancelPortrait():void {
+         generation++;
          if(portraitURL != "") ResourceManager.cancel(portraitURL,onPortrait);
-         portraitURL = ""; wantedPortrait = 0;
+         for each(var load:Object in petLoads) ResourceManager.cancel(load.url,load.callback);
+         petLoads = []; portraitURL = ""; wantedPortrait = 0;
       }
+
       private function onPetUpdate(event:PetEvent):void { if(visiblePanel) draw(); }
       private function label(parent:Sprite,value:String,x:Number,y:Number,w:Number,h:Number,size:uint = 14,color:uint = 0xD7F0FF,bold:Boolean = false):TextField {
          var t:TextField = new TextField(); t.x=x; t.y=y; t.width=w; t.height=Math.max(h,Math.ceil(size*1.5)+4);
@@ -91,18 +98,28 @@ package com.robot.module.book
          t.text=value; t.selectable=false; t.mouseEnabled=false; t.wordWrap=true; t.multiline=true;
          parent.addChild(t); return t;
       }
-      private function box(parent:Sprite,x:Number,y:Number,w:Number,h:Number,color:uint = 0x082C49):void {
-         parent.graphics.lineStyle(1,0x3187AE); parent.graphics.beginFill(color);
-         parent.graphics.drawRoundRect(x,y,w,h,8,8); parent.graphics.endFill();
+      private function plate(parent:Sprite,x:Number,y:Number,w:Number,h:Number,top:uint,bottom:uint,edge:uint,line:Number = 1):void {
+         var matrix:Matrix=new Matrix();matrix.createGradientBox(w,h,Math.PI/2,x,y);
+         parent.graphics.lineStyle(line,edge);parent.graphics.beginGradientFill(GradientType.LINEAR,[top,bottom],[1,1],[0,255],matrix);
+         parent.graphics.drawRoundRect(x,y,w,h,10,10);parent.graphics.endFill();
       }
       private function button(parent:Sprite,title:String,x:Number,y:Number,w:Number,h:Number,action:String,enabled:Boolean = true):Sprite {
          var b:Sprite=new Sprite(); b.x=x; b.y=y; b.name=action; b.buttonMode=true;
-         box(b,0,0,w,h,enabled?0x176B9D:0x25485E);
-         var t:TextField=label(b,title,4,Math.max(1,(h-23)/2),w-8,h-2,13,enabled?0xF1FCFF:0x839CAC,true);
+         var selected:Boolean=action=="tab:"+kind;
+         var gold:Boolean=action=="buy"||selected;
+         plate(b,0,0,w,h,enabled?(gold?0x53A7D3:0x369DDD):0x27495E,enabled?(gold?0x246B9F:0x1A76B1):0x17364D,selected?0xFFE39A:(enabled?0x0A4875:0x466479),selected?2:1);
+         b.graphics.lineStyle(1,0xD5F4FF,enabled?0.5:0.15);b.graphics.moveTo(9,3);b.graphics.lineTo(w-9,3);
+         var t:TextField=label(b,title,4,Math.max(1,(h-24)/2),w-8,h-2,13,enabled?(gold?0xFFF1B6:0xEDFAFF):0x8AA6B8,true);
          var f:TextFormat=t.defaultTextFormat; f.align="center"; t.setTextFormat(f);
          b.mouseChildren=false; parent.addChild(b);
-         if(action!="close") { b.mouseEnabled=enabled&&!pending&&(!uncertain||action=="refresh"); b.alpha=b.mouseEnabled?1:0.55; actions.push(b); }
+         if(action!="close") { b.mouseEnabled=enabled&&!pending&&(!uncertain||action=="refresh"); b.alpha=b.mouseEnabled?1:0.55; }
          return b;
+      }
+      private function shape(s:Sprite,points:Array,fill:uint,edge:uint = 0xF7EDCA):void {
+         s.graphics.lineStyle(1.4,edge);s.graphics.beginFill(fill);
+         s.graphics.moveTo(points[0],points[1]);
+         for(var i:int=2;i<points.length;i+=2)s.graphics.lineTo(points[i],points[i+1]);
+         s.graphics.lineTo(points[0],points[1]);s.graphics.endFill();
       }
       private function bagPets():Array {
          var result:Array=[];
@@ -119,7 +136,6 @@ package com.robot.module.book
          if(state != null) for each(var m:XML in state.catalog.mark) if(uint(m.@id)==id) return m;
          return null;
       }
-      private function markName(id:uint):String { var m:XML=findMark(id); return m==null?"未装备":String(m.@name); }
       private function count(id:uint):uint {
          if(state != null) for each(var item:XML in state.inventory.mark) if(uint(item.@id)==id) return uint(item.@count);
          return 0;
@@ -128,74 +144,157 @@ package com.robot.module.book
          if(state != null) for each(var p:XML in state.pets.pet) if(uint(p.@ability)==id||uint(p.@skill)==id) return p;
          return null;
       }
-      private function badge(parent:Sprite,x:Number,y:Number,skill:Boolean):void {
-         var s:Sprite=new Sprite(); s.x=x; s.y=y;
-         s.graphics.lineStyle(2,skill?0xE9BF76:0x73DDF5); s.graphics.beginFill(skill?0x74542D:0x16658C);
-         s.graphics.moveTo(0,-19); s.graphics.lineTo(17,-9); s.graphics.lineTo(17,10); s.graphics.lineTo(0,20); s.graphics.lineTo(-17,10); s.graphics.lineTo(-17,-9); s.graphics.lineTo(0,-19); s.graphics.endFill();
-         s.graphics.lineStyle(3,0xEAFBFF);
-         if(skill) { s.graphics.moveTo(4,-12); s.graphics.lineTo(-6,2); s.graphics.lineTo(3,2); s.graphics.lineTo(-4,12); }
-         else { s.graphics.moveTo(-8,0); s.graphics.lineTo(8,0); s.graphics.moveTo(0,-9); s.graphics.lineTo(0,9); }
-         parent.addChild(s);
+      // Each identifier has its own original vector emblem; the same drawing is used in inventory, details and equipped sockets.
+      private function badge(parent:Sprite,x:Number,y:Number,id:uint,size:Number):Sprite {
+         var s:Sprite=new Sprite();s.x=x;s.y=y;s.name="badge:"+id;s.scaleX=s.scaleY=size/60;s.mouseEnabled=false;s.mouseChildren=false;
+         var color:uint=id==10001?0xF07B65:id==10002?0x65A9EB:id==10003?0xC396F8:id==10004?0x71DAD9:id==10005?0x91D988:id==10006?0xF29AB8:id==20001?0xF6B862:0xF4DF75;
+         s.graphics.lineStyle(2.2,0x0B3556);s.graphics.beginFill(color);s.graphics.drawCircle(0,0,27);s.graphics.endFill();
+         var matrix:Matrix=new Matrix();matrix.createGradientBox(44,44,Math.PI/2,-22,-22);
+         s.graphics.lineStyle(1,0xFFFFFF,0.6);s.graphics.beginGradientFill(GradientType.LINEAR,[color,0x23476B],[1,0.7],[0,255],matrix);s.graphics.drawCircle(0,0,23);s.graphics.endFill();
+         s.graphics.lineStyle();s.graphics.beginFill(0xFFFFFF,0.25);s.graphics.drawEllipse(-17,-19,24,9);s.graphics.endFill();
+         if(id==10001) {
+            shape(s,[-3,9,3,3,3,-13,0,-19,-3,-13,-3,1,-9,7],0xFFEAC8);
+            shape(s,[-11,3,-7,-1,6,12,2,16],0xCE9B4B);shape(s,[-8,13,-5,10,-1,14,-4,18],0xFFE3A8);
+            s.graphics.lineStyle(1,0xFFFFFF);s.graphics.moveTo(0,-13);s.graphics.lineTo(0,1);
+         } else if(id==10002) {
+            shape(s,[-14,-12,0,-17,14,-12,12,5,6,14,0,19,-6,14,-12,5],0xAACEEF);
+            shape(s,[-9,-8,0,-12,9,-8,8,3,0,13,-8,3],0x245C93);
+            s.graphics.lineStyle(2,0xE2F6FF);s.graphics.moveTo(0,-10);s.graphics.lineTo(0,12);s.graphics.moveTo(-8,-5);s.graphics.lineTo(8,-5);
+         } else if(id==10003) {
+            shape(s,[0,-20,5,-6,18,0,5,5,0,19,-5,5,-18,0,-5,-6],0xF2E6FF);
+            shape(s,[0,-10,4,0,0,10,-4,0],0x9D69DE);
+            s.graphics.lineStyle(1.5,0xE9CEFF);s.graphics.drawEllipse(-20,-8,40,16);s.graphics.beginFill(0xFFF1C3);s.graphics.drawCircle(17,-7,2);s.graphics.endFill();
+         } else if(id==10004) {
+            shape(s,[-17,-10,0,-19,17,-10,17,5,0,20,-17,5],0x163F67);
+            shape(s,[-11,-7,0,-13,11,-7,10,4,0,14,-10,4],0x8EF2E7);
+            s.graphics.lineStyle(2,0xE1FFFA);s.graphics.moveTo(-20,-1);s.graphics.lineTo(0,-12);s.graphics.lineTo(20,-1);s.graphics.moveTo(-20,6);s.graphics.lineTo(0,18);s.graphics.lineTo(20,6);
+            shape(s,[0,-6,4,1,0,8,-4,1],0xDDFDF1);
+         } else if(id==10005) {
+            shape(s,[-18,10,-14,-4,17,-18,11,-6,3,-2,11,-3,6,6,-3,8,4,8,-3,16,-12,18],0xDDF7CC);
+            s.graphics.lineStyle(2,0x68B86F);s.graphics.moveTo(-13,11);s.graphics.lineTo(10,-9);
+            s.graphics.lineStyle(1,0xE8FFDE);s.graphics.moveTo(-20,-10);s.graphics.lineTo(-11,-13);s.graphics.moveTo(-22,-3);s.graphics.lineTo(-14,-6);
+         } else if(id==10006) {
+            s.graphics.lineStyle(1.6,0xFFE8EB);s.graphics.beginFill(0xFFD0D8);
+            s.graphics.moveTo(0,17);s.graphics.curveTo(-23,0,-14,-11);s.graphics.curveTo(-6,-20,0,-9);s.graphics.curveTo(7,-21,15,-11);s.graphics.curveTo(24,0,0,17);s.graphics.endFill();
+            s.graphics.lineStyle(2,0xB34A72);s.graphics.moveTo(-13,0);s.graphics.lineTo(-5,0);s.graphics.lineTo(-2,-6);s.graphics.lineTo(3,7);s.graphics.lineTo(6,0);s.graphics.lineTo(13,0);
+         } else if(id==20001) {
+            shape(s,[-3,-21,2,-13,14,-17,11,-6,22,-2,12,4,16,16,4,12,-2,22,-7,11,-19,14,-14,3,-22,-4,-11,-8,-14,-19],0xF6C879,0xFFEAC0);
+            shape(s,[-9,-5,-5,-10,0,-8,5,-9,10,-5,10,6,4,12,-6,9,-11,2],0xB66431,0xFFF1CE);
+            s.graphics.lineStyle(1.5,0xFFE5AD);s.graphics.moveTo(-5,-7);s.graphics.lineTo(-5,0);s.graphics.moveTo(0,-6);s.graphics.lineTo(0,0);s.graphics.moveTo(5,-6);s.graphics.lineTo(5,1);
+         } else if(id==20002) {
+            shape(s,[-3,-21,13,-21,3,-6,16,-6,-9,22,-3,4,-15,4],0xFFF1A0);
+            s.graphics.lineStyle(2,0xF7B55A);s.graphics.moveTo(-21,-10);s.graphics.lineTo(-11,-15);s.graphics.moveTo(-22,-1);s.graphics.lineTo(-13,-5);s.graphics.moveTo(13,10);s.graphics.lineTo(21,5);
+         }
+         parent.addChild(s);return s;
+      }
+      private function socket(x:Number,y:Number,id:uint,title:String,active:Boolean):void {
+         var s:Sprite=new Sprite();s.x=x;s.y=y;body.addChild(s);
+         s.graphics.lineStyle(2,active?0xFFE59A:0xB8CAD5);s.graphics.beginFill(0x0C2947);s.graphics.drawCircle(0,0,26);s.graphics.endFill();
+         s.graphics.lineStyle(1,0x4D92B9);s.graphics.drawCircle(0,0,21);
+         if(id!=0) badge(s,0,0,id,42);
+         else centerLabel(s,"空",-19,-12,38,24,13,0x76A2BF);
+         centerLabel(body,title,x-47,y+31,94,22,12,active?0xFFE59A:0xB5D9EC);
+      }
+      private function centerLabel(parent:Sprite,value:String,x:Number,y:Number,w:Number,h:Number,size:uint,color:uint,bold:Boolean=false):TextField {
+         var t:TextField=label(parent,value,x,y,w,h,size,color,bold);var f:TextFormat=t.defaultTextFormat;f.align="center";t.setTextFormat(f);return t;
       }
       private function draw():void {
          if(body==null) return;
-         cancelPortrait(); while(body.numChildren>0) body.removeChildAt(0); body.graphics.clear(); actions=[];
-         box(body,18,92,230,368); box(body,260,92,310,368); box(body,582,92,320,368);
-         label(body,"背包精灵",30,101,200,26,17,0x8CE4F6,true);
-         if(state != null) label(body,"赛尔豆  "+String(state.@coins),620,55,275,26,16,0xF6D68E,true);
+         cancelPortrait();while(body.numChildren>0) body.removeChildAt(0);body.graphics.clear();
+         plate(body,20,78,226,351,0x204D77,0x18395F,0x0C3C66,2);
+         plate(body,257,78,309,351,0x204D77,0x18395F,0x0C3C66,2);
+         plate(body,577,78,322,351,0x204D77,0x18395F,0x0C3C66,2);
+         label(body,"背包精灵",32,88,200,28,17,0xF1FBFF,true);
+         if(state!=null) {
+            label(body,"赛尔豆",626,29,60,25,13,0xDAF3FF);
+            label(body,String(state.@coins),692,25,114,29,18,0xFFF0A0,true);
+         }
          var pets:Array=bagPets();
-         if(pets.length==0) label(body,"背包里还没有精灵",32,155,200,40);
+         if(pets.length==0) label(body,pending?"正在读取背包…":"请先放入背包精灵",34,166,195,50,14,0xC4E2F2);
          for(var i:int=0;i<pets.length&&i<6;i++) {
-            var p:XML=pets[i];
-            button(body,(uint(p.@catchTime)==petTime?"◆ ":"")+String(p.@name)+"  Lv."+String(p.@level),30,138+i*43,206,35,"pet:"+p.@catchTime);
+            var p:XML=pets[i];var card:Sprite=new Sprite();card.x=31;card.y=123+i*44;card.name="pet:"+p.@catchTime;card.buttonMode=true;card.mouseChildren=false;
+            var selected:Boolean=uint(p.@catchTime)==petTime;
+            plate(card,0,0,203,38,selected?0x458DB9:0x245C8B,selected?0x28648D:0x1B4A76,selected?0xFFE58D:0x0F3559,selected?2:1);
+            var thumb:Sprite=new Sprite();card.addChild(thumb);loadThumbnail(thumb,uint(p.@id));
+            label(card,String(p.@name),46,3,150,22,12,selected?0xFFF0AA:0xE1F2FD,true);
+            label(card,"等级 "+p.@level,47,21,147,17,9,0xB9D8EC);
+            card.mouseEnabled=!pending&&!uncertain;card.alpha=card.mouseEnabled?1:0.6;body.addChild(card);
          }
-         label(body,"100级启用刻印效果\n降级后装备保留，效果暂停",30,407,206,46,12,0xB3D4E6);
-         button(body,"能力刻印",272,103,139,31,"tab:ability"); button(body,"技能刻印",419,103,139,31,"tab:skill");
-         var marks:Array=[];
-         if(state != null) for each(var item:XML in state.catalog.mark) if(String(item.@kind)==kind) marks.push(item);
-         if(page*5>=marks.length) page=0;
-         for(i=page*5;i<Math.min(marks.length,page*5+5);i++) {
-            var m:XML=marks[i]; var own:XML=owner(uint(m.@id));
-            var rowY:Number=145+(i-page*5)*52;
-            button(body,(markId==uint(m.@id)?"◆ ":"")+m.@name,274,rowY,282,30,"mark:"+m.@id);
-            label(body,own!=null?"占用："+own.@name:(count(uint(m.@id))>0?"已拥有 · 可装备":"本服兑换  "+m.@price+" 赛尔豆"),281,rowY+30,274,20,11,own!=null?0xF2CC8C:0xA8D4EB);
+         label(body,"不足100级时，刻印效果停用",32,399,204,22,10,0xB6D6E9);
+         button(body,"能力刻印",270,90,139,31,"tab:ability");button(body,"技能刻印",417,90,136,31,"tab:skill");
+         var marks:Array=[];var item:XML;
+         if(state!=null) for each(item in state.catalog.mark) if(String(item.@kind)==kind) marks.push(item);
+         for(i=0;i<marks.length;i++) {
+            var m:XML=marks[i];var own:XML=owner(uint(m.@id));
+            var x:Number=271+(i%2)*146;var y:Number=136+int(i/2)*86;
+            var tile:Sprite=new Sprite();tile.x=x;tile.y=y;tile.name="mark:"+m.@id;tile.buttonMode=true;tile.mouseChildren=false;
+            selected=markId==uint(m.@id);
+            plate(tile,0,0,136,78,selected?0x347CA6:0x265C86,selected?0x245E88:0x1A456D,selected?0xFFE58D:0x0C355A,selected?2:1);
+            badge(tile,31,28,uint(m.@id),45);
+            var shortEffect:String=String(m.@description).replace("电光火石","").replace("撞击","");
+            label(tile,shortEffect,62,15,69,37,12,selected?0xFFF0AC:0xC7E6F3,true);
+            centerLabel(tile,String(m.@name),3,53,130,24,12,selected?0xFFF0AC:0xE1F3FF,true);
+            if(own!=null||count(uint(m.@id))>0) {
+               tile.graphics.lineStyle(1,0xB9ECDA);tile.graphics.beginFill(0x248A76);tile.graphics.drawCircle(123,10,5);tile.graphics.endFill();
+               tile.graphics.lineStyle(1,0xEDFFF7);tile.graphics.moveTo(120,10);tile.graphics.lineTo(122,12);tile.graphics.lineTo(126,8);
+            }
+            tile.mouseEnabled=!pending&&!uncertain;tile.alpha=tile.mouseEnabled?1:0.6;body.addChild(tile);
          }
-         button(body,"上一页",274,416,83,30,"prev",page>0);
-         label(body,(page+1)+" / "+Math.max(1,Math.ceil(marks.length/5)),367,421,80,22,12);
-         button(body,"下一页",466,416,90,30,"next",(page+1)*5<marks.length);
-         var pet:XML=selectedPet(); var mark:XML=selectedMark();
-         if(pet != null) {
-            label(body,String(pet.@name)+"  Lv."+pet.@level,596,101,288,26,18,0xEDFAFF,true);
-            portraitBox=new Sprite(); portraitBox.x=606; portraitBox.y=136; body.addChild(portraitBox);
-            box(portraitBox,0,0,76,78,0x103F60);
-            wantedPortrait=uint(pet.@id); portraitURL=ClientConfig.getPetSwfPath(wantedPortrait);
-            ResourceManager.getResource(portraitURL,onPortrait,"pet");
-            label(body,"能力孔："+markName(uint(pet.@ability))+"\n技能孔："+markName(uint(pet.@skill)),691,136,199,61,12,0xBDDFF0);
-            label(body,uint(pet.@level)>=100?"刻印效果已启用":"不足100级 · 刻印效果停用",596,218,292,23,12,uint(pet.@level)>=100?0x8DE3B8:0xFFD18A,true);
-            label(body,"体力 "+pet.@hp+"/"+pet.@maxHp+"   攻击 "+pet.@atk+"   防御 "+pet.attribute("def")+"\n特攻 "+pet.@spAtk+"   特防 "+pet.@spDef+"   速度 "+pet.@speed,596,245,292,48,12,0xE1F5FF);
+         if(kind=="skill") {
+            label(body,"技能孔专用",278,256,270,31,18,0xFFF0A7,true);
+            label(body,"刻印效果仅作用于对应技能。\n选择刻印，查看详细效果。",278,300,267,60,13,0xC4DFEF);
          }
-         if(mark != null) {
-            badge(body,615,318,String(mark.@kind)=="skill");
-            label(body,String(mark.@name),646,298,242,26,17,0xF6D68E,true);
-            label(body,String(mark.@description),646,332,242,43,12,0xD8EAF4);
-            var nums:Array=["hp","atk","def","spAtk","spDef","speed"]; var names:Array=["体力","攻击","防御","特攻","特防","速度"]; var bonuses:Array=[];
-            for(i=0;i<nums.length;i++) if(int(mark.attribute(nums[i]))!=0) bonuses.push(names[i]+" +"+mark.attribute(nums[i]));
-            if(bonuses.length>0) label(body,bonuses.join("  "),596,373,292,23,14,0x8DE3B8,true);
-            own=owner(markId); var owned:Boolean=count(markId)>0||own!=null;
+         label(body,"每种限1枚（含已装备）",274,401,275,22,11,0xB6D6E9);
+         var pet:XML=selectedPet();var mark:XML=selectedMark();
+         if(pet!=null) {
+            label(body,String(pet.@name)+"  等级 "+pet.@level,590,88,294,31,18,0xF3FAFF,true);
+            label(body,uint(pet.@level)>=100?"刻印效果已启用":"不足100级 · 刻印效果停用",591,117,292,22,11,uint(pet.@level)>=100?0xB0E6D9:0xFFE0A0);
+            portraitBox=new Sprite();portraitBox.x=654;portraitBox.y=194;portraitBox.mouseEnabled=false;portraitBox.mouseChildren=false;body.addChild(portraitBox);
+            wantedPortrait=uint(pet.@id);portraitURL=ClientConfig.getPetSwfPath(wantedPortrait);ResourceManager.getResource(portraitURL,onPortrait,"pet");
+            socket(762,176,uint(pet.@ability),"能力孔",uint(pet.@level)>=100&&uint(pet.@ability)>0);
+            socket(848,176,uint(pet.@skill),"技能孔",uint(pet.@level)>=100&&uint(pet.@skill)>0);
+            var names:Array=["体力","攻击","防御","特攻","特防","速度"];
+            var vals:Array=[String(pet.@hp)+"/"+pet.@maxHp,String(pet.@atk),String(pet.attribute("def")),String(pet.@spAtk),String(pet.@spDef),String(pet.@speed)];
+            for(i=0;i<6;i++) {
+               var sx:Number=590+(i%3)*101;var sy:Number=255+int(i/3)*24;
+               label(body,names[i],sx,sy,31,23,11,0xB8D8EC);label(body,vals[i],sx+32,sy-2,68,27,13,0xFFF0AF,true);
+            }
+         } else {
+            centerLabel(body,pending?"正在读取精灵…":"未选择精灵",597,145,280,32,17,0xBDDCEA);
+            socket(762,207,0,"能力孔",false);socket(848,207,0,"技能孔",false);
+         }
+         body.graphics.lineStyle(1,0x6CA2C1,0.6);body.graphics.moveTo(590,309);body.graphics.lineTo(887,309);
+         if(mark!=null) {
+            badge(body,617,341,markId,45);
+            label(body,String(mark.@name),652,316,236,28,17,0xFFF0AB,true);
+            label(body,String(mark.@description),652,345,235,33,12,0xE2F1FC);
+            own=owner(markId);var owned:Boolean=count(markId)>0||own!=null;
             var same:Boolean=pet!=null&&uint(pet.attribute(kind))==markId;
-            button(body,owned?"已拥有":"本服兑换 "+mark.@price,596,412,138,34,"buy",!owned&&state!=null&&uint(state.@coins)>=uint(mark.@price));
-            button(body,same?"卸下":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备"),746,412,142,34,same?"unequip":"equip",pet!=null&&owned&&(same||uint(pet.@level)>=100)&&(own==null||uint(own.@catchTime)==petTime));
+            var status:String=own!=null?"占用："+own.@name:(owned?"已拥有 · 可装备":"本服兑换："+mark.@price+" 赛尔豆");
+            label(body,status,590,365,297,24,11,own!=null?0xFFE0A0:0xBDDFE8);
+            button(body,owned?"已拥有":"兑换刻印",590,391,139,29,"buy",!owned&&state!=null&&uint(state.@coins)>=uint(mark.@price));
+            button(body,same?"卸下刻印":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备刻印"),740,391,147,29,same?"unequip":"equip",pet!=null&&owned&&(same||uint(pet.@level)>=100)&&(own==null||uint(own.@catchTime)==petTime));
          }
-         label(body,pending?"请求处理中，请稍候…":message,24,472,776,27,13,pending?0xA7DCF2:0xF6D68E);
-         button(body,"刷新",824,472,72,28,"refresh");
-         label(body,"每种刻印最多拥有1枚（包含已装备）；更换刻印会返还原刻印。",26,500,866,16,10,0xA9CBDF);
+         label(body,"100级可用；降级后装备保留，效果停用。更换刻印会返还原刻印。",25,443,864,25,12,0xE0F4FF);
+         label(body,pending?"请求处理中，请稍候…":message,25,481,772,27,13,0xFFF3AE,true);
+         button(body,"刷新",817,478,76,30,"refresh");
+      }
+      private function fitPet(content:DisplayObject,target:Sprite,cx:Number,cy:Number,w:Number,h:Number):void {
+         var mc:MovieClip=content as MovieClip;if(mc!=null) DisplayUtil.stopAllMovieClip(mc);
+         var bounds:Rectangle=content.getBounds(content);var ratio:Number=Math.min(w/Math.max(bounds.width,1),h/Math.max(bounds.height,1));
+         content.scaleX=content.scaleY=ratio;content.x=cx-(bounds.x+bounds.width/2)*ratio;content.y=cy-(bounds.y+bounds.height/2)*ratio;
+         target.addChild(content);
       }
       private function onPortrait(content:DisplayObject):void {
          if(!visiblePanel||portraitBox==null||wantedPortrait==0||content==null) return;
-         var mc:MovieClip=content as MovieClip; if(mc!=null) DisplayUtil.stopAllMovieClip(mc);
-         var ratio:Number=Math.min(64/Math.max(content.width,1),64/Math.max(content.height,1));
-         content.scaleX=content.scaleY=ratio; content.x=38-content.getBounds(content).x*ratio-content.width/2; content.y=39-content.getBounds(content).y*ratio-content.height/2;
-         portraitBox.addChild(content);
+         fitPet(content,portraitBox,0,0,120,111);
+      }
+      private function loadThumbnail(target:Sprite,id:uint):void {
+         var token:uint=generation;var url:String=ClientConfig.getPetSwfPath(id);
+         var callback:Function=function(content:DisplayObject):void {
+            if(visiblePanel&&token==generation&&content!=null) fitPet(content,target,22,19,35,33);
+         };
+         petLoads.push({url:url,callback:callback});ResourceManager.getResource(url,callback,"pet");
       }
       private function onClick(event:MouseEvent):void {
          var target:DisplayObject=event.target as DisplayObject; if(target==null) return;
@@ -204,9 +303,7 @@ package com.robot.module.book
          if(pending || (uncertain&&action!="refresh")) return;
          if(action.indexOf("pet:")==0) petTime=uint(action.split(":")[1]);
          else if(action.indexOf("mark:")==0) markId=uint(action.split(":")[1]);
-         else if(action.indexOf("tab:")==0) { kind=action.split(":")[1]; page=0; markId=0; chooseMark(); }
-         else if(action=="prev") page--;
-         else if(action=="next") page++;
+         else if(action.indexOf("tab:")==0) { kind=action.split(":")[1]; markId=0; chooseMark(); }
          else if(action=="refresh") { request(0); return; }
          else if(action=="buy") { request(1); return; }
          else if(action=="equip") { request(2); return; }
@@ -218,7 +315,7 @@ package com.robot.module.book
          if(state!=null&&findMark(markId)==null) for each(var m:XML in state.catalog.mark) if(String(m.@kind)==kind) { markId=uint(m.@id); break; }
       }
       private function request(op:uint):void {
-         if(pending || (uncertain&&op!=0)) return; pending=true; pendingOp=op; requestTimer.reset(); requestTimer.start(); draw();
+         if(pending || (uncertain&&op!=0)) return; pending=true; requestTimer.reset(); requestTimer.start(); draw();
          SocketConnection.send(2311,900002,op,petTime,markId,kind=="skill"?1:0);
       }
       private function onTimeout(event:TimerEvent):void { markUncertain(); }
