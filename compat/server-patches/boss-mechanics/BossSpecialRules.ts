@@ -40,6 +40,20 @@ export interface IBossMechanics {
   lowHpAttackPercent?: number;
   /** 额外的命数：体力归零后满血满PP复活的次数 */
   extraLives?: number;
+  /** 体力低于该百分比时攻击必定致命一击（墨杜萨、菲尼克斯光芒之影） */
+  lowHpCritPercent?: number;
+  /** 开场先用的技能；对手等级不低于 minFoeLevel 时才用（巴弗洛遇到等级高的精灵先放镇魂歌） */
+  openingSkill?: { skillId: number; minFoeLevel?: number };
+  /** 每失去一条命后依次切换的形态（克拉尼特两形态、菲尼克斯三分身）：规则、特性、技能整体替换 */
+  phases?: IBossPhase[];
+}
+
+/** BOSS的一种形态 */
+export interface IBossPhase {
+  name?: string;
+  mechanics?: IBossMechanics;
+  abilities?: (number | { id: number; args?: number[] })[];
+  skills?: number[];
 }
 
 type DamageKind = 'attack' | 'fixed' | 'ohko';
@@ -58,8 +72,10 @@ export class BossSpecialRules {
     const abilities = bossConfig.weekdayAbilities?.[weekday] ?? bossConfig.abilities ?? [];
     pet.bossAbilityEntries = abilities.map((a: any) => typeof a === 'number' ? { id: a } : { id: a.id, args: a.args });
     const mechanics: IBossMechanics = { ...(bossConfig.mechanics || {}), ...(bossConfig.weekdayMechanics?.[weekday] || {}) };
+    const phases = mechanics.phases || [];
+    delete mechanics.phases;
     pet.bossMechanics = mechanics;
-    pet.bossState = { sequencePhase: 0, shieldBroken: false, livesLeft: mechanics.extraLives || 0 };
+    pet.bossState = { sequencePhase: 0, shieldBroken: false, livesLeft: mechanics.extraLives || 0, phases, phase: 0, opened: false };
     (mechanics.startStages || []).forEach((stage, index) => {
       if (stage) pet.battleLevels[index] = stage;
     });
@@ -92,6 +108,14 @@ export class BossSpecialRules {
     if (mechanics.statusImmune === true) return true;
     if (Array.isArray(mechanics.statusImmune) && mechanics.statusImmune.includes(status)) return true;
     return !!mechanics.statusFromAttacksOnly && !!skillId && GameConfig.GetSkillById(skillId)?.Category === 4;
+  }
+
+  /**
+   * 低血必定致命一击（lowHpCritPercent）
+   */
+  public static IsForcedCrit(pet: any): boolean {
+    const percent = this.Mechanics(pet)?.lowHpCritPercent;
+    return !!percent && pet.hp > 0 && pet.hp * 100 < pet.maxHp * percent;
   }
 
   /**
@@ -265,6 +289,7 @@ export class BossSpecialRules {
       boss.bossState.livesLeft--;
       boss.hp = boss.maxHp;
       Logger.Info(`[BossSpecialRules] ${boss.name} 复活，剩余额外命数=${boss.bossState.livesLeft}`);
+      this.EnterNextPhase(boss);
     }
     if (boss.hp > 0) {
       this.RestorePP(boss);
@@ -280,6 +305,33 @@ export class BossSpecialRules {
       boss.hp = boss.maxHp;
       Logger.Info(`[BossSpecialRules] ${boss.name} 没有异常状态，体力回满`);
     }
+  }
+
+  /**
+   * 复活后切换到下一形态：异常、能力等级和回合类效果清空，规则、特性、技能换成新形态的
+   */
+  private static EnterNextPhase(boss: any): void {
+    const phases: IBossPhase[] = boss.bossState.phases || [];
+    if (!phases.length) return;
+    const phase = phases[Math.min(boss.bossState.phase, phases.length - 1)];
+    boss.bossState.phase++;
+    boss.bossMechanics = { ...(phase.mechanics || {}) };
+    boss.status = undefined;
+    boss.statusDurations.fill(0);
+    boss.battleLevels.fill(0);
+    (phase.mechanics?.startStages || []).forEach((stage, index) => {
+      if (stage) boss.battleLevels[index] = stage;
+    });
+    delete boss.effectStates;
+    delete boss.passiveStates;
+    if (phase.skills?.length) {
+      boss.skills = [...phase.skills];
+      boss.skillPP = phase.skills.map((id: number) => GameConfig.GetSkillById(id)?.MaxPP || 0);
+    }
+    boss.bossAbilityEntries = (phase.abilities || []).map((a: any) => typeof a === 'number' ? { id: a } : { id: a.id, args: a.args });
+    boss.immuneFlags = {};
+    require('./BossAbility/BossAbilityManager').BossAbilityManager.InitializeBossAbilities(boss, boss.bossAbilityEntries);
+    Logger.Info(`[BossSpecialRules] ${boss.name} 进入形态: ${phase.name || boss.bossState.phase}`);
   }
 
   /**
@@ -300,6 +352,12 @@ export class BossSpecialRules {
     if (!boss.skillPP.some((pp: number) => pp > 0)) {
       Logger.Info(`[BossSpecialRules] ${boss.name} 技能PP耗尽，无法行动`);
       return 0;
+    }
+    const opening = boss.bossMechanics.openingSkill;
+    if (opening && !boss.bossState.opened) {
+      boss.bossState.opened = true;
+      const index = boss.skills.indexOf(opening.skillId);
+      if (index >= 0 && boss.skillPP[index] > 0 && (battle.player?.level || 0) >= (opening.minFoeLevel || 0)) return opening.skillId;
     }
     const lowHp = boss.bossMechanics.lowHpAttackPercent;
     if (lowHp && boss.hp * 100 < boss.maxHp * lowHp && GameConfig.GetSkillById(skillId)?.Category === 4) {

@@ -294,7 +294,7 @@ export class SkillEffectRuntime {
 
   public static Crit(battle: any, attacker: any, defender: any, skill: any, check: () => boolean): boolean {
     if (skill.category !== 1 && skill.category !== 2) return check();
-    if (this.Get(attacker, 'critAlways')) return true;
+    if (this.Get(attacker, 'critAlways') || require('./BossSpecialRules').BossSpecialRules.IsForcedCrit(attacker)) return true;
     // 160：对手落空后的下回合必定暴击
     const next = this.Get(attacker, 'critNext');
     if (next && next.turn < battle.turn) return true;
