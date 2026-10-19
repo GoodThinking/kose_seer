@@ -66,6 +66,19 @@ window.addEventListener('load', async () => {
   window.RufflePlayer.config.urlRewriteRules = [[battleAsset, `$1?__battle_v=${version}&$2$3`]];
   const player = window.RufflePlayer.newest().createPlayer();
   game.appendChild(player);
+  // Preserve fractional trackpad input lost by Ruffle's integer AS3 wheel delta.
+  player.addEventListener('wheel', event => {
+   if (event.ctrlKey || event.deltaY === 0 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+   if (typeof player.scrollFusionManual !== 'function') return;
+   const rect = player.getBoundingClientRect();
+   if (!rect.width || !rect.height) return;
+   const lines = event.deltaY * (event.deltaMode === 0 ? 1 / 100 : event.deltaMode === 2 ? 400 / 22 : 1);
+   const handled = player.scrollFusionManual((event.clientX - rect.left) / rect.width, (event.clientY - rect.top) / rect.height, lines);
+   if (handled) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+   }
+  }, { capture: true, passive: false });
   await player.ruffle().load({url:'/Client.swf',base:location.origin+'/'});
   status.textContent = '客户端已加载';
  }

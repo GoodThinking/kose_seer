@@ -19,6 +19,9 @@ package com.robot.module.book
    import flash.events.Event;
    import flash.events.MouseEvent;
    import flash.geom.Rectangle;
+   import flash.geom.Point;
+   import flash.external.ExternalInterface;
+   import flash.utils.getTimer;
    import flash.text.TextField;
    import flash.text.TextFieldType;
    import flash.text.TextFormat;
@@ -38,6 +41,8 @@ package com.robot.module.book
       private var scrollThumb:Sprite;
       private var dragStage:Stage;
       private var dragOffset:Number = 0;
+      private var wheelRemainder:Number = 0;
+      private var wheelTime:int = 0;
       private var thumbHeight:Number = 0;
       private var searchInput:TextField;
       private var footer:TextField;
@@ -126,6 +131,8 @@ package com.robot.module.book
          mainUI.x = 20;
          mainUI.y = 20;
          LevelManager.appLevel.addChild(mainUI);
+         wheelRemainder = 0;
+         if(ExternalInterface.available) ExternalInterface.addCallback("scrollFusionManual",scrollFromBrowser);
       }
       public function hide() : void
       {
@@ -135,6 +142,7 @@ package com.robot.module.book
       public function destroy() : void
       {
          hide();
+         if(ExternalInterface.available) ExternalInterface.addCallback("scrollFusionManual",null);
          if(mainUI == null) return;
          searchInput.removeEventListener(Event.CHANGE,onSearch);
          mainUI.removeEventListener(MouseEvent.CLICK,onClick);
@@ -577,8 +585,40 @@ package com.robot.module.book
          return null;
       }
       private function onSearch(e:Event) : void { pageIndex=0;updateRows();renderDetail(); }
+      // Ruffle 0.7.1 truncates individual pixel wheel events to integer AS3 lines.
+      // The host forwards fractional lines before that conversion, only inside this manual.
+      private function scrollFromBrowser(xRatio:Number,yRatio:Number,lines:Number) : Boolean
+      {
+         if(mainUI == null || mainUI.stage == null || !isFinite(lines) || lines == 0) return false;
+         var point:Point = mainUI.globalToLocal(new Point(xRatio*mainUI.stage.stageWidth,yRatio*mainUI.stage.stageHeight));
+         if(point.x >= 274 && point.x <= 908 && point.y >= 89 && point.y <= 490)
+         {
+            wheelRemainder = 0;
+            scrollOffset += lines*22;
+            updateScroll();
+            return true;
+         }
+         if(point.x >= 18 && point.x <= 250 && point.y >= 156 && point.y < 466)
+         {
+            var now:int = getTimer();
+            if(now-wheelTime > 250 || wheelRemainder*lines < 0) wheelRemainder = 0;
+            wheelTime = now;
+            wheelRemainder += lines;
+            if(Math.abs(wheelRemainder) >= 1)
+            {
+               stopThumbDrag();
+               pageIndex += wheelRemainder > 0 ? 1 : -1;
+               wheelRemainder %= 1;
+               updateRows();
+            }
+            return true;
+         }
+         wheelRemainder = 0;
+         return false;
+      }
       private function onListWheel(e:MouseEvent) : void
       {
+         if(e.delta == 0) return;
          stopThumbDrag();pageIndex += e.delta<0?1:-1;updateRows();e.stopPropagation();
       }
       private function onDetailWheel(e:MouseEvent) : void

@@ -1,6 +1,6 @@
 # 原生融合手册
 
-960×560 游戏窗口内的 920×520 ActionScript 面板。复用实验室“精灵融合手册”按钮：`MapProcess_5 → BookManager.show(BookId.BOOK_1) → PetAmalgamationBookPanel.swf`。交付只替换这个手册模块，不改 Core、地图、服务端融合逻辑或玩家数据。
+960×560 游戏窗口内的 920×520 ActionScript 面板。复用实验室“精灵融合手册”按钮：`MapProcess_5 → BookManager.show(BookId.BOOK_1) → PetAmalgamationBookPanel.swf`。交付包含手册模块和网页的滚动输入桥接，不改 Core、地图、服务端融合逻辑或玩家数据。
 
 ## 内容
 
@@ -49,8 +49,10 @@ client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf
 
 ## 验证与集成
 
+Ruffle 0.7.1 会将单次像素滚动除以 100 后取整，小幅触控板输入因此变成 0。`versioned-assets/index.html` 在播放器捕获滚动，通过 `scrollFusionManual` 回调传递归一化坐标和小数行数：详情平滑滚动，左侧列表累计到一行后翻页。仅手册打开且指针命中滚动区域时消费事件；关闭、范围外、横向手势与 Ctrl 缩放保持原处理。发布此修复须同时更新网页 `client/index.html` 与手册 SWF，刷新网页后生效。
+
 游戏网页现有 Ruffle 配置 `deviceFontRenderer: 'canvas'` 用于中文设备字体显示。孤立预览也应使用该配置。
 
 书册版构建和后台原生 Ruffle 交互证据位于 `outputs/kose-fusion-manual-20261019/book/qa/`；获得方式生成逻辑可用 `node scripts/test-fusion-manual-acquisition.cjs` 检查。预览额外加入本地启动和只读状态回调，生产模块不含这些测试入口；此验证不等同于登录游戏点击实验室入口验收。
 
-部署前核对 manifest 的现场融合规则及原模块哈希，从合并后的个人仓库 main 构建并安装上述唯一 overlay 文件；发布后由用户重新进入实验室打开手册验收。
+部署前核对 manifest 的现场融合规则及原模块哈希，从合并后的个人仓库 main 构建并安装上述 overlay 文件及配套网页；发布后由用户重新进入实验室打开手册验收。
