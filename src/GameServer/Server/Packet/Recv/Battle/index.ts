@@ -6,6 +6,7 @@ export * from './ChangePetHandler';
 export * from './FightNpcMonsterHandler';
 export * from './CatchMonsterHandler';
 export * from './EscapeFightHandler';
+export * from './FightLevelHandler';
 export * from './InviteToFightHandler';
 export * from './InviteFightCancelHandler';
 export * from './HandleFightInviteHandler';

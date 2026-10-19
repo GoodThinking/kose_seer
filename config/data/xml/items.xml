@@ -2441,7 +2441,7 @@
         <Item ID="300647" Name="胆小性格改造药剂Ω" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DailyOutMax="10" Nature="16"/>
         <Item ID="300648" Name="开朗性格改造药剂Ω" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DailyOutMax="10" Nature="18"/>
         <Item ID="300649" Name="全能性格转化剂S" Rarity="4" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="300650" Name="全能学习力遗忘剂" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" EvRemove="7"/>
+        <Item ID="300650" Name="全能学习力遗忘剂" Rarity="3" Max="999" Price="80" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" EvRemove="7"/>
         <Item ID="300651" Name="全能学习力注入剂" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
         <Item ID="300652" Name="小型升级秘药S" Rarity="1" Max="9999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLv="1"/>
         <Item ID="300653" Name="中型升级秘药S" Rarity="2" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLv="2"/>

@@ -265,6 +265,9 @@ export class BattleTurnService {
   } {
     // 胶囊ID转精灵球类型
     const ballType = this.GetPokeBallType(capsuleID);
+    if (ballType === undefined) {
+      return { success: false, catchTime: 0, catchRate: 0, shakeCount: 0 };
+    }
 
     const isBoss = battle.battleType === 'BOSS';
     const canCapture = BattleCaptureSystem.CanCapture(battle.enemy, isBoss);
@@ -340,9 +343,10 @@ export class BattleTurnService {
 
   /**
    * 将胶囊物品ID转换为精灵球类型
-   * 300001=普通, 300002=中级, 300003=高级, 300004=超级, 300005+=大师球
+   * 300001=普通, 300002=中级, 300003=高级, 300004=超级, 300005=大师球。
+   * 无敌精灵胶囊 Bonus=256，和大师球一样必中。其他未列出的胶囊不捕捉。
    */
-  private GetPokeBallType(capsuleID: number): PokeBallType {
+  private GetPokeBallType(capsuleID: number): PokeBallType | undefined {
     switch (capsuleID) {
       case 300001:
         return PokeBallType.NORMAL;
@@ -352,9 +356,14 @@ export class BattleTurnService {
         return PokeBallType.ADVANCED;
       case 300004:
         return PokeBallType.SUPER;
-      default:
-        // 300005及以上的都视为大师球
+      case 300005:
+      case 300006:
+      case 300010:
+      case 300658:
+      case 300726:
         return PokeBallType.MASTER;
+      default:
+        return undefined;
     }
   }
 }
