@@ -956,6 +956,18 @@
       "vipCoins": 600,
       "goldReward": 0,
       "vipOnly": false
+    },
+    {
+      "productId": 200133,
+      "name": "100级升级秘药",
+      "itemIds": [
+        300700
+      ],
+      "coins": 50000,
+      "vipCoins": 50000,
+      "goldReward": 0,
+      "vipOnly": false,
+      "once": true
     }
   ]
 }

@@ -12,6 +12,7 @@ interface CoinProduct {
   vipCoins: number;
   goldReward: number;
   vipOnly: boolean;
+  once?: boolean;
 }
 export class CoinProductError extends Error {
   constructor(public readonly code: number, message: string) { super(message); }
@@ -40,6 +41,7 @@ export async function BuyCoinProduct(player: PlayerInstance, productId: number, 
     if (player.Session.Socket.destroyed || player.Session.Player !== player) throw new CoinProductError(5001, 'Session ended');
     const vip = player.Data.vip > 0;
     if (product.vipOnly && !vip) throw new CoinProductError(5001, 'Super NoNo required');
+    if (product.once && count !== 1) throw new CoinProductError(103203, 'One-time product');
     const spentCoins = (vip ? product.vipCoins : product.coins) * count;
     const goldReward = product.goldReward * count;
     if (!Number.isSafeInteger(spentCoins) || spentCoins <= 0 || spentCoins > 0x7fffffff || !Number.isSafeInteger(goldReward) || goldReward < 0) throw new Error('Invalid coin product price');
@@ -71,7 +73,20 @@ export async function BuyCoinProduct(player: PlayerInstance, productId: number, 
           if (!Number.isSafeInteger(balance) || balance < 0 || balance > 0x7fffffff) throw new Error('Invalid product wallet');
           return balance;
         });
-        if (balances[0] < spentCoins) throw new CoinProductError(10016, 'Insufficient Seer coins');
+                if (product.once) {
+                  await driver.execute(`CREATE TABLE IF NOT EXISTS player_once_products (
+                    user_id INTEGER NOT NULL,
+                    product_id INTEGER NOT NULL,
+                    bought_at INTEGER NOT NULL,
+                    PRIMARY KEY (user_id, product_id)
+                  )`);
+                  const mark = await driver.execute(
+                    'INSERT OR IGNORE INTO player_once_products (user_id, product_id, bought_at) VALUES (?, ?, ?)',
+                    [player.Uid, product.productId, Math.floor(Date.now() / 1000)]
+                  );
+                  if (mark.affectedRows !== 1) throw new CoinProductError(103203, 'Already purchased');
+                }
+                if (balances[0] < spentCoins) throw new CoinProductError(10016, 'Insufficient Seer coins');
         balances[0] -= spentCoins;
         balances[1] += goldReward;
         if (!Number.isSafeInteger(balances[1]) || balances[1] > 0x7fffffff) throw new CoinProductError(5001, 'Gold balance full');
