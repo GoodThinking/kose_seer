@@ -3,6 +3,16 @@ package com.robot.module.book
    import com.robot.core.manager.LevelManager;
    import org.taomee.module.IModule;
    import flash.display.Sprite;
+   import flash.display.DisplayObject;
+   import flash.display.MovieClip;
+   import flash.display.Loader;
+   import flash.display.GradientType;
+   import flash.events.IOErrorEvent;
+   import flash.events.SecurityErrorEvent;
+   import flash.net.URLRequest;
+   import flash.system.LoaderContext;
+   import flash.system.ApplicationDomain;
+   import flash.geom.Matrix;
    import flash.display.DisplayObjectContainer;
    import flash.events.Event;
    import flash.events.MouseEvent;
@@ -47,7 +57,10 @@ package com.robot.module.book
          box(mainUI,0,0,920,520,0x071F36,0x45C9F5,16);
          box(mainUI,5,5,910,510,0x071F36,0x1E6085,12);
          box(mainUI,7,7,906,68,0x0D3A5C,0x0D3A5C,9);
-         text(mainUI,"◇",20,13,44,42,32,0x7BD9F9,true);
+         var book:Sprite = layer(mainUI,24,23);
+         box(book,0,0,31,27,0x168AC1,0x9EEAFF,4);
+         book.graphics.lineStyle(2,0xD4F6FF);book.graphics.moveTo(15,3);book.graphics.lineTo(15,25);
+         book.graphics.moveTo(4,7);book.graphics.lineTo(11,10);book.graphics.moveTo(20,10);book.graphics.lineTo(27,7);
          text(mainUI,"融合手册",68,11,220,40,29,0xE3F6FF,true);
          text(mainUI,"寻找配方，迎接新的伙伴",71,51,240,18,10,0x90C8E4);
          box(mainUI,595,22,262,32,0x07253D,0x3C8EB3,16);
@@ -136,7 +149,9 @@ package com.robot.module.book
       private function box(parent:Sprite,x:Number,y:Number,w:Number,h:Number,fill:uint,border:uint,r:Number = 5) : void
       {
          parent.graphics.lineStyle(1,border);
-         parent.graphics.beginFill(fill);
+         var matrix:Matrix = new Matrix();
+         matrix.createGradientBox(w,h,Math.PI/2,x,y);
+         parent.graphics.beginGradientFill(GradientType.LINEAR,[fill,fill & 0xDDEEFF],[1,1],[0,255],matrix);
          parent.graphics.drawRoundRect(x,y,w,h,r,r);
          parent.graphics.endFill();
       }
@@ -147,7 +162,7 @@ package com.robot.module.book
          format.leading = 3;
          field.defaultTextFormat = format;
          field.x = x; field.y = y; field.width = w; field.height = h;
-         field.wordWrap = true; field.multiline = true;
+         field.wordWrap = false; field.multiline = false;
          field.mouseEnabled = false; field.selectable = false;
          field.text = value;
          parent.addChild(field);
@@ -156,6 +171,7 @@ package com.robot.module.book
       private function paragraph(parent:DisplayObjectContainer,value:String,x:Number,y:Number,w:Number,size:int = 12,color:uint = 0xBDDCEE,bold:Boolean = false) : Number
       {
          var field:TextField = text(parent,value,x,y,w,1000,size,color,bold);
+         field.wordWrap = true; field.multiline = true; field.text = value;
          field.height = Math.ceil(field.textHeight) + 6;
          return field.height;
       }
@@ -221,7 +237,7 @@ package com.robot.module.book
             var row:Sprite = button(listLayer,"",0,(i-start)*50,231,45,null,active?0x145D84:0x103751,active?0x7EE7FD:0x245E7D);
             row.name = "row:"+r.id;
             text(row,String(i+1),7,14,21,20,9,0x8ABBD6);
-            swatch(row,29,6,31,31,r.accent,"");
+            art(row,"head",r.petId != null ? r.petId : r.mainId,27,3,38,39);
             text(row,r.name,69,5,147,23,13,active?0xFFE19A:0xE2F0F9,true);
             text(row,r.kind=="miracle"?r.soul+" · 随机":r.kind=="rare"?"粉色元神珠 · 5%":r.soul,69,27,152,16,9,0x8FBBD1);
          }
@@ -231,16 +247,61 @@ package com.robot.module.book
          var next:Sprite = button(pagingLayer,"›",196,0,35,23);
          next.name = "next"; next.alpha = (pageIndex+1)*PAGE_SIZE<rows.length?1:0.35;
       }
-      private function swatch(parent:Sprite,x:Number,y:Number,w:Number,h:Number,accent:uint,label:String) : void
+      private function stopArt(display:DisplayObject) : void
       {
-         var tile:Sprite = layer(parent,x,y);
-         tile.mouseEnabled = false;
-         tile.mouseChildren = false;
-         box(tile,0,0,w,h,0x14364D,accent,8);
-         tile.graphics.beginFill(accent,0.66);
-         tile.graphics.drawRoundRect(w*0.34,7,w*0.32,Math.min(22,h-14),8,8);
-         tile.graphics.endFill();
-         if(label != "") text(tile,label,3,h-22,w-6,22,10,accent,true);
+         if(display is MovieClip) MovieClip(display).gotoAndStop(1);
+         if(display is DisplayObjectContainer)
+         {
+            var container:DisplayObjectContainer = display as DisplayObjectContainer;
+            for(var i:int=0;i<container.numChildren;i++) stopArt(container.getChildAt(i));
+         }
+      }
+      private function art(parent:Sprite,kind:String,id:*,x:Number,y:Number,w:Number,h:Number) : void
+      {
+         if(id == null || uint(id) == 0) {
+            var unknown:Sprite = layer(parent,x,y);
+            unknown.graphics.lineStyle(2,0x6FCBEA);unknown.graphics.beginFill(0x1D5879,0.5);
+            unknown.graphics.drawCircle(w/2,h/2,Math.min(w,h)*0.32);unknown.graphics.endFill();
+            text(unknown,"?",w/2-10,h/2-17,24,35,25,0xB6EBFF,true);
+            return;
+         }
+         var holder:Sprite = layer(parent,x,y);
+         holder.mouseEnabled = false; holder.mouseChildren = false;
+         var loader:Loader = new Loader();
+         var url:String = "/resource/";
+         if(kind == "pet") url += (uint(id)>500?"groupFightResource/pet/":"pet/swf/")+id+".swf";
+         else if(kind == "head") url += "pet/head/"+id+".swf";
+         else if(kind == "soul") url += "soulBead/icon/"+id+".swf";
+         else url += "item/doodle/icon/"+id+".swf";
+         var disposed:Boolean = false;
+         var finished:Boolean = false;
+         var failed:Function = function(event:Event):void {
+            finished = true;
+            if(!disposed) text(holder,"素材加载失败",0,h/2-8,w,20,10,0xF6C088);
+         };
+         loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,failed);
+         loader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR,failed);
+         loader.contentLoaderInfo.addEventListener(Event.COMPLETE,function(event:Event):void {
+            finished = true;
+            if(disposed) return;
+            var symbol:String = kind=="pet"?"pet":"item";
+            var definition:Class = loader.contentLoaderInfo.applicationDomain.getDefinition(symbol) as Class;
+            var display:DisplayObject = new definition() as DisplayObject;
+            stopArt(display);
+            var bounds:Rectangle = display.getBounds(display);
+            var scale:Number = Math.min((w-4)/bounds.width,(h-4)/bounds.height);
+            display.scaleX = scale; display.scaleY = scale;
+            display.x = (w-bounds.width*scale)/2-bounds.x*scale;
+            display.y = (h-bounds.height*scale)/2-bounds.y*scale;
+            holder.addChild(display);
+         });
+         holder.addEventListener(Event.REMOVED_FROM_STAGE,function(event:Event):void {
+            if(event.target != holder) return;
+            disposed = true;
+            if(!finished) loader.close();
+            loader.unload();
+         });
+         loader.load(new URLRequest(url),new LoaderContext(false,new ApplicationDomain()));
       }
       private function sectionTitle(label:String,y:Number,hint:String = "") : Number
       {
@@ -260,12 +321,14 @@ package com.robot.module.book
             return;
          }
          var r:Object = selected;
-         swatch(detailBody,0,0,58,62,r.accent,r.name);
-         text(detailBody,r.kind=="miracle"?"MIRACLE FUSION":r.kind=="rare"?"RARE PEARL":"FUSION ARCHIVE",72,0,500,18,9,0x82BDD9);
-         text(detailBody,r.name+(r.kind=="miracle"?" · 奇迹融合":""),72,20,510,37,23,0xFFDD83,true);
-         text(detailBody,categoryName(r.kind)+"  /  "+r.soul,74,57,500,20,10,0xA8CBDD);
-         detailBody.graphics.lineStyle(1,0x235570);detailBody.graphics.moveTo(0,82);detailBody.graphics.lineTo(601,82);
-         var y:Number = 94;
+         box(detailBody,0,0,601,124,0x10446B,0x319CCC,10);
+         text(detailBody,r.name,18,17,390,39,28,0xFFDD83,true);
+         text(detailBody,categoryName(r.kind)+(r.type?"  ·  "+r.type+"系":""),20,61,360,24,13,0x9ADFFF);
+         text(detailBody,r.kind=="miracle"?"融合结果按权重随机获得":r.kind=="rare"?"粉色元神珠的稀有结果":r.soul+"  →  "+r.name,20,91,380,23,12,0xD4EBF8);
+         detailBody.graphics.lineStyle(2,0x2580AC);
+         detailBody.graphics.beginFill(0x1596CE,0.15);detailBody.graphics.drawEllipse(427,97,147,18);detailBody.graphics.endFill();
+         art(detailBody,"pet",r.petId != null?r.petId:r.mainId,425,3,155,112);
+         var y:Number = 138;
          if(r.kind == "rare")
          {
             y = sectionTitle("粉珠来源",y,"每条来源均有 5% 粉珠分支");
@@ -276,10 +339,10 @@ package com.robot.module.book
                var title:Sprite = button(panel,source.name+"配方  ›",9,8,170,23,null,0x174564,0x386F8D,11);
                title.name = "source:"+source.id;
                text(panel,"粉色元神珠 5%",450,11,145,20,10,0xF3B4D9);
-               var sourceText:String = source.main+" + "+source.secondary+" + "+source.essence+" ×1\n→ 粉色元神珠 → "+r.name;
-               var sourceHeight:Number = paragraph(panel,sourceText,10,38,578,11);
-               box(panel,0,0,601,sourceHeight+48,0x0B2E47,0x28617F,6);
-               y += sourceHeight+57;
+               text(panel,source.main+" + "+source.essence+" ×1 → 粉色元神珠 → "+r.name,12,38,578,23,12,0xD6EAF5);
+               var sourceBottom:Number = optionTags(panel,source.secondary,67);
+               box(panel,0,0,601,sourceBottom+7,0x0B2E47,0x28617F,6);
+               y += sourceBottom+17;
             }
          }
          else
@@ -311,9 +374,11 @@ package com.robot.module.book
          y = sectionTitle("获得方式",y);
          var acquired:String = r.acquisition;
          var acquiredPanel:Sprite = layer(detailBody,0,y);
-         var acquiredHeight:Number = acquired==""?24:paragraph(acquiredPanel,acquired,9,6,581,11)+12;
-         box(acquiredPanel,0,0,601,acquiredHeight,0x092940,0x245572,5);
-         y += acquiredHeight+12;
+         if(acquired != "") {
+            var acquiredHeight:Number = paragraph(acquiredPanel,acquired,10,7,580,12)+14;
+            box(acquiredPanel,0,0,601,acquiredHeight,0x0C3452,0x2A7095,6);
+            y += acquiredHeight+12;
+         }
          y = sectionTitle("注意事项",y);
          var notePanel:Sprite = layer(detailBody,0,y);
          var noteHeight:Number = paragraph(notePanel,r.notes,9,6,581,11)+12;
@@ -326,22 +391,41 @@ package com.robot.module.book
       private function recipe(r:Object,y:Number) : Number
       {
          var strip:Sprite = layer(detailBody,0,y);
-         var names:Array = [r.main,r.kind=="miracle"?"同属性 / 闪光系":r.secondary,r.essence,r.soul,r.kind=="fixed"?r.name:"随机精灵"];
-         var roles:Array = ["主宠 · 最终形态","副宠 · 任选一只","精华 ×1","融合产物",r.kind=="fixed"?"结果精灵":"见下方概率"];
-         var maxHeight:Number = 0;
+         var widths:Array = [99,127,93,104,106];
+         var names:Array = [r.main,r.kind=="fixed"?"任选一只副宠":"符合条件的副宠",r.kind=="fallback"?"属性对应精华":r.essence,r.soul,r.kind=="fixed"?r.name:"随机结果"];
+         var roles:Array = ["主宠 · 最终形态","副宠", "精华 ×1","元神珠","结果精灵"];
+         var kinds:Array = ["pet","pet","item","soul","pet"];
+         var ids:Array = [r.mainId,r.secondaryIds!=null?r.secondaryIds[0]:(r.kind=="miracle"?310:null),r.essenceId,r.soulId,r.petId];
+         var x:Number = 0;
          for(var i:int=0;i<5;i++)
          {
-            var x:Number = 9+i*121;
-            swatch(strip,x+18,9,46,34,i==2?0x66C1DD:r.accent,"");
-            var labelHeight:Number = paragraph(strip,names[i],x,49,91,i==1?10:11,i==4?0xFFE094:0xD6EBF7,true);
-            maxHeight = Math.max(maxHeight,labelHeight);
-            if(i<4) text(strip,i<2?"+":"→",x+94,21,27,25,18,0x74D6FB,true);
+            var w:Number = widths[i];
+            var card:Sprite = layer(strip,x,0);
+            box(card,0,0,w,119,i==4?0x39452E:0x103B5B,i==4?0xF2D471:0x2788B5,7);
+            text(card,roles[i],7,5,w-10,20,10,0xA8D7ED);
+            art(card,kinds[i],ids[i],7,25,w-14,63);
+            text(card,names[i],5,92,w-8,23,i==1?12:11,i==4?0xFFE69D:0xE0F4FF,true);
+            if(i<4) text(strip,i<2?"+":"→",x+w+1,46,18,28,13,0x70DEFF,true);
+            x += w+18;
          }
-         for(i=0;i<5;i++) text(strip,roles[i],9+i*121,52+maxHeight,100,19,9,0x8DB9D0);
-         var height:Number = 79+maxHeight;
-         box(strip,0,0,601,height,0x0A2E47,0x2A6B8C,6);
-         text(detailBody,"另消耗 1000 赛尔豆 · 主宠、副宠均会消耗",0,y+height+6,601,20,11,0xECD697);
-         return y+height+36;
+         var bottom:Number = optionTags(strip,r.secondary,128);
+         text(strip,"消耗：主宠 + 副宠 + 精华 1 个 + 1000 赛尔豆",0,bottom+9,601,22,12,0xF2D88C);
+         return y+bottom+41;
+      }
+      private function optionTags(parent:Sprite,value:String,y:Number) : Number
+      {
+         text(parent,"副宠",0,y+3,36,22,11,0x86CFF0,true);
+         var x:Number = 40;
+         var options:Array = value.split(" / ");
+         for each(var option:String in options)
+         {
+            var w:Number = option.length*12+18;
+            if(x+w>601) { x=40;y+=29; }
+            box(parent,x,y,w,24,0x124767,0x307A9E,5);
+            text(parent,option,x+8,y+3,w-12,21,12,0xD6F0FF);
+            x += w+6;
+         }
+         return y+24;
       }
       private function updateScroll() : void
       {
@@ -350,8 +434,8 @@ package com.robot.module.book
          scrollOffset = Math.max(0,Math.min(scrollOffset,maxScroll));
          detailBody.y = -scrollOffset;
          if(maxScroll == 0) return;
-         var up:Sprite = button(scrollLayer,"▲",0,0,15,23,null,0x133E59,0x337494,9);up.name="up";
-         var down:Sprite = button(scrollLayer,"▼",0,377,15,23,null,0x133E59,0x337494,9);down.name="down";
+         var up:Sprite = button(scrollLayer,"▲",0,0,15,23,null,0x133E59,0x337494,7);up.name="up";
+         var down:Sprite = button(scrollLayer,"▼",0,377,15,23,null,0x133E59,0x337494,7);down.name="down";
          box(scrollLayer,5,29,5,342,0x12384F,0x245875,3);
          var thumbHeight:Number = Math.max(25,342*VIEW_HEIGHT/detailHeight);
          box(scrollLayer,4,29+(342-thumbHeight)*scrollOffset/maxScroll,7,thumbHeight,0x4394BC,0x67C5E7,4);
