@@ -37,6 +37,20 @@ type OutOfFightItem = {
 
 type PetRecord = IPetInfo & { skillPP?: Record<number, number> };
 
+/** Walk level-up evolutions. Item evolutions stay for the evolution chamber. */
+function resolveLevelEvolution(petId: number, level: number): number {
+  let current = petId;
+  for (let step = 0; step < 6; step++) {
+    const info = GameConfig.GetPetById(current);
+    const next = Number(info?.EvolvesTo || 0);
+    const need = Number(info?.EvolvingLv || 0);
+    const flag = Number(info?.EvolvFlag || 0);
+    if (!next || flag !== 0 || need < 1 || level < need) break;
+    current = next;
+  }
+  return current;
+}
+
 function u32(value: number): Buffer {
   const buffer = Buffer.alloc(4);
   buffer.writeUInt32BE(value >>> 0, 0);
@@ -96,6 +110,7 @@ export class UsePetItemOutOfFightHandler implements IHandler {
 
     const fixedNature = NATURE_BY_ITEM[itemId];
     const randomNature = RANDOM_NATURE_ITEMS.has(itemId);
+    let skipConsume = false;
     if (item && item.RandomDv === 1) {
       applyRandomIndividualValues(pet);
     } else if (fixedNature !== undefined || randomNature) {
@@ -127,12 +142,22 @@ export class UsePetItemOutOfFightHandler implements IHandler {
         await fail(MISSING);
         return;
       }
-      if (pet.level >= targetLevel) {
+      const raising = pet.level < targetLevel;
+      const evolvedId = resolveLevelEvolution(pet.petId, raising ? targetLevel : pet.level);
+      if (!raising && evolvedId === pet.petId) {
         await fail(MISSING);
         return;
       }
-      pet.level = targetLevel;
-      pet.exp = 0;
+      if (raising) {
+        pet.level = targetLevel;
+        pet.exp = 0;
+      } else {
+        skipConsume = true;
+      }
+      if (evolvedId !== pet.petId) {
+        Logger.Info(`[UsePetItemOutOfFight] uid=${player.Uid} evolve ${pet.petId} -> ${evolvedId}`);
+        pet.petId = evolvedId;
+      }
       PetCalculator.UpdatePetStats(pet);
       pet.hp = pet.maxHp;
       const learned = SptSystem.GetLearnableMovesByLevel(pet.petId, pet.level) || [];
@@ -146,11 +171,13 @@ export class UsePetItemOutOfFightHandler implements IHandler {
     }
 
     await DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
-    if (!player.ItemManager.ConsumeItem(itemId, 1)) {
-      await fail(NO_ITEM);
-      return;
+    if (!skipConsume) {
+      if (!player.ItemManager.ConsumeItem(itemId, 1)) {
+        await fail(NO_ITEM);
+        return;
+      }
+      await DatabaseHelper.Instance.SaveItemData(player.ItemManager.ItemData);
     }
-    await DatabaseHelper.Instance.SaveItemData(player.ItemManager.ItemData);
     Logger.Info(`[UsePetItemOutOfFight] uid=${player.Uid} pet=${pet.petId} catch=${catchTime} dv=${pet.dvHp}/${pet.dvAtk}/${pet.dvDef}/${pet.dvSpAtk}/${pet.dvSpDef}/${pet.dvSpeed}`);
     await player.SendPacket(new PacketUsePetItemOutOfFight(encodeUsePetItemOutOfFight(pet)));
   }
