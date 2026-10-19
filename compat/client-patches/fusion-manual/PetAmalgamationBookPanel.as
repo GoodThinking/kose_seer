@@ -4,6 +4,7 @@ package com.robot.module.book
    import com.robot.core.manager.UIManager;
    import org.taomee.module.IModule;
    import flash.display.Sprite;
+   import flash.display.Stage;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
    import flash.display.Loader;
@@ -33,6 +34,11 @@ package com.robot.module.book
       private var tabsLayer:Sprite;
       private var pagingLayer:Sprite;
       private var scrollLayer:Sprite;
+      private var scrollTrack:Sprite;
+      private var scrollThumb:Sprite;
+      private var dragStage:Stage;
+      private var dragOffset:Number = 0;
+      private var thumbHeight:Number = 0;
       private var searchInput:TextField;
       private var footer:TextField;
       private var countLabel:TextField;
@@ -86,13 +92,31 @@ package com.robot.module.book
          listLayer.addEventListener(MouseEvent.MOUSE_WHEEL,onListWheel);
          pagingLayer = layer(mainUI,18,466);
          detailView = layer(mainUI,274,89);
+         // Transparent viewport surface receives wheel input between content blocks and along the right margin.
+         detailView.graphics.beginFill(0,0);
+         detailView.graphics.drawRect(0,0,612,VIEW_HEIGHT);
+         detailView.graphics.endFill();
          detailView.scrollRect = new Rectangle(0,0,612,VIEW_HEIGHT);
          detailView.addEventListener(MouseEvent.MOUSE_WHEEL,onDetailWheel);
          detailBody = layer(detailView,0,0);
          scrollLayer = layer(mainUI,893,90);
+         scrollLayer.graphics.beginFill(0,0);scrollLayer.graphics.drawRect(0,0,15,VIEW_HEIGHT);scrollLayer.graphics.endFill();
+         scrollLayer.addEventListener(MouseEvent.MOUSE_WHEEL,onDetailWheel);
+         var up:Sprite = button(scrollLayer,"▲",0,0,15,23,null,0x133E59,0x337494,7);up.name="up";
+         var down:Sprite = button(scrollLayer,"▼",0,377,15,23,null,0x133E59,0x337494,7);down.name="down";
+         scrollTrack = layer(scrollLayer,0,29);
+         scrollTrack.graphics.beginFill(0,0);scrollTrack.graphics.drawRect(0,0,15,342);scrollTrack.graphics.endFill();
+         box(scrollTrack,5,0,5,342,0x12384F,0x245875,3);
+         scrollTrack.buttonMode = true;
+         scrollTrack.addEventListener(MouseEvent.MOUSE_DOWN,onTrackDown);
+         scrollThumb = layer(scrollLayer,0,29);
+         scrollThumb.buttonMode = true;
+         scrollThumb.mouseChildren = false;
+         scrollThumb.addEventListener(MouseEvent.MOUSE_DOWN,onThumbDown);
          footer = text(mainUI,"",20,491,880,16,9,0x76ACC9);
          mainUI.setChildIndex(searchInput,mainUI.numChildren-1);
          mainUI.addEventListener(MouseEvent.CLICK,onClick);
+         mainUI.addEventListener(Event.REMOVED_FROM_STAGE,onPanelRemoved);
          resetSelection();
       }
       public function show() : void
@@ -105,6 +129,7 @@ package com.robot.module.book
       }
       public function hide() : void
       {
+         stopThumbDrag();
          if(mainUI != null && mainUI.parent != null) mainUI.parent.removeChild(mainUI);
       }
       public function destroy() : void
@@ -113,8 +138,12 @@ package com.robot.module.book
          if(mainUI == null) return;
          searchInput.removeEventListener(Event.CHANGE,onSearch);
          mainUI.removeEventListener(MouseEvent.CLICK,onClick);
+         mainUI.removeEventListener(Event.REMOVED_FROM_STAGE,onPanelRemoved);
          listLayer.removeEventListener(MouseEvent.MOUSE_WHEEL,onListWheel);
          detailView.removeEventListener(MouseEvent.MOUSE_WHEEL,onDetailWheel);
+         scrollLayer.removeEventListener(MouseEvent.MOUSE_WHEEL,onDetailWheel);
+         scrollTrack.removeEventListener(MouseEvent.MOUSE_DOWN,onTrackDown);
+         scrollThumb.removeEventListener(MouseEvent.MOUSE_DOWN,onThumbDown);
          clear(mainUI);
          mainUI = null;
          searchInput = null;
@@ -124,12 +153,15 @@ package com.robot.module.book
          tabsLayer = null;
          pagingLayer = null;
          scrollLayer = null;
+         scrollTrack = null;
+         scrollThumb = null;
          footer = null;
          countLabel = null;
          selected = null;
          rows = [];
       }
       private function closePanel(e:MouseEvent) : void { hide(); }
+      private function onPanelRemoved(e:Event) : void { if(e.target == mainUI) stopThumbDrag(); }
       private function resetSelection() : void
       {
          category = "all";
@@ -360,6 +392,7 @@ package com.robot.module.book
       }
       private function renderDetail() : void
       {
+         stopThumbDrag();
          clear(detailBody); detailBody.graphics.clear();
          scrollOffset = 0; detailBody.y = 0;
          if(selected == null)
@@ -443,7 +476,7 @@ package com.robot.module.book
          y += noteHeight+8;
          detailHeight = y;
          updateScroll();
-         footer.text = "融合研究所 / "+categoryName(r.kind)+(detailHeight>VIEW_HEIGHT?"    ·    滚轮或右侧箭头查看更多":"");
+         footer.text = "融合研究所 / "+categoryName(r.kind)+(detailHeight>VIEW_HEIGHT?"    ·    滚轮、拖动滑块或右侧箭头查看更多":"");
       }
       private function recipe(r:Object,y:Number) : Number
       {
@@ -491,16 +524,52 @@ package com.robot.module.book
       }
       private function updateScroll() : void
       {
-         clear(scrollLayer);scrollLayer.graphics.clear();
          var maxScroll:Number = Math.max(0,detailHeight-VIEW_HEIGHT);
          scrollOffset = Math.max(0,Math.min(scrollOffset,maxScroll));
          detailBody.y = -scrollOffset;
-         if(maxScroll == 0) return;
-         var up:Sprite = button(scrollLayer,"▲",0,0,15,23,null,0x133E59,0x337494,7);up.name="up";
-         var down:Sprite = button(scrollLayer,"▼",0,377,15,23,null,0x133E59,0x337494,7);down.name="down";
-         box(scrollLayer,5,29,5,342,0x12384F,0x245875,3);
-         var thumbHeight:Number = Math.max(25,342*VIEW_HEIGHT/detailHeight);
-         box(scrollLayer,4,29+(342-thumbHeight)*scrollOffset/maxScroll,7,thumbHeight,0x4394BC,0x67C5E7,4);
+         scrollLayer.visible = maxScroll > 0;
+         if(maxScroll == 0) { stopThumbDrag(); return; }
+         thumbHeight = Math.max(25,342*VIEW_HEIGHT/detailHeight);
+         scrollThumb.graphics.clear();
+         scrollThumb.graphics.beginFill(0,0);scrollThumb.graphics.drawRect(0,0,15,thumbHeight);scrollThumb.graphics.endFill();
+         box(scrollThumb,2,0,11,thumbHeight,0x4394BC,0x67C5E7,4);
+         scrollThumb.y = 29+(342-thumbHeight)*scrollOffset/maxScroll;
+      }
+      private function onThumbDown(e:MouseEvent) : void
+      {
+         stopThumbDrag();
+         if(mainUI.stage == null) return;
+         dragOffset = scrollLayer.mouseY-scrollThumb.y;
+         dragStage = mainUI.stage;
+         dragStage.addEventListener(MouseEvent.MOUSE_MOVE,onThumbMove);
+         dragStage.addEventListener(MouseEvent.MOUSE_UP,onThumbUp);
+         dragStage.addEventListener(Event.MOUSE_LEAVE,onDragLeave);
+         e.stopPropagation();
+      }
+      private function onThumbMove(e:MouseEvent) : void
+      {
+         var travel:Number = 342-thumbHeight;
+         if(dragStage == null || travel <= 0) return;
+         scrollOffset = (scrollLayer.mouseY-dragOffset-29)/travel*Math.max(0,detailHeight-VIEW_HEIGHT);
+         updateScroll();
+         e.updateAfterEvent();
+      }
+      private function onThumbUp(e:MouseEvent) : void { stopThumbDrag(); }
+      private function onDragLeave(e:Event) : void { stopThumbDrag(); }
+      private function stopThumbDrag() : void
+      {
+         if(dragStage == null) return;
+         dragStage.removeEventListener(MouseEvent.MOUSE_MOVE,onThumbMove);
+         dragStage.removeEventListener(MouseEvent.MOUSE_UP,onThumbUp);
+         dragStage.removeEventListener(Event.MOUSE_LEAVE,onDragLeave);
+         dragStage = null;
+      }
+      private function onTrackDown(e:MouseEvent) : void
+      {
+         stopThumbDrag();
+         scrollOffset += scrollLayer.mouseY < scrollThumb.y ? -VIEW_HEIGHT : VIEW_HEIGHT;
+         updateScroll();
+         e.stopPropagation();
       }
       private function findEntry(id:String) : Object
       {
@@ -510,7 +579,7 @@ package com.robot.module.book
       private function onSearch(e:Event) : void { pageIndex=0;updateRows();renderDetail(); }
       private function onListWheel(e:MouseEvent) : void
       {
-         pageIndex += e.delta<0?1:-1;updateRows();e.stopPropagation();
+         stopThumbDrag();pageIndex += e.delta<0?1:-1;updateRows();e.stopPropagation();
       }
       private function onDetailWheel(e:MouseEvent) : void
       {
@@ -534,7 +603,7 @@ package com.robot.module.book
             selected=findEntry(name.substr(7));category=selected.kind;searchInput.text="";pageIndex=0;updateRows();
             pageIndex=int(rows.indexOf(selected)/PAGE_SIZE);renderList();renderDetail();
          }
-         else if(name=="previous" || name=="next") {pageIndex+=name=="next"?1:-1;updateRows();}
+         else if(name=="previous" || name=="next") {stopThumbDrag();pageIndex+=name=="next"?1:-1;updateRows();}
          else if(name=="up" || name=="down") {scrollOffset+=name=="down"?90:-90;updateScroll();}
       }
    }
