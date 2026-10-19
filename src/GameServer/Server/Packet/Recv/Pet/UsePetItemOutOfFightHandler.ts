@@ -32,6 +32,7 @@ const ALL_EV_FIELDS: EvField[] = ['evHp', 'evAtk', 'evDef', 'evSpAtk', 'evSpDef'
 type OutOfFightItem = {
   RandomDv?: number;
   IncreMonLvTo?: number | string;
+  DecreMonLv?: number | string;
   EvRemove?: number | string;
 };
 
@@ -135,6 +136,17 @@ export class UsePetItemOutOfFightHandler implements IHandler {
       }
       PetCalculator.UpdatePetStats(pet);
       Logger.Info(`[UsePetItemOutOfFight] uid=${player.Uid} pet=${pet.petId} evRemove=${evRemove}`);
+    } else if (item && Number(item.DecreMonLv) >= 1) {
+      const drop = Math.floor(Number(item.DecreMonLv));
+      if (pet.level <= 1) {
+        await fail(MISSING);
+        return;
+      }
+      pet.level = Math.max(1, pet.level - drop);
+      pet.exp = 0;
+      PetCalculator.UpdatePetStats(pet);
+      if (pet.hp > pet.maxHp) pet.hp = pet.maxHp;
+      Logger.Info(`[UsePetItemOutOfFight] uid=${player.Uid} pet=${pet.petId} level=${pet.level}`);
     } else {
       const targetLevel = Number(item && item.IncreMonLvTo);
       if (!Number.isInteger(targetLevel) || targetLevel < 1) {
