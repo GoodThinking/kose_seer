@@ -68,7 +68,7 @@ function turn(b, skillId, random = 0.5) {
 }
 const passives = p => (p.effectCounters?.[REGISTERED_PASSIVES_KEY] || []).map(x => x.effectId);
 // A slow, harmless enemy-side check: freeze the boss so only the player's move matters.
-const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 8; };
+const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 9; };
 
 (async () => {
   ConfigLoader.Instance._configDir = path.join(app, 'config');
@@ -211,6 +211,8 @@ const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 8; };
     const lion = await fightBoss(53, 1, pet(7, 100, [10364]));
     const fighting = GameConfig.GetSkillById(10364);
     stun(lion);
+    // 官方克制表里普通系没有弱点，换成冰系身体（战斗克冰）来验证“不受属性克制”
+    lion.enemy.type = 9;
     const neutral = turn(lion, 10364).toBoss;
     lion.enemy.bossMechanics = {};
     const normal = turn(lion, 10364).toBoss;
@@ -272,7 +274,8 @@ const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 8; };
     cycle.enemy.hp = 1;
     assert.equal(turn(cycle, 10001).r.isOver, true, '轮回: second kill ends');
 
-    const holy = await fightBoss(514, 7, pet(7, 100, [10001, 20020, 10034]));
+    // 这两段谱尼不被控制、每回合出手，玩家血量要够撑完整段
+    const holy = await fightBoss(514, 7, pet(7, 100, [10001, 20020, 10034], {hp: 99999, maxHp: 99999}));
     stun(holy); holy.enemy.status = -1; holy.enemy.statusDurations.fill(0);
     assert.equal(turn(holy, 10001).toBoss, 0, '圣洁: direct damage');
     turn(holy, 20020);
@@ -283,7 +286,7 @@ const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 8; };
     turn(holy, 20020);
     assert.ok(holy.enemy.hp < before, '圣洁: burn damage lands');
 
-    const tf = await fightBoss(514, 8, pet(7, 100, [10001]));
+    const tf = await fightBoss(514, 8, pet(7, 100, [10001], {hp: 99999, maxHp: 99999}));
     stun(tf); tf.enemy.status = -1; tf.enemy.statusDurations.fill(0);
     tf.enemy.hp = 100;
     tf.enemy.statusTurns = 3; tf.enemy.status = 1;
@@ -328,8 +331,8 @@ const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 8; };
     const fri = await withWeekday(5, () => fightBoss(61, 0, pet(7, 100, [10001], {attack: 5000})));
     stun(fri); fri.enemy.status = -1; fri.enemy.statusDurations.fill(0);
     fri.enemy.hp = 10;
-    turn(fri, 10001);
-    assert.equal(fri.enemy.hp, fri.enemy.maxHp, 'Friday revives without status');
+    // 看玩家这一击后的体力：厄尔塞拉随后的舍身撞击有1/4反伤
+    assert.equal(turn(fri, 10001).r.firstAttack.defenderRemainHp, fri.enemy.maxHp, 'Friday revives without status');
     const wed = await withWeekday(3, () => fightBoss(61, 0, pet(7, 100, [10001], {attack: 3000})));
     stun(wed);
     assert.ok(turn(wed, 10001).toPlayer > 150, 'Wednesday reflects big hits');

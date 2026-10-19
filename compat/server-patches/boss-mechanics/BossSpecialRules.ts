@@ -82,11 +82,11 @@ export class BossSpecialRules {
   }
 
   /**
-   * 检查目标是否免疫某个异常状态（被动免疫标记或BOSS规则）
+   * 检查目标是否免疫某个异常状态（被动免疫标记、BOSS规则或技能的持续免疫）
    * @param skillId 施加异常的技能，用于判断是否为属性技能
    */
   public static IsStatusImmune(pet: any, status: number, skillId?: number): boolean {
-    if (pet?.immuneFlags?.status) return true;
+    if (pet?.immuneFlags?.status || require('./SkillEffectRuntime').SkillEffectRuntime.IsStatusImmune(pet || {})) return true;
     const mechanics = this.Mechanics(pet);
     if (!mechanics) return false;
     if (mechanics.statusImmune === true) return true;
@@ -95,10 +95,18 @@ export class BossSpecialRules {
   }
 
   /**
-   * 检查目标是否免疫能力下降
+   * 镇魂歌等延迟致死效果：完全免疫异常的目标不受影响（经典版塞维尔镇魂歌无效，魔狮迪露有效）
+   */
+  public static IsRequiemImmune(pet: any): boolean {
+    return !!(pet?.immuneFlags?.status || this.Mechanics(pet)?.statusImmune === true);
+  }
+
+  /**
+   * 检查目标是否免疫能力下降（被动免疫标记、BOSS规则或技能的持续免疫）
    */
   public static IsStatDownImmune(pet: any): boolean {
-    return !!(pet?.immuneFlags?.statDown || this.Mechanics(pet)?.statDownImmune);
+    return !!(pet?.immuneFlags?.statDown || this.Mechanics(pet)?.statDownImmune ||
+      require('./SkillEffectRuntime').SkillEffectRuntime.IsStatDownImmune(pet || {}));
   }
 
   // ==================== 命中 ====================
@@ -163,22 +171,23 @@ export class BossSpecialRules {
       }
     }
 
-    if (kind !== 'ohko') {
-      if (mechanics.directDamageImmune) {
-        Logger.Info(`[BossSpecialRules] ${defender.name} 只受攻击技能附加异常的伤害`);
+    // 秒杀同样受谱尼封印、顺序破防的限制，只是不吃减伤
+    if (mechanics.directDamageImmune) {
+      Logger.Info(`[BossSpecialRules] ${defender.name} 只受攻击技能附加异常的伤害`);
+      return 0;
+    }
+    damage = require('./PuniSealBattle').ModifyPuniDamage(battle, defender, skill.type || 8, damage);
+
+    const required = this.RequiredSequenceType(defender);
+    if (required !== undefined) {
+      if ((skill.type || 8) !== required) {
+        Logger.Info(`[BossSpecialRules] 顺序破防失败: ${defender.name} 需要属性${required}, 技能属性=${skill.type || 8}, 伤害归零`);
         return 0;
       }
-      damage = require('./PuniSealBattle').ModifyPuniDamage(battle, defender, skill.type || 8, damage);
+      this.AdvanceSequence(defender, required, '命中');
+    }
 
-      const required = this.RequiredSequenceType(defender);
-      if (required !== undefined) {
-        if ((skill.type || 8) !== required) {
-          Logger.Info(`[BossSpecialRules] 顺序破防失败: ${defender.name} 需要属性${required}, 技能属性=${skill.type || 8}, 伤害归零`);
-          return 0;
-        }
-        this.AdvanceSequence(defender, required, '命中');
-      }
-
+    if (kind !== 'ohko') {
       if (kind === 'attack' && mechanics.typeNeutral && info.effectiveness && info.effectiveness !== 1) {
         damage = Math.floor(damage / info.effectiveness);
       }
