@@ -1,0 +1,293 @@
+{
+  "fixedLabels": [
+    {
+      "name": "黄金布布",
+      "main": "布布花",
+      "secondary": "小豆芽/叮叮/魔花仙子/魔域仙子",
+      "essence": "光合能量",
+      "color": "绿色",
+      "rare": null
+    },
+    {
+      "name": "伊优达",
+      "main": "巴鲁斯",
+      "secondary": "小鳍鱼/贝壳鱼/鳞甲龙鱼",
+      "essence": "水之精华",
+      "color": "蓝色",
+      "rare": null
+    },
+    {
+      "name": "炎火猴",
+      "main": "烈焰猩猩",
+      "secondary": "吉尔/里诺/洛吉拉斯/洛拉托兹/炽翼火龙",
+      "essence": "火焰元素",
+      "color": "红色",
+      "rare": null
+    },
+    {
+      "name": "闪光尼尔",
+      "main": "艾斯菲亚",
+      "secondary": "闪光皮皮/闪光比波/闪光波克尔",
+      "essence": "电容球",
+      "color": "紫色",
+      "rare": "卡鲁"
+    },
+    {
+      "name": "闪光果冻鸭",
+      "main": "水晶鸭",
+      "secondary": "闪光尼尔/闪光菲斯利/闪光艾菲亚",
+      "essence": "水之精华",
+      "color": "紫色",
+      "rare": null
+    },
+    {
+      "name": "闪光阿兹",
+      "main": "星吉拉",
+      "secondary": "闪光尼尔/闪光菲斯利/闪光艾菲亚",
+      "essence": "纯净能量",
+      "color": "紫色",
+      "rare": null
+    },
+    {
+      "name": "果然多多",
+      "main": "果然苹果多",
+      "secondary": "草莓多多/果然草莓/果然草莓多",
+      "essence": "光合能量",
+      "color": "绿色",
+      "rare": null
+    },
+    {
+      "name": "达莫拉",
+      "main": "卡斯达克",
+      "secondary": "莫比/格格尔/鲁加斯/鲁迪诺斯",
+      "essence": "大地之核",
+      "color": "咖啡色",
+      "rare": null
+    },
+    {
+      "name": "轻羽蜂",
+      "main": "灵翼蜂",
+      "secondary": "幽浮/哈尔浮",
+      "essence": "空气结晶",
+      "color": "橙色",
+      "rare": null
+    },
+    {
+      "name": "卡克",
+      "main": "克洛亚",
+      "secondary": "林奇/林修斯/克林卡修",
+      "essence": "玄冰",
+      "color": "天青色",
+      "rare": null
+    },
+    {
+      "name": "烈炎兽",
+      "main": "多鲁姆",
+      "secondary": "火炎贝/贝拉米/贝尔鲁斯",
+      "essence": "火焰元素",
+      "color": "红色",
+      "rare": null
+    },
+    {
+      "name": "多塔",
+      "main": "雷吉欧斯",
+      "secondary": "奇塔/钢塔斯/雷吉姆斯",
+      "essence": "战斗晶体",
+      "color": "灰色",
+      "rare": null
+    },
+    {
+      "name": "索尔",
+      "main": "洛比特",
+      "secondary": "波古/吉拉/吉古拉",
+      "essence": "元素暗影",
+      "color": "暗紫色",
+      "rare": null
+    },
+    {
+      "name": "泰尼",
+      "main": "天雷鼠",
+      "secondary": "鲁克/卡鲁加/卡尔加斯",
+      "essence": "电容球",
+      "color": "黄色",
+      "rare": null
+    },
+    {
+      "name": "迪姆",
+      "main": "加格尔",
+      "secondary": "查斯/查尔顿",
+      "essence": "战斗晶体",
+      "color": "深红色",
+      "rare": null
+    },
+    {
+      "name": "桑帕",
+      "main": "萨洛姆斯",
+      "secondary": "伊娃/伊妮娅/伊娅丝",
+      "essence": "空气结晶",
+      "color": "橙紫色",
+      "rare": null
+    },
+    {
+      "name": "绿毛球",
+      "main": "嘟噜噜王",
+      "secondary": "嘟咕噜/嘟咕噜达/嘟咕噜王",
+      "essence": "纯净能量",
+      "color": "米色",
+      "rare": null
+    },
+    {
+      "name": "格多",
+      "main": "格拉诺",
+      "secondary": "兰妮/兰诺/格兰诺",
+      "essence": "纯净能量",
+      "color": "天青色",
+      "rare": null
+    },
+    {
+      "name": "古鲁芽",
+      "main": "咕咕果",
+      "secondary": "迷你芽/迷你草/迷你果",
+      "essence": "光合能量",
+      "color": "绿色",
+      "rare": null
+    },
+    {
+      "name": "托托",
+      "main": "赤西西比",
+      "secondary": "紫炎虫/紫妮/妮洛娜",
+      "essence": "火焰元素",
+      "color": "红色",
+      "rare": null
+    },
+    {
+      "name": "小艾",
+      "main": "奈落达尔",
+      "secondary": "米奈/米奈希尔",
+      "essence": "龙魂碎片",
+      "color": "绿色",
+      "rare": null
+    },
+    {
+      "name": "萨酷",
+      "main": "埃洛兽",
+      "secondary": "沃特/史沃勒",
+      "essence": "元素暗影",
+      "color": "咖啡色",
+      "rare": "希格"
+    },
+    {
+      "name": "尼洛",
+      "main": "布林克斯",
+      "secondary": "莎莉/莉莉加/克斯莉",
+      "essence": "玄冰",
+      "color": "天青色",
+      "rare": null
+    },
+    {
+      "name": "雪灵",
+      "main": "康克特",
+      "secondary": "凯奴/凯瑟琳/凯凯西朴",
+      "essence": "玄冰",
+      "color": "天青色",
+      "rare": null
+    },
+    {
+      "name": "晶岩虫",
+      "main": "远古甲虫",
+      "secondary": "晶岩兽/塔姆拉",
+      "essence": "大地之核",
+      "color": "咖啡色",
+      "rare": null
+    },
+    {
+      "name": "杰丹",
+      "main": "撒格利加",
+      "secondary": "鲁格洛/纳尔鲁/纳鲁洛特",
+      "essence": "元素暗影",
+      "color": "橙黑色",
+      "rare": null
+    },
+    {
+      "name": "埃洛种子",
+      "main": "伊洛花",
+      "secondary": "埃尔特/埃洛兽",
+      "essence": "光合能量",
+      "color": "暗绿色",
+      "rare": "希格"
+    },
+    {
+      "name": "卡龙",
+      "main": "贪食龙",
+      "secondary": "嘟拉/嘟嘟卡拉",
+      "essence": "龙魂碎片",
+      "color": "橙黑色",
+      "rare": "希格"
+    },
+    {
+      "name": "依尔",
+      "main": "波尼斯",
+      "secondary": "依依/依丁丝/依卡莱恩",
+      "essence": "战斗晶体",
+      "color": "绿色",
+      "rare": null
+    },
+    {
+      "name": "沃拉普",
+      "main": "史沃勒",
+      "secondary": "德普/贪食龙",
+      "essence": "大地之核",
+      "color": "棕黑色",
+      "rare": "希格"
+    },
+    {
+      "name": "闪光伊娃",
+      "main": "伊娅丝",
+      "secondary": "闪光尼尔/闪光菲斯利/闪光艾菲亚",
+      "essence": "电容球",
+      "color": "黄色",
+      "rare": null
+    },
+    {
+      "name": "炎魔",
+      "main": "上古炎兽",
+      "secondary": "托克/赫尔托克",
+      "essence": "火焰元素",
+      "color": "红色",
+      "rare": null
+    },
+    {
+      "name": "安洛达斯",
+      "main": "史密斯",
+      "secondary": "米娅/吉米丽娅",
+      "essence": "战斗晶体",
+      "color": "红色",
+      "rare": null
+    }
+  ],
+  "acquisition": {
+    "烈焰猩猩": "小火猴 14 级进化成烈火猴，烈火猴 36 级进化成烈焰猩猩，不在野怪里。",
+    "炎火猴": "炎火猴 20 级成熔火灵猴，40 级成魔焰猩猩。",
+    "吉尔": "火山星山洞。吉尔 17–18 级，里诺 22–25 级。吉尔 20 级成里诺，里诺 36 级成洛吉拉斯。",
+    "火焰元素": "火山星，打 7–8 级火炎贝，掉率约 45%。"
+  },
+  "orbColors": {
+    "绿色": "#83ca41",
+    "蓝色": "#36a8f8",
+    "红色": "#ff775b",
+    "紫色": "#b49aff",
+    "咖啡色": "#b38d61",
+    "橙色": "#ffb954",
+    "天青色": "#8ce6f6",
+    "灰色": "#b4c9d8",
+    "暗紫色": "#a17cb8",
+    "黄色": "#f2d857",
+    "深红色": "#d76d86",
+    "橙紫色": "#ca88ba",
+    "米色": "#e4d2a1",
+    "暗绿色": "#619c73",
+    "橙黑色": "#c58d59",
+    "棕黑色": "#9e805d",
+    "粉色": "#f69cce"
+  }
+}
