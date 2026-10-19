@@ -51,8 +51,26 @@ for(const id of [...new Set(rules.RECIPES.filter(r=>r.rare).map(r=>r.rare.pet))]
   check(sources.every(({r})=>r.rare.numerator/r.rare.denominator===0.05),'Rare probability changed');
   catalogue.push({id:'rare-'+id,kind:'rare',name:pet(id),petId:id,soul:'粉色元神珠',accent:0xF49ACC,sources:sources.map(({i})=>'fixed-'+(i+1)),acquisition:'',notes:common});
 }
+const nativeTypes=JSON.parse(fs.readFileSync(path.join(sourceDir,'native-types.json'),'utf8'));
+check(nativeTypes.coreSha256===hash(fs.readFileSync(path.join(base,corePath))),'Native type names need review against the new Core');
+const sources=require('./fusion-manual-acquisition.cjs')({base,pets,pet,item,rules});
+for(const r of catalogue){
+ r.typeId=Number(pets[r.petId??r.mainId]?.Type)||0;
+ r.type=r.typeId?nativeTypes.types[r.typeId]:"";
+ check(!r.typeId||r.type,'Unknown native type '+r.typeId);
+ r.typeParts=r.type?r.type.split(' ').map(name=>Number(Object.keys(nativeTypes.types).find(id=>Number(id)<=20&&nativeTypes.types[id]===name))):[];
+ check(r.typeParts.every(id=>id>0),'Unknown badge component');
+ const extra=[];
+ for(const id of [r.mainId,...(r.secondaryIds||[])].filter(Boolean)){
+  if(copy.acquisition[pet(id)]||(pet(id)==='里诺'&&copy.acquisition['吉尔']))continue;
+  const source=sources.petSource(id);if(source)extra.push(pet(id)+'：'+source.text+'。');
+ }
+ if(r.essenceId&&!copy.acquisition[r.essence]){const source=sources.itemSource(r.essenceId);if(source)extra.push(r.essence+'：'+source.text+'。');}
+ r.acquisition=[r.acquisition,...extra].filter(Boolean).join('\n');
+}
 for(const r of catalogue)r.search=[r.name,r.main,r.secondary,r.essence,r.soul,r.type,...(r.outcomes||[]).map(o=>o.name)].filter(Boolean).join(' ');
 fs.mkdirSync(out,{recursive:true});
+fs.writeFileSync(path.join(out,'acquisition-evidence.json'),JSON.stringify(sources.evidence,null,2)+'\n');
 fs.writeFileSync(path.join(out,'catalogue.json'),JSON.stringify(catalogue,null,2)+'\n');
 function parse(raw){
   const signature=raw.subarray(0,3).toString();check(['CWS','FWS'].includes(signature),'Unsupported SWF');
@@ -83,6 +101,6 @@ const final=parse(result);
 check(final.tags.length===original.tags.length&&final.tags.every((t,i)=>t.code===82||t.raw.equals(original.tags[i].raw)),'Non-code native tags changed');
 const target=path.join(out,'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf');
 fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result);
-const manifest={sourceBaseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),files:[{path:'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf',sha256:hash(result)}],inputs:{module:hash(original.raw),core:hash(core.raw),fusionHandler:hash(handler),pets:hash(fs.readFileSync(path.join(base,'app/config/data/xml/pets.xml'))),items:hash(fs.readFileSync(path.join(base,'app/config/data/xml/items.xml')))},counts:{fixed:33,miracle:12,rare:2,fallback:1},nativeEntry:'实验室 > 精灵融合手册 > BookId.BOOK_1',nonCodeTagsPreserved:true,coreChanged:false,serverChanged:false,playerDataChanged:false,networkWrites:false};
+const manifest={sourceBaseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),files:[{path:'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf',sha256:hash(result)}],inputs:{acquisition:Object.fromEntries(sources.inputFiles.map(file=>[file,hash(fs.readFileSync(path.join(base,file)))])),module:hash(original.raw),core:hash(core.raw),fusionHandler:hash(handler),pets:hash(fs.readFileSync(path.join(base,'app/config/data/xml/pets.xml'))),items:hash(fs.readFileSync(path.join(base,'app/config/data/xml/items.xml')))},counts:{fixed:33,miracle:12,rare:2,fallback:1},nativeEntry:'实验室 > 精灵融合手册 > BookId.BOOK_1',nonCodeTagsPreserved:true,coreChanged:false,serverChanged:false,playerDataChanged:false,networkWrites:false};
 fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify(manifest));

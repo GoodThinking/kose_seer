@@ -1,6 +1,7 @@
 package com.robot.module.book
 {
    import com.robot.core.manager.LevelManager;
+   import com.robot.core.manager.UIManager;
    import org.taomee.module.IModule;
    import flash.display.Sprite;
    import flash.display.DisplayObject;
@@ -54,13 +55,16 @@ package com.robot.module.book
          if(mainUI != null) return;
          mainUI = new Sprite();
          mainUI.name = "fusionManual";
-         box(mainUI,0,0,920,520,0x071F36,0x45C9F5,16);
-         box(mainUI,5,5,910,510,0x071F36,0x1E6085,12);
-         box(mainUI,7,7,906,68,0x0D3A5C,0x0D3A5C,9);
-         var book:Sprite = layer(mainUI,24,23);
-         box(book,0,0,31,27,0x168AC1,0x9EEAFF,4);
-         book.graphics.lineStyle(2,0xD4F6FF);book.graphics.moveTo(15,3);book.graphics.lineTo(15,25);
-         book.graphics.moveTo(4,7);book.graphics.lineTo(11,10);book.graphics.moveTo(20,10);book.graphics.lineTo(27,7);
+         drawBook();
+         var book:Sprite = layer(mainUI,19,16);
+         book.graphics.lineStyle(2,0x71DBFF);
+         book.graphics.beginFill(0x178BD0);
+         book.graphics.moveTo(2,5);book.graphics.lineTo(23,9);book.graphics.lineTo(44,5);book.graphics.lineTo(47,39);book.graphics.lineTo(23,44);book.graphics.lineTo(0,39);book.graphics.lineTo(2,5);book.graphics.endFill();
+         book.graphics.lineStyle(2,0xD5F6FF);book.graphics.moveTo(23,10);book.graphics.lineTo(23,40);
+         for(var line:int=0;line<3;line++) {
+            book.graphics.moveTo(7,16+line*7);book.graphics.lineTo(17,19+line*7);
+            book.graphics.moveTo(29,19+line*7);book.graphics.lineTo(39,16+line*7);
+         }
          text(mainUI,"融合手册",68,11,220,40,29,0xE3F6FF,true);
          text(mainUI,"寻找配方，迎接新的伙伴",71,51,240,18,10,0x90C8E4);
          box(mainUI,595,22,262,32,0x07253D,0x3C8EB3,16);
@@ -86,7 +90,7 @@ package com.robot.module.book
          detailView.addEventListener(MouseEvent.MOUSE_WHEEL,onDetailWheel);
          detailBody = layer(detailView,0,0);
          scrollLayer = layer(mainUI,893,90);
-         footer = text(mainUI,"",20,499,880,16,9,0x76ACC9);
+         footer = text(mainUI,"",20,491,880,16,9,0x76ACC9);
          mainUI.setChildIndex(searchInput,mainUI.numChildren-1);
          mainUI.addEventListener(MouseEvent.CLICK,onClick);
          resetSelection();
@@ -134,6 +138,51 @@ package com.robot.module.book
          selected = catalog[0];
          updateRows();
          renderDetail();
+      }
+      private function drawBook() : void
+      {
+         box(mainUI,0,4,920,512,0x0A315A,0x80DFFF,20);
+         box(mainUI,4,0,912,508,0x104D7D,0x318FB8,17);
+         box(mainUI,10,6,900,494,0x09243D,0x86CCE3,11);
+         // Layered page edges and a recessed binding separate the two leaves.
+         for(var edge:int=0;edge<3;edge++) {
+            mainUI.graphics.lineStyle(1,edge==1?0x7DA7B8:0x294D6A);
+            mainUI.graphics.moveTo(20,508+edge*2);mainUI.graphics.lineTo(263,510+edge*2);
+            mainUI.graphics.lineTo(900,508+edge*2);
+         }
+         box(mainUI,12,10,896,67,0x135782,0x298EB7,8);
+         box(mainUI,258,83,12,409,0x061B30,0x1E5270,5);
+         mainUI.graphics.lineStyle(1,0x74A6BC);mainUI.graphics.moveTo(265,88);mainUI.graphics.lineTo(265,490);
+         for(var binding:int=0;binding<4;binding++) {
+            box(mainUI,250,129+binding*97,23,9,0x35728E,0xA2DBEA,6);
+            mainUI.graphics.lineStyle(1,0x123851);mainUI.graphics.moveTo(253,134+binding*97);mainUI.graphics.lineTo(270,134+binding*97);
+         }
+         // Metallic corner guards are part of the cover, not content panels.
+         for(var corner:int=0;corner<2;corner++) {
+            var cx:Number=corner==0?10:910;var direction:Number=corner==0?1:-1;
+            mainUI.graphics.lineStyle(4,0x5AD7FF);
+            mainUI.graphics.moveTo(cx,31);mainUI.graphics.lineTo(cx,15);mainUI.graphics.lineTo(cx+direction*17,6);mainUI.graphics.lineTo(cx+direction*43,6);
+            mainUI.graphics.moveTo(cx,478);mainUI.graphics.lineTo(cx,496);mainUI.graphics.lineTo(cx+direction*17,507);mainUI.graphics.lineTo(cx+direction*43,507);
+         }
+      }
+      private function typeBadge(r:Object,x:Number,y:Number) : void
+      {
+         if(!r.typeId) return;
+         var colors:Array=[0,0x357D32,0x157DB0,0xA44028,0x387CA4,0x967919,0x526E82,0x7C5935,0x617A76,0x3F8DAD,0x79549D,0x963E44,0x9B8738,0x654A83,0x5A5B8E,0x5D7040];
+         var badge:Sprite=layer(detailBody,x,y);
+         var parts:Array=r.typeParts;
+         var labelX:Number=parts.length*27+10;
+         var labelWidth:Number=parts.length>1?94:70;
+         box(badge,0,0,labelX+labelWidth+1,30,parts[0]<colors.length?colors[parts[0]]:0x456983,0x8AD6EC,16);
+         for(var i:int=0;i<parts.length;i++) {
+            var icon:DisplayObject=UIManager.getButton("Icon_PetType_"+parts[i]);
+            var bounds:Rectangle=icon.getBounds(icon);
+            var scale:Number=Math.min(23/bounds.width,23/bounds.height);
+            icon.scaleX=scale;icon.scaleY=scale;icon.x=7+i*27-bounds.x*scale;icon.y=4-bounds.y*scale;
+            badge.addChild(icon);
+         }
+         badge.mouseChildren=false;
+         text(badge,String(r.type).replace(" ","·")+"系",labelX,5,labelWidth,23,parts.length>1?12:14,0xE5F7FF,true);
       }
       private function layer(parent:DisplayObjectContainer,x:Number,y:Number) : Sprite
       {
@@ -323,7 +372,8 @@ package com.robot.module.book
          var r:Object = selected;
          box(detailBody,0,0,601,124,0x10446B,0x319CCC,10);
          text(detailBody,r.name,18,17,390,39,28,0xFFDD83,true);
-         text(detailBody,categoryName(r.kind)+(r.type?"  ·  "+r.type+"系":""),20,61,360,24,13,0x9ADFFF);
+         text(detailBody,categoryName(r.kind),20,63,185,24,13,0x9ADFFF);
+         typeBadge(r,212,59);
          text(detailBody,r.kind=="miracle"?"融合结果按权重随机获得":r.kind=="rare"?"粉色元神珠的稀有结果":r.soul+"  →  "+r.name,20,91,380,23,12,0xD4EBF8);
          detailBody.graphics.lineStyle(2,0x2580AC);
          detailBody.graphics.beginFill(0x1596CE,0.15);detailBody.graphics.drawEllipse(427,97,147,18);detailBody.graphics.endFill();
@@ -363,16 +413,23 @@ package com.robot.module.book
                   var o:Object = r.outcomes[i];
                   var ox:Number = (i%3)*202;
                   var oy:Number = y+int(i/3)*31;
-                  box(detailBody,ox,oy,195,26,0x0D3049,0x285A76,4);
-                  text(detailBody,o.name,ox+7,oy+4,118,20,11,0xCDE7F3);
-                  text(detailBody,o.percent,ox+125,oy+4,66,20,10,0xF9DA8B,true);
+                  if(r.kind=="fallback") {
+                     box(detailBody,ox,y,195,91,0x124260,0x4CA9CC,7);
+                     art(detailBody,"pet",o.petId,ox+5,y+7,76,76);
+                     text(detailBody,o.name,ox+84,y+19,105,24,14,0xFFE395,true);
+                     text(detailBody,"各 1/3",ox+84,y+49,105,24,13,0xB5E5FA);
+                  } else {
+                     box(detailBody,ox,oy,195,26,0x0D3049,0x285A76,4);
+                     text(detailBody,o.name,ox+7,oy+4,118,20,11,0xCDE7F3);
+                     text(detailBody,o.percent,ox+125,oy+4,66,20,10,0xF9DA8B,true);
+                  }
                }
-               y += Math.ceil(r.outcomes.length/3)*31+4;
+               y += r.kind=="fallback"?99:Math.ceil(r.outcomes.length/3)*31+4;
                y += paragraph(detailBody,r.kind=="fallback"?"三种结果等概率，各为 1/3。":"按现网权重计算，重复结果已合并；显示百分比经四舍五入。",0,y,601,10,0x84B6D1)+9;
             }
          }
-         y = sectionTitle("获得方式",y);
          var acquired:String = r.acquisition;
+         y = sectionTitle("获得方式",y,acquired!=""?String(acquired.split("\n").length)+" 条来源 · 下滑查看":"");
          var acquiredPanel:Sprite = layer(detailBody,0,y);
          if(acquired != "") {
             var acquiredHeight:Number = paragraph(acquiredPanel,acquired,10,7,580,12)+14;
@@ -391,6 +448,11 @@ package com.robot.module.book
       private function recipe(r:Object,y:Number) : Number
       {
          var strip:Sprite = layer(detailBody,0,y);
+         if(r.kind=="fallback") {
+            text(strip,"最终形态主宠 + 可融合副宠 + 对应精华 1 个 → 米色元神珠",0,0,601,25,13,0xD6F0FF,true);
+            text(strip,"消耗 1000 赛尔豆；精华不足不会扣除精灵",0,29,601,23,12,0xF2D88C);
+            return y+61;
+         }
          var widths:Array = [99,127,93,104,106];
          var names:Array = [r.main,r.kind=="fixed"?"任选一只副宠":"符合条件的副宠",r.kind=="fallback"?"属性对应精华":r.essence,r.soul,r.kind=="fixed"?r.name:"随机结果"];
          var roles:Array = ["主宠 · 最终形态","副宠", "精华 ×1","元神珠","结果精灵"];
