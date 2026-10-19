@@ -14,8 +14,8 @@ export class PacketGoldBuyProduct extends BaseProto {
     
     const proto = new GoldBuyProductRspProto();
     proto.setUnknown(0);
-    proto.setPayGold(payGold * 100);  // 转换为 * 100
-    proto.setGold(remainingGold * 100);  // 转换为 * 100
+    proto.setPayGold(payGold);
+    proto.setGold(remainingGold);
     
     this._data = proto.serialize();
   }

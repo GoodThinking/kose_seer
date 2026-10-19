@@ -35,7 +35,7 @@ package com.robot.app.buyItem
       private static function onCheckGold(param1:SocketEvent) : void
       {
          var event:SocketEvent = param1;
-         var num:Number = (event.data as ByteArray).readUnsignedInt() / 100;
+         var num:Number = (event.data as ByteArray).readUnsignedInt();
          var name:String = GoldProductXMLInfo.getNameByProID(productID);
          var price:Number = Number(GoldProductXMLInfo.getPriceByProID(productID));
          if(name == "" && price == 0)
@@ -43,7 +43,8 @@ package com.robot.app.buyItem
             name = PetShopXMLInfo.getNameByProID(productID);
             price = Number(PetShopXMLInfo.getPriceByProID(productID));
          }
-         Alert.show(TextFormatUtil.getRedTxt(name) + "需要花费" + TextFormatUtil.getRedTxt(price.toString()) + "金豆，目前你拥有" + TextFormatUtil.getRedTxt(num.toString()) + "金豆，要确认购买吗？",function():void
+         price *= 10000;
+         Alert.show(TextFormatUtil.getRedTxt(name) + "需要花费" + TextFormatUtil.getRedTxt(price.toString()) + "赛尔豆，目前你拥有" + TextFormatUtil.getRedTxt(num.toString()) + "赛尔豆，要确认购买吗？",function():void
          {
             var body:ByteArray = new ByteArray();
             body.writeShort(count);

@@ -106,6 +106,7 @@ package com.robot.app.buyItem
          var _loc3_:String = null;
          var _loc4_:Array = [];
          var _loc5_:GoldBuyProductInfo = param1.data as GoldBuyProductInfo;
+         MainManager.actorInfo.coins = _loc5_.gold;
          _loc3_ = GoldProductXMLInfo.getNameByProID(ProductAction.productID);
          if(_loc3_ == "")
          {

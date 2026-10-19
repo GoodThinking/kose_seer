@@ -345,26 +345,30 @@ export class ItemManager extends BaseManager {
         }
       }
 
-      // 检查是否VIP
+      // 罗开直接兑换：1 金豆 = 10000 赛尔豆。这里按这个汇率扣赛尔豆。
+      const shop = GameConfig.GetShopConfig();
+      const rate = Number(shop && shop.goldCoinRate) || 10000;
       const isVip = this.Player.Data.vip > 0;
 
-      // 计算价格（考虑VIP折扣）
-      let unitPrice = product.price;
+      let unitGold = product.price;
       if (isVip && product.vip > 0 && product.vip < 1) {
-        unitPrice = Math.floor(product.price * product.vip);
+        unitGold = Math.floor(product.price * product.vip);
       }
+      const unitPrice = unitGold * rate;
       const totalCost = unitPrice * count;
+      if (!Number.isSafeInteger(totalCost) || totalCost <= 0 || totalCost > 0x7fffffff) {
+        await this.Player.SendPacket(new PacketEmpty(CommandID.GOLD_BUY_PRODUCT).setResult(5001));
+        return;
+      }
 
-      // 检查金豆是否足够
-      const currentGold = this.Player.Data.gold || 0;
-      if (currentGold < totalCost) {
-        Logger.Warn(`[ItemManager] 金豆不足: 需要=${totalCost}, 拥有=${currentGold}`);
+      const currentCoins = this.Player.Data.coins || 0;
+      if (currentCoins < totalCost) {
+        Logger.Warn(`[ItemManager] 赛尔豆不足: 需要=${totalCost}, 拥有=${currentCoins}`);
         await this.Player.SendPacket(new PacketEmpty(CommandID.GOLD_BUY_PRODUCT).setResult(10016));
         return;
       }
 
-      // 扣除金豆
-      this.Player.Data.gold = currentGold - totalCost;
+      this.Player.Data.coins = currentCoins - totalCost;
 
       // 添加物品
       if (product.itemID > 0) {
@@ -380,13 +384,13 @@ export class ItemManager extends BaseManager {
       }
 
       // 发送成功响应
-      await this.Player.SendPacket(new PacketGoldBuyProduct(totalCost, this.Player.Data.gold || 0));
+      await this.Player.SendPacket(new PacketGoldBuyProduct(totalCost, this.Player.Data.coins || 0));
 
       Logger.Info(
-        `[ItemManager] 金豆购买成功: UserID=${this.UserID}, ` +
+        `[ItemManager] 金豆商品改扣赛尔豆: UserID=${this.UserID}, ` +
         `ProductId=${productId}, ItemId=${product.itemID}, Count=${count}, ` +
         `UnitPrice=${unitPrice}, TotalCost=${totalCost}, CoinsGift=${product.gold * count}, ` +
-        `RemainingGold=${this.Player.Data.gold}, VIP=${isVip}, Discount=${isVip && product.vip ? product.vip : 1}`
+        `RemainingCoins=${this.Player.Data.coins}, VIP=${isVip}`
       );
     } catch (error) {
       Logger.Error(`[ItemManager] HandleGoldBuyProduct 处理失败`, error as Error);
