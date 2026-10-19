@@ -140,10 +140,6 @@ package com.robot.module.book
          if(state != null) for each(var item:XML in state.inventory.mark) if(uint(item.@id)==id) return uint(item.@count);
          return 0;
       }
-      private function owner(id:uint):XML {
-         if(state != null) for each(var p:XML in state.pets.pet) if(uint(p.@ability)==id||uint(p.@skill)==id) return p;
-         return null;
-      }
       // Each identifier has its own original vector emblem; the same drawing is used in inventory, details and equipped sockets.
       private function badge(parent:Sprite,x:Number,y:Number,id:uint,size:Number):Sprite {
          var s:Sprite=new Sprite();s.x=x;s.y=y;s.name="badge:"+id;s.scaleX=s.scaleY=size/60;s.mouseEnabled=false;s.mouseChildren=false;
@@ -225,26 +221,23 @@ package com.robot.module.book
          var marks:Array=[];var item:XML;
          if(state!=null) for each(item in state.catalog.mark) if(String(item.@kind)==kind) marks.push(item);
          for(i=0;i<marks.length;i++) {
-            var m:XML=marks[i];var own:XML=owner(uint(m.@id));
+            var m:XML=marks[i];
             var x:Number=271+(i%2)*146;var y:Number=136+int(i/2)*86;
             var tile:Sprite=new Sprite();tile.x=x;tile.y=y;tile.name="mark:"+m.@id;tile.buttonMode=true;tile.mouseChildren=false;
             selected=markId==uint(m.@id);
             plate(tile,0,0,136,78,selected?0x347CA6:0x265C86,selected?0x245E88:0x1A456D,selected?0xFFE58D:0x0C355A,selected?2:1);
             badge(tile,31,28,uint(m.@id),45);
             var shortEffect:String=String(m.@description).replace("电光火石","").replace("撞击","");
-            label(tile,shortEffect,62,15,69,37,12,selected?0xFFF0AC:0xC7E6F3,true);
+            label(tile,shortEffect,62,10,69,25,12,selected?0xFFF0AC:0xC7E6F3,true);
             centerLabel(tile,String(m.@name),3,53,130,24,12,selected?0xFFF0AC:0xE1F3FF,true);
-            if(own!=null||count(uint(m.@id))>0) {
-               tile.graphics.lineStyle(1,0xB9ECDA);tile.graphics.beginFill(0x248A76);tile.graphics.drawCircle(123,10,5);tile.graphics.endFill();
-               tile.graphics.lineStyle(1,0xEDFFF7);tile.graphics.moveTo(120,10);tile.graphics.lineTo(122,12);tile.graphics.lineTo(126,8);
-            }
+            label(tile,"库存×"+count(uint(m.@id)),62,31,70,20,10,count(uint(m.@id))>0?0xFFF0AC:0xAACBDE);
             tile.mouseEnabled=!pending&&!uncertain;tile.alpha=tile.mouseEnabled?1:0.6;body.addChild(tile);
          }
          if(kind=="skill") {
             label(body,"技能孔专用",278,256,270,31,18,0xFFF0A7,true);
             label(body,"刻印效果仅作用于对应技能。\n选择刻印，查看详细效果。",278,300,267,60,13,0xC4DFEF);
          }
-         label(body,"每种限1枚（含已装备）",274,401,275,22,11,0xB6D6E9);
+         label(body,"库存为未装备数量",274,401,275,22,11,0xB6D6E9);
          var pet:XML=selectedPet();var mark:XML=selectedMark();
          if(pet!=null) {
             label(body,String(pet.@name)+"  等级 "+pet.@level,590,88,294,31,18,0xF3FAFF,true);
@@ -268,12 +261,11 @@ package com.robot.module.book
             badge(body,617,341,markId,45);
             label(body,String(mark.@name),652,316,236,28,17,0xFFF0AB,true);
             label(body,String(mark.@description),652,345,235,33,12,0xE2F1FC);
-            own=owner(markId);var owned:Boolean=count(markId)>0||own!=null;
             var same:Boolean=pet!=null&&uint(pet.attribute(kind))==markId;
-            var status:String=own!=null?"占用："+own.@name:(owned?"已拥有 · 可装备":"本服兑换："+mark.@price+" 赛尔豆");
-            label(body,status,590,365,297,24,11,own!=null?0xFFE0A0:0xBDDFE8);
-            button(body,owned?"已拥有":"兑换刻印",590,391,139,29,"buy",!owned&&state!=null&&uint(state.@coins)>=uint(mark.@price));
-            button(body,same?"卸下刻印":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备刻印"),740,391,147,29,same?"unequip":"equip",pet!=null&&owned&&(same||uint(pet.@level)>=100)&&(own==null||uint(own.@catchTime)==petTime));
+            var status:String="库存×"+count(markId)+"  ·  本服兑换："+mark.@price+" 赛尔豆";
+            label(body,status,590,365,297,24,11,0xBDDFE8);
+            button(body,"兑换刻印",590,391,139,29,"buy",state!=null&&uint(state.@coins)>=uint(mark.@price));
+            button(body,same?"卸下刻印":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备刻印"),740,391,147,29,same?"unequip":"equip",pet!=null&&(same||(count(markId)>0&&uint(pet.@level)>=100)));
          }
          label(body,"100级可用；降级后装备保留，效果停用。更换刻印会返还原刻印。",25,443,864,25,12,0xE0F4FF);
          label(body,pending?"请求处理中，请稍候…":message,25,481,772,27,13,0xFFF3AE,true);

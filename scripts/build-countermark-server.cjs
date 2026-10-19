@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {parseArgs}=require('node:util');
-const {values:v}=parseArgs({options:Object.fromEntries(['context','baseline','out'].map(n=>[n,{type:'string'}]))});
+const {values:v}=parseArgs({options:{...Object.fromEntries(['context','baseline','out'].map(n=>[n,{type:'string'}])), 'module-only':{type:'boolean',default:false}}});
 for(const n of ['context','baseline','out']) if(!v[n]) throw Error('Missing --'+n);
 const baseline=path.resolve(v.baseline),out=path.resolve(v.out),root=path.resolve(__dirname,'..');
 const ts=require(path.join(path.resolve(v.context),'node_modules/typescript'));
@@ -34,6 +34,12 @@ if(diagnostics.length)throw Error(ts.formatDiagnosticsWithColorAndContext(diagno
 const result=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS},reportDiagnostics:true});
 if(result.diagnostics.some(d=>d.category===ts.DiagnosticCategory.Error))throw Error('Countermarks syntax');
 put('app/src/GameServer/Game/Pet/Countermarks.ts',source);put('app/dist/GameServer/Game/Pet/Countermarks.js',result.outputText);
+// Incremental inventory changes reuse the installed integration hooks verbatim.
+if(v['module-only']) {
+  fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify({files,mode:'module-only',guards:'Only Countermarks.ts/js are emitted; verify before SHA256 before applying',databaseMigration:false},null,2)+'\n');
+  console.log(JSON.stringify({out,files:files.length,mode:'module-only'}));
+  process.exit(0);
+}
 put('app/config/data/json/countermarks.json',fs.readFileSync(path.join(root,'compat/server-patches/countermark/countermarks.json')));
 for(const [dir,ext] of [['src','.ts'],['dist','.js']]){
  patch(`app/${dir}/GameServer/Game/Pet/PetCalculator${ext}`,(n,a,e)=>{if(ts.isMethodDeclaration(n)&&n.name.getText(a)==='CalculateStatsFromPet'){const ret=n.body.statements.find(ts.isReturnStatement);if(!ret||!ts.isCallExpression(ret.expression))throw Error('Unknown stats baseline');e.push({start:ret.expression.getStart(a),end:ret.expression.end,text:'require("./Countermarks").ApplyStats(pet, '+ret.expression.getText(a)+')'});}},1);

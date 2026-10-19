@@ -84,9 +84,8 @@ export async function Operate(player:any,op:number,catchTime:number,markId:numbe
         const count = (id:number) => inventory.find(m => m.mark_id === id)?.count || 0;
         const set = async (id:number,n:number) => {if (inventory.some(m => m.mark_id === id)) await d.execute('UPDATE player_countermarks SET count = ? WHERE owner_id = ? AND mark_id = ?',[n,player.Uid,id]);else await d.execute('INSERT INTO player_countermarks(owner_id,mark_id,count) VALUES(?,?,?)',[player.Uid,id,n]);};
         if (op === 1) {
-          if (count(markId) + staged.filter((p:any) => Slots(p).ability === markId || Slots(p).skill === markId).length >= 1) throw new Rejected(5001,'每种刻印限拥有一个');
           if (balance[0] < mark!.price) throw new Rejected(10016,'赛尔豆不足');
-          balance[0] -= mark!.price; await set(markId,1);
+          balance[0] -= mark!.price; await set(markId,count(markId)+1);
         } else {
           const previous = target.countermarks[field];
           if (op === 2 && previous === markId) throw new Rejected(5001,'该刻印已装备');

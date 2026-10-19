@@ -20,7 +20,7 @@
 以下为本服首版规则，不声称等同于官方装备或经济规则：
 
 - 能力和技能各一个孔位；100级可装备，降级后装备保留、效果停用，回到100级重新生效。
-- 每种刻印全账号最多一枚（包括已装备的）。可卸下再交给另一只精灵使用。
+- 同种刻印可以重复购买，多只精灵各装备一枚。库存数量仅包含未装备的刻印；装备扣一枚，卸下返还一枚，替换返还旧刻印并扣除新刻印。
 - 能力刻印1000赛尔豆，技能刻印3000赛尔豆，价格由服务端配置返回。
 - 替换归还旧刻印；背包数量不包含已装备刻印；战斗中禁止购买/装备/卸下。
 - 暂不包含通用孔、全能刻印、强化、宝石和随机铸造。
@@ -50,7 +50,7 @@ op为0查询、1购买、2装备、3卸下；slot为0能力、1技能。
 
 客户端使用 `scripts/build-countermark-client.cjs --baseline <最新客户端快照> --out <输出> --java <java> --ffdec <ffdec.jar>`，只替换Core内背包入口类的ABC，保留其余ABC和非代码标签；新面板单独模块。Core写入assets原位置，避免新建overlay Core遮蔽后续发布。
 
-回归命令：Node22运行 `scripts/test-countermark.cjs <合并产物的app目录>`。测试仅使用临时SQLite，不访问真实用户。9组覆盖购买并发、存档装卸、错误回滚、技能隔离、体力与跨宠占用、PVP及换宠实际回合、战后脏数据、战斗/交易互斥、协议长度与XML响应。
+回归命令：Node22运行 `scripts/test-countermark.cjs <合并产物的app目录>`。测试仅使用临时SQLite，不访问真实用户。覆盖重复及并发购买、同种刻印跨宠装备、库存守恒与重登持久化、错误回滚、技能隔离、体力不额外回复、PVP及换宠实际回合、战后脏数据、战斗/交易互斥、协议长度与XML响应。
 
 新表 `player_countermarks` 在首次查询时幂等创建；宠物装备保存于原有 `pet_list` JSON的 `countermarks` 字段。撤回功能时保留库存表和装备字段，防止用户资产被删除。
 
@@ -61,3 +61,5 @@ op为0查询、1购买、2装备、3卸下；slot为0能力、1技能。
 8枚刻印使用独立绘制的矢量图标，图标在库存、详情、装备孔中复用。历史 `CountermarkXMLInfo.getIconURL` 指向 `countermark/icon/{id}.swf`，但本地资源包没有这8枚对应文件，因此这些图标不标作官方原图。精灵使用现有原版资源。
 
 仅更新刻印面板时，在客户端构建命令追加 `--module-only`，使用 `visual-baseline-hashes.json` 校验当前 Core、模板和已发布刻印模块。该模式仅输出 `client/overlay/module/com/robot/module/book/PetCountermarkBookPanel.swf`，不重新编译或部署 Core。交易、等级、属性和技能效果规则保持不变。
+
+重复购买版本沿用现有库存表与宠物装备字段，无需迁移已有玩家数据。服务端仅更新刻印模块时，构建命令追加 `--module-only`，仅输出 `Countermarks.ts` 和 `Countermarks.js`，不重新应用已发布的集成补丁。

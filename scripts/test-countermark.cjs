@@ -83,11 +83,34 @@ async function run(name, fn) {
   await db.Execute(petSQL);
   for (const sql of new (load('DataBase/migrations/scripts/006_create_items').Migration006CreateItems)().upSQLite()) await db.Execute(sql);
 
-  await run('purchase concurrency and limit include equipment', async () => {
-    const p=await fixture(7,100); const outcomes=await Promise.allSettled([CM.Operate(p,1,0,10001,0),CM.Operate(p,1,0,10001,0)]);
-    assert.equal(outcomes.filter(x=>x.status==='fulfilled').length,1); assert.equal(p.Data.coins,9000);
-    await CM.Operate(p,2,p.PetManager.PetData.PetList[0].catchTime,10001,0);
-    await assert.rejects(CM.Operate(p,1,0,10001,0)); assert.equal(p.Data.coins,9000);
+  await run('repeated and concurrent purchases debit each success and accumulate inventory', async () => {
+    const p=await fixture(7,100); const inventory=async()=>Number((await db.Query('SELECT count FROM player_countermarks WHERE owner_id=? AND mark_id=?',[p.Uid,10001]))[0]?.count||0);
+    const outcomes=await Promise.allSettled(Array.from({length:4},()=>CM.Operate(p,1,0,10001,0)));
+    assert.equal(outcomes.filter(x=>x.status==='fulfilled').length,4);assert.equal(p.Data.coins,6000);assert.equal(await inventory(),4);
+    const pet=p.PetManager.PetData.PetList[0];await CM.Operate(p,2,pet.catchTime,10001,0);
+    await CM.Operate(p,1,0,10001,0);assert.equal(p.Data.coins,5000);assert.equal(await inventory(),4);assert.equal(pet.countermarks.ability,10001);
+    assert.equal((await saved(p)).wallet.coins,5000);
+  });
+  await run('multiple copies equip across pets, conserve inventory on replace/uninstall and persist after reload',async()=>{
+    const p=await fixture(7,100),one=p.PetManager.PetData.PetList[0];
+    const two={...one,catchTime:one.catchTime+1,countermarks:{ability:0,skill:0}},three={...one,catchTime:one.catchTime+2,countermarks:{ability:0,skill:0}};
+    p.PetManager.PetData.PetList.push(two,three);
+    const inventory=async(id)=>Number((await db.Query('SELECT count FROM player_countermarks WHERE owner_id=? AND mark_id=?',[p.Uid,id]))[0]?.count||0);
+    const total=async(id)=>(await inventory(id))+p.PetManager.PetData.PetList.filter(pet=>CM.Slots(pet).ability===id||CM.Slots(pet).skill===id).length;
+    await CM.Operate(p,1,0,10001,0);await CM.Operate(p,1,0,10001,0);assert.equal(await total(10001),2);
+    await Promise.all([CM.Operate(p,2,one.catchTime,10001,0),CM.Operate(p,2,two.catchTime,10001,0)]);
+    assert.equal(await inventory(10001),0);assert.equal(await total(10001),2);assert.equal(p.PetManager.PetData.PetList[1].countermarks.ability,10001);
+    await assert.rejects(CM.Operate(p,2,three.catchTime,10001,0));assert.equal(await inventory(10001),0);
+    await CM.Operate(p,1,0,10002,0);await CM.Operate(p,2,one.catchTime,10002,0);
+    assert.equal(await inventory(10001),1);assert.equal(await inventory(10002),0);assert.equal(await total(10001),2);assert.equal(await total(10002),1);
+    await CM.Operate(p,3,two.catchTime,0,0);assert.equal(await inventory(10001),2);
+    await CM.Operate(p,2,three.catchTime,10001,0);assert.equal(await inventory(10001),1);assert.equal(await total(10001),2);
+    const state=await saved(p);assert.equal(state.pets[0].countermarks.ability,10002);assert.equal(state.pets[1].countermarks.ability,0);assert.equal(state.pets[2].countermarks.ability,10001);
+    helper.RemoveCache(p.Uid);const reloaded=new PetManager(p);await reloaded.Initialize();assert.deepEqual(reloaded.PetData.PetList.map(pet=>CM.Slots(pet).ability),[10002,0,10001]);
+    assert.equal(await inventory(10001),1);assert.equal(state.wallet.coins,7000);
+    await db.Execute("CREATE TRIGGER reject_repeat_purchase BEFORE UPDATE ON players BEGIN SELECT RAISE(ABORT,'synthetic repeated purchase failure'); END");
+    await assert.rejects(CM.Operate(p,1,0,10001,0));assert.equal(await inventory(10001),1);assert.equal(p.Data.coins,7000);assert.equal((await saved(p)).wallet.coins,7000);
+    await db.Execute('DROP TRIGGER reject_repeat_purchase');
   });
   await run('stats, replacement, uninstall and reload retain inventory',async()=>{
     const p=await fixture(7,100),pet=p.PetManager.PetData.PetList[0],base=PetCalculator.CalculateStatsFromPet(pet);
