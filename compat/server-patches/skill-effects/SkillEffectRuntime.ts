@@ -87,8 +87,19 @@ export class SkillEffectRuntime {
     return entries;
   }
 
-  private static Mine(skill: any): IEntry[] {
-    return this.Entries(skill).filter(e => this.Handles(e.id, skill));
+  /** 本模块实现的效果；给出 defender 时去掉其特性免疫的效果（2050/2185） */
+  private static Mine(skill: any, defender?: any): IEntry[] {
+    return this.Entries(skill).filter(e => this.Handles(e.id, skill) && !(defender && this.Passive.Blocked(defender, e.id, skill)));
+  }
+
+  /** 被动特性运行时 */
+  private static get Passive(): any {
+    return require('./PassiveRuntime').PassiveRuntime;
+  }
+
+  /** 防守方的特性免疫该效果（供原子效果跳过） */
+  public static EffectBlocked(defender: any, effectId: number, skill: any): boolean {
+    return !!defender && this.Passive.Blocked(defender, effectId, skill);
   }
 
   // ==================== 状态工具 ====================
@@ -142,6 +153,7 @@ export class SkillEffectRuntime {
   private static Lose(battle: any, source: any, pet: any, amount: number, skill: any, kind: 'dot' | 'fixed' | 'ohko', mode = 'fixed'): void {
     amount = Math.floor(amount);
     if (amount <= 0 || pet.hp <= 0) return;
+    if (kind !== 'dot') amount = this.Passive.Lethal(battle, pet, skill || {}, this.Passive.Shield(battle, pet, skill || {}, amount));
     if (kind !== 'dot' && pet.bossMechanics && battle?.enemy === pet) {
       amount = require('./BossSpecialRules').BossSpecialRules.ModifyDamageToBoss(battle, source, pet, skill || {}, amount, kind, { mode });
     }
@@ -200,9 +212,9 @@ export class SkillEffectRuntime {
     return undefined;
   }
 
-  /** 先制修正：效果142下回合较快出手、效果171属性技能较快出手 */
-  public static Priority(pet: any, skill: any): number {
-    let bonus = 0;
+  /** 先制修正：效果142下回合较快出手、效果171属性技能较快出手、特性2098受高伤后下回合先手 */
+  public static Priority(battle: any, pet: any, skill: any): number {
+    let bonus = this.Passive.Priority(battle, pet);
     if (this.Get(pet, 'nextPriority')) bonus += 1;
     if (skill?.category === 4 && this.Get(pet, 'statusPriority')) bonus += 1;
     return bonus;
@@ -211,6 +223,8 @@ export class SkillEffectRuntime {
   public static ResolveHit(battle: any, attacker: any, defender: any, skill: any, isFirst: boolean, check: () => boolean): boolean {
     const attack = skill.category === 1 || skill.category === 2;
     const targetsFoe = Number((GameConfig.GetSkillById(skill.id) as any)?.AtkType) !== 3;
+    if (targetsFoe && this.Passive.BeforeHit(battle, attacker, defender, skill, (pet: any) => this.ClearTurnEffects(pet)) === false)
+      return this.Miss(defender, 'passive');
     if (targetsFoe && !skill.mustHit) {
       // 52：对方本回合先手时令本方技能失效（必中技能除外）
       if (!isFirst && this.Get(defender, 'firstStrikeBlock')) return this.Miss(defender, 'firstStrikeBlock');
@@ -219,7 +233,17 @@ export class SkillEffectRuntime {
       if (skill.category === 4 && this.Get(defender, 'evadeStatus')) return this.Miss(defender, 'evadeStatus');
     }
     if (attack && this.Get(attacker, 'sureHit')) return true;
-    return check();
+    // 特性2007回避、2029精准按倍率修正技能命中率
+    const scale = targetsFoe ? this.Passive.AccuracyScale(attacker, defender) : 1;
+    if (scale === 1 || skill.mustHit) return check();
+    if (scale <= 0) return this.Miss(defender, 'passiveDodge');
+    const accuracy = skill.accuracy;
+    skill.accuracy = Math.max(0, Math.min(100, (accuracy || 100) * scale));
+    try {
+      return check();
+    } finally {
+      skill.accuracy = accuracy;
+    }
   }
 
   private static Miss(defender: any, reason: string): false {
@@ -230,7 +254,7 @@ export class SkillEffectRuntime {
   // ==================== 威力与暴击 ====================
 
   public static Power(attacker: any, defender: any, skill: any, power: number): number {
-    for (const { id, args } of this.Mine(skill)) {
+    for (const { id, args } of this.Mine(skill, defender)) {
       switch (id) {
         case 9: { // 连续使用每次威力增加n，最高威力m（中间换技能或落空则重新计算）
           const run = this.States(attacker).consecutive;
@@ -265,7 +289,7 @@ export class SkillEffectRuntime {
     }
     const boost = this.Get(attacker, 'typePower');
     if (boost && (skill.type || 8) === boost.type) power = Math.floor(power * boost.multiplier);
-    return power;
+    return this.Passive.Power(attacker, power);
   }
 
   public static Crit(battle: any, attacker: any, defender: any, skill: any, check: () => boolean): boolean {
@@ -274,15 +298,15 @@ export class SkillEffectRuntime {
     // 160：对手落空后的下回合必定暴击
     const next = this.Get(attacker, 'critNext');
     if (next && next.turn < battle.turn) return true;
-    for (const { id, args } of this.Mine(skill)) {
+    for (const { id, args } of this.Mine(skill, defender)) {
       if (id === 193 && this.HasStatus(defender, args[0])) return true;
     }
-    if (check()) return true;
+    // 额外暴击率（x/16）与技能基础暴击率相加
     let bonus = this.Get(attacker, 'critUp') ? 1 : 0;
-    for (const { id, args } of this.Mine(skill)) {
+    for (const { id, args } of this.Mine(skill, defender)) {
       if (id === 95 && this.HasStatus(defender, SLEEP)) bonus += args[0] || 0;
     }
-    return bonus > 0 && Math.random() * 16 < bonus;
+    return this.Passive.Crit(attacker, defender, skill.critRate || 1, check, bonus);
   }
 
   // ==================== 伤害 ====================
@@ -295,7 +319,8 @@ export class SkillEffectRuntime {
     const states = this.States(attacker);
     states._hits = 1;
     if (kind === 'attack' && damage > 0) damage = this.AttackSide(battle, attacker, defender, skill, damage, isFirst);
-    for (const { id } of this.Mine(skill)) {
+    if (kind === 'attack') damage = this.Passive.AttackDamage(battle, attacker, defender, skill, damage);
+    for (const { id } of this.Mine(skill, defender)) {
       if (id === 34) { // 克制：将本回合所受伤害的n倍反馈给对手
         const received = this.States(attacker)._received;
         const arg = this.Entries(skill).find(e => e.id === 34)?.args[0] || 2;
@@ -304,12 +329,12 @@ export class SkillEffectRuntime {
     }
     if (damage > 0 && (skill.category === 1 || skill.category === 2)) damage = this.DefenderSide(battle, attacker, defender, skill, damage, kind);
     if (damage > 0 && this.Mine(skill).some(e => e.id === 8) && damage >= defender.hp) damage = Math.max(0, defender.hp - 1);
-    return damage;
+    return this.Passive.Lethal(battle, defender, skill, this.Passive.Shield(battle, defender, skill, damage));
   }
 
   private static AttackSide(battle: any, attacker: any, defender: any, skill: any, damage: number, isFirst: boolean): number {
     let extra = 0;
-    for (const { id, args } of this.Mine(skill)) {
+    for (const { id, args } of this.Mine(skill, defender)) {
       switch (id) {
         case 31: { // 1回合做m~n次攻击
           const hits = this.Rand(args[0] || 2, Math.max(args[0] || 2, args[1] || args[0] || 2));
@@ -346,7 +371,7 @@ export class SkillEffectRuntime {
     const weakened = this.Get(attacker, 'outgoingDivisor');
     if (weakened && weakened.divisor > 1) damage = Math.floor(damage / weakened.divisor);
     damage += extra;
-    for (const { id, args } of this.Mine(skill)) if (id === 135) damage = Math.max(damage, args[0] || 0);
+    for (const { id, args } of this.Mine(skill, defender)) if (id === 135) damage = Math.max(damage, args[0] || 0);
     return damage;
   }
 
@@ -408,7 +433,7 @@ export class SkillEffectRuntime {
     if (damage > 0) this.States(defender)._received = { turn: battle.turn, amount: damage };
     if (attack) this.Reactions(attacker, defender, skill, damage);
     else this.StatusMoveReactions(attacker, defender);
-    for (const { id, args } of this.Mine(skill)) this.Apply(battle, attacker, defender, skill, id, args, damage, isFirst);
+    for (const { id, args } of this.Mine(skill, defender)) this.Apply(battle, attacker, defender, skill, id, args, damage, isFirst);
     // 持续吸血/回复类状态
     if (damage > 0) {
       const aura = this.Get(attacker, 'drainAura');
@@ -425,6 +450,8 @@ export class SkillEffectRuntime {
     const fear = this.Get(attacker, 'firstFear');
     if (fear && isFirst && this.Chance(fear.chance)) this.Inflict(defender, 6, this.Rand(1, 3), skill.id);
     this.States(attacker)._lastSkill = skill.id;
+    this.Passive.AfterHit(battle, defender, skill, damage);
+    for (const pet of [defender, attacker]) this.Passive.Revive(pet);
     if (defender.hp <= 0) this.OnKnockout(battle, attacker, defender, skill);
     if (wake) {
       defender.statusDurations[SLEEP] = 0;
@@ -657,6 +684,7 @@ export class SkillEffectRuntime {
 
   /** 精灵上场：结算上一只留下的效果 */
   public static OnEntry(battle: any): void {
+    this.Passive.OnTurnStart(battle);
     for (const side of ['player', 'enemy']) {
       const pending = battle.pendingEntry?.[side];
       const pet = battle[side];
@@ -674,6 +702,7 @@ export class SkillEffectRuntime {
 
   public static OnMiss(battle: any, attacker: any, defender: any, skill: any): void {
     this.States(attacker)._lastSkill = undefined;
+    this.Passive.OnMiss(defender);
     for (const { id, args } of this.Mine(skill)) {
       if (id === 72) attacker.hp = 0; // 此回合miss则立即死亡
       if (id === 136 && args[0] > 0) this.Heal(attacker, attacker.maxHp / args[0]);
@@ -714,6 +743,7 @@ export class SkillEffectRuntime {
       }
     }
     for (const side of ['player', 'enemy']) this.Tick(battle[side]);
+    this.Passive.TurnEnd(battle);
   }
 
   private static Tick(pet: any): void {
