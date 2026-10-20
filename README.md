@@ -11,6 +11,41 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 谱尼入口、PP药剂与洗个体修复（2026-10-20）
+
+### 谱尼挑战5001
+
+- 原生客户端通过 `changeLocalMap(514)` 进入神秘领域，不发送换图包，服务端仍记录勇者之塔入口108。2411挑战入口将108解析为514，再执行现有封印解锁、每日次数、战斗初始化和奖励逻辑；不修改玩家持久化地图。
+- 点击中央谱尼改为确认挑战当前尚未解除的封印；七封印完成后才确认真身。移除无服务端配置的旧任务462试探战编号0，不绕过七封印。
+- 原生进度按已胜利的封印编号取最大值，重复挑战旧封印不再虚增进度。Core只替换 `MapProcess_514`，其他原生类及图形标签逐字节保留。
+
+### 超级PP药剂被拒绝
+
+- 旧代码只把300016认作PP药剂，超级活力药剂300019会被满体力检查及体力药白名单拒绝。
+- 按 `items.xml` 的 `ItemType=2` 识别PP药，恢复量取配置 `PP`。超级活力药剂恢复40PP，每个技能分别限制到最大PP；全部已满时不扣药。
+- 所有PP药共用原有库存预留、PP和扣药同事务提交及读回确认，不改体力药规则和战斗模块。
+
+### 洗个体后属性反降
+
+- 旧实现对六项个体值独立随机，背包详情却显示体力个体 `dvHp`，洗药回包还显示六项平均。因此显示个体升高时，特防个体可能反降。
+- `RandomDv` 每次只生成一个0–31的个体值并同步六项，再计算属性。等级、性格、学习力、技能及经验保持；洗药回包和重新打开背包读到相同个体值。
+- 不批量修改旧存档，不自动洗药或扣药。下一次正常使用个体重塑类道具时采用新规则。
+
+构建和验证：
+
+```bash
+node scripts/build-puni-entry.cjs --baseline /path/to/live-capture --out /path/to/puni-release --context /path/to/typescript-context --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/build-pp-medicine.cjs --baseline /path/to/live-capture --out /path/to/pp-release --context /path/to/typescript-context
+node scripts/build-individual-reroll.cjs --baseline /path/to/live-capture --out /path/to/dv-release --context /path/to/typescript-context
+node scripts/test-puni-entry.cjs /path/to/isolated-runtime
+node scripts/test-pp-medicine.cjs /path/to/isolated-runtime
+node scripts/test-individual-reroll.cjs /path/to/isolated-runtime
+```
+
+三个构建器均以当前线上文件为底，输出精确文件清单及部署前后哈希。PP事务当前只有dist实现，不能用旧 `BattleManager.ts` 全量编译覆盖。谱尼请求处理同步JS/TS镜像；洗个体补齐此前缺失的TS镜像。发布合并三个清单后只重启游戏服务，不迁移数据库。
+
+验证使用真实请求处理器、管理器和临时SQLite：谱尼第一封印不再5001，七封印及真身的编号、初始化、未解锁/每日限制及魔狮迪露原入口通过；第一封印可执行真实回合。超级PP药满体力下恢复40PP、技能上限、扣一瓶、满PP拒绝及事务失败回滚通过。洗个体修复前复现显示1→26而特防98→83，修复后相同夹具为83→96，六项同值且洗药/详情回包一致。原生Ruffle场景实际点击中央谱尼，确认编号1、4、8、每日封闭提示及旧封印重打不增进度；登录、网络与地图装配使用隔离夹具，不替代真实账号完整验收。证据：工作区 `outputs/puni-challenge-20261020/`。
+
 ## 手册入口与滚轮手感（2026-10-20）
 
 - 移除任务栏的“荣誉兑换手册”图标、创建调用和专用面板字段。保留其他任务图标、通用兑换信息同步、精灵宝典和融合手册，不修改荣誉点或玩家数据。
@@ -189,7 +224,7 @@ node scripts/test-turn-rules.cjs /path/to/isolated/runtime
 | 797 / 523 / 837 | 圣影流光破（谱尼） | 消除对手回合类效果，成功则对手2回合内用技能回复的体力作废；未击败对手时自身特攻、速度+1；吸取150体力，连续使用每次+100，最高350 |
 
 - 性别取图鉴的 `Gender`（1雄、2雌、0无性别），是种族属性，不需要存档字段。
-- 个体值取六项平均，和面板显示一致。`BattleInitService` 建战斗精灵、`BattleManager.UpdateBattlePet` 换精灵时写入；野怪和BOSS没有记录，按野怪固定的24计算。
+- 战斗中按个体值计算的技能读取六项平均；`BattleInitService` 建战斗精灵、`BattleManager.UpdateBattlePet` 换精灵时写入。旧存档六项可能不同，背包详情实际显示 `dvHp`，不能视为平均值；本次洗个体修复后六项统一。野怪和BOSS没有记录，按野怪固定的24计算。
 - 换上来的精灵不再继承上一只的技能效果状态（`effectStates`）。以前护盾、必定暴击、被寄生等会跟到下一只精灵身上。
 - 原子效果的“先手/后手”条件（冲撞、疾风追击等）以前按速度比较，对手用先制技能时会判反；现在按本回合实际出手顺序。
 - 179（机械能量炮，本系威力+20）原本就生效，未改。
