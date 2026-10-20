@@ -458,9 +458,10 @@ export class PetManager extends BaseManager {
     let evolved = false;
     
     // pet.exp 是当前等级内的经验
-    while (pet.exp >= PetCalculator.CalculateExpForLevel(pet.level + 1, pet.petId) && pet.level < 100) {
+    while (pet.level < 100) {
+      const requiredExp = PetCalculator.ExpForNextLevel(pet.level, pet.petId);
+      if (requiredExp <= 0 || pet.exp < requiredExp) break;
       // 扣除升级所需经验
-      const requiredExp = PetCalculator.CalculateExpForLevel(pet.level + 1, pet.petId);
       pet.exp -= requiredExp;
       
       // 升级
@@ -623,7 +624,7 @@ export class PetManager extends BaseManager {
     proto.level = pet.level;
     proto.exp = pet.exp;
     proto.lvExp = 0; // 当前等级的基础经验（总是0，因为pet.exp存储的是当前等级内的经验）
-    proto.nextLvExp = PetCalculator.CalculateExpForLevel(pet.level + 1, pet.petId); // 升到下一级所需的经验
+    proto.nextLvExp = PetCalculator.ExpForNextLevel(pet.level, pet.petId); // 升到下一级所需的经验
     
     proto.hp = pet.hp;
     proto.maxHp = pet.maxHp;
@@ -687,7 +688,7 @@ export class PetManager extends BaseManager {
       level: pet.level,
       exp: pet.exp, // 当前等级已获得的经验
       currentLvExp: 0, // 当前等级的基础经验（总是0）
-      nextLvExp: PetCalculator.CalculateExpForLevel(pet.level + 1, pet.petId), // 升到下一级所需的经验
+      nextLvExp: PetCalculator.ExpForNextLevel(pet.level, pet.petId), // 升到下一级所需的经验
       maxHp: pet.maxHp,
       attack: pet.atk,
       defence: pet.def,

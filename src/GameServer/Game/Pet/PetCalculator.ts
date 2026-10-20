@@ -235,6 +235,17 @@ export class PetCalculator {
   }
 
   /**
+   * 从当前等级升到下一级要扣的经验。
+   * CalculateExpForLevel(n) 是升到 n 级的累计经验，单级费用是相邻两级的差。
+   */
+  public static ExpForNextLevel(currentLevel: number, petId?: number): number {
+    if (currentLevel >= 100) return 0;
+    const next = this.CalculateExpForLevel(currentLevel + 1, petId);
+    const current = this.CalculateExpForLevel(currentLevel, petId);
+    return Math.max(0, next - current);
+  }
+
+  /**
    * 计算精灵的所有属性
    * 
    * @param petId 精灵种类ID
