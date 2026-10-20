@@ -22,8 +22,9 @@ function petConfig(petId: number): any {
   return GameConfig.GetPetById(petId) as any;
 }
 
-export function speciesAllowsTrait(petId: number): boolean {
-  return num(petConfig(petId)?.AddSeParam) === 1;
+/** 任何种族都能带特性。AddSeParam 只是官方表里的标记，不拿来拦药。 */
+export function speciesAllowsTrait(_petId: number): boolean {
+  return true;
 }
 
 export function isFusionSpecies(petId: number): boolean {
@@ -63,7 +64,7 @@ export function applyTrait(pet: IPetInfo, ability: AbilityConfig): void {
   pet.effectCount = 1;
 }
 
-/** 新个体生成时调用。种族没有特性、或已经有特性时不改。 */
+/** 新个体生成时调用。已经有特性时不改。 */
 export function assignInnateTrait(pet: IPetInfo): void {
   if (pet.effectList && pet.effectList.length > 0) return;
   if (!speciesAllowsTrait(pet.petId)) return;
