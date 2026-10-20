@@ -11,6 +11,34 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 精灵作战宝典（2026-10-20）
+
+直接升级实验室原有的“精灵手册”实体书，不增加场景按钮或网页悬浮层。入口仍为 `MonsterBook.loadPanel()`，加载 `resource/book/monsterBook.swf` 并实例化原有 `monsterBook` 库符号。原生关闭流程继续负责恢复场景点击与新手阅读任务；融合手册保持不变。
+
+- 纸页、金属书脊的原生 920×520 书册；首页依次展示“夯、顶级、人上人、NPC、拉”，每档展示六只代表精灵。点击等级可查看该档全部精灵。
+- 搜索覆盖全部收录条目，可按名字、编号、属性、定位和推荐技能查询；列表每页 12 只。详情展示当前形态的六维种族值、总和、评级理由、机制限制、获取途径、学习力配点与刷取地点、推荐技能及学习等级、个体特性建议。
+- 首次构建收录服务端具有完整六维战斗数值的 1516 只精灵，不计坐骑及无战斗数据的条目。技能学习条件读取实际使用的 `spt.xml`，种族值读取 `pets.xml`，技能参数读取 `skills.xml`。
+- Boss 用途分数由机制价值 40、通用性 25、个人能力 20、稳定性 15 四项组成。五档阈值为 85、70、55、35；专题精灵人工校准同样四维，其余明确标记为规则初评。不是官方排行、PvP 榜或通关胜率。
+- 低面板工具宠可以因比例削血或接力获得高评价，但明确说明 Boss 免疫、封印与顺序破防的限制，不把 Boss 专属能力算给玩家同种精灵。进化前后独立评级。
+- 获取来源来自当前捕捉、兑换、特殊进化、融合、Boss 首胜/掉落、任务、扭蛋、收集奖励与试炼之塔配置。首次构建有 299 个条目的获取链仍包含未确认来源，页面明确提示；收录数据不代表已开放获取。不会以历史活动介绍冒充本服可用途径。
+- 推荐学习力遵循单项 255、总计 510；特性只推荐 `pet_abilities.json` 中的个体培养特性，并注明随机获得、不保证主动选择。查询不写存档、不购买或自动培养。
+
+源码：`compat/client-patches/pet-boss-handbook/monsterBook.as`；数据与评分：`scripts/pet-boss-handbook-data.cjs`。配置变化后重新构建，不能只复用旧榜单。
+
+```bash
+node scripts/build-pet-boss-handbook.cjs \
+  --baseline /path/to/current-capture \
+  --fusion-baseline /path/to/current-capture \
+  --book /path/to/original/resource/book/monsterBook.swf \
+  --out /path/to/release \
+  --java /path/to/java \
+  --ffdec /path/to/ffdec.jar
+```
+
+基线包含 `app/config/data/{xml,json}`、`app/dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js`、`app/dist/GameServer/Game/Pet/CollectReward.js` 与 `app/dist/GameServer/Game/Battle/FreshTower.js`。构建器输出完整 `catalogue.json`、输入/产物 SHA-256 的 `manifest.json`，以及唯一游戏资源 `client/overlay/resource/book/monsterBook.swf`。不修改 Core、地图、服务端或玩家存档。构建后的资源须由发布会话按最新线上基线安装，不能将 `compiler/` 目录作为发布产物。
+
+按用户要求仅做必要检查：FFDec 原生编译通过；本地 Ruffle 加载原生书册、头像与立绘，搜索“丽莎布布”可打开评级详情。未进行完整游戏流程、Boss 对战、关闭重开或全部条目验收，体验由用户反馈。此次开发不直接替换线上文件。
+
 ## 属性克制与学习力取整（2026-10-20）
 
 对照经典版官方：单属性克制 2、微弱 0.5、普通 1、无效 0；双属性按 4399 的拆分公式；本系加成 1.5。学习力按 ÷4 计入能力，整段乘完性格后再向下取整。体力不受性格影响。
