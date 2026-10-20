@@ -37,7 +37,9 @@ node scripts/build-pet-boss-handbook.cjs \
 
 基线包含 `app/config/data/{xml,json}`、`app/dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js`、`app/dist/GameServer/Game/Pet/CollectReward.js` 与 `app/dist/GameServer/Game/Battle/FreshTower.js`。构建器输出完整 `catalogue.json`、输入/产物 SHA-256 的 `manifest.json`，以及唯一游戏资源 `client/overlay/resource/book/monsterBook.swf`。不修改 Core、地图、服务端或玩家存档。构建后的资源须由发布会话按最新线上基线安装，不能将 `compiler/` 目录作为发布产物。
 
-按用户要求仅做必要检查：FFDec 原生编译通过；本地 Ruffle 加载原生书册、头像与立绘，搜索“丽莎布布”可打开评级详情。未进行完整游戏流程、Boss 对战、关闭重开或全部条目验收，体验由用户反馈。此次开发不直接替换线上文件。
+按用户要求仅做必要检查：FFDec 原生编译通过；本地 Ruffle 加载原生书册、头像与立绘，搜索“丽莎布布”可打开评级详情。未进行完整游戏流程、Boss 对战、关闭重开或全部条目验收，体验由用户反馈。
+
+用户随后授权部署。代码 `ca3f789` 已合入并推送个人 `main`；重新抓取线上配置（包含朱雀前置条件）后从该 main 构建。只新增 `client/overlay/resource/book/monsterBook.swf`，SHA-256 为 `97b0d81122c543dfbad711ef306cf6cd0aec92043de3534b5761d62b6fff1dbf`，公网 HTTP 200 且哈希一致。17 个输入与保护文件部署前后保持一致，游戏与网页服务均 active/running，PID 不变，无重启。未修改 Core、融合手册、服务端或存档；没有创建发布备份。浏览器刷新并重新登录后，从实验室原有“精灵手册”打开。部署证据：工作区 `outputs/pet-boss-handbook-20261020/deployment-result.json`。
 
 ## 属性克制与学习力取整（2026-10-20）
 
