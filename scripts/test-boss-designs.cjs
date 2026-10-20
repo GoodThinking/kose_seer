@@ -82,10 +82,10 @@ const passiveIds = p => (p.effectCounters?._registered_passives || []).map(x => 
   // 克拉尼特：两种形态，第二形态换成两个攻击招+两个属性招
   {
     const b = await fight(435, 0, pet(7, 100, [SCRATCH]));
-    assert.equal(b.enemy.maxHp, 4500);
+    assert.equal(b.enemy.maxHp, 5000);
     b.enemy.hp = 1;
     turn(b, SCRATCH, 0);
-    assert.equal(b.enemy.hp, 4500, 'second form at full HP');
+    assert.equal(b.enemy.hp, 5000, 'second form at full HP');
     assert.deepEqual(b.enemy.skills, [11357, 11359, 20457, 20528], 'second form kit');
     b.enemy.hp = 1;
     assert.equal(turn(b, SCRATCH, 0).r.isOver, true, 'no third form');
