@@ -11,6 +11,23 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 该隐挑战、任务补全与服务端错误日志强化（2026-10-20）
+
+### 陨石地带该隐点击报错（5001）
+- 客户端在陨石地带（地图411）点击漫游怪或巨型陨石时，向服务端发送 `CHALLENGE_BOSS (2411)`。旧 `boss_abilities.json` 只有地图415的配置，没有地图411，点击返回5001。
+- 在 `boss_abilities.json` 中配置 `mapId: 411, param2: 0` 为该伊（474，该隐），并增加 `mapAlias` 映射 `411 -> 415`。血量6000、技能、SPT编号32（击败发放400182该隐的精元）与415保持一致，设置 `noStand: true` 避免多余占位。
+
+### 原生任务接取报错（5000）
+- 旧 `tasks.json` 仅配置了39个任务。客户端点击接取任务81（“守候宿命的追随者”）、123（繁殖任务）、133（寻找迷失的心）、79、83等原生主支线时，因服务端找不到配置抛出 `Task cannot be accepted`，导致返回5000。
+- 从 `app/config/data/xml/tasks.xml` 完整补齐剩余常规任务条目，使客户端接取合法任务不再被拒。
+
+### 服务端错误日志与捞取强化
+- 线上 `server.json` 设置 `logging.level = "warn"`，旧代码将 `SendPacket` 的所有包在 `Logger.Info` 级别打印，导致客户端收到的非零错误包（如 5000/5001/5002）在日志中被静默。
+- `PlayerInstance.SendPacket`：当 `result !== 0` 时，统一提升至 `WARN` 级别并输出 `[PACKET_ERROR] 用户 <Uid> CMD=<cmdId> Result=<result> Map=<MapId>`，确保所有报错直接落入 `journalctl`。
+- `GameServer.ProcessPacket`：为未处理命令输出 `[UNHANDLED_CMD]`，携带发送用户、所在地图、包体长度及前32位十六进制数据；执行异常统一输出 `[HANDLER_ERROR]`。
+- `AcceptTaskHandler`：捕获异常时记录详细失败原因 `[ACCEPT_TASK_FAIL]`。
+- 服务器部署日志查询脚本 `/opt/kose-seer/scripts/query-kose-logs.py`，支持随时按时间或类型一键过滤排查。
+
 ## 谱尼入口、PP药剂与洗个体修复（2026-10-20）
 
 ### 谱尼挑战5001
