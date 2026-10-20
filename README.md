@@ -11,6 +11,27 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 仓库取出与博士兑换菜单修复（2026-10-20）
+
+- 通塔赠送的三只初始精灵原本会占用背包空位，却没有原生客户端背包更新通知。客户端显示还有位置时，服务端可能已经满六只，随后取出失败。改为奖励统一入仓；普通获得精灵的逻辑和真实六只上限不变，不迁移既有精灵。
+- 原生 `PetManager.getStorageList()` 每次打开仓库重新请求列表，收到完整列表后替换旧缓存，避免后续奖励未出现在仓库中。
+- 实验室博士兑换的说明文本与选项重叠。属性和精灵列表均改为每页两项，说明保持单行，保留下一页、返回和退出。兑换价格、精灵范围及确认扣费逻辑不变。
+- Core 只替换 `MapProcess_5` 和 `PetManager` 两个 DoABC 标签，其他标签逐字节保留；宝典、融合手册和公共对话框实现不变。
+
+源码：`compat/client-patches/acquisition-restoration/MapProcess_5.as`、`compat/client-patches/pet-storage/PetManager.as`。构建器同时对当前线上 `PetManager.js`、对应 TS 镜像及 `FreshTower.js` 做精确补丁。线上 TS 并不完整覆盖 dist 的既有逻辑，不能用旧源码全量编译覆盖运行产物。
+
+```bash
+node scripts/build-pet-storage-dialog.cjs \
+  --baseline /path/to/current-capture --out /path/to/release \
+  --java /path/to/java --ffdec /path/to/ffdec.jar \
+  --context /path/to/repository-with-typescript
+node scripts/test-pet-storage.cjs /path/to/isolated-runtime
+```
+
+基线目录保存上述三个服务端文件和 `client/assets/dll/NieoCore.swf`，保留完整相对路径。发布严格匹配 `manifest.json` 的部署前哈希，只安装列出的四个文件并重启游戏服务；不写玩家数据库、不做数据迁移。重新登录同步现有背包；真实已满六只时仍需先存入一只。
+
+验证：真实服务端管理器和临时 SQLite 在修复前复现“奖励挤占第六格”，修复后通过入仓、取出、满包拒绝、重复奖励、默认精灵及普通获得行为检查。隔离场景引导下，Ruffle 实际加载原生对话框并点击草系、水系、下一页和返回，页面不再重叠；场景初始化在测试夹具中省略，未替代真实账号的完整游戏验收。证据保存在工作区 `outputs/pet-storage-dialog-20261020/`。未拿到用户遇到的具体错误码，因此不宣称覆盖所有仓库错误。
+
 ## 精灵作战宝典（2026-10-20）
 
 直接升级实验室原有的“精灵手册”实体书，不增加场景按钮或网页悬浮层。入口仍为 `MonsterBook.loadPanel()`，加载 `resource/book/monsterBook.swf` 并实例化原有 `monsterBook` 库符号。原生关闭流程继续负责恢复场景点击与新手阅读任务；融合手册保持不变。

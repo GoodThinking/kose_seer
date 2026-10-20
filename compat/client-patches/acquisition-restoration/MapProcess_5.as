@@ -340,7 +340,7 @@ package com.robot.app.mapProcess
                Alarm.show("兑换正在结算，请稍候。");
                return;
             }
-            NpcDialog.show(NPC.DOCTOR,["请选择精灵收集服务。常驻兑换是私服补充途径，不替代野外捕捉和机关玩法。"],["原版收集奖励","精灵常驻兑换","暂时离开"],[function():void
+            NpcDialog.show(NPC.DOCTOR,["常驻兑换：每只1000赛尔豆，1级入仓，可重复兑换，无每日限制。"],["原版收集奖励","精灵常驻兑换","暂时离开"],[function():void
             {
                curIndex = 1;
                _infoA = [];
@@ -361,10 +361,11 @@ package com.robot.app.mapProcess
       {
          var options:Array = [];
          var handlers:Array = [];
-         var pages:uint = Math.ceil(this.exchangeGroups.length / 4);
-         var start:uint = this.exchangeTypePage * 4;
+         // Leave room for one text line, two entries, next page and exit.
+         var pages:uint = Math.ceil(this.exchangeGroups.length / 2);
+         var start:uint = this.exchangeTypePage * 2;
          var i:uint = start;
-         while(i < Math.min(start + 4,this.exchangeGroups.length))
+         while(i < Math.min(start + 2,this.exchangeGroups.length))
          {
             options.push(this.exchangeGroups[i][0] + "系（" + this.exchangeGroups[i][1].length + "只）");
             handlers.push(this.exchangeGroupChoice(i));
@@ -377,7 +378,7 @@ package com.robot.app.mapProcess
             showExchangeTypes();
          });
          options.push("离开");
-         NpcDialog.show(NPC.DOCTOR,["请选择属性（第" + (this.exchangeTypePage + 1) + "/" + pages + "页）。每只消耗1000赛尔豆，获得1级精灵并存入仓库。可重复兑换，无每日限制。"],options,handlers);
+         NpcDialog.show(NPC.DOCTOR,["请选择属性（" + (this.exchangeTypePage + 1) + "/" + pages + "页）。每只1000赛尔豆，1级入仓。"],options,handlers);
       }
 
       private function exchangeGroupChoice(group:uint) : Function
@@ -393,12 +394,12 @@ package com.robot.app.mapProcess
       private function showExchangeGroup() : void
       {
          var pets:Array = this.exchangeGroups[this.exchangeGroup][1];
-         var pages:uint = Math.ceil(pets.length / 4);
+         var pages:uint = Math.ceil(pets.length / 2);
          var options:Array = [];
          var handlers:Array = [];
-         var start:uint = this.exchangePage * 4;
+         var start:uint = this.exchangePage * 2;
          var i:uint = start;
-         while(i < Math.min(start + 4,pets.length))
+         while(i < Math.min(start + 2,pets.length))
          {
             options.push(PetXMLInfo.getName(pets[i]) + "：1000赛尔豆");
             handlers.push(this.exchangeChoice(pets[i]));
@@ -415,7 +416,7 @@ package com.robot.app.mapProcess
          }
          options.push("返回属性");
          handlers.push(showExchangeTypes);
-         NpcDialog.show(NPC.DOCTOR,[this.exchangeGroups[this.exchangeGroup][0] + "系第" + (this.exchangePage + 1) + "/" + pages + "页。每只消耗1000赛尔豆，获得1级精灵并存入仓库。"],options,handlers);
+         NpcDialog.show(NPC.DOCTOR,[this.exchangeGroups[this.exchangeGroup][0] + "系（" + (this.exchangePage + 1) + "/" + pages + "页）。请选择精灵，1级入仓。"],options,handlers);
       }
 
       private function exchangeChoice(petId:uint) : Function
