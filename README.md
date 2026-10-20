@@ -41,6 +41,21 @@ node scripts/build-pet-boss-handbook.cjs \
 
 用户随后授权部署。代码 `ca3f789` 已合入并推送个人 `main`；重新抓取线上配置（包含朱雀前置条件）后从该 main 构建。只新增 `client/overlay/resource/book/monsterBook.swf`，SHA-256 为 `97b0d81122c543dfbad711ef306cf6cd0aec92043de3534b5761d62b6fff1dbf`，公网 HTTP 200 且哈希一致。17 个输入与保护文件部署前后保持一致，游戏与网页服务均 active/running，PID 不变，无重启。未修改 Core、融合手册、服务端或存档；没有创建发布备份。浏览器刷新并重新登录后，从实验室原有“精灵手册”打开。部署证据：工作区 `outputs/pet-boss-handbook-20261020/deployment-result.json`。
 
+## 游戏入口恢复（2026-10-20）
+
+当前入口：**https://edu.jingxi-tools.com:18761/**。旧 `jingxi-tools.com` 的两台权威 DNS 均返回 `120.77.59.22`，该服务器18761端口超时；实际游戏服务器是 `154.8.196.52`。保留原域名/SNI直连游戏服务器可返回200，故障发生在公网入口，未进入宝典加载。
+
+用户选择复用已经解析到游戏服务器的 `edu.jingxi-tools.com`。提交 `ee9ba69` 提供两份精确部署配置：
+
+- `compat/client-patches/public-ingress/nginx.conf` → `/etc/nginx/sites-enabled/kose-seer-public` 的实际目标文件：仅调整18761端口的域名、证书及反向代理 Host。
+- `compat/client-patches/public-ingress/public.conf` → `/etc/systemd/system/kose-seer-web.service.d/public.conf`：设置新 `PUBLIC_ORIGIN`，同步网页 CSP 和 WebSocket Origin 校验。
+
+两份配置已从合并后的个人 main 安装；安装前校验线上基线哈希，Nginx临时配置与正式配置均通过检查。只重启网页桥接服务（PID `1062781` → `1854128`），平滑重载Nginx；游戏服务PID `1821501` 不变。没有修改DNS、其他站点配置、教育站443端口或玩家存档。
+
+为排除发布影响曾临时撤回宝典。入口故障定位后已恢复同一产物，新入口下返回200且SHA-256与上节一致。浏览器已实际加载原生开始画面，点击“开始”后显示账号密码登录框；`wss://edu.jingxi-tools.com:18761/socket` 握手成功。未登录玩家账号或进行完整业务验收。登录资源中的第三方 `https://www.51seer.com/ip` 请求受CSP阻止，但不妨碍已观察到的登录框加载；本次未改该资源。
+
+证据：工作区 `outputs/pet-boss-handbook-20261020/ingress-recovery/`，包含配置读回哈希、保护文件哈希、浏览器网络记录及 `login.png`。
+
 ## 属性克制与学习力取整（2026-10-20）
 
 对照经典版官方：单属性克制 2、微弱 0.5、普通 1、无效 0；双属性按 4399 的拆分公式；本系加成 1.5。学习力按 ÷4 计入能力，整段乘完性格后再向下取整。体力不受性格影响。
