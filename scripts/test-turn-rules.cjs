@@ -183,6 +183,8 @@ let player;
   const current = player.BattleManager.GetCurrentBattle();
   assert.ok(current, '达比拉 battle starts');
   await player.BattleManager.HandleReadyToFight();
+  const dv = p => Math.floor((p.dvHp + p.dvAtk + p.dvDef + p.dvSpAtk + p.dvSpDef + p.dvSpeed) / 6);
+  assert.equal(current.player.dv, dv(pets[0]), 'battle pet carries the panel DV');
 
   // 阵亡后换上：不是一个回合，敌方不出手
   {
@@ -197,13 +199,16 @@ let player;
   }
   ok('Switching in after a faint is free');
 
-  // 主动换精灵：放弃出手，敌方出手，回合+1
+  // 主动换精灵：放弃出手，敌方出手，回合+1；换上的精灵不继承上一只的技能效果状态
   {
     packets.length = 0;
     const turnBefore = current.turn;
+    current.player.effectStates = {critAlways: {turns: 3, self: true}};
     await player.BattleManager.HandleChangePet(pets[2].catchTime);
     assert.ok(packets.some(p => p.command === 2505), 'the foe moves after a voluntary switch');
     assert.equal(current.turn, turnBefore + 1, 'the switch uses up the turn');
+    assert.equal(current.player.effectStates.critAlways, undefined, 'effect states stay with the pet that left');
+    assert.equal(current.player.dv, dv(pets[2]), 'the new pet brings its own DV');
   }
   ok('A voluntary switch gives up the move');
 

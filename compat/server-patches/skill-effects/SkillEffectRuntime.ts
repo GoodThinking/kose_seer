@@ -49,6 +49,8 @@ const HANDLED = new Set<number>([
   152, 153, 154, 155, 159, 160, 161, 162, 163, 164, 165, 166, 167, 169, 170, 171, 172, 173, 174, 175, 176,
   177, 180, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 195, 196, 197, 198, 199, 402, 405,
   413, 418, 422, 436, 437, 438, 451, 455, 456, 467, 473,
+  // 可获得精灵上原本不生效的效果
+  82, 83, 91, 98, 111, 113, 129, 130, 131, 411, 415, 423, 439, 478, 523, 545, 609, 797, 837, 1901,
 ]);
 
 /** 异常状态：0麻痹 1中毒 2烧伤 5冻伤 6害怕 7疲惫 8睡眠 9石化 10混乱 */
@@ -162,6 +164,26 @@ export class SkillEffectRuntime {
     pet.hp = Math.max(0, pet.hp - amount);
   }
 
+  /** 性别：1雄、2雌，取自精灵图鉴，无性别为0 */
+  private static Gender(pet: any): number {
+    return Number(GameConfig.GetPetById(pet?.petId)?.Gender) || 0;
+  }
+
+  /** 个体值：玩家精灵为六项平均（与面板显示一致）；野怪和BOSS没有记录，按服务端野怪固定的24 */
+  private static DV(pet: any): number {
+    return pet.dv ?? 24;
+  }
+
+  /** 连续使用同一技能的次数（含本次）；换技能或落空后重新计算，同一次出手多次读取结果相同 */
+  private static Streak(battle: any, attacker: any, skill: any): number {
+    const states = this.States(attacker);
+    const run = states._streak;
+    if (run && run.turn === battle.turn && run.skillId === skill.id) return run.count;
+    const count = run && run.skillId === skill.id && states._lastSkill === skill.id ? run.count + 1 : 1;
+    states._streak = { skillId: skill.id, count, turn: battle.turn };
+    return count;
+  }
+
   private static HasStatus(pet: any, status?: number): boolean {
     const durations = pet.statusDurations || [];
     if (status !== undefined) return (durations[status] || 0) > 0;
@@ -215,12 +237,35 @@ export class SkillEffectRuntime {
     return undefined;
   }
 
-  /** 后出手方开始行动时，记下先出手方已有的控制类异常 */
+  /**
+   * 出手开始：结算上一段出手（同步、禁疗），记下先后手与出手前体力；
+   * 后出手方开始行动时，记下先出手方已有的控制类异常
+   */
   private static MarkAttempt(battle: any, pet: any): void {
+    this.CloseSegment(battle);
+    battle._actor = pet;
     const foe = pet === battle.player ? battle.enemy : battle.player;
-    this.States(pet)._attempted = battle.turn;
-    if (foe && this.States(foe)._attempted === battle.turn)
-      this.States(foe)._controlBefore = { turn: battle.turn, list: CONTROL.filter(s => foe.statusDurations?.[s] > 0) };
+    const second = !!foe && this.States(foe)._attempted === battle.turn;
+    Object.assign(this.States(pet), { _attempted: battle.turn, _first: !second, _hpAtAct: pet.hp });
+    if (second) this.States(foe)._controlBefore = { turn: battle.turn, list: CONTROL.filter(s => foe.statusDurations?.[s] > 0) };
+  }
+
+  /**
+   * 一段出手（或回合开始、回合结束）结束时：
+   * 91 对手自己造成的能力变化同步到自身（自身对对手造成的变化不同步）；
+   * 797 被禁疗的一方在自己出手中回复的体力作废
+   */
+  private static CloseSegment(battle: any): void {
+    const actor = battle._actor;
+    if (actor?.hp > 0 && this.Get(actor, 'healBlock') && actor.hp > actor.effectStates._hpAtAct) actor.hp = actor.effectStates._hpAtAct;
+    for (const side of ['player', 'enemy']) {
+      const pet = battle[side], foe = battle[side === 'player' ? 'enemy' : 'player'];
+      const mirror = this.Get(pet, 'mirrorStages');
+      if (!mirror || !foe) continue;
+      if (actor !== pet) foe.battleLevels.forEach((v: number, i: number) => this.Stage(pet, i, v - mirror.foe[i]));
+      mirror.foe = [...foe.battleLevels];
+    }
+    battle._actor = undefined;
   }
 
   /** 先出手方行动后才中的控制类异常：异常回合从当回合算起，当回合已过，少挡一次出手 */
@@ -230,16 +275,19 @@ export class SkillEffectRuntime {
     for (const s of CONTROL) if (pet.statusDurations?.[s] > 0 && !before.list.includes(s)) pet.statusDurations[s]--;
   }
 
-  /** 先制修正：效果142下回合较快出手、效果171属性技能较快出手、特性2098受高伤后下回合先手 */
+  /** 先制修正：效果142下回合较快出手、效果171属性技能较快出手、效果83雄性必定先手、特性2098受高伤后下回合先手 */
   public static Priority(battle: any, pet: any, skill: any): number {
     let bonus = this.Passive.Priority(battle, pet);
     if (this.Get(pet, 'nextPriority')) bonus += 1;
+    if (this.Get(pet, 'alwaysFirst')) bonus += 100;
     if (skill?.category === 4 && this.Get(pet, 'statusPriority')) bonus += 1;
     return bonus;
   }
 
   public static ResolveHit(battle: any, attacker: any, defender: any, skill: any, isFirst: boolean, check: () => boolean): boolean {
     const attack = skill.category === 1 || skill.category === 2;
+    // 478：被封印期间使用的属性技能无效
+    if (skill.category === 4 && this.Get(attacker, 'statusSealed')) return this.Miss(defender, 'statusSealed');
     const targetsFoe = Number((GameConfig.GetSkillById(skill.id) as any)?.AtkType) !== 3;
     if (targetsFoe && this.Passive.BeforeHit(battle, attacker, defender, skill, (pet: any) => this.ClearTurnEffects(pet)) === false)
       return this.Miss(defender, 'passive');
@@ -297,6 +345,10 @@ export class SkillEffectRuntime {
           power = ratio >= 0.6875 ? 20 : ratio >= 0.354 ? 40 : ratio >= 0.208 ? 80 : ratio >= 0.104 ? 100 : ratio >= 0.042 ? 150 : 200;
           break;
         }
+        case 609: if (this.HasStatus(defender, args[0])) power *= 2; break; // 对手处于某异常时威力翻倍
+        case 129: if (this.Gender(defender) === args[0]) power *= 2; break; // 对手为某性别时威力翻倍
+        case 113: power = 26 + this.DV(attacker) * 4; break; // 个体越高威力越大（26+个体值×4）
+        case 1901: power = this.DV(attacker) * 5; break; // 潜力越高威力越大（0~155）
         case 188: // 对手异常时威力翻倍，并消除对手防御、特防的提升
           if (this.HasStatus(defender)) {
             power *= 2;
@@ -376,6 +428,19 @@ export class SkillEffectRuntime {
         case 455: if (args[0] > 0) extra += Math.floor((attacker.maxHp - attacker.hp) / args[0]) * (args[1] || 0); break;
         case 192: extra += Math.floor(defender.hp * (args[0] || 0) / 100); break;
         case 115: if (this.Chance(args[0]) && args[1] > 0) extra += Math.floor(attacker.speed / args[1]); break;
+        case 82: { // 目标为雄性伤害200%，雌性50%
+          const gender = this.Gender(defender);
+          if (gender === 1) damage *= 2;
+          else if (gender === 2) damage = Math.floor(damage / 2);
+          break;
+        }
+        case 130: if (this.Gender(defender) === args[0]) extra += args[1] || 0; break; // 对手为某性别附加n点伤害
+        case 111: extra += Math.floor((attacker.level || 1) * (1 + Math.random())); break; // 附加自身等级100%~200%的固定伤害
+        case 411: { // 附加对手当前体力n%的伤害，连续使用每次+m%，最高k%
+          const percent = Math.min(args[2] || 0, (args[0] || 0) + (args[1] || 0) * (this.Streak(battle, attacker, skill) - 1));
+          extra += Math.floor(defender.hp * percent / 100);
+          break;
+        }
         case 195: { // 无视对手双防能力提升
           const stage = defender.battleLevels?.[skill.category === 1 ? 1 : 3] || 0;
           if (stage > 0) damage = Math.floor(damage * stageRatio(stage));
@@ -385,6 +450,8 @@ export class SkillEffectRuntime {
     }
     const boost = this.Get(attacker, 'damageMul');
     if (boost) damage = Math.floor(damage * boost.multiplier);
+    const male = this.Get(attacker, 'maleDamage');
+    if (male && this.Gender(defender) === 1) damage = Math.floor(damage * male.multiplier);
     if ((skill.type || 8) === 5 && this.Get(attacker, 'electricBoost')) damage *= 2;
     const weakened = this.Get(attacker, 'outgoingDivisor');
     if (weakened && weakened.divisor > 1) damage = Math.floor(damage / weakened.divisor);
@@ -396,6 +463,7 @@ export class SkillEffectRuntime {
   private static DefenderSide(battle: any, attacker: any, defender: any, skill: any, damage: number, kind: Kind): number {
     const immune = this.Get(defender, 'immuneTurn');
     if (immune && immune.turn === battle.turn) return this.Blocked(defender, damage, 'immuneTurn');
+    if (this.Get(defender, 'genderShield')) return this.Blocked(defender, damage, 'genderShield');
     const immuneReflect = this.Get(defender, 'immuneReflect');
     if (immuneReflect) return this.Blocked(defender, damage, 'immuneReflect', attacker, immuneReflect.reflectDivisor);
     const reflect = this.Get(defender, 'immuneCategory');
@@ -470,6 +538,7 @@ export class SkillEffectRuntime {
     this.States(attacker)._lastSkill = skill.id;
     this.Passive.AfterHit(battle, defender, skill, damage);
     for (const pet of [defender, attacker]) this.Passive.Revive(pet);
+    if (this.Get(attacker, 'healBlock') && attacker.hp > attacker.effectStates._hpAtAct) attacker.hp = attacker.effectStates._hpAtAct;
     if (defender.hp <= 0) this.OnKnockout(battle, attacker, defender, skill);
     if (wake) {
       defender.statusDurations[SLEEP] = 0;
@@ -488,6 +557,8 @@ export class SkillEffectRuntime {
     if (onHit && this.Chance(onHit.chance)) this.Inflict(attacker, onHit.status, STATUS_TURNS, skill.id);
     const boost = this.Get(defender, 'onDamageStage');
     if (boost && damage > 0) this.Stage(defender, boost.stat, boost.change);
+    const hurt = this.Get(defender, 'hurtStatus');
+    if (hurt && damage > hurt.threshold) this.Inflict(attacker, hurt.status, STATUS_TURNS, skill.id);
     if (this.Get(defender, 'onHitWeakenFoe')) { this.Stage(attacker, 0, -1); this.Stage(attacker, 2, -1); }
     if (this.Get(defender, 'onHitClearFoe')) attacker.battleLevels.forEach((v: number, i: number) => { if (v > 0) attacker.battleLevels[i] = 0; });
     const lowDamage = this.Get(defender, 'onHitMultiDebuff');
@@ -538,6 +609,16 @@ export class SkillEffectRuntime {
       case 85: // 对手的能力提升转到自身
         defender.battleLevels.forEach((v: number, i: number) => { if (v > 0) { this.Stage(attacker, i, v); defender.battleLevels[i] = 0; } });
         break;
+      case 415: if (damage > (a[0] || 0)) this.Heal(attacker, a[1] || 0); break; // 伤害大于m时回复n点体力
+      case 423: this.Lose(battle, attacker, defender, defender.defence || 0, skill, 'fixed'); break; // 造成等同于对手防御值的固定伤害
+      case 523: if (defender.hp > 0) a.forEach((change, stat) => this.Stage(attacker, stat, change)); break; // 未击败对手时自身能力变化
+      case 837: { // 吸取对手n点体力，连续使用每次+m，最高k
+        const amount = Math.min(a[2] || 0, (a[0] || 0) + (a[1] || 0) * (this.Streak(battle, attacker, skill) - 1));
+        const before = defender.hp;
+        this.Lose(battle, attacker, defender, amount, skill, 'fixed');
+        this.Heal(attacker, before - defender.hp);
+        break;
+      }
       case 107: if (damage < (a[0] || 0)) this.Stage(attacker, a[1], 1); break;
       case 473: if (damage < (a[0] || 0)) this.Stage(attacker, a[1], a[2] || 1); break;
       case 134: if (damage < (a[0] || 0) && Array.isArray(attacker.skillPP)) attacker.skillPP = attacker.skillPP.map((pp: number, i: number) => Math.min(GameConfig.GetSkillById(attacker.skills[i])?.MaxPP || pp, pp + (a[1] || 0))); break;
@@ -601,6 +682,8 @@ export class SkillEffectRuntime {
         break;
       }
       case 180: this.ClearTurnEffects(defender); break;
+      case 797: if (this.ClearTurnEffects(defender) > 0) this.Put(defender, 'healBlock', this.During(a[0] || 1, isFirst), {}, false); break; // 消除成功则对手n回合无法用技能回复体力
+      case 478: this.Put(defender, 'statusSealed', this.During(a[0] || 1, isFirst), {}, false); break; // n回合内对手的属性技能无效
       case 13: // n回合吸取对方最大体力的1/8（草系无效，免疫寄生者无效）
         if ((defender.type || 0) !== 1 && !require('./BossSpecialRules').BossSpecialRules.IsStatusImmune(defender, 3, skill.id))
           this.Put(defender, 'seeded', a[0] || 5, { by: attacker === battle.player ? 'player' : 'enemy' }, false);
@@ -614,6 +697,15 @@ export class SkillEffectRuntime {
       // ---- 自身的持续效果（回合数按 Next / During / Own 起算） ----
       case 21: this.Put(attacker, 'counter', this.During(this.Rand(a[0] || 1, Math.max(a[0] || 1, a[1] || 1)), isFirst), { divisor: a[2] || 1 }); break;
       case 32: this.Put(attacker, 'critUp', this.Next(a[0] || 1)); break;
+      case 83: // 自身雄性下两回合必定先手，雌性下两回合必定暴击
+        if (this.Gender(attacker) === 1) this.Put(attacker, 'alwaysFirst', this.Next(2));
+        else if (this.Gender(attacker) === 2) this.Put(attacker, 'critAlways', this.Next(2));
+        break;
+      case 98: this.Put(attacker, 'maleDamage', this.Next(a[0] || 1), { multiplier: a[1] || 2 }); break; // n回合内对雄性伤害m倍
+      case 131: if (this.Gender(defender) === a[0]) this.Put(attacker, 'genderShield', this.During(1, isFirst)); break; // 对手为某性别则抵挡当回合伤害，后手延续1回合
+      case 439: this.Put(attacker, 'weakPunish', a[0] || 1, { damage: a[1] || 0 }); break; // n回合内自身弱化或异常时对手每回合受m点伤害
+      case 545: this.Put(attacker, 'hurtStatus', this.During(a[0] || 1, isFirst), { threshold: a[1] || 0, status: a[2] || 0 }); break; // 受到高于m的伤害则对手异常
+      case 91: this.Put(attacker, 'mirrorStages', this.During(a[0] || 1, isFirst), { foe: [...defender.battleLevels] }); break; // 对手的能力变化同步到自身
       case 58: this.Put(attacker, 'critAlways', this.Next(a[0] || 1)); break;
       case 41: this.Put(attacker, 'halfFire', this.During(this.Rand(a[0] || 1, Math.max(a[0] || 1, a[1] || 1)), isFirst)); break;
       case 42: this.Put(attacker, 'electricBoost', this.Next(this.Rand(a[0] || 1, Math.max(a[0] || 1, a[1] || 1)))); break;
@@ -676,10 +768,12 @@ export class SkillEffectRuntime {
     }
   }
 
-  /** 消除对手回合类效果（其自身获得的持续效果） */
-  private static ClearTurnEffects(pet: any): void {
+  /** 消除对手回合类效果（其自身获得的持续效果），返回消除的个数 */
+  private static ClearTurnEffects(pet: any): number {
     const states = this.States(pet);
-    for (const key of Object.keys(states)) if (states[key]?.self) delete states[key];
+    const keys = Object.keys(states).filter(key => states[key]?.self);
+    for (const key of keys) delete states[key];
+    return keys.length;
   }
 
   private static OnKnockout(battle: any, attacker: any, defender: any, skill: any): void {
@@ -736,6 +830,7 @@ export class SkillEffectRuntime {
   // ==================== 回合结束 ====================
 
   public static TurnEnd(battle: any): void {
+    this.CloseSegment(battle);
     for (const side of ['player', 'enemy']) this.LateControl(battle, battle[side]);
     for (const side of ['player', 'enemy']) {
       const pet = battle[side];
@@ -755,6 +850,8 @@ export class SkillEffectRuntime {
       if (guard) { this.Stage(pet, 1, guard.change); this.Stage(pet, 3, guard.change); }
       const curse = this.Get(pet, 'turnStatus');
       if (curse && foe && this.Chance(curse.chance)) this.Inflict(foe, curse.status, STATUS_TURNS);
+      const punish = this.Get(pet, 'weakPunish');
+      if (punish && foe && pet.hp > 0 && (this.HasDebuff(pet) || this.HasStatus(pet))) this.Lose(battle, pet, foe, punish.damage, { id: 21896, type: 8 }, 'fixed');
       const requiem = this.Get(pet, 'requiem');
       if (requiem && requiem.turns === 1 && pet.hp > 0) {
         const target = battle[requiem.target];
