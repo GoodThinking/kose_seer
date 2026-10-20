@@ -32,6 +32,8 @@ node scripts/test-pet-storage.cjs /path/to/isolated-runtime
 
 验证：真实服务端管理器和临时 SQLite 在修复前复现“奖励挤占第六格”，修复后通过入仓、取出、满包拒绝、重复奖励、默认精灵及普通获得行为检查。隔离场景引导下，Ruffle 实际加载原生对话框并点击草系、水系、下一页和返回，页面不再重叠；场景初始化在测试夹具中省略，未替代真实账号的完整游戏验收。证据保存在工作区 `outputs/pet-storage-dialog-20261020/`。未拿到用户遇到的具体错误码，因此不宣称覆盖所有仓库错误。
 
+已从合并最新个人 main 的 `39cb883` 构建并部署四个文件，部署前后逐项校验哈希。公网首页和 Core 返回200，Core SHA-256 为 `00468b29d13e389df5e7a03defde39d3c3a86f16715211fe051e66dc0a10b949`；游戏9999端口可连接，两个服务均 active/running，`NRestarts=0`。本次重启游戏服务后又观察到一次正常停止/启动，发起方未知；最终游戏PID `1908824`，网页PID `1854128` 未变，四个产物仍匹配。宝典哈希未变，未迁移玩家数据。发布记录：`outputs/pet-storage-dialog-20261020/deployment-result.json`；重新刷新网页并登录生效。
+
 ## 精灵作战宝典（2026-10-20）
 
 直接升级实验室原有的“精灵手册”实体书，不增加场景按钮或网页悬浮层。入口仍为 `MonsterBook.loadPanel()`，加载 `resource/book/monsterBook.swf` 并实例化原有 `monsterBook` 库符号。原生关闭流程继续负责恢复场景点击与新手阅读任务；融合手册保持不变。
