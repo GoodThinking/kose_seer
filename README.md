@@ -113,6 +113,21 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 朱雀的前置BOSS（2026-10-20）
+
+4399 2011-08 攻略：必须先打败德拉萨、卡修斯、迪符特，才能挑战朱雀（菲尼克斯）。以前朱雀空间可以直接挑战。
+
+- `boss_abilities.json` 的 BOSS 条目可写 `requiredBosses`（SPT 编号和名称）。朱雀（318/0）要求德拉萨（58）、卡修斯（57）、迪符特（59）的首胜标记，来源在 `boss-mechanics.json`。
+- `BattleManager.ChallengeBoss` 挑战前检查，缺哪只就用客户端原有的 ALERT（80002）弹窗：「必须先打败迪符特，才能挑战菲尼克斯。」挑战包回错误码 900，客户端对 900 以内的错误码不再弹第二个窗。
+- 进入朱雀空间的橙色圆点不变。官方的传送阵脚本在当前客户端里没有（Core 里没有 `MapProcess_318`），没有恢复。
+- 只改 `BattleManager.js` 的 `dist`，TS 镜像早于线上文件。
+
+```bash
+node scripts/build-boss-prerequisites.cjs --context /path/with/node_modules-typescript --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript --baseline /path/to/captured-live-root --out /path/to/release-config
+node scripts/test-boss-prerequisites.cjs /path/to/isolated/runtime
+```
+
 ## 勇者之塔、无敌胶囊、学习力清空（2026-10-20）
 
 - 勇者之塔「开始挑战」发的是 2414。以前没有处理，所以点了没反应。现在 2414 按当前层返回对手并进入地图 500，2415 开战，2416 离开。1–60 层对手和等级按经典版攻略；客户端最高 80 层，61–80 层沿用 51–60 层阵容。首次通关第 N 层给 N×10 赛尔豆。层数记在 `players.cur_stage` / `max_stage`。
