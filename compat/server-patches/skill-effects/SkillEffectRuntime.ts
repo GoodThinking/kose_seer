@@ -56,6 +56,8 @@ const MAIN_STATUSES = [0, 1, 2, 5, 6, 7, 8, 9, 10, 15];
 const SLEEP = 8;
 /** 未写明回合数的异常持续回合（与原子效果的默认值一致，官方为1~3回合） */
 const STATUS_TURNS = 3;
+/** 控制类异常：麻痹、害怕、疲惫、睡眠、石化、冰封。出手时扣一回合 */
+const CONTROL = [0, 6, 7, 8, 9, 15];
 
 /** 能力等级每级的倍率（防御类强化时伤害按此反算） */
 const stageRatio = (stage: number) => stage >= 0 ? (2 + stage) / 2 : 2 / (2 - stage);
@@ -206,10 +208,26 @@ export class SkillEffectRuntime {
 
   /** 本回合被效果禁止行动：效果39令对手所选技能PP归零 */
   public static CanAct(battle: any, pet: any, skill: any): { canAct: false; reason: string } | undefined {
+    this.MarkAttempt(battle, pet);
     const skip = this.Get(pet, 'skipTurn');
     const index = pet.skills?.indexOf(skill?.id) ?? -1;
     if (skip && skip.turn === battle.turn && index >= 0 && pet.skillPP?.[index] === 0) return { canAct: false, reason: 'pp' };
     return undefined;
+  }
+
+  /** 后出手方开始行动时，记下先出手方已有的控制类异常 */
+  private static MarkAttempt(battle: any, pet: any): void {
+    const foe = pet === battle.player ? battle.enemy : battle.player;
+    this.States(pet)._attempted = battle.turn;
+    if (foe && this.States(foe)._attempted === battle.turn)
+      this.States(foe)._controlBefore = { turn: battle.turn, list: CONTROL.filter(s => foe.statusDurations?.[s] > 0) };
+  }
+
+  /** 先出手方行动后才中的控制类异常：异常回合从当回合算起，当回合已过，少挡一次出手 */
+  private static LateControl(battle: any, pet: any): void {
+    const before = pet?.effectStates?._controlBefore;
+    if (!before || before.turn !== battle.turn) return;
+    for (const s of CONTROL) if (pet.statusDurations?.[s] > 0 && !before.list.includes(s)) pet.statusDurations[s]--;
   }
 
   /** 先制修正：效果142下回合较快出手、效果171属性技能较快出手、特性2098受高伤后下回合先手 */
@@ -718,6 +736,7 @@ export class SkillEffectRuntime {
   // ==================== 回合结束 ====================
 
   public static TurnEnd(battle: any): void {
+    for (const side of ['player', 'enemy']) this.LateControl(battle, battle[side]);
     for (const side of ['player', 'enemy']) {
       const pet = battle[side];
       const foe = battle[side === 'player' ? 'enemy' : 'player'];

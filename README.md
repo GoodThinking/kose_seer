@@ -51,6 +51,32 @@ node scripts/test-dual-types.cjs /path/to/isolated/runtime
 
 BOSS 血量改在 `boss-mechanics.json`，用 `build-boss-designs.cjs` 生成 `boss_abilities.json`。
 
+## 放弃出手的回合与控制回合（2026-10-20）
+
+经典版每回合先选操作：用道具、换精灵算放弃出手，对方获得先手权，回合照常开始和结束。精灵阵亡后换上来不算一个回合。异常的回合数从施加的那一回合算起。
+
+### 修复前的问题
+
+- 吃药、主动换精灵、捕捉失败后，服务器只让敌方打一下：回合数不加，回合开始和结束的效果都不结算。中毒、烧伤不扣血，镇魂歌和回合类效果不倒数，睡眠等控制也不减回合；亚伦斯这类每回合吸血的 BOSS 在吃药回合也不吸。
+- 精灵阵亡后换上新精灵，敌方会白打一下。客户端阵亡换宠后直接打开技能面板，不等敌方出手。
+- 后出手施加的控制类异常（麻痹、害怕、疲惫、睡眠、石化、冰封）多控一回合：对方当回合已经出过手，3 回合的麻痹还要再挡 3 次。
+
+### 修改内容
+
+- `BattleTurnService.ExecuteEnemyTurn` 跑一个完整回合：回合数 +1，玩家不行动，敌方先手（`BattleTurnExecutor.ExecuteTurn` 的 `playerIdle`）。玩家身上的控制类异常照常过一回合。
+- `BattleManager.ExecuteEnemyCounterAndSend`：回合结束时敌方被中毒等击倒，判玩家胜。`BattleManager.ChangePet`：当前精灵已阵亡时，换上来不触发敌方出手。PvP 换精灵不变。
+- `SkillEffectRuntime`：后出手方行动前记下先出手方已有的控制类异常；回合结束时，先出手方新中的控制类异常少一回合。自己给自己的疲惫（如火箭头槌）不受影响。
+
+带药打 BOSS 时，吃药回合 BOSS 照常回血、吸血、倒数。按模拟（血量低于 35% 就吃药），亚伦斯带药胜率从 98% 降到 37%，不带药仍是 93%；菲尼克斯带药 97%、克拉尼特 82%，变化不大。
+
+```bash
+node scripts/build-turn-rules.cjs --context /path/with/node_modules-typescript --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript --baseline /path/to/captured-live-root --out /path/to/release-runtime-modules
+node scripts/test-turn-rules.cjs /path/to/isolated/runtime
+```
+
+`BattleTurnExecutor`、`BattleTurnService` 的 `dist` 与 TS 镜像同步修改；`BattleManager` 的 TS 镜像早于线上文件，只改 `dist`，不要整文件覆盖 `BattleManager.js`。`SkillEffectRuntime` 随 `build-boss-designs.cjs` 从仓库源码生成。
+
 ## 勇者之塔、无敌胶囊、学习力清空（2026-10-20）
 
 - 勇者之塔「开始挑战」发的是 2414。以前没有处理，所以点了没反应。现在 2414 按当前层返回对手并进入地图 500，2415 开战，2416 离开。1–60 层对手和等级按经典版攻略；客户端最高 80 层，61–80 层沿用 51–60 层阵容。首次通关第 N 层给 N×10 赛尔豆。层数记在 `players.cur_stage` / `max_stage`。
@@ -171,8 +197,7 @@ node scripts/test-skill-effects.cjs /path/to/isolated/runtime
 
 - 依赖性别的效果（82、83、98、129–131）：战斗中的精灵没有性别字段。
 - 69 药剂反噬（走道具流程）、91 异常同步、111/113/1901（按个体值或等级计算威力）。
-- 换宠、使用道具的回合不结算回合开始和结束（持续伤害、异常回合数不变），沿用原有流程。
-- 后手施加的控制类异常从下回合起持续3回合，比官方“含当前回合”多1回合。
+- 换宠、使用道具的回合和后手控制的回合数：已在「放弃出手的回合与控制回合」处理。
 
 ## BOSS机制对齐（经典版）
 

@@ -91,10 +91,11 @@ const stripped = (b, id) => { const s = b.skills.get(id); b.skills.set(id, {...s
   {
     const b = await battle([20031, SCRATCH], [SCRATCH], {player: {speed: 10}, foe: {speed: 999}});
     assert.ok(turn(b, 20031, SCRATCH, 0.3).taken > 0, 'foe already acted before the late paralysis');
-    for (let i = 0; i < 3; i++) assert.equal(turn(b, SCRATCH, SCRATCH).taken, 0, `late paralysis blocks turn ${i + 2}`);
+    // 回合数从施加的回合算起：后出手施加时当回合已过，只再挡两次
+    for (let i = 0; i < 2; i++) assert.equal(turn(b, SCRATCH, SCRATCH).taken, 0, `late paralysis blocks turn ${i + 2}`);
     assert.ok(turn(b, SCRATCH, SCRATCH).taken > 0, 'late paralysis over');
   }
-  ok('Control status set by the first mover blocks the foe in the same turn');
+  ok('Control status set by the first mover blocks the foe in the same turn; set by the second mover it counts the current turn');
 
   // 疲惫：火箭头槌令自身下回合无法攻击
   {
