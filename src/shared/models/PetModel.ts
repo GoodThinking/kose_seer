@@ -1,3 +1,5 @@
+import { assignInnateTrait } from '../../GameServer/Game/Pet/PetTrait';
+
 /**
  * 精灵特性信息接口
  * 参考客户端 PetEffectInfo.as
@@ -105,6 +107,6 @@ export function createDefaultPetInfo(userId: number, petId: number): IPetInfo {
   
   // 注意：属性值应该在调用此函数后，由 PetCalculator.UpdatePetStats(pet) 重新计算
   // 这里的临时值只是为了确保对象结构完整
-  
+  assignInnateTrait(pet);
   return pet;
 }

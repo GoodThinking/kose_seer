@@ -2163,9 +2163,9 @@
         <Item ID="300049" Name="强效速度能量珠" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1050"/>
         <Item ID="300050" Name="致命能量珠" Rarity="2" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1051"/>
         <Item ID="300051" Name="三倍经验加速器" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" TrinalEffectTimes="50"/>
-        <Item ID="300052" Name="融合精灵特性重组剂" Rarity="4" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeReset="1"/>
-        <Item ID="300053" Name="特性开启晶片" Rarity="3" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseAddNewse="1"/>
-        <Item ID="300054" Name="特性重组剂" Rarity="4" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseResetNewse="1"/>
+        <Item ID="300052" Name="融合精灵特性重组剂" Rarity="4" Price="500" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeReset="1"/>
+        <Item ID="300053" Name="特性开启晶片" Rarity="3" Price="200" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseAddNewse="1"/>
+        <Item ID="300054" Name="特性重组剂" Rarity="4" Max="99" Price="500" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseResetNewse="1"/>
         <Item ID="300055" Name="特效防御能量珠" Rarity="1" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1052"/>
         <Item ID="300056" Name="特效特防能量珠" Rarity="1" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1053"/>
         <Item ID="300057" Name="特效攻击能量珠" Rarity="1" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1054"/>

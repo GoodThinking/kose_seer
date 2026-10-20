@@ -12,6 +12,7 @@ import { applyRandomIndividualValues } from '../../../../Game/Pet/RandomDv';
 import { PetCalculator } from '../../../../Game/Pet/PetCalculator';
 import { SptSystem } from '../../../../Game/Pet/SptSystem';
 import { ReconcilePetPP } from '../../../../Game/Pet/PetPP';
+import { applyTraitItem, currentTraitId, isTraitItem } from '../../../../Game/Pet/PetTrait';
 
 const MISSING = 5001;
 const NO_ITEM = 10016;
@@ -34,6 +35,10 @@ type OutOfFightItem = {
   IncreMonLvTo?: number | string;
   DecreMonLv?: number | string;
   EvRemove?: number | string;
+  NewSeReset?: number | string;
+  NonFuseResetNewse?: number | string;
+  NonFuseAddNewse?: number | string;
+  LimitPetClass?: string;
 };
 
 type PetRecord = IPetInfo & { skillPP?: Record<number, number> };
@@ -147,6 +152,12 @@ export class UsePetItemOutOfFightHandler implements IHandler {
       PetCalculator.UpdatePetStats(pet);
       if (pet.hp > pet.maxHp) pet.hp = pet.maxHp;
       Logger.Info(`[UsePetItemOutOfFight] uid=${player.Uid} pet=${pet.petId} level=${pet.level}`);
+    } else if (isTraitItem(item)) {
+      if (applyTraitItem(pet, item) !== 'ok') {
+        await fail(MISSING);
+        return;
+      }
+      Logger.Info(`[UsePetItemOutOfFight] uid=${player.Uid} pet=${pet.petId} trait=${currentTraitId(pet)}`);
     } else {
       const targetLevel = Number(item && item.IncreMonLvTo);
       if (!Number.isInteger(targetLevel) || targetLevel < 1) {
