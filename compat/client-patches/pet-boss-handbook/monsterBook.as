@@ -11,6 +11,8 @@ package
    import flash.events.KeyboardEvent;
    import flash.events.IOErrorEvent;
    import flash.events.SecurityErrorEvent;
+   import flash.external.ExternalInterface;
+   import flash.geom.Point;
    import flash.geom.Rectangle;
    import flash.net.URLRequest;
    import flash.system.ApplicationDomain;
@@ -18,6 +20,7 @@ package
    import flash.text.TextField;
    import flash.text.TextFieldType;
    import flash.text.TextFormat;
+   import flash.utils.getTimer;
 
    // Kept as the original library symbol. MonsterBook owns scene locking and novice-task completion.
    public dynamic class monsterBook extends MovieClip
@@ -40,6 +43,9 @@ package
       private var viewMode:String = "overview";
       private var tierFilter:int = -1;
       private var scrollOffset:Number = 0;
+      private var scrollTarget:Number = 0;
+      private var scrollTime:int = 0;
+      private var scrollProgress:int = -1;
       private var bodyHeight:Number = 0;
       private var loaders:Array = [];
       private const VIEW_HEIGHT:Number = 352;
@@ -83,7 +89,15 @@ package
          // Native MonsterBook attaches the close handler after adding this symbol to the stage.
          navigation=layer(mainUI,60,110);
          content=layer(mainUI,60,139);
-         content.scrollRect=new Rectangle(0,0,824,VIEW_HEIGHT);
+         content.graphics.beginFill(0,0);
+         content.graphics.drawRect(0,0,824,VIEW_HEIGHT);
+         content.graphics.endFill();
+         var viewportMask:Sprite=layer(mainUI,60,139);
+         viewportMask.mouseEnabled=false;
+         viewportMask.graphics.beginFill(0);
+         viewportMask.graphics.drawRect(0,0,824,VIEW_HEIGHT);
+         viewportMask.graphics.endFill();
+         content.mask=viewportMask;
          content.addEventListener(MouseEvent.MOUSE_WHEEL,onWheel);
          body=layer(content,0,0);
          footer=label(mainUI,"",62,493,735,18,10,0x6A7167);
@@ -92,10 +106,13 @@ package
          stage.addEventListener(KeyboardEvent.KEY_DOWN,onKey);
          viewMode="overview";tierFilter=-1;pageIndex=0;selected=null;
          render();
+         if(ExternalInterface.available)ExternalInterface.addCallback("scrollPetHandbook",scrollFromBrowser);
       }
       private function onRemoved(event:Event):void
       {
          if(event.target!=this)return;
+         removeEventListener(Event.ENTER_FRAME,onScrollFrame);
+         if(ExternalInterface.available)ExternalInterface.addCallback("scrollPetHandbook",null);
          disposeArt();
          if(searchInput)searchInput.removeEventListener(Event.CHANGE,onSearch);
          if(mainUI)mainUI.removeEventListener(MouseEvent.CLICK,onClick);
@@ -215,7 +232,8 @@ package
       private function render():void
       {
          eventStage=stage;
-         disposeArt();clear(body);clear(navigation);scrollOffset=0;body.y=0;bodyHeight=0;
+         removeEventListener(Event.ENTER_FRAME,onScrollFrame);
+         disposeArt();clear(body);clear(navigation);scrollOffset=0;scrollTarget=0;scrollProgress=-1;body.y=0;bodyHeight=0;
          action(navigation,"梯队一览",0,0,83,27,"home");
          action(navigation,"全部精灵",91,0,83,27,"all");
          action(navigation,"评级标准",182,0,83,27,"rules");
@@ -323,12 +341,49 @@ package
          }
          bodyHeight=y;footer.text="评分依据：本服种族值、可学技能、技能运行时与获取配置 · 配置更新后应重新构建宝典";
       }
-      private function onWheel(event:MouseEvent):void { event.stopPropagation();scroll(-event.delta*17); }
+      private function scrollFromBrowser(xRatio:Number,yRatio:Number,pixels:Number):Boolean
+      {
+         if(stage==null || content==null || !isFinite(pixels) || pixels==0)return false;
+         var point:Point=content.globalToLocal(new Point(xRatio*stage.stageWidth,yRatio*stage.stageHeight));
+         if(point.x<0 || point.x>824 || point.y<0 || point.y>VIEW_HEIGHT)return false;
+         scroll(pixels);
+         return true;
+      }
+      private function onWheel(event:MouseEvent):void
+      {
+         if(event.delta==0)return;
+         event.stopPropagation();
+         scroll(-event.delta*22);
+      }
       private function scroll(delta:Number):void
       {
-         scrollOffset=Math.max(0,Math.min(Math.max(0,bodyHeight-VIEW_HEIGHT),scrollOffset+delta));
+         if(delta*(scrollTarget-scrollOffset)<0)scrollTarget=scrollOffset;
+         scrollTarget=Math.max(0,Math.min(Math.max(0,bodyHeight-VIEW_HEIGHT),scrollTarget+delta));
+         if(scrollTarget==scrollOffset) { updateScroll();return; }
+         if(!hasEventListener(Event.ENTER_FRAME)) {
+            scrollTime=getTimer();
+            addEventListener(Event.ENTER_FRAME,onScrollFrame);
+         }
+      }
+      private function onScrollFrame(event:Event):void
+      {
+         var now:int=getTimer();
+         scrollOffset+=(scrollTarget-scrollOffset)*(1-Math.exp(-(now-scrollTime)/65));
+         scrollTime=now;
+         if(Math.abs(scrollTarget-scrollOffset)<0.5) {
+            scrollOffset=scrollTarget;
+            removeEventListener(Event.ENTER_FRAME,onScrollFrame);
+         }
+         updateScroll();
+      }
+      private function updateScroll():void
+      {
          body.y=-scrollOffset;
-         scrollLabel.text=bodyHeight>VIEW_HEIGHT?Math.round(scrollOffset/Math.max(1,bodyHeight-VIEW_HEIGHT)*100)+"% · 可下翻":"";
+         var progress:int=bodyHeight>VIEW_HEIGHT?Math.round(scrollOffset/(bodyHeight-VIEW_HEIGHT)*100):-1;
+         if(progress!=scrollProgress || progress==-1) {
+            scrollProgress=progress;
+            scrollLabel.text=progress>=0?progress+"% · 可下翻":"";
+         }
       }
    }
 }
