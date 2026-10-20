@@ -331,8 +331,9 @@ const stun = b => { b.enemy.statusTurns = 99; b.enemy.status = 9; };
     const fri = await withWeekday(5, () => fightBoss(61, 0, pet(7, 100, [10001], {attack: 5000})));
     stun(fri); fri.enemy.status = -1; fri.enemy.statusDurations.fill(0);
     fri.enemy.hp = 10;
-    // 看玩家这一击后的体力：厄尔塞拉随后的舍身撞击有1/4反伤
-    assert.equal(turn(fri, 10001).r.firstAttack.defenderRemainHp, fri.enemy.maxHp, 'Friday revives without status');
+    // 看玩家这一击后的体力：厄尔塞拉随后的舍身撞击有1/4反伤；它偶尔先用先制技能瞬闪，所以按出手方取玩家这一击的结果
+    const {r} = turn(fri, 10001);
+    assert.equal([r.firstAttack, r.secondAttack].find(a => a.userId === fri.userId).defenderRemainHp, fri.enemy.maxHp, 'Friday revives without status');
     const wed = await withWeekday(3, () => fightBoss(61, 0, pet(7, 100, [10001], {attack: 3000})));
     stun(wed);
     assert.ok(turn(wed, 10001).toPlayer > 150, 'Wednesday reflects big hits');
