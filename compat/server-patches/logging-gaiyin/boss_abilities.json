@@ -1,0 +1,2870 @@
+{
+  "version": "4.0.0",
+  "description": "BOSS配置表 - 使用(mapId, param2)组合查找BOSS",
+  "lastUpdate": "2026-02-24",
+  "mapAlias": {
+    "912": 40,
+    "411": 415
+  },
+  "specialRules": {
+    "sequentialTypeBreak": [
+      {
+        "petId": 216,
+        "description": "顺序破防：必须按指定属性类型循环命中才能受伤",
+        "typeSequence": [
+          2,
+          3,
+          1
+        ]
+      }
+    ],
+    "specialKillCondition": [
+      {
+        "petId": 132,
+        "description": "特殊击杀条件：指定技能破防保留1血，仅特定精灵的特定技能可击杀",
+        "breakSkillId": 10323,
+        "killSkillId": 10100,
+        "requiredPetId": 42,
+        "shieldUntilBreak": true,
+        "dotCannotKill": true
+      }
+    ],
+    "weekdaySchedule": [
+      {
+        "petId": 261,
+        "description": "盖亚周几出现规则",
+        "schedules": [
+          {
+            "weekdays": [
+              1,
+              5
+            ],
+            "mapId": 15,
+            "condition": "withinRounds",
+            "conditionValue": 2
+          },
+          {
+            "weekdays": [
+              2,
+              4,
+              7
+            ],
+            "mapId": 54,
+            "condition": "criticalHit",
+            "conditionValue": 1
+          },
+          {
+            "weekdays": [
+              3,
+              6
+            ],
+            "mapId": 105,
+            "condition": "afterRounds",
+            "conditionValue": 10
+          }
+        ]
+      }
+    ]
+  },
+  "bossConfigs": [
+    {
+      "mapId": 10,
+      "param2": 0,
+      "petId": 166,
+      "petName": "闪光波克尔",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2007,
+          "args": [
+            30
+          ]
+        }
+      ],
+      "skills": [
+        20210,
+        10033,
+        20209,
+        10486
+      ],
+      "customHP": 2000,
+      "drops": [],
+      "rewards": {
+        "exp": 800,
+        "coins": 800
+      },
+      "spt": {
+        "sptId": 0,
+        "rewardPetId": 166
+      },
+      "comment": "闪光波克尔：固定血量2000，技能：红韵/全力一击/魅惑/挥翼飘舞"
+    },
+    {
+      "mapId": 12,
+      "param2": 0,
+      "petId": 47,
+      "petName": "蘑菇怪",
+      "level": 10,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010
+      ],
+      "customHP": 100,
+      "drops": [],
+      "rewards": {
+        "exp": 100,
+        "coins": 100
+      },
+      "spt": {
+        "sptId": 1,
+        "rewardPetId": 46
+      }
+    },
+    {
+      "mapId": 12,
+      "param2": 1,
+      "petId": 83,
+      "petName": "依依",
+      "level": 5,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 50,
+        "coins": 50
+      }
+    },
+    {
+      "mapId": 22,
+      "param2": 0,
+      "petId": 34,
+      "petName": "钢牙鲨",
+      "level": 25,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 200,
+      "drops": [
+        {
+          "itemId": 300006,
+          "rate": 100,
+          "count": 1
+        }
+      ],
+      "rewards": {
+        "exp": 500,
+        "coins": 500
+      },
+      "spt": {
+        "sptId": 2,
+        "rewardItemId": 400051
+      }
+    },
+    {
+      "mapId": 17,
+      "param2": 0,
+      "petId": 42,
+      "petName": "里奥斯",
+      "level": 35,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 338,
+      "drops": [],
+      "rewards": {
+        "exp": 1000,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 3,
+        "rewardItemId": 400107
+      },
+      "skills": [
+        10098,
+        20051,
+        10099,
+        10096
+      ]
+    },
+    {
+      "mapId": 40,
+      "param2": 0,
+      "petId": 50,
+      "petName": "阿克希亚",
+      "level": 65,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 1000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "spt": {
+        "sptId": 4,
+        "rewardItemId": 400101
+      },
+      "comment": "塞西利亚星点击挑战。击败获得阿克希亚的精元，孵出索拉。",
+      "skills": [
+        10207,
+        10208,
+        20060,
+        10218
+      ]
+    },
+    {
+      "mapId": 27,
+      "param2": 0,
+      "petId": 69,
+      "petName": "提亚斯",
+      "level": 50,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 500,
+      "drops": [],
+      "rewards": {
+        "exp": 1500,
+        "coins": 1500
+      },
+      "spt": {
+        "sptId": 5,
+        "rewardItemId": 400102
+      },
+      "skills": [
+        10161,
+        20082,
+        10162,
+        10163
+      ],
+      "mechanics": {
+        "dodgePercent": 40
+      }
+    },
+    {
+      "mapId": 32,
+      "param2": 0,
+      "petId": 70,
+      "petName": "雷伊",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "customHP": 2800,
+      "abilities": [
+        2010,
+        {
+          "id": 2042,
+          "args": [
+            4
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "spt": {
+        "sptId": 6,
+        "rewardItemId": 400103
+      },
+      "skills": [
+        10176,
+        10170,
+        20087,
+        10173
+      ],
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 106,
+      "param2": 0,
+      "petId": 88,
+      "petName": "纳多雷",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 1400,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 7,
+        "rewardItemId": 400104
+      },
+      "skills": [
+        20113,
+        10247,
+        10246,
+        10245
+      ],
+      "mechanics": {
+        "damageReductionPercent": 40
+      }
+    },
+    {
+      "mapId": 49,
+      "param2": 0,
+      "petId": 113,
+      "petName": "雷纳多",
+      "level": 75,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 1500,
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 8,
+        "rewardItemId": 400105
+      },
+      "skills": [
+        20145,
+        10331,
+        10336,
+        10335
+      ]
+    },
+    {
+      "mapId": 314,
+      "param2": 0,
+      "petId": 132,
+      "petName": "尤纳斯",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010
+      ],
+      "customHP": 2800,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 9,
+        "rewardItemId": 400108
+      },
+      "skills": [
+        10410,
+        20176,
+        10406,
+        10409
+      ],
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": [
+          1,
+          2,
+          5
+        ]
+      }
+    },
+    {
+      "mapId": 53,
+      "param2": 1,
+      "petId": 187,
+      "petName": "魔狮迪露",
+      "level": 50,
+      "dv": 24,
+      "ev": 0,
+      "nature": 0,
+      "customHP": 3000000,
+      "abilities": [
+        2010,
+        {
+          "id": 2023,
+          "args": [
+            0,
+            50
+          ]
+        }
+      ],
+      "drops": [
+        {
+          "itemId": 300006,
+          "rate": 100,
+          "count": 1
+        }
+      ],
+      "rewards": {
+        "exp": 3000000,
+        "coins": 3000000
+      },
+      "spt": {
+        "sptId": 10,
+        "rewardItemId": 400114
+      },
+      "skills": [
+        10540,
+        20232,
+        20231,
+        20229
+      ],
+      "mechanics": {
+        "typeNeutral": true,
+        "lowHpAttackPercent": 50
+      }
+    },
+    {
+      "mapId": 53,
+      "param2": 0,
+      "petId": 178,
+      "petName": "达比拉",
+      "level": 15,
+      "dv": 15,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": []
+    },
+    {
+      "mapId": 57,
+      "param2": 0,
+      "petId": 216,
+      "petName": "哈莫雷特",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "customHP": 10000,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "spt": {
+        "sptId": 11,
+        "rewardItemId": 400118
+      },
+      "skills": [
+        10618,
+        10622,
+        20269,
+        10616
+      ],
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath",
+          "percentDamage"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 348,
+      "param2": 0,
+      "petId": 274,
+      "petName": "塔克林",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010
+      ],
+      "customHP": 13000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 15,
+        "rewardItemId": 400136
+      },
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": [
+          3
+        ],
+        "statDownImmune": true,
+        "startStages": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 348,
+      "param2": 1,
+      "petId": 391,
+      "petName": "塔西亚",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010
+      ],
+      "customHP": 10000,
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 16,
+        "rewardItemId": 400137
+      },
+      "skills": [
+        10961,
+        20448,
+        10979,
+        10611
+      ],
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "statDownImmune": true,
+        "startStages": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "onPhysicalHitStatus": {
+          "status": 6,
+          "chance": 90,
+          "turns": 2
+        }
+      }
+    },
+    {
+      "mapId": 348,
+      "param2": 2,
+      "petId": 216,
+      "petName": "哈莫雷特",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "customHP": 10000,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "spt": {
+        "sptId": 11,
+        "rewardItemId": 400118
+      },
+      "skills": [
+        10618,
+        10622,
+        20269,
+        10616
+      ],
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath",
+          "percentDamage"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 348,
+      "param2": 3,
+      "petId": 413,
+      "petName": "塞维尔",
+      "level": 90,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2009,
+          "args": [
+            0,
+            200
+          ]
+        },
+        2010
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 3800,
+        "coins": 3800
+      },
+      "spt": {
+        "sptId": 19,
+        "rewardItemId": 400138
+      },
+      "customHP": 8000,
+      "skills": [
+        11114,
+        20554,
+        11115,
+        11118
+      ],
+      "comment": "塞维尔，击败获得塞维尔的精元。",
+      "mechanics": {
+        "statusImmune": true,
+        "statDownImmune": true,
+        "startStages": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 325,
+      "param2": 0,
+      "petId": 264,
+      "petName": "奈尼芬多",
+      "level": 60,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010,
+        {
+          "id": 2042,
+          "args": [
+            4
+          ]
+        }
+      ],
+      "customHP": 2500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 2500
+      },
+      "spt": {
+        "sptId": 12,
+        "rewardItemId": 400125
+      },
+      "skills": [
+        20314,
+        10681,
+        10725,
+        20317
+      ],
+      "mechanics": {
+        "statusImmune": true,
+        "statDownImmune": true
+      }
+    },
+    {
+      "mapId": 61,
+      "param2": 0,
+      "petId": 421,
+      "petName": "厄尔塞拉",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 3000,
+      "drops": [],
+      "rewards": {
+        "exp": 4500,
+        "coins": 4500
+      },
+      "spt": {
+        "sptId": 13,
+        "rewardItemId": 400139
+      },
+      "weekdayAbilities": {
+        "0": [
+          {
+            "id": 2042,
+            "args": [
+              6
+            ]
+          },
+          {
+            "id": 2023,
+            "args": [
+              0,
+              20
+            ]
+          }
+        ],
+        "3": [
+          {
+            "id": 2083,
+            "args": [
+              150,
+              100
+            ]
+          }
+        ],
+        "4": [
+          {
+            "id": 2041,
+            "args": [
+              1000
+            ]
+          }
+        ]
+      },
+      "weekdayMechanics": {
+        "0": {
+          "lowHpAttackPercent": 20
+        },
+        "1": {
+          "statusImmune": true
+        },
+        "2": {
+          "dodgePercent": 50
+        },
+        "5": {
+          "reviveUnlessStatus": true
+        },
+        "6": {
+          "damageReductionPercent": 50
+        }
+      }
+    },
+    {
+      "mapId": 419,
+      "param2": 0,
+      "petId": 261,
+      "petName": "盖亚",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 2000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 14,
+        "rewardItemId": 400126
+      },
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 15,
+      "param2": 0,
+      "petId": 261,
+      "petName": "盖亚",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 2000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 14,
+        "rewardItemId": 400126
+      },
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 54,
+      "param2": 0,
+      "petId": 261,
+      "petName": "盖亚",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 2000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 14,
+        "rewardItemId": 400126
+      },
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 105,
+      "param2": 1,
+      "petId": 261,
+      "petName": "盖亚",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "customHP": 2000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 14,
+        "rewardItemId": 400126
+      },
+      "mechanics": {
+        "immune": [
+          "sameLifeDeath"
+        ],
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 59,
+      "param2": 0,
+      "petId": 347,
+      "petName": "远古鱼龙",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 1905
+        },
+        {
+          "id": 2049,
+          "args": [
+            1,
+            30
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 17,
+        "rewardItemId": 400127
+      },
+      "customHP": 6000,
+      "skills": [
+        10848,
+        10842,
+        10847,
+        20377
+      ]
+    },
+    {
+      "mapId": 16,
+      "param2": 0,
+      "petId": 393,
+      "petName": "上古炎兽",
+      "level": 90,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2068,
+          "args": [
+            3
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 3800,
+        "coins": 3800
+      },
+      "spt": {
+        "sptId": 18,
+        "rewardItemId": 400133
+      },
+      "customHP": 7500,
+      "skills": [
+        10984,
+        10986,
+        10419,
+        10982
+      ],
+      "comment": "上古炎兽，击败获得烈火精元。",
+      "mechanics": {
+        "statusImmune": [
+          2
+        ],
+        "onPhysicalHitStatus": {
+          "status": 2,
+          "chance": 30,
+          "turns": 3
+        }
+      }
+    },
+    {
+      "mapId": 13,
+      "param2": 0,
+      "petId": 811,
+      "petName": "始祖灵兽",
+      "level": 95,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2041,
+          "args": [
+            100
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 20,
+        "rewardItemId": 400207
+      },
+      "customHP": 8000,
+      "skills": [
+        11958,
+        11954,
+        11957,
+        11953
+      ],
+      "comment": "始祖灵兽，击败获得始祖灵兽的精元。",
+      "mechanics": {
+        "statusImmune": [
+          1
+        ]
+      }
+    },
+    {
+      "mapId": 331,
+      "param2": 0,
+      "petId": 479,
+      "petName": "冰洛伏特",
+      "level": 90,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2066,
+          "args": [
+            20,
+            5
+          ]
+        },
+        {
+          "id": 2067,
+          "args": [
+            20,
+            5
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 23,
+        "rewardItemId": 400344
+      },
+      "customHP": 7500,
+      "skills": [
+        11255,
+        11251,
+        11253,
+        10567
+      ],
+      "comment": "冰洛伏特，击败获得冰洛伏特的精元。",
+      "mechanics": {
+        "statusImmune": [
+          5
+        ]
+      }
+    },
+    {
+      "mapId": 405,
+      "param2": 0,
+      "petId": 468,
+      "petName": "罗德利斯",
+      "level": 88,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 24,
+        "rewardItemId": 400148
+      },
+      "customHP": 4000,
+      "skills": [
+        11224,
+        11220,
+        10030,
+        11222
+      ],
+      "comment": "罗德利斯，击败获得罗德利斯的精元。",
+      "mechanics": {
+        "extraLives": 1,
+        "statusImmune": [
+          2
+        ]
+      }
+    },
+    {
+      "mapId": 405,
+      "param2": 1,
+      "petId": 426,
+      "petName": "迪尔科特",
+      "level": 88,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2042,
+          "args": [
+            1
+          ]
+        },
+        {
+          "id": 2030,
+          "args": [
+            2
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 25,
+        "rewardItemId": 400141
+      },
+      "customHP": 6500,
+      "skills": [
+        11168,
+        11170,
+        10386,
+        11167
+      ],
+      "comment": "迪尔科特，击败获得迪尔科特的精元。"
+    },
+    {
+      "mapId": 435,
+      "param2": 0,
+      "petId": 538,
+      "petName": "克拉尼特",
+      "level": 92,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 26,
+        "rewardItemId": 400153
+      },
+      "customHP": 5000,
+      "skills": [
+        11357,
+        11359,
+        11356,
+        11358
+      ],
+      "comment": "克拉尼特，击败获得克拉尼特的精元。",
+      "mechanics": {
+        "extraLives": 1,
+        "phases": [
+          {
+            "name": "第二形态",
+            "skills": [
+              11357,
+              11359,
+              20457,
+              20528
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "mapId": 438,
+      "param2": 0,
+      "petId": 587,
+      "petName": "墨杜萨",
+      "level": 90,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 3500,
+        "coins": 3500
+      },
+      "spt": {
+        "sptId": 27,
+        "rewardItemId": 400156
+      },
+      "customHP": 7000,
+      "skills": [
+        11471,
+        11470,
+        11466,
+        11465
+      ],
+      "comment": "石化之城点击挑战。击败获得墨杜萨的精元。",
+      "mechanics": {
+        "lowHpCritPercent": 50
+      }
+    },
+    {
+      "mapId": 502,
+      "param2": 0,
+      "petId": 115,
+      "petName": "巨型树妖",
+      "level": 40,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 0,
+        "coins": 0
+      },
+      "spt": {
+        "sptId": 0,
+        "rewardItemId": 400106
+      },
+      "comment": "精灵召唤场事件BOSS：任一圆环召唤、五次喷火破盾；非SPT，精元由事件首胜事务发放",
+      "customHP": 2400,
+      "skills": [
+        20146,
+        10340,
+        20055,
+        10343
+      ]
+    },
+    {
+      "mapId": 514,
+      "param2": 1,
+      "petId": 300,
+      "petName": "虚无的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 7000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "onlyMustHit": true,
+        "startStages": [
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 514,
+      "param2": 2,
+      "petId": 300,
+      "petName": "元素的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {}
+    },
+    {
+      "mapId": 514,
+      "param2": 3,
+      "petId": 300,
+      "petName": "能量的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 9000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "counterKillThreshold": 500
+      }
+    },
+    {
+      "mapId": 514,
+      "param2": 4,
+      "petId": 300,
+      "petName": "生命的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 10000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "statDownImmune": true
+      }
+    },
+    {
+      "mapId": 514,
+      "param2": 5,
+      "petId": 300,
+      "petName": "轮回的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 10000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "statDownImmune": true
+      }
+    },
+    {
+      "mapId": 514,
+      "param2": 6,
+      "petId": 300,
+      "petName": "永恒的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010
+      ],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 12000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "statDownImmune": true,
+        "startStages": [
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 514,
+      "param2": 7,
+      "petId": 300,
+      "petName": "圣洁的化身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 16000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "statDownImmune": true,
+        "directDamageImmune": true,
+        "statusFromAttacksOnly": true,
+        "startStages": [
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 514,
+      "param2": 8,
+      "petId": 300,
+      "petName": "谱尼的真身",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010,
+        {
+          "id": 2042,
+          "args": [
+            4
+          ]
+        }
+      ],
+      "skills": [
+        20500,
+        11000,
+        10999,
+        10995
+      ],
+      "customHP": 7000,
+      "drops": [],
+      "rewards": {
+        "exp": 5000,
+        "coins": 5000
+      },
+      "comment": "谱尼封印，按勇者之塔神秘领域的封印顺序挑战，不站在地图上。",
+      "mechanics": {
+        "statDownImmune": true
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 0,
+      "petId": 169,
+      "petName": "卡特斯",
+      "level": 75,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2041,
+          "args": [
+            100
+          ]
+        }
+      ],
+      "customHP": 7000,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 28,
+        "rewardItemId": 400109
+      },
+      "comment": "暗黑武斗场点击挑战。击败获得卡特斯的精元，孵出黑刺球。",
+      "skills": [
+        10489,
+        10045,
+        10043,
+        10038
+      ]
+    },
+    {
+      "mapId": 401,
+      "param2": 1,
+      "petId": 501,
+      "petName": "巴斯特",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2048,
+          "args": [
+            2
+          ]
+        }
+      ],
+      "customHP": 9000,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 29,
+        "rewardItemId": 400140
+      },
+      "comment": "玄武空间点击挑战。击败获得巴斯特的精元。",
+      "skills": [
+        11146,
+        11145,
+        11144,
+        11148
+      ]
+    },
+    {
+      "mapId": 34,
+      "param2": 0,
+      "petId": 74,
+      "petName": "果冻鸭",
+      "level": 45,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2060,
+          "args": [
+            50,
+            30
+          ]
+        }
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 30,
+        "rewardItemId": 400221
+      },
+      "comment": "精灵广场点击挑战。击败获得果冻鸭的精元。",
+      "skills": [
+        10184,
+        10004
+      ]
+    },
+    {
+      "mapId": 310,
+      "param2": 0,
+      "petId": 74,
+      "petName": "果冻鸭",
+      "level": 45,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2060,
+          "args": [
+            50,
+            30
+          ]
+        }
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 30,
+        "rewardItemId": 400221
+      },
+      "comment": "闭锁空间点击挑战。和广场是同一只，精元只领一次。",
+      "skills": [
+        10184,
+        10004
+      ]
+    },
+    {
+      "mapId": 430,
+      "param2": 0,
+      "petId": 672,
+      "petName": "亚伦斯",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2071,
+          "args": [
+            100,
+            100
+          ]
+        }
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 31,
+        "rewardItemId": 400187
+      },
+      "comment": "活力源泉点击挑战。击败获得亚伦斯的精元，孵出冰妖。",
+      "skills": [
+        11669,
+        11665,
+        11667,
+        11339
+      ],
+      "mechanics": {
+        "statusImmune": [
+          3
+        ]
+      }
+    },
+    {
+      "mapId": 415,
+      "param2": 0,
+      "petId": 474,
+      "petName": "该伊",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2007,
+          "args": [
+            20
+          ]
+        }
+      ],
+      "customHP": 6000,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 32,
+        "rewardItemId": 400182
+      },
+      "comment": "巨型陨石点击挑战。击败获得该隐的精元，孵出该伊。",
+      "skills": [
+        10517,
+        10519,
+        10405,
+        10193
+      ]
+    },
+    {
+      "mapId": 414,
+      "param2": 0,
+      "petId": 471,
+      "petName": "伊特",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2073,
+          "args": [
+            50
+          ]
+        }
+      ],
+      "customHP": 6000,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 33,
+        "rewardItemId": 400372
+      },
+      "comment": "觅食林点击挑战。击败获得伊洛花的精元，孵出伊特。",
+      "skills": [
+        10067,
+        10012,
+        10001
+      ]
+    },
+    {
+      "mapId": 105,
+      "param2": 0,
+      "petId": 91,
+      "petName": "悠悠",
+      "level": 50,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2061,
+          "args": [
+            20
+          ]
+        }
+      ],
+      "skills": [
+        10286,
+        10283,
+        10285,
+        10284
+      ],
+      "customHP": 4000,
+      "drops": [],
+      "rewards": {
+        "exp": 2000,
+        "coins": 2000
+      },
+      "spt": {
+        "sptId": 35,
+        "rewardItemId": 400446
+      },
+      "comment": "双子阿尔法星点击挑战。击败获得悠悠的精元。盖亚仍走专门的挑战。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1000,
+      "petId": 171,
+      "petName": "魔牙鲨",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        10494,
+        10078,
+        10072,
+        10015
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 36,
+        "rewardItemId": 400110,
+        "noStand": true
+      },
+      "comment": "暗黑第一门。编号0。魔牙鲨的精元。",
+      "mechanics": {
+        "startStages": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1006,
+      "petId": 174,
+      "petName": "贝鲁基德",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2066,
+          "args": [
+            30,
+            2
+          ]
+        },
+        {
+          "id": 2067,
+          "args": [
+            30,
+            2
+          ]
+        }
+      ],
+      "skills": [
+        10095,
+        10497,
+        10498,
+        10093
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 37,
+        "rewardItemId": 400111,
+        "noStand": true
+      },
+      "comment": "暗黑第二门。编号6。贝鲁基德的精元。",
+      "mechanics": {
+        "statusImmune": [
+          2
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1012,
+      "petId": 177,
+      "petName": "巴弗洛",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2042,
+          "args": [
+            1
+          ]
+        }
+      ],
+      "skills": [
+        10502,
+        10056,
+        10055,
+        20215
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 38,
+        "rewardItemId": 400112,
+        "noStand": true
+      },
+      "comment": "暗黑第三门其一。编号12。巴弗洛的精元。",
+      "mechanics": {
+        "openingSkill": {
+          "skillId": 20215,
+          "minFoeLevel": 81
+        }
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1013,
+      "petId": 183,
+      "petName": "奇拉塔顿",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2038,
+          "args": [
+            30
+          ]
+        }
+      ],
+      "skills": [
+        10521,
+        10131,
+        10520,
+        10133
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 39,
+        "rewardItemId": 400113,
+        "noStand": true
+      },
+      "comment": "暗黑第三门其二。编号13。奇拉塔顿的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1018,
+      "petId": 195,
+      "petName": "西萨拉斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2066,
+          "args": [
+            20,
+            0
+          ]
+        },
+        {
+          "id": 2067,
+          "args": [
+            20,
+            0
+          ]
+        }
+      ],
+      "skills": [
+        10558,
+        10111,
+        10110,
+        10557
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 40,
+        "rewardItemId": 400115,
+        "noStand": true
+      },
+      "comment": "暗黑第四门其一。编号18。西萨拉斯的精元。",
+      "mechanics": {
+        "startStages": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1019,
+      "petId": 192,
+      "petName": "克林卡修",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2066,
+          "args": [
+            20,
+            5
+          ]
+        },
+        {
+          "id": 2067,
+          "args": [
+            20,
+            5
+          ]
+        }
+      ],
+      "skills": [
+        10555,
+        10156,
+        10153,
+        20238
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 41,
+        "rewardItemId": 400116,
+        "noStand": true
+      },
+      "comment": "暗黑第四门其二。编号19。克林卡修的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1024,
+      "petId": 222,
+      "petName": "卡库",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2030,
+          "args": [
+            3
+          ]
+        }
+      ],
+      "skills": [
+        10638,
+        10385,
+        10388,
+        10637
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 42,
+        "rewardItemId": 400120,
+        "noStand": true
+      },
+      "comment": "暗黑第五门其一。编号24。卡库的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1025,
+      "petId": 224,
+      "petName": "赫德卡",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2049,
+          "args": [
+            1,
+            30
+          ]
+        }
+      ],
+      "skills": [
+        10641,
+        10453,
+        10450,
+        20195
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 43,
+        "rewardItemId": 400121,
+        "noStand": true
+      },
+      "comment": "暗黑第五门其二。编号25。赫德卡的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1026,
+      "petId": 227,
+      "petName": "伊兰罗尼",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        10644,
+        10357,
+        10360,
+        10356
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 44,
+        "rewardItemId": 400122,
+        "noStand": true
+      },
+      "comment": "暗黑第五门其三。编号26。伊兰罗尼的精元。",
+      "mechanics": {
+        "startStages": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1030,
+      "petId": 356,
+      "petName": "斯加尔卡",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2038,
+          "args": [
+            25
+          ]
+        }
+      ],
+      "skills": [
+        10876,
+        10877,
+        10874,
+        10294
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 45,
+        "rewardItemId": 400129,
+        "noStand": true
+      },
+      "comment": "暗黑第六门其一。编号30。斯加尔卡的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1031,
+      "petId": 297,
+      "petName": "艾尔伊洛",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        10865,
+        10436,
+        10435,
+        10432
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 46,
+        "rewardItemId": 400128,
+        "noStand": true
+      },
+      "comment": "暗黑第六门其二。编号31。艾尔伊洛的精元。",
+      "mechanics": {
+        "startStages": [
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1032,
+      "petId": 359,
+      "petName": "布林克克",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2009,
+          "args": [
+            0,
+            200
+          ]
+        }
+      ],
+      "skills": [
+        10885,
+        10882,
+        10884,
+        10880
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 47,
+        "rewardItemId": 400130,
+        "noStand": true
+      },
+      "comment": "暗黑第六门其三，也是第十二扇门。编号32。布林克克的精元。",
+      "mechanics": {
+        "statusImmune": [
+          1,
+          2,
+          3,
+          5
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1066,
+      "petId": 359,
+      "petName": "布林克克",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2009,
+          "args": [
+            0,
+            200
+          ]
+        }
+      ],
+      "skills": [
+        10885,
+        10882,
+        10884,
+        10880
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 47,
+        "rewardItemId": 400130,
+        "noStand": true
+      },
+      "comment": "暗黑第十二扇门。编号66。布林克克的精元。",
+      "mechanics": {
+        "statusImmune": [
+          1,
+          2,
+          3,
+          5
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1036,
+      "petId": 438,
+      "petName": "魔花使者",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2041,
+          "args": [
+            300
+          ]
+        }
+      ],
+      "skills": [
+        11175,
+        10017,
+        10066,
+        10064
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 48,
+        "rewardItemId": 400142,
+        "noStand": true
+      },
+      "comment": "暗黑第七门其一。编号36。魔花使者的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1037,
+      "petId": 441,
+      "petName": "莫尔加斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        11179,
+        10124,
+        10126,
+        10014
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 49,
+        "rewardItemId": 400143,
+        "noStand": true
+      },
+      "comment": "暗黑第七门其二。编号37。莫尔加斯的精元。",
+      "mechanics": {
+        "startStages": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1038,
+      "petId": 435,
+      "petName": "萨诺拉斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2042,
+          "args": [
+            4
+          ]
+        }
+      ],
+      "skills": [
+        11172,
+        10035,
+        10084,
+        10083
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 50,
+        "rewardItemId": 400144,
+        "noStand": true
+      },
+      "comment": "暗黑第七门其三。编号38。萨诺拉斯的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1042,
+      "petId": 656,
+      "petName": "帕多尼",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2011,
+          "args": [
+            8
+          ]
+        }
+      ],
+      "skills": [
+        11634,
+        10726,
+        10730,
+        10729
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 51,
+        "rewardItemId": 400184,
+        "noStand": true
+      },
+      "comment": "暗黑第八门其一。编号42。帕多尼的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1043,
+      "petId": 659,
+      "petName": "加洛德",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        11637,
+        11153,
+        11152,
+        11149
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 52,
+        "rewardItemId": 400185,
+        "noStand": true
+      },
+      "comment": "暗黑第八门其二。编号43。加洛德的精元。",
+      "mechanics": {
+        "startStages": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1044,
+      "petId": 661,
+      "petName": "萨多拉尼",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2042,
+          "args": [
+            4
+          ]
+        }
+      ],
+      "skills": [
+        11640,
+        11090,
+        11639,
+        11085
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 53,
+        "rewardItemId": 400186,
+        "noStand": true
+      },
+      "comment": "暗黑第八门其三。编号44。萨多拉尼的精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1048,
+      "petId": 779,
+      "petName": "迪普利德",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2038,
+          "args": [
+            30
+          ]
+        }
+      ],
+      "skills": [
+        11892,
+        11891,
+        11890,
+        11743
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 54,
+        "rewardItemId": 400197,
+        "noStand": true
+      },
+      "comment": "暗黑第九门其一。编号48。迪普利德精元。"
+    },
+    {
+      "mapId": 110,
+      "param2": 1049,
+      "petId": 784,
+      "petName": "拜洛亚斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        11897,
+        10165,
+        11896,
+        10164
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 55,
+        "rewardItemId": 400199,
+        "noStand": true
+      },
+      "comment": "暗黑第九门其二。编号49。拜洛亚斯精元。",
+      "mechanics": {
+        "startStages": [
+          1,
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 110,
+      "param2": 1050,
+      "petId": 782,
+      "petName": "阿克诺亚",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        11895,
+        11894,
+        10209,
+        10208
+      ],
+      "customHP": 8000,
+      "drops": [],
+      "rewards": {
+        "exp": 4000,
+        "coins": 4000
+      },
+      "spt": {
+        "sptId": 56,
+        "rewardItemId": 400198,
+        "noStand": true
+      },
+      "comment": "暗黑第九门其三。编号50。阿克诺亚精元。",
+      "mechanics": {
+        "extraLives": 1
+      }
+    },
+    {
+      "mapId": 484,
+      "param2": 0,
+      "petId": 798,
+      "petName": "卡修斯",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 8000,
+        "coins": 2000
+      },
+      "spt": {
+        "sptId": 57,
+        "rewardItemId": 400202
+      },
+      "customHP": 9000,
+      "skills": [
+        21890,
+        10223,
+        20865,
+        11923
+      ],
+      "comment": "裂空星系怀特矿场。精元孵出卡茨。",
+      "mechanics": {
+        "startStages": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 484,
+      "param2": 1,
+      "petId": 715,
+      "petName": "德拉萨",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": [],
+      "rewards": {
+        "exp": 8000,
+        "coins": 2000
+      },
+      "spt": {
+        "sptId": 58,
+        "rewardItemId": 400192
+      },
+      "customHP": 9000,
+      "skills": [
+        11752,
+        11754,
+        11751,
+        20879
+      ],
+      "comment": "裂空星系怀特矿场。精元孵出拉比。"
+    },
+    {
+      "mapId": 484,
+      "param2": 2,
+      "petId": 804,
+      "petName": "迪符特",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        2010
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 8000,
+        "coins": 2000
+      },
+      "spt": {
+        "sptId": 59,
+        "rewardItemId": 400206
+      },
+      "customHP": 10000,
+      "skills": [
+        10001,
+        20202,
+        11417,
+        20437
+      ],
+      "comment": "裂空星系怀特矿场。精元孵出迪符。",
+      "mechanics": {
+        "statusImmune": true
+      }
+    },
+    {
+      "mapId": 318,
+      "param2": 0,
+      "petId": 504,
+      "petName": "菲尼克斯",
+      "level": 100,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2011,
+          "args": [
+            4
+          ]
+        }
+      ],
+      "drops": [],
+      "rewards": {
+        "exp": 10000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 60,
+        "rewardItemId": 400218
+      },
+      "customHP": 1500,
+      "skills": [
+        10079,
+        20679,
+        10262,
+        21084
+      ],
+      "comment": "裂空星系朱雀空间。精元直接孵出菲尼克斯。",
+      "mechanics": {
+        "extraLives": 3,
+        "phases": [
+          {
+            "name": "光芒之影",
+            "abilities": [
+              {
+                "id": 2042,
+                "args": [
+                  6
+                ]
+              }
+            ],
+            "mechanics": {
+              "dodgePercent": 20,
+              "lowHpCritPercent": 50
+            }
+          },
+          {
+            "name": "重生之影",
+            "abilities": [
+              {
+                "id": 2041,
+                "args": [
+                  100
+                ]
+              }
+            ]
+          },
+          {
+            "name": "重生之影（第二条命）",
+            "abilities": [
+              {
+                "id": 2041,
+                "args": [
+                  100
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "requiredBosses": [
+        {
+          "sptId": 58,
+          "name": "德拉萨"
+        },
+        {
+          "sptId": 57,
+          "name": "卡修斯"
+        },
+        {
+          "sptId": 59,
+          "name": "迪符特"
+        }
+      ]
+    },
+    {
+      "mapId": 26,
+      "param2": 0,
+      "petId": 153,
+      "petName": "小莹蜂",
+      "level": 13,
+      "dv": 15,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "drops": []
+    },
+    {
+      "mapId": 411,
+      "param2": 0,
+      "petId": 474,
+      "petName": "该伊",
+      "level": 70,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [
+        {
+          "id": 2007,
+          "args": [
+            20
+          ]
+        }
+      ],
+      "customHP": 6000,
+      "drops": [],
+      "rewards": {
+        "exp": 3000,
+        "coins": 3000
+      },
+      "spt": {
+        "sptId": 32,
+        "rewardItemId": 400182,
+        "noStand": true
+      },
+      "comment": "陨石地带点击挑战。击败获得该隐的精元，孵出该伊。",
+      "skills": [
+        10517,
+        10519,
+        10405,
+        10193
+      ]
+    }
+  ]
+}
