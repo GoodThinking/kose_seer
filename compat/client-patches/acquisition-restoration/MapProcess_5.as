@@ -340,7 +340,7 @@ package com.robot.app.mapProcess
                Alarm.show("兑换正在结算，请稍候。");
                return;
             }
-            NpcDialog.show(NPC.DOCTOR,["常驻兑换：每只1000赛尔豆，1级入仓，可重复兑换，无每日限制。"],["原版收集奖励","精灵常驻兑换","暂时离开"],[function():void
+            NpcDialog.show(NPC.DOCTOR,["【绝版精灵每日签到】每天来找我签到，都可以免费在绝版精灵库中挑选一只存入仓库！（每日限领一次）"],["原版收集奖励","今日签到领精灵","暂时离开"],[function():void
             {
                curIndex = 1;
                _infoA = [];
@@ -378,7 +378,7 @@ package com.robot.app.mapProcess
             showExchangeTypes();
          });
          options.push("离开");
-         NpcDialog.show(NPC.DOCTOR,["请选择属性（" + (this.exchangeTypePage + 1) + "/" + pages + "页）。每只1000赛尔豆，1级入仓。"],options,handlers);
+         NpcDialog.show(NPC.DOCTOR,["【每日签到】请选择属性（" + (this.exchangeTypePage + 1) + "/" + pages + "页）。每次签到免费领取1只入仓。"],options,handlers);
       }
 
       private function exchangeGroupChoice(group:uint) : Function
@@ -401,7 +401,7 @@ package com.robot.app.mapProcess
          var i:uint = start;
          while(i < Math.min(start + 2,pets.length))
          {
-            options.push(PetXMLInfo.getName(pets[i]) + "：1000赛尔豆");
+            options.push(PetXMLInfo.getName(pets[i]) + "（签到领取）");
             handlers.push(this.exchangeChoice(pets[i]));
             i++;
          }
@@ -423,7 +423,7 @@ package com.robot.app.mapProcess
       {
          return function():void
          {
-            Alert.show("花费1000赛尔豆兑换1级" + PetXMLInfo.getName(petId) + "？精灵将存入仓库。",function():void
+            Alert.show("今日签到领取1级" + PetXMLInfo.getName(petId) + "？精灵将直接存入仓库。",function():void
             {
                if(exchangePending || MapManager.currentMap.id != 5)
                {
@@ -447,10 +447,11 @@ package com.robot.app.mapProcess
          var error:uint = data.readUnsignedInt();
          if(error != 0)
          {
-            Alarm.show(error == 10016 ? "赛尔豆不足，需要1000赛尔豆。" : "兑换未完成，未扣除赛尔豆。请留在实验室后重试。");
+            Alarm.show(error == 5002 ? "你今天已经签到领取过绝版精灵了，明天再来吧！" : "签到未完成，请留在实验室后重试。");
             return;
          }
          PetManager.addStorage(petId,catchTime);
+         Alarm.show("签到成功！1级" + PetXMLInfo.getName(petId) + "已存入你的精灵仓库！明天记得继续来签到哦！");
          Alarm.show("兑换成功！1级" + PetXMLInfo.getName(petId) + "已存入精灵仓库。");
       }
       

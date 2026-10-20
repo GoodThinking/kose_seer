@@ -57,14 +57,7 @@ package com.robot.app.mapProcess
          i = 0;
          while(i < this.doornum)
          {
-            if(MainManager.actorInfo.dailyResArr[40 + i] == false)
-            {
-               conLevel["cachetMc_" + i].gotoAndStop(1);
-            }
-            else
-            {
-               conLevel["cachetMc_" + i].gotoAndStop(3);
-            }
+            conLevel["cachetMc_" + i].gotoAndStop(1);
             i++;
          }
          if(MainManager.actorInfo.maxPuniLv >= 7)
@@ -169,11 +162,6 @@ package com.robot.app.mapProcess
          this.currentMC = param1;
          var _loc2_:uint = uint(uint(this.currentMC.name.split("_")[1]) + 1);
          doorindex = _loc2_;
-         if(MainManager.actorInfo.dailyResArr[40 + doorindex - 1] == true)
-         {
-            EventManager.dispatchEvent(new RobotEvent(RobotEvent.ERROR_11028));
-            return;
-         }
          switch(param1.name)
          {
             case "cachetMc_0":
@@ -249,15 +237,8 @@ package com.robot.app.mapProcess
       {
          if(MainManager.actorInfo.maxPuniLv >= 7)
          {
-            if(MainManager.actorInfo.dailyResArr[47] == true)
-            {
-               Alert.show("谱尼的防护屏障再度打开，明天将会再次消失。");
-            }
-            else
-            {
-               depthLevel["hh"].gotoAndStop(3);
-               Alert.show("谱尼的防护屏障已经消失，现在可以挑战谱尼的真身，你准备好去挑战了吗？",this.sureHandler1);
-            }
+            depthLevel["hh"].gotoAndStop(3);
+            Alert.show("谱尼的防护屏障已经消失，现在可以挑战谱尼的真身，你准备好去挑战了吗？",this.sureHandler1);
          }
          else
          {
@@ -323,7 +304,6 @@ package com.robot.app.mapProcess
       private function onFSucHandler(param1:SocketEvent) : void
       {
          SocketConnection.removeCmdListener(CommandID.CHALLENGE_BOSS,this.onFSucHandler);
-         MainManager.actorInfo.dailyResArr[40 + doorindex - 1] = true;
       }
 
       override public function destroy() : void

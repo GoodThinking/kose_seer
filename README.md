@@ -11,6 +11,23 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 谱尼无限挑战、特性吸血生效与绝版精灵每日签到（2026-10-21）
+
+### 谱尼挑战次数不限
+- 移除 `BattleManager.ChallengeBoss` 中针对地图514的每日挑战限制（原错误码11028及标记逻辑），服务端不再阻拦重复挑战。
+- 重新编译客户端 Core 的 `MapProcess_514.as`，移除 ActionScript 端的每日次数判定（不再阻断封印与真身挑战），所有七封印及真身可无限次重入与挑战。
+
+### 特性吸血生效与被动测试方法
+- 根因：特性“汲取/吸血”（`effectId=2073, abilityId=1039`）原返回结果类型为 `damage_lifesteal`，而 `BattleTurnExecutor` 仅在 `result.type === 'absorb' || result.type === 'heal'` 时统计 `gainHp`，导致战斗包下发给客户端的 `gainHp` 为 0，客户端不显示绿字飘字且不刷新血条。
+- 修复：`DamageLifestealPassive` 对齐标准吸血返回类型 `absorb`；`BattleTurnExecutor` 统计同时支持 `damage_lifesteal`；`EffectApplicator` 补充该类型应用。
+- 测试：测试套件 `scripts/test-passives.cjs`（覆盖全部78项被动/特性真实回合运算）中，1039号特性断言 `r.mine.gainHp === Math.floor(r.dealt * 0.08)` 及血量回满测试通过。
+
+### 绝版精灵每日签到活动
+- 活动设计：将原实验室（5）派特博士 1000 赛尔豆直接无限次兑换绝版精灵改为“绝版精灵每日签到”。
+- 签到规则：每个自然天（北京时间 00:00 - 23:59）可在 352 只绝版精灵库中免费挑选 1 只 1 级精灵直接入仓（花费 0 赛尔豆）。
+- 防刷控制：服务端在 `receiver_claims` 表以 `signin:pet` + 自然天起始戳记录签到，同日重复签到返回 5002 并提示“今日已完成绝版精灵签到，明天再来领取新的绝版精灵吧！”。
+- 客户端交互：更新 `MapProcess_5.as` 对话为“【绝版精灵每日签到】”，更新选项文案与错误提示。
+
 ## 该隐挑战、任务补全与服务端错误日志强化（2026-10-20）
 
 ### 陨石地带该隐点击报错（5001）
