@@ -62,7 +62,31 @@ node scripts/test-pet-collection.cjs /path/to/isolated-app /path/to/release /pat
 
 证据位于工作区`outputs/pet-collection-20261021/evidence/`：`backend-proof.json`、`ui-proof.json`、`collection-overview.png`、`collection-achievements.png`、`collection-error.png`和`collection-narrow.png`。本地`release/`是离线验证产物，不能直接覆盖现网注册器。
 
-## 绝版神宠每日签到活动、右上角图标挂载与融合无限自选（2026-10-21）
+## 每日签到状态与跨地图修复（2026-10-22，已发布）
+
+签到入口已经覆盖全地图，但服务端仍限制实验室地图5；地图105等场景会返回5001。状态查询2313又落入旧收集奖励逻辑，没有读取`receiver_claims`中的`signin:pet`记录，只返回8字节，导致已签账号仍显示“今日待签、累计0天”。
+
+本次仅移除签到的地图限制，保留会话身份、精灵白名单、每日一次及事务保护。900001组的2313响应改为三个大端`uint32`：组号、今日已签标记、累计签到天数。今日边界与领取共同使用北京时间00:00，累计天数只读取已有签到记录。
+
+面板读取状态前显示加载中并禁止领取；只消费本组完整响应。领取成功及5002重复领取后重新查询服务端状态，不再本地累加天数；关闭时移除状态和领取监听。维护源码以现网面板为准，保留已有立绘、布局、字体和资源链接；底部文案明确每日一只，不再承诺融合后无限补领。
+
+```bash
+node scripts/build-daily-sign-status.cjs \
+  --baseline /path/to/current-capture --out /path/to/sign-release \
+  --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-daily-sign.cjs \
+  /path/to/isolated-app /path/to/sign-release /path/to/evidence
+```
+
+基线包含当前`app/{src,dist,config/data}`、可用TypeScript依赖，以及有效覆盖层中的`dll/NieoCore.swf`和`resource/module/com/robot/module/app/FightExchangePanel.swf`。构建器检查已核验模块的输入哈希，使用AST定点插入900001状态分流，不覆盖刻印与旧收集奖励分支。Core仅供编译，不发布；面板只取回自身ABC，所有非ABC标签及舞台尺寸逐字节保留。
+
+隔离SQLite回归7项通过，覆盖已有签到、账号隔离、跨地图入仓、重复与并发领取、失败回滚、北京时间跨日、过期会话及旧8字节协议。变更模块类型检查无错误；编译上下文原有4条诊断不变，没有宣称整服编译通过。Ruffle运行实际发布面板，检查加载拦截、其他组响应、真实状态包回显、5002刷新、已签拦截及关闭重开，立绘正常显示。界面仅替换网络传输，不操作正式游戏账号，不代表正式登录验收。
+
+已授权发布5个文件，仅重启游戏服务（PID 2312367→2313703），网页PID 1854128不变；双服务active/running、NRestarts=0，9999端口可连接。并行发布期间Core有更新，本次仅核验签到依赖的11个ABC标签，未覆盖Core。公网面板HTTP 200、no-cache，SHA-256为`84bb96d3482143fd289af872854588f367d21c90e4cccaf56a9eb04ad55c013e`。
+
+未手工修改玩家数据、清签到记录或补发精灵，不改数据库结构。历史备份位于`/opt/kose-seer/backups/daily-sign-status-20261021T160127235Z`；产物与证据位于`outputs/daily-sign-status-fix-20261021/{release,evidence}`。刷新网页并重新登录后由用户完成正式游戏验收。
+
+## 绝版神宠每日签到活动、右上角图标挂载与每日自选（2026-10-21）
 
 ### 右上角入口挂载（TaskIconManager）
 - 主界面右上角红框位置挂载专属“绝版神宠每日签到”金属发光徽章（ToolTip 显示“绝版神宠每日签到”），未签带呼吸红点。
@@ -72,8 +96,8 @@ node scripts/test-pet-collection.cjs /path/to/isolated-app /path/to/release /pat
 - 彻底告别简陋 NPC 对话框，全新打造深蓝金属机甲外壳与青光能量导管边框。
 - **左侧全息大台**：全息底座动态展示选中的初级与满级形态大图、属性徽章、种族值进度条、招牌神技卡片（如布鲁【海洋之心】）。
 - **右侧双模式矩阵**：
-  - **模式 A（排期签到）**：前 16 天梯度保送（布鲁、格林、凯奴、兰妮、卡拉、米奈、奈落、托克、沃特、德普、史克、米娅、莎莉、嘟拉、草莓多多、苹果多多）。
-  - **模式 B（图鉴自选）**：16 只绝版亲本网格任意挑选；第 17 天起自动切入无限自选，融合消耗随时补签重获，保证 100% 全收集！
+  - **模式 A（排期签到）**：按累计签到天数展示七日卡片，预览布鲁、格林等绝版亲本。
+  - **模式 B（图鉴自选）**：展示16只绝版亲本供选择；每天只能领取一只，融合消耗后也须等待次日再领。
 - **底部操作**：累计天数、3D 橙黄胶囊按钮【今日签到 免费领取】与已入仓盖印动效。
 
 ### 奖励池严格核准

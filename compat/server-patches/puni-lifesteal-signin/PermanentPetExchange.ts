@@ -27,10 +27,39 @@ class PacketExchange extends BaseProto {
   }
 }
 
-/** A repeatable private-server route for retired events, not an official wild encounter. */
+function signInPeriodStart(nowSec: number): number {
+  return Math.floor((nowSec + 8 * 3600) / 86400) * 86400 - 8 * 3600;
+}
+
+class PacketSignInStatus extends BaseProto {
+  constructor(private readonly claimedToday: boolean, private readonly totalDays: number) {
+    super(CommandID.IS_COLLECT);
+  }
+  serialize(): Buffer {
+    const body = Buffer.alloc(12);
+    body.writeUInt32BE(900001, 0);
+    body.writeUInt32BE(this.claimedToday ? 1 : 0, 4);
+    body.writeUInt32BE(this.totalDays, 8);
+    return body;
+  }
+}
+
+export async function HandleSignInStatus(player: PlayerInstance): Promise<void> {
+  const periodStart = signInPeriodStart(Math.floor(Date.now() / 1000));
+  const status = await DatabaseManager.Instance.WithConnection(async driver => {
+    const [row] = await driver.query<{total_days: number; claimed_today: number | null}>(
+      'SELECT COUNT(*) AS total_days, MAX(CASE WHEN period_start = ? THEN 1 ELSE 0 END) AS claimed_today ' +
+      'FROM receiver_claims WHERE owner_id = ? AND reward_key = ?',
+      [periodStart, player.Uid, 'signin:pet']);
+    return {claimedToday: Number(row.claimed_today) === 1, totalDays: Number(row.total_days)};
+  });
+  await player.SendPacket(new PacketSignInStatus(status.claimedToday, status.totalDays));
+}
+
+/** One catalog pet per Shanghai calendar day, delivered to storage. */
 export async function ExchangePet(player: PlayerInstance, petId: number): Promise<IPetInfo> {
   const catalog = ConfigLoader.Instance.LoadJson<ExchangeCatalog>('data/json/pet-acquisition.json')?.exchange;
-  if (!catalog || player.Data.mapID !== catalog.mapId || !catalog.petIds.includes(petId) || !GameConfig.GetPetById(petId)) {
+  if (!catalog || !catalog.petIds.includes(petId) || !GameConfig.GetPetById(petId)) {
     throw new ExchangeRejected(5001, 'Unavailable exchange');
   }
   const cost = catalog.coins ?? 0;
@@ -43,7 +72,7 @@ export async function ExchangePet(player: PlayerInstance, petId: number): Promis
     await pets.WaitForStagedSave();
     await player.Data.WaitForExpAllocation();
     await player.Data.WaitForCurrencyOperations();
-    if (player.Session.Socket.destroyed || player.Session.Player !== player || player.Data.mapID !== catalog.mapId) {
+    if (player.Session.Socket.destroyed || player.Session.Player !== player) {
       throw new ExchangeRejected(5001, 'Exchange session changed');
     }
     wallet = player.Data.BeginBalanceReward();
@@ -65,7 +94,7 @@ export async function ExchangePet(player: PlayerInstance, petId: number): Promis
       await driver.beginTransaction();
       try {
         const nowSec = Math.floor(Date.now() / 1000);
-        const periodStart = Math.floor((nowSec + 8 * 3600) / 86400) * 86400 - 8 * 3600;
+        const periodStart = signInPeriodStart(nowSec);
         const [claimed] = await driver.query<{amount: number}>(
           'SELECT amount FROM receiver_claims WHERE owner_id = ? AND reward_key = ? AND period_start = ?',
           [player.Uid, 'signin:pet', periodStart]);

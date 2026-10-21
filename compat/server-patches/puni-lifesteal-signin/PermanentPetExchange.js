@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HandleSignInStatus = HandleSignInStatus;
 exports.ExchangePet = ExchangePet;
 exports.HandleExchange = HandleExchange;
 /// <reference path="./AcquisitionRuntime.d.ts" />
@@ -15,17 +16,12 @@ const PetCalculator_1 = require("./PetCalculator");
 const PetPP_1 = require("./PetPP");
 const SptSystem_1 = require("./SptSystem");
 class ExchangeRejected extends Error {
-    code;
     constructor(code, message) {
         super(message);
         this.code = code;
     }
 }
 class PacketExchange extends BaseProto_1.BaseProto {
-    petId;
-    catchTime;
-    coins;
-    error;
     constructor(petId, catchTime, coins, error) {
         super(CommandID_1.CommandID.PET_COLLECT);
         this.petId = petId;
@@ -39,10 +35,36 @@ class PacketExchange extends BaseProto_1.BaseProto {
         return body;
     }
 }
-/** A repeatable private-server route for retired events, not an official wild encounter. */
+function signInPeriodStart(nowSec) {
+    return Math.floor((nowSec + 8 * 3600) / 86400) * 86400 - 8 * 3600;
+}
+class PacketSignInStatus extends BaseProto_1.BaseProto {
+    constructor(claimedToday, totalDays) {
+        super(CommandID_1.CommandID.IS_COLLECT);
+        this.claimedToday = claimedToday;
+        this.totalDays = totalDays;
+    }
+    serialize() {
+        const body = Buffer.alloc(12);
+        body.writeUInt32BE(900001, 0);
+        body.writeUInt32BE(this.claimedToday ? 1 : 0, 4);
+        body.writeUInt32BE(this.totalDays, 8);
+        return body;
+    }
+}
+async function HandleSignInStatus(player) {
+    const periodStart = signInPeriodStart(Math.floor(Date.now() / 1000));
+    const status = await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
+        const [row] = await driver.query('SELECT COUNT(*) AS total_days, MAX(CASE WHEN period_start = ? THEN 1 ELSE 0 END) AS claimed_today ' +
+            'FROM receiver_claims WHERE owner_id = ? AND reward_key = ?', [periodStart, player.Uid, 'signin:pet']);
+        return { claimedToday: Number(row.claimed_today) === 1, totalDays: Number(row.total_days) };
+    });
+    await player.SendPacket(new PacketSignInStatus(status.claimedToday, status.totalDays));
+}
+/** One catalog pet per Shanghai calendar day, delivered to storage. */
 async function ExchangePet(player, petId) {
     const catalog = ConfigLoader_1.ConfigLoader.Instance.LoadJson('data/json/pet-acquisition.json')?.exchange;
-    if (!catalog || player.Data.mapID !== catalog.mapId || !catalog.petIds.includes(petId) || !GameConfig_1.GameConfig.GetPetById(petId)) {
+    if (!catalog || !catalog.petIds.includes(petId) || !GameConfig_1.GameConfig.GetPetById(petId)) {
         throw new ExchangeRejected(5001, 'Unavailable exchange');
     }
     const cost = catalog.coins ?? 0;
@@ -56,7 +78,7 @@ async function ExchangePet(player, petId) {
         await pets.WaitForStagedSave();
         await player.Data.WaitForExpAllocation();
         await player.Data.WaitForCurrencyOperations();
-        if (player.Session.Socket.destroyed || player.Session.Player !== player || player.Data.mapID !== catalog.mapId) {
+        if (player.Session.Socket.destroyed || player.Session.Player !== player) {
             throw new ExchangeRejected(5001, 'Exchange session changed');
         }
         wallet = player.Data.BeginBalanceReward();
@@ -79,7 +101,7 @@ async function ExchangePet(player, petId) {
             await driver.beginTransaction();
             try {
                 const nowSec = Math.floor(Date.now() / 1000);
-                const periodStart = Math.floor((nowSec + 8 * 3600) / 86400) * 86400 - 8 * 3600;
+                const periodStart = signInPeriodStart(nowSec);
                 const [claimed] = await driver.query('SELECT amount FROM receiver_claims WHERE owner_id = ? AND reward_key = ? AND period_start = ?', [player.Uid, 'signin:pet', periodStart]);
                 if (claimed) {
                     throw new ExchangeRejected(5002, '今日已完成绝版精灵签到，请明天再来！');
@@ -147,4 +169,3 @@ async function HandleExchange(player, petId) {
         Logger_1.Logger.Error('[PermanentPetExchange] Exchange committed; notification failed', error);
     }
 }
-//# sourceMappingURL=PermanentPetExchange.js.map
