@@ -93,6 +93,10 @@ package com.robot.app.mapProcess
       private var exchangeGroup:uint = 0;
 
       private var exchangePage:uint = 0;
+
+      private var collectionLoader:Loader;
+      private var collectionPanel:DisplayObject;
+      private var collectionButton:Sprite;
       
       public function MapProcess_5()
       {
@@ -161,6 +165,7 @@ package com.robot.app.mapProcess
          ToolTipManager.add(this.petbook_btn,"精灵融合手册");
          this.petbook_btn.addEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
          this.initColdGun();
+         this.initCollectionGallery();
          this.initTask_95();
       }
       
@@ -212,6 +217,11 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
+         if(this.collectionButton) {
+            this.collectionButton.removeEventListener(MouseEvent.CLICK,this.openCollectionGallery);
+            this.collectionButton = null;
+         }
+         this.clearCollectionGallery();
          SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onPermanentExchange);
          this.petbook_btn.removeEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
          this.petbook_btn = null;
@@ -304,6 +314,72 @@ package com.robot.app.mapProcess
          btn.addEventListener(MouseEvent.CLICK,this.onColdGun);
          conLevel.addChild(btn);
          ToolTipManager.add(btn,"240赛尔豆，超能NoNo半价");
+      }
+
+      private function initCollectionGallery():void
+      {
+         this.collectionButton = new Sprite();
+         this.collectionButton.graphics.beginFill(0x53694D);
+         this.collectionButton.graphics.drawRoundRect(0,0,108,30,6,6);
+         this.collectionButton.graphics.endFill();
+         var title:TextField = new TextField();
+         title.defaultTextFormat = new TextFormat("Microsoft YaHei",14,0xFFF4DA,true);
+         title.text = "精灵收藏馆";
+         title.width = 104; title.height = 27; title.x = 5; title.y = 4;
+         title.mouseEnabled = false; title.selectable = false;
+         this.collectionButton.addChild(title);
+         this.collectionButton.x = 788; this.collectionButton.y = 204;
+         this.collectionButton.buttonMode = true;
+         this.collectionButton.mouseChildren = false;
+         this.collectionButton.addEventListener(MouseEvent.CLICK,this.openCollectionGallery);
+         conLevel.addChild(this.collectionButton);
+      }
+
+      private function openCollectionGallery(event:MouseEvent):void
+      {
+         if(this.collectionLoader)return;
+         this.collectionLoader = new Loader();
+         this.collectionLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,this.onCollectionLoaded);
+         this.collectionLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,this.onCollectionLoadError);
+         this.collectionLoader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR,this.onCollectionLoadError);
+         this.collectionLoader.load(new flash.net.URLRequest("/resource/book/petCollection.swf"),
+            new flash.system.LoaderContext(false,new flash.system.ApplicationDomain(flash.system.ApplicationDomain.currentDomain)));
+      }
+
+      private function onCollectionLoaded(event:Event):void
+      {
+         var symbol:Class = this.collectionLoader.contentLoaderInfo.applicationDomain.getDefinition("PetCollectionGallery") as Class;
+         this.collectionPanel = new symbol() as DisplayObject;
+         this.collectionPanel.addEventListener(Event.REMOVED_FROM_STAGE,this.onCollectionClosed);
+         LevelManager.appLevel.addChild(this.collectionPanel);
+      }
+
+      private function onCollectionLoadError(event:Event):void
+      {
+         this.clearCollectionGallery();
+         Alarm.show("收藏馆加载失败，请稍后重试。");
+      }
+
+      private function onCollectionClosed(event:Event):void
+      {
+         if(event.target == this.collectionPanel)this.clearCollectionGallery();
+      }
+
+      private function clearCollectionGallery():void
+      {
+         if(this.collectionPanel) {
+            this.collectionPanel.removeEventListener(Event.REMOVED_FROM_STAGE,this.onCollectionClosed);
+            if(this.collectionPanel.parent)this.collectionPanel.parent.removeChild(this.collectionPanel);
+            this.collectionPanel = null;
+         }
+         if(this.collectionLoader) {
+            this.collectionLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE,this.onCollectionLoaded);
+            this.collectionLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,this.onCollectionLoadError);
+            this.collectionLoader.contentLoaderInfo.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,this.onCollectionLoadError);
+            try { this.collectionLoader.close(); } catch(error:Error) {}
+            this.collectionLoader.unloadAndStop(true);
+            this.collectionLoader = null;
+         }
       }
 
       private function onColdGun(param1:MouseEvent) : void

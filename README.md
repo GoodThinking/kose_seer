@@ -11,6 +11,29 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 精灵收藏馆（2026-10-21，本地已验证，尚未发布）
+
+实验室新增独立「精灵收藏馆」按钮，保留原有作战宝典、融合手册、收集奖励和每日签到入口。收藏馆展示总进度、按编号去重的已收集／未收集、名字／编号／属性搜索、分页和八档收集成就。奖励尚未确定，因此没有领取按钮，也不会发放道具或精灵。
+
+收集口径由用户确认：曾获得就永久点亮；进化获得新形态，旧形态记录保留；放生不扣进度。首次迁移只从现有背包和仓库补录，无法还原的旧放生记录和进化前形态不推测补齐。分母沿用作战宝典的完整六维战斗精灵配置，本次本地配置共1516种，各进化形态分别计数。
+
+后端新增迁移25及只读自账号协议91001。`player_pet_collection(owner_id, pet_id)`保存永久记录，数据库触发器与精灵存档在同一事务记录新旧形态，覆盖捕捉、赠送、兑换、孵化、融合及进化等提交路径，不改动各奖励逻辑。回滚的获取不会增加进度。客户端读取失败时隐藏旧值和进度，允许手动刷新，不把错误显示成零收集。
+
+```bash
+node scripts/build-pet-collection.cjs \
+  --baseline /path/to/current-capture --context /path/to/full-server-source \
+  --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-pet-collection.cjs /path/to/isolated-app /path/to/release /path/to/evidence
+```
+
+基线需要当前 `app/{src,dist}/GameServer/Server/Packet/Recv/Pet/index`、`app/{src,dist}/DataBase/migrations/MigrationRunner`、`app/config/data/xml/pets.xml`、`client/assets/dll/NieoCore.swf`及原始`client/assets/resource/book/monsterBook.swf`。构建器保留两个注册器的其他条目，只替换Core的`MapProcess_5`标签并校验其他标签逐字节不变；新增独立资源`client/overlay/resource/book/petCollection.swf`，不替换作战宝典。独立类名`PetCollectionGallery`避免与宝典类名冲突。
+
+验证：TypeScript及FFDec构建；真实SQLite驱动、GivePet、进化、移除、事务回滚、账号隔离、数据库重连及响应Handler共8项通过。Ruffle实际运行发布SWF，读取上述Handler产出的4种收集快照；头像、筛选、搜索、成就、空／满收集、失败隐藏旧值、刷新恢复、关闭重开及480px等比缩放已检查。界面烟测替换了网络传输，不代表已验证正式登录链路或实验室按钮点击；MySQL迁移未实测。
+
+本轮SSH复用连接与独立OpenSSH连接均返回`Connection closed by 154.8.196.52 port 22`。后端注册器只能采用本地源码，未伪称现网基线，也未上传产物、迁移线上数据库或重启服务。恢复发布前必须重新获取线上注册器和配置、确认迁移25未被占用，再从合并后的个人main重建。SQLite触发器和历史表无需回退；仅撤回界面及Handler时可保留收藏记录。
+
+证据位于工作区`outputs/pet-collection-20261021/evidence/`：`backend-proof.json`、`ui-proof.json`、`collection-overview.png`、`collection-achievements.png`、`collection-error.png`和`collection-narrow.png`。本地`release/`是离线验证产物，不能直接覆盖现网注册器。
+
 ## 谱尼无限挑战、特性吸血生效与绝版精灵每日签到（2026-10-21）
 
 ### 谱尼挑战次数不限

@@ -1,0 +1,80 @@
+'use strict';
+// Real SQLite, pet operations and response handler; disposable player and transport only.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const Module = require('node:module');
+const [appArgument, releaseArgument, evidenceArgument] = process.argv.slice(2);
+if (!appArgument || !releaseArgument) throw Error('Usage: node test-pet-collection.cjs APP RELEASE [EVIDENCE]');
+const app = path.resolve(appArgument), release = path.resolve(releaseArgument);
+process.chdir(app);
+const load = relative => require(path.join(app,'dist',relative));
+function overlay(relative) {
+  const filename = path.join(app,'dist',relative), module = new Module(filename);
+  module.filename = filename;module.paths = Module._nodeModulePaths(path.dirname(filename));
+  module._compile(fs.readFileSync(path.join(release,'app/dist',relative),'utf8'),filename);return module.exports;
+}
+load('DataBase/loaders/DataLoader');
+const {Config} = load('shared/config/ServerConfig');
+const {ConfigRegistry} = load('shared/config/ConfigRegistry');
+const {ConfigKeys,ConfigPaths,ConfigType} = load('shared/config/ConfigDefinitions');
+const {DatabaseManager} = load('DataBase/DatabaseManager');
+const {DatabaseHelper} = load('DataBase/DatabaseHelper');
+const {DataCache} = load('DataBase/cache/DataCache');
+const {PetManager} = load('GameServer/Game/Pet/PetManager');
+const {PlayerInstance} = load('GameServer/Game/Player/PlayerInstance');
+const {GameEventBus} = load('GameServer/Game/Event/GameEventBus');
+const {Migration025CreatePetCollection} = overlay('DataBase/migrations/scripts/025_create_pet_collection.js');
+const {PetCollectionHandler} = overlay('GameServer/Server/Packet/Recv/Pet/PetCollectionHandler.js');
+const db = DatabaseManager.Instance, helper = DatabaseHelper.Instance;
+const dir = fs.mkdtempSync(path.join(os.tmpdir(),'pet-collection-'));
+const uid = 497025, packets = [], passed = [];
+let player;
+const ids = async owner => (await db.Query('SELECT pet_id FROM player_pet_collection WHERE owner_id=? ORDER BY pet_id',[owner])).map(row=>row.pet_id);
+const save = async () => {await helper.SavePetData(player.PetManager.PetData,true);};
+(async()=>{
+  Config.Config.database = {type:'sqlite',path:path.join(dir,'collection.sqlite')};
+  for(const key of [ConfigKeys.PET_CONFIG,ConfigKeys.SKILL_CONFIG,ConfigKeys.SPT_CONFIG])ConfigRegistry.Instance.Register(key,ConfigPaths[key],ConfigType.XML);
+  ConfigRegistry.Instance.Register(ConfigKeys.NATURES_CONFIG,ConfigPaths[ConfigKeys.NATURES_CONFIG],ConfigType.JSON);
+  await ConfigRegistry.Instance.Initialize();await db.Initialize();
+  await db.Execute('CREATE TABLE players (user_id INTEGER PRIMARY KEY,pet_all_num INTEGER NOT NULL,pet_max_lev INTEGER NOT NULL)');
+  const ddl = new (load('DataBase/migrations/scripts/012_fix_all_tables').Migration012FixAllTables)().upSQLite().find(sql=>sql.startsWith('CREATE TABLE IF NOT EXISTS player_pets'));
+  await db.Execute(ddl);await db.Execute('INSERT INTO players VALUES (?,0,0),(?,0,0)',[uid,uid+1]);
+  await db.Execute('INSERT INTO player_pets (owner_id,pet_list) VALUES (?,?)',[uid,JSON.stringify([{petId:10,isInBag:true},{petId:10,isInBag:false},{petId:13,isInBag:false}])]);
+  const migration = new Migration025CreatePetCollection();
+  for(const sql of migration.upSQLite())await db.Execute(sql);
+  assert.deepEqual(await ids(uid),[10,13]);passed.push('Existing bag/storage backfill deduplicates species');
+  await db.Execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',['[]',uid]);
+  DataCache.Instance.Set('player',uid,{petAllNum:0,petMaxLev:0});
+  player = Object.create(PlayerInstance.prototype);
+  Object.defineProperty(player,'Uid',{value:uid});player.EventBus = new GameEventBus();
+  player.SendPacket = async packet => packets.push({command:packet.getCmdId(),body:packet.serialize()});
+  player.PetManager = new PetManager(player);await player.PetManager.Initialize();
+  assert.equal(await player.PetManager.GivePet(7,20,1900025001),true);await save();
+  assert.deepEqual(await ids(uid),[7,10,13]);passed.push('Real GivePet records acquired species');
+  await player.PetManager.HandlePetEvolution(1900025001,0);await save();
+  assert.equal(player.PetManager.PetData.PetList[0].petId,8);
+  assert.deepEqual(await ids(uid),[7,8,10,13]);passed.push('Real evolution retains prior form and records new form');
+  await player.PetManager.PetData.RemovePetByCatchTime(1900025001);await save();
+  assert.deepEqual(await ids(uid),[7,8,10,13]);passed.push('Removal does not erase collection');
+  await assert.rejects(db.Transaction(async driver=>{
+    await driver.execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',[JSON.stringify([{petId:16}]),uid]);
+    throw Error('rollback probe');
+  }),/rollback probe/);
+  assert.deepEqual(await ids(uid),[7,8,10,13]);passed.push('Rolled-back acquisition grants no collection progress');
+  await db.Execute('INSERT INTO player_pets (owner_id,pet_list) VALUES (?,?)',[uid+1,JSON.stringify([{petId:16}])]);
+  assert.deepEqual(await ids(uid+1),[16]);assert.deepEqual(await ids(uid),[7,8,10,13]);passed.push('Different accounts remain isolated');
+  await new Promise(resolve=>setTimeout(resolve,200));helper.RemoveCache(uid);await db.Shutdown();await db.Initialize();
+  await new PetCollectionHandler().Handle({Player:player},{},Buffer.alloc(0));
+  const snapshot=packets.at(-1);assert.equal(snapshot.command,91001);
+  assert.equal(snapshot.body.readUInt32BE(0),4);
+  assert.deepEqual([4,8,12,16].map(offset=>snapshot.body.readUInt32BE(offset)),[7,8,10,13]);
+  passed.push('Restart and real handler return durable collection snapshot');
+  await assert.rejects(new PetCollectionHandler().Handle({Player:player},{},Buffer.from([1])),/Invalid collection/);
+  passed.push('Snapshot rejects caller-provided account data');
+  if(evidenceArgument){const evidence=path.resolve(evidenceArgument);fs.mkdirSync(evidence,{recursive:true});fs.writeFileSync(path.join(evidence,'snapshot.bin'),snapshot.body);fs.writeFileSync(path.join(evidence,'backend-proof.json'),JSON.stringify({passed,species:[7,8,10,13]},null,2)+'\n');}
+  console.log(JSON.stringify({passed},null,2));
+})().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{
+  if(player){player.EventBus.Destroy();helper.RemoveCache(uid);}await db.Shutdown();fs.rmSync(dir,{recursive:true,force:true});
+});
