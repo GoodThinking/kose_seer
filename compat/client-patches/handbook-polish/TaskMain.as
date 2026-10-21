@@ -32,6 +32,8 @@ package com.robot.app.task
    
    public class TaskMain extends BaseBeanController
    {
+      private var _iconMc:MovieClip;
+      private var _panel:AppModel;
       
       private var _achieveIconMc:MovieClip;
       
@@ -55,6 +57,7 @@ package com.robot.app.task
          {
             TeamPKManager.showIcon();
          }
+         this.CreateDailySignIcon();
          finish();
          AutomaticFightManager.setup();
          StudyUpManager.setup();
@@ -109,6 +112,29 @@ package com.robot.app.task
             _achievePanel.show();
          });
       }
+
+      private function CreateDailySignIcon() : void
+      {
+         this._iconMc = TaskIconManager.getIcon("ReadyForWar_Icon") as MovieClip;
+         if(this._iconMc)
+         {
+            ToolTipManager.add(this._iconMc, "绝版神宠每日签到");
+            TaskIconManager.addIcon(this._iconMc);
+            if(this._iconMc["light_mc"])
+            {
+               (this._iconMc["light_mc"] as MovieClip).visible = true;
+            }
+            this._iconMc.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void
+            {
+               if(!_panel)
+               {
+                  _panel = new AppModel(ClientConfig.getAppModule("FightExchangePanel"), "正在加载每日签到...");
+                  _panel.setup();
+               }
+               _panel.show();
+            });
+         }
+      }
+
    }
 }
-
