@@ -21,6 +21,24 @@
 - **星系分类与状态筛选**：支持按星系统计切换，支持“已击败”印章过滤与“未击败”挑战过滤。
 - **卡片详情与直达传送**：每张首领卡片展示高清精灵头像、等级、血量、所在星球与具体子地图名称，并配备【前往挑战】按钮，点击自动关闭终端并调用 `MapManager` 直达目标星球或副本。
 
+## 旧存档经验兼容（2026-10-21，本地已验证，待发布）
+
+精灵存档的`exp`是当前等级内经验，升级消耗为相邻累计经验阈值之差。旧版曾按累计阈值扣除升级成本，切换到增量成本后，一些旧精灵仍保存了足够连升多级的剩余经验，却没有在加载时补算。94级雷伊的13474剩余经验和攻击326均可由当前配置解释，不上调种族值，也不恢复错误的几十万单级成本。
+
+`build-pet-experience-normalize.cjs`基于最新线上TS／JS定点修改`PetManager.Initialize`：加载背包及仓库后，复用变更锁、原有升级／进化计算和严格持久化。只对未满级且经验已足够升级的精灵构建候选快照，保存成功后才发布等级、属性和技能；不发登录前奖励通知，不改正常精灵、经验池、个体或学习力，不执行全服批量订正。登录补算沿用既有升级／进化规则，剩余经验不清零。
+
+满级没有下一级，`PetExperienceProjection`将两种协议模式的下一级显示阈值投影为当前经验值，使客户端显示剩余0；数据库中的满级溢出经验原样保留。当前运行JS的其他校验、累计差值计算和客户端兼容分支均保留，旧源码中的累计升级扣费同步改为相邻阈值差。
+
+```bash
+node scripts/build-pet-experience-normalize.cjs \
+  --baseline /path/to/current-capture --context /path/to/full-server-source \
+  --out /path/to/experience-release
+node scripts/test-pet-experience-normalize.cjs \
+  /path/to/isolated-app /path/to/experience-release /path/to/evidence
+```
+
+真实SQLite回归9项通过：旧卡鲁克斯82级补算至100级、保留11060溢出经验；正常雷伊不变且协议剩余13474；刚好达标只升一级；仓库精灵同样处理；满级双协议剩余0；重连幂等；未加载账号不批改；持久化失败不发布且可重试；登录前无奖励通知。未修复的现网副本在同一回归中保持82级并失败，补丁副本通过。这里只是隔离验证，不代表已经修改线上玩家数据。
+
 ## 精灵收藏馆（2026-10-21，本地已验证，尚未发布）
 
 实验室新增独立「精灵收藏馆」按钮，保留原有作战宝典、融合手册、收集奖励和每日签到入口。收藏馆展示总进度、按编号去重的已收集／未收集、名字／编号／属性搜索、分页和八档收集成就。奖励尚未确定，因此没有领取按钮，也不会发放道具或精灵。
@@ -36,7 +54,7 @@ node scripts/build-pet-collection.cjs \
 node scripts/test-pet-collection.cjs /path/to/isolated-app /path/to/release /path/to/evidence
 ```
 
-基线需要当前 `app/{src,dist}/GameServer/Server/Packet/Recv/Pet/index`、`app/{src,dist}/DataBase/migrations/MigrationRunner`、`app/config/data/xml/pets.xml`、`client/assets/dll/NieoCore.swf`及原始`client/assets/resource/book/monsterBook.swf`。构建器保留两个注册器的其他条目，只替换Core的`MapProcess_5`标签并校验其他标签逐字节不变；新增独立资源`client/overlay/resource/book/petCollection.swf`，不替换作战宝典。独立类名`PetCollectionGallery`避免与宝典类名冲突。
+基线需要当前 `app/{src,dist}/GameServer/Server/Packet/Recv/Pet/index`、`app/{src,dist}/DataBase/migrations/MigrationRunner`、`app/config/data/xml/pets.xml`、`client/assets/dll/NieoCore.swf`及原始`client/assets/resource/book/monsterBook.swf`。构建器保留两个注册器的其他条目；若实验室仍是已核验的旧基线，仅替换Core的`MapProcess_5`标签并校验其他标签逐字节不变；若该标签已是核验过的收藏馆入口版本，则保留现网Core不动。未知标签仍拒绝构建。新增独立资源`client/overlay/resource/book/petCollection.swf`，不替换作战宝典。独立类名`PetCollectionGallery`避免与宝典类名冲突。
 
 验证：TypeScript及FFDec构建；真实SQLite驱动、GivePet、进化、移除、事务回滚、账号隔离、数据库重连及响应Handler共8项通过。Ruffle实际运行发布SWF，读取上述Handler产出的4种收集快照；头像、筛选、搜索、成就、空／满收集、失败隐藏旧值、刷新恢复、关闭重开及480px等比缩放已检查。界面烟测替换了网络传输，不代表已验证正式登录链路或实验室按钮点击；MySQL迁移未实测。
 

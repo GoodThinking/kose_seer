@@ -129,7 +129,9 @@ const mapKey = 'com/robot/app/mapProcess/MapProcess_5';
 const native = originalCore.tags.filter(t => t.name === mapKey);check(native.length === 1, 'Missing native lab class');
 // Only the verified current lab baseline may be rebuilt from the maintained source mirror.
 const expectedMap = 'f8ff9df4c7839628113aa6e190fdb6a12e030d3fdbd7028a2306ced80f9b9060';
-check(sha(native[0].raw) === expectedMap, 'Lab class changed; reconcile its source before building');
+const galleryAlreadyPresent = sha(native[0].raw) === 'ee657d1b727c6c4898c939745ff2f0826cace9921dbd0e24d34b01c5f21508a8';
+check(sha(native[0].raw) === expectedMap || galleryAlreadyPresent, 'Lab class changed; reconcile its source before building');
+if (!galleryAlreadyPresent) {
 const importRoot = path.join(out, 'core-compiler/import');
 const target = path.join(importRoot, 'scripts', mapKey + '.as');fs.mkdirSync(path.dirname(target), {recursive:true});
 fs.copyFileSync(path.join(root,'compat/client-patches/acquisition-restoration/MapProcess_5.as'),target);
@@ -140,6 +142,7 @@ const finalCore = encode(originalCore, originalCore.tags.map(t => t.name === map
 const verifyCore = parse(finalCore);
 check(verifyCore.tags.length === originalCore.tags.length && verifyCore.tags.every((t,i) => t.name === mapKey || t.raw.equals(originalCore.tags[i].raw)), 'Unrelated Core tag changed');
 put(coreRelative, finalCore);
+}
 const bookRelative = 'client/assets/resource/book/monsterBook.swf';const originalBook = parse(input(bookRelative));
 let source = fs.readFileSync(path.join(root,'compat/client-patches/pet-collection/monsterBook.as'),'utf8');
 const chunks = [];for (let i=0;i<catalog.length;i+=60) chunks.push(catalog.slice(i,i+60));
@@ -154,5 +157,5 @@ const abc = parse(fs.readFileSync(bookOutput)).tags.filter(t => t.code === 82);c
 const linkage = Buffer.concat([Buffer.from([1,0,105,2]),Buffer.from('PetCollectionGallery\0')]);
 const sprite = Buffer.concat([Buffer.from([105,2,1,0]),tag(1),tag(0)]);
 put('client/overlay/resource/book/petCollection.swf',encode(originalBook,[tag(69,Buffer.from([8,0,0,0])),...abc.map(t=>t.raw),tag(39,sprite),tag(76,linkage),tag(1),tag(0)]));
-const manifest = {files, inputs, species:catalog.length, command:91001, migration:25, changedNativeClasses:[mapKey], unrelatedNativeTagsPreserved:true, restartGame:true, restartWeb:false, rewardsEnabled:false};
+const manifest = {files, inputs, species:catalog.length, command:91001, migration:25, changedNativeClasses:galleryAlreadyPresent ? [] : [mapKey], entryAlreadyPresent:galleryAlreadyPresent, unrelatedNativeTagsPreserved:true, restartGame:true, restartWeb:false, rewardsEnabled:false};
 fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify(manifest));

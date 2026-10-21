@@ -53,7 +53,7 @@ const save = async () => {await helper.SavePetData(player.PetManager.PetData,tru
   player.PetManager = new PetManager(player);await player.PetManager.Initialize();
   assert.equal(await player.PetManager.GivePet(7,20,1900025001),true);await save();
   assert.deepEqual(await ids(uid),[7,10,13]);passed.push('Real GivePet records acquired species');
-  await player.PetManager.HandlePetEvolution(1900025001,0);await save();
+  await player.PetManager.HandleAddPetExpByCatchTime(1900025001,load('GameServer/Game/Pet/PetCalculator').PetCalculator.ExpForNextLevel(20,7));await save();
   assert.equal(player.PetManager.PetData.PetList[0].petId,8);
   assert.deepEqual(await ids(uid),[7,8,10,13]);passed.push('Real evolution retains prior form and records new form');
   await player.PetManager.PetData.RemovePetByCatchTime(1900025001);await save();
@@ -76,5 +76,6 @@ const save = async () => {await helper.SavePetData(player.PetManager.PetData,tru
   if(evidenceArgument){const evidence=path.resolve(evidenceArgument);fs.mkdirSync(evidence,{recursive:true});fs.writeFileSync(path.join(evidence,'snapshot.bin'),snapshot.body);fs.writeFileSync(path.join(evidence,'backend-proof.json'),JSON.stringify({passed,species:[7,8,10,13]},null,2)+'\n');}
   console.log(JSON.stringify({passed},null,2));
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{
+  await new Promise(resolve=>setTimeout(resolve,200));
   if(player){player.EventBus.Destroy();helper.RemoveCache(uid);}await db.Shutdown();fs.rmSync(dir,{recursive:true,force:true});
 });
