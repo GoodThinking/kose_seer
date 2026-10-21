@@ -40,8 +40,7 @@ class EffectApplicator {
         switch (result.type) {
             case 'heal':
             case 'absorb':
-            case 'damage_lifesteal':
-                if (result.value && result.value > 0) {
+                            if (result.value && result.value > 0) {
                     target.hp = Math.min(target.maxHp, target.hp + result.value);
                     utils_1.Logger.Info(`[效果应用] ${result.target} 回复 ${result.value} HP`);
                 }
