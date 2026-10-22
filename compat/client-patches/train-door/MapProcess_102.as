@@ -6,11 +6,13 @@ package com.robot.app.mapProcess
    import com.robot.app.task.taskUtils.taskDialog.NpcTipDialog;
    import com.robot.app.temp.SpaceStationBuyController;
    import com.robot.core.CommandID;
+   import com.robot.core.config.ClientConfig;
    import com.robot.core.config.xml.PetXMLInfo;
    import com.robot.core.event.PetEvent;
    import com.robot.core.manager.LevelManager;
    import com.robot.core.manager.MainManager;
    import com.robot.core.manager.MapManager;
+   import com.robot.core.manager.ModuleManager;
    import com.robot.core.manager.NonoManager;
    import com.robot.core.manager.PetManager;
    import com.robot.core.manager.map.MapLibManager;
@@ -28,8 +30,10 @@ package com.robot.app.mapProcess
    import flash.display.Sprite;
    import flash.events.MouseEvent;
    import flash.events.TimerEvent;
+   import flash.filters.GlowFilter;
    import flash.geom.Point;
    import flash.text.TextField;
+   import flash.text.TextFieldAutoSize;
    import flash.text.TextFormat;
    import flash.utils.ByteArray;
    import flash.utils.Timer;
@@ -83,12 +87,7 @@ package com.robot.app.mapProcess
       
       private var _bossMC:BossModel;
       
-      // 训练师之门：属性、对手（该门奖励精灵的最终形态）、服务端 BOSS 编号（102/201–214），与 compat/server-patches/train-door/gates.json 一致
-      private const trainDoors:Array = [["草","塔奇多克",201],["火","火噜噜",202],["超能","查德洛",203],["水","多尔尼",204],["飞行","加耶罗",205],["地面","岩锤怪",206],["机械","LYN",207],["暗影","达克其",208],["冰","菲尔洛",209],["光","卡莱洛",210],["龙","哈尼卡",211],["普通","瓦尔普",212],["电","佩吉克",213],["超能冰","弗洛斯",214]];
-      
-      private var trainButton:Sprite;
-      
-      private var trainPage:uint = 0;
+      private var trainDoor:Sprite;
       
       public function MapProcess_102()
       {
@@ -115,73 +114,45 @@ package com.robot.app.mapProcess
          this.initTrainDoor();
       }
       
-      // 原版入口在精灵太空站下方的作战实验室一带，这版太空站的美术里没有，用按钮代替
+      // 原版入口在精灵太空站下方，这版太空站的美术里没有；右下方的环形舱做入口，点舱体或名牌打开训练师之门面板
       private function initTrainDoor() : void
       {
          var label:TextField = new TextField();
          var format:TextFormat = new TextFormat();
-         this.trainButton = new Sprite();
-         this.trainButton.graphics.lineStyle(2,9362175);
-         this.trainButton.graphics.beginFill(1455168,0.92);
-         this.trainButton.graphics.drawRoundRect(0,0,96,26,8,8);
-         this.trainButton.graphics.endFill();
+         var hit:Sprite = new Sprite();
+         hit.graphics.beginFill(0,0);
+         hit.graphics.moveTo(662,470);
+         hit.graphics.lineTo(668,410);
+         hit.graphics.lineTo(690,370);
+         hit.graphics.lineTo(725,338);
+         hit.graphics.lineTo(775,325);
+         hit.graphics.lineTo(830,335);
+         hit.graphics.lineTo(868,362);
+         hit.graphics.lineTo(895,395);
+         hit.graphics.lineTo(880,470);
+         hit.graphics.endFill();
          format.size = 14;
-         format.color = 16777215;
+         format.color = 26367;
          label.defaultTextFormat = format;
+         label.autoSize = TextFieldAutoSize.CENTER;
          label.text = "训练师之门";
-         label.width = 96;
-         label.height = 22;
-         label.x = 8;
-         label.y = 3;
          label.selectable = false;
-         label.mouseEnabled = false;
-         this.trainButton.addChild(label);
-         this.trainButton.x = 560;
-         this.trainButton.y = 455;
-         this.trainButton.buttonMode = true;
-         this.trainButton.mouseChildren = false;
-         this.trainButton.addEventListener(MouseEvent.CLICK,this.onTrainDoor);
-         conLevel.addChild(this.trainButton);
+         label.filters = [new GlowFilter(16777215,1,3,3,5)];
+         label.x = 775 - label.width / 2;
+         label.y = 300;
+         this.trainDoor = new Sprite();
+         this.trainDoor.addChild(hit);
+         this.trainDoor.addChild(label);
+         this.trainDoor.buttonMode = true;
+         this.trainDoor.mouseChildren = false;
+         this.trainDoor.addEventListener(MouseEvent.CLICK,this.onTrainDoor);
+         ToolTipManager.add(this.trainDoor,"挑战训练师之门");
+         conLevel.addChild(this.trainDoor);
       }
       
       private function onTrainDoor(param1:MouseEvent) : void
       {
-         this.trainPage = 0;
-         this.showTrainDoors();
-      }
-      
-      private function showTrainDoors() : void
-      {
-         var options:Array = [];
-         var handlers:Array = [];
-         var pages:uint = Math.ceil(this.trainDoors.length / 2);
-         var i:uint = this.trainPage * 2;
-         while(i < Math.min(this.trainPage * 2 + 2,this.trainDoors.length))
-         {
-            options.push(this.trainDoors[i][0] + "系之门");
-            handlers.push(this.trainDoorChoice(i));
-            i++;
-         }
-         options.push("下一页");
-         handlers.push(function():void
-         {
-            trainPage = (trainPage + 1) % pages;
-            showTrainDoors();
-         });
-         options.push("离开");
-         NpcDialog.show(NPC.JUSTIN,["训练师之门（" + (this.trainPage + 1) + "/" + pages + "页）：选择要挑战的属性之门。"],options,handlers);
-      }
-      
-      private function trainDoorChoice(index:uint) : Function
-      {
-         return function():void
-         {
-            var door:Array = trainDoors[index];
-            NpcDialog.show(NPC.JUSTIN,[door[0] + "系之门的守护精灵是" + door[1] + "。第一次打败它，就能得到" + door[1] + "的精元！"],["接受挑战","返回"],[function():void
-            {
-               FightInviteManager.fightWithBoss(door[1],door[2]);
-            },showTrainDoors]);
-         };
+         ModuleManager.showModule(ClientConfig.getAppModule("TrainDoorEnterPanel"),"正在打开训练师之门...");
       }
       
       private function onTimer(param1:TimerEvent) : void
@@ -242,8 +213,9 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
-         this.trainButton.removeEventListener(MouseEvent.CLICK,this.onTrainDoor);
-         this.trainButton = null;
+         this.trainDoor.removeEventListener(MouseEvent.CLICK,this.onTrainDoor);
+         ToolTipManager.remove(this.trainDoor);
+         this.trainDoor = null;
          ToolTipManager.remove(conLevel["enterFight"]);
          ToolTipManager.remove(conLevel["buyMC"]);
          ToolTipManager.remove(conLevel["arenaTouchBtn_1"]);

@@ -380,6 +380,38 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 训练师之门面板（2026-10-23）
+
+**为什么改**：原来的入口是画上去的按钮，再在站长对话里翻页选门，用户反馈不像游戏里正式的设计。
+
+**改动**
+
+- **入口**：去掉按钮。精灵太空站右下的环形舱做入口：点舱体或上方「训练师之门」名牌（与站长名牌同款样式）打开面板，悬停提示「挑战训练师之门」。
+- **面板**：沿用 XIN 站官方模块 `TrainDoorEnterPanel.swf` 的美术（按其客户端引用路径下载，SHA-256 `c397fb86…`），只把面板类换成 `compat/client-patches/train-door/TrainDoorEnterPanel.as`。
+  - 单属性之门 15 张卡片：14 门对应服务端 102/201–214。没有战斗系之门，卡片压暗，悬停提示暂未开放；超能冰系的弗洛斯放在迷之门卡片。
+  - 选中卡片显示官方大图，旁边写守护精灵和等级、首胜奖励（精元）、属性护盾规则。
+  - 「适合使用精灵」按锁的属性画主界面的精灵属性图标，与服务端判定一致。官方面板自带的图标列表和我们的锁不同（如草门多了冰、圣灵），没有用。
+  - 点「挑战」关闭面板，走原来的挑战流程：先弹锁的提示框，确认后开打。
+  - 勇者模式、勋章、双属性之门没有做：勇者按钮保持灰色，点了提示暂未开放；勋章按钮隐藏；右半边整体压暗，写「双属性之门暂未开放」。
+- **构建**：`scripts/build-train-door-panel.cjs`。
+  - 面板门表必须与 `gates.json`、`locks.json` 和物品表里的精元名一致，属性名必须能拼出 `locks.json` 的提示。
+  - 模块只换面板类的 DoABC 标签；Core 只重编 `MapProcess_102`，两份 Core 同时更新。
+
+**Ruffle 0.7.1 下的两个坑**
+
+- 后加进面板 `_ui` 的子对象会落进卡片栏遮罩（clipDepth）的范围，被整个盖住。图标要和 `_ui` 一起放进单独的容器。
+- 卡片里嵌着带滤镜的美术，Ruffle 算出的尺寸有几百万像素，灰度滤镜直接跳过（日志 `Skipping cacheAsBitmap for incredibly large object`）；新建的按钮当帧也量不出尺寸。所以未开放的内容用 ColorTransform 压暗，图标按 ui.swf 里的尺寸排版。
+
+**验证**：本地真实客户端（`outputs/kose-e2e-20261022`，`override/` 放新 Core 和模块）：
+
+- 精灵太空站显示名牌，点环形舱打开面板；翻页、选门、迷之门、战斗系卡片提示、勇者提示、关闭都正常。
+- 选草门点挑战，弹出锁的提示，确认后进入与 92 级塔奇多克的战斗，普通系招式 0 伤害。
+
+```bash
+node scripts/build-train-door-panel.cjs --baseline /path/to/captured-live-root --xin /path/to/TrainDoorEnterPanel.swf \
+  --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+```
+
 ## 进入精灵太空站后收不到服务器消息（2026-10-22）
 
 **现象**：训练师之门点了确认后没反应。在本地真实客户端（本机服务端 + 临时 SQLite + Ruffle 0.7.1）复现：
@@ -520,8 +552,8 @@ node scripts/test-safari.cjs /path/to/isolated/runtime /path/to/client-root /pat
 
 XIN 有完整实现，但要搬控制器、面板、约 36 张地图，服务端还得重新设计。按用户选择做简化版：
 
-- **入口**：精灵太空站（102）右下加「训练师之门」按钮。这版太空站的美术里没有原版入口，`MapProcess_102` 重编时只加了这段。
-- **玩法**：站长贾斯汀的对话里选属性之门（每页两门）。每门打一场：对手是该门奖励精灵的最终形态，70 级、3000 血、没有特性，技能取它最高级的四个攻击技能。首胜得它的精元，精元孵出该门精灵。
+- **入口**：精灵太空站（102）右下的环形舱。这版太空站的美术里没有原版入口；最初是按钮加站长对话，10-23 改成面板，见「训练师之门面板」。
+- **玩法**：在训练师之门面板选属性之门。每门打一场：对手是该门奖励精灵的最终形态，70 级、3000 血、没有特性，技能取它最高级的四个攻击技能。首胜得它的精元，精元孵出该门精灵。
 - **配置**：服务端 BOSS 编号是 102/201–214，SPT 67–75、77–81。配置在 `compat/server-patches/train-door/gates.json`，客户端门列表与它一致，构建时会校验。
 - **共 14 门**：
 
