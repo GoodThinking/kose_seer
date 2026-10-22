@@ -963,8 +963,8 @@
       "itemIds": [
         300700
       ],
-      "coins": 50000,
-      "vipCoins": 50000,
+      "coins": 200000,
+      "vipCoins": 200000,
       "goldReward": 0,
       "vipOnly": false,
       "once": true

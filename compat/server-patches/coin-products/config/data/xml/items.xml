@@ -2112,35 +2112,35 @@
         <Item ID="200012" Price="10" Texture="200003" Color="68467945" wd="0" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="3"/>
     </Cat>
     <Cat ID="3" DbCatID="1" Name="精灵道具" Max="999" url="resource/item/petItem/icon/">
-        <Item ID="399901" Name="一百倍经验卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="experience" RewardMultiplier="100" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="399902" Name="十倍学习力卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="learning" RewardMultiplier="10" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="399903" Name="一百倍赛尔豆卡" Rarity="3" Max="999" Price="100" type="reward_boost" RewardBoostKind="coins" RewardMultiplier="100" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="300001" Name="普通精灵胶囊" Rarity="1" ItemType="0" Max="999" Price="200" Bonus="1" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
-        <Item ID="300002" Name="中级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="400" Bonus="1.5" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
-        <Item ID="300003" Name="高级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="800" Bonus="2" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
-        <Item ID="300004" Name="超级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="2000" Bonus="3" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
+        <Item ID="399901" Name="十倍经验卡" Rarity="3" Max="999" Price="20000" type="reward_boost" RewardBoostKind="experience" RewardMultiplier="10" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="399902" Name="十倍学习力卡" Rarity="3" Max="999" Price="20000" type="reward_boost" RewardBoostKind="learning" RewardMultiplier="10" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="399903" Name="十倍赛尔豆卡" Rarity="3" Max="999" Price="20000" type="reward_boost" RewardBoostKind="coins" RewardMultiplier="10" RewardDurationSeconds="3600" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="300001" Name="普通精灵胶囊" Rarity="1" ItemType="0" Max="999" Price="1000" Bonus="1" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
+        <Item ID="300002" Name="中级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="3000" Bonus="1.5" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
+        <Item ID="300003" Name="高级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="8000" Bonus="2" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
+        <Item ID="300004" Name="超级精灵胶囊" Rarity="1" ItemType="0" Max="9999" Price="20000" Bonus="3" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
         <Item ID="300005" Name="特级精灵胶囊" Rarity="1" ItemType="0" Max="999" Price="999999999" Bonus="4" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
-        <Item ID="300006" Name="无敌精灵胶囊" Rarity="3" ItemType="0" Max="999" Price="500" Bonus="256" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
+        <Item ID="300006" Name="无敌精灵胶囊" Rarity="3" ItemType="0" Max="999" Price="100000" Bonus="256" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
         <Item ID="300007" Name="超能胶囊" Rarity="3" ItemType="0" Max="999" Price="999999999" Bonus="256" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5" VipOnly="1"/>
         <Item ID="300008" Name="赫星精灵胶囊" Rarity="1" ItemType="0" Max="999" Price="999999999" Bonus="2" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
         <Item ID="300009" Name="时空精灵胶囊" Rarity="3" ItemType="0" Max="999" Price="999999999" Bonus="256" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
         <Item ID="300010" Name="无敌精灵胶囊Ω" Rarity="3" ItemType="0" Max="999" Price="999999999" Bonus="256" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5"/>
-        <Item ID="300011" Name="初级体力药剂" Rarity="1" ItemType="1" Max="9999" Price="20" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="20"/>
-        <Item ID="300012" Name="中级体力药剂" Rarity="1" ItemType="1" Max="9999" Price="40" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="50"/>
-        <Item ID="300013" Name="高级体力药剂" Rarity="1" ItemType="1" Max="9999" Price="80" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="100"/>
-        <Item ID="300014" Name="超级体力药剂" Rarity="2" ItemType="1" Max="9999" Price="200" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="150"/>
-        <Item ID="300015" Name="特级体力药剂" Rarity="3" ItemType="1" Price="300" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="200"/>
-        <Item ID="300016" Name="初级活力药剂" Rarity="1" ItemType="2" Price="30" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="5"/>
-        <Item ID="300017" Name="中级活力药剂" Rarity="1" ItemType="2" Max="999" Price="200" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="10"/>
-        <Item ID="300018" Name="高级活力药剂" Rarity="2" ItemType="2" Max="9999" Price="100" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="20"/>
-        <Item ID="300019" Name="超级活力药剂" Rarity="3" ItemType="2" Max="999" Price="200" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="40"/>
+        <Item ID="300011" Name="初级体力药剂" Rarity="1" ItemType="1" Max="9999" Price="100" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="20"/>
+        <Item ID="300012" Name="中级体力药剂" Rarity="1" ItemType="1" Max="9999" Price="300" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="50"/>
+        <Item ID="300013" Name="高级体力药剂" Rarity="1" ItemType="1" Max="9999" Price="800" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="100"/>
+        <Item ID="300014" Name="超级体力药剂" Rarity="2" ItemType="1" Max="9999" Price="2000" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="150"/>
+        <Item ID="300015" Name="特级体力药剂" Rarity="3" ItemType="1" Price="5000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="200"/>
+        <Item ID="300016" Name="初级活力药剂" Rarity="1" ItemType="2" Price="200" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="5"/>
+        <Item ID="300017" Name="中级活力药剂" Rarity="1" ItemType="2" Max="999" Price="1000" Tradability="1" VipTradability="1" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="10"/>
+        <Item ID="300018" Name="高级活力药剂" Rarity="2" ItemType="2" Max="9999" Price="3000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="20"/>
+        <Item ID="300019" Name="超级活力药剂" Rarity="3" ItemType="2" Max="999" Price="6000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="40"/>
         <Item ID="300020" Name="万能体力药剂" Rarity="1" ItemType="1" Price="999999999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="3000"/>
         <Item ID="300021" Name="初级体力上限提升药剂Ω" Rarity="2" Max="999" Price="999999999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" MaxHPUp="5" DailyOutMax="10"/>
         <Item ID="300022" Name="赫星体力药剂" Rarity="1" ItemType="1" Price="999999999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="150"/>
         <Item ID="300023" Name="赫星活力药剂" Rarity="1" ItemType="2" Price="999999999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" PP="10"/>
-        <Item ID="300024" Name="个体重塑药剂" Rarity="2" Max="999" Price="50" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" RandomDv="1"/>
-        <Item ID="300025" Name="性格重塑胶囊" Rarity="2" Max="999" Price="100" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" MonNatureReset="1"/>
-        <Item ID="300026" Name="降级秘药" Rarity="2" Price="40" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DecreMonLv="1"/>
+        <Item ID="300024" Name="个体重塑药剂" Rarity="2" Max="999" Price="20000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" RandomDv="1"/>
+        <Item ID="300025" Name="神经元再生胶囊" Rarity="2" Max="999" Price="30000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" MonNatureReset="1"/>
+        <Item ID="300026" Name="降级秘药" Rarity="2" Price="5000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DecreMonLv="1"/>
         <Item ID="300027" Name="双倍经验加速器" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DualEffectTimes="50"/>
         <Item ID="300028" Name="自动战斗器S型" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" AutoBtlTimes="100"/>
         <Item ID="300029" Name="能量吸收器" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" EnergyAbsorbTimes="40"/>
@@ -2166,9 +2166,9 @@
         <Item ID="300049" Name="强效速度能量珠" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1050"/>
         <Item ID="300050" Name="致命能量珠" Rarity="2" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1051"/>
         <Item ID="300051" Name="三倍经验加速器" Rarity="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" TrinalEffectTimes="50"/>
-        <Item ID="300052" Name="融合精灵特性重组剂" Rarity="4" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeReset="1"/>
-        <Item ID="300053" Name="特性开启晶片" Rarity="3" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseAddNewse="1"/>
-        <Item ID="300054" Name="特性重组剂" Rarity="4" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseResetNewse="1"/>
+        <Item ID="300052" Name="融合精灵特性重组剂" Rarity="4" Price="50000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeReset="1"/>
+        <Item ID="300053" Name="特性开启晶片" Rarity="3" Price="30000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseAddNewse="1"/>
+        <Item ID="300054" Name="特性重组剂" Rarity="4" Price="50000" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NonFuseResetNewse="1"/>
         <Item ID="300055" Name="特效防御能量珠" Rarity="1" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1052"/>
         <Item ID="300056" Name="特效特防能量珠" Rarity="1" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1053"/>
         <Item ID="300057" Name="特效攻击能量珠" Rarity="1" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="1054"/>
@@ -2243,8 +2243,8 @@
         <Item ID="300142" Name="高级异能胶囊" Rarity="1" ItemType="0" Max="999" Price="0" Bonus="2" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5" bShowPetBag="0"/>
         <Item ID="300143" Name="暗黑异能胶囊" Rarity="1" ItemType="0" Max="999" Price="0" Bonus="3" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5" bShowPetBag="0"/>
         <Item ID="300151" Name="神秘精灵胶囊" Rarity="1" ItemType="0" Max="999" Price="999999999" Bonus="256" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="5" bShowPetBag="0"/>
-        <Item ID="300152" Name="形态固定胶囊" Rarity="1" Max="999" Price="500" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="300153" Name="形态还原胶囊" Rarity="1" Max="999" Price="300" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="300152" Name="形态固定胶囊" Rarity="1" Max="999" Price="10000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="300153" Name="形态还原胶囊" Rarity="1" Max="999" Price="5000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
         <Item ID="300154" Name="巧克力蛋糕块" Rarity="3" Max="5" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="200"/>
         <Item ID="300155" Name="水果蛋糕块" Rarity="2" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="150"/>
         <Item ID="300156" Name="奶油蛋糕块" Rarity="1" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="100"/>
@@ -2444,8 +2444,8 @@
         <Item ID="300647" Name="胆小性格改造药剂Ω" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DailyOutMax="10" Nature="16"/>
         <Item ID="300648" Name="开朗性格改造药剂Ω" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" DailyOutMax="10" Nature="18"/>
         <Item ID="300649" Name="全能性格转化剂S" Rarity="4" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
-        <Item ID="300650" Name="全能学习力遗忘剂" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" EvRemove="7"/>
-        <Item ID="300651" Name="全能学习力注入剂" Rarity="3" Max="999" Price="80" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
+        <Item ID="300650" Name="全能学习力遗忘剂" Rarity="3" Price="10000" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" EvRemove="7"/>
+        <Item ID="300651" Name="全能学习力注入剂" Rarity="3" Max="999" Price="50000" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4"/>
         <Item ID="300652" Name="小型升级秘药S" Rarity="1" Max="9999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLv="1"/>
         <Item ID="300653" Name="中型升级秘药S" Rarity="2" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLv="2"/>
         <Item ID="300654" Name="大型升级秘药S" Rarity="3" Max="999" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLv="20"/>
@@ -2494,7 +2494,7 @@
         <Item ID="300697" Name="全面提升药剂" Rarity="3" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" NewSeIdx="3075"/>
         <Item ID="300698" Name="艾普欧满级秘药" Rarity="4" Max="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" LimitPetClass="1038"/>
         <Item ID="300699" Name="专属天赋改造药剂" Rarity="4" Max="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" LimitPetClass="1080"/>
-        <Item ID="300700" Name="100级升级秘药" Rarity="4" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLvTo="100"/>
+        <Item ID="300700" Name="100级升级秘药" Rarity="4" Price="200000" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" IncreMonLvTo="100"/>
         <Item ID="300701" Name="全能恢复药剂" Rarity="3" Max="99" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" HP="150" PP="3"/>
         <Item ID="300702" Name="专属天赋提升药剂" Rarity="3" Max="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" LimitPetClass="602"/>
         <Item ID="300703" Name="专属天赋提升药剂" Rarity="3" Max="1" Tradability="0" VipTradability="0" wd="1" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="4" LimitPetClass="712"/>
@@ -3298,7 +3298,7 @@
         <Item ID="400498" Name="克鲁斯的精元" Price="0" Max="1" Tradability="0" VipTradability="0" BreedTime="1800" VipBreedTime="900" BreedMonID="1520" BreedMonLv="1" wd="1" UseMax="1" LifeTime="0" purpose="1" Bean="0" Hide="0" Sort="8"/>
         <Item ID="400499" Name="贪吃蛇特雷西的精元" Price="0" Max="99" Tradability="0" VipTradability="0" BreedTime="1800" VipBreedTime="900" BreedMonID="1522" BreedMonLv="1" wd="1" UseMax="1" LifeTime="0" purpose="1" Bean="0" Hide="0" Sort="8"/>
         <Item ID="400500" Name="金刚狼罗格尔的精元" Price="0" Max="99" Tradability="0" VipTradability="0" BreedTime="1800" VipBreedTime="900" BreedMonID="1524" BreedMonLv="1" wd="1" UseMax="1" LifeTime="0" purpose="1" Bean="0" Hide="0" Sort="8"/>
-        <Item ID="400501" Name="神奇扭蛋牌" Price="0" Max="999999999" Tradability="0" VipTradability="0" wd="0" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="1" Sort="29"/>
+        <Item ID="400501" Name="神奇扭蛋牌" Price="5000" Max="999999999" Tradability="0" VipTradability="0" wd="0" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="1" Sort="29"/>
         <Item ID="400502" Name="海盗训练牌" Price="0" Max="999999999" Tradability="0" VipTradability="0" wd="0" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="29"/>
         <Item ID="400503" Name="作战勋章" Price="0" Max="999999999" Tradability="0" VipTradability="0" wd="0" UseMax="0" LifeTime="0" purpose="0" Bean="0" Hide="0" Sort="29"/>
         <Item ID="400504" Name="精灵糖果" Price="0" Max="500" Tradability="0" VipTradability="0" wd="0" UseMax="0" LifeTime="0" purpose="2" Bean="0" Hide="0" Sort="29"/>
