@@ -104,7 +104,7 @@ let player;
 
   defeated.clear();
   {
-    const r = await challenge(484, 0);
+    const r = await challenge(445, 0);
     assert.equal(r.alert, undefined);
     assert.equal(r.battle?.enemy.name, '卡修斯', 'bosses without prerequisites unchanged');
   }

@@ -259,7 +259,7 @@ const passiveIds = p => (p.effectCounters?._registered_passives || []).map(x => 
     const tree = await fight(502, 0, pet(7, 100, [GROWL]));
     assert.deepEqual(tree.enemy.skills, [20146, 10340, 20055, 10343]);
     assert.equal(tree.enemy.maxHp, 2400);
-    const dragon = await fight(484, 1, pet(7, 100, [GROWL]));
+    const dragon = await fight(486, 0, pet(7, 100, [GROWL]));
     assert.deepEqual(dragon.enemy.skills, [11752, 11754, 11751, 20879]);
   }
   ok('巨型树妖/德拉萨 classic kits');
