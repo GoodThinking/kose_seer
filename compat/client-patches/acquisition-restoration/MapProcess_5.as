@@ -299,7 +299,7 @@ package com.robot.app.mapProcess
          label.mouseEnabled = false;
          this.beidouButton.addChild(label);
          this.beidouButton.x = 120;
-         this.beidouButton.y = 478;
+         this.beidouButton.y = 455;
          this.beidouButton.buttonMode = true;
          this.beidouButton.mouseChildren = false;
          this.beidouButton.addEventListener(MouseEvent.CLICK,this.onBeidou);
