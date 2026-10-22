@@ -1,0 +1,17 @@
+{
+  "source": "暗黑第十门（选门面板 DarkDoorChoicePanel_9 发 54–56）。三只按图鉴「暗黑武斗场」与物品表 400304–400306 的连号精元推定；等级、体力、奖励同第九门，特性为本服设计（同 R66 暗黑门做法）。",
+  "bossConfigs": [
+    {"mapId": 110, "param2": 1054, "petId": 1182, "petName": "鳞甲魔鱼", "level": 80, "dv": 31, "ev": 0, "nature": 0, "abilities": [],
+     "skills": [12780, 12781, 12779, 10575], "customHP": 8000, "drops": [], "rewards": {"exp": 4000, "coins": 4000},
+     "spt": {"sptId": 62, "rewardItemId": 400304, "noStand": true}, "mechanics": {"startStages": [0, 1, 0, 1, 0, 0]},
+     "comment": "暗黑第十门其一。编号54。鳞甲魔鱼的精元。本服设计：鳞甲双防高，出场防御、特防+1。"},
+    {"mapId": 110, "param2": 1055, "petId": 1185, "petName": "艾斯德克", "level": 80, "dv": 31, "ev": 0, "nature": 0, "abilities": [{"id": 2038, "args": [30]}],
+     "skills": [12783, 12784, 11133, 12782], "customHP": 8000, "drops": [], "rewards": {"exp": 4000, "coins": 4000},
+     "spt": {"sptId": 63, "rewardItemId": 400305, "noStand": true},
+     "comment": "暗黑第十门其二。编号55。艾斯德克的精元。本服设计：高伤害，伤害+30%（同迪普利德）。"},
+    {"mapId": 110, "param2": 1056, "petId": 1187, "petName": "狂狮迪卡", "level": 80, "dv": 31, "ev": 0, "nature": 0, "abilities": [],
+     "skills": [12787, 12785, 12786, 10542], "customHP": 8000, "drops": [], "rewards": {"exp": 4000, "coins": 4000},
+     "spt": {"sptId": 64, "rewardItemId": 400306, "noStand": true}, "mechanics": {"startStages": [1, 0, 0, 0, 1, 0]},
+     "comment": "暗黑第十门其三。编号56。狂狮迪卡的精元。本服设计：高攻高速，出场攻击、速度+1。"}
+  ]
+}

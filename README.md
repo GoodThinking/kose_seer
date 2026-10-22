@@ -365,6 +365,31 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 暗黑门第九到第十二门（2026-10-22）
+
+暗黑武斗场选门面板 0–11 都在，但后几门实际进不去或打不了：
+
+| 门 | 原状况 | 本次 |
+| --- | --- | --- |
+| 第九门（编号 48–50） | BOSS 已配，房间 511 没有地图脚本，进去后不显示 BOSS，也打不了 | 补 `MapProcess_511` |
+| 第十门（54–56） | 没有 BOSS | 加鳞甲魔鱼、艾斯德克、狂狮迪卡 |
+| 第十一门（60–62） | 没有 BOSS | 没有资料，保持关闭 |
+| 第十二门（66） | 别的会话配了布林克克，但房间算到 514 勇者之塔 | 房间改到 5112 |
+
+- 房间号按原公式会算到 512–514，这版里它们是拜伦号精灵舱、地下室、勇者之塔。`DarkPortalModel.enterMap` 改成：算到 512 及以上时，改用新登记的本地地图 5110–5112。
+- 5110–5112 的地图文件是第九门房间 `511.swf` 的副本。这版没有后几门的房间美术。
+- 房间脚本和第七、第八门的 `MapProcess_509/510` 相同。
+- 第十门三只 BOSS 的选择依据：图鉴把它们的系列标为「暗黑武斗场」，物品表里它们的精元是连号的 400304–400306。
+  - 等级、体力、奖励同第九门：80 级、8000 血、首胜得精元。
+  - 特性为本服设计，做法同 R66：鳞甲魔鱼出场双防 +1，艾斯德克伤害 +30%，狂狮迪卡出场攻击、速度 +1。
+  - 配置在 `compat/server-patches/dark-portal/door10.json`，SPT 编号 62–64。
+- 第二门及以后仍要超能 NoNo（原有规则，没改）。
+
+```bash
+node scripts/build-dark-portal.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-dark-portal.cjs /path/to/isolated/runtime
+```
+
 ## 螺旋星系：巨石星与艾伦星（2026-10-22）
 
 巨石星、艾伦星属第五星系「螺旋星系」。这版星图只有四个星系，两星的地图 SWF 都在服务器上，但 Core 没有登记。图鉴里两星的精灵此前只能签到领取。
