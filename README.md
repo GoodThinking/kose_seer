@@ -365,6 +365,44 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 螺旋星系：巨石星与艾伦星（2026-10-22）
+
+巨石星、艾伦星属第五星系「螺旋星系」。这版星图只有四个星系，两星的地图 SWF 都在服务器上，但 Core 没有登记。图鉴里两星的精灵此前只能签到领取。
+
+**星图**
+- `client/overlay/resource/worldMap.swf` 加了第五个星系图标 `galaxy_5`。这版和 XIN 的星图都没有螺旋星系的图标，所以复用卡兰星系的螺旋：去掉 8 个星球图层，缩小一半，调成绿黄色，放在罗格星系与返回按钮之间的空处。其余标签保持原字节。
+- 点开后加载 `client/overlay/module/com/robot/module/app/subMap/Galaxy_5.swf`。
+  - 星球图层取自 XIN 站的螺旋星系模块（经用户同意，按其客户端引用路径下载，SHA-256 `9d79eeda…`）。XIN 的模块类叫 `Galaxy_4`，改名 `Galaxy_5` 后用 `compat/client-patches/spiral-galaxy/Galaxy_5.as` 重编，并裁掉夹带的 XIN Core 类。
+  - 只显示巨石星、艾伦星，其余七颗星球和 XIN 的返回飞船按钮隐藏。
+  - XIN 的星图没有艾伦星。艾伦星借用这版不开放的天空之门（748）的海洋星球图，按钮改通艾伦星。
+- Core：星系表加 5「螺旋星系」；星球悬停说明加 925、926。
+
+**地图**
+- Core 登记 14 张地图。名称、出生点、音乐和门都按 XIN 地图表。
+  - 巨石星：巨石岛 925、熔岩大地 704、熔岩地心 705、石源密林 706、黑风崖 708、巨石营地 709。
+  - 艾伦星：浅滩海岛 926、珊瑚海礁 710、水月洞壁 712、烟水迷阵 713、幽暗洞穴 715、流沙地洞 716、翡翠山谷 718、麦田村 38。
+- 925、926 是剧情结束后的巨石岛、浅滩海岛，没有剧情人物。星球按钮落地在这两张图。
+- 门的处理：
+  - XIN 表里用剧情脚本开的门（巨石岛→熔岩大地、熔岩大地↔熔岩地心），改成普通门。
+  - 巨石岛去石塔禁地 703 的门，XIN 表里也是注释掉的，没加。
+  - 表里没写的进场点，取门旁可走的位置，已用地图碰撞层核对。
+- 麦田村 38 不在任何地图表里。名字取自图鉴里古古的介绍；两个门按方位接烟水迷阵和翡翠山谷；音乐用烟水迷阵的。
+- 新增 12 个地图脚本（构建方式同光明圣坛，先插桩再重编）。它们只按剧情结束后的样子，隐藏剧情人物、任务标记、触发区和活动入口（逐图清单见脚本注释），场景和 NPC 保留。剧情任务没有恢复。
+
+**野怪（服务端 `map-ogres.json`）**
+- 原有的巨石岛 702、浅滩海岛 29 两池原样搬到 925、926。
+- 其余按图鉴 `mapID` 补：
+  - 熔岩大地加凯拉，石源密林阿凯，巨石营地安普。
+  - 浅滩海岛加塔塔，水月洞壁沃沃尔，烟水迷阵朵莉，翡翠山谷努努。
+- 等级、刷新和掉落沿用同星球第一只野怪：巨石星 60–63，艾伦星 30–35。
+- 图鉴里卡斯、法尔、杰沃、凯尼、古古没有出没地图，仍走签到。签到名单里已有的条目都保留。
+
+```bash
+node scripts/build-spiral-galaxy.cjs --baseline /path/to/captured-live-root --galaxy /path/to/xin/Galaxy_5.swf --out /path/to/release \
+  --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-spiral-galaxy.cjs /path/to/isolated/runtime
+```
+
 ## 精灵战斗资源补齐（2026-10-22）
 
 图鉴 1498 只里，有 269 只缺战斗资源 `resource/fightResource/pet/swf/<id>.swf`，3 只缺头像 `resource/pet/head/<id>.swf`，共涉及 271 只。
