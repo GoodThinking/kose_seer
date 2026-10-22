@@ -365,6 +365,34 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 北斗七星殿（2026-10-22）
+
+北斗七星殿是 2012-05 开放的七星连锁阵，每周开一道封印。图鉴里的琳诺、奇纳、洛尔、艾诺就出自这里。这版地图 SWF 在服务器上，但没有登记，也没有入口。规则依据 4399、7k7k 2012-05/06 的攻略。
+
+| 封印 | 原版规则 | 本服 |
+| --- | --- | --- |
+| 贪狼 | 每天只能解除一次，解除后得精灵 | 每天一次，得火星灵精元（孵出琳诺，可叠 99 个） |
+| 巨门 | 每次 50000 赛尔豆，每天 2 次，解除 4 次后巨石之门开放 | 同左，第 4 次得水星灵的精元（孵出奇纳） |
+| 禄存 | 守护者芙洛：体力 3000、速度极快、天生攻击+2，每天 3 次；打赢得精元 | BOSS 733/0：70 级、3000 血、必定先出招、开场攻击+2；首胜得飞星灵的精元（孵出洛尔，SPT 66）；每天 3 次的限制没做 |
+| 文曲 | 等 72 小时 | 开始后等 72 小时，得冰星灵的精元（孵出艾诺） |
+| 廉贞、武曲、破军、星灵王 | 这版之后才开放 | 点击提示尚未开放 |
+
+- **入口**：原版在实验室左下角的传送点。这版的实验室美术里没有它，所以在实验室左下角加了「北斗七星殿」按钮（`MapProcess_5`）。离开用星图。
+- **Core**：
+  - 地图表登记 733，出生点按 XIN 表。
+  - 新增 `MapProcess_733`：按钮 1–7 依次是贪狼到破军，0 是中间的星灵王。主动画第 4n+1 帧是解开 n 道封印后的样子，进图时按进度跳帧。
+- **服务端**（只改 `dist`）：
+  - 新增 `Game/Map/BeidouSeals.js`，走 2313/2311 的 900003 组，由 `PetCollectHandler` 转发。
+  - 进度记在 `receiver_claims`，不改表结构。
+  - 巨门扣豆与记录在同一事务提交，钱包校验沿用每日签到的做法。精元发放失败不留记录，可以重试。
+  - `BattleManager` 加了 `requiredClaim`，芙洛要求巨门已解除 4 次，否则弹窗说明。
+  - 只能按顺序解：巨门要先解过贪狼，禄存要先解完巨门，文曲要先打过芙洛。
+
+```bash
+node scripts/build-beidou.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-beidou.cjs /path/to/isolated/runtime
+```
+
 ## 暗黑门第九到第十二门（2026-10-22）
 
 暗黑武斗场选门面板 0–11 都在，但后几门实际进不去或打不了：

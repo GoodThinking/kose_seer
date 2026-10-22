@@ -26,6 +26,8 @@ package com.robot.app.mapProcess
    import flash.display.*;
    import flash.events.*;
    import flash.net.SharedObject;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
    import flash.utils.*;
    import org.taomee.events.DynamicEvent;
    import org.taomee.events.SocketEvent;
@@ -90,6 +92,8 @@ package com.robot.app.mapProcess
       private var exchangeGroup:uint = 0;
 
       private var exchangePage:uint = 0;
+
+      private var beidouButton:Sprite;
 
       
       public function MapProcess_5()
@@ -158,6 +162,7 @@ package com.robot.app.mapProcess
          this.petbook_btn = conLevel["petBook_btn"];
          ToolTipManager.add(this.petbook_btn,"精灵融合手册");
          this.petbook_btn.addEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
+         this.initBeidou();
          this.initTask_95();
       }
       
@@ -209,6 +214,8 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
+         this.beidouButton.removeEventListener(MouseEvent.CLICK,this.onBeidou);
+         this.beidouButton = null;
          SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onPermanentExchange);
          this.petbook_btn.removeEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
          this.petbook_btn = null;
@@ -270,6 +277,40 @@ package com.robot.app.mapProcess
          WeekMonsterMain.loadMonster();
       }
       
+      // 2012 年实验室左下角有去北斗七星殿的传送点，这版实验室的美术里没有，用按钮代替
+      private function initBeidou() : void
+      {
+         var label:TextField = new TextField();
+         var format:TextFormat = new TextFormat();
+         this.beidouButton = new Sprite();
+         this.beidouButton.graphics.lineStyle(2,9362175);
+         this.beidouButton.graphics.beginFill(1455168,0.92);
+         this.beidouButton.graphics.drawRoundRect(0,0,96,26,8,8);
+         this.beidouButton.graphics.endFill();
+         format.size = 14;
+         format.color = 16777215;
+         label.defaultTextFormat = format;
+         label.text = "北斗七星殿";
+         label.width = 96;
+         label.height = 22;
+         label.x = 8;
+         label.y = 3;
+         label.selectable = false;
+         label.mouseEnabled = false;
+         this.beidouButton.addChild(label);
+         this.beidouButton.x = 120;
+         this.beidouButton.y = 478;
+         this.beidouButton.buttonMode = true;
+         this.beidouButton.mouseChildren = false;
+         this.beidouButton.addEventListener(MouseEvent.CLICK,this.onBeidou);
+         conLevel.addChild(this.beidouButton);
+      }
+
+      private function onBeidou(param1:MouseEvent) : void
+      {
+         MapManager.changeMap(733);
+      }
+
       private function onDoorClick(param1:MouseEvent) : void
       {
          var e:MouseEvent = param1;

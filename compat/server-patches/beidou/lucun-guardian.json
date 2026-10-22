@@ -1,0 +1,9 @@
+{
+  "source": "4399 2012-06-22 禄存封印：守护者芙洛体力3000，速度极快，攻击力不俗，天生攻击强化+2；战斗胜利得精元。每天三次的挑战限制没有做。",
+  "bossConfig": {"mapId": 733, "param2": 0, "petId": 1232, "petName": "芙洛", "level": 70, "dv": 31, "ev": 0, "nature": 0,
+    "abilities": [{"id": 2042, "args": [6]}], "skills": [12876, 12874, 12875, 10734], "customHP": 3000, "drops": [],
+    "rewards": {"exp": 8000, "coins": 2000}, "spt": {"sptId": 66, "rewardItemId": 400330, "noStand": true},
+    "mechanics": {"startStages": [2, 0, 0, 0, 0, 0]},
+    "requiredClaim": {"key": "beidou:2", "count": 4, "message": "必须先解除巨门封印，才能挑战芙洛。"},
+    "comment": "北斗七星殿禄存封印守护者。必定先出招、开场攻击+2，首胜得飞星灵的精元（400330，孵出洛尔）。"}
+}
