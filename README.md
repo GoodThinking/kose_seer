@@ -380,6 +380,74 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## BOSS 一锁一钥：训练师之门试点（2026-10-22）
+
+**为什么改**
+
+- **现状**：6 只 100 级满培养神宠，只按威力和克制出招、不吃药，98 只 BOSS 里 70 只胜率 100%，多数 5–20 回合打完。
+- **原因**：BOSS 是 70–90 级、学习力 0；大多数机制是先制、减伤、回血这类数值，只能拖回合，挡不住硬实力。
+
+**怎么改**
+
+- **锁**：用户选硬锁。不带对应机制，伤害打不进去或打不死。
+- **钥匙**：一类常见机制，可获得精灵里有上百只具备，例如某种属性、某种异常、固伤、消强。不是某一只稀有精灵。
+- **提示**：用户选挑战时提示。点挑战先弹出规则，确认后再开打。
+- **完整方案**：`outputs/kose-boss-difficulty-20261022/boss-redesign-plan.md`，按 7 类锁给 98 只 BOSS 分组。
+  - 不动：谱尼、哈莫雷特、尤纳斯等 15 只难 BOSS，以及新手 BOSS。
+  - 本次先做训练师之门 14 只。
+
+**本次：训练师之门 14 只，属性护盾**
+
+规则：
+
+- 只受克制该门属性的技能伤害，按技能属性判定，不看精灵属性。直接攻击、固定/比例伤害、秒杀、持续伤害都按这个判定。
+- 不会陷入异常状态，所以寄生、中毒等持续伤害和镇魂歌也绕不过去。
+
+| 门 | 钥匙属性 | 等级 | 血量 |
+| --- | --- | --- | --- |
+| 草 | 火、飞行 | 92 | 3000 |
+| 火 | 水、地面 | 100 | 3000 |
+| 超能 | 光、暗影 | 100 | 4000 |
+| 水 | 草、电 | 100 | 3000 |
+| 飞行 | 电、冰 | 92 | 4000 |
+| 地面 | 草、水 | 100 | 4000 |
+| 机械 | 火、地面 | 85 | 3000 |
+| 暗影 | 电、光 | 92 | 4000 |
+| 冰 | 火、战斗 | 92 | 3000 |
+| 光 | 草 | 100 | 6000 |
+| 龙 | 战斗、龙 | 85 | 2500 |
+| 普通 | 普通、战斗（普通系没有克制属性） | 75 | 2000 |
+| 电 | 地面 | 85 | 2500 |
+| 超能冰 | 火、机械（伤害 1.5 倍） | 92 | 3000 |
+
+**校准结果**
+
+- **工具**：`scripts/boss-lab.cjs`。模拟条件为 100 级、个体 31、体力和主攻学习力 252、不吃药（特级体力药剂只回 200，打这些 BOSS 基本不顶用），按威力出招。
+- **结果**（`outputs/kose-boss-locks-20261022/calibration-final.txt`）：
+  - 2 只钥匙精灵：胜率 70–98%，5–12 回合，平均损失约 1 只；
+  - 3 只：97–100%；
+  - 只带 1 只：多半打不过。光门和电门的 BOSS 伤不到钥匙属性，1 只也能过。
+  - 没有钥匙属性招式的队伍伤害为 0。上面那支神宠队里恰好有哈莫雷特的炎火球、雷伊的电系招，所以在草门、飞行门等仍能赢。
+- **改造前**：6 只神宠队打每门胜率都是 100%，4–10 回合。
+
+**改动**
+
+- **服务端（只改 `dist`）**：
+  - `BossSpecialRules` 新增 `mechanics.onlyTypes`；
+  - `SkillEffectRuntime` 的持续伤害也按它判定；
+  - 锁的参数和提示写在 `compat/server-patches/boss-locks/locks.json`，构建时套到 `boss_abilities.json`。
+- **客户端**：`FightInviteManager.fightWithBoss` 对带锁的 BOSS 先弹出规则，确认后再发起挑战。提示表与 `locks.json` 一致，构建时会校验。
+
+```bash
+node scripts/build-boss-locks.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-boss-locks.cjs /path/to/isolated/runtime /path/to/repo
+TEAM=309,1364 POLICY=types:3,4 node scripts/boss-lab.cjs /path/to/isolated/runtime 102/201 60
+```
+
+`test-boss-locks` 在改造前的运行时上会失败（配置里没有锁）。
+
+**后续**：暗黑门 25 只，然后其余 SPT、神兽和新 BOSS，再加前期 BOSS 的轻锁。每批先出模拟表再上线。
+
 ## 克洛斯星的湿地与野怪显示修复（2026-10-22）
 
 **野怪看不见（修已上线的问题）**

@@ -71,12 +71,13 @@ let player;
     await player.BattleManager.HandleChallengeBoss(102, gate.param2);
     const battle = player.BattleManager.GetCurrentBattle();
     assert.equal(battle?.enemy.id, gate.petId, `${gate.type} gate boss`);
-    assert.deepEqual([battle.enemy.level, battle.enemy.maxHp], [70, 3000], `${gate.type} gate stats`);
+    // 等级和血量以当前配置为准（R79 起按属性护盾校准）
     const config = BossAbilityConfig.Instance.GetBossConfigByMapAndParam(102, gate.param2);
+    assert.deepEqual([battle.enemy.level, battle.enemy.maxHp], [config.level, config.customHP], `${gate.type} gate stats`);
     assert.deepEqual([config.spt.sptId, config.spt.rewardItemId, config.spt.noStand], [gate.sptId, gate.essence, true], `${gate.type} gate reward`);
     player.BattleManager.CleanupBattle();
   }
-  results.push(`All ${gates.length} gates fight their pet at level 70 with 3000 HP and pay its essence on the first win`);
+  results.push(`All ${gates.length} gates fight their pet at the configured level and HP and pay its essence on the first win`);
 
   assert.equal(new Set(gates.map(g => g.sptId)).size, gates.length, 'distinct SPT ids');
   results.push('Each gate keeps its own first-win record');
