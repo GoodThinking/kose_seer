@@ -380,6 +380,28 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 进入精灵太空站后收不到服务器消息（2026-10-22）
+
+**现象**：训练师之门点了确认后没反应。在本地真实客户端（本机服务端 + 临时 SQLite + Ruffle 0.7.1）复现：
+- 挑战包已经发出，服务端也回了「挑战成功」和「准备战斗」，但客户端没有进入战斗；
+- 换成没有提示框的旧 Core，结果一样，所以不是提示框的问题。
+
+**原因**：
+- 10-21 另一会话只在线上 `dist` 加了 `ArenaHandlers.js`，`ARENA_GET_INFO`（2419）回 12 字节。
+- 客户端 `ArenaInfo` 要读 32 字节：flag、擂主 ID、16 字节昵称、连胜数、挑战者 ID。
+- 读不够时 `SocketImpl.onData` 在复位包头之前就抛错了，后面每个包都被当成 2419 的包体按 12 字节吞掉。
+- 精灵太空站的擂台一加载就会请求 2419，所以进过这张图后，服务器发来的消息全部收不到，不只是训练师之门。
+
+**修改**：
+- 改为回 32 字节全 0。flag 为 0，客户端按擂台为空显示。
+- 只改线上 `dist` 这一处，`scripts/build-arena-info-fix.cjs` 构建，`scripts/test-arena-info.cjs` 按客户端字段顺序校验（修前长度断言失败）。
+- 本地真实客户端复验：进精灵太空站后能正常挑战草门；普通系招式打出 0 伤害，火系招式正常掉血。
+
+```bash
+node scripts/build-arena-info-fix.cjs --baseline /path/to/captured-live-root --out /path/to/release
+node scripts/test-arena-info.cjs /path/to/isolated/runtime
+```
+
 ## BOSS 一锁一钥：训练师之门试点（2026-10-22）
 
 **为什么改**
