@@ -365,6 +365,25 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 光明圣坛与布莱克（2026-10-22）
+
+4399 2011-08-18 攻略：布莱克是格雷斯星光明圣坛的守护者，70级暗影系，约2000血；常用双重暗影、暗夜守护、深黑恐惧、斗志复燃；速度无限、必定先出招，攻击天生强化一级；第一次打败得到布莱克的精元。B站同期视频标题为「1V1击败布莱克」。
+
+这版客户端没有格雷斯星（505–512 是暗黑武斗场）。光明圣坛地图经用户同意，从 XIN 站下载其客户端代码引用的 `resource/map/9507.swf`（SHA-256 `0c8c4e3e61efdcaee6af6b7d87e5621a2cdf0dc77dc9be44dd71c8911f543842`，FLA 名 `_507_fla`，即原版 507），不改内容，放在 `client/overlay/resource/map/9507.swf`。
+
+- Core：SPT 终端已登记的占位地图「地图9507」改名光明圣坛，出生点改为地图碰撞层可走的 (560,470)。新增 `MapProcess_9507`：点布莱克弹出原版对白，选「OK」后 `fightWithBoss("布莱克")`。原版剧情任务（698 等）没恢复，任务路障和「!」标记按任务完成后的样子隐藏。出口门没有接到别的图，离开用星图或 SPT 终端。
+- FFDec 的 `-importScript` 只重编已有类，所以构建时先把 `MapProcess_340` 的字节码改名成 `MapProcess_9507` 插进去做桩，再用源码重编，最后核对其余标签不变。
+- 入口：SPT 挑战终端里布莱克的「前往挑战」本来就指向 9507，现在能进图。星图这版没有格雷斯星按钮，没加。
+- 服务端：`boss_abilities.json` 加 9507/0 布莱克（70级、2000血、`2042`先制+6即必定先出招、开场攻击+1、`singlePet`）。一对一：不能主动换精灵（弹窗「布莱克只接受一对一的决斗，不能更换精灵！」），出战精灵倒下直接判负。首胜 SPT 61，得布莱克的精元（400219，孵出布莱克）。`map-ogres.json` 加 9507 野怪毛球、吉嘟（60–65级），沿用服务端原有「光明圣坛」条目。布莱克兑换保留。
+- 同时修复：线上 `boss_abilities.json` 的斯普林特（495/0）、缪斯（932/0）没有 `abilities`，`BossAbilityConfig.Load` 遍历到它们抛错，这两只和排在后面的条目都没登记（日志「加载配置文件失败」）。两条补成空数组。
+- `BattleManager` 只改 `dist`。
+
+```bash
+node scripts/build-bright-altar.cjs --baseline /path/to/captured-live-root --map /path/to/9507.swf --out /path/to/release \
+  --context /path/with/node_modules-typescript --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-bright-altar.cjs /path/to/isolated/runtime
+```
+
 ## 朱雀的前置BOSS（2026-10-20）
 
 4399 2011-08 攻略：必须先打败德拉萨、卡修斯、迪符特，才能挑战朱雀（菲尼克斯）。以前朱雀空间可以直接挑战。

@@ -1,0 +1,132 @@
+{
+  "source": "4399 2011-08-18《赛尔号布莱克多种打法介绍》：70级暗影系，约2000血；常用双重暗影、暗夜守护、深黑恐惧、斗志复燃；速度无限必定先出招，攻击天生强化一级；第一次打败获得布莱克的精元。B站《格雷斯星光明圣坛1V1击败布莱克获得布莱克精元》：一对一。野怪沿用服务端原有光明圣坛条目（毛球、吉嘟60–65级）。",
+  "boss": {
+    "mapId": 9507,
+    "param2": 0,
+    "petId": 875,
+    "petName": "布莱克",
+    "level": 70,
+    "dv": 31,
+    "ev": 0,
+    "nature": 0,
+    "abilities": [
+      {
+        "id": 2042,
+        "args": [
+          6
+        ]
+      }
+    ],
+    "drops": [],
+    "rewards": {
+      "exp": 8000,
+      "coins": 2000
+    },
+    "spt": {
+      "sptId": 61,
+      "rewardItemId": 400219
+    },
+    "customHP": 2000,
+    "skills": [
+      12112,
+      21090,
+      21089,
+      12114
+    ],
+    "mechanics": {
+      "startStages": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "singlePet": true
+    },
+    "comment": "裂空星系格雷斯星光明圣坛（地图取自XIN站9507）。一对一对战，首胜得布莱克的精元，孵出布莱克。"
+  },
+  "mapOgres": {
+    "9507": {
+      "name": "光明圣坛",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 859,
+          "shiny": 0,
+          "weight": 50,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 60,
+          "maxLevel": 65,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false
+        },
+        {
+          "slot": 1,
+          "petId": 805,
+          "shiny": 0,
+          "weight": 50,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 60,
+          "maxLevel": 65,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false
+        }
+      ]
+    }
+  }
+}
