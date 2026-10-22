@@ -1,6 +1,5 @@
 package com.robot.app.mapProcess
 {
-   import com.robot.app.buyItem.*;
    import com.robot.app.buyPetProps.*;
    import com.robot.app.control.*;
    import com.robot.app.evolvePet.*;
@@ -27,8 +26,6 @@ package com.robot.app.mapProcess
    import flash.display.*;
    import flash.events.*;
    import flash.net.SharedObject;
-   import flash.text.TextField;
-   import flash.text.TextFormat;
    import flash.utils.*;
    import org.taomee.events.DynamicEvent;
    import org.taomee.events.SocketEvent;
@@ -84,7 +81,7 @@ package com.robot.app.mapProcess
       
       private var docPlayGrapeMC:MovieClip;
 
-      private const exchangeGroups:Array = [["草",[243,387,682,688,722,809,919,982,1060,1100,1132,1145,1191,1192,1199,1202,1216,1233,1300,1345,1375,1429,1469,1497]],["水",[108,289,497,502,615,642,684,729,744,761,814,858,866,872,899,905,960,975,988,1004,1030,1117,1129,1140,1180,1200,1230,1297,1304,1339,1439,1480]],["火",[364,526,598,635,677,740,820,889,922,926,963,991,1017,1018,1019,1088,1150,1152,1179,1201,1206,1238,1259,1298,1323,1377,1456,1485]],["飞行",[521,583,612,618,680,818,864,911,939,969,993,996,1013,1050,1142,1166,1167,1231,1258,1306,1364,1403,1446,1488]],["电",[360,486,503,531,602,644,686,708,734,816,908,984,1208,1211,1295,1356,1449,1462]],["机械",[80,143,201,213,287,362,459,539,541,610,724,807,887,897,1054,1220,1277,1330,1337,1483]],["地面",[62,298,482,560,653,662,789,856,924,951,1024,1079,1119,1120,1121,1135,1143,1159,1236,1255,1311,1325,1346,1394,1440,1457,1465,1481]],["普通",[230,325,328,330,366,383,456,484,567,604,652,718,746,756,878,901,953,986,1028,1123,1186,1241]],["冰",[378,445,448,476,555,562,588,592,637,754,845,936,973,1012,1034,1040,1064,1111,1177,1213,1215,1252,1276,1292,1317,1342,1353,1361,1432]],["超能",[196,246,351,381,416,594,646,694,696,710,829,895,913,930,932,977,1007,1015,1042,1053,1080,1161,1183,1225,1239,1278,1279,1280,1332,1391,1398,1459,1473,1475]],["战斗",[122,124,125,126,141,148,397,432,451,488,580,596,620,648,673,675,736,771,812,868,881,928,956,958,1002,1009,1044,1084,1107,1115,1155,1226,1314,1396,1420,1453,1460,1490,1499]],["光",[219,281,370,461,505,564,590,665,833,857,903,934,971,980,998,1069,1092,1122,1222,1265,1289,1373,1450,1464]],["暗影",[217,506,726,749,794,875,915,944,966,1086,1098,1287,1335,1358,1366,1414,1437]],["神秘",[1000]],["龙",[414,469,515,576,825,917,1138,1169,1266,1326]],["圣灵",[1203]],["次元",[1333]]];
+      private const exchangeGroups:Array = [["草",[243,387,682,688,722,809,919,982,1060,1100,1132,1144,1145,1146,1190,1191,1192,1198,1199,1202,1216,1233,1271,1299,1300,1344,1345,1374,1375,1428,1429,1468,1469,1476,1495,1497]],["水",[108,289,497,502,615,642,684,729,744,761,814,858,866,872,899,905,960,975,988,1004,1030,1072,1116,1117,1128,1129,1130,1139,1140,1180,1200,1218,1230,1283,1297,1303,1304,1338,1339,1415,1438,1439,1478,1480,1491]],["火",[364,526,598,635,677,740,820,889,922,926,963,991,1017,1018,1019,1088,1150,1152,1174,1178,1179,1201,1205,1206,1237,1238,1259,1298,1322,1323,1376,1377,1425,1454,1456,1485]],["飞行",[521,583,612,618,680,818,864,911,939,969,993,996,1013,1050,1070,1141,1142,1165,1166,1167,1231,1257,1258,1261,1305,1306,1309,1362,1364,1370,1401,1403,1406,1446,1487,1488]],["电",[360,486,503,531,602,644,686,708,734,816,908,984,1108,1207,1208,1211,1285,1295,1355,1356,1380,1448,1449,1462]],["机械",[80,143,201,213,287,362,459,539,541,610,724,807,887,897,1054,1074,1082,1195,1220,1277,1318,1329,1330,1337,1388,1392,1421,1483]],["地面",[62,298,482,560,653,662,789,856,924,951,1024,1078,1079,1096,1118,1119,1120,1121,1135,1143,1159,1228,1235,1236,1246,1255,1267,1307,1311,1324,1325,1346,1349,1359,1367,1394,1430,1440,1457,1465,1481]],["普通",[230,325,328,330,366,383,456,484,567,604,652,718,746,756,878,901,953,986,1028,1067,1103,1123,1148,1186,1241,1301,1347,1378,1417,1461]],["冰",[378,445,448,476,555,562,588,592,637,754,845,936,973,1011,1012,1026,1032,1034,1036,1038,1040,1062,1064,1110,1111,1176,1177,1213,1215,1251,1252,1275,1276,1291,1292,1315,1316,1317,1342,1353,1361,1432,1442,1470]],["超能",[196,246,351,381,416,594,646,694,696,710,829,895,913,930,932,977,1007,1015,1042,1052,1053,1080,1161,1183,1224,1225,1239,1278,1279,1280,1320,1331,1332,1382,1390,1391,1398,1434,1459,1473,1474,1475,4149,4150]],["战斗",[122,124,125,126,141,148,397,432,451,488,580,596,620,648,673,675,736,771,812,868,881,928,956,958,1002,1009,1044,1084,1106,1107,1114,1115,1155,1170,1226,1313,1314,1351,1396,1419,1420,1452,1453,1460,1489,1490,1498,1499]],["光",[219,281,370,461,505,564,590,665,833,857,903,934,971,980,998,1065,1069,1092,1122,1126,1222,1264,1265,1289,1372,1373,1408,1450,1463,1464,1493]],["暗影",[217,506,726,749,794,875,915,944,966,1058,1076,1086,1098,1188,1217,1287,1335,1357,1358,1365,1366,1384,1404,1411,1413,1414,1436,1437]],["神秘",[1000]],["龙",[414,469,515,576,825,917,1137,1138,1163,1168,1169,1266,1326]],["圣灵",[1203]],["次元",[1333]]];
 
       private var exchangePending:Boolean = false;
 
@@ -94,9 +91,6 @@ package com.robot.app.mapProcess
 
       private var exchangePage:uint = 0;
 
-      private var collectionLoader:Loader;
-      private var collectionPanel:DisplayObject;
-      private var collectionButton:Sprite;
       
       public function MapProcess_5()
       {
@@ -164,8 +158,6 @@ package com.robot.app.mapProcess
          this.petbook_btn = conLevel["petBook_btn"];
          ToolTipManager.add(this.petbook_btn,"精灵融合手册");
          this.petbook_btn.addEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
-         this.initColdGun();
-         this.initCollectionGallery();
          this.initTask_95();
       }
       
@@ -217,11 +209,6 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
-         if(this.collectionButton) {
-            this.collectionButton.removeEventListener(MouseEvent.CLICK,this.openCollectionGallery);
-            this.collectionButton = null;
-         }
-         this.clearCollectionGallery();
          SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onPermanentExchange);
          this.petbook_btn.removeEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
          this.petbook_btn = null;
@@ -281,110 +268,6 @@ package com.robot.app.mapProcess
       public function showWeekMon() : void
       {
          WeekMonsterMain.loadMonster();
-      }
-      
-      public function getItem() : void
-      {
-         ProductAction.buyMoneyProduct(200075);
-      }
-
-      private function initColdGun() : void
-      {
-         var btn:Sprite = new Sprite();
-         var label:TextField = new TextField();
-         var format:TextFormat = new TextFormat();
-         btn.graphics.lineStyle(2,9362175);
-         btn.graphics.beginFill(1455168,0.92);
-         btn.graphics.drawRoundRect(0,0,84,26,8,8);
-         btn.graphics.endFill();
-         format.size = 14;
-         format.color = 16777215;
-         label.defaultTextFormat = format;
-         label.text = "寒流枪";
-         label.width = 84;
-         label.height = 22;
-         label.y = 3;
-         label.selectable = false;
-         label.mouseEnabled = false;
-         btn.addChild(label);
-         btn.x = 808;
-         btn.y = 168;
-         btn.buttonMode = true;
-         btn.mouseChildren = false;
-         btn.addEventListener(MouseEvent.CLICK,this.onColdGun);
-         conLevel.addChild(btn);
-         ToolTipManager.add(btn,"240赛尔豆，超能NoNo半价");
-      }
-
-      private function initCollectionGallery():void
-      {
-         this.collectionButton = new Sprite();
-         this.collectionButton.graphics.beginFill(0x53694D);
-         this.collectionButton.graphics.drawRoundRect(0,0,108,30,6,6);
-         this.collectionButton.graphics.endFill();
-         var title:TextField = new TextField();
-         title.defaultTextFormat = new TextFormat("Microsoft YaHei",14,0xFFF4DA,true);
-         title.text = "精灵收藏馆";
-         title.width = 104; title.height = 27; title.x = 5; title.y = 4;
-         title.mouseEnabled = false; title.selectable = false;
-         this.collectionButton.addChild(title);
-         this.collectionButton.x = 788; this.collectionButton.y = 204;
-         this.collectionButton.buttonMode = true;
-         this.collectionButton.mouseChildren = false;
-         this.collectionButton.addEventListener(MouseEvent.CLICK,this.openCollectionGallery);
-         conLevel.addChild(this.collectionButton);
-      }
-
-      private function openCollectionGallery(event:MouseEvent):void
-      {
-         if(this.collectionLoader)return;
-         this.collectionLoader = new Loader();
-         this.collectionLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,this.onCollectionLoaded);
-         this.collectionLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,this.onCollectionLoadError);
-         this.collectionLoader.contentLoaderInfo.addEventListener(SecurityErrorEvent.SECURITY_ERROR,this.onCollectionLoadError);
-         this.collectionLoader.load(new flash.net.URLRequest("/resource/book/petCollection.swf"),
-            new flash.system.LoaderContext(false,new flash.system.ApplicationDomain(flash.system.ApplicationDomain.currentDomain)));
-      }
-
-      private function onCollectionLoaded(event:Event):void
-      {
-         var symbol:Class = this.collectionLoader.contentLoaderInfo.applicationDomain.getDefinition("PetCollectionGallery") as Class;
-         this.collectionPanel = new symbol() as DisplayObject;
-         this.collectionPanel.addEventListener(Event.REMOVED_FROM_STAGE,this.onCollectionClosed);
-         LevelManager.appLevel.addChild(this.collectionPanel);
-      }
-
-      private function onCollectionLoadError(event:Event):void
-      {
-         this.clearCollectionGallery();
-         Alarm.show("收藏馆加载失败，请稍后重试。");
-      }
-
-      private function onCollectionClosed(event:Event):void
-      {
-         if(event.target == this.collectionPanel)this.clearCollectionGallery();
-      }
-
-      private function clearCollectionGallery():void
-      {
-         if(this.collectionPanel) {
-            this.collectionPanel.removeEventListener(Event.REMOVED_FROM_STAGE,this.onCollectionClosed);
-            if(this.collectionPanel.parent)this.collectionPanel.parent.removeChild(this.collectionPanel);
-            this.collectionPanel = null;
-         }
-         if(this.collectionLoader) {
-            this.collectionLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE,this.onCollectionLoaded);
-            this.collectionLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,this.onCollectionLoadError);
-            this.collectionLoader.contentLoaderInfo.removeEventListener(SecurityErrorEvent.SECURITY_ERROR,this.onCollectionLoadError);
-            try { this.collectionLoader.close(); } catch(error:Error) {}
-            this.collectionLoader.unloadAndStop(true);
-            this.collectionLoader = null;
-         }
-      }
-
-      private function onColdGun(param1:MouseEvent) : void
-      {
-         ProductAction.buyMoneyProduct(200075);
       }
       
       private function onDoorClick(param1:MouseEvent) : void

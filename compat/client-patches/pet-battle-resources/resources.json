@@ -1,0 +1,1910 @@
+{
+ "source": "XIN site (http://43.248.3.28:12346/), downloaded 2026-10-22 by exact path; the XIN client builds these paths in ClientConfig.getPetFightPath and getPetHeadPath. Installed under client/overlay.",
+ "checks": "battle: SymbolClass pet with frame labels attack, cp, hited, sa (same as existing battle files); head: SymbolClass item",
+ "files": [
+  {
+   "path": "resource/fightResource/pet/swf/1011.swf",
+   "petId": 1011,
+   "kind": "battle",
+   "bytes": 17760,
+   "sha256": "50a2589c9eb499590d7764f4df5ccb4cf865e19982e2c6211770e19a74d6b70f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1021.swf",
+   "petId": 1021,
+   "kind": "battle",
+   "bytes": 9521,
+   "sha256": "2e9c213a777b486535f70f3b619ea776fb86ccf64daf24d13cc931e2fa5ce6c9"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1022.swf",
+   "petId": 1022,
+   "kind": "battle",
+   "bytes": 10541,
+   "sha256": "b1b7967e3b422dada7f6f357bb620a461fba2df09d1322e6f42d5894704e7b94"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1026.swf",
+   "petId": 1026,
+   "kind": "battle",
+   "bytes": 11343,
+   "sha256": "07c00231b676cbe187ee3e7fc627995184cd891d42b84cd8592b58ca12cb082b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1027.swf",
+   "petId": 1027,
+   "kind": "battle",
+   "bytes": 14595,
+   "sha256": "e8828ec61fe2d29bc43f7e2e8bd3918f1c72f24bda0fdfa31b18813c94bac597"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1031.swf",
+   "petId": 1031,
+   "kind": "battle",
+   "bytes": 17498,
+   "sha256": "75aa5de489128b193ba45dcebe7a77f4be958f7e0dd4d0535a19777bea0d9ad9"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1032.swf",
+   "petId": 1032,
+   "kind": "battle",
+   "bytes": 5953,
+   "sha256": "04bdc8ec30ae7debbcd8ae8ad60afd6d6b2ab1daa16d9fc9a0b6045378f75ec2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1033.swf",
+   "petId": 1033,
+   "kind": "battle",
+   "bytes": 10984,
+   "sha256": "a545e4c98357d7bd83946b4edde13d2d8965925de41846db939fa12ef1b8c126"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1036.swf",
+   "petId": 1036,
+   "kind": "battle",
+   "bytes": 4566,
+   "sha256": "6495ab41ca6673ff675dc60a868f3c653beb51ab4538aaa3a51983fcacfc4539"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1037.swf",
+   "petId": 1037,
+   "kind": "battle",
+   "bytes": 9936,
+   "sha256": "ccb21c03e05c70af8e3878c432c8ba734f4d9d07a51efcd4f7f97ed13bc56f78"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1038.swf",
+   "petId": 1038,
+   "kind": "battle",
+   "bytes": 4645,
+   "sha256": "3281ec9c2b4449c1e933c1a3e462b436f9ab356a4a8967ea39028d0ba9d187fc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1039.swf",
+   "petId": 1039,
+   "kind": "battle",
+   "bytes": 9850,
+   "sha256": "cd4f68f16a77b0ea6ad44e5d810e2145eba34b2c2509a7fdb9694d3b69238bad"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1041.swf",
+   "petId": 1041,
+   "kind": "battle",
+   "bytes": 9543,
+   "sha256": "4e788e4a14f72b288c7cb200399a76329cc43ed106b7aef39f8622a237ad313a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1046.swf",
+   "petId": 1046,
+   "kind": "battle",
+   "bytes": 8991,
+   "sha256": "d41ba9a11310c32fcd6c33d0846f6fe87b05f2758d43b354559f0e72f268e60b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1047.swf",
+   "petId": 1047,
+   "kind": "battle",
+   "bytes": 11425,
+   "sha256": "6108ec68c2d33b5cad6e706732c04b2baadfd93c6d6e4cef4b8c5721e0ae0419"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1048.swf",
+   "petId": 1048,
+   "kind": "battle",
+   "bytes": 15030,
+   "sha256": "e2677546a11cafc8446e08b82f701a80929b051ab19949233a7bdd6223fe67b6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1051.swf",
+   "petId": 1051,
+   "kind": "battle",
+   "bytes": 20319,
+   "sha256": "667dc845976cd873fce221418f2a18c16a9764994891cd52757d1bcdb8bab343"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1052.swf",
+   "petId": 1052,
+   "kind": "battle",
+   "bytes": 15600,
+   "sha256": "c467c244b297ab8a0c53920405e60592d75df839b21c681e421a0ffc83a595fa"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1056.swf",
+   "petId": 1056,
+   "kind": "battle",
+   "bytes": 21620,
+   "sha256": "4b61531e0a9635f9fd56599b9e7eabbe9eacebc32173f1569e4ad2a144a9ba48"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1057.swf",
+   "petId": 1057,
+   "kind": "battle",
+   "bytes": 34308,
+   "sha256": "4c6df431b718d5e1d17fc8681183041a090ce11a716339aedc7228f24ed4ab9a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1058.swf",
+   "petId": 1058,
+   "kind": "battle",
+   "bytes": 10475,
+   "sha256": "a26bd8450385d76b6f50c9406f49f91a37e0f25c3028dd00aada1ebb73b5873a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1059.swf",
+   "petId": 1059,
+   "kind": "battle",
+   "bytes": 16920,
+   "sha256": "e525e53c6ed57b818075c0724f4d95e4b6f758a105dfcae8458cc24d7269071d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1062.swf",
+   "petId": 1062,
+   "kind": "battle",
+   "bytes": 14527,
+   "sha256": "80a47f22b16f952101c71e627188ed37a26aade88e33844788e3f5693ec8f825"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1063.swf",
+   "petId": 1063,
+   "kind": "battle",
+   "bytes": 22772,
+   "sha256": "e789a4026abd8baf39018d2df643c7b75eb8d5c93a85b4b06ffea053ec6cc523"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1065.swf",
+   "petId": 1065,
+   "kind": "battle",
+   "bytes": 10531,
+   "sha256": "67cdea23ffe875a0b9ed9b9ef9045e2c6488e6a50202121d222ebf147a19d245"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1066.swf",
+   "petId": 1066,
+   "kind": "battle",
+   "bytes": 18488,
+   "sha256": "aaf44f3df059cb218a0c19011a52b7e584c2ab94dd054ed1b71add0003ac7e60"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1067.swf",
+   "petId": 1067,
+   "kind": "battle",
+   "bytes": 18687,
+   "sha256": "b354fd552e0bc7a8f4c435860093098b6a9fffc18f66a9029ad75cb0834d0a16"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1068.swf",
+   "petId": 1068,
+   "kind": "battle",
+   "bytes": 26023,
+   "sha256": "0b05a416e334266be5f8de260a1322d5afb82da2dd845b79747c598d4dfbd320"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1070.swf",
+   "petId": 1070,
+   "kind": "battle",
+   "bytes": 16308,
+   "sha256": "95e58edada4156771e2380f6b2c077153c976571baaf9540efd5c93d8dd9066c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1071.swf",
+   "petId": 1071,
+   "kind": "battle",
+   "bytes": 22982,
+   "sha256": "f1c552cddd5e326eb10c64ab8deaaa919f03580fca9f50804dd9905ea7837d0a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1072.swf",
+   "petId": 1072,
+   "kind": "battle",
+   "bytes": 19532,
+   "sha256": "7ce6cf3ebecfdc8c5d79a900afe97fd5b0191ba723cf26a22fcd80dc9a8976cb"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1073.swf",
+   "petId": 1073,
+   "kind": "battle",
+   "bytes": 18592,
+   "sha256": "f6095846757ee3422927144e098e61d7adeef642069baf156ed534e7d74be5c1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1074.swf",
+   "petId": 1074,
+   "kind": "battle",
+   "bytes": 11886,
+   "sha256": "481caaad6f15bdf8b6a90ab0bd6883b84202d21e2596e83c9c68c93512be1cb2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1075.swf",
+   "petId": 1075,
+   "kind": "battle",
+   "bytes": 13738,
+   "sha256": "20c3fe3d922597a03496b100aefd8fd34c94a7cb7857cc6c3ff9f7752d3741eb"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1076.swf",
+   "petId": 1076,
+   "kind": "battle",
+   "bytes": 15152,
+   "sha256": "78d935416388a45096e8641517a3a3d0f5378348425aa51caa2381f61042399a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1077.swf",
+   "petId": 1077,
+   "kind": "battle",
+   "bytes": 22056,
+   "sha256": "55a59158cb801b65fefa87052f330f52a36274915d61d4fe2aa05d6e32b0959b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1078.swf",
+   "petId": 1078,
+   "kind": "battle",
+   "bytes": 12527,
+   "sha256": "78eaa7a792c7208943472afba08de9abc408c0495db7c838080e81699b3eab84"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1082.swf",
+   "petId": 1082,
+   "kind": "battle",
+   "bytes": 30475,
+   "sha256": "e3ac2bbd35c62e4fc5bfd88e674f69fc56e2831bbfae758554b6429ae6bd3ffa"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1083.swf",
+   "petId": 1083,
+   "kind": "battle",
+   "bytes": 29599,
+   "sha256": "facba68e346025dae0a4e0bca66d12dba8cd6d4268359ce33b3b4a6f9c396ac6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1089.swf",
+   "petId": 1089,
+   "kind": "battle",
+   "bytes": 22893,
+   "sha256": "2eb043a1b15344f959da089e497cd723dfbd3a416c86fe82c97b5cdee4fe10ad"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1094.swf",
+   "petId": 1094,
+   "kind": "battle",
+   "bytes": 15449,
+   "sha256": "59af5ec3cc90a07457a40bf72ecb5f29ddf47e535642b28ddea46ed12bb6735f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1095.swf",
+   "petId": 1095,
+   "kind": "battle",
+   "bytes": 28523,
+   "sha256": "d5a168c85ba978dccd94e9e9985cf2ccc296cc738668630a50642e96e55b8e02"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1096.swf",
+   "petId": 1096,
+   "kind": "battle",
+   "bytes": 7333,
+   "sha256": "292fe8fa40ec2d9f1692d62a0662b7873edd18561651415790650aba06555493"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1097.swf",
+   "petId": 1097,
+   "kind": "battle",
+   "bytes": 19594,
+   "sha256": "06c9728519193af0be72af2978170d2b18cd4f8c9c082d317fa4290caf992165"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1101.swf",
+   "petId": 1101,
+   "kind": "battle",
+   "bytes": 26555,
+   "sha256": "a1e26f7cc8234b23540aa1d137e3e7a18ed5ec5b3faaf2ed7fadd9293af720e1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1103.swf",
+   "petId": 1103,
+   "kind": "battle",
+   "bytes": 9161,
+   "sha256": "3725af440ff37b4eb835a8c003250fd4ee164b30fcd4552e49ca0defd0503024"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1104.swf",
+   "petId": 1104,
+   "kind": "battle",
+   "bytes": 15075,
+   "sha256": "0e8bab9dea0137e5a8efba92f968cc43fdf230718d52c2f9d73ae5cb639bc19e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1105.swf",
+   "petId": 1105,
+   "kind": "battle",
+   "bytes": 20366,
+   "sha256": "5777476f267f9d910595de4fafbf89b5e5b4d5134848a72e3a1ac8da530434b2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1106.swf",
+   "petId": 1106,
+   "kind": "battle",
+   "bytes": 8528,
+   "sha256": "e906387f1542cb977f96d11a7cade12f7e315079ec95eebe9d675f603c27b719"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1108.swf",
+   "petId": 1108,
+   "kind": "battle",
+   "bytes": 10687,
+   "sha256": "9fc4d0edf612c0a9739390bcc18946266d4421425c1ea546238d10018c653944"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1109.swf",
+   "petId": 1109,
+   "kind": "battle",
+   "bytes": 27398,
+   "sha256": "b48aa4ab0d4e2c84d2924e81cce0ef3ef6e70db5311ab866828f501440a758bc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1110.swf",
+   "petId": 1110,
+   "kind": "battle",
+   "bytes": 11842,
+   "sha256": "35033a98af2b9b2c4f43f916ecc3533714f1c0042885998dc61d0c491e30e138"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1112.swf",
+   "petId": 1112,
+   "kind": "battle",
+   "bytes": 18085,
+   "sha256": "61f6697600761f91fcdde9c1c477f8b3a6d7e601318519ec0037d4059743be89"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1113.swf",
+   "petId": 1113,
+   "kind": "battle",
+   "bytes": 23297,
+   "sha256": "9e4b6e316ab72603b1ceed56d7a37b5dba036cdf277a9ea65c012a7dd95e52c0"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1114.swf",
+   "petId": 1114,
+   "kind": "battle",
+   "bytes": 32591,
+   "sha256": "584f3ba0f3be528b6b4b201ec314417240843d8dc96ade4f311037d9832f67bf"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1116.swf",
+   "petId": 1116,
+   "kind": "battle",
+   "bytes": 10494,
+   "sha256": "a1541fcec31da165e91e5b0160def996e914dee65a4de603f76e38893b6f7705"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1118.swf",
+   "petId": 1118,
+   "kind": "battle",
+   "bytes": 11266,
+   "sha256": "403060016db4ef1ca97bb12dc8735bbe5889101fc1c16aceae99399878ccfab1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1125.swf",
+   "petId": 1125,
+   "kind": "battle",
+   "bytes": 21233,
+   "sha256": "1b38bddd21e3b5eca172fbb0fd3bbdd6250f64bee5a72884db34a62ddaab3220"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1126.swf",
+   "petId": 1126,
+   "kind": "battle",
+   "bytes": 11465,
+   "sha256": "f4681d2fd422cc7443c907c207f5d47dcbfd11d15e7f43cb53bf256c71fe101c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1127.swf",
+   "petId": 1127,
+   "kind": "battle",
+   "bytes": 18376,
+   "sha256": "a95d047dbf23657eb8d9eb1803f73011b07f21cc8db8fbc048c42a3e86d5f3b0"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1128.swf",
+   "petId": 1128,
+   "kind": "battle",
+   "bytes": 19646,
+   "sha256": "529b496a031284f62a9be9432378463de59d40b6d9ef99f3479f506b7aa9c724"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1130.swf",
+   "petId": 1130,
+   "kind": "battle",
+   "bytes": 9145,
+   "sha256": "c376659feb38834e399e0b43601bb9c0061b6d2002a630aab88acc40e137fb2e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1131.swf",
+   "petId": 1131,
+   "kind": "battle",
+   "bytes": 40508,
+   "sha256": "f2b293352e2c85731edca605a87e9c87988083d8068143530751d30d76e73579"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1136.swf",
+   "petId": 1136,
+   "kind": "battle",
+   "bytes": 22318,
+   "sha256": "7aa6bb6174d4d246745054a396993234bbcde0ee6516427ea67365ba886dc657"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1137.swf",
+   "petId": 1137,
+   "kind": "battle",
+   "bytes": 24365,
+   "sha256": "ecc55087a252949a1d79049b4e26f4498d08fb9ef4fe60663c1ceb5c958939a4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1139.swf",
+   "petId": 1139,
+   "kind": "battle",
+   "bytes": 31178,
+   "sha256": "e6280f0dc5ca8b69573f7aa9f6b6fb83d981de0e11e5f2e66845fe563e3baecc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1141.swf",
+   "petId": 1141,
+   "kind": "battle",
+   "bytes": 22295,
+   "sha256": "652a0da7fadef3f395213ec253a953268f1f6c8f9298c281e1b9b7d278fe3c28"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1144.swf",
+   "petId": 1144,
+   "kind": "battle",
+   "bytes": 17695,
+   "sha256": "f597b30b7fc9b1f266e6f19ffb1c5d91e166d43788127f993e0dd9d0af85b4a5"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1146.swf",
+   "petId": 1146,
+   "kind": "battle",
+   "bytes": 9919,
+   "sha256": "b0e8792fed4323e5e0cf60a76e7be289134ffd6c49f1065d62c6f0d029340d71"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1147.swf",
+   "petId": 1147,
+   "kind": "battle",
+   "bytes": 24125,
+   "sha256": "e23b159801e87db364680d4c09c7e9aafa0887af75254152df3243d8bc9a1d05"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1148.swf",
+   "petId": 1148,
+   "kind": "battle",
+   "bytes": 14257,
+   "sha256": "b679473b554df68ca58af4e2d38fe8ac5c336998cbc7756139fd4092ee4edbcf"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1149.swf",
+   "petId": 1149,
+   "kind": "battle",
+   "bytes": 14113,
+   "sha256": "423cb1b8123897648bd486508f683488a5368649c477f8889590283a60e4a4ba"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1151.swf",
+   "petId": 1151,
+   "kind": "battle",
+   "bytes": 68329,
+   "sha256": "3eb4c81df3208c9687a5f25c4e536dbbfe8ab86355479c0f9b526a8d45ce41aa"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1153.swf",
+   "petId": 1153,
+   "kind": "battle",
+   "bytes": 29155,
+   "sha256": "77867b892a8090b4bc4d2f290521cc1971d773419e00c7be309d03b78f9f6ed2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1156.swf",
+   "petId": 1156,
+   "kind": "battle",
+   "bytes": 51815,
+   "sha256": "2acdbb625405153d99d0f947a9feb78dcb0592aa741b7a5548023d3bab05bbe7"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1158.swf",
+   "petId": 1158,
+   "kind": "battle",
+   "bytes": 33547,
+   "sha256": "fed4dbd557d006d7754bd91c117307706e8445be015081fb1d655e9287fa0a71"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1163.swf",
+   "petId": 1163,
+   "kind": "battle",
+   "bytes": 35626,
+   "sha256": "8b3c626b85b9da88a683fbeaf784c9ac6eb44d556de78061becd1e160287eec4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1164.swf",
+   "petId": 1164,
+   "kind": "battle",
+   "bytes": 48184,
+   "sha256": "d10b587fcf4f7d9f81e48777ab5b7d9bccd263b00926031f88f6aa82c98346de"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1165.swf",
+   "petId": 1165,
+   "kind": "battle",
+   "bytes": 11488,
+   "sha256": "66ac842ae8979d9cfed18f7b907ae2889983544d3cf792a4522e6acc3809b6ce"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1168.swf",
+   "petId": 1168,
+   "kind": "battle",
+   "bytes": 27802,
+   "sha256": "67535033f2ae9e682253b3324ab4974c55d55bfb45e2b9c05a8ec494221513a6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1170.swf",
+   "petId": 1170,
+   "kind": "battle",
+   "bytes": 12735,
+   "sha256": "5c79aef21be1be4118d37797a5e3e0193189171daa459c8d68b6260e85781dd4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1171.swf",
+   "petId": 1171,
+   "kind": "battle",
+   "bytes": 36078,
+   "sha256": "11c22e78311944577b13f83a0f807b92dd78f3135cf72029ae6e3ca133373538"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1172.swf",
+   "petId": 1172,
+   "kind": "battle",
+   "bytes": 26001,
+   "sha256": "3df91476d8a73cc0e6eaeea61bc6d70b065626b49d4bb5b92dd3faa02f30d3f4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1173.swf",
+   "petId": 1173,
+   "kind": "battle",
+   "bytes": 41028,
+   "sha256": "86d2243807ddab50739d55c393fb0a475b1b181e85b2b7108e6805bb026d468c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1174.swf",
+   "petId": 1174,
+   "kind": "battle",
+   "bytes": 23879,
+   "sha256": "c305389e158318e631b6006c4f3d98050bbddfa12d7659b263cad64a6b3487bf"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1175.swf",
+   "petId": 1175,
+   "kind": "battle",
+   "bytes": 37437,
+   "sha256": "11d3f74b7c7aa59cb91a50a4204e70531ae50768c3330bb9c1b2f3755dc8e7b2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1176.swf",
+   "petId": 1176,
+   "kind": "battle",
+   "bytes": 21898,
+   "sha256": "c4e1783604bcfce5b1ce1cdb510248df64685f001e29e300681520827a367b78"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1178.swf",
+   "petId": 1178,
+   "kind": "battle",
+   "bytes": 42410,
+   "sha256": "7ec7528786eb015088187eedcb8a9f3f001437c061469035d3efe85b0be09a03"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1181.swf",
+   "petId": 1181,
+   "kind": "battle",
+   "bytes": 107362,
+   "sha256": "33db7fab35488df2c6d7aa8b7293822f27ef0a3e7233ae9a35c47f4b0367c604"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1184.swf",
+   "petId": 1184,
+   "kind": "battle",
+   "bytes": 88251,
+   "sha256": "2eeab8b1c014efd0a46380fd36b10da6000e5d8ff9af0bdfd80afbe64736e899"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1188.swf",
+   "petId": 1188,
+   "kind": "battle",
+   "bytes": 21927,
+   "sha256": "202d1261d5ede2f1af05842114ca9ab3bcda4e25de403e162bf2966f253a3f85"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1189.swf",
+   "petId": 1189,
+   "kind": "battle",
+   "bytes": 40833,
+   "sha256": "cceab139e20f191f76ab904ede05109cb0d7c173c6b5cf3237cfec9dd9480c2a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1190.swf",
+   "petId": 1190,
+   "kind": "battle",
+   "bytes": 12781,
+   "sha256": "ad46a7b95c30dce9b71ada0a68a882e63a33f545cb42154ad5b9a758841c2dd6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1193.swf",
+   "petId": 1193,
+   "kind": "battle",
+   "bytes": 15463,
+   "sha256": "d8acd099116db89cce22a8276d7652d720809d0021dfe02edce3817c30b4aa2b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1194.swf",
+   "petId": 1194,
+   "kind": "battle",
+   "bytes": 18100,
+   "sha256": "e39ca495a8d22dac06d39a534d22c7e24a65e31b13261c45d876a57d4bf15bd4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1195.swf",
+   "petId": 1195,
+   "kind": "battle",
+   "bytes": 11755,
+   "sha256": "303a1deee4767e9b21af101cb792b517bf533e6b403e31cc3a03f40b7746ac41"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1196.swf",
+   "petId": 1196,
+   "kind": "battle",
+   "bytes": 18643,
+   "sha256": "63c4b0f37e720efe38f01573b6450ffa97e74838200994a6f4ca7c0c9a395d48"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1197.swf",
+   "petId": 1197,
+   "kind": "battle",
+   "bytes": 20017,
+   "sha256": "2d12753efd84c5c0bcaa404ab5be3780eef95a9d13d3c79169c32aa782057328"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1198.swf",
+   "petId": 1198,
+   "kind": "battle",
+   "bytes": 15654,
+   "sha256": "b8930c7ac4e375ddf4ebc9cf76aff198e3a967b8c98a4f4dd7cdaf984b1172d2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1205.swf",
+   "petId": 1205,
+   "kind": "battle",
+   "bytes": 17969,
+   "sha256": "9705f18f2550d957705818b074f47c8eea9de01ef81d5293d2cff087ab14d063"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1207.swf",
+   "petId": 1207,
+   "kind": "battle",
+   "bytes": 14273,
+   "sha256": "4919eec152f4a691f0daff3ee7a775768c8390994a7754adc635a4fc103c6c87"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1209.swf",
+   "petId": 1209,
+   "kind": "battle",
+   "bytes": 7415,
+   "sha256": "bb4a347f0cb44a02a61cc1ca988fb42d09ed073b561c912de8220bf6ffb2ef35"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1210.swf",
+   "petId": 1210,
+   "kind": "battle",
+   "bytes": 12625,
+   "sha256": "4a09e6eb569823449ff659bfcae7e22396ea0a73a72c07bb22ea3625dfd73c35"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1214.swf",
+   "petId": 1214,
+   "kind": "battle",
+   "bytes": 28864,
+   "sha256": "58acf94687dc42c0fdf0acbd474825766fcc9f4fd9e5d9be82d541a678b2e052"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1217.swf",
+   "petId": 1217,
+   "kind": "battle",
+   "bytes": 23592,
+   "sha256": "c03d3a4dd7f36e5fa0ddd9bd01c899e50c9db5f52eca601e3c3fa07d5562d45f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1218.swf",
+   "petId": 1218,
+   "kind": "battle",
+   "bytes": 23836,
+   "sha256": "41bfa1eaf7003a12a49437c5c788928b1121931678cd7f903509cf11563b710a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1219.swf",
+   "petId": 1219,
+   "kind": "battle",
+   "bytes": 28872,
+   "sha256": "a1894d8037d32369b07fac76ee328cc6002240b82c224409cf456f1c0b3a4d1a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1224.swf",
+   "petId": 1224,
+   "kind": "battle",
+   "bytes": 21507,
+   "sha256": "fb36d6ca2ab32db8ec1dc5b528f182c69338198ce8d5255e8c3a1e4df7f270af"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1227.swf",
+   "petId": 1227,
+   "kind": "battle",
+   "bytes": 47967,
+   "sha256": "2c60fbf650e1ad53016670140e115e4d783729b10e2e3fc9a0d0eff0d4dbbfe2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1228.swf",
+   "petId": 1228,
+   "kind": "battle",
+   "bytes": 15179,
+   "sha256": "9e52e259ce66b26a82ce99e0b4ad3ecbd0e3011e875b96e743f56812ad7dd4a4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1232.swf",
+   "petId": 1232,
+   "kind": "battle",
+   "bytes": 23434,
+   "sha256": "fd3ac1184e3d6cae024bb57908925e0ca0ce9dc95b408130fba297791d01e871"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1235.swf",
+   "petId": 1235,
+   "kind": "battle",
+   "bytes": 14147,
+   "sha256": "70a190307f26cf2e39ed3ef43fac8df61e8ae73bf45f8a139c06288d8413e190"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1237.swf",
+   "petId": 1237,
+   "kind": "battle",
+   "bytes": 31181,
+   "sha256": "c8dd3f24a303206fa470a8fbeab5e3c824139cd1ce71b6bd414f358c2fe0aebe"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1243.swf",
+   "petId": 1243,
+   "kind": "battle",
+   "bytes": 10601,
+   "sha256": "8fb7be44d342bf4060cdec89a4e4551f4f38530a0eefdb6d25b3bf635f449223"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1244.swf",
+   "petId": 1244,
+   "kind": "battle",
+   "bytes": 15051,
+   "sha256": "da1e7d697b4eac30e52a340340a243901374293787248b02dcd0a37fdf49aa2c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1246.swf",
+   "petId": 1246,
+   "kind": "battle",
+   "bytes": 12460,
+   "sha256": "1c4abf4faca04b1e8ca8ef6446faead4359062e420a0e655466ea0c1defa2299"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1247.swf",
+   "petId": 1247,
+   "kind": "battle",
+   "bytes": 37713,
+   "sha256": "562f66e7a474a0c9205ef20e9488195eb271b50866b6f102778394d1753053e3"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1249.swf",
+   "petId": 1249,
+   "kind": "battle",
+   "bytes": 18290,
+   "sha256": "047cba7e2ea1a863f1a18a8cea77ac8dc6c3d80d053ceab101562ab37e38d6c1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1251.swf",
+   "petId": 1251,
+   "kind": "battle",
+   "bytes": 13631,
+   "sha256": "82a55b692b8965422bba789ccde4ef2e8e1bdcc669c90c89c4752c80361ca821"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1253.swf",
+   "petId": 1253,
+   "kind": "battle",
+   "bytes": 10099,
+   "sha256": "9670ecb8847384122c74b77c58f1cfc35182c7d07af7bc4f64df5ac48ba840d6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1257.swf",
+   "petId": 1257,
+   "kind": "battle",
+   "bytes": 23187,
+   "sha256": "6b52032938f2c395d1544b8fc5ef6270c422de11f22b81898de46b2d56546599"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1261.swf",
+   "petId": 1261,
+   "kind": "battle",
+   "bytes": 18481,
+   "sha256": "eaf94ed5927f2e326bbb36a882b0c3ad0bdee9ee1f3362f5e4c1c8545fc81988"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1262.swf",
+   "petId": 1262,
+   "kind": "battle",
+   "bytes": 25409,
+   "sha256": "f193d9c6cc872771e27ded9411833f8205260d6dab07a02a635334d5bbb5973d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1263.swf",
+   "petId": 1263,
+   "kind": "battle",
+   "bytes": 47635,
+   "sha256": "3f3f680b630a73c10cd127059242bc70b820034364aa81576aaa699ebee720fc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1264.swf",
+   "petId": 1264,
+   "kind": "battle",
+   "bytes": 8651,
+   "sha256": "79bc061cd14a402063900fe32568fdbb285c2a455b90c860486b4ea026510d0c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1267.swf",
+   "petId": 1267,
+   "kind": "battle",
+   "bytes": 10061,
+   "sha256": "32fcd44e47e166132be147d4282bf0c06a42a4dbbe074fe84e1730622faff68e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1268.swf",
+   "petId": 1268,
+   "kind": "battle",
+   "bytes": 16012,
+   "sha256": "4a7339f14efd967d4a8ae59dd4a8e7f60730979460d8af18d152d495fd49f22f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1269.swf",
+   "petId": 1269,
+   "kind": "battle",
+   "bytes": 21173,
+   "sha256": "de742ea9b2c1399c3b14e12f5de3581b16a96963fbcd002cb152f1749bf7d73b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1270.swf",
+   "petId": 1270,
+   "kind": "battle",
+   "bytes": 31362,
+   "sha256": "ec0db838915a4ae16dd114da1f74995f8fd8dbcc4141064aac3af6eb6eb28963"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1271.swf",
+   "petId": 1271,
+   "kind": "battle",
+   "bytes": 13999,
+   "sha256": "ad7890960cf6a72e5722358615eaf5919bc81dda3b73c85439d70a2f6e31569c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1272.swf",
+   "petId": 1272,
+   "kind": "battle",
+   "bytes": 35948,
+   "sha256": "81c949f8097e0400e533cb1ecc5a34a2338d0089a94400d6bad41af3d8afebbd"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1273.swf",
+   "petId": 1273,
+   "kind": "battle",
+   "bytes": 15505,
+   "sha256": "28f809bc86105e1cf93ae3373a594a074dec5ec732cee060f74b1743eb8e857f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1274.swf",
+   "petId": 1274,
+   "kind": "battle",
+   "bytes": 19749,
+   "sha256": "bcf6e3d17bbb7d73af92a96a90b3a0eb773d071fca8e2a7c265a3b26ca0f837e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1275.swf",
+   "petId": 1275,
+   "kind": "battle",
+   "bytes": 19548,
+   "sha256": "ddda783b4214ee8a2e5923f3d0dfa72d17f6e5310e75d0817034a78b943448aa"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1281.swf",
+   "petId": 1281,
+   "kind": "battle",
+   "bytes": 56153,
+   "sha256": "94b25025792eef5e68e73ca5fd4b4fa2fe4563d0546fc603851952779510d652"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1282.swf",
+   "petId": 1282,
+   "kind": "battle",
+   "bytes": 72211,
+   "sha256": "87a47d3748198b40f542a76749c1e66d27d6f8ad1fc2f96fd33f92ccf906ff8a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1283.swf",
+   "petId": 1283,
+   "kind": "battle",
+   "bytes": 18556,
+   "sha256": "530365a421fc4bea5038ed77f868cfa63f3873ae641ff9d18a6f5d682252d8d1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1284.swf",
+   "petId": 1284,
+   "kind": "battle",
+   "bytes": 21930,
+   "sha256": "7bfca21eabb172b10e0897f8fc9a63974d7da00b4149a52c3f25e09bb9996d98"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1285.swf",
+   "petId": 1285,
+   "kind": "battle",
+   "bytes": 14937,
+   "sha256": "08f0beaf9fae40211717e92b9c8aa6eab41429802bd5cb35783ad4540e651f23"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1286.swf",
+   "petId": 1286,
+   "kind": "battle",
+   "bytes": 21240,
+   "sha256": "9f7f0da5c1d647cfa8a0e95dd59eb81a48b92389b0a686fda7788fb3ae79832b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1291.swf",
+   "petId": 1291,
+   "kind": "battle",
+   "bytes": 15253,
+   "sha256": "fb50d377cc7b9e2c4218aa7c67bf47821af3e74364880a463e621ed443971e7a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1293.swf",
+   "petId": 1293,
+   "kind": "battle",
+   "bytes": 10442,
+   "sha256": "65fc905c041ca7b74f70c7f0e84876e1abbe2d765de6027c90417e8e63f66db8"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1294.swf",
+   "petId": 1294,
+   "kind": "battle",
+   "bytes": 15203,
+   "sha256": "87f2ccc7c56bb1f18593cd43333908315349bf4d6f5e6d0ab53749b16ea9438d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1299.swf",
+   "petId": 1299,
+   "kind": "battle",
+   "bytes": 15297,
+   "sha256": "360c77b88f133d97305b89cd0e49c8eb03dfc8c7a430e7800ff74dcf9bfdb58f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1301.swf",
+   "petId": 1301,
+   "kind": "battle",
+   "bytes": 10343,
+   "sha256": "0c0a3a9037330aa9b7610fcf62b80c507760961f3f625ec086d125342641d533"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1302.swf",
+   "petId": 1302,
+   "kind": "battle",
+   "bytes": 13538,
+   "sha256": "59f484ddbb0495804774ac9ee2877a325e9673abb1e26f538d6abbd2b66d6524"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1303.swf",
+   "petId": 1303,
+   "kind": "battle",
+   "bytes": 9462,
+   "sha256": "46ef5b84abede0a754a740dba261663e17b4083a8bb6a353f13ec679230e1674"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1305.swf",
+   "petId": 1305,
+   "kind": "battle",
+   "bytes": 27332,
+   "sha256": "3ee8a63895428ba8bdf72f36cf0769c8ae1caddb27ff3d256aad44f6f2f59fc2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1307.swf",
+   "petId": 1307,
+   "kind": "battle",
+   "bytes": 21771,
+   "sha256": "cbee6a47314c76bcb2f80973c12c0dce81d7a8994ddfe1496a27fa6a8a3e0f27"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1308.swf",
+   "petId": 1308,
+   "kind": "battle",
+   "bytes": 28906,
+   "sha256": "d3f3351322352b2a44309be831e5f105fa95bf196db39191e831d72a777a67d0"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1309.swf",
+   "petId": 1309,
+   "kind": "battle",
+   "bytes": 10319,
+   "sha256": "ee16c84e89fbdf9605744078a98071740075a38d48669b7756ee627d05cfc895"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1310.swf",
+   "petId": 1310,
+   "kind": "battle",
+   "bytes": 13113,
+   "sha256": "4adcbffe82e92c869baedc4af5a66c507aa82450fe3f78d7c865fd7c8716ff71"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1312.swf",
+   "petId": 1312,
+   "kind": "battle",
+   "bytes": 16747,
+   "sha256": "e194b1a93b1e2836bbaef481f0036268d13708829a3ab198f3f325cf49555d8c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1313.swf",
+   "petId": 1313,
+   "kind": "battle",
+   "bytes": 9019,
+   "sha256": "3b15b75b6d42ac8be02e74b13f69cc85f84dcef7c86a0ed668ed9a37023a7ee2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1315.swf",
+   "petId": 1315,
+   "kind": "battle",
+   "bytes": 29416,
+   "sha256": "4edaa77c7bc7ed023158e63db0e2c7a772b53047afc8de7f691d37f78d09954d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1316.swf",
+   "petId": 1316,
+   "kind": "battle",
+   "bytes": 27933,
+   "sha256": "15a0dff67dfcb1ea96510cedefe77d0bfa5ea19ce166b46d6ddd47adc5b0a6e1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1318.swf",
+   "petId": 1318,
+   "kind": "battle",
+   "bytes": 8402,
+   "sha256": "88e5dca136316850e77560dca1cba3858b4c5e0ff3a1ef82fa37e9ba214f22f0"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1319.swf",
+   "petId": 1319,
+   "kind": "battle",
+   "bytes": 13407,
+   "sha256": "2b560fc809180151ef4171bea713045b4beb1b6a801c36f653feb9e8cc175336"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1320.swf",
+   "petId": 1320,
+   "kind": "battle",
+   "bytes": 41160,
+   "sha256": "b32382fc15c38f2842fff6baafdd6a84cd7c6101507d33970368fa4118fb1f59"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1321.swf",
+   "petId": 1321,
+   "kind": "battle",
+   "bytes": 27421,
+   "sha256": "43a0c6078af25b064fdbfa16ee93e59e00585e6d0586566345be0a949bbec051"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1322.swf",
+   "petId": 1322,
+   "kind": "battle",
+   "bytes": 10741,
+   "sha256": "2d9a0e40a45b08b9edf5893dee9f9ba98296631f2190d4ec9aa15e6ea1208c43"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1324.swf",
+   "petId": 1324,
+   "kind": "battle",
+   "bytes": 8585,
+   "sha256": "41d489f76bc1b23b7e07232d196fd3e20cc514bc05017a27a6d2fda3074fab9c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1329.swf",
+   "petId": 1329,
+   "kind": "battle",
+   "bytes": 6832,
+   "sha256": "97b92e637c63e1473f113825beaf2ef0820cb0e6ab324b73c2bcb82e41976b3e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1331.swf",
+   "petId": 1331,
+   "kind": "battle",
+   "bytes": 8882,
+   "sha256": "c34414751d16f4342c2a043486c95d9847a27dff8c77ce5c2cd9aff979964b97"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1338.swf",
+   "petId": 1338,
+   "kind": "battle",
+   "bytes": 13244,
+   "sha256": "89dac1cde7ed3439288e33b0591080578a0932c8e8ecf6430d52c865fd67f094"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1340.swf",
+   "petId": 1340,
+   "kind": "battle",
+   "bytes": 17001,
+   "sha256": "a0ab37645ac221132cac1a5ea97922a027c02a0d01de53225e12d04e34dd0301"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1341.swf",
+   "petId": 1341,
+   "kind": "battle",
+   "bytes": 20131,
+   "sha256": "6923ae69b9f14fd97577b4f8bc19ff29726e9fdee8f5f6c3b4c4988474cd24d0"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1343.swf",
+   "petId": 1343,
+   "kind": "battle",
+   "bytes": 17895,
+   "sha256": "966a60bbb1ee436cf99161e2f05838fd7a1fa226b42098b2631466e1a418ad42"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1344.swf",
+   "petId": 1344,
+   "kind": "battle",
+   "bytes": 10966,
+   "sha256": "4766d9b327762629729eba9e641f5847d213d4fed4d0790deed564edb79f25e2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1347.swf",
+   "petId": 1347,
+   "kind": "battle",
+   "bytes": 11715,
+   "sha256": "4349428537579fb0fb05a8c5e5ee826cab6bf25d6e39a1d831c895da1dc10bd1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1348.swf",
+   "petId": 1348,
+   "kind": "battle",
+   "bytes": 11605,
+   "sha256": "0d0c6c31dd8c00c044b40f4c900e4cf6f9a13b5e8dff2b454868398e07c69b8b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1349.swf",
+   "petId": 1349,
+   "kind": "battle",
+   "bytes": 7257,
+   "sha256": "fcb3a61764b0d2fc12bb23084e0c5f20ba92e71894351147d0f7190632b46f1a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1350.swf",
+   "petId": 1350,
+   "kind": "battle",
+   "bytes": 17286,
+   "sha256": "07398c83ba1e48757b25d46962965d8d7385e2693903357ab7a497f28b4cd824"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1351.swf",
+   "petId": 1351,
+   "kind": "battle",
+   "bytes": 15239,
+   "sha256": "118d0fb934d2f454704709d19dc1d0d20b610eb1262ae21382d1f618d0adfd7b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1352.swf",
+   "petId": 1352,
+   "kind": "battle",
+   "bytes": 30489,
+   "sha256": "50f60a3e275f51113319eae779b78cfd9554ed520fbb193f8a8f8afc7a80409d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1355.swf",
+   "petId": 1355,
+   "kind": "battle",
+   "bytes": 20838,
+   "sha256": "f4623ec31311307801aa6ff9540c1e82d0b2ba64e0eca86fd55ee12370c2855a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1357.swf",
+   "petId": 1357,
+   "kind": "battle",
+   "bytes": 15293,
+   "sha256": "a791373a8524bfaf1e93a97b76a6f19bac7a4c7e49ee886d0125f75963f27696"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1359.swf",
+   "petId": 1359,
+   "kind": "battle",
+   "bytes": 17283,
+   "sha256": "3466efd3eff86b81b46acdbb3acbfbf2ee2131922bb9d343ecb5f7cea3abff70"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1360.swf",
+   "petId": 1360,
+   "kind": "battle",
+   "bytes": 25429,
+   "sha256": "55a2737823a3a4f34019705aada36c9d6b49328e7a4c376d6988b4643d8eb2f8"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1362.swf",
+   "petId": 1362,
+   "kind": "battle",
+   "bytes": 21941,
+   "sha256": "29d66f27cd063cde10a2738954a83beffa05351f35e6c0e6100b5ab11259aa24"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1363.swf",
+   "petId": 1363,
+   "kind": "battle",
+   "bytes": 32773,
+   "sha256": "3141811e463335e8c4787fe9a4007f80ce812835347c326d890cc16116441c7c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1365.swf",
+   "petId": 1365,
+   "kind": "battle",
+   "bytes": 33632,
+   "sha256": "513dab2470f3d7a22416bb8b91b7cb89437f9d0aad827090c279720e3c45380a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1367.swf",
+   "petId": 1367,
+   "kind": "battle",
+   "bytes": 12979,
+   "sha256": "2e445e35668875662d5f97ee2cbc9944f22298cbafab8c8dee7356560865b729"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1368.swf",
+   "petId": 1368,
+   "kind": "battle",
+   "bytes": 19808,
+   "sha256": "f015b82f8174bc4f8af4890b4d1a98dd632c854f2c5e8d995e18676653ff77d8"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1369.swf",
+   "petId": 1369,
+   "kind": "battle",
+   "bytes": 33825,
+   "sha256": "edbf401a39beb35c6d793d0ef17cb09e2e01a58bc8668310b925f19a9f0172ff"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1370.swf",
+   "petId": 1370,
+   "kind": "battle",
+   "bytes": 21082,
+   "sha256": "d291ffaabb913866ef72b23e7bf50e9f3e3db298a180937ce582f13451f9e3ae"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1371.swf",
+   "petId": 1371,
+   "kind": "battle",
+   "bytes": 28488,
+   "sha256": "677f2c7a645b0ef1a0bb4c66f328a129b6744e506bde5fad6df5f8d56cdc0155"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1372.swf",
+   "petId": 1372,
+   "kind": "battle",
+   "bytes": 13624,
+   "sha256": "8dada0bd77716695f17060f875ae3d741c586446e1c97848865683c9cf5c1e0e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1374.swf",
+   "petId": 1374,
+   "kind": "battle",
+   "bytes": 9326,
+   "sha256": "eb6dbbf99049af7bdcdea42b9573a561fe841e34fb725963f06d64563a7e9574"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1376.swf",
+   "petId": 1376,
+   "kind": "battle",
+   "bytes": 10982,
+   "sha256": "1eca86800c69399ed56661ebfb7821ae0133203edbd16f1dc91ed6efdfa50c38"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1378.swf",
+   "petId": 1378,
+   "kind": "battle",
+   "bytes": 8564,
+   "sha256": "590d192d931deeda69277225cae8b8a430370dd196ea13ac859fae3bfeda3865"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1379.swf",
+   "petId": 1379,
+   "kind": "battle",
+   "bytes": 15593,
+   "sha256": "083092b63dbe14f7cb89b410db74aab479760bd3c1571d34c42eeb2dc31426fd"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1380.swf",
+   "petId": 1380,
+   "kind": "battle",
+   "bytes": 23830,
+   "sha256": "310cf71f2a073fc2ffcc290d97374efd637230925c7eef7690f52b7122ea09e5"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1381.swf",
+   "petId": 1381,
+   "kind": "battle",
+   "bytes": 26199,
+   "sha256": "e326da42ab804162d095588d64fd29ea3a8c53bc34db156e844f95af2c847691"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1382.swf",
+   "petId": 1382,
+   "kind": "battle",
+   "bytes": 16403,
+   "sha256": "a8a2b9c227ae4376e86074b1eca41382d4ab0573d7e2493f623ab54e49b16adc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1383.swf",
+   "petId": 1383,
+   "kind": "battle",
+   "bytes": 23367,
+   "sha256": "9d4dfba93283d28ac1efbcbe281600807ab072918a476f2224267d79be468b92"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1384.swf",
+   "petId": 1384,
+   "kind": "battle",
+   "bytes": 30677,
+   "sha256": "84438e5062c9e383aac62fdee1ad8fb8ec7f883d68a92421ea9114ac969be989"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1385.swf",
+   "petId": 1385,
+   "kind": "battle",
+   "bytes": 35822,
+   "sha256": "58a2d948eee0af97005c39579397f3f68bed4afb7b700d5bc6d7861c4673b2c8"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1386.swf",
+   "petId": 1386,
+   "kind": "battle",
+   "bytes": 8874,
+   "sha256": "5e874a37392fcceb55e9c8ae19ddf14fd8e135845f493ecb96c1794b5ac43c47"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1387.swf",
+   "petId": 1387,
+   "kind": "battle",
+   "bytes": 28033,
+   "sha256": "b178367d37408ab7951b83118ef25c111a2bd10dc13f9d0f8e74f2206310b3a2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1388.swf",
+   "petId": 1388,
+   "kind": "battle",
+   "bytes": 10986,
+   "sha256": "4832c002e2eece134ca996b9f1571ad904840e8db8ff163b78063e93660200cc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1389.swf",
+   "petId": 1389,
+   "kind": "battle",
+   "bytes": 22492,
+   "sha256": "91e737ec816e2738d4dda39c95abf8dd7d8681decb6bb5f9573073311b7aba5a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1390.swf",
+   "petId": 1390,
+   "kind": "battle",
+   "bytes": 12822,
+   "sha256": "01ad631b26c692664ab38b16bd7843d945697470bfd642b0b2a36d2fda2fcf06"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1392.swf",
+   "petId": 1392,
+   "kind": "battle",
+   "bytes": 10348,
+   "sha256": "e01adffbd0b525ecb11eb6d1ba8ff3091a4b46db4c07426d167ea8709328dfd1"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1393.swf",
+   "petId": 1393,
+   "kind": "battle",
+   "bytes": 12620,
+   "sha256": "9d8a513917555b883a33aa1491938bc9ce54c95d330010f8982046dd41f5703a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1399.swf",
+   "petId": 1399,
+   "kind": "battle",
+   "bytes": 42980,
+   "sha256": "7dfffd1bb26a05c3d78599d9f6da3433ed72cf15a23cba8aa482064f23922f83"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1401.swf",
+   "petId": 1401,
+   "kind": "battle",
+   "bytes": 40409,
+   "sha256": "6c56e181466c008de7da3bfce68ae3d4b8f00798c485c5e440dbf90fa8e86a6e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1402.swf",
+   "petId": 1402,
+   "kind": "battle",
+   "bytes": 48494,
+   "sha256": "4706a5ed33037f95c6175e5870a94e29c5013eaa7ff9d8938964eec0c86c187a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1404.swf",
+   "petId": 1404,
+   "kind": "battle",
+   "bytes": 21791,
+   "sha256": "0f005fc68d7c9dc689f5d6945659a2bcd5b085463693260acafeb41e46261cc3"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1405.swf",
+   "petId": 1405,
+   "kind": "battle",
+   "bytes": 27398,
+   "sha256": "fb5456163f8f6bd4fc40f6e8fdc30774f4a7e1c0d767986bc454019178312fc6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1406.swf",
+   "petId": 1406,
+   "kind": "battle",
+   "bytes": 17741,
+   "sha256": "56f421724ec5b0e7450c05e85bcf47a30527a94e5827e8761d41e83f1b134d59"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1407.swf",
+   "petId": 1407,
+   "kind": "battle",
+   "bytes": 43385,
+   "sha256": "7367ab33badfe8450c6168e752de77a5fd25ec5caf3ac47d862633fcff92e52f"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1408.swf",
+   "petId": 1408,
+   "kind": "battle",
+   "bytes": 14538,
+   "sha256": "38d16faffc3cad972b04b1ea3d3f9f58cf47a008e602d51a785f2a37c0453139"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1409.swf",
+   "petId": 1409,
+   "kind": "battle",
+   "bytes": 11376,
+   "sha256": "359adbb1ab4b1217856ce8b0655b0fd94342501e466572eda129fe7f0344bb92"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1410.swf",
+   "petId": 1410,
+   "kind": "battle",
+   "bytes": 20759,
+   "sha256": "75b7c089f51d1b8f8a8ab2a1a811ea66084afc4cf170f47d0296bf0017b0e6db"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1411.swf",
+   "petId": 1411,
+   "kind": "battle",
+   "bytes": 15367,
+   "sha256": "3696a21890782d58084b73efd604ac43a86114a3699a4ec1c03c9965cf7f1a2b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1412.swf",
+   "petId": 1412,
+   "kind": "battle",
+   "bytes": 42103,
+   "sha256": "f6b8b60be16baf2ea984c57a759e46ae862215ff1fd48df04a813835c48bb86b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1413.swf",
+   "petId": 1413,
+   "kind": "battle",
+   "bytes": 6254,
+   "sha256": "61d890cd3e39b86459afe6fdb59916ab941716a5f7c34d34e762f312126871aa"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1415.swf",
+   "petId": 1415,
+   "kind": "battle",
+   "bytes": 13294,
+   "sha256": "74e4ea62a24e535f36152e71a3cd62473e80757a8ca69724e75d907e1933fe0a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1416.swf",
+   "petId": 1416,
+   "kind": "battle",
+   "bytes": 26394,
+   "sha256": "cd84a5edc425e61b92a50bebb243cb8d94eac6cb619cbc6c1f84bfcb81ba0af4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1417.swf",
+   "petId": 1417,
+   "kind": "battle",
+   "bytes": 10820,
+   "sha256": "cab2a70a05fc930da741df7f5bfca99e4be7977a2f344748cfc5e1cd581b61e4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1418.swf",
+   "petId": 1418,
+   "kind": "battle",
+   "bytes": 17884,
+   "sha256": "d5b60775cfa5187b98ddb1c3ae5ff52d98113e73cfc202e7aaef26e04184c549"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1419.swf",
+   "petId": 1419,
+   "kind": "battle",
+   "bytes": 15313,
+   "sha256": "ce6b87b0a6e2959cd77317e18132aa1d53f08dc51fe71d5450a35b0c97704833"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1421.swf",
+   "petId": 1421,
+   "kind": "battle",
+   "bytes": 8383,
+   "sha256": "e4cd12b2b3cd624391220467433ac24abaa01f28537938f74dcaa12750d33d01"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1422.swf",
+   "petId": 1422,
+   "kind": "battle",
+   "bytes": 18063,
+   "sha256": "05234ab75436d52c7054d1f1c31ef810fd14c394b832b71c4ed04a35eac0af3e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1424.swf",
+   "petId": 1424,
+   "kind": "battle",
+   "bytes": 18623,
+   "sha256": "7ca52dd974b7f5da0d1b8072b63ca7dd58903885f8919743d4db7959d366cd67"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1425.swf",
+   "petId": 1425,
+   "kind": "battle",
+   "bytes": 14161,
+   "sha256": "ad054e72236ce66eb7f424c76762232ab80add22a8c9a2f8cd5bd92ffbe842cc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1426.swf",
+   "petId": 1426,
+   "kind": "battle",
+   "bytes": 15997,
+   "sha256": "4d02da161ec02b66efb11a5cbc2b1ae9d137cfac45088be00656458a4c69eda5"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1427.swf",
+   "petId": 1427,
+   "kind": "battle",
+   "bytes": 46750,
+   "sha256": "60a876fc2ccd0ea068fb67738255c02c55ca50c040e1c8af5dca8cae3bbb0cac"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1428.swf",
+   "petId": 1428,
+   "kind": "battle",
+   "bytes": 16507,
+   "sha256": "57bbba2b77ec23c70ee509525b117a64a021347ee552458118be5e2b97162d7e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1430.swf",
+   "petId": 1430,
+   "kind": "battle",
+   "bytes": 15483,
+   "sha256": "61e887dfadf9acb6d7fbcb0022cefba5bfa48f9a28ccc512aaf6973e33f9f055"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1431.swf",
+   "petId": 1431,
+   "kind": "battle",
+   "bytes": 18096,
+   "sha256": "9f8b4ccf928d28bd42129270c4f431c62f3382bb128ab471b028b3b9f9695e1a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1433.swf",
+   "petId": 1433,
+   "kind": "battle",
+   "bytes": 34254,
+   "sha256": "bfd1a0e64a530cc974fb7865ea637df0bf2f2a25d89dfeaaa016b111046a1951"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1434.swf",
+   "petId": 1434,
+   "kind": "battle",
+   "bytes": 17236,
+   "sha256": "8c7f5a8de0fa3a131795af8d96ee2e20a618aaac596fd914f75a28f3725347ee"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1435.swf",
+   "petId": 1435,
+   "kind": "battle",
+   "bytes": 24817,
+   "sha256": "5455ef0efa6adf18093a192da31afb4a59e5095646bd7045719d153ac44fa513"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1436.swf",
+   "petId": 1436,
+   "kind": "battle",
+   "bytes": 9415,
+   "sha256": "09ef38aa79fe053cb1ba71541d5df113a633b7916938b904f24a1b6db0c1d757"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1438.swf",
+   "petId": 1438,
+   "kind": "battle",
+   "bytes": 29362,
+   "sha256": "aaae21185ba227080bfd595b0db8ea01730885c6028f449d7eaecbc5d4d7995e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1441.swf",
+   "petId": 1441,
+   "kind": "battle",
+   "bytes": 17637,
+   "sha256": "0e930d204db4ea3d0f0fc605947e4d4260c9a69dda2845ed3e78471fd3078f80"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1442.swf",
+   "petId": 1442,
+   "kind": "battle",
+   "bytes": 22657,
+   "sha256": "146576e51b5cc5c99f15abe513edaa7916c2e0733e57921e8a2f5e3d6d84166b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1443.swf",
+   "petId": 1443,
+   "kind": "battle",
+   "bytes": 26555,
+   "sha256": "df75963644ff4099acc15c2705bfd0560ef0cd03333e4ec009a4252c859d99a9"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1445.swf",
+   "petId": 1445,
+   "kind": "battle",
+   "bytes": 16373,
+   "sha256": "8f84b820d2db9669da1937bdf09e85b9feb507ebfcb4faaf04c7ba8176b63330"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1448.swf",
+   "petId": 1448,
+   "kind": "battle",
+   "bytes": 24871,
+   "sha256": "060873b2cefd3cf87c28351a347ed673304f46493d589613cf66d4dfcd3e5543"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1452.swf",
+   "petId": 1452,
+   "kind": "battle",
+   "bytes": 17460,
+   "sha256": "22d22cd02f8cb8ca17855f53396ce7ff460a53539af5d193c4d50540b2c6fcae"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1454.swf",
+   "petId": 1454,
+   "kind": "battle",
+   "bytes": 12262,
+   "sha256": "e368578a0ece28070d16e339e208e4564523a4ec5d8838cc1a1ddddba2ba81e6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1455.swf",
+   "petId": 1455,
+   "kind": "battle",
+   "bytes": 18077,
+   "sha256": "c45de0d49abde71b6ed0a01267e040cec1d4e841fffcbd8143efea37ab403b66"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1458.swf",
+   "petId": 1458,
+   "kind": "battle",
+   "bytes": 23660,
+   "sha256": "b39782123005d91948b4383b166db083591a25b320f0946d084b151f387d822a"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1461.swf",
+   "petId": 1461,
+   "kind": "battle",
+   "bytes": 22528,
+   "sha256": "814fd3c9aac8a5a9e34a5c9c8b7e54fd8e9638ac184390cd5f4ada7da8a22ef2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1463.swf",
+   "petId": 1463,
+   "kind": "battle",
+   "bytes": 30071,
+   "sha256": "35f3daf47d5472cc5b50b59146e3c77175ae5850c4ca10ece641d3e836c3444b"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1466.swf",
+   "petId": 1466,
+   "kind": "battle",
+   "bytes": 15801,
+   "sha256": "3c8fba9e32693f14f50461df3d821bded29aa9f0e8006497fe8136dc396744f4"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1467.swf",
+   "petId": 1467,
+   "kind": "battle",
+   "bytes": 24758,
+   "sha256": "7d734d7c0073f1cf314f8301d5592e1aabf538c2d87868795a0487bd19d00b79"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1468.swf",
+   "petId": 1468,
+   "kind": "battle",
+   "bytes": 23977,
+   "sha256": "1b92e695ed763c2ff41a1bd1ff0d3bb20994c80a8ce490a65b4000c27aa902ed"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1470.swf",
+   "petId": 1470,
+   "kind": "battle",
+   "bytes": 16395,
+   "sha256": "cc9d7a09004ce6319237fbfd7e79021bc6291b28c8d4640be1f2d55db7a49869"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1471.swf",
+   "petId": 1471,
+   "kind": "battle",
+   "bytes": 20691,
+   "sha256": "ab63ebf376076f777375551a792327a0c9c76e8309353f50a941dc3a5ea79fb2"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1472.swf",
+   "petId": 1472,
+   "kind": "battle",
+   "bytes": 18998,
+   "sha256": "80d1ae18fccce39106fe4e2fb28859aced85833761022dc78bf1f032e45b51ee"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1474.swf",
+   "petId": 1474,
+   "kind": "battle",
+   "bytes": 17332,
+   "sha256": "b88a5f06b11809a06309c6aaca95c19d3648ae638afbd127d768463a27dbd83e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1476.swf",
+   "petId": 1476,
+   "kind": "battle",
+   "bytes": 14842,
+   "sha256": "4b304ed1355513f6610f7c9fb604487f294ec4bc569a86312cf37e5cb40f088d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1477.swf",
+   "petId": 1477,
+   "kind": "battle",
+   "bytes": 27045,
+   "sha256": "ff0218832de9cac346c4b941c1473b4a1db5a76ec563b47f5b67e9ca8223f160"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1478.swf",
+   "petId": 1478,
+   "kind": "battle",
+   "bytes": 15059,
+   "sha256": "921120d619638fed926e9529b57f5ef0e503f9ca6c862c3271ca03d31ebb5d64"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1479.swf",
+   "petId": 1479,
+   "kind": "battle",
+   "bytes": 14778,
+   "sha256": "6c70f6cbba8295d36ab79b41503cc8f9ae544c92f15c2abd78c89d4f1cd1a955"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1486.swf",
+   "petId": 1486,
+   "kind": "battle",
+   "bytes": 23305,
+   "sha256": "b0c8dd31e8ae2f82c20f06d5c0efde2e2ec148273ba58a2200cd22cd9844f1ee"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1487.swf",
+   "petId": 1487,
+   "kind": "battle",
+   "bytes": 15060,
+   "sha256": "9c1b062d0018d45110faeb36b460c331fa3201d937ed2279d73d3643af41e288"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1489.swf",
+   "petId": 1489,
+   "kind": "battle",
+   "bytes": 14619,
+   "sha256": "c40a1ef0b7969075ab8fcd097daed8ed44835b8e31d574c966d8cce206622ddc"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1491.swf",
+   "petId": 1491,
+   "kind": "battle",
+   "bytes": 21205,
+   "sha256": "a6ff715e3535a49f3de0a9e8d2d9449cdcc104607934969db75312bb9c00082e"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1492.swf",
+   "petId": 1492,
+   "kind": "battle",
+   "bytes": 30498,
+   "sha256": "77a2ab2a04108ed4c905beabc0284a9057a6b5219bd9591f23684ca90e8cfb79"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1493.swf",
+   "petId": 1493,
+   "kind": "battle",
+   "bytes": 16241,
+   "sha256": "948352de6f42b6e77e6341d7ea8fc4330838b94872cdb4c5161e591be8f74d8c"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1494.swf",
+   "petId": 1494,
+   "kind": "battle",
+   "bytes": 32620,
+   "sha256": "c3af0b3535710815983cb7335e7c511bebc035de06031af233ac75e3e4525c6d"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1495.swf",
+   "petId": 1495,
+   "kind": "battle",
+   "bytes": 9569,
+   "sha256": "ce1df0be1f6c20dea3f499eefa8b55a31d62a139a592985e6c63d4284c736aa0"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1496.swf",
+   "petId": 1496,
+   "kind": "battle",
+   "bytes": 11524,
+   "sha256": "7969ed949aca00b85e68174317684f3314ec119a794415274f9b58a8e3f5f7d6"
+  },
+  {
+   "path": "resource/fightResource/pet/swf/1498.swf",
+   "petId": 1498,
+   "kind": "battle",
+   "bytes": 11025,
+   "sha256": "682270a7062a5049e646fefbb23bcbd564247ff37a9c9f478703971ae66c2b2a"
+  },
+  {
+   "path": "resource/pet/head/1281.swf",
+   "petId": 1281,
+   "kind": "head",
+   "bytes": 4501,
+   "sha256": "b595bd53c5d97d3ed573f8e40be85d805fb399722643b9e99716a80f56cf83f0"
+  },
+  {
+   "path": "resource/pet/head/4149.swf",
+   "petId": 4149,
+   "kind": "head",
+   "bytes": 101866,
+   "sha256": "08ba7dcb77c50f70e20d9ff61bf9716da86421369ec23ecdb2c5d3abb27e837c"
+  },
+  {
+   "path": "resource/pet/head/4150.swf",
+   "petId": 4150,
+   "kind": "head",
+   "bytes": 149238,
+   "sha256": "d7d88e29035fc19f64ad5b18e784bde7c82bffd90ab4899ad46984002d0343f0"
+  }
+ ]
+}

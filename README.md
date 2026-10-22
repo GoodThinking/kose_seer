@@ -365,6 +365,37 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 精灵战斗资源补齐（2026-10-22）
+
+图鉴 1498 只里，有 269 只缺战斗资源 `resource/fightResource/pet/swf/<id>.swf`，3 只缺头像 `resource/pet/head/<id>.swf`，共涉及 271 只。
+
+- 其中 211 只因此一直没有来源。
+- 另 60 只本来算能拿到，但一进战斗就缺资源。包括兑换精灵升级后的形态（凯鲁斯、沃斯特、努加达斯等），也包括配在未登记地图上的野怪（列特、森卡尔等）。
+
+**资源**
+- 经用户同意，只下载 XIN 站客户端代码会引用的资源，不扫目录。路径按 `ClientConfig.getPetFightPath`、`getPetHeadPath` 拼出，共 272 个文件。
+- 文件不改内容，放在 `client/overlay/resource/...`。
+- 每个文件的大小和 SHA-256 记在 `compat/client-patches/pet-battle-resources/resources.json`。构建时核对哈希。
+- 构建时还检查格式：战斗文件要有 `pet` 元件和 `attack`、`cp`、`hited`、`sa` 帧标签，与现有战斗文件一致；头像要有 `item` 元件。
+
+**签到兜底**
+- 补齐资源后，仍有 135 只没有来源：131 只基础形态，加上洛拉托兹、寒冰之魂、哈德罗卡、尼可拉。
+- 按「原版地点优先、兑换兜底」，把它们加进实验室博士的「绝版精灵每日签到」名单，按主属性分组。名单从 352 只增到 487 只。
+- 右上角签到面板的 16 只不变。
+- 以后这些精灵恢复原版出处，名单里的条目也保留。
+
+**Core**
+- 只重编 `MapProcess_5` 的签到名单。
+- 10-21 另一会话已把实验室的「精灵收藏馆」「寒流枪」按钮移到工具栏和商店，但没提交进仓库。本次 `MapProcess_5.as` 先删掉这两段，与线上对齐（反编译结果相同，字节只差调试行号），再改名单。
+
+图鉴审计结果：1498 只全部有来源。
+
+```bash
+node scripts/build-pet-resources.cjs --baseline /path/to/captured-live-root --resources /path/to/download-root --out /path/to/release \
+  --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-pet-resources.cjs /path/to/isolated/runtime /path/to/release/manifest.json
+```
+
 ## 裂空星系BOSS挑战入口（2026-10-22）
 
 排查发现卡修斯、德拉萨、迪符特、菲尼克斯在客户端里都点不到：Core 没有 318、445、450、486 的地图脚本；服务端把前三只配在怀特星 484 的 0–2 号，图上也没有入口。SPT 终端「前往挑战」按原版指向 445、486、450、318。本次按原版位置补上入口，地图脚本参照 XIN 站客户端，对白和解封方式按 4399 2011-08 攻略。
