@@ -4,7 +4,8 @@ Usage:
   python3 -I scripts/audit-pet-acquisition.py --core NieoCore.swf --app <captured app root> --out <dir>
       [--wild wild-additions.json] [--exchange-plan <resource-tree.json> <local-resource-list>]
 
-Missing means no path linked by this model; it assumes configured maps and bosses are reachable.
+Missing means no path linked by this model. A wild pool counts only on a map the client registers (MapConfig) and
+draws wild pets on (nine OgreXMLInfo positions); registered maps and configured bosses are assumed reachable.
 --wild evaluates planned encounters before release; --exchange-plan prints the smallest exchange list that
 closes the remaining gaps, limited to pets whose battle and head resources exist.
 """
@@ -69,13 +70,21 @@ def numbers(pattern, text):
     return [int(x) for x in re.findall(r"\d+", match.group(1))] if match else []
 
 
+map_table = core_xml("com.robot.core.manager.map.config.MapConfig_xmlCls")
+registered = set(re.findall(r'<map id="(\d+)"', map_table))
+ogre_table = core_xml("com.robot.core.config.xml.OgreXMLInfo_xmlClass")
+ogre_section = ogre_table[ogre_table.index("<ogre>"):ogre_table.index("</ogre>")]
+drawn = {i for i, p in re.findall(r'<item id="(\d+)" pList="([^"]*)"', ogre_section) if len(p.split("|")) >= 9}
+
+
 def base_sources(extra_wild=(), extra_exchange=()):
     sources, item_sources = collections.defaultdict(set), collections.defaultdict(set)
     give = lambda pid, label: sources[int(pid)].add(label)
     give_item = lambda iid, label: item_sources[int(iid)].add(label)
     for map_id, entry in load("map-ogres.json")["maps"].items():
+        shown = map_id in registered and map_id in drawn
         for ogre in entry.get("ogres", []):
-            if ogre.get("catchable", True) and not ogre.get("isBoss"):
+            if shown and ogre.get("catchable", True) and not ogre.get("isBoss"):
                 give(ogre["petId"], "野外:%s" % map_id)
             for drop in ogre.get("dropItems", []):
                 give_item(drop["itemId"], "野怪掉落:%s" % map_id)

@@ -380,6 +380,47 @@ node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 ```
 
+## 克洛斯星的湿地与野怪显示修复（2026-10-22）
+
+**野怪看不见（修已上线的问题）**
+
+- **原因**：客户端只在 Core 位置表 `OgreXMLInfo` 列了的地图上画野怪，第 i 个槽位站在第 i 个位置，服务端随机占 0–8 号槽。
+- **现象**：16 张图服务端有野怪池、表里没有位置，进图看不到野怪。包括：
+  - 螺旋星系 706/709/712/713/718/925/926（R74）、光明圣坛 9507（R71）；
+  - 麦兹星 494、斯诺星 51、陨石地带 411、戴斯星 435、赫尔卡星荒地 32、闭锁空间 313、拜伦号 314、沃尔夫洞穴 423。
+- **补法**：
+  - `scripts/pick-ogre-positions.py` 按地图碰撞层 `type_mc` 每图选 9 个位置：能走、和出生点连通、离门和出生点远，不压人物和前景。
+  - 选点办法用克洛斯星 10 的原版位置验证过，9 个都落在可走格。
+  - 结果在 `compat/client-patches/wild-positions/positions.json`，复核图由脚本输出。
+- **不补的图**：507 在这版是暗黑武斗场第五扇门，池子是官方编号的光明圣坛，同样的精灵在 9507。
+
+**野怪池在进不去的地图上**
+
+- **现象**：另有 35 张图有野怪池，但客户端地图表没有登记，进不去，例如时空裂缝、菲尔纳星、炫彩山岩、黯夜广场。
+- **影响**：39 只基础形态只在这些池里，梦幻空间 793 的玛尔科也一样。
+- **处理**：按原版地点优先、兑换兜底，这 40 只加进实验室签到名单（487 只增至 527 只），右上角签到面板不变。名单在 `compat/server-patches/safari/sign-in-additions.json`，进化形态随之可得。
+- **统计口径**：`audit-pet-acquisition.py` 以前假定配置里的地图都进得去；现在只把登记过、并且有 9 个位置的地图上的野怪池算作来源。
+- **重新统计**：线上 1373/1498，本版 1498/1498。
+
+**克洛斯星的湿地 550（原版精灵捕猎场，简化版）**
+
+- **原版**（4399 2011-07）：入口在克洛斯星一层上方，交 5000 赛尔豆进场，玩法是钓鱼、摇树、喂食加胶囊捕捉。
+- **简化版**（用户选的）：
+  - 不收豆，不做捕捉模式；捕猎场的精灵按普通野怪刷，进去就能打、能抓。
+  - 地图 1920×1120，镜头用客户端已有的 `CameraController`，可上下左右滚，和赫鲁卡城 461 同款。
+  - `LevelManager` 的横向滚屏对 550 不生效，其他地图的移动不变。
+- **入口**：克洛斯星 10 上方加「克洛斯星湿地」按钮，从左下角进场。湿地进场点旁边有「返回克洛斯星」按钮，回来时站在入口按钮下面。右上角的门原本通往烈焰丛林，这版没有那张图，不开。
+- **场景**：`MapProcess_550` 隐藏捕猎场玩法的物件，包括管理员、精之子、狐狸许愿、钓竿、陷阱、提示箭头、湖怪、传送阵和过场动画。
+- **精灵**：14 种，10–15 级，都低于各自的进化等级。配置在 `compat/server-patches/safari/wetland-pool.json`。
+  - 图鉴写在精灵捕捉场的 4 只：汤尼熊、琳达、福克斯、罗查；
+  - 4399《精灵捕捉场精灵一览》里目前只能从签到领的 10 只：乌普、尤达、约西、布鲁、伶俐鸟、辛诺、邪特、嘟拉、佩希、斯贝拉。
+
+```bash
+python3 -I scripts/pick-ogre-positions.py --client <live client root> --core <NieoCore.swf> --java <java> --ffdec <ffdec.jar> --maps 32,51,... --out positions.json --sheet <dir> --spawn 550=200,1018 --avoid 550=hit_0,glyNPCMc --box 411=0,360,960,500 --box 423=0,300,960,500 --box 9507=0,260,960,500
+node scripts/build-safari.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-safari.cjs /path/to/isolated/runtime /path/to/client-root /path/to/repo
+```
+
 ## 训练师之门（简化版，2026-10-22）
 
 原版（2011-11 至 2012-04，4399 攻略）：
