@@ -57,12 +57,14 @@ let player;
     assert.deepEqual([config.level, config.customHP, config.hint, config.mechanics], [lock.level, lock.customHP, lock.hint, lock.mechanics], lock.boss + ' config');
     if (lock.abilities) assert.deepEqual(config.abilities, lock.abilities, lock.boss + ' abilities');
   }
+  // 不加锁：没有任何钥匙规则（说明文字由 notes.json 另补）
+  const unlocked = config => !['onlyTypes', 'reviveUnlessStatus', 'armorBreak', 'layers', 'boostOnHit', 'onlyMustHit', 'typeSequence'].some(key => key in (config.mechanics || {}));
   const 塔西亚 = BossAbilityConfig.Instance.GetBossConfigByMapAndParam(348, 1);
-  assert.ok(!塔西亚.hint && 塔西亚.mechanics.onPhysicalHitStatus?.status === 6, '塔西亚 stays as it was');
+  assert.ok(unlocked(塔西亚) && 塔西亚.mechanics.onPhysicalHitStatus?.status === 6, '塔西亚 stays as it was');
   const 布莱克 = BossAbilityConfig.Instance.GetBossConfigByMapAndParam(9507, 0).mechanics;
   assert.ok(布莱克.singlePet && 布莱克.onlyTypes.join() === '5,12', '布莱克 keeps one-on-one');
   for (const key of ['419/0', '15/0', '54/0', '105/1', '105/0'])
-    assert.ok(!BossAbilityConfig.Instance.GetBossConfigByMapAndParam(...key.split('/').map(Number)).hint, '盖亚 and 悠悠 stay unlocked: ' + key);
+    assert.ok(unlocked(BossAbilityConfig.Instance.GetBossConfigByMapAndParam(...key.split('/').map(Number))), '盖亚 and 悠悠 stay unlocked: ' + key);
   results.push(`All ${locks.length} locks are on their bosses; 布莱克 keeps one-on-one; 塔西亚, 盖亚 and 悠悠 stay as they were`);
 
   // 回合实验：100 级精灵（体力放大 5 倍免得先倒下）对 BOSS，按给定技能顺序出手，可临时改 BOSS 血量

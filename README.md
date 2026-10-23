@@ -35,6 +35,7 @@
 - **全量 88 只首领档案**：收录帕诺（17只）、卡兰（11只）、罗格（12只）、裂空（5只）、神兽空间（朱雀菲尼克斯、玄武巴斯特、始祖灵兽、远古鱼龙、上古炎兽、谱尼七大封印与真身）、暗黑武斗场全部 22 门首领，以及野外精英首领。
 - **星系分类与状态筛选**：支持按星系统计切换，支持“已击败”印章过滤与“未击败”挑战过滤。
 - **卡片详情与直达传送**：每张首领卡片展示高清精灵头像、等级、血量、所在星球与具体子地图名称，并配备【前往挑战】按钮，点击自动关闭终端并调用 `MapManager` 直达目标星球或副本。
+- 2026-10-23 起列表改为按服务端 BOSS 表生成并显示机制说明，见「全部 BOSS 都有机制」一节。
 
 ## 旧存档经验兼容（2026-10-21，本地已验证，待发布）
 
@@ -378,6 +379,59 @@ node scripts/test-turn-rules.cjs /path/to/isolated/runtime
 node scripts/build-pet-effects.cjs --context /path/with/node_modules-typescript --baseline /path/to/captured-live-root --out /path/to/release
 node scripts/build-boss-designs.cjs --context /path/with/node_modules-typescript --baseline /path/to/captured-live-root --out /path/to/release-runtime-modules
 node scripts/test-pet-effects.cjs /path/to/isolated/runtime
+```
+
+## 全部 BOSS 都有机制，先锋队终端显示机制说明（2026-10-23）
+
+用户要求：包括蘑菇怪在内，所有 BOSS 至少有一条机制，不再一路平推；先锋队终端（SPT）给每只 BOSS 显示机制说明，方便玩家查看。
+
+**新手 BOSS 入门机制（6 只）**
+
+每只只加一条机制，不上锁，并且至少有一只初始精灵能稳赢。模拟条件：单只初始精灵、3 瓶药、该阶段等级，各 100 场，明细见工作区 `outputs/kose-boss-notes-20261023/calibration-newbie.txt`。
+
+| BOSS | 机制 | 初始精灵胜率（原→新） |
+| --- | --- | --- |
+| 依依 | 【轻盈】15% 闪避 | 三系都 100% |
+| 蘑菇怪 | 【毒孢子】用物理攻击打它，出手的精灵 30% 中毒两回合；原有的无限 PP 保留 | 12 级：小火猴 100%，布布种子 14%→3%（14 级起两版都是 100%），伊优 0%（原版也打不动） |
+| 小莹蜂 | 【振翅】出场速度 +2 | 三系都 100% |
+| 达比拉 | 【硬壳】出场防御、特防 +1 | 三系都 100% |
+| 钢牙鲨 | 【嗜血】体力低于三成后，攻击必定暴击 | 27 级：布布草 90%→81%，尤里安 97%→76%，火猴 81%→65% |
+| 里奥斯 | 【不屈】两条命，体力 338→170 | 37 级：巴鲁斯 100%，烈焰猩猩 84%→75%，布布花 25%→8%（被火克，原来就难） |
+
+- 钢牙鲨试过受击加攻击、加防御、低于一半必定暴击，有的初始精灵胜率掉到五成或更低，最后定为三成。
+- 里奥斯满血加一条命太难；体力减半后，两条命的总体力和原来相当。
+
+**其余 BOSS**
+
+原本就有机制、但没有说明的 22 只只补说明，机制不变：尤纳斯、魔狮迪露、哈莫雷特×2、塔西亚、厄尔塞拉、盖亚×4、克拉尼特、菲尼克斯、巨型树妖、悠悠和谱尼八道封印。加上前三批的锁，`boss_abilities.json` 的 98 条配置都有 `hint`，最长 72 字，确认框放得下。挑战前的说明由带锁的 BOSS 扩到全部；暗黑门仍在 `DarkPortalModel` 里按门显示。
+
+**先锋队终端**
+
+- 线上的 `SptPanel.swf`（10-22 部署）比仓库里的源码新。本次先把线上的类反编译回 `compat/client-patches/spt-all-bosses/SptPanel.as`，确认重新编译后与线上一致，再在上面改。
+- BOSS 列表改为构建时生成：来源是服务端 BOSS 表和 Core 内嵌的地图表（地图名、所属星球、星系），共 96 张卡。411 号别名地图的该伊、平时不出现的第四处盖亚不列。
+- 原手写的 73 条里，有 16 只在服务端没有 BOSS 配置，点挑战也打不了，不再列出：劳克蒙德、史密斯、月光兽、朵拉格、肯佩德、猛虎王、谱尼（108）、加鲁德、菲拉斯特、杰洛恩、白虎、奇格萨、火魔至尊、沙恩克、达鲁切尔、赛伯斯特。新增训练师之门 14 只、谱尼八道封印、新手 BOSS 等。
+- 星系标签不变，分组和原来一致；暗黑门按门的顺序排。「前往挑战」：暗黑门直达暗黑武斗场（110，原来是 102），谱尼封印去太空站左翼（108）进勇者之塔，其余去 BOSS 所在地图。
+- 卡片：头像缩到 40，右侧是位置、等级与体力、状态三行，下方是四行机制说明。面板高度由 480 改为 500，才放得下四行。
+- 已击败按 BOSS 表的 `spt.sptId` 读成就，规则不变。
+
+**改动与验证**
+
+- 数据在 `compat/server-patches/boss-locks/notes.json`，构建脚本是 `scripts/build-boss-notes.cjs`：
+  - 把新手机制和说明合进 `boss_abilities.json`，并要求每只 BOSS 都有说明；
+  - 校验 `FightInviteManager` 的提示表、`SptPanel` 的 BOSS 列表与 BOSS 表一致；
+  - 重编两份 Core 的 `FightInviteManager` 和 `SptPanel.swf`，确认只有目标 DoABC 变化。
+- 提示表以后由这个脚本维护；前几批的构建脚本只对应各自的提交。
+- `scripts/test-boss-notes.cjs`（临时 SQLite）：
+  - 98 条都有说明，且不超过 72 字；
+  - 六只新手机制在真实回合里生效：依依闪避、蘑菇怪只对物理攻击放毒、小莹蜂和达比拉出场强化、钢牙鲨三成以下暴击、里奥斯复活一次；
+  - 真实挑战打到带孢子的蘑菇怪和两条命的里奥斯。
+- 前三批测试在新表上重跑通过。第三批测试里「塔西亚、盖亚、悠悠没有说明」改为「没有锁」。
+- 本地真实客户端验证了：打开终端、切星系、四行说明完整显示、已击败卡片与筛选、前往 110/12/17/108，以及新 Core 的挑战提示（训练师之门）。
+- 新手 BOSS 要先打破护罩或解谜（蘑菇怪只吃特定射击道具），所以没有在客户端点出新手 BOSS 的提示；已核对编译后的提示表 73 条与 BOSS 表一致。截图在工作区 `outputs/kose-boss-notes-20261023/screens/`。
+
+```bash
+node scripts/build-boss-notes.cjs --baseline /path/to/captured-live-root --out /path/to/release --java /path/to/java --ffdec /path/to/ffdec.jar
+node scripts/test-boss-notes.cjs /path/to/isolated/runtime /path/to/repo
 ```
 
 ## BOSS 一锁一钥第三批：其余 SPT、神兽、新 BOSS 与前期轻锁（2026-10-23）
