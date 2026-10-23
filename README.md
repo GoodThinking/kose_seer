@@ -11,7 +11,7 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
-## 登录加载器旧统计请求清理（2026-10-23，本地已验证，未发布）
+## 登录加载器旧统计请求清理（2026-10-23，已发布）
 
 维护源码为 `compat/client-patches/login-loader/scripts/Client.as`。线上 `Client.swf` 在登录资源加载成功或失败时请求 `http://www.51seer.com/ip`，仅用于旧测速统计；统计回调甚至没有发出其构造的上报请求。这不是登录服务器发现接口，实际登录仍读取 `config/ServerR.xml` 中的同源 `/ip.txt`，经现有 WebSocket 代理连接游戏服务。
 
@@ -25,7 +25,11 @@
   compat/client-patches/login-loader
 ```
 
-FFDec 26.3.0 编译通过。二进制标签对比仅 `Client` 的 DoABC 标签改变，其余标签保持不变。浏览器仅在本地替换公网页面的 `/Client.swf` 响应，实测开始页、进入登录表单、空账号校验均正常，控制台不再出现旧 IP 请求错误。未提交真实账号、未完成账号认证及战斗验收。原始模块、修复产物与截图位于 `outputs/login-ip-20261023/`；正式服务器尚未替换。
+FFDec 26.3.0 编译通过。二进制标签对比仅 `Client` 的 DoABC 标签改变，其余标签保持不变。本地浏览器替换验证覆盖开始页、进入登录表单及空账号校验，控制台不再出现旧 IP 请求错误。未提交真实账号、未完成账号认证及战斗验收。原始模块、修复产物与截图位于 `outputs/login-ip-20261023/`。
+
+修复提交 `a7b94055a8c87bb7f427fc3b140dc257c73ff6b6` 已合入 `fork/main`，于 2026-10-23 23:48（北京时间）发布。仅原子替换 `/opt/kose-seer/client/overlay/Client.swf`，备份保存在 `/opt/kose-seer/backups/login-ip-20261023T154802Z`。游戏和网页服务 PID 均未变化，原始资源、网页文件及 NONO 核心／战斗模块哈希未变化。
+
+发布后在没有请求替换或诊断脚本的真实公网页面再次确认：开始页、登录表单、空账号提示正常，旧 IP 请求和脚本错误均未出现。公网 `Client.swf` 返回 200，SHA-256 为 `9ad1eabb270b8570628fb7f120cebecbb14ace77bceb4cf3aa03155e8923408d`，与已验证产物一致。
 
 ## NONO 便捷功能、移动与战斗倍速、野怪地点校正（2026-10-23，已发布）
 
