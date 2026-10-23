@@ -11,6 +11,22 @@
 - 只替换这次改到的文件。服务端脚本和客户端 SWF 分开核对。`dist` 里已有、但仓库源码还没有的逻辑，要保留。
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 
+## 登录加载器旧统计请求清理（2026-10-23，本地已验证，未发布）
+
+维护源码为 `compat/client-patches/login-loader/scripts/Client.as`。线上 `Client.swf` 在登录资源加载成功或失败时请求 `http://www.51seer.com/ip`，仅用于旧测速统计；统计回调甚至没有发出其构造的上报请求。这不是登录服务器发现接口，实际登录仍读取 `config/ServerR.xml` 中的同源 `/ip.txt`，经现有 WebSocket 代理连接游戏服务。
+
+本次删除两个旧 IP 统计请求及其专用回调、计时和大小字段，保留资源加载失败时的原始错误。没有修改登录地址、CSP、网页脚本、游戏服务、数据库或战斗倍速。
+
+基于当前线上有效 `Client.swf` 编译：
+
+```bash
+"$JAVA" -Djava.awt.headless=true -jar "$FFDEC" -onerror abort \
+  -importScript /path/to/current/Client.swf /path/to/output/Client.swf \
+  compat/client-patches/login-loader
+```
+
+FFDec 26.3.0 编译通过。二进制标签对比仅 `Client` 的 DoABC 标签改变，其余标签保持不变。浏览器仅在本地替换公网页面的 `/Client.swf` 响应，实测开始页、进入登录表单、空账号校验均正常，控制台不再出现旧 IP 请求错误。未提交真实账号、未完成账号认证及战斗验收。原始模块、修复产物与截图位于 `outputs/login-ip-20261023/`；正式服务器尚未替换。
+
 ## NONO 便捷功能、移动与战斗倍速、野怪地点校正（2026-10-23，已发布）
 
 本轮在独立分支 `feat/nono-experience-20261023`、工作区 `work/nono-experience-20261023` 完成，不覆盖其他会话的工作区。维护源码位于 `compat/client-patches/nono-experience/`、`compat/server-patches/nono-experience/`，构建入口为 `scripts/build-nono-experience.cjs`。
@@ -54,7 +70,7 @@ node scripts/build-nono-experience.cjs \
 
 部署读回确认 14 个文件哈希匹配，迁移 26 与账号设置、队伍预设两张表已生效；游戏服务为 active，端口 9999 可连接，网页服务 PID 未变化。公网核心、战斗、仓库三个 SWF 均返回 200 且哈希匹配，资源版本清单已更新。网页入口及服务脚本哈希保持不变。
 
-公网浏览器在发布前后均出现 `https://www.51seer.com/ip` 加载失败，停留在星空画面。本轮只确认客户端外壳及新版资源加载，未完成线上账号登录和战斗复测，不把隔离环境的功能验证冒充线上验收。该既有登录加载问题未扩大范围修改。发布结果、资源哈希及截图保存在 `outputs/nono-experience-20261023/main-release/`。
+此前公网验收截图停留在星空画面，并同时记录了 `https://www.51seer.com/ip` 加载失败；将两者关联为登录阻塞的判断有误。后续在未修改线上文件的情况下，已确认开始页与登录表单正常显示；源码也确认该请求仅用于旧统计。未完成线上账号认证和战斗复测，不把隔离环境功能验证冒充线上验收。原发布结果、资源哈希及截图保存在 `outputs/nono-experience-20261023/main-release/`。
 
 后续发布仍须抓取最新 `fork/main` 与线上有效覆盖层，以最新 SWF、野怪／产出配置、注册器和迁移列表重建；核对迁移编号及定价，不得使用旧基线整包覆盖其他会话成果。
 
