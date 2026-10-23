@@ -1056,6 +1056,7 @@ node scripts/test-boss-prerequisites.cjs /path/to/isolated/runtime
 - 2026-10-24 补充：超能胶囊 `300007` 的 `Bonus` 同为 `256`，现补入必中列表。原遗漏会使捕捉请求返回 `5001`，在扣除道具之前被拒绝。不改 `VipOnly`，不放开受保护 BOSS、已阵亡精灵或地图配置的捕捉限制。发布时只在现网 `GetPokeBallType` 的必中分支追加 `case 300007:`，保留其他线上逻辑。
 - 胶囊回归：`node scripts/test-super-capsule.cjs <runtime-app>` 覆盖满血必中、BOSS/阵亡/非法道具拒绝及旧无敌胶囊。隔离临时 SQLite 实测真实野怪开战 → `CatchMonsterHandler` → 扣除一颗 → 精灵持久化 → 捕捉回包 `2409` → 战斗结束，未使用玩家账号或线上库存。公网客户端尚未复测。
 - 验证限制：现有 `test-turn-rules.cjs` 在隔离运行时的「巴弗洛 opens with 镇魂歌」断言失败，实际技能 `10502`、预期 `20215`；本次未改该测试或扩修该独立问题，不宣称整套回合回归通过。
+- 发布记录：修复提交 `7b4f47e` 已合入 `fork/main`，现网仅更新 `BattleTurnService.js` 的胶囊映射并重启游戏服务；服务 active、9999 端口就绪，现网文件的专用胶囊回归通过。备份为 `/opt/kose-seer/backups/super-capsule-20261023T175809Z`。Web 服务、客户端资源、物品配置和其余已核对战斗文件未变；未操作玩家数据。
 - 清空六项学习力用的是已有的 300650 全能学习力遗忘剂，使用逻辑本来就有。实验室精灵道具里按 80 赛尔豆出售，和全能学习力注入剂同价。只替换商店目录这一段，不要整文件覆盖 `NieoCore.swf`。
 - 一百倍经验卡、十倍学习力卡、一百倍赛尔豆卡用掉后，服务器会扣数量，但打开着的背包格子不改数字。`BagPanel.applyBoostRemaining` 会按回包里的剩余张数立刻改格子。只替换了 `com.robot.app.bag.BagPanel`。
 
