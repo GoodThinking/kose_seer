@@ -1,0 +1,42 @@
+{
+  "policy": "Preserve co-located evolution forms and the approved map-550 capture field. Correct specific habitats, not planet-name guesses. Keep historical pools on unregistered maps out of navigation. Removed encounters without a working native source remain obtainable through the existing daily laboratory selection, not an invented location.",
+  "legacySource": "https://www.doyo.cn/news/138440.html",
+  "changes": [
+    {"from":10,"pets":[442],"to":12,"reason":"闪光依依出现在克洛斯星第三层，不在草原。","source":"https://news.7k7k.com/content/20110315/75063.html"},
+    {"from":13,"pets":[19],"to":31,"reason":"利利定位赫尔卡星遗迹，不放在克洛斯星地心。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":13,"pets":[480],"to":314,"reason":"埃尔特活动捕捉点属于卡兰星系首层场景；迁至拜伦号入口，不扩增全星系刷新池。","source":"https://news.4399.com/seer/zenmezhua/201105-13-96595.html"},
+    {"from":15,"pets":[406],"to":null,"reason":"沙尔来自沙恩克组队BOSS奖励，不是火山星山脚野怪。","source":"https://news.4399.com/seer/zenmezhua/201105-04-95168.html"},
+    {"from":17,"pets":[335,336,337],"to":16,"reason":"赤甲虫一家位于火山星山洞；保留大小同场，不放到里奥斯所在深处。","source":"https://news.7k7k.com/content/20100514/7443.html"},
+    {"from":20,"pets":[730],"to":21,"reason":"斯比亚在海洋星第二层深水区。保留现有简化捕捉，不新增追逐活动。","source":"https://news.4399.com/seer/zenmezhua/201104-08-92383.html"},
+    {"from":30,"pets":[284,286],"to":31,"reason":"闪光利利及其进化形态同放赫尔卡星遗迹，不放建筑区。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":32,"pets":[13],"to":30,"reason":"比比鼠定位赫尔卡星建筑区，不是荒地。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":32,"pets":[16],"to":11,"reason":"仙人球定位克洛斯星沼泽，不能放在赫尔卡星荒地。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":51,"pets":[941,942,943],"to":null,"reason":"维克是圣祖灵石仪式奖励，不是斯诺星普通野怪。","source":"https://news.4399.com/news/seerwenda/119124.html"},
+    {"from":54,"pets":[854,855],"to":null,"reason":"克迪来自SPT克莱芬精元奖励，不是露希欧星随机野怪。","source":"https://news.4399.com/seer/tujian/105528.htm"},
+    {"from":60,"pets":[430,431],"to":null,"reason":"鲁迪原在荆棘之林；当前客户端63已为月影花园，不能仅凭旧地图ID搬入。","source":"https://news.4399.com/seer/zenmezhua/201105-06-95550.html"},
+    {"from":105,"pets":[650],"to":null,"reason":"吉诺是黑水晶充能、孵化活动来源，不是双子阿尔法温泉野怪。","source":"https://news.4399.com/seer/tujian/85935.htm"},
+    {"from":314,"pets":[128],"to":315,"reason":"波古在神秘空间315，不在拜伦号入口314。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":314,"pets":[136],"to":316,"reason":"卢比在精灵舱316，不在拜伦号入口314。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":316,"pets":[128],"to":315,"reason":"精灵舱不放波古；去重神秘空间的相同遭遇项。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":325,"pets":[528],"to":null,"reason":"乌索来自地下音乐之旅活动，不是艾迪星野怪。","source":"https://news.4399.com/seer/zenmezhua/201105-27-98186.html"},
+    {"from":423,"pets":[105],"to":49,"reason":"丁格定位双子贝塔星荒原，不属于沃尔夫洞穴。","source":"https://seer.61.com/main/spirit/105.html"},
+    {"from":423,"pets":[16],"to":11,"reason":"仙人球定位克洛斯星沼泽，不属于沃尔夫洞穴。","source":"native:MapConfig/PetBookXMLInfo"},
+    {"from":484,"pets":[775,776],"to":445,"reason":"粉粉一家定位炫彩山山脚，不以怀特星总称放在星球入口。保留既有简化捕捉。","source":"https://news.4399.com/seer/zenmezhua/201105-20-97240.html"},
+    {"from":484,"pets":[703],"to":null,"reason":"小可在奶油湾；当前485是精灵学院，不能拿复用ID当奶油湾。","source":"https://news.4399.com/seer/tujian/89698.htm"},
+    {"from":494,"pets":[861,862,863],"to":null,"reason":"小火雀一家来自五行仙境解封挑战，不是麦兹星入口随机野怪。","source":"https://news.4399.com/seer/tujian/106711.htm"},
+    {"from":505,"pets":[720],"to":null,"reason":"505当前是暗黑武斗场第三扇门，不是后期资料中的暮色之城。","source":"native:MapConfig"},
+    {"from":506,"pets":[859,860],"to":null,"reason":"506当前是暗黑武斗场第四扇门，不是后期资料中的邪灵圣殿。","source":"native:MapConfig"},
+    {"from":507,"pets":[859,805],"to":null,"reason":"507当前是暗黑武斗场第五扇门；错误来源不能沿地图改名继续保留。","source":"native:MapConfig"},
+    {"from":9507,"pets":[859,805],"to":null,"reason":"光明圣坛误继承507池；毛球和吉嘟属于格雷斯，不属于光明圣坛。","source":"https://news.4399.com/seer/zenmezhua/201106-17-100529.html"},
+    {"from":926,"pets":[1112],"to":708,"reason":"森卡尔在巨石星黑风崖，不是艾伦星浅滩海岛。","source":"native:PetBookXMLInfo"},
+    {"from":926,"pets":[872,874],"to":null,"reason":"小海牙一家不能因旧29地图池迁移而放入艾伦星；已有实验室获取入口保留。","source":"native:PetBookXMLInfo"}
+  ],
+  "laboratoryAdditions": [406,430,528,650,703,720,805,854,859,861,941],
+  "verifiedRetentions": [
+    {"map":13,"pets":[348],"reason":"小犬苗可通过超时空通道在克洛斯星地心捕捉；保留当前简化遭遇。","source":"https://baike.baidu.com/item/小犬苗/3187912"},
+    {"map":21,"pets":[34],"reason":"保留利牙鱼与钢牙鲨大小同场；不是移动海底的固定BOSS。","source":"user-approved co-located evolution forms"},
+    {"map":925,"pets":[1090,1091],"reason":"吉塔与吉拉克属于巨石岛；不能仅因旧图鉴702而搬走。","source":"https://news.4399.com/gonglue/seer/saiergonglue/201310-09-306630.html"},
+    {"map":926,"pets":[1128],"reason":"塔塔活动入口确在浅滩海岛，保留当前简化捕捉；不套用旧29的错误池。","source":"https://news.4399.com/seer/zenmezhua/201203-16-148422.html"}
+  ],
+  "safeEntries": {"10":10,"11":10,"12":10,"13":10,"15":15,"16":15,"17":15,"20":20,"21":20,"22":20,"25":25,"26":25,"27":25,"30":30,"31":30,"32":30,"36":30,"40":40,"41":40,"43":43,"46":46,"47":47,"48":47,"49":47,"51":51,"52":51,"54":54,"55":54,"56":54,"57":57,"58":57,"60":60,"61":60,"62":60,"64":64,"105":105,"106":105,"314":314,"315":314,"316":314,"325":325,"326":325,"327":325,"328":328,"330":328,"331":328,"404":404,"411":411,"423":404,"424":424,"425":425,"429":429,"434":434,"435":435,"437":437,"438":437,"439":439,"445":484,"446":484,"447":484,"448":484,"449":484,"459":459,"476":497,"481":481,"484":484,"486":484,"494":494,"495":494,"496":494,"497":497,"550":10,"704":925,"706":925,"708":925,"709":925,"712":925,"713":925,"717":925,"718":925,"721":926,"725":926,"731":926,"732":926,"925":925,"926":926}
+}
