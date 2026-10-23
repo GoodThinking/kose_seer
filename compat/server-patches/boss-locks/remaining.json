@@ -1,0 +1,613 @@
+{
+ "description": "一锁一钥第三批：其余 SPT、神兽和新 BOSS，加前期 BOSS 的轻锁。盖亚×4 的周几条件、塔西亚的物理受击害怕、悠悠的自我净化本身就是机制，不加锁；布莱克保留一对一再加属性护盾。规则同 dark-portal.json：mechanics 整体替换，abilities 不写时保留。前期 BOSS 只降不加血量。",
+ "locks": [
+  {
+   "boss": "348/0",
+   "petName": "塔克林",
+   "lock": "强化压制",
+   "level": 78,
+   "customHP": 3000,
+   "mechanics": {
+    "startStages": [
+     1,
+     2,
+     1,
+     2,
+     1,
+     0
+    ],
+    "boostOnHit": {
+     "stats": [
+      0,
+      2
+     ],
+     "max": 6
+    },
+    "statDownImmune": true,
+    "ohkoImmune": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【强化压制】塔克林出场能力提升，每受一次攻击，攻击和特攻再升1级；不会被降能力或秒杀，只能用消强技能清掉强化，也不会陷入异常。"
+  },
+  {
+   "boss": "348/3",
+   "petName": "塞维尔",
+   "lock": "属性护盾",
+   "level": 80,
+   "customHP": 4000,
+   "mechanics": {
+    "onlyTypes": [
+     11,
+     15
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】塞维尔只受战斗系、龙系技能的伤害，也不会陷入异常状态。",
+   "abilities": [
+    2010
+   ]
+  },
+  {
+   "boss": "59/0",
+   "petName": "远古鱼龙",
+   "lock": "属性护盾",
+   "level": 85,
+   "customHP": 10000,
+   "mechanics": {
+    "onlyTypes": [
+     1,
+     5
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】远古鱼龙只受草系、电系技能的伤害，也不会陷入异常状态。",
+   "abilities": [
+    {
+     "id": 1905
+    }
+   ]
+  },
+  {
+   "boss": "16/0",
+   "petName": "上古炎兽",
+   "lock": "属性护盾",
+   "level": 85,
+   "customHP": 6500,
+   "mechanics": {
+    "onlyTypes": [
+     2,
+     7
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ],
+    "onPhysicalHitStatus": {
+     "status": 2,
+     "chance": 30,
+     "turns": 3
+    }
+   },
+   "hint": "【属性护盾】上古炎兽只受水系、地面系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "13/0",
+   "petName": "始祖灵兽",
+   "lock": "异常破绽",
+   "level": 85,
+   "customHP": 8000,
+   "mechanics": {
+    "reviveUnlessStatus": [
+     2
+    ],
+    "statusImmune": [
+     0,
+     1,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     16
+    ],
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【异常破绽】始祖灵兽只有烧伤时才能被击倒，否则满血复活。烧伤技能必定命中它，烧伤持续两回合，之后一回合不会再烧伤；不会陷入其他异常。"
+  },
+  {
+   "boss": "331/0",
+   "petName": "冰洛伏特",
+   "lock": "顺序破防",
+   "level": 85,
+   "customHP": 2000,
+   "mechanics": {
+    "typeSequence": [
+     3,
+     6
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【顺序破防】冰洛伏特只受火系、机械系技能按顺序轮流命中的伤害，打错属性不掉血；它不会陷入异常状态。"
+  },
+  {
+   "boss": "405/0",
+   "petName": "罗德利斯",
+   "lock": "异常破绽",
+   "level": 80,
+   "customHP": 2200,
+   "mechanics": {
+    "reviveUnlessStatus": [
+     5
+    ],
+    "statusImmune": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     16
+    ],
+    "immune": [
+     "sameLifeDeath"
+    ],
+    "extraLives": 1
+   },
+   "hint": "【异常破绽】罗德利斯有两条命，都只有冻伤时才能被击倒，否则满血复活。冻伤技能必定命中它，冻伤持续两回合，之后一回合不会再冻伤；不会陷入其他异常。"
+  },
+  {
+   "boss": "405/1",
+   "petName": "迪尔科特",
+   "lock": "疾风之躯",
+   "level": 80,
+   "customHP": 4000,
+   "mechanics": {
+    "onlyMustHit": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【疾风之躯】迪尔科特只会被必中技能命中，也不会陷入异常状态。"
+  },
+  {
+   "boss": "438/0",
+   "petName": "墨杜萨",
+   "lock": "属性护盾",
+   "level": 85,
+   "customHP": 9000,
+   "mechanics": {
+    "onlyTypes": [
+     12,
+     13
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ],
+    "lowHpCritPercent": 50
+   },
+   "hint": "【属性护盾】墨杜萨只受光系、暗影系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "401/1",
+   "petName": "巴斯特",
+   "lock": "坚甲",
+   "level": 85,
+   "customHP": 4500,
+   "mechanics": {
+    "armorBreak": "both",
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【坚甲】巴斯特只有在防御和特防都被降低时才会受到伤害，也不会陷入异常状态。",
+   "abilities": []
+  },
+  {
+   "boss": "430/0",
+   "petName": "亚伦斯",
+   "lock": "异常破绽",
+   "level": 80,
+   "customHP": 3000,
+   "mechanics": {
+    "reviveUnlessStatus": [
+     0
+    ],
+    "statusImmune": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     13,
+     15,
+     16
+    ],
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【异常破绽】亚伦斯只有麻痹时才能被击倒，否则满血复活。麻痹技能必定命中它，麻痹持续两回合，之后一回合不会再麻痹；不会陷入其他异常。",
+   "abilities": []
+  },
+  {
+   "boss": "415/0",
+   "petName": "该伊",
+   "lock": "疾风之躯",
+   "level": 80,
+   "customHP": 7000,
+   "mechanics": {
+    "onlyMustHit": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【疾风之躯】该伊只会被必中技能命中，也不会陷入异常状态。"
+  },
+  {
+   "boss": "411/0",
+   "petName": "该伊",
+   "lock": "疾风之躯",
+   "level": 80,
+   "customHP": 7000,
+   "mechanics": {
+    "onlyMustHit": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【疾风之躯】该伊只会被必中技能命中，也不会陷入异常状态。"
+  },
+  {
+   "boss": "414/0",
+   "petName": "伊特",
+   "lock": "属性护盾",
+   "level": 80,
+   "customHP": 10000,
+   "mechanics": {
+    "onlyTypes": [
+     3,
+     4
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】伊特只受火系、飞行系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "445/0",
+   "petName": "卡修斯",
+   "lock": "多层护甲",
+   "level": 80,
+   "customHP": 4500,
+   "mechanics": {
+    "layers": 3,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【多层护甲】卡修斯有3层护甲：每段攻击打掉1层，打光前不受伤害，每回合恢复1层；连续攻击一次能打掉多层。不会陷入异常。"
+  },
+  {
+   "boss": "486/0",
+   "petName": "德拉萨",
+   "lock": "属性护盾",
+   "level": 85,
+   "customHP": 8000,
+   "mechanics": {
+    "onlyTypes": [
+     11,
+     15
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】德拉萨只受战斗系、龙系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "450/0",
+   "petName": "迪符特",
+   "lock": "多层护甲",
+   "level": 85,
+   "customHP": 3500,
+   "mechanics": {
+    "layers": 4,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【多层护甲】迪符特有4层护甲：每段攻击打掉1层，打光前不受伤害，每回合恢复1层；连续攻击一次能打掉多层。不会陷入异常。"
+  },
+  {
+   "boss": "495/0",
+   "petName": "斯普林特",
+   "lock": "异常破绽",
+   "level": 80,
+   "customHP": 2500,
+   "mechanics": {
+    "reviveUnlessStatus": [
+     8
+    ],
+    "statusImmune": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     9,
+     10,
+     11,
+     13,
+     15,
+     16
+    ],
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【异常破绽】斯普林特只有睡眠时才能被击倒，否则满血复活。睡眠技能必定命中它，睡眠持续两回合，之后一回合不会再睡眠；不会陷入其他异常。"
+  },
+  {
+   "boss": "932/0",
+   "petName": "缪斯",
+   "lock": "顺序破防",
+   "level": 80,
+   "customHP": 2500,
+   "mechanics": {
+    "typeSequence": [
+     12,
+     13
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【顺序破防】缪斯只受光系、暗影系技能按顺序轮流命中的伤害，打错属性不掉血；它不会陷入异常状态。"
+  },
+  {
+   "boss": "733/0",
+   "petName": "芙洛",
+   "lock": "疾风之躯",
+   "level": 75,
+   "customHP": 7000,
+   "mechanics": {
+    "onlyMustHit": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【疾风之躯】芙洛只会被必中技能命中，也不会陷入异常状态。"
+  },
+  {
+   "boss": "9507/0",
+   "petName": "布莱克",
+   "lock": "属性护盾",
+   "level": 70,
+   "customHP": 3000,
+   "mechanics": {
+    "startStages": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "singlePet": true,
+    "onlyTypes": [
+     5,
+     12
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】布莱克只受电系、光系技能的伤害，也不会陷入异常状态。只能派一只精灵出战。"
+  },
+  {
+   "boss": "40/0",
+   "petName": "阿克希亚",
+   "lock": "属性护盾",
+   "level": 65,
+   "customHP": 600,
+   "mechanics": {
+    "onlyTypes": [
+     3,
+     11
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】阿克希亚只受火系、战斗系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "27/0",
+   "petName": "提亚斯",
+   "lock": "疾风之躯",
+   "level": 50,
+   "customHP": 500,
+   "mechanics": {
+    "onlyMustHit": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【疾风之躯】提亚斯只会被必中技能命中，也不会陷入异常状态。"
+  },
+  {
+   "boss": "10/0",
+   "petName": "闪光波克尔",
+   "lock": "疾风之躯",
+   "level": 80,
+   "customHP": 2000,
+   "mechanics": {
+    "onlyMustHit": true,
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【疾风之躯】闪光波克尔只会被必中技能命中，也不会陷入异常状态。"
+  },
+  {
+   "boss": "34/0",
+   "petName": "果冻鸭",
+   "lock": "属性护盾",
+   "level": 45,
+   "customHP": 1500,
+   "mechanics": {
+    "onlyTypes": [
+     1,
+     5
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】果冻鸭只受草系、电系技能的伤害，也不会陷入异常状态。",
+   "abilities": []
+  },
+  {
+   "boss": "310/0",
+   "petName": "果冻鸭",
+   "lock": "属性护盾",
+   "level": 45,
+   "customHP": 1500,
+   "mechanics": {
+    "onlyTypes": [
+     1,
+     5
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】果冻鸭只受草系、电系技能的伤害，也不会陷入异常状态。",
+   "abilities": []
+  },
+  {
+   "boss": "106/0",
+   "petName": "纳多雷",
+   "lock": "坚甲",
+   "level": 70,
+   "customHP": 900,
+   "mechanics": {
+    "armorBreak": "any",
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【坚甲】纳多雷只有在防御或特防被降低时才会受到伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "32/0",
+   "petName": "雷伊",
+   "lock": "属性护盾",
+   "level": 70,
+   "customHP": 2800,
+   "mechanics": {
+    "onlyTypes": [
+     7
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】雷伊只受地面系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "49/0",
+   "petName": "雷纳多",
+   "lock": "属性护盾",
+   "level": 75,
+   "customHP": 1000,
+   "mechanics": {
+    "onlyTypes": [
+     3,
+     7,
+     11
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ]
+   },
+   "hint": "【属性护盾】雷纳多只受火系、地面系、战斗系技能的伤害，也不会陷入异常状态。"
+  },
+  {
+   "boss": "325/0",
+   "petName": "奈尼芬多",
+   "lock": "属性护盾",
+   "level": 60,
+   "customHP": 2500,
+   "mechanics": {
+    "onlyTypes": [
+     12,
+     13
+    ],
+    "statusImmune": true,
+    "immune": [
+     "sameLifeDeath"
+    ],
+    "statDownImmune": true
+   },
+   "hint": "【属性护盾】奈尼芬多只受光系、暗影系技能的伤害，也不会陷入异常状态。"
+  }
+ ]
+}

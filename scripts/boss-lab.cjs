@@ -1,5 +1,5 @@
 'use strict';
-// BOSS difficulty lab: a team of level-100 pets (DV 31, 252 HP and main-attack EV) fights a boss N times through the real
+// BOSS difficulty lab: a team of pets (level 100 unless LEVEL is set; DV 31, 252 HP and main-attack EV) fights a boss N times through the real
 // turn pipeline of an isolated runtime copy (no database or network). Used to calibrate lock-and-key bosses.
 // Usage: node scripts/boss-lab.cjs <runtime app dir with dist/config/node_modules> <map/param2> [fights]
 // env:
@@ -15,6 +15,7 @@
 //          musthit      only sure-hit attacks; a pet without one is switched out
 //          sequence:1,5 only the type the boss currently needs; a pet without it is switched out
 //   POTIONS=n           特级体力药剂 (heals 200, the boss still acts) when below 55%
+//   LEVEL=n             team level (default 100); pets only carry moves learnt by then
 //   BOSS_PATCH={"map/param2": {...}}  shallow-merged into the boss config before the fights
 //   DEBUG=1             print the first fight turn by turn
 const path = require('node:path');
@@ -78,6 +79,7 @@ const load = file => require(path.join(app, 'dist', file));
   const mustHit = sid => String(GameConfig.GetSkillById(sid).MustHit) === '1' && isAttack(sid);
 
   const team = (process.env.TEAM || '70,261,216,421,300,413').split(',').map(Number);
+  const level = Number(process.env.LEVEL || 100);
   const policy = process.env.POLICY || 'greedy';
   const [mode, modeArg] = policy.split(':');
   const allowed = mode === 'types' ? modeArg.split(',').map(Number) : null;
@@ -101,7 +103,7 @@ const load = file => require(path.join(app, 'dist', file));
   };
   const kit = id => {
     const moves = GameConfig.GetPetById(id).LearnableMoves?.Move || [];
-    const all = moves.map(x => +(x.ID || x.id)).filter(sid => GameConfig.GetSkillById(sid));
+    const all = moves.filter(x => +(x.LearningLv || 0) <= level).map(x => +(x.ID || x.id)).filter(sid => GameConfig.GetSkillById(sid));
     if (mode === 'status' && keyStatus === null) {
       const status = all.filter(statusSkill).sort((p, q) => statusSkill(q) - statusSkill(p))[0];
       return [...new Set([...(status ? [status] : []), ...all.slice(-5)])].slice(0, 6);
@@ -120,10 +122,10 @@ const load = file => require(path.join(app, 'dist', file));
   const member = id => {
     const cfg = GameConfig.GetPetById(id);
     const main = (cfg.Atk || 0) >= (cfg.SpAtk || 0) ? 'attack' : 'spAtk';
-    const stat = (name, ev) => PetCalculator.CalculateStat(id, name, 100, 31, ev, 0);
-    const hp = PetCalculator.CalculateHP(id, 100, 31, 252);
-    const s = init.CalculateEnemyStats(cfg, 100);
-    const pet = init.BuildBattlePet(id, cfg.DefName, 100, s.hp, s.maxHp, s.attack, s.defence, s.spAtk, s.spDef, s.speed, cfg.Type || 0, kit(id), 1700000000 + id, 0);
+    const stat = (name, ev) => PetCalculator.CalculateStat(id, name, level, 31, ev, 0);
+    const hp = PetCalculator.CalculateHP(id, level, 31, 252);
+    const s = init.CalculateEnemyStats(cfg, level);
+    const pet = init.BuildBattlePet(id, cfg.DefName, level, s.hp, s.maxHp, s.attack, s.defence, s.spAtk, s.spDef, s.speed, cfg.Type || 0, kit(id), 1700000000 + id, 0);
     return Object.assign(pet, {hp, maxHp: hp, attack: stat('atk', main === 'attack' ? 252 : 0), defence: stat('def', 0),
       spAtk: stat('spAtk', main === 'spAtk' ? 252 : 0), spDef: stat('spDef', 0), speed: stat('speed', 0)});
   };
@@ -211,6 +213,6 @@ const load = file => require(path.join(app, 'dist', file));
     }
     turnsTotal += t;
   }
-  console.log(`${key} ${config.petName} Lv${config.level} HP${config.customHP} [${policy}${process.env.TEAM ? ' team ' + process.env.TEAM : ''}${process.env.POTIONS ? ' potions ' + process.env.POTIONS : ''}]: ` +
+  console.log(`${key} ${config.petName} Lv${config.level} HP${config.customHP} [${policy}${process.env.TEAM ? ' team ' + process.env.TEAM : ''}${process.env.POTIONS ? ' potions ' + process.env.POTIONS : ''}${level !== 100 ? ' Lv' + level : ''}]: ` +
     `win ${Math.round(wins * 100 / fights)}%  avg turns ${(turnsTotal / fights).toFixed(1)}  pets lost/fight ${(petsLost / fights).toFixed(1)}`);
 })().catch(e => { console.error(e); process.exit(1); });
