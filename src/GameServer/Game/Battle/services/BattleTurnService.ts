@@ -344,7 +344,7 @@ export class BattleTurnService {
   /**
    * 将胶囊物品ID转换为精灵球类型
    * 300001=普通, 300002=中级, 300003=高级, 300004=超级, 300005=大师球。
-   * 无敌精灵胶囊 Bonus=256，和大师球一样必中。其他未列出的胶囊不捕捉。
+   * 无敌精灵胶囊、超能胶囊 Bonus=256，和大师球一样必中。其他未列出的胶囊不捕捉。
    */
   private GetPokeBallType(capsuleID: number): PokeBallType | undefined {
     switch (capsuleID) {
@@ -358,6 +358,7 @@ export class BattleTurnService {
         return PokeBallType.SUPER;
       case 300005:
       case 300006:
+      case 300007:
       case 300010:
       case 300658:
       case 300726:

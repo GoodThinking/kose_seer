@@ -1053,6 +1053,9 @@ node scripts/test-boss-prerequisites.cjs /path/to/isolated/runtime
 - 勇者之塔「开始挑战」发的是 2414。以前没有处理，所以点了没反应。现在 2414 按当前层返回对手并进入地图 500，2415 开战，2416 离开。1–60 层对手和等级按经典版攻略；客户端最高 80 层，61–80 层沿用 51–60 层阵容。首次通关第 N 层给 N×10 赛尔豆。层数记在 `players.cur_stage` / `max_stage`。
 - 线上 `BattleManager.js` 只加了 `StartBraveTowerBattle`，以及胜利结算里对 `battle.braveTowerFloor` 的一行调用，挨着试炼之塔。不要整文件覆盖 `BattleManager.js`。
 - 无敌精灵胶囊 300006（以及 300010、300658、300726）的 Bonus 是 256，按必中处理。其他没列出的胶囊仍然不能捕捉。只改 `GetPokeBallType`，不要整文件覆盖 `BattleTurnService.js`。
+- 2026-10-24 补充：超能胶囊 `300007` 的 `Bonus` 同为 `256`，现补入必中列表。原遗漏会使捕捉请求返回 `5001`，在扣除道具之前被拒绝。不改 `VipOnly`，不放开受保护 BOSS、已阵亡精灵或地图配置的捕捉限制。发布时只在现网 `GetPokeBallType` 的必中分支追加 `case 300007:`，保留其他线上逻辑。
+- 胶囊回归：`node scripts/test-super-capsule.cjs <runtime-app>` 覆盖满血必中、BOSS/阵亡/非法道具拒绝及旧无敌胶囊。隔离临时 SQLite 实测真实野怪开战 → `CatchMonsterHandler` → 扣除一颗 → 精灵持久化 → 捕捉回包 `2409` → 战斗结束，未使用玩家账号或线上库存。公网客户端尚未复测。
+- 验证限制：现有 `test-turn-rules.cjs` 在隔离运行时的「巴弗洛 opens with 镇魂歌」断言失败，实际技能 `10502`、预期 `20215`；本次未改该测试或扩修该独立问题，不宣称整套回合回归通过。
 - 清空六项学习力用的是已有的 300650 全能学习力遗忘剂，使用逻辑本来就有。实验室精灵道具里按 80 赛尔豆出售，和全能学习力注入剂同价。只替换商店目录这一段，不要整文件覆盖 `NieoCore.swf`。
 - 一百倍经验卡、十倍学习力卡、一百倍赛尔豆卡用掉后，服务器会扣数量，但打开着的背包格子不改数字。`BagPanel.applyBoostRemaining` 会按回包里的剩余张数立刻改格子。只替换了 `com.robot.app.bag.BagPanel`。
 
