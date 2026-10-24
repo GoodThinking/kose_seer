@@ -1,0 +1,908 @@
+{
+  "moves": [
+    {
+      "ID": "10006",
+      "Url": "normal_1",
+      "Name": "抓",
+      "Type": "8",
+      "Power": "40",
+      "Accuracy": "100",
+      "CD": "1958",
+      "Category": "1",
+      "MaxPP": "35"
+    },
+    {
+      "ID": "10010",
+      "SideEffectArg": "5",
+      "Name": "放电",
+      "Url": "bolt_2",
+      "SideEffect": "10",
+      "Type": "5",
+      "Power": "80",
+      "Accuracy": "100",
+      "CD": "1708",
+      "Category": "2",
+      "MaxPP": "15"
+    },
+    {
+      "ID": "10127",
+      "Url": "normal_1",
+      "Name": "叩击",
+      "Type": "8",
+      "Power": "40",
+      "Accuracy": "100",
+      "CD": "416",
+      "Category": "1",
+      "MaxPP": "40"
+    },
+    {
+      "ID": "10171",
+      "Url": "bolt_1",
+      "Name": "雷电击",
+      "Type": "5",
+      "Power": "40",
+      "Accuracy": "100",
+      "CD": "1291",
+      "Category": "2",
+      "MaxPP": "40"
+    },
+    {
+      "ID": "10613",
+      "Url": "normal_2",
+      "Name": "音速撞击",
+      "Priority": "1",
+      "Type": "8",
+      "Power": "60",
+      "Accuracy": "100",
+      "CD": "333",
+      "Category": "1",
+      "MaxPP": "30"
+    },
+    {
+      "ID": "10615",
+      "SideEffectArg": "5 20 1",
+      "Name": "龙磷光",
+      "Url": "dragon_2",
+      "SideEffect": "4",
+      "Type": "15",
+      "Power": "70",
+      "Accuracy": "100",
+      "CD": "333",
+      "Category": "2",
+      "MaxPP": "30"
+    },
+    {
+      "ID": "10616",
+      "Url": "dragon_2",
+      "Name": "狂龙战吼",
+      "SideEffect": "2",
+      "Type": "15",
+      "Power": "70",
+      "Accuracy": "95",
+      "CD": "916",
+      "Category": "1",
+      "MaxPP": "25"
+    },
+    {
+      "ID": "10617",
+      "SideEffectArg": "40",
+      "Name": "龙爪闪空破",
+      "Url": "dragon_2",
+      "SideEffect": "29",
+      "Type": "15",
+      "Power": "100",
+      "Accuracy": "100",
+      "CD": "125",
+      "Category": "1",
+      "MaxPP": "15"
+    },
+    {
+      "ID": "10622",
+      "Url": "dragon_2",
+      "Name": "龙王波",
+      "Type": "15",
+      "Power": "100",
+      "Accuracy": "100",
+      "CD": "875",
+      "Category": "2",
+      "MaxPP": "15",
+      "MustHit": "1"
+    },
+    {
+      "ID": "10710",
+      "Url": "fight_2",
+      "Name": "破元闪",
+      "Priority": "1",
+      "Type": "11",
+      "Power": "60",
+      "Accuracy": "100",
+      "CD": "875",
+      "Category": "1",
+      "MaxPP": "25"
+    },
+    {
+      "ID": "10712",
+      "Url": "fight_2",
+      "Name": "擒九域",
+      "Type": "11",
+      "Power": "100",
+      "Accuracy": "100",
+      "CD": "875",
+      "Category": "1",
+      "MaxPP": "15",
+      "MustHit": "1"
+    },
+    {
+      "ID": "10716",
+      "SideEffectArg": "50",
+      "Name": "渗透劲",
+      "Url": "fight_1",
+      "SideEffect": "29",
+      "Type": "11",
+      "Power": "20",
+      "Accuracy": "95",
+      "CD": "875",
+      "Category": "2",
+      "MaxPP": "25"
+    },
+    {
+      "ID": "10717",
+      "SideEffectArg": "1 15 -1",
+      "Name": "碎梦吟",
+      "Url": "fight_2",
+      "SideEffect": "5",
+      "Type": "11",
+      "Power": "60",
+      "Accuracy": "100",
+      "CD": "875",
+      "Category": "2",
+      "MaxPP": "20"
+    },
+    {
+      "ID": "12898",
+      "SideEffectArg": "50",
+      "Name": "圣光击",
+      "Url": "spirit_1",
+      "SideEffect": "29",
+      "Type": "16",
+      "Power": "70",
+      "Accuracy": "100",
+      "Category": "1",
+      "MaxPP": "20"
+    },
+    {
+      "ID": "12904",
+      "Url": "spirit_2",
+      "Name": "圣光普照",
+      "SideEffect": "1",
+      "Type": "16",
+      "Power": "90",
+      "Accuracy": "100",
+      "Category": "2",
+      "MaxPP": "15"
+    },
+    {
+      "ID": "19227",
+      "SideEffectArg": "3",
+      "Name": "龙腾寰宇",
+      "Url": "dragon_2",
+      "Priority": "3",
+      "Type": "15",
+      "Power": "85",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "15",
+      "SideEffect": "880"
+    },
+    {
+      "ID": "19228",
+      "SideEffectArg": "1 100 -1 5 100 -1",
+      "Name": "咆哮乾坤",
+      "Url": "dragon_1",
+      "SideEffect": "5 5",
+      "Type": "15",
+      "Power": "120",
+      "Accuracy": "100",
+      "Category": "2",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "19229",
+      "SideEffectArg": "",
+      "Name": "王·龙战八荒",
+      "Url": "dragon_2",
+      "SideEffect": "521 881",
+      "Type": "15",
+      "Power": "150",
+      "Accuracy": "100",
+      "Category": "1",
+      "MaxPP": "5",
+      "MustHit": "1"
+    },
+    {
+      "ID": "19230",
+      "SideEffectArg": "30 13 52",
+      "Name": "王·龙子盛威决",
+      "Url": "dragon_3",
+      "SideEffect": "760 882 883",
+      "Type": "15",
+      "Power": "160",
+      "Accuracy": "100",
+      "Category": "1",
+      "MaxPP": "5",
+      "MustHit": "1"
+    },
+    {
+      "ID": "19248",
+      "SideEffectArg": "2",
+      "Name": "狂龙击杀",
+      "Url": "dragon_2",
+      "Priority": "3",
+      "Type": "15",
+      "Power": "85",
+      "Accuracy": "100",
+      "Category": "1",
+      "MaxPP": "15",
+      "SideEffect": "33 582"
+    },
+    {
+      "ID": "19249",
+      "SideEffectArg": "50 1",
+      "Name": "龙吟千古",
+      "Url": "dragon_2",
+      "SideEffect": "749",
+      "Type": "15",
+      "Power": "140",
+      "Accuracy": "95",
+      "Category": "2",
+      "MaxPP": "5",
+      "MustHit": "1"
+    },
+    {
+      "ID": "20004",
+      "SideEffectArg": "1 100 -1",
+      "Name": "瞪眼",
+      "info": "防御降低了",
+      "SideEffect": "5",
+      "Type": "8",
+      "Accuracy": "100",
+      "Url": "pro_2",
+      "CD": "1583",
+      "Category": "4",
+      "MaxPP": "30"
+    },
+    {
+      "ID": "20006",
+      "Type": "8",
+      "Accuracy": "100",
+      "CD": "1000",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1 1",
+      "Name": "充电",
+      "SideEffect": "42",
+      "info": "电系招式的威力提升了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "20"
+    },
+    {
+      "ID": "20085",
+      "SideEffectArg": "100",
+      "Name": "雷祭",
+      "SideEffect": "10",
+      "Type": "8",
+      "Accuracy": "50",
+      "Url": "pro_2",
+      "CD": "1208",
+      "Category": "4",
+      "MaxPP": "30"
+    },
+    {
+      "ID": "20117",
+      "Type": "8",
+      "Accuracy": "100",
+      "CD": "416",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "0 100 1",
+      "Name": "气力",
+      "SideEffect": "4",
+      "info": "攻击提升了",
+      "Url": "pro_1",
+      "AtkType": "1",
+      "MaxPP": "40"
+    },
+    {
+      "ID": "20266",
+      "Type": "8",
+      "CD": "41",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1",
+      "Name": "回避",
+      "SideEffect": "52",
+      "Accuracy": "100",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "15"
+    },
+    {
+      "ID": "20269",
+      "Type": "8",
+      "Accuracy": "100",
+      "CD": "83",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "0 100 1 1 100 1 2 100 1 3 100 1 4 100 1 5 100 1",
+      "Name": "龙之意志",
+      "SideEffect": "4 4 4 4 4",
+      "info": "所有能力提升了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "20307",
+      "Type": "8",
+      "Accuracy": "100",
+      "CD": "875",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1 100 1",
+      "Name": "战意",
+      "SideEffect": "4",
+      "info": "防御提升了",
+      "Url": "pro_1",
+      "AtkType": "1",
+      "MaxPP": "20"
+    },
+    {
+      "ID": "20309",
+      "Type": "8",
+      "Accuracy": "100",
+      "CD": "875",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "3",
+      "Name": "神经修复",
+      "SideEffect": "43",
+      "info": "体力恢复了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "22295",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "3 3",
+      "Name": "逆鳞龙甲",
+      "SideEffect": "47 48",
+      "info": "免疫能力下降和免疫异常状态的能力提升了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "24706",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "3 2",
+      "Name": "万里龙吟",
+      "SideEffect": "440 444",
+      "info": "对手释放技能所消耗的PP为翻倍；降低对手所有PP一点，并恢复自身所有PP一点",
+      "Url": "pro_2",
+      "AtkType": "3",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "24707",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "5 5",
+      "Name": "千秋龙威",
+      "SideEffect": "884 48 47",
+      "info": "使对手下次施放的技能无效；抵抗异常状态；抵抗能力下降",
+      "Url": "pro_2",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "24717",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1 2 45",
+      "Name": "龙子诞生",
+      "SideEffect": "885 43 886",
+      "info": "全属性都提升了；恢复自身体力；攻击变得更加犀利了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "25580",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1 1 1 1 1 1",
+      "Name": "神圣冲击",
+      "SideEffect": "585",
+      "info": "全属性都提升了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "25581",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "5 1 50 50 0 8",
+      "Name": "庇护之心",
+      "SideEffect": "191 1121 982",
+      "info": "免疫并反弹异常状态；受到的固定伤害和百分比伤害都减少了；有几率使对手麻痹，自身处于能力提升状态则提升概率",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "25582",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1 2 2 1 2",
+      "Name": "电灵祝福",
+      "SideEffect": "1014 57 821",
+      "info": "全属性都提升了，自身体力高于1/2时强化效果翻倍；开始快速恢复自身体力了；自身回合类效果无法被消除",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "25782",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "0 100 2 4 100 2",
+      "Name": "元灵归位",
+      "SideEffect": "4 4",
+      "info": "自身攻击、速度提升了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "25783",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "5 4 3 4 1 1 50",
+      "Name": "战意圣铠",
+      "SideEffect": "191 764 1266 1121",
+      "info": "免疫并反弹异常状态；对手使用攻击技能则降低对手最大体力，使用属性技能则自身免疫下1次受到的攻击；下一次受到的固定伤害和百分比伤害降低50%",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "25784",
+      "Type": "8",
+      "Accuracy": "100",
+      "Category": "4",
+      "MustHit": "1",
+      "SideEffectArg": "1 2 4 3 2 2 2 2",
+      "Name": "傲视天下",
+      "SideEffect": "1014 971 843 58",
+      "info": "全属性都提升了，自身体力高于1/2时强化效果翻倍；开始慢慢吸取对手体力了，自身体力低于对手时吸取效果翻倍；出手变得更快更犀利了",
+      "Url": "pro_3",
+      "AtkType": "3",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "30944",
+      "SideEffectArg": "2 2",
+      "Name": "耀霆之力",
+      "Url": "saint_electric_1",
+      "Priority": "3",
+      "Type": "80",
+      "Power": "90",
+      "Accuracy": "100",
+      "Category": "1",
+      "MaxPP": "15",
+      "SideEffect": "794 781"
+    },
+    {
+      "ID": "30945",
+      "SideEffectArg": "100 1",
+      "Name": "电光耀目",
+      "Url": "saint_electric_1",
+      "SideEffect": "749",
+      "Type": "80",
+      "Power": "120",
+      "Accuracy": "95",
+      "Category": "2",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "30946",
+      "SideEffectArg": "1",
+      "Name": "金翼剑轮",
+      "Url": "electric_1",
+      "SideEffect": "570",
+      "Type": "5",
+      "Power": "130",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "30947",
+      "SideEffectArg": "50 2",
+      "Name": "圣灵净化",
+      "Url": "saint_2",
+      "Priority": "2",
+      "Type": "16",
+      "Power": "100",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "5",
+      "SideEffect": "1209 47"
+    },
+    {
+      "ID": "30948",
+      "SideEffectArg": "3 70 150 100 350",
+      "Name": "涤荡混沌决",
+      "Url": "saint_electric_2",
+      "SideEffect": "695 429",
+      "Type": "80",
+      "Power": "150",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "5",
+      "MustHit": "1"
+    },
+    {
+      "ID": "30949",
+      "SideEffectArg": "2 3 100",
+      "Name": "圣灵雷霆斩",
+      "Url": "saint_electric_3",
+      "SideEffect": "760 1136 669 920",
+      "Type": "80",
+      "Power": "160",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "5",
+      "MustHit": "1"
+    },
+    {
+      "ID": "31346",
+      "SideEffectArg": "1 100 1 50",
+      "Name": "圣威盖世",
+      "Url": "saint_fight_1",
+      "Priority": "3",
+      "Type": "78",
+      "Power": "85",
+      "Accuracy": "100",
+      "Category": "1",
+      "MaxPP": "20",
+      "SideEffect": "1179 1265"
+    },
+    {
+      "ID": "31347",
+      "SideEffectArg": "0 100 -2 2 100 -2",
+      "Name": "战斗热血",
+      "Url": "saint_fight_1",
+      "SideEffect": "5 5",
+      "Type": "78",
+      "Power": "120",
+      "Accuracy": "95",
+      "Category": "2",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "31348",
+      "SideEffectArg": "200",
+      "Name": "灵动之击",
+      "Url": "saint_fight_1",
+      "SideEffect": "734",
+      "Type": "78",
+      "Power": "130",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "10"
+    },
+    {
+      "ID": "31349",
+      "SideEffectArg": "200 400 200 400",
+      "Name": "无尽拳意",
+      "Url": "saint_fight_2",
+      "SideEffect": "450 683",
+      "Type": "78",
+      "Power": "140",
+      "Accuracy": "95",
+      "Category": "2",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "31350",
+      "Priority": "1",
+      "Type": "78",
+      "Accuracy": "95",
+      "Category": "1",
+      "MustHit": "1",
+      "Url": "saint_fight_2",
+      "Name": "终焉战魂破",
+      "SideEffect": "697 699 1043",
+      "Power": "150",
+      "SideEffectArg": "1",
+      "MaxPP": "5"
+    },
+    {
+      "ID": "31351",
+      "SideEffectArg": "1 2",
+      "Name": "战·圣灵天威",
+      "Url": "saint_fight_3",
+      "SideEffect": "760 779 1060 67",
+      "Type": "78",
+      "Power": "160",
+      "Accuracy": "95",
+      "Category": "1",
+      "MaxPP": "5",
+      "MustHit": "1"
+    }
+  ],
+  "sideEffects": [
+    {
+      "ID": "1000001",
+      "help": "给与对象损伤的一半会恢复自己的体力",
+      "des": "给予对象损伤一半，会恢复自己的体力"
+    },
+    {
+      "ID": "1000002",
+      "help": "对方体力少于一半时威力加倍",
+      "des": "对方体力小于1/2时威力加倍"
+    },
+    {
+      "ID": "1000004",
+      "help": "提升能力",
+      "des": "技能使用成功时，m%自身XX等级+/-n"
+    },
+    {
+      "ID": "1000005",
+      "help": "降低能力",
+      "des": "技能使用成功时，m%对方XX等级+/-n"
+    },
+    {
+      "ID": "1000010",
+      "help": "可以使对方麻痹",
+      "des": "n%令对方麻痹"
+    },
+    {
+      "ID": "1000029",
+      "help": "能够增加额外的伤害",
+      "des": "额外增加n点固定伤害"
+    },
+    {
+      "ID": "1000033",
+      "help": "可以清除对方能力提升的效果",
+      "des": "消除对手能力提升状态"
+    },
+    {
+      "ID": "1000042",
+      "help": "使用后下回合电系技能威力加倍",
+      "des": "m~n回合自己使用电招式伤害×2"
+    },
+    {
+      "ID": "1000043",
+      "des": "恢复自身最大体力的1/n"
+    },
+    {
+      "ID": "1000047",
+      "help": "n回合内免疫能力下降状态",
+      "des": "n回合内免疫能力下降状态"
+    },
+    {
+      "ID": "1000048",
+      "help": "n回合内免疫所有受到的异常状态",
+      "des": "n回合内免疫所有受到的异常状态"
+    },
+    {
+      "ID": "1000052",
+      "des": "n回合若本方先手攻击: 使得技能miss (但MustHit有效)"
+    },
+    {
+      "ID": "1000057",
+      "des": "n回合内每回合使用技能恢复自身最大体力的1/m"
+    },
+    {
+      "ID": "1000058",
+      "des": "下n回合自身攻击技能必定打出致命一击"
+    },
+    {
+      "ID": "1000067",
+      "des": "当次攻击击败对方时减少对方下次出战精灵的最大体力1/n"
+    },
+    {
+      "ID": "1000191",
+      "des": "n回合内免疫并反弹所有受到的异常状态"
+    },
+    {
+      "ID": "1000429",
+      "des": "附加m点固定伤害，连续使用每次增加n点固定伤害，最高附加k点固定伤害"
+    },
+    {
+      "ID": "1000440",
+      "des": "n回合内对手使用技能消耗的PP值变为m倍"
+    },
+    {
+      "ID": "1000444",
+      "des": "降低对手所有PP一点，并恢复自身所有PP一点"
+    },
+    {
+      "ID": "1000450",
+      "des": "随机恢复m到n点体力"
+    },
+    {
+      "ID": "1000521",
+      "des": "反转自身能力下降状态"
+    },
+    {
+      "ID": "1000570",
+      "des": "免疫下n次受到的攻击"
+    },
+    {
+      "ID": "1000582",
+      "des": "若未击败对手则下n回合攻击必定致命一击"
+    },
+    {
+      "ID": "1000585",
+      "des": "技能使用成功时，攻击、防御、特攻、特防、速度、命中等级上升"
+    },
+    {
+      "ID": "1000669",
+      "des": "当回合击败对手则下回合自身攻击先制+1"
+    },
+    {
+      "ID": "1000683",
+      "des": "随机附加m~n点固定伤害"
+    },
+    {
+      "ID": "1000695",
+      "des": "n回合内m%令对手使用的属性技能无效"
+    },
+    {
+      "ID": "1000697",
+      "des": "无视对手伤害限制效果（破锁定伤害）"
+    },
+    {
+      "ID": "1000699",
+      "des": "无视对手攻击免疫效果"
+    },
+    {
+      "ID": "1000734",
+      "des": "若对手不处于能力提升或下降状态时则恢复n点体力"
+    },
+    {
+      "ID": "1000749",
+      "des": "n%令对手全属性-m"
+    },
+    {
+      "ID": "1000760",
+      "des": "攻击时造成的伤害不会出现微弱（克制关系为微弱时都变成普通）"
+    },
+    {
+      "ID": "1000764",
+      "des": "n回合内若对手使用攻击技能降低对手最大体力的1/m"
+    },
+    {
+      "ID": "1000779",
+      "des": "若对手处于能力提升状态则先制+2"
+    },
+    {
+      "ID": "1000781",
+      "des": "消除对手回合类效果，消除成功则n回合内令对手使用的属性技能无效"
+    },
+    {
+      "ID": "1000794",
+      "des": "消除对手能力提升，消除成功可以抵挡下n回合对手的攻击伤害"
+    },
+    {
+      "ID": "1000821",
+      "des": "n回合内，自身的回合类效果无法被消除，后出手时回合数+1"
+    },
+    {
+      "ID": "1000843",
+      "des": "下n回合令自身所有技能先制+m"
+    },
+    {
+      "ID": "1000880",
+      "des": "消除对手回合类效果，消除成功则令自身下回合所有技能先制+n"
+    },
+    {
+      "ID": "1000881",
+      "des": "若自身处于能力下降状态则先制+3"
+    },
+    {
+      "ID": "1000882",
+      "des": "自身每处于一种能力提升状态，此技能威力提升n"
+    },
+    {
+      "ID": "1000883",
+      "des": "每次命中对手会降低对手下只出战精灵最大体力的1/n，最多降低1/m"
+    },
+    {
+      "ID": "1000884",
+      "des": "令对手下次使用的技能无效"
+    },
+    {
+      "ID": "1000885",
+      "des": "全属性+n，自身当前体力高于对手时强化效果翻倍"
+    },
+    {
+      "ID": "1000886",
+      "des": "下次攻击忽略对手双防值的n%"
+    },
+    {
+      "ID": "1000920",
+      "des": "未击败对手则下回合造成的伤害提升n%"
+    },
+    {
+      "ID": "1000971",
+      "des": "n回合内每回合使用技能吸取对手最大体力的1/m，吸取体力时若自身体力低于最大体力的1/k则吸取效果翻倍"
+    },
+    {
+      "ID": "1000982",
+      "des": "n%使对手xx，自身每处于一种能力强化状态则概率提高m%（XX指代异常状态：麻痹0，中毒1，烧伤2，冻伤5，害怕6，疲惫7，睡眠8，石化9，冰封15，流血16，瘫痪19）"
+    },
+    {
+      "ID": "1001014",
+      "des": "全属性+n，自身当前体力高于最大体力的1/m时强化效果翻倍"
+    },
+    {
+      "ID": "1001043",
+      "des": "反转自身能力下降状态，反转成功则下n回合受到的伤害转化为自身体力"
+    },
+    {
+      "ID": "1001060",
+      "des": "吸取对手能力提升状态，吸取成功则下n回合对手攻击技能无效"
+    },
+    {
+      "ID": "1001121",
+      "des": "下n次受到的固定伤害和百分比伤害减少m%"
+    },
+    {
+      "ID": "1001136",
+      "des": "自身体力高于1/n时附加自身当前体力1/m的固定伤害"
+    },
+    {
+      "ID": "1001179",
+      "des": "消除对手回合类效果，消除成功则自身下n次攻击技能造成的伤害额外提升m%"
+    },
+    {
+      "ID": "1001209",
+      "des": "消除双方能力上升、下降状态，消除成功则附加消除总段数乘以n的固定伤害"
+    },
+    {
+      "ID": "1001265",
+      "des": "下n次受到的攻击伤害减少m%"
+    },
+    {
+      "ID": "1001266",
+      "des": "n回合内若对手使用属性技能，则使用属性技能后己方在场精灵令对手下m次使用的攻击技能无效"
+    }
+  ]
+}

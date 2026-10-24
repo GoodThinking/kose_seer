@@ -1,0 +1,1091 @@
+{
+  "scope": "Three base species: 王之哈莫 3022, 圣霆雷伊 3406, 圣战盖亚 3481; excludes optional skins and official acquisition activities",
+  "status": {
+    "requiredResourcesAcquired": true,
+    "runtimeLoadingVerified": true,
+    "serverIntegrationImplemented": false,
+    "productionChanged": false
+  },
+  "provenance": {
+    "officialEntry": "https://seer.61.com/play.shtml",
+    "bootstrap": "https://seer.61.com/config/seer.xml",
+    "resourceBase": "https://seer.61.com/",
+    "speciesAndMoves": {
+      "url": "https://seer.61.com/dll/RobotCoreDLL.swf",
+      "wrappedSHA256": "646170b8902db104295327f015a96d5a4861d6cc24bfa40a32b489ea0a7627e0",
+      "decodedSHA256": "2514ffebc35a380fa74c9a4ef4aaffb74062c2d4913a659accd8d2b1472a632a",
+      "envelope": "Official DLLLoader: skip seven bytes, inflate zlib"
+    },
+    "souls": {
+      "url": "https://seer.61.com/resource/xml/effectIcon.xml",
+      "sha256": "8ccbcd34cde2077eaad0caeed71fd533f369b6ecd3d81ed919b05327a5080824"
+    },
+    "skillDescriptions": {
+      "url": "https://seer.61.com/resource/xml/effectInfo.xml",
+      "sha256": "8f1af8e9dea7c102bd66dfaec8a2e8d6361a0155d7b9a548be271891de3bfc8e"
+    }
+  },
+  "counts": {
+    "species": 3,
+    "learnableMovesPerSpecies": 16,
+    "fifthSkillsPerSpecies": 1,
+    "moveDefinitions": 51,
+    "skillEffectDefinitions": 57,
+    "additionalXMLSkillDescriptions": 56,
+    "battleAnimations": 3,
+    "followerAnimations": 3,
+    "heads": 3,
+    "soulIcons": 3,
+    "skillAnimations": 51,
+    "totalRuntimeSWF": 63
+  },
+  "descriptorNotes": [
+    "Effect 42 is present in the official AMF3 side-effect table as record 1000042, but absent from effectInfo.xml; moves.json retains the official definition.",
+    "Both base and optional enhanced 王之哈莫 soul records are retained as source evidence; enhancement is not an automatic reward decision.",
+    "Current client chooses groupFightResource/pet for species IDs greater than 500. Earlier pet/swf 404 probes used the wrong directory."
+  ],
+  "species": [
+    {
+      "id": 3022,
+      "name": "王之哈莫",
+      "learnableMoves": [
+        {
+          "id": 10613,
+          "level": 1
+        },
+        {
+          "id": 20266,
+          "level": 5
+        },
+        {
+          "id": 10616,
+          "level": 9
+        },
+        {
+          "id": 10615,
+          "level": 13
+        },
+        {
+          "id": 22295,
+          "level": 17
+        },
+        {
+          "id": 19227,
+          "level": 21
+        },
+        {
+          "id": 10622,
+          "level": 25
+        },
+        {
+          "id": 20269,
+          "level": 29
+        },
+        {
+          "id": 10617,
+          "level": 33
+        },
+        {
+          "id": 19228,
+          "level": 37
+        },
+        {
+          "id": 24706,
+          "level": 41
+        },
+        {
+          "id": 19248,
+          "level": 45
+        },
+        {
+          "id": 24707,
+          "level": 49
+        },
+        {
+          "id": 19249,
+          "level": 53
+        },
+        {
+          "id": 24717,
+          "level": 57
+        },
+        {
+          "id": 19229,
+          "level": 61
+        }
+      ],
+      "extraMoves": [
+        {
+          "id": 19230,
+          "level": 75
+        }
+      ]
+    },
+    {
+      "id": 3406,
+      "name": "圣霆雷伊",
+      "learnableMoves": [
+        {
+          "id": 10006,
+          "level": 1
+        },
+        {
+          "id": 20006,
+          "level": 5
+        },
+        {
+          "id": 12898,
+          "level": 9
+        },
+        {
+          "id": 10171,
+          "level": 13
+        },
+        {
+          "id": 20004,
+          "level": 17
+        },
+        {
+          "id": 30944,
+          "level": 21
+        },
+        {
+          "id": 12904,
+          "level": 25
+        },
+        {
+          "id": 20085,
+          "level": 29
+        },
+        {
+          "id": 10010,
+          "level": 33
+        },
+        {
+          "id": 30945,
+          "level": 37
+        },
+        {
+          "id": 25580,
+          "level": 41
+        },
+        {
+          "id": 30946,
+          "level": 45
+        },
+        {
+          "id": 25581,
+          "level": 49
+        },
+        {
+          "id": 30947,
+          "level": 53
+        },
+        {
+          "id": 25582,
+          "level": 57
+        },
+        {
+          "id": 30948,
+          "level": 61
+        }
+      ],
+      "extraMoves": [
+        {
+          "id": 30949,
+          "level": 76
+        }
+      ]
+    },
+    {
+      "id": 3481,
+      "name": "圣战盖亚",
+      "learnableMoves": [
+        {
+          "id": 10127,
+          "level": 1
+        },
+        {
+          "id": 20117,
+          "level": 5
+        },
+        {
+          "id": 10716,
+          "level": 9
+        },
+        {
+          "id": 20307,
+          "level": 13
+        },
+        {
+          "id": 10710,
+          "level": 17
+        },
+        {
+          "id": 31346,
+          "level": 21
+        },
+        {
+          "id": 10717,
+          "level": 25
+        },
+        {
+          "id": 10712,
+          "level": 29
+        },
+        {
+          "id": 20309,
+          "level": 33
+        },
+        {
+          "id": 31347,
+          "level": 37
+        },
+        {
+          "id": 25782,
+          "level": 41
+        },
+        {
+          "id": 31348,
+          "level": 45
+        },
+        {
+          "id": 25783,
+          "level": 49
+        },
+        {
+          "id": 31349,
+          "level": 53
+        },
+        {
+          "id": 25784,
+          "level": 57
+        },
+        {
+          "id": 31350,
+          "level": 61
+        }
+      ],
+      "extraMoves": [
+        {
+          "id": 31351,
+          "level": 76
+        }
+      ]
+    }
+  ],
+  "runtimeFiles": [
+    {
+      "path": "resource/groupFightResource/pet/3022.swf",
+      "url": "https://seer.61.com/resource/groupFightResource/pet/3022.swf",
+      "bytes": 71964,
+      "sha256": "9bd175b10d5a95e45c04b008946ad8c19afbafa3fd976e75827d2e77141c6ff5"
+    },
+    {
+      "path": "resource/fightResource/pet/swf/3022.swf",
+      "url": "https://seer.61.com/resource/fightResource/pet/swf/3022.swf",
+      "bytes": 2969112,
+      "sha256": "90b9bb004c6829b19f0060ee1ebe3c12458f2139cf87325ac8dc96b8de56969b"
+    },
+    {
+      "path": "resource/pet/head/3022.swf",
+      "url": "https://seer.61.com/resource/pet/head/3022.swf",
+      "bytes": 5120,
+      "sha256": "3525a0a621d91ac2decc36bbb2f67150d1849b9ac27c54292820b3660f17df23"
+    },
+    {
+      "path": "resource/groupFightResource/pet/3406.swf",
+      "url": "https://seer.61.com/resource/groupFightResource/pet/3406.swf",
+      "bytes": 71745,
+      "sha256": "774c31e1fdfeb0a427d76b38cfb2bba63577a4a7cfdf615a3610cd45fc06f0c4"
+    },
+    {
+      "path": "resource/fightResource/pet/swf/3406.swf",
+      "url": "https://seer.61.com/resource/fightResource/pet/swf/3406.swf",
+      "bytes": 1221550,
+      "sha256": "c414da5bbc4fb3b78b913a597f33152416908462b9a9577ade979141b571969e"
+    },
+    {
+      "path": "resource/pet/head/3406.swf",
+      "url": "https://seer.61.com/resource/pet/head/3406.swf",
+      "bytes": 4291,
+      "sha256": "909317b6a03bd0c973767ca9167aeedb5b10a246b808e4bed6cd51f86a4597a1"
+    },
+    {
+      "path": "resource/groupFightResource/pet/3481.swf",
+      "url": "https://seer.61.com/resource/groupFightResource/pet/3481.swf",
+      "bytes": 62993,
+      "sha256": "e05a8d119141e62ea6aaba389e359a794c621f4275b2141172b2a6df285a21a9"
+    },
+    {
+      "path": "resource/fightResource/pet/swf/3481.swf",
+      "url": "https://seer.61.com/resource/fightResource/pet/swf/3481.swf",
+      "bytes": 755152,
+      "sha256": "18bfcd3acf7a1f2163d7407f55e829626e1bd8ee9973a751b1168e738aa280e4"
+    },
+    {
+      "path": "resource/pet/head/3481.swf",
+      "url": "https://seer.61.com/resource/pet/head/3481.swf",
+      "bytes": 4458,
+      "sha256": "8e5274dbbf286c5417edfaf8312df8aa82487431eaad24d9d6442fc2cee31c5b"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10613.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10613.swf",
+      "bytes": 5005,
+      "sha256": "a195587d10ace6e8575d6480c3cb97254c3f3d15acd4c8165e6b2c8faf1b5e95"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20266.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20266.swf",
+      "bytes": 8803,
+      "sha256": "b3ee202d19f7981bed279dad5fdc407cfd78287fbb1684a6b265fcfa404bc6c2"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10616.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10616.swf",
+      "bytes": 3389,
+      "sha256": "211f4d084666953ce70fc51cdb756ee1a6e460b0637db1bed42c1d62a0dfb314"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10615.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10615.swf",
+      "bytes": 14217,
+      "sha256": "83ec80e4e766bff5151bfdd50b31dfc9b5ae7a84de97210375fbe6e27a4e5a85"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/22295.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/22295.swf",
+      "bytes": 11180,
+      "sha256": "818bb4870f09d483c0d64b9e10580a445f69448b4261f9d82d79a6c4d3a30227"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19227.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/19227.swf",
+      "bytes": 11600,
+      "sha256": "103ffe8637812817adf575b05d43561efdb14ea1010e304862a608e7d10f0742"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10622.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10622.swf",
+      "bytes": 14373,
+      "sha256": "e2a7798baa6ddad92b8338304da7db0b9fba7951d1eebbfabfc0c8658d453798"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20269.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20269.swf",
+      "bytes": 3270,
+      "sha256": "187ee6aa2a82d2459d13a1cf9589ff617e19fb0b4fff732a651eeae64817350e"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10617.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10617.swf",
+      "bytes": 9881,
+      "sha256": "92ca2718d413c0db55fcf3b56c20e29816581daab471de60dde2fb7366885981"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19228.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/19228.swf",
+      "bytes": 2512,
+      "sha256": "841b726be75e9e75fa811a42964524a7b1fdf2a0cc757b46f6b0d7ddb2081517"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/24706.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/24706.swf",
+      "bytes": 20610,
+      "sha256": "d9281b67dd22d123b9d3acc4574077dc30d1d296f5aea6f75a3e871b76c22daf"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19248.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/19248.swf",
+      "bytes": 9648,
+      "sha256": "236668403fa0df94cbc6b86def5d423a9ab01cd566eceec23c894318c40dfd5a"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/24707.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/24707.swf",
+      "bytes": 1833,
+      "sha256": "d2972c35ded371e83ba343b6b208dd0188e2f73d6c54deec753fe874e391005f"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19249.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/19249.swf",
+      "bytes": 75772,
+      "sha256": "c5d5ab49f8ffa088aa848ff6c91d7541e26eb21c7fa1e9d56905b66560569dd5"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/24717.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/24717.swf",
+      "bytes": 13933,
+      "sha256": "b3fbcc313d17f939e4fc4566ff7b9fa481f77feed54ade85176231e979a3969f"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19229.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/19229.swf",
+      "bytes": 3520,
+      "sha256": "2c987e25731d588cb24429161c40a74806fce792f512284cd9c7022f241213ad"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19230.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/19230.swf",
+      "bytes": 3725,
+      "sha256": "af90c3c537b74f26db5e7a887dcbc7aaa3d89ea2fc32b4aa87556093b54580b5"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10006.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10006.swf",
+      "bytes": 2150,
+      "sha256": "ce608d67682ffb91c30bee507ae6fd38b488466139ab733ed249d53debc54137"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20006.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20006.swf",
+      "bytes": 5401,
+      "sha256": "e6099b9848a2dacfde72a5259db6a533e2b87b5cb06c01d064d47eb0149ed101"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/12898.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/12898.swf",
+      "bytes": 7528,
+      "sha256": "3d99fd90e21011f94139d0267dbfcbde768252e3250549ac1b7abdbaa989b76e"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10171.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10171.swf",
+      "bytes": 2955,
+      "sha256": "bb7fdd1ea140a788b2a3ac1d7b65bad9bc28e20c573f5b7c4bae3e3056a9dc3d"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20004.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20004.swf",
+      "bytes": 4502,
+      "sha256": "26faf8aba171c18044b8a90bc2551afdf6e62ccefe248e69449c84cc2d7745dd"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30944.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/30944.swf",
+      "bytes": 4992,
+      "sha256": "3c6b423ea25950c729df03c2bbfd2038963e0346ef5908634ae2ac1848604d03"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/12904.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/12904.swf",
+      "bytes": 1977,
+      "sha256": "e79d3422a0e1a3a9874b8c7f96c4b7ed51ae1af553c01a544ddcec8e4c53c5fd"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20085.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20085.swf",
+      "bytes": 1808,
+      "sha256": "5c9b49afa79608a22f4cd5a3f87c5cd8c0168ae812dab6a67e186eda9815c88c"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10010.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10010.swf",
+      "bytes": 4410,
+      "sha256": "8e4daad655a7a5a8dd43172bd61e2358acfbad1f512807a5e2ed72c1afb22635"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30945.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/30945.swf",
+      "bytes": 4399,
+      "sha256": "919e0b71844da5a1611e63457985f369a601e37dcec5dab83647800a83f1f604"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25580.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/25580.swf",
+      "bytes": 9557,
+      "sha256": "8a8a551dc4539ea46bdf189a5bce117dff6afc6be8a71a98c234773ad51f2a83"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30946.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/30946.swf",
+      "bytes": 6407,
+      "sha256": "746b579a4a349a240a09ff823fd14295f9c683cf265c882ddcf3887707fefb87"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25581.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/25581.swf",
+      "bytes": 1699,
+      "sha256": "e6cb7e19ca1f61052814fed0cb02101f8b6ece7737962096dcc331685e6ad033"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30947.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/30947.swf",
+      "bytes": 9728,
+      "sha256": "1cc1f9ad552d0e61d01553d4486ec5c541dcaf2956367e66e62372d27effd57d"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25582.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/25582.swf",
+      "bytes": 6471,
+      "sha256": "ede915fa75043566bceeeb31619096a870410468559f922de2676e5bc180d120"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30948.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/30948.swf",
+      "bytes": 5601,
+      "sha256": "990aa09e9c0ad5a58669eee3e8e4067820c02406eca8ad369ced58494e98540e"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30949.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/30949.swf",
+      "bytes": 3474,
+      "sha256": "ee35e1f000b817cd497f1bf97378c2b5f2feb03c7ef6191e168573357f4371b6"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10127.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10127.swf",
+      "bytes": 16197,
+      "sha256": "16854ab6b13ce86e08854e0999c98bb52113fc642d625d9d0c3ac62fd84222ef"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20117.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20117.swf",
+      "bytes": 2415,
+      "sha256": "721885bc770d1c9df186c574c2985a306ea9f3f08eb812425f5cf00d31876b4d"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10716.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10716.swf",
+      "bytes": 17379,
+      "sha256": "09b20568aa88a69994630c71c6154c965ee6f39ae75cc573122b1e266bf1cdb3"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20307.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20307.swf",
+      "bytes": 7627,
+      "sha256": "7bd47b492b91b442fcd533b734a71a44ab4cd3879cb5a26c1a20a443f0b76d27"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10710.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10710.swf",
+      "bytes": 101196,
+      "sha256": "04101328f1119ccc70072aa0bbc87b949c0d0c18de405cc4448ac2d65beaba20"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31346.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/31346.swf",
+      "bytes": 3884,
+      "sha256": "f81b550095898c50ba17342cc920c00641b40caf578849e60e54d639a6458522"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10717.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10717.swf",
+      "bytes": 6023,
+      "sha256": "c4721a7f50f8bb2a513fc90b35a7fc08f88149ee987cfc27cffbcdb3a8b489c8"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10712.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/10712.swf",
+      "bytes": 10507,
+      "sha256": "3d7b42d381b8b69704d1ca8fdf9556dc839e55230ba0ad5c985c7667c9e9acf8"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20309.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/20309.swf",
+      "bytes": 105650,
+      "sha256": "4e10b9b5c50156829e3c9b76cbb10923abedf4e4db4491f7d55ed95d27acf287"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31347.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/31347.swf",
+      "bytes": 18423,
+      "sha256": "31c762973da6fe54e2342aa1c1a2601d5422924cd6ccd7ae066633ba091ce936"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25782.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/25782.swf",
+      "bytes": 4731,
+      "sha256": "0742af3c46fa94617e4246f5b9442c506a36d667823dc7392a2b0cd83e0bc4c6"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31348.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/31348.swf",
+      "bytes": 7672,
+      "sha256": "50b8b2f13737fe8f12cdbad29ae08cb4b52078dc29234658372adc160e57a259"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25783.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/25783.swf",
+      "bytes": 7807,
+      "sha256": "c568614556fc172544735dbfc8ae5e5a1c79c57d93b7922cc5bafb4ca5c5b2ab"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31349.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/31349.swf",
+      "bytes": 4587,
+      "sha256": "0d52c54aa25e795545d7c6b6d12252ca651346a105c76320e9c497e2df9af4ce"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25784.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/25784.swf",
+      "bytes": 2647,
+      "sha256": "14fd913cd7e40e38ca5e1d27a1b3bb2d2a2a99da9929c607ed43b02041ea1072"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31350.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/31350.swf",
+      "bytes": 6776,
+      "sha256": "5639661ad8eeee6ec0ee747dbe9ed38d0cb06bb245f99842341d625bc5467493"
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31351.swf",
+      "url": "https://seer.61.com/resource/fightResource/skill/swf/31351.swf",
+      "bytes": 3457,
+      "sha256": "3f70695fa0d2d1265f93ae62185cdb7638806c3562931ec6e1de08ee4e3ea64f"
+    },
+    {
+      "path": "resource/effectIcon/381.swf",
+      "url": "https://seer.61.com/resource/effectIcon/381.swf",
+      "bytes": 6471,
+      "sha256": "1abacee5fcd6f9f768d0ce5df5d4325f67b93fb2c70d176a30ab586d80e77afd"
+    },
+    {
+      "path": "resource/effectIcon/693.swf",
+      "url": "https://seer.61.com/resource/effectIcon/693.swf",
+      "bytes": 4761,
+      "sha256": "67f0c32e787f65108a8c9fc948fd3854cce4f16e07a5db14516c0fa8531b248e"
+    },
+    {
+      "path": "resource/effectIcon/769.swf",
+      "url": "https://seer.61.com/resource/effectIcon/769.swf",
+      "bytes": 4137,
+      "sha256": "bb56b6c9cbd6845cb4cbd8ae2646daefc144afddd7f5c59d8c50752b51230b5f"
+    }
+  ],
+  "dataFiles": [
+    {
+      "path": "data/species.json",
+      "bytes": 8161,
+      "sha256": "6ca6ca12cc53ae1d30cf392fffff4c8b5645f275bdbfe0034d5bd739d0cc9e8a"
+    },
+    {
+      "path": "data/species.xml",
+      "bytes": 3591,
+      "sha256": "bfd25a45c6fb2c29e0ad013541f13b0abcc3264e4cfe14506428e3e5aa32d455"
+    },
+    {
+      "path": "data/moves.json",
+      "bytes": 22282,
+      "sha256": "c959781cbc2ff17bba9868d850219a4662ee144b5e194e52b37d7f51ed5919cd"
+    },
+    {
+      "path": "data/souls.xml",
+      "bytes": 2948,
+      "sha256": "c8660f45f6b8932b0ee360c68d265009d8a1a3baeb80a5f98cf2e639679fe966"
+    },
+    {
+      "path": "data/encyclopedia.xml",
+      "bytes": 896,
+      "sha256": "77fb4cbf7d97c6f846e95df805c60079927fba35733dc820ce788828fbc0be2d"
+    },
+    {
+      "path": "data/skill-effects.xml",
+      "bytes": 12532,
+      "sha256": "b1f372861456bf841ade6101a9f0456f8fee83366047bd86776d2041c84bd795"
+    }
+  ],
+  "dependencyChecks": [
+    {
+      "path": "resource/groupFightResource/pet/3022.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/pet/swf/3022.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/pet/head/3022.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/groupFightResource/pet/3406.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/pet/swf/3406.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/pet/head/3406.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/groupFightResource/pet/3481.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/pet/swf/3481.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/pet/head/3481.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10613.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20266.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10616.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10615.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/22295.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19227.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10622.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20269.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10617.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19228.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/24706.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19248.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/24707.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19249.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/24717.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19229.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/19230.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10006.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20006.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/12898.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10171.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20004.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30944.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/12904.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20085.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10010.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30945.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25580.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30946.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25581.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30947.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25582.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30948.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/30949.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10127.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20117.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10716.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20307.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10710.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31346.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10717.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/10712.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/20309.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31347.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25782.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31348.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25783.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31349.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/25784.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31350.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/fightResource/skill/swf/31351.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/effectIcon/381.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/effectIcon/693.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    },
+    {
+      "path": "resource/effectIcon/769.swf",
+      "externalImports": 0,
+      "embeddedSoundTags": 0,
+      "externalAssetStrings": []
+    }
+  ],
+  "verification": {
+    "runtimeEvidence": "verification/runtime.json",
+    "allRuntimeFilesLoaded": 63,
+    "allRuntimeFilesHTTP200": 63,
+    "battleLabelsPerPet": [
+      "attack",
+      "sa",
+      "cp",
+      "hited"
+    ],
+    "followLabelsPerPet": [
+      "down",
+      "leftdown",
+      "left",
+      "leftup",
+      "up",
+      "rightup",
+      "right",
+      "rightdown"
+    ],
+    "successfulRunConsoleErrors": 0
+  }
+}
