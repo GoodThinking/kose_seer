@@ -1,0 +1,169 @@
+<tasks><task ID="616" name="黑色降临" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="与精灵对话" parent="" isMat="0" doc="" alert="" />
+    <pro name="布置环境" parent="" isMat="0" doc="" alert="" />
+    <pro name="做产婆" parent="" isMat="0" doc="" alert="" />
+    <pro name="保护诅咒之子" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="619" name="卡茨的爆发" parent="616" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="摘叶子" parent="" isMat="0" doc="" alert="" />
+    <pro name="进入怀特矿场" parent="" isMat="0" doc="" alert="" />
+    <pro name="进入怀特矿洞" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务了" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="624" name="卡茨迷宫心境" parent="619" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="迷宫一" parent="" isMat="0" doc="" alert="" />
+    <pro name="迷宫二" parent="" isMat="0" doc="" alert="" />
+    <pro name="迷宫三" parent="" isMat="0" doc="" alert="" />
+    <pro name="进入卡茨内心世界" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="626" name="卡茨的劫难" parent="624" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="前往麦兹星球" parent="" isMat="0" doc="" alert="" />
+    <pro name="救出卡茨" parent="" isMat="0" doc="" alert="" />
+    <pro name="与光系精灵对话" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="628" name="卡茨的逆袭" parent="626" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="前往SUM星" parent="" isMat="0" doc="" alert="" />
+    <pro name="点击佐格艾里逊进行决战" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="633" name="SUN星大灾难" parent="628" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="前往SUM星第二场景" parent="" isMat="0" doc="" alert="" />
+    <pro name="被石头压住的精灵所在" parent="" isMat="0" doc="" alert="" />
+    <pro name="被莱克啄食的精灵所" parent="" isMat="0" doc="" alert="" />
+    <pro name="被困在石头洞穴下面的精灵" parent="" isMat="0" doc="" alert="" />
+    <pro name="道路被阻碍的精灵" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="637" name="黑暗力量爆发" parent="633" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="SUN星球第一场景" parent="" isMat="0" doc="" alert="" />
+    <pro name="怀特星球第一场景" parent="" isMat="0" doc="" alert="" />
+    <pro name="黑色洞穴" parent="" isMat="0" doc="" alert="" />
+    <pro name="进入黑色洞穴" parent="" isMat="0" doc="" alert="" />
+    <pro name="打BOSS" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="641" name="与魔抗衡" parent="637" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="黑暗洞穴" parent="" isMat="0" doc="" alert="" />
+    <pro name="赫尔卡星第三场景" parent="" isMat="0" doc="" alert="" />
+    <pro name="头部射击水银湖" parent="" isMat="0" doc="" alert="" />
+    <pro name="寻找盖亚" parent="" isMat="0" doc="" alert="" />
+    <pro name="寻找进入魔窟" parent="" isMat="0" doc="" alert="" />
+    <pro name="赶走小兵" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="642" name="使命的召唤" parent="641" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="是谁在呼唤我" parent="" isMat="0" doc="" alert="" />
+    <pro name="去周围找找线索" parent="" isMat="0" doc="" alert="" />
+    <pro name="根据提示走" parent="" isMat="0" doc="" alert="" />
+    <pro name="尽力而为" parent="" isMat="0" doc="" alert="" />
+    <pro name="寻找精灵的帮助" parent="" isMat="0" doc="" alert="" />
+    <pro name="向船长汇报" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="648" name="剧毒的洛兰花" parent="642" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="快来炫彩山山脚吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="快去炫彩山探险吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="去石堆附近找找吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="去悬崖附近找找!" parent="" isMat="0" doc="" alert="" />
+    <pro name="你们不是我的对手！" parent="" isMat="0" doc="" alert="" />
+    <pro name="快去拯救卡茨吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="救命恩人！" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="653" name="穿越云水洞" parent="648" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="来炫彩山岩找我吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="哈哈！这下你们完了！" parent="" isMat="0" doc="" alert="" />
+    <pro name="海盗，我们来了" parent="" isMat="0" doc="" alert="" />
+    <pro name="敢和我们对战吗？！" parent="" isMat="0" doc="" alert="" />
+    <pro name="哈哈哈！我等你们好久了!" parent="" isMat="0" doc="" alert="" />
+    <pro name="拉动链条" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="655" name="海盗研究所" parent="653" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="来炫彩山岩找我吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="尝尝头部射击的威力吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="父亲你在哪里？" parent="" isMat="0" doc="" alert="" />
+    <pro name="避开火焰机关！" parent="" isMat="0" doc="" alert="" />
+    <pro name="看你们怎么办！" parent="" isMat="0" doc="" alert="" />
+    <pro name="试着去解除引爆装置吧！" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="658" name="山顶的决战" parent="655" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="快来海盗研究所吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="利用石块攻击海盗" parent="" isMat="0" doc="" alert="" />
+    <pro name="领教一下我们的实力吧！" parent="" isMat="0" doc="" alert="" />
+    <pro name="让我们齐心协力吧！" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="620" name="解救康康" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="洗个奶油浴并找钥匙" parent="" isMat="0" doc="" alert="" />
+    <pro name="找到钥匙去解锁" parent="" isMat="0" doc="" alert="" />
+    <pro name="带康康逃离" parent="" isMat="0" doc="" alert="" />
+  </task>
+<task ID="530" name="活力之匙" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="拓梯星第一场景" parent="" isMat="0" doc="" alert="" />
+    <pro name="拓梯星第二场景" parent="" isMat="0" doc="" alert="" />
+    <pro name="完成任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="532" name="复苏活力之匙" parent="530" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="蘑菇怪" parent="" isMat="0" doc="" alert="" />
+    <pro name="钢牙鲨" parent="" isMat="0" doc="" alert="" />
+    <pro name="里奥斯" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="535" name="第二把生命之匙" parent="532" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="转动机关" parent="" isMat="0" doc="" alert="" />
+    <pro name="伪装" parent="" isMat="0" doc="" alert="" />
+    <pro name="滚动石柱" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="534" name="踏访石化之城" parent="535" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="墨杜萨星的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="石化之城的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="540" name="孕育力量的钥匙" parent="534" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="海兹尔星的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="伪装堡垒的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="549" name="寻觅隐身之匙" parent="540" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="拉铂尔星的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="拉铂尔星的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="拉铂尔星的交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="558" name="封印中的精灵" parent="549" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="菲尔纳星交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="菲尔纳星交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="560" name="真正的化身之匙" parent="558" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="赫鲁卡星交互一" parent="" isMat="0" doc="" alert="" />
+    <pro name="赫鲁卡星交互二" parent="" isMat="0" doc="" alert="" />
+    <pro name="点击扎克进行对战" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="561" name="探宝大考验" parent="560" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="赫鲁卡星交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="赫鲁卡城交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="玩个小游戏" parent="" isMat="0" doc="" alert="" />
+    <pro name="赫鲁卡地穴交互" parent="" isMat="0" doc="" alert="" />
+    <pro name="交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="788" name="危险！泡泡一族！" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="0前往晶石峡谷" parent="" isMat="0" doc="" alert="" />
+    <pro name="1进入丛林之境" parent="" isMat="0" doc="" alert="" />
+    <pro name="2准备渡河" parent="" isMat="0" doc="" alert="" />
+    <pro name="3危难的伙伴" parent="" isMat="0" doc="" alert="" />
+    <pro name="4冰狐的来意" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="796" name="暗夜冰狐的天敌" parent="788" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="0前往资料室" parent="" isMat="0" doc="" alert="" />
+    <pro name="1进入丛林秘境" parent="" isMat="0" doc="" alert="" />
+    <pro name="2前往冰封洞窟" parent="" isMat="0" doc="" alert="" />
+    <pro name="3烈火丛林中的较量" parent="" isMat="0" doc="" alert="" />
+    <pro name="4暗夜冰狐的天敌" parent="" isMat="0" doc="" alert="" />
+    <pro name="5神狐一族" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="801" name="爆发吧！神狐一族！" parent="796" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="0前往烈焰丛林" parent="" isMat="0" doc="" alert="" />
+    <pro name="1最后的任务" parent="" isMat="0" doc="" alert="" />
+    <pro name="2前往神兽谷" parent="" isMat="0" doc="" alert="" />
+    <pro name="3冰狐的哀鸣" parent="" isMat="0" doc="" alert="" />
+    <pro name="4神狐的爆发" parent="" isMat="0" doc="" alert="" />
+    <pro name="5阴谋的背后" parent="" isMat="0" doc="" alert="" />
+</task>
+</tasks>

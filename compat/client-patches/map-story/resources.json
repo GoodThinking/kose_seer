@@ -1,0 +1,1765 @@
+[
+  {
+    "path": "resource/bounsMovie/task_549_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_549_1.swf",
+    "sha256": "33284b5d7768e4494c1a48a8e3ca078080a3318141ad88e15661e738f8e52008",
+    "bytes": 346903,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_549_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_549_2.swf",
+    "sha256": "f7004c16f7ee419d29bb29ef159a910d8b96819ed48fb7162dbe2788b70a3faa",
+    "bytes": 247373,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_549_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_549_3.swf",
+    "sha256": "b228a006e0a042f67ffb096cfe6bb802910e1908908f05d167ea688bc9060b4c",
+    "bytes": 67696,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_549.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_549.swf",
+    "sha256": "8c6274e203b944dac8c19e85a6cf3de8175f09f534260727f6cf285f9065077d",
+    "bytes": 44957,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_549",
+      "classes": ["com.robot.module.task.TaskPanel_549"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/549.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/549.swf",
+    "sha256": "c571c143efa547b63a412a293fc44caef54371e6a8f2f4a7af58b98e777fc30f",
+    "bytes": 2806,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/441.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/441.swf",
+    "sha256": "34663dec97ed44d4701c3888a72c172c81790ebf43a7354af685c43d3f0003fa",
+    "bytes": 412337,
+    "missingFromLive": false
+  },
+  {
+    "path": "module/com/robot/module/app/TaskIntro_549.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/TaskIntro_549.swf",
+    "sha256": "2cc1f25085d05235c9ee23f88a71ae8619276f19cc4bc7455c18f30a3086f4a7",
+    "bytes": 25919,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskIntro_549",
+      "classes": ["com.robot.module.app.TaskIntro_549"],
+      "abcTags": ["com/robot/module/app/TaskIntro_549"]
+    }
+  },
+  {
+    "path": "resource/bounsMovie/task_540_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_540_1.swf",
+    "sha256": "3fa1e7c27124bb472796f15a020ec146326c95feb1b43b796e190646e7830b77",
+    "bytes": 270520,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_540_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_540_2.swf",
+    "sha256": "320aaa622d9879319cabecff8bc6d88712d0dfee2c82a1b2deb6412049389b9e",
+    "bytes": 248597,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_540_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_540_3.swf",
+    "sha256": "20ff1d70d22a58081e7c0f1ec157dc20b35019520224735d1d2caca9bb2ef9cf",
+    "bytes": 474790,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_540_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_540_4.swf",
+    "sha256": "bc06d5b36b8af96720af414a0017bdcec4546f49c6b55cb0a65f0fca39f6a207",
+    "bytes": 764035,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_540_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_540_5.swf",
+    "sha256": "2b01d2ebf314d97051781cabdae6a814a8744647fbfa17439578735b73f7b2e5",
+    "bytes": 92082,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_540.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_540.swf",
+    "sha256": "db41114516920ed3f3efb6e11246e62eb1284aa3496fccc15641d7290a9a3aa5",
+    "bytes": 96295,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_540",
+      "classes": ["com.robot.module.task.TaskPanel_540"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/540.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/540.swf",
+    "sha256": "cb4f38a0472cee05b4ed68e68628779742bb0b145384f265269da81bf260a199",
+    "bytes": 4382,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/439.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/439.swf",
+    "sha256": "969c16b42372b91dcc42398efefa0d0b6fb1d4de92ebe7c9435ac3d4251c79b7",
+    "bytes": 259180,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/440.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/440.swf",
+    "sha256": "a7898d43f6bbcbebf72b01f858d4440632b992732721f488ece99fe28060cf8c",
+    "bytes": 484951,
+    "missingFromLive": false
+  },
+  {
+    "path": "module/com/robot/module/app/StoneBook_540.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/StoneBook_540.swf",
+    "sha256": "3400f2502e7f0b146de65bf1192d5b8c3a810222caf21953ece31fb159135343",
+    "bytes": 41761,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/StoneIntro_540.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/StoneIntro_540.swf",
+    "sha256": "629142eddb7d9cabee2a18c5b95b0f5744ac899770a99c31e26a2a76929dfbe5",
+    "bytes": 54595,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/TaskIntro_540.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/TaskIntro_540.swf",
+    "sha256": "ca79bebc68391c84e919504f4f72b343e0826db4b6ac5e1dbf88b3385e283a3c",
+    "bytes": 234990,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_534_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_534_1.swf",
+    "sha256": "766f8a82946cea2edeb16a7d5a08b5dae4908ff63be4acc4800ef3a8b5aa8a8a",
+    "bytes": 246644,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_534_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_534_2.swf",
+    "sha256": "5c01d664482555388a468cc737f15207a81d2fa15c06cddbf190a2290a3573ab",
+    "bytes": 15183,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_534_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_534_3.swf",
+    "sha256": "9a4e8dd25c4539cddd4538dbea577c1e96fca2e1b60c1fde202eb04ff2e32088",
+    "bytes": 324592,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_534_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_534_4.swf",
+    "sha256": "f02edd5237321111525a8c9bfb84f63ba05deebbe0f4b2841d1f51047fdb3a97",
+    "bytes": 34994,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_534.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_534.swf",
+    "sha256": "473c23016fa4bcd73f930c016af074e74f91dd63f15828f9cfb49d22b0340bf4",
+    "bytes": 48544,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_534",
+      "classes": ["com.robot.module.task.TaskPanel_534"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/534.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/534.swf",
+    "sha256": "f4604d337c47cbff3ca3444ced3cfc53f439d229e01568b1024e056a4182c689",
+    "bytes": 3101,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/437.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/437.swf",
+    "sha256": "0ab3b12d8fb51670db98b77a704e1163dbde8be97285e9a0fc8401d68a48ba50",
+    "bytes": 435840,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/438.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/438.swf",
+    "sha256": "f0017d7c0d1955edd97c59246a7b0a9fe20535d7fb43b25540d85666acdcb550",
+    "bytes": 522963,
+    "missingFromLive": false
+  },
+  {
+    "path": "module/com/robot/module/app/StoneBook_534.swf",
+    "url": "https://edu.jingxi-tools.com:18761/module/com/robot/module/app/StoneBook_534.swf",
+    "sha256": "3cce28f07767394a9d85d24120baab29bfd9e3feecf260b77f77cb2fcef63267",
+    "bytes": 93173,
+    "missingFromLive": false
+  },
+  {
+    "path": "module/com/robot/module/app/StoneCityIntro_534.swf",
+    "url": "https://edu.jingxi-tools.com:18761/module/com/robot/module/app/StoneCityIntro_534.swf",
+    "sha256": "494afcb6095620be376ff1b57d32c3aa0552ac1d7ecc9a33e6a1a36fcb6c2a3a",
+    "bytes": 39332,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/591.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/591.swf",
+    "sha256": "40331ff223d80c0fe598ef2d51e2baef6f7e649988b063ebdca0c730bde56676",
+    "bytes": 10735,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/592.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/592.swf",
+    "sha256": "bd096877351eaff2730e1f961c09a203059043c965fc1dafb0b41716b2d37535",
+    "bytes": 4067,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/task_535_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_535_1.swf",
+    "sha256": "818a155d61dbafd98abc6331126d4ff950cc3718fe4bc323ab0b113ab26a167b",
+    "bytes": 177236,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_535_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_535_2.swf",
+    "sha256": "a90588c9c781c15f953437fe17e03ad30a00f8d15659945cb695397fbf816995",
+    "bytes": 42747,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_535_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_535_3.swf",
+    "sha256": "485aa38343096b1f4500f9e82fb09118ce1d5884a8a0c9a3a36e9ccec5587a9c",
+    "bytes": 778610,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_535_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_535_4.swf",
+    "sha256": "c20e078a74bafffe9342ac0ce6362168dd38c5ef2934a60338f3a35c32e1e181",
+    "bytes": 35999,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_535.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_535.swf",
+    "sha256": "e999a951a41450ed318e6aa078c74506fd796da38ad20962d4cc7cb1da5be5e6",
+    "bytes": 99658,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_535",
+      "classes": ["com.robot.module.task.TaskPanel_535"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/535.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/535.swf",
+    "sha256": "7b33a0105f723d1f637042742b8b7ed274d311e33c0c6f8d2af58e5e91d00ece",
+    "bytes": 2310,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/435.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/435.swf",
+    "sha256": "045f2e4c6571acd48cb00a46dd276a1b656a270144e1e71609d71207e62a6404",
+    "bytes": 469649,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/436.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/436.swf",
+    "sha256": "a0e33b36086190e8e18ed40e5571ebc639bd7d0a809d9d2221c8f46c199ac68b",
+    "bytes": 277894,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/task_530_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_530_1.swf",
+    "sha256": "2848823a2bc97109f78f9f6f906471b06dd05b744cf90ef72c14e5f8bdc8b55a",
+    "bytes": 249256,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_530_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_530_2.swf",
+    "sha256": "beeeef2f2d86c72ea25567c4931684fc20ce529601f8cac59c9ca3b3a067e139",
+    "bytes": 212954,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_530_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_530_3.swf",
+    "sha256": "f1241a155f57d6b073bf221cedb978aabd27d218a5560e1a4b04d051935e0d04",
+    "bytes": 304273,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_530_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_530_4.swf",
+    "sha256": "0acc2dd6d31a0b4cacb65416171d12afc9a7f70b02eb1359d2a34247c0724cbb",
+    "bytes": 235796,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/530.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/530.swf",
+    "sha256": "28b3c3aeb0589e27c39d1bf5993209579dfce962d531762b4f762ffc0f27e7a2",
+    "bytes": 3396,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/taskNpc/iris.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/taskNpc/iris.swf",
+    "sha256": "34f3f90fd946041b95dd1c55e507e65cf6c26a5cc10b43286667001d429eecff",
+    "bytes": 22207,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/multi/4.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/multi/4.swf",
+    "sha256": "f4bed850071f9d3d00147511ee422daae73ef88c1eeb781a3899979663bb2802",
+    "bytes": 6874,
+    "missingFromLive": false
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_530.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_530.swf",
+    "sha256": "268309eb5b2d4dc1a49030d76234da28c75de8701f19f3d58c9c99a91a6406c9",
+    "bytes": 35146,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_530",
+      "classes": ["com.robot.module.task.TaskPanel_530"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/bounsMovie/task_532_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_532_1.swf",
+    "sha256": "bdc0613625a872c34523b934a4c30d972492113ac224d7f2c4910b4e8989388d",
+    "bytes": 309436,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_532_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_532_2.swf",
+    "sha256": "43ef4763de4a19ff9a0acd33fc33e57d9be476fe561dad32c252d26130edcdf2",
+    "bytes": 80161,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_532_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_532_3.swf",
+    "sha256": "277577b728ee46ecda6c2d95130ad75246f935ebe697f4c2fdde455ab4dc95e6",
+    "bytes": 79754,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_532_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_532_4.swf",
+    "sha256": "7aa406d31770c93251ddcc72ab41b9b5813e9cba9ab98a31e539c65da754784a",
+    "bytes": 85883,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_532_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_532_5.swf",
+    "sha256": "12342f1da84ffa32fb6ee22d1a786e1c2b47af64bf6141bce627604ec90f4737",
+    "bytes": 18635,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_532_6.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_532_6.swf",
+    "sha256": "b9f4f521580fc3c7acfc87b04ad40030d14b503d380e5ecf26c14e6790f1fdf1",
+    "bytes": 14152,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/532.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/532.swf",
+    "sha256": "28b3c3aeb0589e27c39d1bf5993209579dfce962d531762b4f762ffc0f27e7a2",
+    "bytes": 3396,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_532.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_532.swf",
+    "sha256": "79d262c97883853459efc1341d8e844c4ffb059a21e10eb4ed15568072e67999",
+    "bytes": 284508,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_532",
+      "classes": ["com.robot.module.task.TaskPanel_532"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/pet/swf/46.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/pet/swf/46.swf",
+    "sha256": "bcfb407cba4a143b6fa0d2b4033ce88ceec6b5e9dbcea54d033d797463922bdb",
+    "bytes": 3804,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/groupFightResource/pet/5020.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/groupFightResource/pet/5020.swf",
+    "sha256": "5cf67bd14176b890b52957c3f029b07b0baa0a566cefe3a4037c08a034e1d422",
+    "bytes": 11267,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/606.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/606.swf",
+    "sha256": "552b2b06fd62f93a5e6f55a3784c74a6813942c36127a2ad80a0b8e81fd6c144",
+    "bytes": 33964,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/pet/swf/42.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/pet/swf/42.swf",
+    "sha256": "a4f9513520065b3c6de4a2f7db0ca92f6ba741aa9c855ed1bf6473e551773c28",
+    "bytes": 16345,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/580.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/580.swf",
+    "sha256": "4c8e7d13871098070bc89af860c2e412246587c81499c471429105042ebfba65",
+    "bytes": 5414,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/585.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/585.swf",
+    "sha256": "46c21212110c1f285bec7a190471f04a0e6e2770934d2947421cd1da74fccb88",
+    "bytes": 8029,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/586.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/586.swf",
+    "sha256": "e70ac886acb5e00c8b360441399ff3d9b5209bffe031ab2959ecc4ce9ed5bc88",
+    "bytes": 3261,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/newNpc/oneSide/600.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/newNpc/oneSide/600.swf",
+    "sha256": "218df7c50f2eb0226ab6c9874c5e125a3b95394f0b64d3edca24e3f998036643",
+    "bytes": 6572,
+    "missingFromLive": false
+  },
+  {
+    "path": "module/com/robot/module/app/TasksRecordPanel.swf",
+    "url": "https://edu.jingxi-tools.com:18761/module/com/robot/module/app/TasksRecordPanel.swf",
+    "sha256": "bd5304afbd6f78daf0f8d960a400fc6e772a6c9a3ca1048464fab4aab5d111f4",
+    "bytes": 156392,
+    "missingFromLive": false,
+    "patch": {
+      "directory": "modules/TasksRecordPanel",
+      "classes": ["com.robot.module.app.taskRecord.menu.NodeDataReader", "com.robot.module.app.taskRecord.PanelTask"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/app/DienVideo_624.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/DienVideo_624.swf",
+    "sha256": "921ec80d3692a47132a8f2b5c0b7e8899503409fe19d54c31c524cddde0bc10b",
+    "bytes": 92168,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/MaliDetector.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/MaliDetector.swf",
+    "sha256": "251f9234f35419a7e13099c229270f8eb7c64a350717f671f3475812e043123f",
+    "bytes": 42105,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/MaliGame.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/MaliGame.swf",
+    "sha256": "9fbb102f3e428f6f8837623b461f323e3015a1f2d08141f8cfe4fac917ec6dc7",
+    "bytes": 195402,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/MirrorMaze.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/MirrorMaze.swf",
+    "sha256": "7ae3b3f8c50039e0ccbaa3e703796c071b86fcbadaa384ab33d2a8a3b4f210c6",
+    "bytes": 134163,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/Task620PwdPanel.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/Task620PwdPanel.swf",
+    "sha256": "7c1d7e42eb007884139d6530c9634532c3e762e0b67ac260fa42c220ab0ae0b1",
+    "bytes": 47150,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_616.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_616.swf",
+    "sha256": "abf51b4edbfcbc13391fe87953c19c54ecd09a3f1caac67fbb3ffa0e351c5e15",
+    "bytes": 101371,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_616",
+      "classes": ["com.robot.module.task.TaskPanel_616"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_619.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_619.swf",
+    "sha256": "e5ed73d48fb6a79104407905fcd2ce5d5748b7bf49894306d8a8a1392fb5d723",
+    "bytes": 78149,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_620.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_620.swf",
+    "sha256": "9a7480bf9ea07e0e560156c4c6f5e02b34d98c0e0541330ad1da1f087fca9af7",
+    "bytes": 222795,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_620",
+      "classes": ["com.robot.module.task.TaskPanel_620"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_624.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_624.swf",
+    "sha256": "a51675df135e1e1444584d870ffb12139f5075ed463bcafe97bd04f63bc461f9",
+    "bytes": 29426,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_626.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_626.swf",
+    "sha256": "b55e4553c7203f18c08391c9ad9dcf6d18464d9807c627f666164732522f5320",
+    "bytes": 54454,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_628.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_628.swf",
+    "sha256": "722074eb0fa0bbcc364f22b8c11981f422310e8cb01764cb9d087925141c9c18",
+    "bytes": 63857,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_633.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_633.swf",
+    "sha256": "a66472f0b17189c9a8bb0c67a270d1853ef8c4ee5b75e87e1ac7e0c74b15bb6c",
+    "bytes": 95304,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_637.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_637.swf",
+    "sha256": "b1d864f5ad3c2b50c077d07aaa1632d6a21525045c54e75909cb8fa15d14a4dc",
+    "bytes": 108635,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_641.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_641.swf",
+    "sha256": "a158bdbb0a05de8e050b68ccbc10a96c408249dce3342d61aa84db860028c245",
+    "bytes": 335093,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_642.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_642.swf",
+    "sha256": "e40f6d63a903bca3e977d01d3c12df4e98561f551eb729ea06bde4356f3d5a2d",
+    "bytes": 286025,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_648.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_648.swf",
+    "sha256": "b9d4ef13af397a8a74d0d6b7367236b7b4ec5affb8bd778ee8cacb9b1118692c",
+    "bytes": 294147,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_653.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_653.swf",
+    "sha256": "30e54a75a200eaa7b794cae74a16f8551c632895cefe35749911684ab3d29f1e",
+    "bytes": 231388,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_655.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_655.swf",
+    "sha256": "89c6898ea74cf333a45a9e13a1aa46490b5519c799c5411fe4f3d07febc2aab3",
+    "bytes": 210613,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_658.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_658.swf",
+    "sha256": "158b6e4f10bef32a9668d3fa5bf026f383df73b0347cc53f116e4470ddecef84",
+    "bytes": 198953,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/NecklaceLost.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/NecklaceLost.swf",
+    "sha256": "4db6e5119331e70f0e5a6d272079ff93b07703cf05a7fe296a498d4da90417c1",
+    "bytes": 101183,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_619.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/cartoon/task_619.swf",
+    "sha256": "28922226a63ebb1afd23b4a968ce2adc4341697aacdf23c3eba078d25a307960",
+    "bytes": 325833,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_626.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/cartoon/task_626.swf",
+    "sha256": "62b76db0701e654b64d9ecd384625b5ca5e30dce40c77ce7eae4392b880f551f",
+    "bytes": 120085,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_658.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/cartoon/task_658.swf",
+    "sha256": "54a9f81139a13b7ac1fc901bb00f1deeca058670d1e47a81986d5287fb4b2beb",
+    "bytes": 205706,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/falseNpc.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/falseNpc.swf",
+    "sha256": "e7a4fbf3b9e68a58590c3bc137e9db95a1bdc3f26e345ef8ae2f4dd314549762",
+    "bytes": 79415,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task616_01.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task616_01.swf",
+    "sha256": "047ce4a6345dac141ee63030befd95203f267a5ad24c898480bbca57eec48663",
+    "bytes": 200112,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task616_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task616_1.swf",
+    "sha256": "ed86d169833aeefb2b25477c5a83fcd7b88d375eb1242b5d25a540a2da6c93ce",
+    "bytes": 11401,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task616_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task616_2.swf",
+    "sha256": "1723572b946f1ad0f3049068f425200f7691fcf6e24aa32eca6c74e13285b2e4",
+    "bytes": 104284,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task616_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task616_3.swf",
+    "sha256": "0a7afe919d13c1cc734b8b7e14f39913684688f3a83125ab308498c91fd6a1c8",
+    "bytes": 55488,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task616_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task616_4.swf",
+    "sha256": "339bcc9ea517a5d1caa87311357d6adb9582a4f383598afa5b4d235d88c2cc25",
+    "bytes": 202367,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task616_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task616_5.swf",
+    "sha256": "2fad06aac3afa532cda77d4e74c23e9681d4c3e266e66b51342cc4f55191bf1a",
+    "bytes": 262039,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_619.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_619.swf",
+    "sha256": "3acbaf5304502bd9eb26bfe3a23308f05fe297723c7a80ae45af8aebc07ca972",
+    "bytes": 816966,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_619_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_619_1.swf",
+    "sha256": "cc6e7ed5d1270bd4b7e68953aa0127b73eb0f314cdfe9c693a221a85a07c418c",
+    "bytes": 234393,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task620unlock.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task620unlock.swf",
+    "sha256": "6938b27f72a19de889072e5fc0b6498f1f02a7ed0a3bd9cc5f76e1bb50023c5b",
+    "bytes": 186611,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_624_0.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_624_0.swf",
+    "sha256": "2ea3f1b5df895a29b7a868ebc7cafdb5755690eaee4ece95d9382b3bc6d421f0",
+    "bytes": 208813,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_624_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_624_1.swf",
+    "sha256": "e639144a0180be6b73e8b1bc03e3ca11c944fb0c53eb8e09cb552ba0516806a9",
+    "bytes": 518297,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_624_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_624_2.swf",
+    "sha256": "e347c6e32fdee726c5caf324eb36b9dc10a904dd49547dadebf66d9fef8f5a25",
+    "bytes": 127739,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_624_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_624_3.swf",
+    "sha256": "cd14d3f0cff382265eaf329f3e107df76ac93bca464789d9312f5386abe6bd46",
+    "bytes": 203651,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_624_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_624_4.swf",
+    "sha256": "ae510d8f196cf29e9f1262b42f96d62edc38bff5d358cf52b3e13bc5b5cc946b",
+    "bytes": 50554,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_626_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_626_1.swf",
+    "sha256": "7b97d1cd60d56c7d4d8ec92c472ec7f9ca8c2c872e4ca1ce32c9aba7cb2e52bd",
+    "bytes": 1411423,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_626_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_626_2.swf",
+    "sha256": "230210d9a96a6f72995f9bd6d70c7eabcbd620bb651bfd0f63f551dcfac6a992",
+    "bytes": 31720,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_626_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_626_3.swf",
+    "sha256": "c2cdc1d3b867bb2d90fb9bd12f09aa840670191162b4f316e8d70e4e6dd4d445",
+    "bytes": 101479,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_628_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_628_1.swf",
+    "sha256": "bee60a2a830ec3bcf06e1dd6e787e16a1ad4483bbcd97f1f963ae16dbca576f4",
+    "bytes": 410418,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_628_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_628_2.swf",
+    "sha256": "26e78d2fe343779bade9f1492a03ac2107b6ce8d0f9674297c7ee0902d69b890",
+    "bytes": 249747,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_628_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_628_3.swf",
+    "sha256": "5bae56c989da5d3241b22b3937269ad202f3b8fdb9743cc89903b6ffa233f215",
+    "bytes": 438908,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_628_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_628_4.swf",
+    "sha256": "be996e849384ab5139a7432069f3d861b5ee2ab3ad20af47b1e419b629986072",
+    "bytes": 101544,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_633_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_633_1.swf",
+    "sha256": "a99dc2b961e540c62766a7a16aa23631540b9b2c0facb4e3505f7274f6850a6f",
+    "bytes": 128273,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_633_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_633_2.swf",
+    "sha256": "10e7066d5533933bec7857e322af29ffd01e70c3db7804c5d2764e36870ac299",
+    "bytes": 275518,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_633_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_633_3.swf",
+    "sha256": "46c7afadfd3fd246e6252a56fe6155fbea90ad0ae4ce00d1ff4889511a6a0374",
+    "bytes": 108356,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_637_0.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_637_0.swf",
+    "sha256": "597b17c754e0e6f1fef2c5504fab3ee7b6e660a5a5b0455aab5deba04297c4a4",
+    "bytes": 108499,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_637_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_637_1.swf",
+    "sha256": "4f9a9d4feec6392a30acf5d772b7259029a846add711d8055b7f180786420d38",
+    "bytes": 120670,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_637_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_637_2.swf",
+    "sha256": "2432d0f0e6052ac77ef3d94d65327a0a5066cdd270d8188522081a6fcc9628a4",
+    "bytes": 109889,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_640_0.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_640_0.swf",
+    "sha256": "3461734812ceabc2e6e89b0574a8f0094aa39d596d63184f9cdedc44f50d911e",
+    "bytes": 356809,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_640_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_640_1.swf",
+    "sha256": "a5e67268f51f13757b82d795f87b269f9a1ed9a34afc2c907666f52fb5f5a2de",
+    "bytes": 1358476,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_640_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_640_2.swf",
+    "sha256": "85f8b9a0939b0ca158e91fbe75bd4bbffb93b96041c46d0679cca87fa95b3a19",
+    "bytes": 107280,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_642_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_642_1.swf",
+    "sha256": "3a864ceba2a13b5aa1a34daab33f23d116830a16ec16c7f9ec68422e64f7979f",
+    "bytes": 106225,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_642_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_642_2.swf",
+    "sha256": "9cd648a86456950e012d007c755d0c79ecd80aebc887460d5e80fa61269b73c7",
+    "bytes": 109862,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_642_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_642_3.swf",
+    "sha256": "51ce1b3add190b96976cd516cab43f937bec57d890226c698317b2e6c86a5885",
+    "bytes": 388137,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_648_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_648_1.swf",
+    "sha256": "ce11760ae877a6f467cc73596b00f51d172c4d248e75a0081ed70bc54fba3be8",
+    "bytes": 42504,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_648_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_648_2.swf",
+    "sha256": "e6b16cc1d825069f9a1d3361595017fe8d5d100b1748b00a9ff524e0df185863",
+    "bytes": 349635,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_648_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_648_3.swf",
+    "sha256": "da51056ed11b9370f65af5af465bfa51dc24ca8de86691fda6b4b512da8c4234",
+    "bytes": 191264,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_653_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_653_1.swf",
+    "sha256": "ec03e1366adb2b738f49336c8a2f122e15f14a5ff77ddd364b627b374a053434",
+    "bytes": 718300,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_653_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_653_2.swf",
+    "sha256": "c2302a0823b59a70667cc54b74fd1e37db366170f181c529f5572a895c6d5ac1",
+    "bytes": 428117,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_655_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_655_1.swf",
+    "sha256": "8fd48177c66c6854c2fac2a94028ebd4f0737e7604b7190539a68559613cfddf",
+    "bytes": 243365,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_655_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_655_2.swf",
+    "sha256": "be89f17f3963e83b30b88ca73c41be87e54edb67cfa0f062cd80bd9fe6c0b988",
+    "bytes": 817620,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_655_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_655_3.swf",
+    "sha256": "0489729c70020e9dd705fbed81cf8c111aae55959298f12db3170aaf19cfb4f0",
+    "bytes": 103755,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_658_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_658_1.swf",
+    "sha256": "206da247dbfce5056327697d6ced1e178e12f130c2f5987eda1c35e4bc3895eb",
+    "bytes": 627690,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_658_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_658_2.swf",
+    "sha256": "83d8021b6e62905f03c845dccd91bcf5fca04d7282ec9e84d68f74f7ed133ce2",
+    "bytes": 544370,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/445.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/445.swf",
+    "sha256": "8bccfe5966407347191aec09728176f67ffee3dcc4a406deca6e8ab02fedb0c8",
+    "bytes": 417960,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/446.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/446.swf",
+    "sha256": "407ae374c9671cf19e060be43836754f2128e9572f21fd9423e38cfcc11e051d",
+    "bytes": 292675,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/447.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/447.swf",
+    "sha256": "939cc983a22dfb4bf387d08ecafde7ee125321b4c1c0b76fee7436f8e12308d1",
+    "bytes": 465518,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/448.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/448.swf",
+    "sha256": "1de8b74d6dd118b7f3706c5a3cab8cd6c38515597c2517de61e6bfd01e39049e",
+    "bytes": 320519,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/449.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/449.swf",
+    "sha256": "30ae6391d2d3c95b7fffe128ca4fd391a98d1478435df67d9ad287e1df3bedaa",
+    "bytes": 488938,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/476.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/476.swf",
+    "sha256": "3def88cc5c1064837c09ffbfb9e2d35f5fef492ebc4c971e2b42282a94700b1b",
+    "bytes": 338563,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/478.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/478.swf",
+    "sha256": "7a95b77bef83974a02e6a28147c9d7ddec085dbf8de527a4e8ed0d7ed6cdd752",
+    "bytes": 488798,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/479.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/479.swf",
+    "sha256": "4067eeec5fb93ecd3076477a9a0b3d9f94cb92c7425fc5381d87708852bd8a50",
+    "bytes": 222461,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/484.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/484.swf",
+    "sha256": "2240966ce95c91c04de5b4fcec3c8163ec7b3fb33004a818d06d210fa3b628b7",
+    "bytes": 377959,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/486.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/486.swf",
+    "sha256": "2431ba8fc950017cbcfad159a304dfb82516117322c76ce096a4edb5ed0ff285",
+    "bytes": 595149,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/487.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/487.swf",
+    "sha256": "56856158d96e3ec28d4f75019689ee6a6d202aefdd4d8f7d0820dc8623bd0ad8",
+    "bytes": 260435,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/494.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/494.swf",
+    "sha256": "552b985940d7813597931c6b90118b68847efc76dbd72577761d3525e8124ed9",
+    "bytes": 376301,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/496.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/496.swf",
+    "sha256": "67e2b6ba1a856934727e7e998fe7fd8a7c666ec9743c0e455a96c0d3577138ea",
+    "bytes": 283208,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_624.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/cartoon/task_624.swf",
+    "sha256": "fb575d8c64402b986c48ca0f7316aa2b78be67a4c3dac76b4a5bb8fb825f90d3",
+    "bytes": 133772,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/kaxiusi.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/kaxiusi.swf",
+    "sha256": "37a820ac623969a82a028c100e7ccd8fd1944d70754345a616fc13c296892b63",
+    "bytes": 24109,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_768_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_768_1.swf",
+    "sha256": "db766c52b8a3dc718d2f0238daef01f9c10bcc41bc4bd3e0e1885cdd2c5312a9",
+    "bytes": 149274,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_768_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_768_3.swf",
+    "sha256": "9840428b18a46336ac449229a784d0b2c2db4fab87b0d0dfc9ed28f77d84a486",
+    "bytes": 674481,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_768_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_768_4.swf",
+    "sha256": "531cdab7ada5bca4c1212374166fbdf69682858e23f9eefcac436592b3f3abb1",
+    "bytes": 616388,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_768_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_768_5.swf",
+    "sha256": "e27638ae98637ab96d7dbcd47a71c4c78fd502277b841efcdec6a13d990222a9",
+    "bytes": 621938,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_768_6.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_768_6.swf",
+    "sha256": "369af2d40a2d2aa9ad62deccd94e308ff98901065c7c887804b9bd207767702a",
+    "bytes": 158141,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_795_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_795_2.swf",
+    "sha256": "27e9a0f97b9c09a8f1c05053756487468330e649f5e5d242701b27b083876af7",
+    "bytes": 1044225,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_795_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_795_3.swf",
+    "sha256": "58fc84fb130ad433a285f00315480b51a94ea29786787ee4c2bed42892f90b26",
+    "bytes": 829215,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_795_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_795_4.swf",
+    "sha256": "b8b75f63c04bee17cb8a8511c0378a438496acc2849c93347c4c1c0347e985f0",
+    "bytes": 431620,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_795_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_795_5.swf",
+    "sha256": "04586252a5e1df26af5168cde842214ace808521f6fe6d7a0cac9e12706b68a0",
+    "bytes": 170297,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/497.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/497.swf",
+    "sha256": "4a142a1343f5ad2b20a7ed3c731e159544c3da05280514a9b89fd2bc1e7c3879",
+    "bytes": 589305,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/task/icon/616.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/616.swf",
+    "sha256": "aed5f36a7590716cee1d53adde0c5f2d20ba70253c3c9380c3f3dae06666e350",
+    "bytes": 3378,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/619.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/619.swf",
+    "sha256": "7682602c9dbacc2ad2770ec0ce89dcb2a7b22ed9d5ea2746e8470fffde1aab2c",
+    "bytes": 4492,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/624.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/624.swf",
+    "sha256": "9a7e1bad2d4c556a4ae93c4a4c71c146d0fb17684bdcf4d52a1b215b0e32b3f9",
+    "bytes": 2663,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/626.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/626.swf",
+    "sha256": "3120037e73d3922465f52309a3ce0554aef992abbb43d9003f919d6afbff657f",
+    "bytes": 2536,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/628.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/628.swf",
+    "sha256": "84acd97d1dce49db6dec4fbdda2becc9b1a263f5f080da813c3a2339ec8be28e",
+    "bytes": 4161,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/633.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/633.swf",
+    "sha256": "90f5c8d2d188f11a16bff17760604e6a246d99e62f9bc593943aa26584458a1e",
+    "bytes": 6084,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/637.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/637.swf",
+    "sha256": "3b75f0779d5b1df4fef82e8d6eb382b85f5d4323800c2bfb21c5e8e6b1cc53cd",
+    "bytes": 3012,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/641.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/641.swf",
+    "sha256": "8517229b0b75e39aa052dcdff5fbc620504b671d4b12516e34896df2857525e8",
+    "bytes": 3762,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/642.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/642.swf",
+    "sha256": "5419d8cd76a4496436628a779daf207b27e2fd2a88ff15024d5a56a3ff4ae428",
+    "bytes": 1458,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/648.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/648.swf",
+    "sha256": "91971fbfca0fab9a873845ae41a22504089360d33835e037c1d0563f0c1b2451",
+    "bytes": 4206,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/653.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/653.swf",
+    "sha256": "4c6884b15cc02f0131ec922eaed4d2352b29b24954d449c90cea9e9714196e47",
+    "bytes": 5732,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/655.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/655.swf",
+    "sha256": "247704d6d138949787ed9442d7d73bf09676ccbcd5c1e26c09599448e8f5bed8",
+    "bytes": 8536,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/task/icon/658.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/658.swf",
+    "sha256": "4c6884b15cc02f0131ec922eaed4d2352b29b24954d449c90cea9e9714196e47",
+    "bytes": 5732,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/taskNpc/white.swf",
+    "url": "http://43.248.3.28:12346/resource/taskNpc/white.swf",
+    "sha256": "67ca457fe742662cd2a25f5b033836880e4687fb5440ba3e33d179cd589885cf",
+    "bytes": 59850,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/taskNpc/maze.swf",
+    "url": "http://43.248.3.28:12346/resource/taskNpc/maze.swf",
+    "sha256": "9c70b1a3b166446b6b050ca9354dd7a234541d1ed9a98a058513ff9027b21811",
+    "bytes": 57680,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/taskNpc/sun.swf",
+    "url": "http://43.248.3.28:12346/resource/taskNpc/sun.swf",
+    "sha256": "d5cbf4d782a516f7063594da3bfa9387e6bc1526f0ab39bc027e432dcc916c1a",
+    "bytes": 7482,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/9515.swf",
+    "url": "http://43.248.3.28:12346/resource/map/9515.swf",
+    "sha256": "eae7540afc84f3714a511dfc59f84c80b208a4f6aaf33b862509b3ea661ae316",
+    "bytes": 379195,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/681.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/681.swf",
+    "sha256": "db1597840ca8f58d1bc456d1192a94b847bab566cf1effd8c8f2e1827148d548",
+    "bytes": 306090,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/682.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/682.swf",
+    "sha256": "db0f6cd28b1221f91ebdf37094a67c07a0499f77c6d5e8aa15c8ef3b77c4285e",
+    "bytes": 357061,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/693.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/693.swf",
+    "sha256": "f5f69f0cee5dc1a0ad99bacc2aa102d0fec49f103907d9a4126706b0b836815c",
+    "bytes": 1021082,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/459.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/459.swf",
+    "sha256": "9e9218f312d1f14553e37f60635a6e25d4dcc7c79a0a37c34db22d4eda5d86bd",
+    "bytes": 1001850,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/task_558_0.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_558_0.swf",
+    "sha256": "d2109b267972403c883bcf8f1831f404596b7f7bdde3aae8abf0acdce5bdb377",
+    "bytes": 285577,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_558_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_558_1.swf",
+    "sha256": "1d7b95cb396e25c90c1c6426299e9b75081ae4254760cc5313957995dd988f25",
+    "bytes": 62004,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_558_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_558_2.swf",
+    "sha256": "7636b89a1924090ea0991491d8daa0493897dad12db9b0faf2be1ff477f5b38e",
+    "bytes": 89071,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_558_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_558_3.swf",
+    "sha256": "7dd93eb87c585b293b25a65e4f8374d1d39202c9d4eeb87ec0348582865b1038",
+    "bytes": 92854,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_558.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_558.swf",
+    "sha256": "da2ffa42e261008c79fde00ab117757838e8d57bbe043b3dd97568e5adb2d3ae",
+    "bytes": 79047,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_558",
+      "classes": ["com.robot.module.task.TaskPanel_558"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/558.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/558.swf",
+    "sha256": "fe96c6f98caf58689979f1b7f788c7fc085a03fbca5cfaf8a0c0c3acffce6d84",
+    "bytes": 3759,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/460.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/460.swf",
+    "sha256": "79ab7114981b39024e8dddfe4e9f278ef7d417f03b20bc71589c7684713f6b12",
+    "bytes": 841174,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/task_559_0.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_559_0.swf",
+    "sha256": "6af3c297baa297c2f2424f94266542bc0108721d212dca9396add984ce76d047",
+    "bytes": 119714,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_0.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_0.swf",
+    "sha256": "a8dc6cb54da9d9c0162db0196a046f06f3bcf24d91969468b0f8eb9682c3fef9",
+    "bytes": 245180,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_1.swf",
+    "sha256": "602f401f7332340e2ed628ca20149bd2fe5981d84dbb8809f28f1848661a0273",
+    "bytes": 381788,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_2.swf",
+    "sha256": "5c2b3a7d6f9743d59e75baa7b8cb9bd2a95c5675eccbece5fed6a3c0832af172",
+    "bytes": 35811,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_3.swf",
+    "sha256": "858b83fe4a99c26ec4bb10b21f686e7ee1e1322061c1781dd416a4ac7409704d",
+    "bytes": 66943,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_4.swf",
+    "sha256": "a08dcf7758e3393d2cef82950c97efde943b16e1862790e50c17ea4184acaa47",
+    "bytes": 315033,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_5.swf",
+    "sha256": "725c946fe8b32df75c2af04979996953be88f5760e00355e9fba3460913387a8",
+    "bytes": 1039957,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_560_6.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_560_6.swf",
+    "sha256": "d659371c3bdb9895dca199939f46f6e0ec09958fac47399df31fb814836fad6a",
+    "bytes": 688055,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_560.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_560.swf",
+    "sha256": "28731604985085a8984fbb021ad96c4a11f189ff89e0e163b7c5dd63896ab96e",
+    "bytes": 132068,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_560",
+      "classes": ["com.robot.module.task.TaskPanel_560"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/560.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/560.swf",
+    "sha256": "fe96c6f98caf58689979f1b7f788c7fc085a03fbca5cfaf8a0c0c3acffce6d84",
+    "bytes": 3759,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/461.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/461.swf",
+    "sha256": "074650cc692aeea069f64b3906c2e8264e0ff045d963fa22755207e84499e580",
+    "bytes": 1096965,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/462.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/462.swf",
+    "sha256": "8fb4222123564f89c918ad0dbdf961b383b34b5abf1faeb9e15f7dc99821ef11",
+    "bytes": 360718,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/task_561_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_1.swf",
+    "sha256": "7312f17b95abad76990da632b7ff13a829ed6132e3ecfc2fbabf058925f30928",
+    "bytes": 294574,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_561_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_2.swf",
+    "sha256": "e1c02333268124aae88f100f471bde7093a32e2756fbceca418d15f7fe2c76d3",
+    "bytes": 231056,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_561_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_3.swf",
+    "sha256": "39470393f8a63806b54d25ba8f4877ea501f65b167c44846d5280cfc18b854f4",
+    "bytes": 20795,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_561_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_4.swf",
+    "sha256": "65934c6aa4abd9e36b2ab60214c842a16794fe0bce93e209cecaec49d6039cfd",
+    "bytes": 10316,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_561_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_5.swf",
+    "sha256": "f8091a577ace3ac154f95939f5db78538488249c01025ffe0be07df04e873a2c",
+    "bytes": 842465,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_561_6.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_6.swf",
+    "sha256": "319bfd038f36a0d67cbf4df1a601b908897880e06801c11d9379250b43263ac4",
+    "bytes": 100305,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_561_7.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_561_7.swf",
+    "sha256": "d113e68b137b70865ba107e566f0e7f62b8045d10145587dd7ff90dc01428ce0",
+    "bytes": 99329,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/game/CipanPintuPanel.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/game/CipanPintuPanel.swf",
+    "sha256": "5f5462f13733b4ac7c9de4a16d6e18fc482e2ccaafd615bfc4f3480c334e939a",
+    "bytes": 32351,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/TaskIntroPanel_561.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/TaskIntroPanel_561.swf",
+    "sha256": "e71296d3ae3d33145c546990f339f612a16d91318ae2b12b7b15e5242a0c5dc7",
+    "bytes": 6435,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskIntroPanel_561",
+      "classes": ["com.robot.module.app.TaskIntroPanel_561"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_561.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_561.swf",
+    "sha256": "f333c8823fedcd70fc298fdcc90c1d9ca21092ee5f532ff3a8a011581c4d4982",
+    "bytes": 491259,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_561",
+      "classes": ["com.robot.module.task.TaskPanel_561"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/561.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/561.swf",
+    "sha256": "f5159b9ac888e5e0c20a2cab9c5667e07e913ab218facec256bd3b6ad8f05dbd",
+    "bytes": 3689,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/683.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/683.swf",
+    "sha256": "0a1ec85f1e93d2e187faf7539d96f078e6d68c7d060f7c4723446cf6e688fadf",
+    "bytes": 162609,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/684.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/684.swf",
+    "sha256": "e7ef2f2019ceb455f557eebf86091a9123a6b517763c0e876d72d127a44d8108",
+    "bytes": 517333,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/685.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/685.swf",
+    "sha256": "1fa314ba1148812d4d48b8d9226758b95e926f70a413183e992f130d32a7109d",
+    "bytes": 290836,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/686.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/686.swf",
+    "sha256": "f7e7e7c12feaefd9cdd1f85b8a8dff08d8bc5bc7513c9bbddb8f59ad00c261ce",
+    "bytes": 601189,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/map/687.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/687.swf",
+    "sha256": "50dca60984b7e9d4cd6641fcefda3dbfc08a5105abf28550fb72a3fd62df2d6b",
+    "bytes": 383985,
+    "missingFromLive": false
+  },
+  {
+    "path": "resource/bounsMovie/task_788_1.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_788_1.swf",
+    "sha256": "fd4605fccd2557806ad03ef2f57b1dc84f6572facf835cfab628046dff04827c",
+    "bytes": 273864,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_788_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_788_2.swf",
+    "sha256": "50dc13ec98e7e9d2b1a4d6597b40d4f2783fa406a2b525d243316d6683b78dbf",
+    "bytes": 792097,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_788_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_788_3.swf",
+    "sha256": "4ebb83568e644a3feb0ca7fa30d27e71152099d86c3df93f17a338814f3b1acb",
+    "bytes": 810666,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_788_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_788_4.swf",
+    "sha256": "00d33953bd8052dacb1d0daa2f2a437208ba79e47c2ef87007e0a340f03bbb3b",
+    "bytes": 159541,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_788.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_788.swf",
+    "sha256": "4fbf75d2e7a95cb6b0c67438890c6642aa005ed565bf368c2137a9713b31181f",
+    "bytes": 74527,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_788",
+      "classes": ["com.robot.module.task.TaskPanel_788"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/788.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/788.swf",
+    "sha256": "961929a90e05c601b0e64dd3b39bccbfe46257c0d08b1e8c52de6f7e067a9954",
+    "bytes": 5793,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/SeaVortexActivity.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/SeaVortexActivity.swf",
+    "sha256": "6df9bf7941bef74117e59bd780c70d4c57e02747bcc0d7aa854cb354cd9c885d",
+    "bytes": 111131,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/taskNpc/tairuoxin.swf",
+    "url": "http://43.248.3.28:12346/resource/taskNpc/tairuoxin.swf",
+    "sha256": "9f8c6249c0e082b1ef2e58b15b6c6aab3b36b243c2be1468e3f0760a8230d59e",
+    "bytes": 9527,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/10053.swf",
+    "url": "http://43.248.3.28:12346/resource/map/10053.swf",
+    "sha256": "96ec41c4dc0b39e1019bf47c66a212553c405d7099663ce65b972b38c8979b4a",
+    "bytes": 805702,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/app/TaskIntro_796.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/app/TaskIntro_796.swf",
+    "sha256": "9a835290d3b2924962d6834f25ec8666724c5959b4d4cfc0ab7abf312ac8d952",
+    "bytes": 199407,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskIntro_796",
+      "classes": ["com.robot.module.app.TaskIntro_796"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_796.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_796.swf",
+    "sha256": "eb7fd7dd1264adbd5ad45f84d8dbc565dec82e10a4d029c2b767f0080afc0b81",
+    "bytes": 80147,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_796",
+      "classes": ["com.robot.module.task.TaskPanel_796"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/796.swf",
+    "url": "http://43.248.3.28:12346/resource/task/icon/796.swf",
+    "sha256": "b5b482d6d664620454b3a6631a24f8439cd6a003026f983b8f40f4416e140915",
+    "bytes": 2996,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/taskNpc/anyebinghu.swf",
+    "url": "http://43.248.3.28:12346/resource/taskNpc/anyebinghu.swf",
+    "sha256": "73dffa4fb938de47852598ed299065b6cc6dc5af88fc55e6c7e840f99b7706e6",
+    "bytes": 11489,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_796_2.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_796_2.swf",
+    "sha256": "1220a2e8fd7d4316e283c64a70985c0d07e7cf465f5246fcb6f81bbe4fc945a7",
+    "bytes": 475068,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_796_3.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_796_3.swf",
+    "sha256": "08c65947da96195b67d0c686ef32573566e10094fe4b4b165d3b6dca673b42ed",
+    "bytes": 249710,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_796_4.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_796_4.swf",
+    "sha256": "c1f318b9b8ac71c0fe6a18d9a819d90e5c65d685151f5aaf49c82b02c849f9bd",
+    "bytes": 769946,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_796_5.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_796_5.swf",
+    "sha256": "bdc23aae74ac764992533f61d4e1cb46e001a1a1ebda1cd39be1d02d86a6aa8d",
+    "bytes": 699985,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_796_6.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/task_796_6.swf",
+    "sha256": "0d47bfeb70a3665b9085a36a0269c2c2d6060a3e4de6654d3937cb4275f97878",
+    "bytes": 142831,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_796.swf",
+    "url": "http://43.248.3.28:12346/resource/bounsMovie/cartoon/task_796.swf",
+    "sha256": "effe3c53a8b832c878a0be90fcd346d7c085af5bfb3f915848f4200557da846f",
+    "bytes": 682608,
+    "missingFromLive": true
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_801.swf",
+    "url": "http://43.248.3.28:12346/module/com/robot/module/task/TaskPanel_801.swf",
+    "sha256": "732896313cdf732756add3c4e6233a4d70d67ac006587a025d9019780cd359b4",
+    "bytes": 111299,
+    "missingFromLive": true,
+    "patch": {
+      "directory": "modules/TaskPanel_801",
+      "classes": ["com.robot.module.task.TaskPanel_801"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/task/icon/801.swf",
+    "url": "https://seer.61.com/resource/task/icon/801.swf",
+    "sha256": "e11dc3499a18044152fdf4f363844acfed4212efde169cc9b299df2420e59539",
+    "bytes": 2991,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_801_2.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/task_801_2.swf",
+    "sha256": "745e395fd671743b7faaf53b8b5782135f63bdefc0d8ce97a3efb92006403398",
+    "bytes": 330088,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_801_4.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/task_801_4.swf",
+    "sha256": "0511035cddc979aaa9ec528d2940a2c926037c93e344535e5a17bb2eefaf6745",
+    "bytes": 690991,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_801_5.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/task_801_5.swf",
+    "sha256": "af9e38748b06e2f905348794ede892222d5df529e74ea8282515bd10a8251fda",
+    "bytes": 578725,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_801_6.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/task_801_6.swf",
+    "sha256": "7ce3aca0c2fb64ec6b4a70990540ea02de82cf5477cb90caf390f96e42dbe5d4",
+    "bytes": 158809,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_801_1.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/cartoon/task_801_1.swf",
+    "sha256": "cc1b5a84133c2e3b0c1fb2163b4d67a3c778c53812bfe80b9e36ff6b4d6859b1",
+    "bytes": 737077,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/cartoon/task_801_3.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/cartoon/task_801_3.swf",
+    "sha256": "4ef9169764a304054e3bff6c88de45bac603c82072d2e1719b06fa1756a4ca1b",
+    "bytes": 120431,
+    "missingFromLive": true
+  }
+]

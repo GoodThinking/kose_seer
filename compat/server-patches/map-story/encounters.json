@@ -1,0 +1,117 @@
+[
+  {
+    "mapId": 17,
+    "region": 2,
+    "petId": 95,
+    "level": 100,
+    "taskId": 532,
+    "stage": 2,
+    "orderedProgress": false,
+    "source": "原任务面板指向火山星深处 map 17；当年攻略确认三场海盗战斗及 100 级尼布：https://news.7k7k.com/content/20101112/21749.html 。三个能源分支可任意顺序完成，不修改常规 SPT Boss 配置。"
+  },
+  {
+    "mapId": 425,
+    "region": 0,
+    "petId": 499,
+    "level": 15,
+    "activity": true,
+    "requiresSuperNoNo": true,
+    "capture": true,
+    "source": "MapProcess_425.onPetClick；原版攻略战斗截图确认阿零 15 级：https://newsimg.5054399.com/uploads/userup/1010/221A92J3X.jpg"
+  },
+  {
+    "mapId": 494,
+    "region": 0,
+    "petId": 726,
+    "level": 18,
+    "activity": true,
+    "requiredClothId": 100044,
+    "capture": true,
+    "source": "MapProcess_494.fightMonster；原版攻略战斗截图确认力亚 18 级：https://newsimg.5054399.com/uploads/userup/1104/011142014043.jpg"
+  },
+  {
+    "mapId": 494,
+    "region": 1,
+    "petId": 728,
+    "level": 91,
+    "activity": true,
+    "requiredClothId": 100044,
+    "capture": false,
+    "source": "MapProcess_494.fightMonster；当前客户端 pets.xml 的马力 CatchRate=0。原始野生等级未核实，按用户授权沿用 main 麦兹星野怪的最低等级 91，不改已有 Boss 或普通野怪数值。"
+  },
+  {
+    "mapId": 476,
+    "region": 0,
+    "petId": 980,
+    "level": 15,
+    "activity": true,
+    "capture": true,
+    "requiredRecord": 218,
+    "requiredItems": [
+      { "itemId": 300414, "count": 1 },
+      { "itemId": 300415, "count": 1 },
+      { "itemId": 300416, "count": 1 }
+    ],
+    "fragmentDrop": {
+      "petIds": [742, 743],
+      "rate": 0.1,
+      "minCount": 1,
+      "maxCount": 2
+    },
+    "source": "MysteryMon 原始对话及当年攻略确认三色碎片由阳光大地的莱克、丽萨克掉落；原版战斗截图确认文文 15 级：https://news.7k7k.com/content/20111104/103333.html 。原始掉率和消耗时点未核实，按用户授权采用当前地图同类掉落的每种 10%、1–2 个，并在成功建战时各消耗 1 个；查询与建战失败不消耗。"
+  },
+  {
+    "mapId": 497,
+    "region": 0,
+    "petId": 58,
+    "level": 100,
+    "taskId": 628,
+    "stage": 1,
+    "source": "Task628.fightHandler: 塔奇拉顿; 当前客户端精灵 ID 58。原始等级未核实，按用户授权沿用同阶段尼斯克的 100 级规则，不修改既有 Boss 配置。"
+  },
+  {
+    "mapId": 497,
+    "region": 1,
+    "petId": 96,
+    "level": 100,
+    "taskId": 628,
+    "stage": 1,
+    "source": "https://newsimg.5054399.com/uploads/userup/1104/15115300YP.jpg"
+  },
+  {
+    "mapId": 478,
+    "region": 0,
+    "petId": 756,
+    "level": 100,
+    "taskId": 637,
+    "stage": 4,
+    "source": "https://newsimg.5054399.com/uploads/userup/1104/2912224493E.jpg"
+  },
+  {
+    "mapId": 447,
+    "region": 0,
+    "petId": 105,
+    "level": 95,
+    "taskId": 653,
+    "stage": 2,
+    "source": "https://newsimg.5054399.com/uploads/userup/1105/2G2361A323.jpg"
+  },
+  {
+    "mapId": 449,
+    "region": 0,
+    "petId": 743,
+    "level": 90,
+    "taskId": 658,
+    "stage": 2,
+    "source": "https://news.4399.com/seer/saiergonglue/201106-08-99324.html"
+  },
+  {
+    "mapId": 449,
+    "region": 1,
+    "petId": 772,
+    "level": 90,
+    "taskId": 658,
+    "stage": 2,
+    "source": "https://news.4399.com/seer/saiergonglue/201106-08-99324.html"
+  }
+]

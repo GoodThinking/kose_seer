@@ -1,0 +1,270 @@
+<Maps>
+    <map id="440" name="伪装堡垒" x="200" y="412" super="439" sound="BGM_030">
+        <Entries>
+        </Entries>
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="439" />
+        </changeMapComp>
+        <funComp>
+        </funComp>
+    </map>
+    <map id="441" name="拉铂尔星" x="625" y="440" super="441" sound="BGM_10061">
+        <Entries>
+            <Entry FromMap="9515" PosX="95" PosY="365" />
+        </Entries>
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="9515" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="459" name="菲尔纳星" x="105" y="376" super="459" sound="BGM_034B">
+        <Entries />
+        <changeMapComp />
+        <funComp />
+    </map>
+<map id="445" name="炫彩山山脚" x="900" y="400" super="484" sound="BGM_10108">
+		<Entries>
+			<Entry FromMap="479" PosX="900" PosY="397" />
+			<Entry FromMap="446" PosX="680" PosY="112" />
+		</Entries>
+		<changeMapComp>
+			<component name="door_0" hit="comp_0" targetID="479" />
+			<component name="nextMapHit" hit="comp_2" targetID="446" />
+		</changeMapComp>
+		<funComp>
+			<component name="holeHit" hit="comp_hole" fun="gotoHoleFight" des="炫彩山神秘洞窟" />
+		</funComp>
+	</map>
+
+	<map id="446" name="炫彩山岩" x="770" y="450" super="484" sound="BGM_068">
+		<Entries>
+			<Entry FromMap="445" PosX="737" PosY="465" />
+			<Entry FromMap="447" PosX="432" PosY="117" />
+		</Entries>
+		<changeMapComp>
+			<component name="lastMapHit" hit="comp_1" targetID="445" />
+			<component name="nextMapHit" hit="comp_2" targetID="447" />
+		</changeMapComp>
+		<funComp>
+			<component name="holeHit" hit="comp_hole" fun="gotoHoleFight" des="炫彩山神秘洞窟" />
+		</funComp>
+	</map>
+
+	<map id="447" name="云水洞" x="40" y="330" super="484" sound="BGM_068">
+		<Entries>
+			<Entry FromMap="446" PosX="74" PosY="272" />
+			<Entry FromMap="448" PosX="338" PosY="95" />
+		</Entries>
+		<changeMapComp>
+			<component name="lastMapHit" hit="comp_1" targetID="446" />
+			<component name="nextMapHit" hit="comp_2" targetID="448" />
+		</changeMapComp>
+		<funComp>
+			<component name="holeHit" hit="comp_hole" fun="gotoHoleFight" des="炫彩山神秘洞窟" />
+		</funComp>
+	</map>
+
+	<map id="448" name="海盗研究所" x="135" y="280" super="484" sound="BGM_074">
+		<Entries>
+			<Entry FromMap="447" PosX="212" PosY="380" />
+			<Entry FromMap="449" PosX="140" PosY="205" />
+		</Entries>
+		<changeMapComp>
+			<component name="lastMapHit" hit="comp_1" targetID="447" />
+			<component name="nextMapHit" hit="comp_2" targetID="449" />
+		</changeMapComp>
+		<funComp>
+			<component name="holeHit" hit="comp_hole" fun="gotoHoleFight" des="炫彩山神秘洞窟" />
+		</funComp>
+	</map>
+
+	<map id="449" name="炫彩山山顶" x="100" y="440" super="484" sound="BGM_076">
+		<Entries>
+			<Entry FromMap="448" PosX="115" PosY="430" />
+			<Entry FromMap="450" PosX="640" PosY="300" />
+		</Entries>
+		<changeMapComp>
+			<component name="lastMapHit" hit="comp_1" targetID="448" />
+		</changeMapComp>
+		<funComp /></map>
+
+	<map id="476" name="阳光大地" x="175" y="260" super="497" sound="BGM_10079">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+		</changeMapComp>
+		<funComp>
+			<component name="door_0" hit="comp_0" fun="gotoLastMap" des="SUN星" />
+		</funComp>
+	</map>
+
+	<map id="478" name="黑色洞穴" x="690" y="492" super="484" sound="BGM_066">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+			<component name="door_0" hit="comp_0" targetID="484" />
+			<component name="door_1" hit="comp_1" targetID="479" />
+		</changeMapComp>
+		<funComp>
+		</funComp>
+	</map>
+
+	<map id="479" name="魔窟" x="316" y="404" super="484" sound="BGM_068">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+			<component name="door_0" hit="comp_0" targetID="478" />
+			<component name="door_1" hit="comp_1" targetID="445" />
+		</changeMapComp>
+		<funComp>
+		</funComp>
+	</map>
+
+	<map id="484" name="怀特星" x="500" y="360" super="484" sound="BGM_051">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+			<component name="door_0" hit="comp_0" targetID="486" />
+			<component name="door_1" hit="comp_1" targetID="478" />
+		</changeMapComp>
+		<funComp>
+		</funComp>
+	</map>
+
+	<map id="486" name="怀特矿场" x="80" y="440" super="484" sound="BGM_10078">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+			<component name="door_0" hit="comp_0" targetID="484" />
+			<component name="door_1" hit="comp_1" targetID="487" />
+		</changeMapComp>
+		<funComp>
+			<component name="keyHit_mc" hit="keyHit_mc" fun="getKeyHandler" />
+			<component name="npcHit_mc" hit="npcHit_mc" fun="npcClickHandler" />
+		</funComp>
+	</map>
+
+	<map id="487" name="怀特矿洞" x="126" y="428" super="484" sound="BGM_052">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+			<component name="door_0" hit="comp_0" targetID="486" />
+		</changeMapComp>
+		<funComp>
+		</funComp>
+	</map>
+
+	<map id="494" name="麦兹星" x="760" y="434" super="494" sound="BGM_10107">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+		</changeMapComp>
+		<funComp>
+			<component name="oreMC" hit="funComp_0" fun="exploitOre" des="黄晶矿" />
+			<component name="fireMC" hit="fireHit" fun="onGetFireGun" />
+		</funComp>
+	</map>
+
+	<map id="496" name="麦兹迷境" x="200" y="460" super="494" sound="BGM_055">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+		</changeMapComp>
+		<funComp>
+			<component name="key1MC" hit="key1HitMC" fun="key1ClickHandler" />
+			<component name="key2MC" hit="key2HitMC" fun="key2ClickHandler" />
+			<component name="lastPointHit" hit="lastPointHit" fun="gotoLastMap" />
+		</funComp>
+	</map>
+
+	<map id="497" name="SUN星" x="720" y="465" super="497" sound="BGM_059">
+		<Entries>
+		</Entries>
+		<changeMapComp>
+		</changeMapComp>
+		<funComp>
+			<component name="nextPointHit" hit="nextPointHit" fun="gotoNextMap" des="阳光大地" />
+		</funComp>
+	</map>
+
+    <map id="681" name="地下之城" x="150" y="450" super="441" sound="BGM_10052">
+        <Entries>
+            <Entry FromMap="682" PosX="700" PosY="250" />
+        </Entries>
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="9515" />
+            <component name="door_2" hit="hit_2" targetID="682" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="682" name="摩纳星际港" x="800" y="400" super="441" sound="BGM_10053">
+        <Entries />
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="681" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="693" name="拉铂尔仙境" x="800" y="430" super="441" sound="BGM_10060">
+        <Entries />
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="9515" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="9515" name="拉铂尔秘境" x="840" y="425" super="441" sound="BGM_115">
+        <Entries>
+            <Entry FromMap="681" PosX="185" PosY="250" />
+        </Entries>
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="441" />
+            <component name="door_1" hit="hit_1" targetID="681" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="462" name="赫鲁卡地穴" x="484" y="256" super="459" sound="BGM_034B">
+        <Entries />
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="460" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="683" name="晶石山谷" x="150" y="300" super="683" sound="BGM_120">
+        <Entries><Entry FromMap="684" PosX="800" PosY="200" /></Entries>
+        <changeMapComp><component name="door_0" hit="hit_0" targetID="684" /></changeMapComp>
+        <funComp />
+    </map>
+    <map id="684" name="丛林秘境" x="100" y="100" super="683" sound="BGM_10081">
+        <Entries>
+            <Entry FromMap="687" PosX="800" PosY="375" />
+            <Entry FromMap="685" PosX="720" PosY="200" />
+        </Entries>
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="683" />
+            <component name="door_1" hit="hit_1" targetID="685" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="685" name="冰封洞窟" x="100" y="400" super="683" sound="BGM_10082">
+        <Entries><Entry FromMap="686" PosX="900" PosY="200" /></Entries>
+        <changeMapComp>
+            <component name="door_0" hit="hit_0" targetID="684" />
+            <component name="door_1" hit="hit_1" targetID="686" />
+        </changeMapComp>
+        <funComp />
+    </map>
+    <map id="686" name="神兽谷" x="150" y="400" super="683" sound="BGM_10083">
+        <Entries />
+        <changeMapComp><component name="door_0" hit="hit_0" targetID="685" /></changeMapComp>
+        <funComp />
+    </map>
+    <map id="687" name="深海宫殿" x="830" y="255" super="683" sound="BGM_128">
+        <Entries />
+        <changeMapComp><component name="door" hit="hit" targetID="684" /></changeMapComp>
+        <funComp />
+    </map>
+    <map id="10053" name="烈焰丛林" x="650" y="250" isLocal="1" sound="BGM_085">
+        <Entries />
+        <changeMapComp><component name="door" hit="hit" targetID="10" /></changeMapComp>
+        <funComp />
+    </map>
+	</Maps>
