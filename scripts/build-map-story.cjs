@@ -9,6 +9,7 @@ const zlib = require('node:zlib');
 const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const { parseArgs } = require('node:util');
+const { NONO_CLASS, nonoVisibilityPatch, fixNonoVisibleAbc } = require('./fix-nono-visibility.cjs');
 const names = ['baseline', 'out', 'reference', 'resources', 'java', 'ffdec'];
 const { values: v } = parseArgs({ options: Object.fromEntries(names.map(n => [n, { type: 'string' }])) });
 for (const name of names) assert.ok(v[name], 'Missing --' + name);
@@ -174,7 +175,12 @@ updateXml('com.robot.app.tasksRecord.TasksRecordConfig_xmlClass', xml => {
     assert.ok(end.test(xml), 'Journal hierarchy changed');
     return xml.replace(end, chapters + '\n$1');
 });
-const finalTags = compiled.tags.map(t => t.code === 87 && replacements.has(t.payload.readUInt16LE(0)) ? replacements.get(t.payload.readUInt16LE(0)) : t.raw);
+only(compiled.tags.filter(t => t.code === 82 && t.name === NONO_CLASS), 'NonoModel visibility class');
+const finalTags = compiled.tags.map(t => {
+    if (t.code === 87 && replacements.has(t.payload.readUInt16LE(0))) return replacements.get(t.payload.readUInt16LE(0));
+    if (t.code === 82 && t.name === NONO_CLASS) return tag(82, fixNonoVisibleAbc(t.payload));
+    return t.raw;
+});
 const finalCore = encode(core, finalTags);
 put(coreRel, finalCore); put('client/overlay/dll/NieoCore.swf', finalCore);
 
@@ -424,6 +430,6 @@ for (const asset of JSON.parse(fs.readFileSync(path.join(patch, 'resources.json'
     for (const prefix of ['client/assets/', 'client/overlay/']) put(prefix + asset.path, bytes);
 }
 const manifest = { baselineCoreSha256: sha(coreRaw), referenceSha256: sha(referenceRaw), classes: classNames,
-    quests: Object.keys(storyTasks).map(Number), files };
+    binaryPatches: [nonoVisibilityPatch], quests: Object.keys(storyTasks).map(Number), files };
 fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ files: files.length, classes: classNames.length, addedClasses: additions.length, quests: manifest.quests, coreSha256: sha(finalCore) }, null, 2));

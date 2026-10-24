@@ -2598,6 +2598,44 @@ Core 返回 `Cache-Control: no-cache`，新 Core SHA-256 为
 `outputs/map-story-restoration-20261022/{deployment-result94.json,public-after94.json,post-release-health94.json,public-headless94.json}`。
 刷新网页并重新登录后生效；811 及后续章节、旧培养活动和缺失配置的两处 Boss 实战仍不计为完成。
 
+### 阳光大地换图卡死修复候选（2026-10-24，未发布）
+
+隔离分支 `fix/sunland-map-entry-20261024` 从个人 main 的 `6cfabd5` 建立，不修改 Boss 数值或生产存档。
+普通未接剧情的本地 QA 账号通过 SUN星（497）的原生 `nextPointHit` 入口进入阳光大地（476）时，
+复现旧地图停留、加载进度 100% 和输入失效。
+
+根因不在地图下载。`MAP_SWITCH_OPEN` 触发任务退出清理，依次进入
+`TasksController.leaveScene`、`Task628.destroy`、`KTool.setActorVisible`；
+恢复 NONO 显示时，当前客户端 `NonoModel.visible` setter 执行 `this.visible = param1`，递归调用自身。
+后台浏览器捕获首个错误 `RangeError: Maximum call stack size exceeded`；之后的
+`Unable to lock Ruffle core` 是后续错误，不作为独立根因处理。
+
+`scripts/fix-nono-visibility.cjs` 将该 setter 的 AVM2 `setproperty` 改为 `setsuper`，
+语义为 `super.visible = param1`。只修改 `NonoModel` DoABC 内一个操作码字节，不重新编译整个 NONO 类，
+不跳过任务清理、不修改任务进度、不隐藏加载框。
+完整 DoABC 哈希和原始指令字节均有守卫；客户端类发生变化时必须重新核对，脚本不会盲用旧偏移。
+`scripts/build-map-story.cjs` 已接入同一修复，并在 `binaryPatches` 中记录补丁元数据。
+独立增量命令的 `--input` 接收新抓取的当前 Core，`--output` 必须指向尚不存在的新文件；
+发布前仍须核对最新 main、两份线上 Core 和并行会话的改动，不得整包覆盖旧版本。
+
+本轮增量产物以已发布 Core `a4c75eda55e1017844eddf916b9342bcc9887a38eb008cad02846d91e616227b` 为输入，
+修复后的无探针 Core SHA-256 为 `06728b59a8c6ed04b4d2b4e9382c358b545f0b9e2cb9addcb6b443aa66ee951b`。
+逐标签比对确认所有其他类、嵌入 XML、媒体和标签顺序均未改变。
+
+两个独立合成账号使用真实 Ruffle 和原生鼠标操作完成 497→476、地图内行走、原生 `door_0` 返回 497。
+观察版读回玩家位置 `(175,260)`→`(300,310)`，同一个 NONO 对象持续可见，返回后输入可用。
+正式产物另以全新账号验收，确认不含 `mapStory*` 回调；三步操作均有截图，未捕获 JavaScript 异常。
+浏览器显式使用 `--headless=new --mute-audio`，未打开前台游戏。
+证据与截图位于 `outputs/map-story-restoration-20261022/sunland-hotfix99/`。
+本轮已验证增量生成脚本、两份 Node 脚本语法及实际客户端路径，未重新执行 409 文件全量构建，尚未推送或部署。
+
+星图入口另行核对：左侧卫星按钮是 `btn_100`，当前客户端名称为「英佩恩堡垒」；
+修复候选中已原生点击进入地图 100，但未据此推断用户此前无响应的具体原因。
+右侧传送门为 `btn_10039`；当前客户端及参考客户端均未登记该地图，当前公开地图资源也返回 404。
+原生点击已到达按钮，现有处理器因缺少地图配置直接返回；原版名称仍缺可靠依据，不按外观猜名，
+也不把该入口算作本次已恢复内容。
+
+
 ## 框架优点
 
 ### 1. 微服务架构
