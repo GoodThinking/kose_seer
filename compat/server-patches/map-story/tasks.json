@@ -1,0 +1,359 @@
+{
+  "tasks": {
+    "530": {
+      "name": "活力之匙",
+      "type": "normal",
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [{"type": 3, "value": 2500}],
+        "fitments": [{"fitmentId": 500833, "count": 1}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "532": {
+      "name": "复苏的活力之匙",
+      "type": "normal",
+      "parentTaskId": 530,
+      "requiredProgress": 4,
+      "orderedProgress": false,
+      "rewards": {
+        "coins": 2000,
+        "special": [{"type": 3, "value": 2000}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "535": {
+      "name": "第二把生命之匙",
+      "type": "normal",
+      "parentTaskId": 532,
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [{"type": 3, "value": 2000}],
+        "fitments": [{"fitmentId": 500834, "count": 1}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "534": {
+      "name": "踏访石化之城",
+      "type": "normal",
+      "parentTaskId": 535,
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [{"type": 3, "value": 3000}],
+        "fitments": [{"fitmentId": 500835, "count": 1}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "540": {
+      "name": "孕育力量的钥匙",
+      "type": "normal",
+      "parentTaskId": 534,
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [{"type": 3, "value": 3000}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "549": {
+      "name": "寻觅隐身之匙",
+      "type": "normal",
+      "parentTaskId": 540,
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [{"type": 3, "value": 3000}],
+        "fitments": [{"fitmentId": 500836, "count": 1}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "558": {
+      "name": "封印中的精灵",
+      "type": "normal",
+      "parentTaskId": 549,
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [{"type": 3, "value": 3000}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "560": {
+      "name": "真正的化身之匙",
+      "type": "normal",
+      "parentTaskId": 558,
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [{"type": 3, "value": 4000}],
+        "fitments": [{"fitmentId": 500837, "count": 1}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "561": {
+      "name": "探宝大考验",
+      "type": "normal",
+      "parentTaskId": 560,
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [{"type": 3, "value": 4000}],
+        "bagPetLevelGain": 1
+      }
+    },
+    "616": {
+      "name": "黑色降临",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      }
+    },
+    "619": {
+      "name": "卡茨的爆发",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 616
+    },
+    "624": {
+      "name": "卡茨迷宫心境",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 619
+    },
+    "626": {
+      "name": "卡茨的劫难",
+      "type": "normal",
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 624
+    },
+    "628": {
+      "name": "卡茨的逆袭",
+      "type": "normal",
+      "requiredProgress": 2,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 626
+    },
+    "633": {
+      "name": "SUN星大灾难",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 628
+    },
+    "637": {
+      "name": "黑暗力量爆发",
+      "type": "normal",
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 633
+    },
+    "641": {
+      "name": "与魔抗衡",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 637
+    },
+    "642": {
+      "name": "使命的召唤",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 641
+    },
+    "648": {
+      "name": "剧毒的洛兰花",
+      "type": "normal",
+      "requiredProgress": 7,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 642
+    },
+    "653": {
+      "name": "穿越云水洞",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      },
+      "parentTaskId": 648
+    },
+    "655": {
+      "name": "海盗研究所",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      },
+      "parentTaskId": 653
+    },
+    "658": {
+      "name": "山顶的决战",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 655
+    },
+    "620": {
+      "name": "解救康康",
+      "type": "normal",
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 2000
+          }
+        ],
+        "coins": 2000
+      }
+    },
+    "788": {
+      "name": "危险！泡泡一族！",
+      "type": "normal",
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 500,
+        "special": [{ "type": 3, "value": 5000 }],
+        "items": [{ "itemId": 300401, "count": 5 }]
+      }
+    },
+    "796": {
+      "name": "暗夜冰狐的天敌",
+      "type": "normal",
+      "parentTaskId": 788,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 500,
+        "special": [{ "type": 3, "value": 8000 }],
+        "items": [{ "itemId": 300401, "count": 5 }]
+      }
+    },
+    "801": {
+      "name": "爆发吧！神狐一族！",
+      "type": "normal",
+      "parentTaskId": 796,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [{ "type": 3, "value": 8000 }],
+        "items": [{ "itemId": 300428, "count": 1 }, { "itemId": 300401, "count": 5 }]
+      }
+    }
+  }
+}
