@@ -481,6 +481,13 @@ node scripts/test-pet-effects.cjs /path/to/isolated/runtime
 - 卡片：头像缩到 40，右侧是位置、等级与体力、状态三行，下方是四行机制说明。面板高度由 480 改为 500，才放得下四行。
 - 已击败按 BOSS 表的 `spt.sptId` 读成就，规则不变。
 
+**SPT 分类修正（2026-10-24）**
+
+- 从终端名单及构建生成器移除依依 `83`、小莹蜂 `153`、闪光波克尔 `166`、达比拉 `178`。总数由 96 项减至 92 项，帕诺星系由 23 项减至 19 项；其余条目、顺序和筛选规则不变。
+- 仅修改 SPT 展示分类，不删除服务端战斗配置，不改野外刷新、机关捕捉、奖励或已有精灵。不能用 `sptId > 0` 一刀切，否则会误删谱尼封印等既有挑战。
+- 从现网 `SptPanel.swf` 重编，只改变其唯一 DoABC，其他 195 个标签保持字节一致。发布范围仅 `client/assets/module/com/robot/module/app/SptPanel.swf`，不发布历史构建器产生的 Core 或服务端配置，不需要重启。
+- 原生 Ruffle 预览已逐页核对全部 16 页的 92 项及帕诺星系 4 页，并验证未击败、已击败筛选。现有列表生成器完整构建通过；证据在 `outputs/spt-rare-filter-20261024/evidence/`。未使用玩家账号，未复测真实传送或机关捕捉。
+
 **改动与验证**
 
 - 数据在 `compat/server-patches/boss-locks/notes.json`，构建脚本是 `scripts/build-boss-notes.cjs`：

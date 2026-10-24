@@ -109,8 +109,11 @@ const GALAXY_OF_MAP = {110: '暗黑武斗场', 102: '太空站挑战', 405: '太
 const TRAVEL = {514: 108};
 const alias = new Set(Object.keys(bosses.mapAlias || {}).map(Number));
 const schedule = (bosses.specialRules?.weekdaySchedule || []).map(r => [r.petId, new Set(r.schedules.map(s => s.mapId))]);
+// These wild/mechanism encounters reuse boss battle configuration, but are not SPT entries.
+const nonSptPets = new Set([83, 153, 166, 178]);
 const sptBosses = [];
 for (const b of bosses.bossConfigs) {
+  if (nonSptPets.has(b.petId)) continue;
   if (alias.has(b.mapId)) continue;
   if (schedule.some(([pet, at]) => pet === b.petId && !at.has(b.mapId))) continue;
   const map = maps.get(b.mapId);
