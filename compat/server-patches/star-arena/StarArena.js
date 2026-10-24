@@ -1,5 +1,7 @@
 'use strict';
-const catalog=require('./StarArenaCatalog.json');
+const {arenas}=require('./StarArenaCatalog.json');
+const byId=new Map(arenas.map(arena=>[arena.id,arena]));
+const byMap=new Map(arenas.map(arena=>[arena.mapId,arena]));
 const {DatabaseManager}=require('../../../DataBase/DatabaseManager');
 const {GameConfig}=require('../../../shared/config/game/GameConfig');
 const {createDefaultPetInfo}=require('../../../shared/models/PetModel');
@@ -12,26 +14,28 @@ const {CommandID}=require('../../../shared/protocol/CommandID');
 const {BattleConverter}=require('./BattleConverter');
 const {BaseProto}=require('../../../shared/proto/base/BaseProto');
 class PacketStarArena extends BaseProto {
-  constructor(operation,progress,result=0){super(91010);this.operation=operation;this.progress=progress;this.setResult(result);}
-  serialize(){const p=this.progress||{},data=Buffer.alloc(32);[this.operation,1,p.next_stage||0,catalog.trainers.length,catalog.rewardPetId,p.claimed?1:0,p.champion?1:0,p.run_id||1].forEach((value,index)=>data.writeUInt32BE(value,index*4));return data;}
+  constructor(operation,progress,arena,result=0){super(91010);this.operation=operation;this.progress=progress;this.arena=arena;this.setResult(result);}
+  serialize(){const p=this.progress||{},a=this.arena,data=Buffer.alloc(36);[this.operation,2,a?.id||0,p.next_stage||0,a?.trainers.length||0,a?.rewardPetId||0,p.claimed?1:0,p.champion?1:0,p.run_id||1].forEach((value,index)=>data.writeUInt32BE(value,index*4));return data;}
 }
 class StarArena {
-  static async Progress(uid){
-    await DatabaseManager.Instance.Execute('INSERT INTO star_arena_progress(owner_id,next_stage,claimed,champion,run_id) SELECT ?,0,0,0,1 WHERE NOT EXISTS(SELECT 1 FROM star_arena_progress WHERE owner_id=?)',[uid,uid]);
-    const rows=await DatabaseManager.Instance.Query('SELECT * FROM star_arena_progress WHERE owner_id=?',[uid]);
+  static async Progress(uid,arenaId){
+    if(!byId.has(arenaId))throw new Error('Unknown arena');
+    await DatabaseManager.Instance.Execute('INSERT INTO star_arena_progress(owner_id,arena_id,next_stage,claimed,champion,run_id) SELECT ?,?,0,0,0,1 WHERE NOT EXISTS(SELECT 1 FROM star_arena_progress WHERE owner_id=? AND arena_id=?)',[uid,arenaId,uid,arenaId]);
+    const rows=await DatabaseManager.Instance.Query('SELECT * FROM star_arena_progress WHERE owner_id=? AND arena_id=?',[uid,arenaId]);
     if(rows.length!==1)throw new Error('Arena progress missing');return rows[0];
   }
-  static async Reply(player,operation,progress,result=0){return player.SendPacket(new PacketStarArena(operation,progress,result));}
+  static async Reply(player,operation,progress,result=0){return player.SendPacket(new PacketStarArena(operation,progress,byId.get(progress?.arena_id)||byMap.get(player.Data.mapID),result));}
   static async Handle(player,body){
-    if(body.length!==8)return this.Reply(player,0,null,5001);
-    const operation=body.readUInt32BE(0),expected=body.readUInt32BE(4);
-    if(operation>3||player.Data.mapID!==catalog.mapId)return this.Reply(player,operation,null,5001);
-    if(operation===0)return this.Reply(player,0,await this.Progress(player.Uid));
+    if(body.length!==12)return this.Reply(player,0,null,5001);
+    const operation=body.readUInt32BE(0),arenaId=body.readUInt32BE(4),expected=body.readUInt32BE(8);
+    const catalog=byId.get(arenaId);
+    if(operation>3||!catalog||player.Data.mapID!==catalog.mapId)return this.Reply(player,operation,null,5001);
+    if(operation===0)return this.Reply(player,0,await this.Progress(player.Uid,arenaId));
     const manager=player.BattleManager,recovery=manager.BeginOutOfBattleRecovery();
     if(!recovery)return this.Reply(player,operation,null,5001);
     let release;
     try{
-      const progress=await this.Progress(player.Uid);
+      const progress=await this.Progress(player.Uid,arenaId);
       if(!recovery.isCurrent()||progress.next_stage!==expected)return this.Reply(player,operation,progress,5001);
       release=await player.PetManager.PetData.AcquireMutation();
       if(!recovery.isCurrent())return;
@@ -44,7 +48,7 @@ class StarArena {
         const trainer=catalog.trainers[progress.next_stage],team=trainer.team.map((pet,index)=>this.BuildOpponent(manager,pet,index));
         const battle=await manager._initService.CreatePVEBattle(team[0].petId,100);
         if(!battle||!recovery.isCurrent())return this.Reply(player,operation,progress,5001);
-        battle.enemy=team[0];battle.starArena={stage:progress.next_stage,runId:progress.run_id,trainer,team,index:0};
+        battle.enemy=team[0];battle.starArena={catalog,stage:progress.next_stage,runId:progress.run_id,trainer,team,index:0};
         recovery.release();manager.InitializeBattle(battle);manager._currentBattleMapId=catalog.mapId;
         await this.Reply(player,operation,progress);
         await manager.SendReadyToFight(battle,trainer.name+' · '+trainer.title);
@@ -52,14 +56,14 @@ class StarArena {
         if(!progress.champion||progress.claimed)return this.Reply(player,operation,progress,progress.claimed?0:5001);
         await this.Claim(player,progress);
         if(recovery.isCurrent()){
-          await this.Reply(player,operation,await this.Progress(player.Uid));
+          await this.Reply(player,operation,await this.Progress(player.Uid,arenaId));
           await player.PetManager.SendPetListUpdate();
         }
       }else{
         if(!progress.claimed||progress.next_stage!==catalog.trainers.length)return this.Reply(player,operation,progress,5001);
-        const result=await DatabaseManager.Instance.Execute('UPDATE star_arena_progress SET next_stage=0,run_id=run_id+1 WHERE owner_id=? AND run_id=? AND next_stage=? AND claimed=1',[player.Uid,progress.run_id,catalog.trainers.length]);
+        const result=await DatabaseManager.Instance.Execute('UPDATE star_arena_progress SET next_stage=0,run_id=run_id+1 WHERE owner_id=? AND arena_id=? AND run_id=? AND next_stage=? AND claimed=1',[player.Uid,arenaId,progress.run_id,catalog.trainers.length]);
         if(result.affectedRows!==1)throw new Error('Arena replay conflict');
-        if(recovery.isCurrent())await this.Reply(player,operation,await this.Progress(player.Uid));
+        if(recovery.isCurrent())await this.Reply(player,operation,await this.Progress(player.Uid,arenaId));
       }
     }finally{release?.();recovery.release();}
   }
@@ -132,7 +136,7 @@ class StarArena {
           const petWrite=await driver.execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',[JSON.stringify(planned),player.Uid]);
           if(petWrite.affectedRows!==1)throw new Error('Arena pet restore failed');
           if(winner===manager.UserID){
-            const progressWrite=await driver.execute('UPDATE star_arena_progress SET next_stage=?,champion=CASE WHEN ?=? THEN 1 ELSE champion END WHERE owner_id=? AND next_stage=? AND run_id=?',[arena.stage+1,arena.stage+1,catalog.trainers.length,player.Uid,arena.stage,arena.runId]);
+            const progressWrite=await driver.execute('UPDATE star_arena_progress SET next_stage=?,champion=CASE WHEN ?=? THEN 1 ELSE champion END WHERE owner_id=? AND arena_id=? AND next_stage=? AND run_id=?',[arena.stage+1,arena.stage+1,arena.catalog.trainers.length,player.Uid,arena.catalog.id,arena.stage,arena.runId]);
             if(progressWrite.affectedRows!==1)throw new Error('Arena advancement conflict');
           }
           await driver.commit();committed=true;
@@ -147,7 +151,7 @@ class StarArena {
     }finally{release();if(manager._currentBattle===battle)manager.CleanupBattle();}
   }
   static async Claim(player,progress){
-    const pets=player.PetManager.PetData;
+    const pets=player.PetManager.PetData,catalog=byId.get(progress.arena_id);
     let catchTime=Math.max(1000000000,Math.floor(Date.now()/1000));
     while(pets.GetPetByCatchTime(catchTime))catchTime++;
     const releaseIdentity=pets.ReserveIdentity(catchTime);
@@ -155,7 +159,7 @@ class StarArena {
       await DatabaseManager.Instance.WithConnection(async driver=>{
         let committed=false;await driver.beginTransaction();
         try{
-          const rows=await driver.query('SELECT claimed,champion FROM star_arena_progress WHERE owner_id=?',[player.Uid]);
+          const rows=await driver.query('SELECT claimed,champion FROM star_arena_progress WHERE owner_id=? AND arena_id=?',[player.Uid,catalog.id]);
           if(!rows[0]?.champion||rows[0].claimed)throw new Error('Arena reward unavailable');
           const stored=await driver.query('SELECT pet_list FROM player_pets WHERE owner_id=?',[player.Uid]);
           if(!stored[0]||JSON.parse(stored[0].pet_list).some(p=>p.catchTime===catchTime))throw new Error('Arena grant identity collision');
@@ -163,10 +167,10 @@ class StarArena {
           pet.level=pet.obtainLevel=100;pet.catchTime=catchTime;
           pet.dvHp=pet.dvAtk=pet.dvDef=pet.dvSpAtk=pet.dvSpDef=pet.dvSpeed=31;
           PetCalculator.UpdatePetStats(pet);pet.hp=pet.maxHp;
-          pet.skillArray=[30944,25581,25582,30948];pet.skillPP=ReconcilePetPP(pet,true);
+          pet.skillArray=catalog.rewardSkills.slice();pet.skillPP=ReconcilePetPP(pet,true);
           pet.isInBag=pets.GetPetsInBag().length<6;pet.isDefault=pets.GetPetsInBag().length===0;
           const petWrite=await driver.execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',[JSON.stringify([...pets.PetList,pet]),player.Uid]);
-          const claimWrite=await driver.execute('UPDATE star_arena_progress SET claimed=1,reward_catch_time=? WHERE owner_id=? AND claimed=0 AND champion=1',[catchTime,player.Uid]);
+          const claimWrite=await driver.execute('UPDATE star_arena_progress SET claimed=1,reward_catch_time=? WHERE owner_id=? AND arena_id=? AND claimed=0 AND champion=1',[catchTime,player.Uid,catalog.id]);
           if(petWrite.affectedRows!==1||claimWrite.affectedRows!==1)throw new Error('Arena reward commit conflict');
           await driver.commit();committed=true;pets.PetList.push(pet);
         }catch(error){if(!committed)await driver.rollback();throw error;}

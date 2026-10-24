@@ -586,13 +586,17 @@ const stripped = (b, id) => { const s = b.skills.get(id); b.skills.set(id, {...s
     for (let i = 0; i < 3; i++) turn(b, GROWL, 0);
     assert.equal(b.enemy.hp, 0, '镇魂歌 kills 魔狮迪露');
   }
-  // 秒杀对经典BOSS有效（魔焰猩猩绝命火焰秒塔克林）
+  // 当前强化压制首领免疫秒杀，但不免疫该技能本身的普通伤害。
   {
-    const b = await bossBattle(348, 0, [11022]);
-    turn(b, 11022, 0, 0.01);
-    assert.equal(b.enemy.hp, 0, '绝命火焰 OHKO on 塔克林');
+    const ordinary = await battle([11022], [], {foePet: 274});
+    turn(ordinary, 11022, 0, 0.01);
+    assert.equal(ordinary.enemy.hp, 0, 'successful OHKO defeats the ordinary counterpart');
+    const boss = await bossBattle(348, 0, [11022]);
+    const before = boss.enemy.hp;
+    turn(boss, 11022, 0, 0.01);
+    assert.ok(boss.enemy.hp > 0 && boss.enemy.hp < before, 'Taklin blocks OHKO while taking ordinary attack damage');
   }
-  ok('Boss interplay: 海洋之心/寄生种子/镇魂歌/秒杀 follow the classic boss notes');
+  ok('Boss interplay respects current status, percentage-damage and OHKO restrictions');
 
   console.log(JSON.stringify({passed: results.length, results}, null, 2));
 })().catch(error => { console.error(error); process.exit(1); });

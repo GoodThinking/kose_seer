@@ -1,5 +1,5 @@
 <Monsters>
-<Monster ID="3022" DefName="王之哈莫" Type="龙" Height="750" Weight="1000" Features="龙之子的完全体形态，闪耀着龙族的希望，背负着龙族的使命！" mapID="0" Foundin="后续星系擂台（尚未开放）"/>
+<Monster ID="3022" DefName="王之哈莫" Type="龙" Height="750" Weight="1000" Features="龙之子的完全体形态，闪耀着龙族的希望，背负着龙族的使命！" mapID="9509" Foundin="卡兰擂台赛首次夺冠专属"/>
 <Monster ID="3406" DefName="圣霆雷伊" Type="圣灵 电" Height="185" Weight="70" Features="王·雷伊获得了圣灵的祝福，体内的雷电力量被授予了圣灵之力变为圣霆，这强大的实力将继续匡扶正义，打击邪恶！" mapID="9508" Foundin="帕诺擂台赛首次夺冠专属"/>
-<Monster ID="3481" DefName="圣战盖亚" Type="圣灵 战斗" Height="188" Weight="78" Features="接受了谱尼圣灵力量之后，盖亚的战斗实力得到了质的提升，将与自己的哥哥一同对抗奥古斯特！" mapID="0" Foundin="后续星系擂台（尚未开放）"/>
+<Monster ID="3481" DefName="圣战盖亚" Type="圣灵 战斗" Height="188" Weight="78" Features="接受了谱尼圣灵力量之后，盖亚的战斗实力得到了质的提升，将与自己的哥哥一同对抗奥古斯特！" mapID="9510" Foundin="罗格擂台赛首次夺冠专属"/>
 </Monsters>

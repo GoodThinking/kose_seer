@@ -1,0 +1,58 @@
+[
+  {
+    "petId": 525,
+    "path": "resource/pet/swf/525.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/525.swf",
+    "bytes": 13328,
+    "sha256": "4c2355c0ccf6dbd5145a3de35673432a3ad988de70a885c97892d3acb8665668"
+  },
+  {
+    "petId": 549,
+    "path": "resource/pet/swf/549.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/549.swf",
+    "bytes": 26373,
+    "sha256": "573c26695ebd2b4e15b7de1427143b4537da4026ef1b5eb0bd38356efc7d6056"
+  },
+  {
+    "petId": 554,
+    "path": "resource/pet/swf/554.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/554.swf",
+    "bytes": 22032,
+    "sha256": "ddc7b007d14033d3c240ab532541504b4fee1121613c5b5012a9e7698800a8dd"
+  },
+  {
+    "petId": 828,
+    "path": "resource/pet/swf/828.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/828.swf",
+    "bytes": 17369,
+    "sha256": "cb2e2fd15aabb6e60f35e8f0ebd2258c084f00071b51962f2aef313b51f77d36"
+  },
+  {
+    "petId": 1229,
+    "path": "resource/pet/swf/1229.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/1229.swf",
+    "bytes": 33807,
+    "sha256": "615cb666df1d6ed30ab33290fa5c017ea87e3132379bb171de1c34f78c4f841a"
+  },
+  {
+    "petId": 538,
+    "path": "resource/pet/swf/538.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/538.swf",
+    "bytes": 29626,
+    "sha256": "cddbda17c021bbbd36ac759816b253e1094ad3748898a03d4b4e89947a3b81b9"
+  },
+  {
+    "petId": 587,
+    "path": "resource/pet/swf/587.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/587.swf",
+    "bytes": 17816,
+    "sha256": "b343eaf1502bd05078792a5e5649943fac4a7d4fa79e95ef5c382e205ca58c68"
+  },
+  {
+    "petId": 672,
+    "path": "resource/pet/swf/672.swf",
+    "url": "https://seer.61.com/resource/groupFightResource/pet/672.swf",
+    "bytes": 23891,
+    "sha256": "bfddc39eee27cf7e1ac32f2261f2d4c87c3eac23c12e2a92237ccde623ee0212"
+  }
+]

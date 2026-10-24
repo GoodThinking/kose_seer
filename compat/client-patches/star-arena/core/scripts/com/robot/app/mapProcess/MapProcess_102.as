@@ -119,8 +119,8 @@ package com.robot.app.mapProcess
       private function initStarArenaDoor():void
       {
          starArenaDoor=new Sprite();starArenaDoor.graphics.lineStyle(3,0xded29c);starArenaDoor.graphics.beginFill(0x326c88);starArenaDoor.graphics.drawRoundRect(0,0,164,48,18,18);starArenaDoor.graphics.endFill();
-         var label:TextField=new TextField();label.defaultTextFormat=new TextFormat("宋体",17,0xffedb6,true);label.text="帕诺擂台赛";label.x=27;label.y=13;label.width=140;label.height=30;label.mouseEnabled=false;starArenaDoor.addChild(label);
-         starArenaDoor.x=44;starArenaDoor.y=310;starArenaDoor.buttonMode=true;starArenaDoor.mouseChildren=false;starArenaDoor.addEventListener(MouseEvent.CLICK,onStarArenaDoor);conLevel.addChild(starArenaDoor);ToolTipManager.add(starArenaDoor,"挑战16位帕诺选手，首冠获得圣霆雷伊");
+         var label:TextField=new TextField();label.defaultTextFormat=new TextFormat("宋体",17,0xffedb6,true);label.text="星系擂台赛";label.x=27;label.y=13;label.width=140;label.height=30;label.mouseEnabled=false;starArenaDoor.addChild(label);
+         starArenaDoor.x=44;starArenaDoor.y=310;starArenaDoor.buttonMode=true;starArenaDoor.mouseChildren=false;starArenaDoor.addEventListener(MouseEvent.CLICK,onStarArenaDoor);conLevel.addChild(starArenaDoor);ToolTipManager.add(starArenaDoor,"帕诺、卡兰、罗格各16位守擂者；三座赛场独立进度与冠军精灵");
       }
       private function onStarArenaDoor(event:MouseEvent):void{MapManager.changeMap(9508);}
       private function initTrainDoor() : void

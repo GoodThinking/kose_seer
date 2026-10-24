@@ -139,15 +139,15 @@ let player;
   }
   ok('Control statuses count idle turns');
 
-  // 镇魂歌：一直吃药也会在第三回合结束时生效
+  // 镇魂歌的倒计时属于回合状态，不依赖已经取消的巴弗洛开场脚本。
   {
-    const b = await bossBattle(110, 1012, [SCRATCH], {hp: 99999, maxHp: 99999});
-    assert.equal(service.ExecuteEnemyTurn(b).skillId, 20215, '巴弗洛 opens with 镇魂歌');
+    const b = await battle([20215], [GROWL], {player: {hp: 99999, maxHp: 99999}});
+    turn(b, 20215, GROWL);
     service.ExecuteEnemyTurn(b);
     service.ExecuteEnemyTurn(b);
-    assert.ok(b.player.hp > 0, 'alive two turns after the song');
+    assert.ok(b.enemy.hp > 0, 'song target survives the first two idle turns');
     service.ExecuteEnemyTurn(b);
-    assert.equal(b.player.hp, 0, '镇魂歌 lands at the end of the third turn');
+    assert.equal(b.enemy.hp, 0, 'song target faints after three subsequent idle turns');
   }
   ok('镇魂歌 counts down on idle turns');
 
