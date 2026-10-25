@@ -79,31 +79,7 @@ class StarArena {
     pet.dv=31;return pet;
   }
   static SelectSkill(battle,configs){
-    const pet=battle.enemy,foe=battle.player,style=battle.starArena.trainer.style;
-    let best=0,bestScore=-Infinity;
-    for(let index=0;index<pet.skills.length;index++){
-      if(pet.skillPP[index]<=0)continue;
-      const skill=configs.get(pet.skills[index]);if(!skill)continue;
-      let score=0;
-      const effects=require('./SkillEffectRuntime').SkillEffectRuntime.Entries(skill);
-      if(skill.category!==4){
-        const atk=skill.category===1?pet.attack:pet.spAtk,def=skill.category===1?foe.defence:foe.spDef;
-        const element=require('./ElementSystem').ElementSystem.GetEffectiveness(skill.type,foe.type);
-        score=(skill.power||0)*Math.max(.1,atk/Math.max(1,def))*element*(skill.accuracy||100)/100;
-        if(style==='aggressive')score*=1.4;
-        if(foe.hp<foe.maxHp*.25&&skill.priority>0)score+=70;
-      }else{
-        for(const effect of effects){
-          if([43,450].includes(effect.id)&&pet.hp<pet.maxHp*.65)score+=style==='defensive'?200:110;
-          if(effect.id===4){const stat=effect.args[0],change=effect.args[2];if(change>0&&(pet.battleLevels[stat]||0)<2)score+=style==='aggressive'?65:90;}
-          if(effect.id===5&&!foe.battleLevels.some(v=>v<=-2))score+=style==='tactical'?100:55;
-          if([2,10,13,16,24,29,30].includes(effect.id)&&!require('./SkillEffectRuntime').SkillEffectRuntime.HasStatus(foe))score+=style==='tactical'?125:45;
-          if([47,48,57,58,61,191].includes(effect.id)&&!Object.keys(pet.effectStates||{}).some(key=>!key.startsWith('_')))score+=style==='defensive'?90:35;
-        }
-      }
-      if(score>bestScore){bestScore=score;best=skill.id;}
-    }
-    return best;
+    return require('./ArenaStrategy').ArenaStrategy.SelectSkill(battle,configs);
   }
   static SpendPP(battle,pet,skill){
     if(!battle.starArena||pet!==battle.enemy||skill.id<=0)return;

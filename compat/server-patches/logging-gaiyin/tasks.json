@@ -139,6 +139,7 @@
       "type": "normal",
       "requiredProgress": 4,
       "rewards": {
+        "items": [{"itemId": 400124, "count": 1}],
         "coins": 2000,
         "special": [
           {

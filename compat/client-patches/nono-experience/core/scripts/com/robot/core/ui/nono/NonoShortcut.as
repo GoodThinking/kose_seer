@@ -19,11 +19,7 @@ package com.robot.core.ui.nono
    import com.robot.core.ui.alert.Alarm;
    import com.robot.core.npc.NPC;
    import com.robot.core.npc.NpcDialog;
-   import com.robot.core.config.xml.PetXMLInfo;
    import com.robot.app.buyPetProps.BuyPetPropsController;
-   import flash.utils.ByteArray;
-   import flash.utils.setTimeout;
-   import flash.utils.clearTimeout;
    import org.taomee.events.SocketEvent;
    import org.taomee.manager.TaomeeManager;
    import flash.display.SimpleButton;
@@ -80,9 +76,6 @@ package com.robot.core.ui.nono
       
       private static var _newTipA:Array = ["精灵仓库","精灵追踪","飞行模式"];
       private static var _skillPanel:AppModel;
-      private static var _teams:Object = {};
-      private static var _teamPending:Boolean = false;
-      private static var _teamTimeout:uint;
       
       public function NonoShortcut()
       {
@@ -371,9 +364,9 @@ package com.robot.core.ui.nono
 
       public static function showServices():void
       {
-         servicePage(["qx_skills","qx_shop","qx_teams","qx_speed","1",null,null,"qx_back"],
-            ["更换技能","道具商城","常用队伍","战斗播放设置","补满体力与PP（免费）",null,null,"返回NONO功能"],
-            [showSkills,showShop,requestTeams,showBattleSettings,onCure,null,null,backToNono]);
+         servicePage(["qx_skills","qx_shop","qx_teams","qx_speed","1","qx_skills",null,"qx_back"],
+            ["更换技能","道具商城","常用队伍与配招","战斗播放设置","补满体力与PP（免费）","上一场战斗简报",null,"返回NONO功能"],
+            [showSkills,showShop,requestTeams,showBattleSettings,onCure,showBattleReport,null,backToNono]);
       }
 
       private static function backToNono():void
@@ -434,67 +427,13 @@ package com.robot.core.ui.nono
       private static function requestTeams():void
       {
          hide();
-         submitTeam(0,0);
+         TeamPresetPanel.show();
       }
 
-      private static function onTeams(event:SocketEvent):void
+      private static function showBattleReport():void
       {
-         SocketConnection.removeCmdListener(91003,onTeams);
-         clearTimeout(_teamTimeout);
-         _teamPending = false;
-         var bytes:ByteArray = event.data as ByteArray;
-         if(bytes == null || bytes.bytesAvailable < 12) return;
-         var operation:uint = bytes.readUnsignedInt();
-         var slot:uint = bytes.readUnsignedInt();
-         var count:uint = bytes.readUnsignedInt();
-         _teams = {};
-         for(var i:uint=0;i<count;i++)
-         {
-            var index:uint = bytes.readUnsignedInt();
-            var size:uint = bytes.readUnsignedInt();
-            var names:Array = [];
-            for(var j:uint=0;j<size;j++)
-            {
-               bytes.readUnsignedInt();
-               var species:uint = bytes.readUnsignedInt();
-               names.push(species == 0 ? "精灵已不在仓库" : PetXMLInfo.getName(species));
-            }
-            _teams[index] = names.join("、");
-         }
-         if(operation == 2) PetManager.replaceBagSnapshot(bytes,bytes.readUnsignedInt());
-         NpcDialog.show(NPC.NONO,
-            [(operation == 1 ? "队伍已保存。\n" : operation == 2 ? "队伍已切换。\n" : "") +
-             "保存背包精灵和首发顺序，不更换技能或装备。选择队伍查看成员。"],
-            ["队伍1" + (_teams[1] == null ? "（未保存）" : "（已保存）"),"队伍2" + (_teams[2] == null ? "（未保存）" : "（已保存）"),"队伍3" + (_teams[3] == null ? "（未保存）" : "（已保存）"),"关闭"],
-            [function():void { showTeam(1); },function():void { showTeam(2); },function():void { showTeam(3); }]);
-      }
-
-      private static function teamText(slot:uint):String { return _teams[slot] == null ? "尚未保存" : String(_teams[slot]); }
-
-      private static function showTeam(slot:uint):void
-      {
-         NpcDialog.show(NPC.NONO,["队伍" + slot + "：" + teamText(slot)],
-            ["切换到这支队伍","保存当前背包到此位置","返回"],
-            [function():void { submitTeam(2,slot); },function():void
-             {
-                Alert.show("将当前背包保存到队伍" + slot + "，覆盖该位置已有预设？",function():void { submitTeam(1,slot); });
-             },requestTeams]);
-      }
-
-      private static function submitTeam(operation:uint,slot:uint):void
-      {
-         if(_teamPending) return;
-         _teamPending = true;
-         SocketConnection.addCmdListener(91003,onTeams);
-         _teamTimeout = setTimeout(onTeamTimeout,8000);
-         SocketConnection.send(91003,operation,slot);
-      }
-
-      private static function onTeamTimeout():void
-      {
-         SocketConnection.removeCmdListener(91003,onTeams);
-         _teamPending = false;
-         Alarm.show("未收到队伍操作结果，请重新打开常用队伍确认。不会自动重试。");
+         hide();
+         BattleExperiencePanel.showSummary();
       }
 
       private static function onNonoInfoPanelClose(param1:Event) : void

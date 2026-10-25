@@ -12,6 +12,7 @@ package com.robot.petFightModule
    import com.robot.core.pet.petWar.*;
    import com.robot.core.ui.alert.*;
    import com.robot.core.ui.nono.NonoShortcutKeyItem;
+   import com.robot.core.ui.nono.BattleExperiencePanel;
    import com.robot.petFightModule.assetManager.*;
    import com.robot.petFightModule.control.*;
    import com.robot.petFightModule.loadUI.*;
@@ -163,6 +164,7 @@ package com.robot.petFightModule
          speedKey.x = 916;
          speedKey.y = 90;
          LevelManager.fightLevel.addChild(speedKey);
+         BattleExperiencePanel.begin();
       }
 
       private static function cycleBattleSpeed():void
@@ -397,6 +399,7 @@ package com.robot.petFightModule
       private static function destroy() : void
       {
          TaomeeManager.endBattlePlayback();
+         BattleExperiencePanel.end();
          if(speedKey != null)
          {
             speedKey.destroy();

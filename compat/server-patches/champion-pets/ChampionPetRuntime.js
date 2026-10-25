@@ -264,8 +264,8 @@ class ChampionPetRuntime {
     wrap('ResolveHit',(base,b,a,d,s,first,check)=>{
       const state=this.State(a);state.reyChargeForUse=state.reyCharges>0;if(state.reyCharges>0)state.reyCharges--;
       state.reyParalyzeChance=d.hp/d.maxHp*100;
-      const consume=R.Get(a,'chFailNext');if(consume){delete R.States(a).chFailNext;return false;}
-      if(s.category===4&&R.Get(d,'chStatusBlock')&&R.Chance(R.Get(d,'chStatusBlock').chance))return false;
+      const consume=R.Get(a,'chFailNext');if(consume){delete R.States(a).chFailNext;return R.Miss(d,'chFailNext');}
+      if(s.category===4&&R.Get(d,'chStatusBlock')&&R.Chance(R.Get(d,'chStatusBlock').chance))return R.Miss(d,'chStatusBlock');
       const hit=base(b,a,d,s,first,check);
       if(hit&&this.Has(s,1209))this.State(a).stageClearExtra=50*(this.ClearStages(a)+this.ClearStages(d));
       return hit;
@@ -312,7 +312,7 @@ class ChampionPetRuntime {
       let value;
       try{value=base(b,a,d,s,damage,kind);}finally{for(const [key,state]of removed)states[key]=state;}
       if(value<=0)return value;
-      if(kind==='attack'&&!ignoreImmune&&(R.Get(d,'chAllAttackBlock')||R.Get(d,'chAttackBlock'))){const block=R.Get(d,'chAttackBlock');if(block&&--block.count<=0)delete states.chAttackBlock;return 0;}
+      if(kind==='attack'&&!ignoreImmune&&(R.Get(d,'chAllAttackBlock')||R.Get(d,'chAttackBlock'))){const block=R.Get(d,'chAttackBlock');if(block&&--block.count<=0)delete states.chAttackBlock;return R.Blocked(d,value,block?'chAttackBlock':'chAllAttackBlock');}
       const reduction=R.Get(d,kind==='attack'?'chAttackReduction':'chFixedReduction');
       if(reduction){value*=1-reduction.percent/100;if(--reduction.count<=0)delete states[kind==='attack'?'chAttackReduction':'chFixedReduction'];}
       if(this.Soul(d)&&id(d)===3022){const reduction=Math.max(0,75-Math.floor((d.maxHp-d.hp)*10/d.maxHp)*15);value*=1-reduction/100;}

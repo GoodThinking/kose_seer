@@ -32,7 +32,7 @@
   "dropProbability": 0.45,
   "dropCount": 1,
   "games": [
-    { "mapId": 13, "gameId": 1, "itemId": 400022, "pointsPerItem": 10, "maxCount": 3, "probability": 1, "minimumSeconds": 5 },
+    { "mapId": 13, "gameId": 1, "itemId": 400022, "pointsPerItem": 10, "maxCount": 3, "probability": 1, "minimumSeconds": 2.5 },
     { "mapId": 51, "gameId": 1, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },
     { "mapId": 51, "gameId": 2, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },
     { "mapId": 51, "gameId": 3, "itemId": 400021, "pointsPerItem": 34, "maxCount": 3, "probability": 1 },

@@ -1,0 +1,24 @@
+{
+  "files": {
+    "app/dist/GameServer/Server/Packet/Recv/NoNo/NonoExperienceHandler.js": "9b9b26d1cb0be893cbe8a0b8309c30ae9ab4776181ccd9644b2409aa3213d51b",
+    "app/dist/GameServer/Game/Battle/StarArena.js": "637489ef8e749058304d07464ced613febf1548bbfffdb37cf4105acf25f894c",
+    "app/dist/GameServer/Game/Battle/ChampionPetRuntime.js": "d14a1baeccf8c4c9523e83ae4062c9ff3bcc16794584347e551be57bf53d8fa0",
+    "app/dist/GameServer/Game/Task/TaskManager.js": "8a2640c59e167a460512b25726da105297803c31a2f47e03761b210808994a37",
+    "app/dist/GameServer/Game/Task/CompleteConfiguredTask.js": "f89b2b0804bf5f6e0d499b54b9cbab17a2069b26cd2534d35edf981c0be79d3b"
+  },
+  "resources": {
+    "client/overlay/resource/book/petCollection.swf": "2e69e782eb8b6e8a192a3f4db831cb9f468876fbed5da7010374178670ad4b87",
+    "client/overlay/module/com/robot/module/app/PetSelectPanel.swf": "626371d2a8cd3d00fbd110028c4c84c2f942115f84a2cf729aa3b9374422ea44"
+  },
+  "classes": {
+    "com/robot/app/petbag/petPropsBag/PetBagModel": "94f09a3b9b19688aa1f96106d8d9759dd81a2c9684df03b822e9bc17124c93bc",
+    "com/robot/app/petbag/petPropsBag/ui/PetPropsPanel": "483904642190f529764f8765415c36a66d8c0cb38da621ff1d8bcb08a6bdb716",
+    "com/robot/core/ui/nono/NonoShortcut": "a9528b8115b6a5202743f667e983bdef881ba5026db233ae56c8168cfaca951a",
+    "com/robot/app/energy/utils/EnergyController": "93e53d1efbdf15651c3a9c2c8b96dd6b7043b3d7c2e1810bf43b7e88977f5af1",
+    "com/robot/app/mapProcess/MapProcess_13": "3b3641a02aa66eba6f6cfcc88d8fa99d76839a7456078ef7dc689490fba66a2a",
+    "com/robot/app/mapProcess/MapProcess_56": "8d2ca8f27ff370739d26b690c805a55f42e24c84bda9b260dc4d9082f27edaa0",
+    "com/robot/app/mapProcess/MapProcess_59": "3b0f197af46d60f49dfce17fb9f0e0bfae16483a3c3ff7f83b69424612f9da47",
+    "com/robot/app/mapProcess/MapProcess_326": "77e6d7d54b4f77338a33e992ac94d6aa6929c299c7ae143beb69cc1713ada0e0",
+    "com/robot/petFightModule/PetFightEntry": "b9e18719f48eadaef8306a57ff6e44dbbd22f2dbd3d723fcb8fae6eec8e67e2c"
+  }
+}

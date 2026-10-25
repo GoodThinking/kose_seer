@@ -36,7 +36,7 @@ package com.robot.app.mapProcess
             this.conLevel["g" + _loc1_ + "Mc"].gotoAndStop(1);
             this.conLevel["g" + _loc1_ + "Mc"].buttonMode = true;
             this.conLevel["g" + _loc1_ + "Mc"].addEventListener(MouseEvent.CLICK,this.onMine);
-            ToolTipManager.add(this.conLevel["g" + _loc1_ + "Mc"],"连续点击5秒，采集克洛斯金刚石");
+            ToolTipManager.add(this.conLevel["g" + _loc1_ + "Mc"],"连续点击2.5秒，采集克洛斯金刚石");
             _loc1_++;
          }
          this._miningText = new TextField();
@@ -67,8 +67,8 @@ package com.robot.app.mapProcess
          SocketConnection.removeCmdListener(CommandID.JOIN_GAME,this.onMiningJoined);
          this._waiting = false;
          this._hits = 1;
-         this._miningText.text = "连续点击矿石，5秒后结算克洛斯金刚石";
-         this._miningTimer = new Timer(5000,1);
+         this._miningText.text = "连续点击矿石，2.5秒后结算克洛斯金刚石";
+         this._miningTimer = new Timer(2500,1);
          this._miningTimer.addEventListener(TimerEvent.TIMER_COMPLETE,this.onMiningFinished);
          this._miningTimer.start();
       }

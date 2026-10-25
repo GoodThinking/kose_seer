@@ -29,7 +29,7 @@ export function speciesAllowsTrait(_petId: number): boolean {
 
 export function isFusionSpecies(petId: number): boolean {
   const info = petConfig(petId);
-  return num(info?.BreedingMon ?? info?.breedingmon) === 1;
+  return num(info?.IsFuseMon) === 1;
 }
 
 function traitPool(): AbilityConfig[] {

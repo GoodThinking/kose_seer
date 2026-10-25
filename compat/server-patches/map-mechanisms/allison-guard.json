@@ -1,0 +1,15 @@
+{
+  "mapId": 6,
+  "param2": 1,
+  "petId": 58,
+  "petName": "塔奇拉顿",
+  "level": 50,
+  "dv": 31,
+  "ev": 0,
+  "nature": 0,
+  "abilities": [],
+  "skills": [],
+  "drops": [],
+  "rewards": {"exp": 0, "coins": 0},
+  "comment": "尼布守卫战的艾里逊剧情对手。原攻略确认50级塔奇拉顿：https://news.4399.com/seer/saiergonglue/201004-09-65925.html 。个体、学习力与性格沿用本服普通Boss构建规则；招式读取该等级的现有配置。非SPT，不新增精元、捕获、特殊能力或固定体力。任务原有经验和赛尔豆仍在交任务时结算。"
+}
