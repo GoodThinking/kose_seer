@@ -5,9 +5,12 @@ package com.robot.module.book
    import com.robot.core.manager.LevelManager;
    import com.robot.core.manager.MainManager;
    import com.robot.core.manager.PetManager;
+   import com.robot.core.manager.UIManager;
    import com.robot.core.net.SocketConnection;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
+   import flash.display.SimpleButton;
+   import flash.filters.GlowFilter;
    import flash.display.GradientType;
    import flash.geom.Matrix;
    import flash.geom.Rectangle;
@@ -50,11 +53,14 @@ package com.robot.module.book
       public function setup():void {
          if(ui != null) return;
          ui = new Sprite();ui.name="countermarkPanel";
-         ui.graphics.lineStyle(3,0x173B5C);ui.graphics.beginFill(0xCCD6DE);ui.graphics.drawRoundRect(0,0,920,520,26,26);ui.graphics.endFill();
-         ui.graphics.lineStyle(2,0xF3F7F8);ui.graphics.beginFill(0x2DA7E4);ui.graphics.drawRoundRect(9,6,902,508,18,18);ui.graphics.endFill();
-         ui.graphics.lineStyle(2,0x10628F);ui.graphics.moveTo(15,65);ui.graphics.lineTo(905,65);
-         label(ui,"精灵刻印",31,15,230,42,27,0xF6FCFF,true);
-         label(ui,"为精灵装上专属刻印",261,29,310,25,13,0xE2F6FF);
+         var frame:Sprite = UIManager.getSprite("Panel_Background");
+         frame.scale9Grid = new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.width = 920; frame.height = 520;
+         frame.mouseChildren = false;
+         ui.addChild(frame);
+         var title:TextField = label(ui,"精灵刻印",31,18,230,29,20,0xFFFFFF,true);
+         title.filters = [new GlowFilter(676248,0.8,4,4,10)];
+         label(ui,"为精灵装上专属刻印",261,29,310,25,13,0x163F62);
          button(ui,"关闭",829,19,65,32,"close");
          ui.addEventListener(MouseEvent.CLICK,onClick);
          body=new Sprite();ui.addChild(body);
@@ -94,7 +100,7 @@ package com.robot.module.book
       private function onPetUpdate(event:PetEvent):void { if(visiblePanel) draw(); }
       private function label(parent:Sprite,value:String,x:Number,y:Number,w:Number,h:Number,size:uint = 14,color:uint = 0xD7F0FF,bold:Boolean = false):TextField {
          var t:TextField = new TextField(); t.x=x; t.y=y; t.width=w; t.height=Math.max(h,Math.ceil(size*1.5)+4);
-         t.defaultTextFormat = new TextFormat("Microsoft YaHei",size,color,bold);
+         t.defaultTextFormat = new TextFormat("宋体",size,color,bold);
          t.text=value; t.selectable=false; t.mouseEnabled=false; t.wordWrap=true; t.multiline=true;
          parent.addChild(t); return t;
       }
@@ -106,13 +112,26 @@ package com.robot.module.book
       private function button(parent:Sprite,title:String,x:Number,y:Number,w:Number,h:Number,action:String,enabled:Boolean = true):Sprite {
          var b:Sprite=new Sprite(); b.x=x; b.y=y; b.name=action; b.buttonMode=true;
          var selected:Boolean=action=="tab:"+kind;
-         var gold:Boolean=action=="buy"||selected;
-         plate(b,0,0,w,h,enabled?(gold?0x53A7D3:0x369DDD):0x27495E,enabled?(gold?0x246B9F:0x1A76B1):0x17364D,selected?0xFFE39A:(enabled?0x0A4875:0x466479),selected?2:1);
-         b.graphics.lineStyle(1,0xD5F4FF,enabled?0.5:0.15);b.graphics.moveTo(9,3);b.graphics.lineTo(w-9,3);
-         var t:TextField=label(b,title,4,Math.max(1,(h-24)/2),w-8,h-2,13,enabled?(gold?0xFFF1B6:0xEDFAFF):0x8AA6B8,true);
-         var f:TextFormat=t.defaultTextFormat; f.align="center"; t.setTextFormat(f);
-         b.mouseChildren=false; parent.addChild(b);
-         if(action!="close") { b.mouseEnabled=enabled&&!pending&&(!uncertain||action=="refresh"); b.alpha=b.mouseEnabled?1:0.55; }
+         var skin:SimpleButton;
+         if(action=="close") skin=UIManager.getButton("Close_Btn");
+         else {
+            var up:DisplayObject=UIManager.getDisplayObject("Button_upSkin");
+            var over:DisplayObject=UIManager.getDisplayObject("Button_overSkin");
+            var down:DisplayObject=UIManager.getDisplayObject("Button_downSkin");
+            up.width=over.width=down.width=w; up.height=over.height=down.height=h;
+            skin=new SimpleButton(selected?down:up,over,down,up);
+         }
+         skin.name=action; skin.width=action=="close"?26:w; skin.height=action=="close"?26:h;
+         if(action=="close") skin.x=w-26;
+         b.addChild(skin);
+         if(action!="close") {
+            var t:TextField=label(b,title,4,Math.max(1,(h-22)/2),w-8,h-2,12,0xFFFFFF,true);
+            var f:TextFormat=t.defaultTextFormat; f.align="center"; t.setTextFormat(f);
+            t.filters = [new GlowFilter(676248,0.8,4,4,10)];
+            b.mouseEnabled=enabled&&!pending&&(!uncertain||action=="refresh");
+            b.mouseChildren=b.mouseEnabled; skin.enabled=b.mouseEnabled; b.alpha=b.mouseEnabled?1:0.55;
+         }
+         parent.addChild(b);
          return b;
       }
       private function shape(s:Sprite,points:Array,fill:uint,edge:uint = 0xF7EDCA):void {
@@ -202,8 +221,8 @@ package com.robot.module.book
          plate(body,577,78,322,351,0x204D77,0x18395F,0x0C3C66,2);
          label(body,"背包精灵",32,88,200,28,17,0xF1FBFF,true);
          if(state!=null) {
-            label(body,"赛尔豆",626,29,60,25,13,0xDAF3FF);
-            label(body,String(state.@coins),692,25,114,29,18,0xFFF0A0,true);
+            label(body,"赛尔豆",626,29,60,25,13,0x163F62);
+            label(body,String(state.@coins),692,25,114,29,18,0x163F62,true);
          }
          var pets:Array=bagPets();
          if(pets.length==0) label(body,pending?"正在读取背包…":"请先放入背包精灵",34,166,195,50,14,0xC4E2F2);
@@ -240,12 +259,16 @@ package com.robot.module.book
          label(body,"库存为未装备数量",274,401,275,22,11,0xB6D6E9);
          var pet:XML=selectedPet();var mark:XML=selectedMark();
          if(pet!=null) {
-            label(body,String(pet.@name)+"  等级 "+pet.@level,590,88,294,31,18,0xF3FAFF,true);
-            label(body,uint(pet.@level)>=100?"刻印效果已启用":"不足100级 · 刻印效果停用",591,117,292,22,11,uint(pet.@level)>=100?0xB0E6D9:0xFFE0A0);
+            var petLevel:uint=uint(pet.@level);
+            var abilityMark:uint=uint(pet.@ability);
+            var skillMark:uint=uint(pet.@skill);
+            var hasMark:Boolean=abilityMark>0||skillMark>0;
+            label(body,String(pet.@name)+"  等级 "+petLevel,590,88,294,31,18,0xF3FAFF,true);
+            label(body,hasMark?(petLevel>=100?"刻印效果已启用":"不足100级 · 刻印效果停用"):(petLevel>=100?"尚未装备刻印":"尚未装备 · 100级可用"),591,117,292,22,11,hasMark&&petLevel>=100?0xB0E6D9:(petLevel<100?0xFFE0A0:0xB5D9EC));
             portraitBox=new Sprite();portraitBox.x=654;portraitBox.y=194;portraitBox.mouseEnabled=false;portraitBox.mouseChildren=false;body.addChild(portraitBox);
             wantedPortrait=uint(pet.@id);portraitURL=ClientConfig.getPetSwfPath(wantedPortrait);ResourceManager.getResource(portraitURL,onPortrait,"pet");
-            socket(762,176,uint(pet.@ability),"能力孔",uint(pet.@level)>=100&&uint(pet.@ability)>0);
-            socket(848,176,uint(pet.@skill),"技能孔",uint(pet.@level)>=100&&uint(pet.@skill)>0);
+            socket(762,176,abilityMark,"能力孔",petLevel>=100&&abilityMark>0);
+            socket(848,176,skillMark,"技能孔",petLevel>=100&&skillMark>0);
             var names:Array=["体力","攻击","防御","特攻","特防","速度"];
             var vals:Array=[String(pet.@hp)+"/"+pet.@maxHp,String(pet.@atk),String(pet.attribute("def")),String(pet.@spAtk),String(pet.@spDef),String(pet.@speed)];
             for(i=0;i<6;i++) {
@@ -265,10 +288,10 @@ package com.robot.module.book
             var status:String="库存×"+count(markId)+"  ·  本服兑换："+mark.@price+" 赛尔豆";
             label(body,status,590,365,297,24,11,0xBDDFE8);
             button(body,"兑换刻印",590,391,139,29,"buy",state!=null&&uint(state.@coins)>=uint(mark.@price));
-            button(body,same?"卸下刻印":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备刻印"),740,391,147,29,same?"unequip":"equip",pet!=null&&(same||(count(markId)>0&&uint(pet.@level)>=100)));
+            button(body,same?"卸下刻印":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备刻印"),740,391,147,29,same?"unequip":"equip",pet!=null&&(same||(count(markId)>0&&petLevel>=100)));
          }
-         label(body,"100级可用；降级后装备保留，效果停用。更换刻印会返还原刻印。",25,443,864,25,12,0xE0F4FF);
-         label(body,pending?"请求处理中，请稍候…":message,25,481,772,27,13,0xFFF3AE,true);
+         label(body,"100级可用；降级后装备保留，效果停用。更换刻印会返还原刻印。",25,443,864,25,12,0x163F62);
+         label(body,pending?"请求处理中，请稍候…":message,25,481,772,27,13,0x163F62,true);
          button(body,"刷新",817,478,76,30,"refresh");
       }
       private function fitPet(content:DisplayObject,target:Sprite,cx:Number,cy:Number,w:Number,h:Number):void {

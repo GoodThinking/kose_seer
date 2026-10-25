@@ -5,29 +5,32 @@ package com.robot.app.mapProcess
    import com.robot.core.config.xml.PetXMLInfo;
    import com.robot.core.info.UserInfo;
    import com.robot.core.info.fightInfo.PetFightModel;
+   import com.robot.core.manager.MainManager;
    import com.robot.core.manager.MapManager;
    import com.robot.core.manager.ModuleManager;
    import com.robot.core.manager.PetManager;
    import com.robot.core.manager.map.config.BaseMapProcess;
+   import com.robot.core.manager.map.config.MapProcessConfig;
    import com.robot.core.mode.BasePeoleModel;
    import com.robot.core.mode.PeopleModel;
    import com.robot.core.net.SocketConnection;
+   import com.robot.core.npc.NPC;
+   import com.robot.core.npc.NpcDialog;
    import com.robot.core.ui.alert.Alarm;
    import flash.display.DisplayObject;
    import flash.display.DisplayObjectContainer;
    import flash.display.Graphics;
-   import flash.display.Loader;
    import flash.display.Sprite;
-   import flash.events.IOErrorEvent;
    import flash.events.MouseEvent;
    import flash.geom.Point;
-   import flash.net.URLRequest;
+   import flash.filters.GlowFilter;
    import flash.text.TextField;
    import flash.text.TextFormat;
    import flash.utils.ByteArray;
    import flash.utils.clearTimeout;
    import flash.utils.setTimeout;
    import org.taomee.events.SocketEvent;
+   import org.taomee.manager.ToolTipManager;
 
    public class GalaxyArenaMap extends BaseMapProcess
    {
@@ -37,13 +40,12 @@ package com.robot.app.mapProcess
       private var scene:Sprite;
       private var ui:Sprite;
       private var actors:Array = [];
-      private var heads:Array = [];
-      private var rows:Array = [];
       private var hits:Array = [];
-      private var detail:Sprite;
       private var progressText:TextField;
       private var groupText:TextField;
-      private var action:Sprite;
+      private var guide:PeopleModel;
+      private var guideHit:Sprite;
+      private var disposed:Boolean = false;
       private var group:uint = 0;
       private var nextStage:uint = 0;
       private var claimed:Boolean = false;
@@ -74,50 +76,106 @@ package com.robot.app.mapProcess
          for(var gx:int=0;gx<MapManager.currentMap.gridX;gx++)
             for(var gy:int=0;gy<MapManager.currentMap.gridY;gy++)
                grid[gx][gy]=(gx*size>205&&gx*size<760&&gy*size>165&&gy*size<410);
-         plaque(ui,230,18,400,65,catalog.id==3?0x493c40:0x304e47);
-         text(ui,catalog.name+" · "+catalog.title,253,23,370,31,23,0xffedb1,true);
-         text(ui,"16位守擂者  /  固定六宠  /  100级",281,55,335,24,13,0xe4e9ce);
-         travel("空间站",18,91,102);
-         for(i=0;i<ARENAS.length;i++)travel(ARENAS[i].name+"擂台",256+i*126,94,ARENAS[i].mapId);
-         if(catalog.id==1){
-            text(ui,"参赛选手",31,137,170,26,17,0x244c52,true);
-            button(ui,"前八席",27,383,81,25,function(e:MouseEvent):void{showGroup(0);select(0);},0x557e8b);
-            button(ui,"后八席",115,383,81,25,function(e:MouseEvent):void{showGroup(1);select(8);},0x557e8b);
-            progressText=text(ui,"读取进度…",30,413,180,43,13,0x244c5a);
-         }else{
-            plaque(ui,18,185,161,133,catalog.id==3?0x55424a:0x365947);
-            text(ui,"候场区",52,194,120,25,17,0xffe7b0,true);
-            groupText=text(ui,"第 1—8 席",44,224,132,24,14,0xf5e8c2);
-            button(ui,"前八席",30,257,65,26,function(e:MouseEvent):void{showGroup(0);select(0);},0x536b5c);
-            button(ui,"后八席",101,257,65,26,function(e:MouseEvent):void{showGroup(1);select(8);},0x536b5c);
-            plaque(ui,240,126,475,32,catalog.id==3?0x473e48:0x3e6254);
-            progressText=text(ui,"正在读取参赛进度…",254,132,455,25,14,0xffefc5,true);
-            text(ui,"点击赛尔交谈，查看六宠阵容",23,324,170,43,12,0xffedc1);
-         }
-         plaque(ui,772,164,168,137,catalog.id==3?0x594741:0x456248);
-         text(ui,"冠军殿",813,170,116,25,17,0xffe9a1,true);
-         petHead(ui,catalog.rewardPetId,821,197,52);
-         text(ui,catalog.rewardName,791,251,160,25,17,0xffedb1,true);
-         text(ui,"Lv.100 · 种族值 "+catalog.rewardSpeciesTotal,786,276,158,23,11,0xf1e6cc);
-         button(ui,"精灵背包",782,318,147,29,function(e:MouseEvent):void{PetBagController.show();},0x487c8a);
-         button(ui,"仓库调队",782,354,147,29,function(e:MouseEvent):void{ModuleManager.showModule(ClientConfig.getAppModule("PetStorage"),"正在打开精灵仓库…");},0x487c8a);
-         text(ui,"首冠一只 · 不重复发奖\n场间恢复体力与PP",784,391,151,45,12,0xffefd0);
-         detail=new Sprite();detail.x=214;detail.y=420;ui.addChild(detail);
-         action=button(ui,"读取中…",760,451,130,37,onAction,0xa27129);
+         progressText=text(ui,"正在读取擂台进度…",238,78,500,28,15,0xffedb1,true);
+         groupText=text(ui,"候场区：第 1—8 席",25,325,180,45,13,0xffedb1,true);
+         var guideInfo:UserInfo=new UserInfo();
+         guideInfo.userID=99009900+catalog.id;
+         guideInfo.nick="擂台接待员";
+         guideInfo.color=0xb4c5dc;
+         guideInfo.direction=0;
+         guideInfo.pos=new Point(480,195);
+         guide=new PeopleModel(guideInfo);
+         guide.mouseEnabled=false;
+         guide.mouseChildren=false;
+         depthLevel.addChild(guide);
+         guideHit=new Sprite();
+         guideHit.name="arenaGuideHit";
+         guideHit.graphics.beginFill(0xffffff,0.01);
+         guideHit.graphics.drawEllipse(448,124,64,95);
+         guideHit.graphics.endFill();
+         guideHit.buttonMode=true;
+         guideHit.addEventListener(MouseEvent.CLICK,onGuideClick);
+         ToolTipManager.add(guideHit,"擂台接待员：挑战、选手、奖励、调队与换场");
+         ui.addChild(guideHit);
          showGroup(0);
          SocketConnection.addCmdListener(91010,onProgress);
          PetManager.upDate();request(0);
       }
 
-      private function plaque(parent:DisplayObjectContainer,x:Number,y:Number,w:Number,h:Number,color:uint):void
+      private function isActive():Boolean
       {
-         var plate:Sprite=new Sprite();plate.mouseEnabled=false;plate.graphics.lineStyle(3,0x302f32);plate.graphics.beginFill(color,0.94);plate.graphics.drawRoundRect(x,y,w,h,12,12);plate.graphics.endFill();plate.graphics.lineStyle(1,0xb9b598);plate.graphics.drawRoundRect(x+4,y+4,w-8,h-8,8,8);parent.addChild(plate);
+         return !disposed && MapProcessConfig.currentProcessInstance==this;
       }
 
-      private function travel(label:String,x:Number,y:Number,mapId:uint):void
+      private function onGuideClick(event:MouseEvent):void
       {
-         var door:Sprite=button(ui,label,x,y,mapId==102?148:119,28,function(e:MouseEvent):void{if(mapId!=catalog.mapId)MapManager.changeMap(mapId);},mapId==catalog.mapId?0x8b763e:0x426c65);
-         door.graphics.lineStyle(3,0x342f30);door.graphics.moveTo(10,29);door.graphics.lineTo(10,35);door.graphics.moveTo((mapId==102?148:119)-10,29);door.graphics.lineTo((mapId==102?148:119)-10,35);
+         if(isActive())MainManager.actorModel.moveAndAction(guide.pos,showGuide);
+      }
+
+      private function showGuide():void
+      {
+         if(!isActive())return;
+         var message:String=catalog.name+"星系共有16位守擂者，每位携带六只100级精灵。";
+         if(!ready||busy){
+            NpcDialog.show(NPC.SEER,[message+(busy?"正在处理擂台操作，请稍候。":"正在读取你的参赛进度，请稍候。")],["了解赛场","调队与换场","稍后再来"],[showOverview,showServices]);
+            return;
+         }
+         message+=nextStage<trainers.length?"你已击败"+nextStage+"位选手，下一位是"+trainers[nextStage].name+"。":"你已通过全部16擂。"+(claimed?"本星系冠军奖励已经领取。":"冠军精灵正在等你领取。");
+         var label:String=nextStage<trainers.length?"继续挑战："+trainers[nextStage].name:(claimed?"再战一轮":"领取冠军精灵");
+         NpcDialog.show(NPC.SEER,[message],[label,"了解赛场","调队与换场","稍后再来"],[onAction,showOverview,showServices]);
+      }
+
+      private function showOverview():void
+      {
+         if(!isActive())return;
+         NpcDialog.show(NPC.SEER,["选手分前后八席候场。直接点击场上的赛尔，就能交谈并了解完整阵容；挑战仍按16位选手的顺序进行。"],[group==0?"换到后八席":"换到前八席","了解冠军奖励","返回接待员","暂时离开"],[showOtherGroup,showChampion,showGuide]);
+      }
+
+      private function showOtherGroup():void
+      {
+         if(isActive())showGroup(1-group);
+      }
+
+      private function showChampion():void
+      {
+         if(!isActive())return;
+         NpcDialog.show(NPC.SEER,["本星系首次夺冠可领取一只100级"+catalog.rewardName+"，种族值总和"+catalog.rewardSpeciesTotal+"。背包满时进入仓库，每个账号在本星系只领取一次。再次攻擂不会重复发奖。"],["返回接待员","暂时离开"],[showGuide]);
+      }
+
+      private function showServices():void
+      {
+         if(!isActive())return;
+         NpcDialog.show(NPC.SEER,["场间可以整理精灵，体力和PP按现有擂台规则恢复。三座星系擂台的进度与冠军奖励互不影响。"],["精灵背包","精灵仓库","前往其他赛场","返回接待员"],[showBag,showStorage,showTravel,showGuide]);
+      }
+
+      private function showBag():void
+      {
+         if(isActive())PetBagController.show();
+      }
+
+      private function showStorage():void
+      {
+         if(isActive())ModuleManager.showModule(ClientConfig.getAppModule("PetStorage"),"正在打开精灵仓库…");
+      }
+
+      private function showTravel():void
+      {
+         if(!isActive())return;
+         var options:Array=["返回空间站"];
+         var handlers:Array=[travelTo(102)];
+         for each(var destination:Object in ARENAS){
+            if(destination.mapId==catalog.mapId)continue;
+            options.push(destination.name+"星系擂台");
+            handlers.push(travelTo(destination.mapId));
+         }
+         options.push("返回接待员");
+         handlers.push(showGuide);
+         NpcDialog.show(NPC.SEER,["想换个赛场看看？各星系保留各自的攻擂进度。"],options,handlers);
+      }
+
+      private function travelTo(mapId:uint):Function
+      {
+         return function():void{if(isActive())MapManager.changeMap(mapId);};
       }
 
       private function paintPano():void
@@ -125,7 +183,6 @@ package com.robot.app.mapProcess
          var g:Graphics=scene.graphics;
          g.beginFill(0x173b54);g.drawRect(0,0,960,560);g.endFill();
          g.beginFill(0x2e6079);g.drawRoundRect(8,92,944,426,46,46);g.endFill();
-         g.beginFill(0xdbe5dc);g.drawRoundRect(17,133,190,329,20,20);g.endFill();
          g.lineStyle(6,0x567c91);g.beginFill(0xa5c0be);g.drawEllipse(208,169,538,236);g.endFill();
          g.lineStyle(3,0x477a89);g.drawEllipse(257,192,438,183);
          g.lineStyle(2,0xd1e5dc);g.drawEllipse(324,213,300,133);g.moveTo(477,175);g.lineTo(477,397);
@@ -196,9 +253,8 @@ package com.robot.app.mapProcess
       {
          if(value==group&&actors.length>0)return;
          for each(var actor:PeopleModel in actors)actor.destroy();
-         for each(var row:Sprite in rows)if(row.parent)row.parent.removeChild(row);
-         for each(var hit:Sprite in hits)if(hit.parent)hit.parent.removeChild(hit);
-         actors=[];rows=[];hits=[];group=value;
+         for each(var hit:Sprite in hits){ToolTipManager.remove(hit);if(hit.parent)hit.parent.removeChild(hit);}
+         actors=[];hits=[];group=value;
          if(groupText)groupText.text=group==0?"第 1—8 席":"第 9—16 席";
          for(var index:uint=group*8;index<Math.min((group+1)*8,trainers.length);index++)addTrainer(index);
       }
@@ -206,30 +262,53 @@ package com.robot.app.mapProcess
       private function addTrainer(index:uint):void
       {
          var trainer:Object=trainers[index];var slot:uint=index%8;
-         if(catalog.id==1){var row:Sprite=button(ui,(index+1)+" "+trainer.name+" · "+styleName(trainer.style),27,169+slot*26,170,23,function(e:MouseEvent):void{select(index);},0x557e8b);row.alpha=index<nextStage?0.5:1;rows.push(row);}
          var pos:Point;
          if(catalog.id==1)pos=new Point(280+(slot%4)*130,slot<4?245:352);
          else pos=new Point([254,382,567,697,254,382,567,697][slot],[245,228,228,245,358,383,383,358][slot]);
          var info:UserInfo=new UserInfo();info.userID=99008001+catalog.id*100+index;info.nick=trainer.name;info.color=trainer.color;info.direction=0;info.pos=pos;info.spiritID=trainer.signaturePetId;info.spiritTime=1000000000+index;info.petDV=31;
          var model:PeopleModel=new PeopleModel(info);model.mouseEnabled=false;model.mouseChildren=false;depthLevel.addChild(model);actors.push(model);
-         var hit:Sprite=new Sprite();hit.graphics.beginFill(0xffffff,0.01);hit.graphics.drawEllipse(pos.x-35,pos.y-71,73,95);hit.graphics.endFill();hit.buttonMode=true;hit.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void{select(index);Alarm.show(trainer.quote);});ui.addChild(hit);hits.push(hit);
+         var hit:Sprite=new Sprite();hit.name="arenaTrainerHit_"+index;hit.graphics.beginFill(0xffffff,0.01);hit.graphics.drawEllipse(pos.x-35,pos.y-71,73,95);hit.graphics.endFill();hit.buttonMode=true;hit.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void{approachTrainer(index);});ToolTipManager.add(hit,(index+1)+"号 "+trainer.name+"：交谈与查看六宠阵容");ui.addChild(hit);hits.push(hit);
       }
 
       private function styleName(style:String):String{return {aggressive:"强攻",defensive:"坚守",tactical:"战术",balanced:"均衡"}[style];}
-      private function select(index:uint):void
+      private function approachTrainer(index:uint):void
       {
+         if(!isActive())return;
          showGroup(uint(index/8));
-         while(detail.numChildren){var removed:DisplayObject=detail.removeChildAt(0);if(removed is Loader){var old:Loader=removed as Loader;heads.splice(heads.indexOf(old),1);old.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,onImageError);old.unloadAndStop();}}
-         detail.graphics.clear();detail.graphics.lineStyle(2,0x2c3d38);detail.graphics.beginFill(catalog.id==3?0x493d49:0x34554a,0.95);detail.graphics.drawRoundRect(-7,-4,534,77,10,10);detail.graphics.endFill();
-         var trainer:Object=trainers[index];text(detail,(index+1)+"号 "+trainer.name+" · "+trainer.title+" / "+styleName(trainer.style),0,0,520,22,15,0xffe4a7,true);
-         text(detail,trainer.description,0,23,520,19,11,0xdee8d2);
-         for(var i:int=0;i<trainer.team.length;i++){var pet:Object=trainer.team[i];petHead(detail,pet.petId,4+i*86,43,28);text(detail,PetXMLInfo.getName(pet.petId),34+i*86,48,58,22,10,0xe9e8d7);}
+         MainManager.actorModel.moveAndAction(actors[index%8].pos,function():void{showTrainer(index);});
       }
 
-      private function onAction(event:MouseEvent):void
+      private function showTrainer(index:uint):void
       {
-         if(!ready||busy)return;
-         if(nextStage<trainers.length){select(nextStage);PetFightModel.mode=PetFightModel.MULTI_MODE;PetFightModel.status=PetFightModel.FIGHT_WITH_NPC;PetFightModel.enemyName=trainers[nextStage].name;request(1);}
+         if(!isActive())return;
+         var trainer:Object=trainers[index];
+         var status:String=!ready?"参赛进度正在读取。":(index<nextStage?"你已经战胜这位选手。":(index==nextStage?"这是当前的守擂者。":"需要先战胜前面的守擂者。"));
+         var options:Array=["查看六宠阵容"];
+         var handlers:Array=[function():void{showTeam(index);}];
+         if(ready&&index==nextStage){
+            options.push("开始挑战");
+            handlers.push(function():void{if(!isActive())return;if(index==nextStage)onAction();else showGuide();});
+         }
+         options.push("返回接待员");
+         handlers.push(showGuide);
+         options.push("暂时离开");
+         NpcDialog.show(NPC.SEER,[(index+1)+"号 "+trainer.name+"："+trainer.quote,trainer.title+"（"+styleName(trainer.style)+"）。"+trainer.description+status],options,handlers);
+      }
+
+      private function showTeam(index:uint):void
+      {
+         if(!isActive())return;
+         var trainer:Object=trainers[index];
+         var names:Array=[];
+         for each(var pet:Object in trainer.team)names.push(PetXMLInfo.getName(pet.petId)+"（100级）");
+         NpcDialog.show(NPC.SEER,[(index+1)+"号 "+trainer.name+"的六宠阵容："+names.join("、")+"。"],["返回选手对话","返回接待员","暂时离开"],[function():void{showTrainer(index);},showGuide]);
+      }
+
+      private function onAction():void
+      {
+         if(!isActive())return;
+         if(!ready||busy){showGuide();return;}
+         if(nextStage<trainers.length){showGroup(uint(nextStage/8));PetFightModel.mode=PetFightModel.MULTI_MODE;PetFightModel.status=PetFightModel.FIGHT_WITH_NPC;PetFightModel.enemyName=trainers[nextStage].name;request(1);}
          else request(claimed?3:2);
       }
       private function request(operation:uint):void{if(busy)return;busy=true;timeout=setTimeout(onTimeout,8000);SocketConnection.send(91010,operation,catalog.id,nextStage);}
@@ -244,31 +323,25 @@ package com.robot.app.mapProcess
          nextStage=data.readUnsignedInt();var count:uint=data.readUnsignedInt();var reward:uint=data.readUnsignedInt();claimed=data.readUnsignedInt()!=0;data.readUnsignedInt();data.readUnsignedInt();
          if(count!=trainers.length||reward!=catalog.rewardPetId||nextStage>count){ready=false;Alarm.show("擂台数据版本不一致，请刷新游戏。");return;}
          showGroup(uint(Math.min(nextStage,count-1)/8));
-         for(var i:int=0;i<rows.length;i++)rows[i].alpha=group*8+i<nextStage?0.5:1;
-         progressText.text=nextStage<count?"已击败 "+nextStage+" / "+count+" 位选手"+(catalog.id==1?"\n下一位：":"   下一位：")+trainers[nextStage].name:"16擂全胜 · "+catalog.name+"冠军";
-         (action.getChildAt(0) as TextField).text=nextStage<count?"攻擂 · "+trainers[nextStage].name:(claimed?"再次攻擂":"领取冠军精灵");
-         select(Math.min(nextStage,trainers.length-1));
+         progressText.text=catalog.name+"擂台 · "+(nextStage<count?"已击败 "+nextStage+" / "+count+" 位选手，下一位："+trainers[nextStage].name:"16擂全胜");
+         ToolTipManager.remove(guideHit);
+         ToolTipManager.add(guideHit,progressText.text+"；点击接待员继续挑战、查看奖励或换场");
          if(operation==2){PetManager.upDate();Alarm.show("冠军奖励：100级"+catalog.rewardName+"已发放。背包满时进入仓库；本星系每号仅领一次。");}
          if(operation==3)Alarm.show("新一轮攻擂已开始。本星系冠军精灵不会重复发放。");
       }
       private function text(parent:DisplayObjectContainer,value:String,x:Number,y:Number,width:Number,height:Number,size:uint,color:uint,bold:Boolean=false):TextField
       {
-         var field:TextField=new TextField();field.defaultTextFormat=new TextFormat("宋体",size,color,bold);field.text=value;field.x=x;field.y=y;field.width=width;field.height=height;field.selectable=false;field.mouseEnabled=false;field.wordWrap=true;parent.addChild(field);return field;
+         var field:TextField=new TextField();field.defaultTextFormat=new TextFormat("宋体",size,color,bold);field.text=value;field.x=x;field.y=y;field.width=width;field.height=height;field.selectable=false;field.mouseEnabled=false;field.wordWrap=true;field.filters=[new GlowFilter(0x182f3b,1,3,3,4)];parent.addChild(field);return field;
       }
-      private function button(parent:DisplayObjectContainer,value:String,x:Number,y:Number,width:Number,height:Number,callback:Function,color:uint):Sprite
-      {
-         var item:Sprite=new Sprite();item.graphics.lineStyle(2,0xd3cfac);item.graphics.beginFill(color);item.graphics.drawRoundRect(0,0,width,height,10,10);item.graphics.endFill();var field:TextField=text(item,value,4,Math.max(2,(height-21)/2),width-8,25,13,0xffffff,true);var format:TextFormat=field.defaultTextFormat;format.align="center";field.setTextFormat(format);field.defaultTextFormat=format;item.x=x;item.y=y;item.buttonMode=true;item.mouseChildren=false;item.addEventListener(MouseEvent.CLICK,callback);parent.addChild(item);return item;
-      }
-      private function petHead(parent:DisplayObjectContainer,petId:uint,x:Number,y:Number,size:Number):void
-      {
-         var loader:Loader=new Loader();loader.x=x;loader.y=y;loader.scaleX=loader.scaleY=size/80;loader.mouseEnabled=false;loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR,onImageError);parent.addChild(loader);heads.push(loader);loader.load(new URLRequest(ClientConfig.getResPath("pet/head/"+petId+".swf")));
-      }
-      private function onImageError(event:IOErrorEvent):void{Alarm.show("精灵头像加载失败，请刷新游戏后重试。");}
       override public function destroy():void
       {
+         disposed=true;ready=false;
+         guideHit.removeEventListener(MouseEvent.CLICK,onGuideClick);ToolTipManager.remove(guideHit);
+         guide.destroy();guide=null;
+         for each(var hit:Sprite in hits)ToolTipManager.remove(hit);
+         hits=[];
          clearTimeout(timeout);SocketConnection.removeCmdListener(91010,onProgress);
          for each(var actor:PeopleModel in actors)actor.destroy();actors=[];
-         for each(var loader:Loader in heads){loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR,onImageError);loader.unloadAndStop();}heads=[];
          if(ui&&ui.parent)ui.parent.removeChild(ui);scene=null;ui=null;
       }
    }

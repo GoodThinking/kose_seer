@@ -5,12 +5,15 @@ package com.robot.module.app
    import com.robot.core.manager.LevelManager;
    import com.robot.core.manager.ModuleManager;
    import com.robot.core.manager.PetManager;
+   import com.robot.core.manager.UIManager;
    import com.robot.core.net.SocketConnection;
    import com.robot.core.ui.alert.Alarm;
    import com.robot.core.ui.alert.Alert;
    import flash.display.DisplayObject;
    import flash.display.Loader;
    import flash.display.Sprite;
+   import flash.display.SimpleButton;
+   import flash.filters.GlowFilter;
    import flash.events.Event;
    import flash.events.IOErrorEvent;
    import flash.events.MouseEvent;
@@ -346,68 +349,27 @@ package com.robot.module.app
 
       private function drawPanelFrame(s:Sprite, w:Number, h:Number) : void
       {
-         s.graphics.clear();
-         s.graphics.beginFill(1259614,1);
-         s.graphics.drawRoundRect(0,0,w,h,20,20);
-         s.graphics.endFill();
-         s.graphics.lineStyle(2,55551,0.9);
-         s.graphics.beginFill(464166,0.98);
-         s.graphics.drawRoundRect(4,4,w - 8,h - 8,16,16);
-         s.graphics.endFill();
-         drawRivet(s,16,16);
-         drawRivet(s,w - 16,16);
-         drawRivet(s,16,h - 16);
-         drawRivet(s,w - 16,h - 16);
+         var frame:Sprite = UIManager.getSprite("Panel_Background");
+         frame.scale9Grid = new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.width = w;
+         frame.height = h;
+         frame.mouseEnabled = frame.mouseChildren = false;
+         s.addChild(frame);
       }
 
-      private function drawRivet(s:Sprite, x:Number, y:Number) : void
-      {
-         s.graphics.lineStyle(1,19584);
-         s.graphics.beginFill(6927615);
-         s.graphics.drawCircle(x,y,4);
-         s.graphics.endFill();
-      }
 
       private function drawHeader() : void
       {
-         var title:TextField;
-         var closeBtn:Sprite;
-         var closeTxt:TextField;
-         var h:Sprite = new Sprite();
-         h.graphics.lineStyle(2,61695,0.9);
-         h.graphics.beginFill(863824,1);
-         h.graphics.moveTo(230,4);
-         h.graphics.lineTo(270,42);
-         h.graphics.lineTo(590,42);
-         h.graphics.lineTo(630,4);
-         h.graphics.endFill();
-         _panel.addChild(h);
-         title = new TextField();
-         title.defaultTextFormat = new TextFormat("Microsoft YaHei, SimHei",20,16765440,true,null,null,null,null,"center");
+         var bar:Sprite = UIManager.getSprite("Panel_TitleBar");
+         bar.x = 230; bar.y = 5; bar.width = 400; bar.height = 14;
+         bar.mouseEnabled = bar.mouseChildren = false;
+         _panel.addChild(bar);
+         var title:TextField = createLabel(_panel,250,24,360,26,18,0xFFFFFF,true,"center");
+         title.filters = [new GlowFilter(676248,0.8,4,4,10)];
          title.text = "绝版神宠 · 每日签到";
-         title.width = 360;
-         title.height = 30;
-         title.x = 250;
-         title.y = 12;
-         title.selectable = false;
-         title.mouseEnabled = false;
-         _panel.addChild(title);
-         closeBtn = new Sprite();
-         closeBtn.graphics.lineStyle(1.5,16745090);
-         closeBtn.graphics.beginFill(10361627,1);
-         closeBtn.graphics.drawCircle(832,24,12);
-         closeBtn.graphics.endFill();
-         closeBtn.buttonMode = true;
-         closeTxt = new TextField();
-         closeTxt.defaultTextFormat = new TextFormat("Arial",14,16777215,true,null,null,null,null,"center");
-         closeTxt.text = "✕";
-         closeTxt.width = 24;
-         closeTxt.height = 20;
-         closeTxt.x = 820;
-         closeTxt.y = 14;
-         closeTxt.selectable = false;
-         closeTxt.mouseEnabled = false;
-         closeBtn.addChild(closeTxt);
+         var closeBtn:SimpleButton = UIManager.getButton("Close_Btn");
+         closeBtn.width = closeBtn.height = 26;
+         closeBtn.x = 817; closeBtn.y = 11;
          closeBtn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
          {
             hide();
@@ -461,6 +423,7 @@ package com.robot.module.app
             _bodyHolder.removeChildAt(0);
          }
          loadArt(_bodyHolder,p.id,0,0,270,220,true);
+         updateSignButton();
       }
 
       private function loadArt(container:Sprite, petId:int, x:Number, y:Number, w:Number, h:Number, full:Boolean) : void
@@ -569,7 +532,7 @@ package com.robot.module.app
             renderRightArea();
          });
          _rightArea.addChild(t2);
-         progTxt = createLabel(_rightArea,250,4,240,22,12,16765440,true,"right");
+         progTxt = createLabel(_rightArea,250,4,240,22,12,0x163F62,true,"right");
          progTxt.text = _statusReady ? ("累计签到：" + _totalDays + " 天 · " + (_todayClaimed ? "今日已签" : "今日待签")) : "正在读取签到状态…";
       }
 
@@ -577,18 +540,27 @@ package com.robot.module.app
       {
          s.x = x;
          s.y = y;
-         s.graphics.clear();
-         s.graphics.lineStyle(1.5,active ? 55551 : 1986174);
-         s.graphics.beginFill(active ? 1394035 : 662060,0.95);
-         s.graphics.drawRoundRect(0,0,w,h,6,6);
-         s.graphics.endFill();
-         var tf:TextField = createLabel(s,0,4,w,h,12,active ? 16777215 : 8234183,true,"center");
-         tf.text = label;
+         nativeButton(s,w,h,label,active);
+      }
+
+      private function nativeButton(s:Sprite,w:Number,h:Number,title:String,active:Boolean = false):TextField
+      {
+         var up:DisplayObject = UIManager.getDisplayObject("Button_upSkin");
+         var over:DisplayObject = UIManager.getDisplayObject("Button_overSkin");
+         var down:DisplayObject = UIManager.getDisplayObject("Button_downSkin");
+         up.width = over.width = down.width = w;
+         up.height = over.height = down.height = h;
+         s.addChild(new SimpleButton(active ? down : up,over,down,up));
+         s.mouseChildren = true;
+         var text:TextField = createLabel(s,0,(h-20)/2,w,20,12,0xFFFFFF,true,"center");
+         text.filters = [new GlowFilter(676248,0.8,4,4,10)];
+         text.text = title;
+         return text;
       }
 
       private function renderScheduleMode() : void
       {
-         var startDay:int = _totalDays < 7 ? 0 : (_totalDays < 14 ? 7 : 0);
+         var startDay:int = int(Math.max(0,_totalDays - (_todayClaimed ? 1 : 0)) / 7) * 7;
          var cycleDays:int = 7;
          var i:int = 0;
          while(i < cycleDays)
@@ -613,7 +585,6 @@ package com.robot.module.app
          var bigDes:TextField;
          var stamp:Sprite;
          var btnBar:Sprite;
-         var btnTxt:TextField;
          var card:Sprite = new Sprite();
          var col:int = slotIndex % 4;
          var row:int = Math.floor(slotIndex / 4);
@@ -654,7 +625,7 @@ package com.robot.module.app
          }
          if(isClaimed)
          {
-            stamp = createStamp("已入仓");
+            stamp = createStamp("已签到");
             stamp.x = cardW / 2;
             stamp.y = 68;
             card.addChild(stamp);
@@ -662,11 +633,9 @@ package com.robot.module.app
          else if(isTodayTarget)
          {
             btnBar = new Sprite();
-            btnBar.graphics.beginFill(16748544);
-            btnBar.graphics.drawRoundRect(isBigCard ? 96 : 12,112,isBigCard ? 116 : 88,18,4,4);
-            btnBar.graphics.endFill();
-            btnTxt = createLabel(btnBar,isBigCard ? 96 : 12,112,isBigCard ? 116 : 88,18,11,16777215,true,"center");
-            btnTxt.text = "点击签到";
+            btnBar.x = isBigCard ? 96 : 12;
+            btnBar.y = 112;
+            nativeButton(btnBar,isBigCard ? 116 : 88,20,"选择精灵");
             card.addChild(btnBar);
          }
          card.buttonMode = true;
@@ -687,7 +656,6 @@ package com.robot.module.app
          s.graphics.beginFill(11019043,0.85);
          s.graphics.drawRoundRect(-36,-12,72,24,4,4);
          s.graphics.endFill();
-         s.rotation = -12;
          var t:TextField = createLabel(s,-36,-10,72,20,11,16777215,true,"center");
          t.text = text;
          return s;
@@ -735,20 +703,24 @@ package com.robot.module.app
 
       private function drawBottomBar() : void
       {
-         var info:TextField = createLabel(_rightArea,0,396,490,22,11,8959456,false,"center");
+         var info:TextField = createLabel(_rightArea,0,396,490,22,11,0x163F62,false,"center");
          info.text = "★ 每日免费领取 1 只绝版亲本，精灵直接入仓；北京时间 00:00 刷新。";
          _signBtn = new Sprite();
-         _signBtn.x = 135;
-         _signBtn.y = 422;
-         _signBtn.graphics.lineStyle(2,_todayClaimed ? 5926530 : 16772738);
-         _signBtn.graphics.beginFill(_todayClaimed ? 3556950 : 16748544);
-         _signBtn.graphics.drawRoundRect(0,0,220,38,19,19);
-         _signBtn.graphics.endFill();
-         _signBtn.buttonMode = _statusReady && !_todayClaimed;
-         _signBtnText = createLabel(_signBtn,0,8,220,26,15,16777215,true,"center");
-         _signBtnText.text = !_statusReady ? "正在读取签到状态…" : (_todayClaimed ? "今日已完成签到" : "【今日签到】领" + _selectedPet.name);
+         _signBtn.x = 165;
+         _signBtn.y = 425;
+         _signBtnText = nativeButton(_signBtn,160,30,"");
+         updateSignButton();
          _signBtn.addEventListener(MouseEvent.CLICK,onSignClick);
          _rightArea.addChild(_signBtn);
+      }
+
+      private function updateSignButton() : void
+      {
+         if(_signBtn == null || _signBtnText == null)return;
+         _signBtn.mouseEnabled = _statusReady && !_todayClaimed && !_waitingResponse;
+         _signBtn.mouseChildren = _signBtn.mouseEnabled;
+         _signBtn.alpha = _signBtn.mouseEnabled ? 1 : 0.55;
+         _signBtnText.text = !_statusReady ? "正在读取…" : (_waitingResponse ? "正在签到…" : (_todayClaimed ? "今日已签到" : "签到领取" + _selectedPet.name));
       }
 
       private function onSignClick(e:MouseEvent) : void
@@ -763,17 +735,21 @@ package com.robot.module.app
          {
             return;
          }
-         Alert.show("今日签到免费领取 1 级【" + _selectedPet.name + "】？精灵将直接存入仓库。",function():void
+         var targetPetId:uint = uint(_selectedPet.id);
+         var targetPetName:String = String(_selectedPet.name);
+         Alert.show("今日签到免费领取 1 级【" + targetPetName + "】？精灵将直接存入仓库。",function():void
          {
             _waitingResponse = true;
+            updateSignButton();
             SocketConnection.addCmdListener(CommandID.PET_COLLECT,onCollectResponse);
-            SocketConnection.send(CommandID.PET_COLLECT,900001,_selectedPet.id);
+            SocketConnection.send(CommandID.PET_COLLECT,900001,targetPetId);
          });
       }
 
       private function onCollectResponse(e:SocketEvent) : void
       {
          _waitingResponse = false;
+         updateSignButton();
          SocketConnection.removeCmdListener(CommandID.PET_COLLECT,onCollectResponse);
          var body:ByteArray = e.data as ByteArray;
          if(!body)
@@ -830,7 +806,7 @@ package com.robot.module.app
          t.y = y;
          t.width = w;
          t.height = h;
-         t.defaultTextFormat = new TextFormat("Microsoft YaHei, SimHei, Arial",size,color,bold,null,null,null,null,align);
+         t.defaultTextFormat = new TextFormat("宋体",size,color,bold,null,null,null,null,align);
          t.selectable = false;
          t.mouseEnabled = false;
          parent.addChild(t);

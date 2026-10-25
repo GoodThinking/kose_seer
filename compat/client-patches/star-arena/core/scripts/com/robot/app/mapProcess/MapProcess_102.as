@@ -88,7 +88,6 @@ package com.robot.app.mapProcess
       private var _bossMC:BossModel;
       
       private var trainDoor:Sprite;
-      private var starArenaDoor:Sprite;
       
       public function MapProcess_102()
       {
@@ -107,22 +106,28 @@ package com.robot.app.mapProcess
          ArenaController.getInstance().setup(conLevel.getChildByName("arenaMc") as MovieClip);
          this.j_npc = conLevel["npc"];
          this.j_npc.visible = true;
+         ToolTipManager.add(this.j_npc,"贾斯汀：精灵训练与星系擂台赛");
          this.pet_mc = conLevel["pet_mc"];
          this.pet_mc.visible = false;
          this.timer = new Timer(9000);
          this.timer.addEventListener(TimerEvent.TIMER,this.onTimer);
          this.timer.start();
          this.initTrainDoor();
-         this.initStarArenaDoor();
       }
       
-      private function initStarArenaDoor():void
+      private function showStarArenaOptions() : void
       {
-         starArenaDoor=new Sprite();starArenaDoor.graphics.lineStyle(3,0xded29c);starArenaDoor.graphics.beginFill(0x326c88);starArenaDoor.graphics.drawRoundRect(0,0,164,48,18,18);starArenaDoor.graphics.endFill();
-         var label:TextField=new TextField();label.defaultTextFormat=new TextFormat("宋体",17,0xffedb6,true);label.text="星系擂台赛";label.x=27;label.y=13;label.width=140;label.height=30;label.mouseEnabled=false;starArenaDoor.addChild(label);
-         starArenaDoor.x=44;starArenaDoor.y=310;starArenaDoor.buttonMode=true;starArenaDoor.mouseChildren=false;starArenaDoor.addEventListener(MouseEvent.CLICK,onStarArenaDoor);conLevel.addChild(starArenaDoor);ToolTipManager.add(starArenaDoor,"帕诺、卡兰、罗格各16位守擂者；三座赛场独立进度与冠军精灵");
+         NpcDialog.show(NPC.JUSTIN,["帕诺、卡兰和罗格各有16位守擂者。每座赛场的进度和冠军奖励独立，你想前往哪一座？"],["帕诺星系擂台","卡兰星系擂台","罗格星系擂台","暂时不去"],[function():void
+         {
+            MapManager.changeMap(9508);
+         },function():void
+         {
+            MapManager.changeMap(9509);
+         },function():void
+         {
+            MapManager.changeMap(9510);
+         }]);
       }
-      private function onStarArenaDoor(event:MouseEvent):void{MapManager.changeMap(9508);}
       private function initTrainDoor() : void
       {
          var label:TextField = new TextField();
@@ -166,10 +171,15 @@ package com.robot.app.mapProcess
       private function onTimer(param1:TimerEvent) : void
       {
          var _loc2_:DialogBox = new DialogBox();
-         _loc2_.show("使自己的训练精灵的技术更上一个境界吧。",0,-85,conLevel["npc"]);
+         _loc2_.show("想参加星系擂台赛，就来找我吧！",0,-85,conLevel["npc"]);
       }
       
       public function hitNpc() : void
+      {
+         NpcDialog.show(NPC.JUSTIN,["勇敢的赛尔，想参加星系擂台赛，还是了解精灵训练？"],["参加星系擂台赛","了解精灵训练","暂时离开"],[this.showStarArenaOptions,this.showTrainingDialog]);
+      }
+
+      private function showTrainingDialog() : void
       {
          NpcDialog.show(NPC.JUSTIN,["勇敢的铁皮，追寻圣光之力，你为何而来？"],["为正义而战！","为变得更强","为保护他人","为宇宙荣耀"],[this.step1,this.step1,this.step1,this.step1]);
       }
@@ -221,7 +231,7 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
-         starArenaDoor.removeEventListener(MouseEvent.CLICK,onStarArenaDoor);ToolTipManager.remove(starArenaDoor);starArenaDoor=null;
+         ToolTipManager.remove(this.j_npc);
          this.trainDoor.removeEventListener(MouseEvent.CLICK,this.onTrainDoor);
          ToolTipManager.remove(this.trainDoor);
          this.trainDoor = null;

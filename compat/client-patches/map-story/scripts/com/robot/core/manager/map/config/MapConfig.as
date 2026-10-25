@@ -260,15 +260,16 @@ package com.robot.core.manager.map.config
       {
          var mapID:uint = param1;
          var xml:XML = null;
-         var id:uint = 0;
+         // Avoid shadowing E4X @id during FFDec compilation.
+         var superMapID:uint = 0;
          mapID = MapManager.getResMapID(mapID);
          xml = XML_DATA.elements("map").(@id == mapID)[0];
-         id = uint(xml.attribute("super"));
-         if(id == 0)
+         superMapID = uint(xml.attribute("super"));
+         if(superMapID == 0)
          {
-            id = mapID;
+            superMapID = mapID;
          }
-         return id;
+         return superMapID;
       }
       
       private static function clickHandler(param1:MouseEvent) : void

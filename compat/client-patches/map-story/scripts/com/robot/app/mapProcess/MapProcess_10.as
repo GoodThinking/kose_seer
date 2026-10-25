@@ -12,6 +12,8 @@ package com.robot.app.mapProcess
    import com.robot.core.mode.OgreModel;
    import com.robot.core.npc.*;
    import com.robot.core.ui.alert.Answer;
+   import com.robot.core.utils.CommonUI;
+   import flash.filters.GlowFilter;
    import flash.display.MovieClip;
    import flash.display.Sprite;
    import flash.events.*;
@@ -79,26 +81,31 @@ package com.robot.app.mapProcess
          var label:TextField = new TextField();
          var format:TextFormat = new TextFormat();
          this.wetlandButton = new Sprite();
-         this.wetlandButton.graphics.lineStyle(2,9362175);
-         this.wetlandButton.graphics.beginFill(1455168,0.92);
-         this.wetlandButton.graphics.drawRoundRect(0,0,110,26,8,8);
+         this.wetlandButton.name = "wetlandEntrance";
+         this.wetlandButton.graphics.beginFill(0xffffff,0.01);
+         this.wetlandButton.graphics.drawEllipse(-38,-28,76,56);
          this.wetlandButton.graphics.endFill();
+         CommonUI.addYellowArrow(this.wetlandButton);
          format.size = 14;
          format.color = 16777215;
+         format.font = "宋体";
+         format.align = "center";
          label.defaultTextFormat = format;
          label.text = "克洛斯星湿地";
-         label.width = 110;
+         label.width = 130;
          label.height = 22;
-         label.x = 12;
-         label.y = 3;
+         label.x = -65;
+         label.y = -24;
+         label.filters = [new GlowFilter(0x182f3b,1,3,3,4)];
          label.selectable = false;
          label.mouseEnabled = false;
          this.wetlandButton.addChild(label);
-         this.wetlandButton.x = 425;
-         this.wetlandButton.y = 40;
+         this.wetlandButton.x = 560;
+         this.wetlandButton.y = 55;
          this.wetlandButton.buttonMode = true;
          this.wetlandButton.mouseChildren = false;
          this.wetlandButton.addEventListener(MouseEvent.CLICK,this.onWetland);
+         ToolTipManager.add(this.wetlandButton,"前往克洛斯星湿地");
          conLevel.addChild(this.wetlandButton);
       }
       
@@ -173,6 +180,7 @@ package com.robot.app.mapProcess
       {
          Task532.destroy(this);
          this.wetlandButton.removeEventListener(MouseEvent.CLICK,this.onWetland);
+         ToolTipManager.remove(this.wetlandButton);
       }
    }
 }

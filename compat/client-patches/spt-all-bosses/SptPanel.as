@@ -5,9 +5,13 @@ package com.robot.module.app
    import com.robot.core.manager.MapManager;
    import com.robot.core.manager.ModuleManager;
    import com.robot.core.manager.TasksManager;
+   import com.robot.core.manager.UIManager;
    import flash.display.DisplayObject;
    import flash.display.Loader;
    import flash.display.Shape;
+   import flash.display.SimpleButton;
+   import flash.filters.GlowFilter;
+   import flash.geom.Rectangle;
    import flash.display.Sprite;
    import flash.events.Event;
    import flash.events.IOErrorEvent;
@@ -42,6 +46,8 @@ package com.robot.module.app
       private var _filterBtns:Array = [];
       
       private var _pageTxt:TextField;
+      private var _previousPageButton:Sprite;
+      private var _nextPageButton:Sprite;
       
       private var _summaryTxt:TextField;
       
@@ -109,6 +115,8 @@ package com.robot.module.app
          this._filteredBosses = null;
          this._tabBtns = null;
          this._filterBtns = null;
+         this._previousPageButton = null;
+         this._nextPageButton = null;
       }
       
       private function initUI() : void
@@ -147,68 +155,27 @@ package com.robot.module.app
       
       private function drawPanelFrame(s:Sprite, w:Number, h:Number) : void
       {
-         s.graphics.clear();
-         s.graphics.beginFill(1259614,1);
-         s.graphics.drawRoundRect(0,0,w,h,16,16);
-         s.graphics.endFill();
-         s.graphics.lineStyle(2,55551,0.9);
-         s.graphics.beginFill(464166,0.98);
-         s.graphics.drawRoundRect(3,3,w - 6,h - 6,14,14);
-         s.graphics.endFill();
-         drawRivet(s,14,14);
-         drawRivet(s,w - 14,14);
-         drawRivet(s,14,h - 14);
-         drawRivet(s,w - 14,h - 14);
+         var frame:Sprite = UIManager.getSprite("Panel_Background");
+         frame.scale9Grid = new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.width = w;
+         frame.height = h;
+         frame.mouseEnabled = frame.mouseChildren = false;
+         s.addChild(frame);
       }
       
-      private function drawRivet(s:Sprite, x:Number, y:Number) : void
-      {
-         s.graphics.lineStyle(1,19584);
-         s.graphics.beginFill(6927615);
-         s.graphics.drawCircle(x,y,3);
-         s.graphics.endFill();
-      }
       
       private function drawHeader() : void
       {
-         var title:TextField;
-         var closeBtn:Sprite;
-         var closeTxt:TextField;
-         var h:Sprite = new Sprite();
-         h.graphics.lineStyle(2,61695,0.9);
-         h.graphics.beginFill(863824,1);
-         h.graphics.moveTo(220,3);
-         h.graphics.lineTo(260,36);
-         h.graphics.lineTo(560,36);
-         h.graphics.lineTo(600,3);
-         h.graphics.endFill();
-         _panel.addChild(h);
-         title = new TextField();
-         title.defaultTextFormat = new TextFormat("Microsoft YaHei, SimHei",17,16765440,true,null,null,null,null,TextFormatAlign.CENTER);
+         var bar:Sprite = UIManager.getSprite("Panel_TitleBar");
+         bar.x = 230; bar.y = 4; bar.width = 360; bar.height = 12;
+         bar.mouseEnabled = bar.mouseChildren = false;
+         _panel.addChild(bar);
+         var title:TextField = createLabel(_panel,230,19,360,22,16,0xFFFFFF,true,TextFormatAlign.CENTER);
+         title.filters = [new GlowFilter(676248,0.8,4,4,10)];
          title.text = "赛尔先锋队 · 星际首领挑战终端";
-         title.width = 340;
-         title.height = 26;
-         title.x = 240;
-         title.y = 8;
-         title.selectable = false;
-         title.mouseEnabled = false;
-         _panel.addChild(title);
-         closeBtn = new Sprite();
-         closeBtn.graphics.lineStyle(1.5,16745090);
-         closeBtn.graphics.beginFill(10361627,1);
-         closeBtn.graphics.drawCircle(796,20,12);
-         closeBtn.graphics.endFill();
-         closeBtn.buttonMode = true;
-         closeTxt = new TextField();
-         closeTxt.defaultTextFormat = new TextFormat("Arial",14,16777215,true,null,null,null,null,TextFormatAlign.CENTER);
-         closeTxt.text = "✕";
-         closeTxt.width = 24;
-         closeTxt.height = 20;
-         closeTxt.x = 784;
-         closeTxt.y = 10;
-         closeTxt.selectable = false;
-         closeTxt.mouseEnabled = false;
-         closeBtn.addChild(closeTxt);
+         var closeBtn:SimpleButton = UIManager.getButton("Close_Btn");
+         closeBtn.width = closeBtn.height = 26;
+         closeBtn.x = 783; closeBtn.y = 7;
          closeBtn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
          {
             hide();
@@ -257,17 +224,23 @@ package com.robot.module.app
       
       private function drawTabBtn(s:Sprite, w:Number, h:Number, label:String, active:Boolean) : void
       {
-         s.graphics.clear();
-         s.graphics.lineStyle(1.5,active ? 55551 : 1986174);
-         s.graphics.beginFill(active ? 1394035 : 662060,0.95);
-         s.graphics.drawRoundRect(0,0,w,h,6,6);
-         s.graphics.endFill();
-         while(s.numChildren > 0)
-         {
-            s.removeChildAt(0);
-         }
-         var tf:TextField = createLabel(s,0,3,w,h,12,active ? 16777215 : 8234183,true,TextFormatAlign.CENTER);
-         tf.text = label;
+         while(s.numChildren > 0) s.removeChildAt(0);
+         nativeButton(s,w,h,label,active);
+      }
+
+      private function nativeButton(s:Sprite,w:Number,h:Number,title:String,active:Boolean = false):TextField
+      {
+         var up:DisplayObject = UIManager.getDisplayObject("Button_upSkin");
+         var over:DisplayObject = UIManager.getDisplayObject("Button_overSkin");
+         var down:DisplayObject = UIManager.getDisplayObject("Button_downSkin");
+         up.width = over.width = down.width = w;
+         up.height = over.height = down.height = h;
+         s.addChild(new SimpleButton(active ? down : up,over,down,up));
+         s.mouseChildren = true;
+         var text:TextField = createLabel(s,0,(h-20)/2,w,20,12,0xFFFFFF,true,TextFormatAlign.CENTER);
+         text.filters = [new GlowFilter(676248,0.8,4,4,10)];
+         text.text = title;
+         return text;
       }
       
       private function renderFilterBar() : void
@@ -277,7 +250,6 @@ package com.robot.module.app
          var i:int;
          var stName:String;
          var fBtn:Sprite;
-         var tf:TextField;
          var sLabel:TextField;
          while(_filterBar.numChildren > 0)
          {
@@ -298,13 +270,7 @@ package com.robot.module.app
             fBtn = new Sprite();
             fBtn.x = fX;
             fBtn.y = 4;
-            fBtn.graphics.lineStyle(1,_currentFilter == stName ? 16760832 : 1986174);
-            fBtn.graphics.beginFill(_currentFilter == stName ? 2245225 : 794677);
-            fBtn.graphics.drawRoundRect(0,0,65,22,4,4);
-            fBtn.graphics.endFill();
-            fBtn.buttonMode = true;
-            tf = createLabel(fBtn,0,2,65,20,11,_currentFilter == stName ? 16769154 : 9483736,true,TextFormatAlign.CENTER);
-            tf.text = stName;
+            nativeButton(fBtn,65,22,stName,_currentFilter == stName);
             (function(targetSt:String):void
             {
                fBtn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
@@ -388,7 +354,7 @@ package com.robot.module.app
             var emptyBox:Sprite = new Sprite();
             emptyBox.x = 80;
             emptyBox.y = 100;
-            var emptyTxt:TextField = createLabel(emptyBox,0,0,612,60,15,8234183,true,TextFormatAlign.CENTER);
+            var emptyTxt:TextField = createLabel(emptyBox,0,0,612,60,15,0x163F62,true,TextFormatAlign.CENTER);
             if(_currentFilter == "已击败")
             {
                emptyTxt.text = "当前星系下暂无已击败记录！\n点击上方【全部】或【未击败】查看星际首领并前往挑战！";
@@ -430,7 +396,6 @@ package com.robot.module.app
          var mechBox:Sprite;
          var mechTxt:TextField;
          var goBtn:Sprite;
-         var btnLabel:TextField;
          var c:Sprite = new Sprite();
          var w:Number = 250;
          var h:Number = 168;
@@ -486,15 +451,9 @@ package com.robot.module.app
          mechTxt.text = b.mech;
          c.addChild(mechBox);
          goBtn = new Sprite();
-         goBtn.x = 10;
-         goBtn.y = 142;
-         goBtn.graphics.lineStyle(1,defeated ? 1986174 : 16755200);
-         goBtn.graphics.beginFill(defeated ? 1058882 : 8012544);
-         goBtn.graphics.drawRoundRect(0,0,w - 20,22,4,4);
-         goBtn.graphics.endFill();
-         goBtn.buttonMode = true;
-         btnLabel = createLabel(goBtn,0,2,w - 20,20,12,defeated ? 9222629 : 16773299,true,TextFormatAlign.CENTER);
-         btnLabel.text = defeated ? "再次挑战" : "前往挑战首领";
+         goBtn.x = 143;
+         goBtn.y = 140;
+         nativeButton(goBtn,97,26,defeated ? "再次挑战" : "前往挑战");
          (function(targetBoss:Object):void
          {
             goBtn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
@@ -609,6 +568,7 @@ package com.robot.module.app
          ft.y = 458;
          _panel.addChild(ft);
          prevBtn = createPageButton(ft,40,0,"◀ 上一页");
+         _previousPageButton = prevBtn;
          prevBtn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
          {
             if(_curPage > 1)
@@ -619,6 +579,7 @@ package com.robot.module.app
             }
          });
          nextBtn = createPageButton(ft,644,0,"下一页 ▶");
+         _nextPageButton = nextBtn;
          nextBtn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
          {
             var total:int = Math.max(1,Math.ceil(_filteredBosses.length / _pageSize));
@@ -629,7 +590,7 @@ package com.robot.module.app
                updatePagination();
             }
          });
-         _pageTxt = createLabel(ft,320,4,132,24,14,16765440,true,TextFormatAlign.CENTER);
+         _pageTxt = createLabel(ft,320,4,132,24,14,0x163F62,true,TextFormatAlign.CENTER);
          _pageTxt.text = "1 / 1";
       }
       
@@ -638,13 +599,7 @@ package com.robot.module.app
          var s:Sprite = new Sprite();
          s.x = x;
          s.y = y;
-         s.graphics.lineStyle(1,55551);
-         s.graphics.beginFill(795968);
-         s.graphics.drawRoundRect(0,0,88,28,4,4);
-         s.graphics.endFill();
-         s.buttonMode = true;
-         var t:TextField = createLabel(s,0,4,88,22,12,16777215,true,TextFormatAlign.CENTER);
-         t.text = label;
+         nativeButton(s,88,28,label);
          parent.addChild(s);
          return s;
       }
@@ -652,6 +607,10 @@ package com.robot.module.app
       private function updatePagination() : void
       {
          var totalPages:int = Math.max(1,Math.ceil(_filteredBosses.length / _pageSize));
+         _previousPageButton.mouseEnabled = _previousPageButton.mouseChildren = _curPage > 1;
+         _nextPageButton.mouseEnabled = _nextPageButton.mouseChildren = _curPage < totalPages;
+         _previousPageButton.alpha = _previousPageButton.mouseEnabled ? 1 : 0.45;
+         _nextPageButton.alpha = _nextPageButton.mouseEnabled ? 1 : 0.45;
          if(_pageTxt)
          {
             _pageTxt.text = _curPage + " / " + totalPages;
@@ -665,7 +624,7 @@ package com.robot.module.app
          t.y = y;
          t.width = w;
          t.height = h;
-         t.defaultTextFormat = new TextFormat("Microsoft YaHei, SimHei, Arial",size,color,bold,null,null,null,null,align);
+         t.defaultTextFormat = new TextFormat("宋体",size,color,bold,null,null,null,null,align);
          t.selectable = false;
          t.mouseEnabled = false;
          parent.addChild(t);
