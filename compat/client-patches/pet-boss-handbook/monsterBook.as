@@ -12,6 +12,7 @@ package
    import flash.events.IOErrorEvent;
    import flash.events.SecurityErrorEvent;
    import flash.external.ExternalInterface;
+   import flash.filters.GlowFilter;
    import flash.geom.Point;
    import flash.geom.Rectangle;
    import flash.net.URLRequest;
@@ -32,6 +33,7 @@ package
       private const colors:Array = [0xB74731,0xAD7428,0x50735D,0x4D7285,0x727381];
       private const descriptions:Array = ["顶级水平 · 非常强","优秀 · 仅次于夯","中上水平 · 值得培养","普通水平 · 按需使用","当前形态 · 不宜优先"];
       private var mainUI:Sprite;
+      private var nativeUI:Class;
       private var content:Sprite;
       private var body:Sprite;
       private var navigation:Sprite;
@@ -67,25 +69,24 @@ package
          while(numChildren > 0) removeChildAt(0);
          mainUI = layer(this,-443,-222);
          // The native loader places this symbol at (463,242): book lands at (20,20).
-         rect(mainUI,0,0,920,520,0x203D50,0x70909B,12);
-         rect(mainUI,8,7,904,505,0xDED4B9,0xB4A78A,8);
-         rect(mainUI,15,12,890,491,0xF4EBD7,0xDFD1B0,5);
-         for(var edge:int=0;edge<3;edge++) line(mainUI,24,508+edge*2,895,508+edge*2,0xA99D82);
-         rect(mainUI,15,12,26,491,0x344E59,0x536C70,3);
-         for(var ring:int=0;ring<5;ring++) rect(mainUI,25,94+ring*84,25,7,0x9AA19A,0xD5D4BF,5);
-         label(mainUI,"赛尔号 / 作战研究室",61,21,300,18,10,0x67766E);
-         label(mainUI,"精灵作战宝典",59,41,330,42,30,0x233E4D,true);
-         label(mainUI,"不只看种族值，更看谁能帮你过关。",62,83,360,21,12,0x6C7266);
-         rect(mainUI,566,35,284,34,0xFFFAED,0xAFA58D,4);
+         nativeUI=ApplicationDomain.currentDomain.getDefinition("com.robot.core.manager.UIManager") as Class;
+         var frame:Sprite=nativeUI.getSprite("Panel_Background");
+         frame.scale9Grid=new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.width=920;frame.height=520;frame.mouseChildren=false;mainUI.addChild(frame);
+         var title:TextField=label(mainUI,"精灵作战宝典",31,18,330,29,20,0xFFFFFF,true);
+         title.filters=[new GlowFilter(676248,0.8,4,4,10)];
+         label(mainUI,"配招、培养与本服挑战指南",62,78,360,21,12,0x163F62);
+         var searchBox:Sprite=layer(mainUI,566,35);
+         rect(searchBox,0,0,284,34,0xFFFAED,0xAFA58D,4);
          searchInput=label(mainUI,"",577,41,260,25,14,0x243D4B);
          searchInput.type=TextFieldType.INPUT;
          searchInput.selectable=true;
          searchInput.mouseEnabled=true;
          searchInput.maxChars=40;
          searchInput.addEventListener(Event.CHANGE,onSearch);
-         label(mainUI,"搜索全部：名字 / 编号 / 属性 / 技能",568,74,289,20,10,0x777362);
-         closeBtn=new SimpleButton(closeFace(0x294859),closeFace(0x496777),closeFace(0x19303D),closeFace(0x294859));
-         closeBtn.x=870;closeBtn.y=30;mainUI.addChild(closeBtn);
+         label(mainUI,"搜索全部：名字 / 编号 / 属性 / 技能",568,74,289,20,10,0x163F62);
+         closeBtn=nativeUI.getButton("Close_Btn");
+         closeBtn.x=866;closeBtn.y=18;closeBtn.width=26;closeBtn.height=26;mainUI.addChild(closeBtn);
          // Native MonsterBook attaches the close handler after adding this symbol to the stage.
          navigation=layer(mainUI,60,110);
          content=layer(mainUI,60,139);
@@ -154,14 +155,17 @@ package
          var f:TextField=label(parent,value,x,y,w,1000,size,color);f.wordWrap=true;f.multiline=true;f.text=value;
          f.height=Math.ceil(f.textHeight)+8;return f.height;
       }
-      private function closeFace(color:uint):Sprite
+      private function action(parent:Sprite,value:String,x:Number,y:Number,w:Number,h:Number,command:String):Sprite
       {
-         var s:Sprite=new Sprite();rect(s,0,0,31,31,color,color,5);label(s,"×",5,0,24,30,23,0xF4EBD7);return s;
-      }
-      private function action(parent:Sprite,value:String,x:Number,y:Number,w:Number,h:Number,command:String,color:uint=0x294859):Sprite
-      {
-         var s:Sprite=layer(parent,x,y);s.name=command;s.buttonMode=true;s.mouseChildren=false;
-         rect(s,0,0,w,h,color,color,4);var t:TextField=label(s,value,3,(h-19)/2,w-6,23,12,0xFFFAED,true);
+         var s:Sprite=layer(parent,x,y);s.name=command;s.buttonMode=true;
+         var up:DisplayObject=nativeUI.getDisplayObject("Button_upSkin");
+         var over:DisplayObject=nativeUI.getDisplayObject("Button_overSkin");
+         var down:DisplayObject=nativeUI.getDisplayObject("Button_downSkin");
+         up.width=over.width=down.width=w;up.height=over.height=down.height=h;
+         var skin:SimpleButton=new SimpleButton(up,over,down,up);
+         skin.name=command;s.addChild(skin);
+         var t:TextField=label(s,value,3,(h-19)/2,w-6,23,12,0xFFFFFF,true);
+         t.filters=[new GlowFilter(676248,0.8,4,4,10)];
          var f:TextFormat=t.defaultTextFormat;f.align="center";t.setTextFormat(f);return s;
       }
       private function clear(parent:Sprite):void
@@ -237,7 +241,7 @@ package
          action(navigation,"梯队一览",0,0,83,27,"home");
          action(navigation,"全部精灵",91,0,83,27,"all");
          action(navigation,"评级标准",182,0,83,27,"rules");
-         action(navigation,"清空搜索",273,0,83,27,"clear",0x716F62);
+         action(navigation,"清空搜索",273,0,83,27,"clear");
          if(viewMode=="detail")action(navigation,"返回列表",364,0,83,27,"back");
          if(viewMode=="overview")renderOverview();
          else if(viewMode=="list")renderList();
@@ -253,7 +257,7 @@ package
          for(var t:int=0;t<5;t++) {
             var y:Number=t*69;
             rect(body,0,y,820,64,0xEAE0CA,0xCDBFA3,3);
-            var tier:Sprite=action(body,tierNames[t],0,y,93,64,"tier:"+t,colors[t]);
+            action(body,tierNames[t],0,y+17,93,30,"tier:"+t);
             var count:int=0;
             for each(var p:Object in catalog)if(p.tier==t)count++;
             label(body,descriptions[t],105,y+4,168,21,11,colors[t],true);
@@ -309,7 +313,7 @@ package
          label(body,"#"+r.id+" / "+r.type+"系 / "+r.role,1,39,246,39,12,0x727261);
          rect(body,0,83,230,188,0xE9DFC6,0xD0C2A5,4);
          portrait(body,r.id,16,88,196,171,true);
-         action(body,tierNames[r.tier]+" · "+r.score+"分",0,282,230,35,"tier:"+r.tier,colors[r.tier]);
+         action(body,tierNames[r.tier]+" · "+r.score+"分",0,282,230,35,"tier:"+r.tier);
          var summaryHeight:Number=paragraph(body,r.summary,2,331,229,13);
          label(body,"种族值 / 总和 "+r.stats.total,0,347+summaryHeight,234,25,16,0x294859,true);
          var statLabels:Array=["体力","攻击","防御","特攻","特防","速度"];

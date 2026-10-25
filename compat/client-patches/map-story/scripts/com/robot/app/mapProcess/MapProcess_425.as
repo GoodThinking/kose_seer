@@ -16,7 +16,9 @@ package com.robot.app.mapProcess
    import com.robot.core.npc.NPC;
    import com.robot.core.npc.NpcDialog;
    import com.robot.core.ui.alert.Alarm;
+   import com.robot.core.utils.CommonUI;
    import flash.display.MovieClip;
+   import flash.display.Sprite;
    import flash.events.Event;
    import flash.events.MouseEvent;
    import flash.utils.ByteArray;
@@ -35,6 +37,7 @@ package com.robot.app.mapProcess
       private var _shadeMc:MovieClip;
       
       private var _startMc:MovieClip;
+      private var _startHint:Sprite;
       
       private var _hitMc_1:MovieClip;
       
@@ -75,6 +78,7 @@ package com.robot.app.mapProcess
       private var _currentStar:MovieClip;
       
       private var _starArray:Array;
+      private var _destroyed:Boolean;
       
       public function MapProcess_425()
       {
@@ -103,17 +107,45 @@ package com.robot.app.mapProcess
          this._flashMc = depthLevel["flash_mc"];
          this._startMc.buttonMode = true;
          this._startMc.addEventListener(MouseEvent.CLICK,this.onOneClick);
+         ToolTipManager.add(this._startMc,"罗盘启动装置：点击开启探索");
+         // start_mc is an invisible hit area; its children inherit alpha zero.
+         this._startHint = new Sprite();
+         this._startHint.x = this._startMc.x + 30;
+         this._startHint.y = this._startMc.y;
+         this._startHint.buttonMode = true;
+         this._startHint.mouseChildren = false;
+         CommonUI.addYellowExcal(this._startHint,0,-15);
+         this._startHint.addEventListener(MouseEvent.CLICK,this.onOneClick);
+         topLevel.addChild(this._startHint);
+         ToolTipManager.add(this._startHint,"罗盘启动装置：点击开启探索");
          SocketConnection.addCmdListener(CommandID.GET_NONOPARTY_EXP,this.onExperienceReward);
          SocketDispatcher.getInstance().addEventListener(SocketErrorEvent.ERROR,this.onRewardError,false,2);
       }
       
+      private function clearStartHint() : void
+      {
+         if(this._startHint == null) return;
+         this._startHint.removeEventListener(MouseEvent.CLICK,this.onOneClick);
+         ToolTipManager.remove(this._startHint);
+         DisplayUtil.removeForParent(this._startHint);
+         this._startHint = null;
+      }
+
       private function onOneClick(param1:MouseEvent) : void
       {
-         var e:MouseEvent = param1;
+         NpcDialog.show(NPC.SEER,["点击启动装置开启罗盘。点亮后，可头部射击左右发光装置，或转动钥匙领取物资。登上大罗盘，避开带电指针；等星球完全显现后逐个点击，共五次。沿南侧通路可返回空间补给站。"],["开始探索","再看看"],[beginExploration]);
+      }
+
+      private function beginExploration() : void
+      {
+         if(_destroyed) return;
+         this.clearStartHint();
+         ToolTipManager.remove(this._startMc);
          this._startMc.buttonMode = false;
          this._startMc.removeEventListener(MouseEvent.CLICK,this.onOneClick);
          AnimateManager.playMcAnimate(this._shadeMc,0,"",function():void
          {
+            if(_destroyed) return;
             DisplayUtil.removeForParent(_shadeMc);
             _shadeMc = null;
             activeMap();
@@ -126,6 +158,7 @@ package com.robot.app.mapProcess
          this._keyMc.buttonMode = true;
          this._keyMc.addEventListener(MouseEvent.CLICK,this.onKeyClick);
          MainManager.actorModel.addEventListener(RobotEvent.WALK_ENTER_FRAME,this.onWalk);
+         ToolTipManager.add(this._keyMc,"转动钥匙，领取罗盘物资");
       }
       
       private function onAimatEnd(param1:AimatEvent) : void
@@ -136,6 +169,7 @@ package com.robot.app.mapProcess
             AimatController.removeEventListener(AimatEvent.PLAY_END,this.onAimatEnd);
             AnimateManager.playMcAnimate(this._leftMc,2,"mc",function():void
             {
+               if(_destroyed) return;
                _leftMc.gotoAndStop(1);
                AimatController.addEventListener(AimatEvent.PLAY_END,onAimatEnd);
                SocketConnection.send(CommandID.GET_NONOPARTY_EXP);
@@ -146,6 +180,7 @@ package com.robot.app.mapProcess
             AimatController.removeEventListener(AimatEvent.PLAY_END,this.onAimatEnd);
             AnimateManager.playMcAnimate(this._rightMc,2,"mc",function():void
             {
+               if(_destroyed) return;
                _rightMc.gotoAndStop(1);
                AimatController.addEventListener(AimatEvent.PLAY_END,onAimatEnd);
                SocketConnection.send(CommandID.GET_NONOPARTY_EXP);
@@ -188,6 +223,7 @@ package com.robot.app.mapProcess
          this._keyMc.gotoAndPlay(2);
          AnimateManager.playMcAnimate(this._wheelMc,0,"",function():void
          {
+            if(_destroyed) return;
             _keyMc.gotoAndStop(1);
             _wheelMc.gotoAndStop(1);
             _keyMc.buttonMode = true;
@@ -205,14 +241,7 @@ package com.robot.app.mapProcess
          {
             this._num = 0;
             this._isTurn = true;
-            this._groundMc.addEventListener(Event.ENTER_FRAME,function(param1:Event):void
-            {
-               if(Boolean(_groundMc["arrow_mc"]))
-               {
-                  _groundMc.removeEventListener(Event.ENTER_FRAME,arguments.callee);
-                  _groundMc.addEventListener(Event.ENTER_FRAME,onArrowEnterFrame);
-               }
-            });
+            this._groundMc.addEventListener(Event.ENTER_FRAME,onGroundReady);
             this._groundMc.gotoAndStop(2);
             this._starArray = [];
             while(this._starArray.length < 15)
@@ -256,6 +285,7 @@ package com.robot.app.mapProcess
             this._flashMc.y = MainManager.actorModel.pos.y;
             AnimateManager.playMcAnimate(this._flashMc,0,"",function():void
             {
+               if(_destroyed) return;
                var _loc1_:int = 0;
                _flashMc.x = -200;
                LevelManager.openMouseEvent();
@@ -294,6 +324,7 @@ package com.robot.app.mapProcess
             this._currentStar.y = _pointArray[this._index * 2 + 1];
             AnimateManager.playMcAnimate(this._currentStar,0,"",function():void
             {
+               if(_destroyed) return;
                _currentStar.buttonMode = true;
                _currentStar.addEventListener(MouseEvent.CLICK,onStarClick);
             });
@@ -313,6 +344,7 @@ package com.robot.app.mapProcess
             }
             AnimateManager.playMcAnimate(this._leiyiMc,0,"",function():void
             {
+               if(_destroyed) return;
                var _loc1_:int = 0;
                _leiyiMc.buttonMode = true;
                _leiyiMc.addEventListener(MouseEvent.CLICK,onLeiyiClick);
@@ -337,6 +369,7 @@ package com.robot.app.mapProcess
          this._starOutMc.y = _pointArray[this._index * 2 + 1];
          AnimateManager.playMcAnimate(this._starOutMc,0,"",function():void
          {
+            if(_destroyed) return;
             starStart(_starArray);
          });
       }
@@ -347,6 +380,7 @@ package com.robot.app.mapProcess
          this._isLeiyiClick = true;
          AnimateManager.playMcAnimate(this._leiyiOutMc,0,"",function():void
          {
+            if(_destroyed) return;
             SocketConnection.send(CommandID.GET_NONOPARTY_ITEM,2);
          });
       }
@@ -371,6 +405,7 @@ package com.robot.app.mapProcess
                   }
                   AnimateManager.playMcAnimate(this._petMc,0,"",function():void
                   {
+                     if(_destroyed) return;
                      _petMc.buttonMode = true;
                      _petMc.addEventListener(MouseEvent.CLICK,onPetClick);
                   });
@@ -379,6 +414,7 @@ package com.robot.app.mapProcess
                {
                   NpcDialog.show(NPC.SUPERNONO,["咦，这个机关点上去怎么没有反应呢？难道一定要拥有超能NONO的超能力才能打开吗？"],["我想马上成为超能NoNo！","我还是再考虑考虑吧！"],[function():void
                   {
+                     if(_destroyed) return;
                      MapManager.changeMap(107);
                   }]);
                }
@@ -417,9 +453,24 @@ package com.robot.app.mapProcess
          MapManager.changeMap(424);
       }
       
+      private function onGroundReady(event:Event) : void
+      {
+         if(_destroyed) return;
+         if(Boolean(this._groundMc["arrow_mc"]))
+         {
+            this._groundMc.removeEventListener(Event.ENTER_FRAME,onGroundReady);
+            this._groundMc.addEventListener(Event.ENTER_FRAME,onArrowEnterFrame);
+         }
+      }
+
       override public function destroy() : void
       {
          var _loc1_:int = 0;
+         _destroyed = true;
+         this.clearStartHint();
+         ToolTipManager.remove(this._startMc);
+         ToolTipManager.remove(this._keyMc);
+         this._groundMc.removeEventListener(Event.ENTER_FRAME,onGroundReady);
          ToolBarController.showOrHideAllUser(true);
          SocketConnection.removeCmdListener(CommandID.GET_NONOPARTY_EXP,this.onExperienceReward);
          SocketDispatcher.getInstance().removeEventListener(SocketErrorEvent.ERROR,this.onRewardError);
@@ -433,7 +484,7 @@ package com.robot.app.mapProcess
          this._groundMc.removeEventListener(Event.ENTER_FRAME,this.onArrowEnterFrame);
          if(Boolean(this._starArray))
          {
-            while(_loc1_ < 12)
+            while(_loc1_ < this._starArray.length)
             {
                conLevel[this._starArray[_loc1_]].removeEventListener(MouseEvent.CLICK,this.onStarClick);
                conLevel[this._starArray[_loc1_]].removeEventListener(MouseEvent.CLICK,this.onHeerkaClick);

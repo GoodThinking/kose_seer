@@ -3,6 +3,7 @@ package com.robot.core.manager
    import com.robot.core.CommandID;
    import com.robot.core.controller.MapController;
    import com.robot.core.event.PetFightEvent;
+   import com.robot.core.manager.map.config.MapConfig;
    import com.robot.core.mode.MapModel;
    import com.robot.core.net.ConnectionType;
    import com.robot.core.net.SocketConnection;
@@ -89,9 +90,14 @@ package com.robot.core.manager
          return _mapController;
       }
       
+      public static function isPublicMap(mapID:uint) : Boolean
+      {
+         return mapID <= ID_MAX || MapConfig.XML_DATA.elements("map").(@id == mapID && @publicMap == "1").length() > 0;
+      }
+
       public static function getResMapID(param1:uint) : uint
       {
-         if(param1 > MapManager.ID_MAX && !getMapController().isChangeLocal)
+         if(!isPublicMap(param1) && !getMapController().isChangeLocal)
          {
             return styleID;
          }

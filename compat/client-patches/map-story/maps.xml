@@ -267,4 +267,14 @@
         <changeMapComp><component name="door" hit="hit" targetID="10" /></changeMapComp>
         <funComp />
     </map>
+    <map id="81951" publicMap="1" name="拉铂尔星岸边" x="625" y="440" super="441" sound="BGM_10061">
+        <Entries><Entry FromMap="0" PosX="625" PosY="440" /></Entries>
+        <changeMapComp />
+        <funComp />
+    </map>
+    <map id="10039" publicMap="1" name="时空罗盘试炼" x="552" y="320" super="424" sound="BGM_050">
+        <Entries><Entry FromMap="0" PosX="552" PosY="320" /></Entries>
+        <changeMapComp />
+        <funComp />
+    </map>
 	</Maps>

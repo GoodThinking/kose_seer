@@ -11,6 +11,9 @@ package com.robot.app.mapProcess
    import com.robot.core.manager.MainManager;
    import com.robot.core.manager.MapManager;
    import com.robot.core.manager.map.config.BaseMapProcess;
+   import com.robot.core.npc.NPC;
+   import com.robot.core.npc.NpcDialog;
+   import flash.events.MouseEvent;
    import flash.geom.Point;
    import org.taomee.manager.ToolTipManager;
    import org.taomee.utils.DisplayUtil;
@@ -24,7 +27,9 @@ package com.robot.app.mapProcess
          animatorLevel["task_811_5"].visible = false;
          animatorLevel["task_801_2"].visible = false;
          animatorLevel["task_796_2"].visible = false;
-         ToolTipManager.add(conLevel["iceBridge"],"冰锥");
+         ToolTipManager.add(conLevel["iceBridge"],"左上方蓝色冰锥：用头部射击击落，搭起通路");
+         conLevel["iceBridge"].buttonMode = true;
+         conLevel["iceBridge"].addEventListener(MouseEvent.CLICK,onIceClick);
          AimatController.addEventListener(AimatEvent.PLAY_END,onShootIce);
          var map:MapProcess_685 = this;
          TasksController.runAfterTrackedTaskStatus(function():void
@@ -34,12 +39,20 @@ package com.robot.app.mapProcess
          },this);
       }
 
+      private function onIceClick(event:MouseEvent) : void
+      {
+         if(_destroyed || TasksManager.getTaskStatus(796) == TasksManager.ALR_ACCEPT) return;
+         NpcDialog.show(NPC.SEER,["左上方的蓝色冰锥可以击落，落下后会搭成通路。点击底部准心，选择普通射击，再瞄准冰锥。正中的紫色水晶不是这处机关。"],["我来试试！"]);
+      }
+
       private function onShootIce(event:AimatEvent) : void
       {
          if(_destroyed || event.info.userID != MainManager.actorID) return;
          var point:Point = event.info.endPos;
          if(!conLevel["iceBridge"].hitTestPoint(point.x,point.y)) return;
          ToolTipManager.remove(conLevel["iceBridge"]);
+         conLevel["iceBridge"].buttonMode = false;
+         conLevel["iceBridge"].removeEventListener(MouseEvent.CLICK,onIceClick);
          AimatController.removeEventListener(AimatEvent.PLAY_END,onShootIce);
          CommonUI.removeYellowArrow(conLevel["iceBridge"]);
          AnimateManager.playMcAnimate(conLevel["iceBridge"],1,"",function():void
@@ -64,6 +77,7 @@ package com.robot.app.mapProcess
          Task796.destroy(this);
          Task801.destroy(this);
          ToolTipManager.remove(conLevel["iceBridge"]);
+         conLevel["iceBridge"].removeEventListener(MouseEvent.CLICK,onIceClick);
          AimatController.removeEventListener(AimatEvent.PLAY_END,onShootIce);
       }
    }

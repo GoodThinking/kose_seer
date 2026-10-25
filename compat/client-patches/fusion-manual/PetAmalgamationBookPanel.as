@@ -4,6 +4,8 @@ package com.robot.module.book
    import com.robot.core.manager.UIManager;
    import org.taomee.module.IModule;
    import flash.display.Sprite;
+   import flash.display.SimpleButton;
+   import flash.filters.GlowFilter;
    import flash.display.Stage;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
@@ -89,7 +91,7 @@ package com.robot.module.book
          searchInput.multiline = false;
          searchInput.addEventListener(Event.CHANGE,onSearch);
          text(mainUI,"搜索精灵 / 精华 / 元神珠",596,57,260,15,9,0x79AFCB);
-         button(mainUI,"×",874,19,32,32,closePanel,0x14557D,0x65D6FC,24);
+         button(mainUI,"×",874,19,32,32,closePanel,false,24);
          box(mainUI,13,88,245,407,0x092B46,0x174D6E,5);
          tabsLayer = layer(mainUI,18,94);
          countLabel = text(mainUI,"",19,131,231,19,10,0x8FBBD3);
@@ -107,8 +109,8 @@ package com.robot.module.book
          scrollLayer = layer(mainUI,893,90);
          scrollLayer.graphics.beginFill(0,0);scrollLayer.graphics.drawRect(0,0,15,VIEW_HEIGHT);scrollLayer.graphics.endFill();
          scrollLayer.addEventListener(MouseEvent.MOUSE_WHEEL,onDetailWheel);
-         var up:Sprite = button(scrollLayer,"▲",0,0,15,23,null,0x133E59,0x337494,7);up.name="up";
-         var down:Sprite = button(scrollLayer,"▼",0,377,15,23,null,0x133E59,0x337494,7);down.name="down";
+         var up:Sprite = button(scrollLayer,"▲",0,0,15,23,null,false,7);up.name="up";
+         var down:Sprite = button(scrollLayer,"▼",0,377,15,23,null,false,7);down.name="down";
          scrollTrack = layer(scrollLayer,0,29);
          scrollTrack.graphics.beginFill(0,0);scrollTrack.graphics.drawRect(0,0,15,342);scrollTrack.graphics.endFill();
          box(scrollTrack,5,0,5,342,0x12384F,0x245875,3);
@@ -264,16 +266,31 @@ package com.robot.module.book
          field.height = Math.ceil(field.textHeight) + 6;
          return field.height;
       }
-      private function button(parent:Sprite,label:String,x:Number,y:Number,w:Number,h:Number,handler:Function = null,fill:uint = 0x103D5C,border:uint = 0x2C6B8E,size:int = 11) : Sprite
+      private function button(parent:Sprite,label:String,x:Number,y:Number,w:Number,h:Number,handler:Function = null,selected:Boolean = false,size:int = 11) : Sprite
       {
          var target:Sprite = layer(parent,x,y);
-         box(target,0,0,w,h,fill,border,6);
-         var field:TextField = text(target,label,2,(h-size-6)/2,w-4,size+8,size,0xDBF3FF,true);
-         var format:TextFormat = field.defaultTextFormat;
-         format.align = "center";
-         field.setTextFormat(format);
+         var skin:SimpleButton;
+         if(label == "×") skin = UIManager.getButton("Close_Btn");
+         else
+         {
+            var up:DisplayObject = UIManager.getDisplayObject("Button_upSkin");
+            var over:DisplayObject = UIManager.getDisplayObject("Button_overSkin");
+            var down:DisplayObject = UIManager.getDisplayObject("Button_downSkin");
+            up.width = over.width = down.width = w;
+            up.height = over.height = down.height = h;
+            skin = new SimpleButton(selected ? down : up,over,down,up);
+         }
+         skin.width = w; skin.height = h;
+         target.addChild(skin);
+         if(label != "×")
+         {
+            var field:TextField = text(target,label,2,(h-size-6)/2,w-4,size+8,size,0xFFFFFF,true);
+            var format:TextFormat = field.defaultTextFormat;
+            format.align = "center";
+            field.setTextFormat(format);
+            field.filters = [new GlowFilter(676248,0.8,4,4,10)];
+         }
          target.buttonMode = true;
-         target.mouseChildren = false;
          if(handler != null) target.addEventListener(MouseEvent.CLICK,handler);
          return target;
       }
@@ -309,7 +326,7 @@ package com.robot.module.book
          for(var i:int=0;i<kinds.length;i++)
          {
             var active:Boolean = category == kinds[i];
-            var tabButton:Sprite = button(tabsLayer,categoryName(kinds[i]),i*59,0,55,29,null,active?0x087BB6:0x103B59,active?0x82E6FC:0x2A6487,10);
+            var tabButton:Sprite = button(tabsLayer,categoryName(kinds[i]),i*59,0,55,29,null,active,10);
             tabButton.name = "tab:"+kinds[i];
          }
       }
@@ -323,7 +340,7 @@ package com.robot.module.book
          {
             var r:Object = rows[i];
             var active:Boolean = selected != null && r.id == selected.id;
-            var row:Sprite = button(listLayer,"",0,(i-start)*50,231,45,null,active?0x145D84:0x103751,active?0x7EE7FD:0x245E7D);
+            var row:Sprite = button(listLayer,"",0,(i-start)*50,231,45,null,active);
             row.name = "row:"+r.id;
             text(row,String(i+1),7,14,21,20,9,0x8ABBD6);
             art(row,"head",r.petId != null ? r.petId : r.mainId,27,3,38,39);
@@ -427,7 +444,7 @@ package com.robot.module.book
             {
                var source:Object = findEntry(sourceId);
                var panel:Sprite = layer(detailBody,0,y);
-               var title:Sprite = button(panel,source.name+"配方  ›",9,8,170,23,null,0x174564,0x386F8D,11);
+               var title:Sprite = button(panel,source.name+"配方  ›",9,8,170,23);
                title.name = "source:"+source.id;
                text(panel,"粉色元神珠 5%",450,11,145,20,10,0xF3B4D9);
                text(panel,source.main+" + "+source.essence+" ×1 → 粉色元神珠 → "+r.name,12,38,578,23,12,0xD6EAF5);
@@ -442,8 +459,12 @@ package com.robot.module.book
             y = recipe(r,y);
             if(r.rareId != null)
             {
-               var rareButton:Sprite = button(detailBody,"另有 5% 粉色元神珠 → "+findEntry(r.rareId).name+"    查看来源 ›",0,y,601,27,null,0x3B304A,0x996887,11);
+               var rareButton:Sprite = layer(detailBody,0,y);
                rareButton.name = "source:"+r.rareId;
+               rareButton.buttonMode = true; rareButton.mouseChildren = false;
+               var rareLabel:TextField = text(rareButton,"另有 5% 粉色元神珠 → "+findEntry(r.rareId).name+"    查看来源 ›",0,2,601,25,11,0xFFE28C,true);
+               var rareFormat:TextFormat = rareLabel.defaultTextFormat;
+               rareFormat.underline = true; rareLabel.setTextFormat(rareFormat);
                y += 36;
             }
             if(r.outcomes != null)
@@ -627,8 +648,9 @@ package com.robot.module.book
       }
       private function onClick(e:MouseEvent) : void
       {
-         var target:Sprite = e.target as Sprite;
-         if(target == null) return;
+         var target:DisplayObject = e.target as DisplayObject;
+         if(target is SimpleButton) target = target.parent;
+         if(!(target is Sprite)) return;
          var name:String = target.name;
          if(name.indexOf("tab:")==0)
          {

@@ -21,7 +21,7 @@ package com.robot.app.task.control
       
       private static const TASK_STATUS_TIMEOUT:uint = 3000;
       
-      private static const TRACKED_TASK_IDS:Array = [530,532,535,534,540,549,558,560,561,616,619,620,624,626,628,633,637,641,642,643,648,653,655,658,647,649,654,656,662,663,669,673,678,683,687,695,705,715,730,737,741,746,753,698,707,716,735,739,743,748,755,764,768,775,788,796,801,811,816,819,758,759,760,761,762,763];
+      private static const TRACKED_TASK_IDS:Array = [530,532,535,534,540,549,558,560,561,616,619,620,624,626,628,633,637,641,642,643,648,653,655,658,647,649,654,656,662,663,669,673,678,683,687,695,705,715,730,737,741,746,753,698,707,716,735,739,743,748,755,764,768,775,788,796,801,811,816,819,758,759,760,761,762,763,10039];
       
       private static const KAXIUSI_ENABLED_TASK_IDS:Array = [616,619,624,626,628,633,637,641,642,648,653,655,658];
       
@@ -60,6 +60,7 @@ package com.robot.app.task.control
       private static var _mysteryHolePanelPending:Boolean = false;
       
       private static var _trackedTaskStatusCallbacks:Array = [];
+      private static var _continuationOwner:BaseMapProcess;
       
       public static const TASKPANEL_SHOW_COMPLETE:String = "taskPanel_show_complete";
       
@@ -332,6 +333,50 @@ package com.robot.app.task.control
          {
             com.robot.app.task.taskscollection.Task658.completeTask();
          }
+         if(_kaxiusiStatusReady && MapManager.currentMap != null) enterContinuation();
+      }
+
+      private static function enterContinuation() : void
+      {
+         var owner:BaseMapProcess = MapProcessConfig.currentProcessInstance;
+         if(owner == null || _continuationOwner === owner) return;
+         _continuationOwner = owner;
+         switch(MapManager.currentMap.id)
+         {
+            case 4:
+               com.robot.app.task.taskscollection.Task816.initTaskForMap4(owner);
+               com.robot.app.task.taskscollection.Task819.initTaskForMap4(owner);
+               break;
+            case 5:
+               com.robot.app.task.taskscollection.Task811.initTaskForMap5(owner);
+               break;
+            case 57:
+               com.robot.app.task.taskscollection.Task819.initTaskForMap57(owner);
+               break;
+            case 426:
+               com.robot.app.task.taskscollection.Task811.initTaskForMap426(owner);
+               break;
+            case 666:
+               com.robot.app.task.taskscollection.Task816.initTaskForMap666(owner);
+               break;
+            case 684:
+               com.robot.app.task.taskscollection.Task811.initTaskForMap684(owner);
+               break;
+            case 685:
+               com.robot.app.task.taskscollection.Task811.initTaskForMap685(owner);
+               break;
+            case 686:
+               com.robot.app.task.taskscollection.Task811.initTaskForMap686(owner);
+               break;
+            case 687:
+               com.robot.app.task.taskscollection.Task811.initTaskForMap687(owner);
+               break;
+            case 693:
+               com.robot.app.task.taskscollection.Task819.initTaskForMap693(owner);
+               break;
+            case 81951:
+               com.robot.app.task.taskscollection.Task819.initTaskForMap81951(owner);
+         }
       }
       
       private static function enterSceneAfterProcessAssigned() : void
@@ -481,6 +526,14 @@ package com.robot.app.task.control
       
       private static function onLeaveScene(event:flash.events.Event) : void
       {
+         var owner:BaseMapProcess = _continuationOwner;
+         if(owner != null)
+         {
+            com.robot.app.task.taskscollection.Task811.destroy(owner);
+            com.robot.app.task.taskscollection.Task816.destroy(owner);
+            com.robot.app.task.taskscollection.Task819.destroy(owner);
+         }
+         _continuationOwner = null;
          if(_setupFinished && MapManager.currentMap != null)
          {
             leaveScene();

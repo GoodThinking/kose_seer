@@ -354,6 +354,51 @@
         "special": [{ "type": 3, "value": 8000 }],
         "items": [{ "itemId": 300428, "count": 1 }, { "itemId": 300401, "count": 5 }]
       }
+    },
+    "811": {
+      "name": "九尾的终极力量！",
+      "type": "normal",
+      "parentTaskId": 801,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [{"type": 3, "value": 8000}],
+        "items": [{"itemId": 300445, "count": 1}, {"itemId": 300401, "count": 5}, {"itemId": 300451, "count": 1}]
+      }
+    },
+    "816": {
+      "name": "对决吧！青龙！",
+      "type": "normal",
+      "parentTaskId": 811,
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [{"type": 3, "value": 8000}],
+        "items": [{"itemId": 300459, "count": 1}, {"itemId": 300401, "count": 5}]
+      }
+    },
+    "819": {
+      "name": "仙境中的顶尖对决",
+      "type": "normal",
+      "parentTaskId": 816,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 500,
+        "special": [{"type": 3, "value": 10000}],
+        "items": [{"itemId": 300401, "count": 5}]
+      }
+    },
+    "10039": {
+      "name": "时空罗盘试炼",
+      "type": "normal",
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "requiresCompassVictory": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [{"type": 3, "value": 5000}]
+      }
     }
   }
 }

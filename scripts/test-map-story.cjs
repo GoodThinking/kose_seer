@@ -45,6 +45,7 @@ const { createDefaultPetInfo } = load('shared/models/PetModel');
 const { MysteryMonHandler } = load('GameServer/Server/Packet/Recv/Map/MysteryMonHandler');
 const { StartPaidStoryEncounter, GrantMysteryFragments } = load('GameServer/Game/Map/MysteryMonActivity');
 const { ForestMechanisms, ValidateForestBossEntry } = load('GameServer/Game/Map/ForestMechanisms');
+const { ValidateCompassEntry, GrantMapVictory } = load('GameServer/Game/Map/GameplayRewards');
 const { ForestFruitHandler } = load('GameServer/Server/Packet/Recv/Map/ForestMechanismHandlers');
 const forestRules = JSON.parse(fs.readFileSync(path.join(temporary, 'config/data/json/forest_mechanisms.json')));
 const mysteryRule = JSON.parse(fs.readFileSync(path.join(temporary, 'config/data/json/story_encounters.json'))).find(row => row.fragmentDrop);
@@ -642,6 +643,82 @@ async function fragmentCounts(p) {
         assert.deepEqual(after.items.map(item => [item.itemId, item.count]), [[300401, 5]]);
         assert.deepEqual(p.ItemManager.ItemData.ItemList, after.items);
         assert.equal((await saved(p)).tasks[788].status, 3);
+    });
+    await run('Fox continuation enforces chapter order and pays the archived rewards once', async () => {
+        const p = await fixture({801: {taskId: 801, status: 3, acceptTime: 1, completeTime: 2}});
+        await assert.rejects(p.TaskManager.AcceptTask(819), /Previous story quest/);
+        const expectations = [[811, 6, 8000], [816, 5, 8000], [819, 6, 10000]];
+        for (const [id, count] of expectations) {
+            await p.TaskManager.AcceptTask(id);
+            await p.TaskManager.SetTaskBufferBytes(id, stage(...Array(count - 1).fill(1), 0));
+            await Promise.all([p.TaskManager.CompleteTask(id, 0), p.TaskManager.CompleteTask(id, 0)]);
+            assert.equal((await saved(p)).tasks[id].status, 3);
+        }
+        const state = await savedCompass(p);
+        assert.deepEqual(state.wallet, {coins: 600, gold: 0, allocatable_exp: 26077});
+        const counts = Object.fromEntries(state.items.map(item => [item.itemId, item.count]));
+        assert.deepEqual(counts, {300445: 1, 300401: 15, 300451: 1, 300459: 1});
+    });
+    await run('Compass rejects premature entry and forged final progress without a persisted victory', async () => {
+        const p = await fixture(), boss = {mapId: 10039, param2: 0, petId: 804};
+        p.Data.mapID = 10039;
+        assert.equal(await ValidateCompassEntry(p, 10039, 0, boss), false);
+        await p.TaskManager.AcceptTask(10039);
+        await p.TaskManager.SetTaskBufferBytes(10039, stage(1, 1, 0, 0));
+        assert.equal(await ValidateCompassEntry(p, 10039, 0, boss), false);
+        await p.TaskManager.SetTaskBufferBytes(10039, stage(1, 1, 1, 1));
+        assert.equal(await ValidateCompassEntry(p, 10039, 0, boss), true);
+        assert.equal(await ValidateCompassEntry(p, 10039, 1, boss), false);
+        const before = await savedCompass(p);
+        await p.TaskManager.CompleteTask(10039, 0);
+        assert.equal(p.packets.at(-1).result, 5000);
+        assert.deepEqual(await savedCompass(p), before);
+        await GrantMapVictory(p, {bossMapId: 10039, bossParam2: 0, enemy: {id: 997}});
+        assert.deepEqual(await savedCompass(p), before);
+        await GrantMapVictory(p, {bossMapId: 10039, bossParam2: 0, enemy: {id: 804}});
+        await reloadTasks(p);
+        await Promise.all([p.TaskManager.CompleteTask(10039, 0), p.TaskManager.CompleteTask(10039, 0)]);
+        const after = await savedCompass(p);
+        assert.equal((await saved(p)).tasks[10039].status, 3);
+        assert.deepEqual(after.wallet, {coins: 3100, gold: 0, allocatable_exp: 5077});
+    });
+    await run('Native twenty-byte progress remains readable after victory and reconnect without claiming rewards early', async () => {
+        const p = await fixture();
+        await p.TaskManager.AcceptTask(10039);
+        await p.TaskManager.SetTaskProgressBytes(10039, [...[1, 1, 1, 0], ...Array(16).fill(0)]);
+        await GrantMapVictory(p, {bossMapId: 10039, bossParam2: 0, enemy: {id: 804}});
+        await reloadTasks(p);
+        assert.deepEqual(p.TaskManager.GetTaskBuffer(10039).slice(0, 4), [1, 1, 1, 1]);
+        const claimStage = JSON.parse(fs.readFileSync(path.join(temporary, 'config/data/json/tasks.json'))).tasks[10039].requiredProgress - 1;
+        assert.equal(p.TaskManager.GetTaskBuffer(10039)[claimStage], 0, 'Native completion must still see a pending claim stage after victory');
+        assert.deepEqual((await savedCompass(p)).wallet, {coins: 100, gold: 0, allocatable_exp: 77});
+        await p.TaskManager.CompleteTask(10039, 0);
+        assert.deepEqual((await savedCompass(p)).wallet, {coins: 3100, gold: 0, allocatable_exp: 5077});
+    });
+    await run('Ice-fox forms share one persisted essence reward while the other Boss retains its own first win', async () => {
+        const p = await fixture();
+        const normal = {bossMapId: 686, bossParam2: 0, enemy: {id: 1012}};
+        const weak = {...normal, bossParam2: 1};
+        const grants = await Promise.all([GrantMapVictory(p, normal), GrantMapVictory(p, weak)]);
+        assert.equal(grants.flat().length, 1);
+        assert.deepEqual(await GrantMapVictory(p, weak), []);
+        assert.deepEqual(await GrantMapVictory(p, {bossMapId: 684, bossParam2: 0, enemy: {id: 997}}),
+            [{itemId: 400239, count: 1}]);
+        const after = await savedCompass(p);
+        assert.deepEqual(after.items.map(item => [item.itemId, item.count]), [[400244, 1], [400239, 1]]);
+        assert.deepEqual(after.claims.map(claim => claim.amount), [1, 1]);
+        assert.deepEqual(p.ItemManager.ItemData.ItemList, after.items);
+    });
+    await run('Forest first-win claim failure rolls back essence inventory and preserves an explicit retry', async () => {
+        const p = await fixture(), before = await savedCompass(p);
+        const battle = {bossMapId: 684, bossParam2: 0, enemy: {id: 997}};
+        await db.Execute(`CREATE TRIGGER reject_forest_claim BEFORE INSERT ON receiver_claims WHEN NEW.owner_id=${p.Uid} BEGIN SELECT RAISE(ABORT,'forest claim fixture'); END`);
+        try {
+            await assert.rejects(GrantMapVictory(p, battle), /forest claim fixture/);
+            assert.deepEqual(await savedCompass(p), before);
+            assert.deepEqual(p.ItemManager.ItemData.ItemList, before.items);
+        } finally { await db.Execute('DROP TRIGGER reject_forest_claim'); }
+        assert.deepEqual(await GrantMapVictory(p, battle), [{itemId: 400239, count: 1}]);
     });
     const result = { passed: passed.length, scenarios: passed, database: 'disposable SQLite', productionWrites: false };
     if (evidence) {

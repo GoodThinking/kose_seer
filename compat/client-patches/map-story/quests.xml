@@ -166,4 +166,34 @@
     <pro name="4神狐的爆发" parent="" isMat="0" doc="" alert="" />
     <pro name="5阴谋的背后" parent="" isMat="0" doc="" alert="" />
 </task>
+<task ID="811" name="九尾的终极力量！" parent="801" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="前往实验室" parent="" isMat="0" doc="" alert="" />
+    <pro name="珀伽索斯的过去" parent="" isMat="0" doc="" alert="" />
+    <pro name="探访海之神殿" parent="" isMat="0" doc="" alert="" />
+    <pro name="兄弟情深" parent="" isMat="0" doc="" alert="" />
+    <pro name="兄弟情深" parent="" isMat="0" doc="" alert="" />
+    <pro name="爆发吧！九尾！" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="816" name="对决吧！青龙！" parent="811" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="前往船长室" parent="" isMat="0" doc="" alert="" />
+    <pro name="菲尼克斯禁地" parent="" isMat="0" doc="" alert="" />
+    <pro name="上古圣战" parent="" isMat="0" doc="" alert="" />
+    <pro name="神兽的愤怒" parent="" isMat="0" doc="" alert="" />
+    <pro name="决战之邀" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="819" name="仙境中的顶尖对决" parent="816" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="前往船长室" parent="" isMat="0" doc="" alert="" />
+    <pro name="尼古尔星的线索" parent="" isMat="0" doc="" alert="" />
+    <pro name="海盗的计谋" parent="" isMat="0" doc="" alert="" />
+    <pro name="进入拉珀尔仙境" parent="" isMat="0" doc="" alert="" />
+    <pro name="谁才是胜者" parent="" isMat="0" doc="" alert="" />
+    <pro name="突如其来的灾难" parent="" isMat="0" doc="" alert="" />
+</task>
+<task ID="10039" name="时空罗盘试炼" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="校准过去星印" parent="" isMat="0" doc="" alert="" />
+    <pro name="校准现在星印" parent="" isMat="0" doc="" alert="" />
+    <pro name="校准未来星印" parent="" isMat="0" doc="" alert="" />
+    <pro name="实战战胜封印投影" parent="" isMat="0" doc="" alert="" />
+    <pro name="领取首通奖励" parent="" isMat="0" doc="" alert="" />
+</task>
 </tasks>

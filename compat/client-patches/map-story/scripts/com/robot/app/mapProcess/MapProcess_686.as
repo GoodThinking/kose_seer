@@ -29,6 +29,7 @@ package com.robot.app.mapProcess
       private var _fruitTimer1:Timer;
       
       private var _fruitTimer2:Timer;
+      private var _foxRegion:uint;
       
       public function MapProcess_686()
       {
@@ -41,7 +42,7 @@ package com.robot.app.mapProcess
          var _loc2_:FightOverInfo = param1.dataObj as FightOverInfo;
          if(_loc2_.winnerID != MainManager.actorID)
          {
-            NpcDialog.show(NPC.ANYEBINGFU,["哈哈！你也太弱了吧！不过呢？如果你拥有0xff0000火之果0xffffff，可能我还会怕你三分！0xff0000不过火之果很难获得，不信你可以去我周围的冰洞中找找！0xffffff"],["好，我等等再来挑战你！"]);
+            NpcDialog.show(NPC.ANYEBINGFU,[_foxRegion == 1 ? "火之果已经削弱了我的力量，不过想战胜我，还是得认真准备哦！先恢复精灵体力，再试试克制我的属性吧！" : "哈哈！你也太弱了吧！不过呢？如果你拥有0xff0000火之果0xffffff，可能我还会怕你三分！0xff0000不过火之果很难获得，不信你可以去我周围的冰洞中找找！0xffffff"],["好，我等等再来挑战你！"]);
          }
       }
       
@@ -58,6 +59,7 @@ package com.robot.app.mapProcess
          this.initBridge();
          this.initSptAnyebinghu();
          this.initFireFruit();
+         EventManager.addEventListener(RobotEvent.NO_PET_CAN_FIGHT,onFightEntryRejected);
          TasksController.runAfterTrackedTaskStatus(function():void
          {
             Task801.initTaskForMap686(_loc1_);
@@ -66,7 +68,7 @@ package com.robot.app.mapProcess
       
       private function initFireFruit() : void
       {
-         ToolTipManager.add(conLevel["fireFruit"],"火之果");
+         ToolTipManager.add(conLevel["fireFruit"],"火之果：点击采集，有概率获得；持有即可削弱暗夜冰狐");
          conLevel["fireFruit"].buttonMode = true;
          conLevel["fireFruit"].addEventListener(MouseEvent.CLICK,this.onFireFruitClick);
       }
@@ -108,6 +110,8 @@ package com.robot.app.mapProcess
          conLevel["fireFruit"].gotoAndStop(1);
          conLevel["fireFruit"].buttonMode = true;
          conLevel["fireFruit"].addEventListener(MouseEvent.CLICK,this.onFireFruitClick);
+         ToolTipManager.remove(conLevel["fireFruit"]);
+         ToolTipManager.add(conLevel["fireFruit"],"这次未获得火之果，可以再次采集（有概率获得）");
          this._fruitTimer2.reset();
       }
       
@@ -124,7 +128,7 @@ package com.robot.app.mapProcess
       
       private function initSptAnyebinghu() : void
       {
-         ToolTipManager.add(conLevel["sptAnyebinghu"],"暗夜冰狐");
+         ToolTipManager.add(conLevel["sptAnyebinghu"],"暗夜冰狐：持有火之果可挑战弱化形态，不消耗果实");
          conLevel["sptAnyebinghu"].buttonMode = true;
          conLevel["sptAnyebinghu"].addEventListener(MouseEvent.CLICK,this.onSptClick);
       }
@@ -150,6 +154,7 @@ package com.robot.app.mapProcess
          var _loc2_:ByteArray = param1.data as ByteArray;
          var _loc3_:uint = _loc2_.readUnsignedInt();
          if(_loc3_ > 1) return;
+         _foxRegion = _loc3_;
          EventManager.addEventListener(PetFightEvent.ALARM_CLICK,onFinishFight);
          if(_loc3_ == 0)
          {
@@ -163,7 +168,7 @@ package com.robot.app.mapProcess
       
       private function initBridge() : void
       {
-         ToolTipManager.add(conLevel["bridge"],"吊桥木板");
+         ToolTipManager.add(conLevel["bridge"],"吊桥木板：需要操作两步才能铺好吊桥");
          conLevel["bridge"].buttonMode = true;
          conLevel["bridge"].addEventListener(MouseEvent.CLICK,this.onBridgeClick);
       }
@@ -188,9 +193,19 @@ package com.robot.app.mapProcess
                Task801.onBridge();
 
             }
+            else
+            {
+               ToolTipManager.remove(conLevel["bridge"]);
+               ToolTipManager.add(conLevel["bridge"],"吊桥尚未完成：再点击一次木板");
+            }
          });
       }
       
+      private function onFightEntryRejected(event:RobotEvent) : void
+      {
+         EventManager.removeEventListener(PetFightEvent.ALARM_CLICK,onFinishFight);
+      }
+
       override public function destroy() : void
       {
          _destroyed = true;
@@ -202,6 +217,7 @@ package com.robot.app.mapProcess
          SocketConnection.removeCmdListener(GET_FIREFRUIT,onFruitHandler);
          SocketConnection.removeCmdListener(ANYEBINHU_LEVEL,onLevelHandler);
          EventManager.removeEventListener(PetFightEvent.ALARM_CLICK,onFinishFight);
+         EventManager.removeEventListener(RobotEvent.NO_PET_CAN_FIGHT,onFightEntryRejected);
          conLevel["bridge"].removeEventListener(MouseEvent.CLICK,onBridgeClick);
          conLevel["fireFruit"].removeEventListener(MouseEvent.CLICK,onFireFruitClick);
          conLevel["sptAnyebinghu"].removeEventListener(MouseEvent.CLICK,onSptClick);

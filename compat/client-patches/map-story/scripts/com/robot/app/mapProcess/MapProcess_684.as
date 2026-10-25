@@ -37,10 +37,11 @@ package com.robot.app.mapProcess
          conLevel["eggTig"].visible = false;
          conLevel["raftTig788"].visible = false;
          conLevel["bubble"].visible = false;
-         ToolTipManager.add(conLevel["raftTig"],"小木舟");
-         ToolTipManager.add(conLevel["raftTig1"],"小木舟");
-         ToolTipManager.add(conLevel["bridge"],"会伸展的枯枝");
-         ToolTipManager.add(conLevel["sptBoss"],"皮特萨罗的精灵蛋");
+         ToolTipManager.add(conLevel["raftTig"],"小木舟：靠近岸边后点击登船");
+         ToolTipManager.add(conLevel["raftTig1"],"小木舟：靠近岸边后点击返航");
+         ToolTipManager.add(conLevel["bridge"],"会伸展的枯枝：点击架起通路");
+         ToolTipManager.add(conLevel["sptBoss"],"皮特萨罗的精灵蛋：点击唤醒并挑战");
+         ToolTipManager.add(conLevel["door_1"],"冰封洞窟：先乘小木舟到上层河岸，再点击洞口");
          conLevel["vortex"].buttonMode = true;
          conLevel["vortex"].addEventListener(MouseEvent.CLICK,onVortexClick);
          conLevel["bridge"].buttonMode = true;
@@ -194,6 +195,7 @@ package com.robot.app.mapProcess
          ToolTipManager.remove(conLevel["raftTig1"]);
          ToolTipManager.remove(conLevel["bridge"]);
          ToolTipManager.remove(conLevel["sptBoss"]);
+         ToolTipManager.remove(conLevel["door_1"]);
          if(_voyage != null) TweenLite.removeTween(_voyage);
          if(_returnVoyage != null) TweenLite.removeTween(_returnVoyage);
          if(_boat != null && _boat.parent == _actor)

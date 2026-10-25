@@ -1,6 +1,7 @@
 package {
    import flash.display.*;
    import flash.events.*;
+   import flash.filters.GlowFilter;
    import flash.geom.Rectangle;
    import flash.net.URLRequest;
    import flash.system.ApplicationDomain;
@@ -15,6 +16,7 @@ package {
       private const COMMAND:int = 91001;
       private const PAGE_SIZE:int = 8;
       private var socket:Class;
+      private var nativeUI:Class;
       private var owned:Object = {};
       private var total:int = 0;
       private var state:String = "loading";
@@ -39,14 +41,16 @@ package {
          eventStage=stage;
          graphics.beginFill(0x14242A,0.65);graphics.drawRect(0,0,960,560);graphics.endFill();
          shell=new Sprite();shell.x=20;shell.y=20;addChild(shell);
-         box(shell,0,0,920,520,0xECE4D0);
-         box(shell,0,0,920,8,0xA96C31);
-         text(shell,"COLLECTION ARCHIVE / 赛尔号",28,21,500,18,11,0x7D684E);
-         text(shell,"精灵收藏馆",27,44,460,45,30,0x293F39,true);
-         text(shell,"每一次相遇，都留下一枚印记。",29,90,470,22,13,0x716A58);
+         nativeUI=ApplicationDomain.currentDomain.getDefinition("com.robot.core.manager.UIManager") as Class;
+         var frame:Sprite=nativeUI.getSprite("Panel_Background");
+         frame.scale9Grid=new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.width=920;frame.height=520;frame.mouseChildren=false;shell.addChild(frame);
+         var title:TextField=text(shell,"精灵收藏馆",31,18,230,29,20,0xFFFFFF,true);
+         title.filters=[new GlowFilter(676248,0.8,4,4,10)];
+         text(shell,"收集进度与精灵档案",261,29,310,25,13,0x163F62);
          button(shell,"收藏图录",544,44,112,36,"catalog");
          button(shell,"收集成就",665,44,112,36,"achievements");
-         button(shell,"关闭",816,44,76,36,"close");
+         button(shell,"关闭",866,18,26,26,"close");
          search=text(shell,"",291,123,370,28,14,0x293F39);
          search.border=true;search.borderColor=0xB9AD91;search.background=true;search.backgroundColor=0xFAF5E8;
          search.type=TextFieldType.INPUT;search.selectable=true;search.mouseEnabled=true;search.maxChars=36;
@@ -221,10 +225,24 @@ package {
          parent.addChild(field);return field;
       }
       private function button(parent:Sprite,value:String,x:Number,y:Number,w:Number,h:Number,command:String,active:Boolean=false):void {
-         var target:Sprite=new Sprite();target.x=x;target.y=y;target.name=command;target.buttonMode=true;target.mouseChildren=false;
-         box(target,0,0,w,h,active?0x506B50:0xD8D0B9);
-         var label:TextField=text(target,value,0,5,w,h-5,13,active?0xFAF4E5:0x293F39,true);
-         var format:TextFormat=label.defaultTextFormat;format.align="center";label.setTextFormat(format);
+         var target:Sprite=new Sprite();target.x=x;target.y=y;target.name=command;target.buttonMode=true;
+         var skin:SimpleButton;
+         if(command=="close")skin=nativeUI.getButton("Close_Btn");
+         else {
+            var up:DisplayObject=nativeUI.getDisplayObject("Button_upSkin");
+            var over:DisplayObject=nativeUI.getDisplayObject("Button_overSkin");
+            var down:DisplayObject=nativeUI.getDisplayObject("Button_downSkin");
+            up.width=over.width=down.width=w;up.height=over.height=down.height=h;
+            skin=new SimpleButton(active?down:up,over,down,up);
+         }
+         skin.name=command;skin.width=command=="close"?26:w;skin.height=command=="close"?26:h;
+         if(command=="close")skin.x=w-26;
+         target.addChild(skin);
+         if(command!="close"){
+            var label:TextField=text(target,value,0,Math.max(1,(h-22)/2),w,h-2,13,0xFFFFFF,true);
+            var format:TextFormat=label.defaultTextFormat;format.align="center";label.setTextFormat(format);
+            label.filters=[new GlowFilter(676248,0.8,4,4,10)];
+         }
          parent.addChild(target);
       }
    }

@@ -1,0 +1,37 @@
+{
+  "authorship": "Project-authored completion for missing current-client content; not a recovered historical balance table.",
+  "bossConfigs": [
+    {
+      "mapId": 684, "param2": 0, "petId": 997, "petName": "皮特萨罗",
+      "level": 70, "dv": 31, "ev": 0, "nature": 0,
+      "abilities": [], "customHP": 1800,
+      "skills": [21233, 12370, 12373, 12372], "drops": [],
+      "rewards": {"exp": 5000, "coins": 1200},
+      "hint": "常规草系实战。首次战胜皮特萨罗可获得它的精元；重复挑战不重复发放精元。"
+    },
+    {
+      "mapId": 686, "param2": 0, "petId": 1012, "petName": "暗夜冰狐",
+      "level": 80, "dv": 31, "ev": 0, "nature": 0,
+      "abilities": [], "customHP": 2600,
+      "skills": [21249, 12396, 12399, 12398], "drops": [],
+      "rewards": {"exp": 6000, "coins": 1500},
+      "hint": "冰暗影系实战。持有火之果后可挑战弱化形态；两种形态共享一次首胜精元。"
+    },
+    {
+      "mapId": 686, "param2": 1, "petId": 1012, "petName": "暗夜冰狐",
+      "level": 80, "dv": 31, "ev": 0, "nature": 0,
+      "abilities": [], "customHP": 1800,
+      "skills": [21249, 12396, 12399, 12398], "drops": [],
+      "rewards": {"exp": 6000, "coins": 1500},
+      "hint": "火之果削弱了暗夜冰狐的体力。需要持有火之果；两种形态共享一次首胜精元。"
+    },
+    {
+      "mapId": 10039, "param2": 0, "petId": 804, "petName": "封印投影",
+      "level": 85, "dv": 31, "ev": 0, "nature": 0,
+      "abilities": [], "customHP": 3500,
+      "skills": [10001, 20202, 11417, 20437], "drops": [],
+      "rewards": {"exp": 5000, "coins": 1000},
+      "hint": "时空罗盘的封印投影。先校准三座星印，再通过真正的战斗获胜完成试炼。"
+    }
+  ]
+}

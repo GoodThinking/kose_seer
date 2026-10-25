@@ -84,6 +84,11 @@ package com.robot.core.controller
       
       public function changeLocalMap(param1:uint, param2:uint = 0) : void
       {
+         if(param1 > MapManager.ID_MAX && MapManager.isPublicMap(param1))
+         {
+            this.changeMap(param1,param2,0);
+            return;
+         }
          this.isChangeLocal = true;
          this._dir = param2;
          this._newMapID = param1;
@@ -161,7 +166,7 @@ package com.robot.core.controller
          CameraController.clear();
          _isSwitching = true;
          LevelManager.closeMouseEvent();
-         if(this._newMapID > MapManager.ID_MAX)
+         if(!MapManager.isPublicMap(this._newMapID))
          {
             switch(this._mapType)
             {
