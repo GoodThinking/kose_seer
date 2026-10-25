@@ -34,6 +34,16 @@
 - 原生走通326三个机关并进入327；月光精元完成真实1800秒孵化并把艾格放入仓库；50级塔奇拉顿实战胜利后原剧情继续。收藏馆两页、名称/编号/属性搜索、空结果、翻页、800像素整场景缩放、同步失败重试及真实孵化后的收藏数更新均已验证。
 - 增量构建入口为`scripts/build-battle-experience.cjs`，本轮原生候选为`outputs/battle-experience-20261025/build-16/`，共22个输出文件，无数据库迁移。证据位于同目录上级的`continuous-edit-native-smoke.json`、`gathering-native-smoke.json`、`meteor-native-smoke.json`、`allison-native-smoke.json`、`museum-native-smoke.json`及原生截图。发布前仍须核对最新主干和线上全文件哈希，只安装清单目标，保留另一地图会话的改动。
 
+### 正式发布回执
+
+- 功能提交`a69faad0bf6ee02a103b43ed95016c08231cc59c`已通过原子推送合入个人`fork/main`，任务分支为`feat/battle-experience-20261025`。从集成提交与实时线上快照重新构建的22个输出文件，与原生候选16逐字节一致。
+- 2026-10-26 03:46:56（北京时间）部署完成，发布标识`battle-experience-20261025T194215Z-a69faad`。安装时持有`.release.lock`与`.client-release.lock`，22个目标哈希全部一致，另外8262个受保护文件未改动；只重启`kose-seer.service`，Web服务未重启。没有数据库迁移、回档或手工修改玩家存档。
+- 备份位于`/opt/kose-seer/backups/battle-experience-20261025T194215Z-a69faad/`。发布器校验包摘要、线上基线和服务身份，逐文件备份、原子替换；失败回滚只恢复本批旧文件并删除本批新增文件，不覆盖其他会话更新或玩家数据。
+- 公网四类资源`NieoCore.swf`、`PetFightDLL.swf`、`petCollection.swf`、`PetSelectPanel.swf`均返回200，SHA256与候选一致，缓存策略为`no-cache`。独占后台静音浏览器实际打开公网启动画面和登录表单，无网络或AVM错误；没有提交账号密码，不把登录页加载算作线上玩家登录或战斗复测。业务操作证据来自前述隔离服。
+- 发布后游戏与Web服务均为`active/running`，游戏端口9999正常，启动日志采样未见错误。部署、服务与公网证据分别见`outputs/battle-experience-20261025/release/deployment-result.json`、`health.json`、`public-verification.json`及公网截图。
+- 另一地图会话的未完成工作没有合入本次发布。后续须先合并此主干，并保留本批Core、收藏馆、连续用药、换招与采集修改，不能用旧快照整文件覆盖。验收后已关闭本轮私有客户端、隔离服务和独占公网浏览器，删除只供测试使用的故障注入服务与账号生成脚本。
+
+
 ## 地图剧情与原生交互补全（2026-10-25，已发布）
 
 - 本批在独立分支`fix/gameplay-polish-20261025`完成，基线为个人`fork/main`的`8fe23ed`。用户明确授权策划补全此前缺资料的内容；不再把缺失结尾、10039原始资源和两处Boss配置作为本批阻塞。第六项价格优化不做，保留已发布的降价、现有兑换目录及其他Boss配置。
