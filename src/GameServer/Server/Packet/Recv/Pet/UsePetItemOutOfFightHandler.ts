@@ -5,13 +5,14 @@ import { CommandID } from '../../../../../shared/protocol/CommandID';
 import { BaseProto } from '../../../../../shared/proto/base/BaseProto';
 import { PacketEmpty } from '../../Send/PacketEmpty';
 import { DatabaseHelper } from '../../../../../DataBase/DatabaseHelper';
+import { DatabaseManager } from '../../../../../DataBase/DatabaseManager';
 import { GameConfig } from '../../../../../shared/config/game/GameConfig';
 import { Logger } from '../../../../../shared/utils';
 import { IPetInfo } from '../../../../../shared/models/PetModel';
 import { applyRandomIndividualValues } from '../../../../Game/Pet/RandomDv';
 import { PetCalculator } from '../../../../Game/Pet/PetCalculator';
 import { SptSystem } from '../../../../Game/Pet/SptSystem';
-import { ReconcilePetPP } from '../../../../Game/Pet/PetPP';
+import { GetSkillMaxPP, ReconcilePetPP } from '../../../../Game/Pet/PetPP';
 import { applyTraitItem, currentTraitId, isTraitItem } from '../../../../Game/Pet/PetTrait';
 
 const MISSING = 5001;
@@ -32,6 +33,9 @@ const ALL_EV_FIELDS: EvField[] = ['evHp', 'evAtk', 'evDef', 'evSpAtk', 'evSpDef'
 
 type OutOfFightItem = {
   RandomDv?: number;
+  HP?: number;
+  PP?: number;
+  ItemType?: number;
   IncreMonLvTo?: number | string;
   DecreMonLv?: number | string;
   EvRemove?: number | string;
@@ -89,9 +93,76 @@ class PacketUsePetItemOutOfFight extends BaseProto {
   }
 }
 
+/** Consume one recovery item and persist its effect in the same transaction. */
+async function useRecoveryMedicine(player: NonNullable<IClientSession['Player']>, catchTime: number, itemId: number): Promise<void> {
+  const fail = (code: number) => player.SendPacket(new PacketEmpty(CommandID.USE_PET_ITEM_OUT_OF_FIGHT).setResult(code));
+  const recovery = player.BattleManager.BeginOutOfBattleRecovery();
+  if (!recovery) { await fail(MISSING); return; }
+  const pets = player.PetManager.PetData, items = player.ItemManager.ItemData;
+  let releaseItems: (() => void) | undefined, releasePets: (() => void) | undefined;
+  let committed = false;
+  try {
+    releaseItems = await items.AcquireReward();
+    releasePets = await pets.AcquireMutation();
+    if (!recovery.isCurrent() || pets.HasPendingGrant()) { await fail(MISSING); return; }
+    const item = GameConfig.GetItemById(itemId) as OutOfFightItem | null;
+    const pet = pets.GetPetByCatchTime(catchTime) as PetRecord | undefined;
+    const stock = items.ItemList.find(entry => entry.itemId === itemId);
+    const isPP = Number(item?.ItemType) === 2;
+    const amount = Number(isPP ? item?.PP : item?.HP);
+    if (!pet?.isInBag || Number(pet.course) > 0 || !Number.isSafeInteger(amount) || amount <= 0 ||
+        Number(item?.ItemType) !== (isPP ? 2 : 1)) { await fail(MISSING); return; }
+    if (!stock || !Number.isSafeInteger(stock.count) || stock.count < 1) { await fail(NO_ITEM); return; }
+    const candidate: PetRecord = { ...pet };
+    let changed = false;
+    if (isPP) {
+      candidate.skillPP = ReconcilePetPP(pet);
+      for (const id of Object.keys(candidate.skillPP).map(Number)) {
+        const before = candidate.skillPP[id];
+        candidate.skillPP[id] = Math.min(GetSkillMaxPP(id), before + amount);
+        changed ||= candidate.skillPP[id] > before;
+      }
+    } else {
+      candidate.hp = Math.min(pet.maxHp, pet.hp + amount);
+      changed = candidate.hp > pet.hp;
+    }
+    if (!changed) { await fail(MISSING); return; }
+    const inventory = items.ItemList.map(entry => ({ ...entry }));
+    const consumed = inventory.find(entry => entry.itemId === itemId)!;
+    consumed.count--;
+    const nextItems = inventory.filter(entry => entry.itemId !== itemId || entry.count > 0);
+    await pets.CommitPetUpdate(pet, candidate, staged => DatabaseManager.Instance.WithConnection(async driver => {
+      const petList = staged.ToRow().pet_list, itemList = JSON.stringify(nextItems);
+      await driver.beginTransaction();
+      try {
+        const savedItems = await driver.execute('UPDATE player_items SET item_list = ? WHERE owner_id = ?', [itemList, player.Uid]);
+        const savedPets = await driver.execute('UPDATE player_pets SET pet_list = ? WHERE owner_id = ?', [petList, player.Uid]);
+        if (savedItems.affectedRows !== 1 || savedPets.affectedRows !== 1) throw new Error('Recovery item storage row missing');
+        const [actualPet] = await driver.query('SELECT pet_list FROM player_pets WHERE owner_id = ?', [player.Uid]);
+        const [actualItems] = await driver.query('SELECT item_list FROM player_items WHERE owner_id = ?', [player.Uid]);
+        if (actualPet?.pet_list !== petList || actualItems?.item_list !== itemList) throw new Error('Recovery item readback mismatch');
+        await driver.commit();
+        committed = true;
+        items.ItemList = nextItems;
+      } catch (error) {
+        if (!committed) await driver.rollback();
+        throw error;
+      }
+    }));
+    await player.SendPacket(new PacketUsePetItemOutOfFight(encodeUsePetItemOutOfFight(pet)));
+  } catch (error) {
+    Logger.Error('[UsePetItemOutOfFight] Recovery item failed', error);
+    if (!committed) await fail(MISSING);
+  } finally {
+    releasePets?.();
+    releaseItems?.();
+    recovery.release();
+  }
+}
+
 /**
  * [CMD: 2326 USE_PET_ITEM_OUT_OF_FIGHT]
- * Handles individual rerolls, nature items, level potions, and effort-value forget potions.
+ * Handles recovery medicines, individual rerolls, nature items, level potions, and effort-value forget potions.
  */
 @Opcode(CommandID.USE_PET_ITEM_OUT_OF_FIGHT, InjectType.NONE)
 export class UsePetItemOutOfFightHandler implements IHandler {
@@ -111,6 +182,11 @@ export class UsePetItemOutOfFightHandler implements IHandler {
     const pet = player.PetManager.PetData.PetList.find(entry => entry.catchTime === catchTime) as PetRecord | undefined;
     if (!pet || player.ItemManager.GetItemCount(itemId) < 1) {
       await fail(pet ? NO_ITEM : MISSING);
+      return;
+    }
+
+    if (item && (Number(item.HP) > 0 || Number(item.PP) > 0)) {
+      await useRecoveryMedicine(player, catchTime, itemId);
       return;
     }
 

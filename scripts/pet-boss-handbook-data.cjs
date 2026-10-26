@@ -2,19 +2,21 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const { applyRankings } = require('./pet-cultivation-rankings.cjs');
 const attrs = text => Object.fromEntries([...text.matchAll(/([\w]+)="([^"]*)"/g)].map(m => [m[1], m[2].replaceAll('&amp;', '&').replaceAll('&quot;', '"')]));
 const numbers = text => String(text || '').trim().split(/\s+/).filter(Boolean).map(Number);
 const statKeys = ['HP', 'Atk', 'Def', 'SpAtk', 'SpDef', 'Spd'];
 const statNames = ['体力', '攻击', '防御', '特攻', '特防', '速度'];
 const tierNames = ['夯', '顶级', '人上人', 'NPC', '拉'];
 const methodology = [
-  '评价范围：本服 Boss 攻略，按当前形态、100级与合理培养评价；不是官方榜，也不是玩家对战榜。',
-  '机制价值40分：消强、续航、强化、比例削血、辅助接力；通用性25分：可承担的独立职责；个人能力20分：主攻、体力与双防；稳定性15分：命中、PP和可靠续航。',
-  '夯≥85，顶级≥70，人上人≥55，NPC≥35，拉<35。专题精灵按同样四维做人工校准；其余为规则初评，详情明确标注。分数是养成建议，不是胜率。',
-  '进化前形态不继承进化后评分。低种族值的工具宠可因独特机制上榜；未证实效果不加机制分。获取难度不扣战力分。',
-  'Boss免疫与关卡规则优先：比例伤害、寄生、控制、秒杀、同生共死不能绕过顺序破防或封印。Boss自身被动不等于玩家同种精灵特性。',
-  '学习力每项上限255、总和510。本书默认两项各255，实际按Boss速度和伤害调整。特性为个体随机获得，推荐不代表可以自由切换。',
-  '覆盖服务端具有完整六维种族值的精灵；坐骑和缺失战斗数值的条目不参与评分。未确认当前获取途径的条目会明确提示。'
+  '默认综合培养榜：种族40、技能35、已接入魂印15、环境适配10。分数是规则初评，不是胜率或逐只实战通关结论。',
+  '种族基础同时比较总和、有效主攻、速度与生存分布；以当前终形目录分位计算，不把双攻简单重复加分。',
+  '擂台榜提高速度和生存权重，按三座擂台当前固定阵容计算属性覆盖与开场速度。无战斗道具，不把吃药算作续航。',
+  'Boss榜单独保留消强、削血与辅助接力的用途评价；低面板工具宠的专项价值不再冒充综合战力。',
+  '夯≥85，顶级≥70，人上人≥55，NPC≥35，拉<35。当前形态独立评价；默认终形，可切换查看幼体，不借用进化后数值。',
+  '比较基准为100级、31个体、合法510学习力及中性性格；不假定随机特性已开启。魂印只计算当前运行时已接入的能力，未知效果明确不加分。',
+  '推荐四个常规技能与独立第五技能分开，均来自当前可学配置；实际配招仍需结合属性克制、队伍和具体选手。',
+  '获取难度不扣战力分，查询不写玩家存档。未确认来源不等于已开放；Boss自身被动不能算给玩家同种精灵。'
 ];
 // Four dimensions, not an unexplained tier override. Kits are checked against current learnable moves.
 const curated = {
@@ -35,7 +37,7 @@ const curated = {
   '卡鲁克斯': {scores:[27,19,17,11],role:'弱化物攻',summary:'破攻与破甲配合强化，是地面系攻坚选手。',moves:['破攻','破甲','大地之力','爆裂极突刺'],ev:[0,1],why:'先压低敌方攻击，再强化自身进攻；可兼任物攻队的破甲辅助。',limit:'能力下降免疫会削弱核心价值；地面系面对飞行等无效属性不要硬打。'},
   '丘波': {scores:[8,7,4,8],role:'进化前培养',summary:'当前形态缺少核心攻坚技能，不把进化后技能算给它。',moves:[],ev:[0,3],why:'种族值与技能池都处于早期阶段；先培养进化，再评价成型能力。',limit:'网上俗称的低级工具用法不能直接套到本服：当前可学表没有斜转以外的完整终形技能组。'}
 };
-function buildCatalogue({base, fusionBase = base}) {
+function buildCatalogue({base, fusionBase = base, seaVortex}) {
   const inputs = [];
   function read(rel, dir = base) { const file = path.join(dir, rel); inputs.push(file); return fs.readFileSync(file, 'utf8'); }
   const json = rel => JSON.parse(read('app/config/data/json/' + rel));
@@ -53,7 +55,11 @@ function buildCatalogue({base, fusionBase = base}) {
   const runtimeFile = path.join(__dirname,'../compat/server-patches/skill-effects/SkillEffectRuntime.ts');
   inputs.push(runtimeFile);
   const runtime = fs.readFileSync(runtimeFile,'utf8');
-  const argCount = vm.runInNewContext('(' + runtime.match(/const ARG_COUNT[^=]*=\s*({[\s\S]*?});/)[1] + ')', {}, {timeout:1000});
+  const argCount = {...vm.runInNewContext('(' + runtime.match(/const ARG_COUNT[^=]*=\s*({[\s\S]*?});/)[1] + ')', {}, {timeout:1000}),
+    ...JSON.parse(read('app/dist/GameServer/Game/Battle/ChampionEffectArguments.json'))};
+  const descriptionsFile = path.join(__dirname,'../compat/server-patches/champion-pets/descriptions.json');
+  inputs.push(descriptionsFile,path.join(__dirname,'pet-cultivation-rankings.cjs'));
+  const specialDescriptions = JSON.parse(fs.readFileSync(descriptionsFile,'utf8'));
   const handler = read('app/dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js',fusionBase);
   const start = handler.indexOf('const RECIPES = ['), end = handler.indexOf('function petConfig(');
   if(start<0 || end<start) throw Error('Unknown fusion rule layout');
@@ -83,10 +89,22 @@ function buildCatalogue({base, fusionBase = base}) {
   }
   const tasks=json('tasks.json').tasks;
   for(const [id,t] of Object.entries(tasks)) {
-    for(const p of t.rewards?.pets || [])add(p.petId,'完成任务#'+id+'「'+(t.name || t.title || '任务奖励')+'」获得');
+    for(const p of t.rewards?.pets || []) {
+      const detail=Number(id)===28?'：完成新手训练营后向实验室博士接取，经赫尔卡星神秘通道进入精灵广场，投石拾取机械残骸；在赫尔卡星遗迹检查巨型机器人的耳部并取得图纸，返回博士完成奇塔拼装。每号一次，奖励'+p.level+'级'+name(p.petId)+'，满包入仓库。':'';
+      add(p.petId,'完成任务#'+id+'「'+(t.name || t.title || '任务奖励')+'」获得'+detail);
+    }
     for(const item of t.rewards?.items || [])giveItem(item.itemId ?? item.id,'完成任务#'+id+'奖励');
   }
   for(const g of json('gacha_rewards.json'))giveItem(g.itemID,'瞭望露台扭蛋机随机抽取');
+  const seaFile=path.join(base,'app/config/data/json/sea_vortex.json');
+  if(seaVortex===undefined && fs.existsSync(seaFile))seaVortex=json('sea_vortex.json');
+  if(seaVortex)for(const reward of seaVortex.rewards) {
+    if(!reward.petId || reward.weight<=0)continue;
+    add(reward.petId,'深海宫殿救援（'+seaVortex.mapId+'）：完成尼古尔湖初见（任务#'+seaVortex.introTaskId+'）后，从湖中旋涡进入。头部射击拖拽海盗'+seaVortex.shotsRequired+'次，或击败移动、驻守海盗，再开救援壳，可能触发'+reward.level+'级精灵捕捉战。需自行捕捉，可重复救援；待捕捉遭遇重登保留，实际开战后消耗。');
+  }
+  const arenaFile='app/dist/GameServer/Game/Battle/StarArenaCatalog.json';
+  for(const arena of JSON.parse(read(arenaFile)).arenas)
+    add(arena.rewardPetId,'从地图#'+arena.entryMapId+'的星系入口前往地图#'+arena.mapId+'，首冠后领取100级'+arena.rewardName+'；每号每星系仅一次，满包入仓库。');
   for(const id of [1,4,7])add(id,'创建角色时可选的初始精灵之一');
   const collectionSource=read('app/dist/GameServer/Game/Pet/CollectReward.js');
   const collectionLiteral=collectionSource.match(/exports\.COLLECT_GROUPS = ({[\s\S]*?\n});/);
@@ -127,6 +145,7 @@ function buildCatalogue({base, fusionBase = base}) {
   }
   function description(s) {
     const prefix=(Number(s.Category)===1?'物理':Number(s.Category)===2?'特殊':'属性')+' / 威力'+(s.Power || 0)+' / PP'+s.MaxPP+' / '+(Number(s.MustHit)===1?'必中':'命中'+(s.Accuracy || 100));
+    if(specialDescriptions[s.ID])return prefix+'；'+specialDescriptions[s.ID].replace(/\r/g,'；');
     const parts=effectList(s).map(({id,a})=> {
       if(id===4 || id===5)return (id===4?'自身':'对手')+(['攻击','防御','特攻','特防','速度','命中'][a[0]] || '能力')+(a[2]>0?'+':'')+a[2]+'级（'+a[1]+'%）';
       if(id===28 && Number(s.Category)===4)return '削减对手最大体力的1/'+a[0]+'，受Boss免疫限制';
@@ -145,12 +164,18 @@ function buildCatalogue({base, fusionBase = base}) {
     }).filter(Boolean);
     return prefix+(parts.length?'；'+parts.join('；'):'；按游戏技能详情处理附加效果');
   }
-  const result=[];
+  const result=[], learnById=new Map();
   for(const [id,p] of pets) {
     if(!statKeys.every(k=>p[k]!==undefined && Number.isFinite(Number(p[k]))))continue;
     const stats=statKeys.map(k=>Number(p[k])), total=stats.reduce((a,b)=>a+b,0);
-    const moveSection=(learnable.get(id) || '').match(/<LearnableMoves>([\s\S]*?)<\/LearnableMoves>/)?.[1] || '';
-    const learn=[...moveSection.matchAll(/<Move\b([^>]*?)\/>/g)].map(m=>attrs(m[1])).filter(m=>Number(m.LearningLv)<=100 && skills.has(Number(m.ID))).map(m=>({...skills.get(Number(m.ID)),level:Number(m.LearningLv)}));
+    const moveSections=[p.body,learnable.get(id) || ''].map(body=>body.match(/<LearnableMoves>([\s\S]*?)<\/LearnableMoves>/)?.[1] || '').join('\n');
+    const moveLevels=new Map();
+    for(const match of moveSections.matchAll(/<Move\b([^>]*?)\/>/g)) {
+      const move=attrs(match[1]), moveId=Number(move.ID), level=Number(move.LearningLv);
+      if(level<=100 && skills.has(moveId))moveLevels.set(moveId,Math.min(moveLevels.get(moveId) ?? 100,level));
+    }
+    const learn=[...moveLevels].map(([moveId,level])=>({...skills.get(moveId),level}));
+    learnById.set(id,learn);
     const has=fx=>learn.some(s=>effectList(s).some(e=>e.id===fx));
     const boost=learn.some(s=>effectList(s).some(e=>e.id===4&&[0,2].includes(e.a[0])&&e.a[1]===100&&e.a[2]>0));
     const heal=has(43), clear=has(33), percent=learn.some(s=>Number(s.Category)===4&&effectList(s).some(e=>e.id===28)), seed=has(13), relay=has(71);
@@ -186,11 +211,11 @@ function buildCatalogue({base, fusionBase = base}) {
     const routes=route(id);
     result.push({id,name:p.DefName,type:types[p.Type] || '属性#'+p.Type,typeId:Number(p.Type),tier,featured:Boolean(c),score,role,summary:c?.summary || '规则初评 · '+role+'。'+(tier>=3?'优先比较同系完整技能组，再决定投入。':'具备可用于Boss战的技能组合。'),reasons,caveats,stats:{hp:stats[0],atk:stats[1],def:stats[2],spAtk:stats[3],spDef:stats[4],spd:stats[5],total},acquisition:routes.length?routes:['当前配置尚未确认获取途径；仅收录战斗数据，不代表已开放获取。'],training,moves:chosen.map(s=>({id:Number(s.ID),name:s.Name,level:s.level,description:description(s)})),ability:{name:ability.name,description:ability.description+'。个体随机特性，非本物种专属；不保证能主动选择。'},search:[id,p.DefName,types[p.Type],role,...chosen.map(s=>s.Name)].join(' ')});
   }
-  // Handpicked familiar representatives lead; fill empty rows with strongest current-form candidates.
+  applyRankings(result,{read,pets,learnById,effectList,describe:description,farms});
   for(let tier=0;tier<5;tier++) {
-    const rows=result.filter(p=>p.tier===tier).sort((a,b)=>Number(b.featured)-Number(a.featured)||b.score-a.score||a.id-b.id);
+    const rows=result.filter(p=>p.finalForm&&p.tier===tier).sort((a,b)=>b.score-a.score||a.id-b.id);
     rows.forEach((p,i)=>{p.featured=i<6;});
   }
-  return {pets:result.sort((a,b)=>a.id-b.id),tiers:tierNames,methodology,inputs:[...new Set(inputs)]};
+  return {pets:result.sort((a,b)=>b.score-a.score||a.id-b.id),tiers:tierNames,methodology,inputs:[...new Set(inputs)]};
 }
 module.exports={buildCatalogue};

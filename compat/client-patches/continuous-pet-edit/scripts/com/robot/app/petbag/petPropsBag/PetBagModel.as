@@ -6,119 +6,70 @@ package com.robot.app.petbag.petPropsBag
    import com.robot.core.manager.ItemManager;
    import flash.display.Sprite;
    import flash.events.Event;
-   
+
    public class PetBagModel
    {
-      
       private var view:PetPropsPanel;
-      
-      private var idArray:Array;
-      
-      private var totalPage:uint;
-      
-      private var currentPage:uint = 1;
-      
-      private var PET_NUM:uint = 9;
-      
-      private var doodleAry:Array;
-      
-      public function PetBagModel(param1:Sprite)
+      private var totalPage:uint=1;
+      private var currentPage:uint=1;
+      private const PET_NUM:uint=9;
+      private var ids:Array=[];
+      private var visibleIds:Array=[];
+
+      public function PetBagModel(parent:Sprite)
       {
-         super();
-         this.view = param1 as PetPropsPanel;
-         this.addEvent();
-         this.onShowCollection();
+         view=parent as PetPropsPanel;
+         currentPage=view.rememberedPage;
+         addEvent();onShowCollection();
       }
-      
-      public function addEvent() : void
+      public function addEvent():void
       {
-         this.view.addEventListener(Event.CLOSE,this.onPanelClose);
-         this.view.addEventListener(PetPropsPanel.NEXT_PAGE,this.nextHandler);
-         this.view.addEventListener(PetPropsPanel.PREV_PAGE,this.prevHandler);
-         this.view.addEventListener(PetPropsPanel.SHOW_COLLECTION,this.onShowCollection);
+         view.addEventListener(Event.CLOSE,onPanelClose);
+         view.addEventListener(PetPropsPanel.NEXT_PAGE,nextHandler);
+         view.addEventListener(PetPropsPanel.PREV_PAGE,prevHandler);
+         view.addEventListener(PetPropsPanel.SHOW_COLLECTION,onShowCollection);
+         view.addEventListener(PetPropsPanel.FILTER_CHANGED,onFilter);
       }
-      
-      public function removeEvent() : void
+      public function removeEvent():void
       {
-         this.view.removeEventListener(Event.CLOSE,this.onPanelClose);
-         this.view.removeEventListener(PetPropsPanel.NEXT_PAGE,this.nextHandler);
-         this.view.removeEventListener(PetPropsPanel.PREV_PAGE,this.prevHandler);
-         this.view.removeEventListener(PetPropsPanel.SHOW_COLLECTION,this.onShowCollection);
+         view.removeEventListener(Event.CLOSE,onPanelClose);
+         view.removeEventListener(PetPropsPanel.NEXT_PAGE,nextHandler);
+         view.removeEventListener(PetPropsPanel.PREV_PAGE,prevHandler);
+         view.removeEventListener(PetPropsPanel.SHOW_COLLECTION,onShowCollection);
+         view.removeEventListener(PetPropsPanel.FILTER_CHANGED,onFilter);
       }
-      
-      private function onPanelClose(param1:Event) : void
+      private function onPanelClose(event:Event):void { clear();removeEvent(); }
+      public function clear():void { ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,onPetItemList); }
+      private function onShowCollection(event:Event=null):void
       {
-         this.currentPage = 1;
-         this.clear();
-         this.removeEvent();
-      }
-      
-      public function clear() : void
-      {
-         ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,this.onPetItemList);
-      }
-      
-      private function onShowCollection(param1:Event = null) : void
-      {
-         if(param1 == null)this.currentPage = 1;
-         ItemManager.addEventListener(ItemEvent.PET_ITEM_LIST,this.onPetItemList);
+         ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,onPetItemList);
+         ItemManager.addEventListener(ItemEvent.PET_ITEM_LIST,onPetItemList);
          ItemManager.getPetItem();
       }
-      
-      private function getArray(param1:Boolean = true, param2:uint = 1, param3:uint = 9) : Array
+      private function onPetItemList(event:ItemEvent):void
       {
-         var _loc4_:uint = (param2 - 1) * param3;
-         var _loc5_:uint = param2 * param3;
-         var _loc6_:Array = this.doodleAry;
-         return _loc6_.slice(_loc4_,_loc5_);
+         ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,onPetItemList);
+         ids=ItemManager.getPetItemIDs();rebuild();
       }
-      
-      private function onPetItemList(param1:ItemEvent) : void
+      private function onFilter(event:Event):void { currentPage=view.rememberedPage;rebuild(); }
+      private function rebuild():void
       {
-         ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,this.onPetItemList);
-         this.showItem(ItemManager.getPetItemIDs());
+         visibleIds=[];
+         for each(var id:uint in ids)if(ItemXMLInfo.getIsShowInPetBag(id)&&view.matchesItem(id))visibleIds.push(id);
+         visibleIds.sort(function(a:uint,b:uint):Number{
+            var af:Boolean=view.favorites.indexOf(a)>=0;var bf:Boolean=view.favorites.indexOf(b)>=0;
+            return af==bf?a-b:af?-1:1;
+         });
+         totalPage=Math.max(1,Math.ceil(visibleIds.length/PET_NUM));
+         currentPage=Math.min(Math.max(1,currentPage),totalPage);showPage();
       }
-      
-      private function showItem(param1:Array) : void
+      private function showPage():void
       {
-         var _loc2_:Number = 0;
-         this.doodleAry = [];
-         for each(_loc2_ in param1)
-         {
-            if(ItemXMLInfo.getIsShowInPetBag(_loc2_))
-            {
-               this.doodleAry.push(_loc2_);
-            }
-         }
-         this.totalPage = Math.ceil(this.doodleAry.length / this.PET_NUM);
-         if(this.totalPage == 0)
-         {
-            this.totalPage = 1;
-         }
-         this.currentPage = Math.min(this.currentPage,this.totalPage);
-         this.view.setPageNum(this.currentPage,this.totalPage);
-         this.view.showItem(this.getArray(false,this.currentPage));
+         view.rememberedPage=currentPage;
+         view.setPageNum(currentPage,totalPage);
+         view.showItem(visibleIds.slice((currentPage-1)*PET_NUM,currentPage*PET_NUM));
       }
-      
-      private function prevHandler(param1:Event) : void
-      {
-         if(this.currentPage > 1)
-         {
-            --this.currentPage;
-            this.view.showItem(this.getArray(false,this.currentPage));
-            this.view.setPageNum(this.currentPage,this.totalPage);
-         }
-      }
-      
-      private function nextHandler(param1:Event) : void
-      {
-         if(this.currentPage < this.totalPage)
-         {
-            ++this.currentPage;
-            this.view.showItem(this.getArray(false,this.currentPage));
-            this.view.setPageNum(this.currentPage,this.totalPage);
-         }
-      }
+      private function prevHandler(event:Event):void { if(currentPage>1){currentPage--;showPage();} }
+      private function nextHandler(event:Event):void { if(currentPage<totalPage){currentPage++;showPage();} }
    }
 }
-

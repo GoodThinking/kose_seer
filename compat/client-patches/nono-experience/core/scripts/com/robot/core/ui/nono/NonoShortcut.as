@@ -50,7 +50,6 @@ package com.robot.core.ui.nono
       
       private static var _petDiscoverBtn:SimpleButton;
       
-      private static var _appModel:AppModel;
       
       private static var _nonoPanel:AppModel;
       
@@ -144,7 +143,7 @@ package com.robot.core.ui.nono
             _loc1_++;
          }
          _canShowA[7] = "qx_services";
-         _tipA[7] = "随身服务：换技能、商城、队伍与战斗设置";
+         _tipA[7] = "随身服务：技能、补货、队伍、培养与孵化";
          _handlerFunA[7] = showServices;
       }
       
@@ -289,22 +288,10 @@ package com.robot.core.ui.nono
       
       private static function onjn() : void
       {
-         if(_appModel == null)
-         {
-            _appModel = ModuleManager.getModule(ClientConfig.getAppModule("ExpAdmPanel"),"正在打开经验分配器面板...");
-            _appModel.setup();
-            _appModel.sharedEvents.addEventListener(Event.CLOSE,onAppCloseHandler);
-         }
-         _appModel.show();
          hide();
+         PetTrainingPanel.show();
       }
       
-      private static function onAppCloseHandler(param1:Event) : void
-      {
-         _appModel.sharedEvents.removeEventListener(Event.CLOSE,onAppCloseHandler);
-         _appModel.destroy();
-         _appModel = null;
-      }
       
       private static function onPetStorage() : void
       {
@@ -364,10 +351,21 @@ package com.robot.core.ui.nono
 
       public static function showServices():void
       {
-         servicePage(["qx_skills","qx_shop","qx_teams","qx_speed","1","qx_skills",null,"qx_back"],
-            ["更换技能","道具商城","常用队伍与配招","战斗播放设置","补满体力与PP（免费）","上一场战斗简报",null,"返回NONO功能"],
-            [showSkills,showShop,requestTeams,showBattleSettings,onCure,showBattleReport,null,backToNono]);
+         servicePage(["qx_skills","qx_shop","qx_teams","qx_speed","1","qx_skills","qx_shop","qx_back"],
+            ["更换技能","常用道具补货","常用队伍与配招","战斗播放设置","补满体力与PP（免费）","上一场战斗简报","培养、孵化与原生商城","返回NONO功能"],
+            [showSkills,showRestock,requestTeams,showBattleSettings,onCure,showBattleReport,showTrainingServices,backToNono]);
       }
+
+      private static function showTrainingServices():void
+      {
+         // A service ID uses the existing icon and prevents the native app's automatic claim path.
+         servicePage(["3","qx_hatch","qx_shop",null,null,null,null,"qx_back"],
+            ["按目标等级分配经验","孵化倒计时与领取入口","原生道具商城",null,null,null,null,"返回随身服务"],
+            [onjn,showHatch,showShop,null,null,null,null,showServices]);
+      }
+
+      private static function showRestock():void { hide();ConsumableRestockPanel.show(); }
+      private static function showHatch():void { hide();HatchStatusPanel.show(); }
 
       private static function backToNono():void
       {

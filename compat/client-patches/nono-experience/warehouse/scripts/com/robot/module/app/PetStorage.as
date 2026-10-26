@@ -1,7 +1,6 @@
 package com.robot.module.app
 {
    import com.robot.app.sceneInteraction.RoomPetManager;
-   import com.robot.core.config.ClientConfig;
    import com.robot.core.config.xml.PetXMLInfo;
    import com.robot.core.event.PetEvent;
    import com.robot.core.info.pet.PetInfo;
@@ -9,12 +8,12 @@ package com.robot.module.app
    import com.robot.core.manager.LevelManager;
    import com.robot.core.manager.MainManager;
    import com.robot.core.manager.MapManager;
-   import com.robot.core.manager.ModuleManager;
    import com.robot.core.manager.PetManager;
-   import com.robot.core.mode.AppModel;
+   import com.robot.core.manager.UIManager;
+   import com.robot.core.ui.nono.PetWorkflowClient;
+   import com.robot.core.ui.nono.PetWorkflowUI;
    import com.robot.core.ui.alert.Alarm;
    import com.robot.core.ui.alert.Alert;
-   import com.robot.core.ui.alert.PetInBagAlert;
    import com.robot.core.uic.UIPageBar;
    import com.robot.core.utils.TextFormatUtil;
    import com.robot.module.app.petStorage.InfoTxtPanel;
@@ -24,6 +23,7 @@ package com.robot.module.app
    import flash.display.Sprite;
    import flash.events.Event;
    import flash.events.MouseEvent;
+   import flash.geom.Rectangle;
    import flash.text.TextField;
    import flash.text.TextFieldType;
    import flash.text.TextFormat;
@@ -53,7 +53,6 @@ package com.robot.module.app
       
       private var _statusNum:int;
       
-      private var _petSwitchPanel:AppModel;
       
       private var _showPetBtn:SimpleButton;
       
@@ -86,21 +85,19 @@ package com.robot.module.app
       private var _search:TextField;
       private var _rememberedPage:uint = 0;
       private var _selectedCatchTime:uint = 0;
+      private var _quickPane:Sprite;
+      private var _quickState:Object;
+      private var _quickMessage:String = "选中仓库精灵，再点背包位置。";
+      private var _quickFavorites:Array = [];
+      private var _quickGrouped:Boolean = false;
+      private var _quickOwner:uint;
+      private var _quickChosen:uint;
       
       public function PetStorage()
       {
          super();
       }
       
-      private function onInBagSuccessHandler(param1:PetEvent) : void
-      {
-         PetManager.removeEventListener(PetEvent.ADDED,this.onInBagSuccessHandler);
-         this._inBagBtn.mouseEnabled = true;
-         var _loc2_:PetListInfo = new PetListInfo();
-         _loc2_.catchTime = param1.catchTime();
-         _loc2_.id = 0;
-         RoomPetManager.getInstance().showOrHide(_loc2_,false);
-      }
       
       private function onRoweiSuccessHandler(param1:PetEvent) : void
       {
@@ -142,23 +139,9 @@ package com.robot.module.app
             Alarm.show("该精灵正在训练中不可以放入背包。");
             return;
          }
-         if(PetManager.length >= 6)
-         {
-            if(this._petSwitchPanel == null)
-            {
-               this._petSwitchPanel = ModuleManager.getModule(ClientConfig.getAppModule("PetSwitchPanel"),"正在打开精灵切换面板...");
-               this._petSwitchPanel.setup();
-            }
-            this._petSwitchPanel.init(this._selectItem.info);
-            this._petSwitchPanel.show();
-         }
-         else
-         {
-            this._inBagBtn.mouseEnabled = false;
-            PetManager.addEventListener(PetEvent.ADDED,this.onInBagSuccessHandler);
-            PetManager.storageToInBag(this._selectItem.info.catchTime);
-            PetInBagAlert.show(this._selectItem.info.id,TextFormatUtil.getRedTxt(PetXMLInfo.getName(this._selectItem.info.id)) + "已经放入了你的精灵背包。");
-         }
+         if(this._quickState == null){this.refreshQuick();return;}
+         if(this._quickState.bag.length < 6)this.quickSlot(this._quickState.bag.length);
+         else { this._quickMessage = "请点击右侧要替换的背包位置。";this.renderQuick(); }
       }
       
       private function onListInfo(param1:PetEvent) : void
@@ -275,6 +258,7 @@ package com.robot.module.app
             i++;
          }
          this._pageBar = new UIPageBar(this._mainUI["preBtn"],this._mainUI["nextBtn"],this._mainUI["pageTxt"],MAX_LIST);
+         this.setupQuick();
       }
       
       private function onItemClick(param1:MouseEvent) : void
@@ -285,6 +269,7 @@ package com.robot.module.app
          this._selectItem = e.target as PetListItem;
          this._selectItem.select = true;
          this._selectedCatchTime = this._selectItem.info.catchTime;
+         this.renderQuick();
          PetManager.storageUpDate(this._selectItem.info.catchTime,function(param1:PetInfo):void
          {
             _infoPanel.info = param1;
@@ -430,6 +415,8 @@ package com.robot.module.app
       {
          _views[MainManager.actorID] = {type:this._type,all:this.showAllFlag,page:this._rememberedPage,
             selected:this._selectedCatchTime,query:this._search.text,scroll:this._search.scrollH};
+         if(this._quickOwner == MainManager.actorID)
+            PetWorkflowUI.saveLocal("warehouse",{favorites:this._quickFavorites,grouped:this._quickGrouped});
          this.removeEvent();
          DisplayUtil.removeForParent(this._mainUI);
       }
@@ -480,7 +467,14 @@ package com.robot.module.app
                return PetXMLInfo.getName(pet.id).toLowerCase().indexOf(query) >= 0 || String(pet.id) == query;
             });
          }
-         this._data.sort(function(a:Object,b:Object):Number { return b.catchTime - a.catchTime; });
+         var favorites:Array = this._quickFavorites;
+         var grouped:Boolean = this._quickGrouped;
+         this._data.sort(function(a:Object,b:Object):Number {
+            var af:Boolean = favorites.indexOf(a.catchTime) >= 0;var bf:Boolean = favorites.indexOf(b.catchTime) >= 0;
+            if(af != bf)return af ? -1 : 1;
+            if(grouped && a.id != b.id)return a.id-b.id;
+            return b.catchTime-a.catchTime;
+         });
          var page:uint = Math.min(this._rememberedPage,Math.max(0,Math.ceil(this._data.length / MAX_LIST) - 1));
          this._pageBar.totalLength = this._data.length;
          this._pageBar.index = page;
@@ -505,6 +499,7 @@ package com.robot.module.app
             this.setBtnVisible(false,false);
             this.setShowHideBtn(false,false);
          }
+         this.renderQuick();
       }
 
       private function onSearch(event:Event):void
@@ -589,11 +584,6 @@ package com.robot.module.app
          this._roweiBtn = null;
          this._listCon = null;
          this._mainUI = null;
-         if(this._petSwitchPanel)
-         {
-            this._petSwitchPanel.destroy();
-            this._petSwitchPanel = null;
-         }
       }
       
       public function show() : void
@@ -606,8 +596,96 @@ package com.robot.module.app
          DisplayUtil.align(this._mainUI,null,AlignType.MIDDLE_CENTER);
          this.addEvent();
          PetManager.getStorageList();
+         this.refreshQuick();
       }
       
+      private function setupQuick():void
+      {
+         this._quickOwner = MainManager.actorID;
+         var saved:Object = PetWorkflowUI.loadLocal("warehouse",{});
+         this._quickFavorites = saved.favorites is Array ? saved.favorites as Array : [];
+         this._quickGrouped = saved.grouped === true;
+         this._quickPane = new Sprite();
+         this._quickPane.x = this._mainUI.width+8;
+         this._mainUI.addChild(this._quickPane);
+         this.renderQuick();
+      }
+
+      private function refreshQuick():void
+      {
+         if(PetWorkflowClient.busy(91020))return;
+         this._quickMessage = "正在读取背包位置…";
+         var self:PetStorage = this;
+         PetWorkflowClient.request(91020,{operation:"state"},function(value:Object):void{self.quickReply(value);});
+         this.renderQuick();
+      }
+
+      private function quickReply(value:Object):void
+      {
+         if(this._mainUI == null || this._quickOwner != MainManager.actorID)return;
+         if(value.ok){
+            this._quickState = value;
+            this._quickMessage = value.message == null ? "选中仓库精灵，再点背包位置。" : String(value.message);
+            if(value.changed){
+               var moved:PetListInfo = new PetListInfo();moved.catchTime=this._quickChosen;moved.id=0;
+               RoomPetManager.getInstance().showOrHide(moved,false);
+               PetManager.getStorageList();
+            }
+         } else { this._quickState = null;this._quickMessage = String(value.error); }
+         this.renderQuick();
+      }
+
+      private function quickSlot(slot:uint):void
+      {
+         if(this._statusNum != 0 || this._selectItem == null || this._selectItem.info == null || this._quickState == null || PetWorkflowClient.busy(91020))return;
+         this._quickChosen = this._selectItem.info.catchTime;
+         var self:PetStorage = this;
+         this._quickMessage = "正在调队，请稍候…";
+         PetWorkflowClient.request(91020,{operation:"swap",catchTime:this._quickChosen,slot:slot,revision:this._quickState.revision},function(value:Object):void{self.quickReply(value);});
+         this.renderQuick();
+      }
+
+      private function quickSlotAction(slot:uint):Function
+      {
+         var self:PetStorage = this;
+         return function():void{self.quickSlot(slot);};
+      }
+
+      private function renderQuick():void
+      {
+         if(this._quickPane == null)return;
+         while(this._quickPane.numChildren)this._quickPane.removeChildAt(0);
+         var frame:Sprite = UIManager.getSprite("Panel_Background");
+         frame.scale9Grid = new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.width=205;frame.height=450;frame.mouseChildren=false;this._quickPane.addChild(frame);
+         PetWorkflowUI.text(this._quickPane,"背包快捷调队",15,15,180,28,16,true);
+         var pending:Boolean = PetWorkflowClient.busy(91020);
+         var bag:Array = this._quickState == null ? [] : this._quickState.bag as Array;
+         for(var i:uint=0;i<6;i++){
+            var pet:Object = i<bag.length ? bag[i] : null;
+            var label:String = (i+1)+(i==0?" 首发 ":" ")+(pet==null?"空位":pet.name+" Lv."+pet.level);
+            PetWorkflowUI.button(this._quickPane,label,12,54+i*37,181,this.quickSlotAction(i),
+               !pending && this._quickState != null && this._statusNum == 0 && i<=bag.length && this._selectItem != null);
+         }
+         var chosen:uint = this._selectItem == null || this._selectItem.info == null ? 0 : this._selectItem.info.catchTime;
+         var self:PetStorage = this;
+         PetWorkflowUI.button(this._quickPane,chosen != 0 && this._quickFavorites.indexOf(chosen)>=0 ? "★ 取消常用置顶" : "☆ 常用精灵置顶",12,284,181,function():void{
+            if(chosen==0)return;
+            var index:int=self._quickFavorites.indexOf(chosen);
+            if(index>=0)self._quickFavorites.splice(index,1);else self._quickFavorites.push(chosen);
+            self._rememberedPage=0;
+            PetWorkflowUI.saveLocal("warehouse",{favorites:self._quickFavorites,grouped:self._quickGrouped});
+            self.reItem();self.renderQuick();
+         },!pending && chosen!=0 && this._statusNum==0);
+         PetWorkflowUI.button(this._quickPane,this._quickGrouped?"同种归组：开":"同种归组：关",12,322,181,function():void{
+            self._quickGrouped=!self._quickGrouped;self._rememberedPage=0;self.reItem();self.renderQuick();
+         },!pending);
+         PetWorkflowUI.button(this._quickPane,"刷新实际背包",12,360,181,this.refreshQuick,!pending);
+         var status:TextField = PetWorkflowUI.text(this._quickPane,this._quickMessage,13,399,179,44,11);
+         status.multiline=true;status.wordWrap=true;
+         this._inBagBtn.mouseEnabled = !pending;
+      }
+
       private function setBtnVisible(param1:Boolean, param2:Boolean) : void
       {
          this._getBtn.visible = param1;

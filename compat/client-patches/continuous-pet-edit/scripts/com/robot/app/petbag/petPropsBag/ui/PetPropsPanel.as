@@ -1,7 +1,6 @@
 package com.robot.app.petbag.petPropsBag.ui
 {
    import com.robot.app.bag.BagListItem;
-   import com.robot.app.petbag.PetBagController;
    import com.robot.app.petbag.PetPropInfo;
    import com.robot.core.CommandID;
    import com.robot.core.config.xml.ItemXMLInfo;
@@ -16,6 +15,7 @@ package com.robot.app.petbag.petPropsBag.ui
    import com.robot.core.manager.PetManager;
    import com.robot.core.manager.UIManager;
    import com.robot.core.net.SocketConnection;
+   import com.robot.core.ui.nono.PetWorkflowUI;
    import org.taomee.net.SocketDispatcher;
    import com.robot.core.ui.alert.Alarm;
    import com.robot.core.ui.alert.Alert;
@@ -44,6 +44,17 @@ package com.robot.app.petbag.petPropsBag.ui
       public static const NEXT_PAGE:String = "nextPage";
       
       public static const SHOW_COLLECTION:String = "showCollection";
+      public static const FILTER_CHANGED:String = "petItemFilterChanged";
+      private static const ITEM_META:Object = {}; // @ITEM_META@
+      public var queryText:String = "";
+      public var category:String = "全部";
+      public var rememberedPage:uint = 1;
+      public var favorites:Array = [];
+      private var filterPanel:Sprite;
+      private var search:TextField;
+      private var categoryButton:Sprite;
+      private var favoriteButton:Sprite;
+      private var useCommands:Array = [];
       private static const REROLL_TYPES:Object = {}; // @REROLL_TYPES@
       private static var owner:PetPropsPanel;
       private static var busyOwner:PetPropsPanel;
@@ -93,6 +104,11 @@ package com.robot.app.petbag.petPropsBag.ui
          if(owner != null)owner.dispose();
          owner = this;
          this.petPropsPanel = param1;
+         var saved:Object = PetWorkflowUI.loadLocal("petItems",{});
+         this.queryText = saved.query == null ? "" : String(saved.query);
+         this.category = saved.category == null ? "全部" : String(saved.category);
+         this.rememberedPage = saved.page == null ? 1 : Math.max(1,uint(saved.page));
+         this.favorites = saved.favorites is Array ? saved.favorites as Array : [];
          this.show();
          this.addEvent();
       }
@@ -100,6 +116,7 @@ package com.robot.app.petbag.petPropsBag.ui
       public function hide() : void
       {
          this.petPropsPanel.visible = false;
+         this.saveView();
          this.confirmedKey = "";
          dispatchEvent(new Event(Event.CLOSE));
       }
@@ -136,11 +153,12 @@ package com.robot.app.petbag.petPropsBag.ui
       {
          this._listCon = new Sprite();
          this._listCon.x = 50;
-         this._listCon.y = 20;
+         this._listCon.y = 88;
          this.petPropsPanel.addChild(this._listCon);
          this.createItemPanel();
          this._listCon.addEventListener(Event.REMOVED_FROM_STAGE,this.onVisualRemoved);
          this.createRepeatControls();
+         this.createFilters();
          var _loc1_:SimpleButton = this.petPropsPanel["prev_btn"];
          var _loc2_:SimpleButton = this.petPropsPanel["next_btn"];
          _loc1_.addEventListener(MouseEvent.CLICK,this.prevHandler);
@@ -223,22 +241,13 @@ package com.robot.app.petbag.petPropsBag.ui
          this._propInfo = new PetPropInfo();
          this._propInfo.petInfo = this._petInfo;
          this._propInfo.itemId = this.itemID;
-         if(REROLL_TYPES[this.itemID] != null)
-         {
-            if(this.repeatItem != this.itemID || this.repeatPet != this._petInfo.catchTime)this.confirmedKey = "";
-            this.repeatItem = this.itemID;
-            this.repeatPet = this._petInfo.catchTime;
-            this.lastResult = "";
-            this.renderRepeat();
-         }
-         else
-         {
-            this.repeatItem = 0;
-            this.confirmedKey = "";
-            this.renderRepeat();
-         }
+         if(this.repeatItem != this.itemID || this.repeatPet != this._petInfo.catchTime)this.confirmedKey = "";
+         this.repeatItem = this.itemID;
+         this.repeatPet = this._petInfo.catchTime;
+         this.lastResult = "";
+         this.renderRepeat();
          this._propInfo.itemName = this.itemName;
-         if(REROLL_TYPES[this.itemID] != null && this.confirmedKey == this.repeatPet + ":" + this.repeatItem)this.onsureHandler();
+         if(this.canRepeat(this.itemID) && this.confirmedKey == this.repeatPet + ":" + this.repeatItem)this.onsureHandler();
          else Alert.show(_loc2_,this.onsureHandler);
       }
       
@@ -247,6 +256,12 @@ package com.robot.app.petbag.petPropsBag.ui
          if(this.disposed || busyOwner != null || this._petInfo == null)return;
          var current:PetInfo = PetManager.getPetInfo(this._propInfo.petInfo.catchTime);
          if(current == null || current.catchTime != this._petInfo.catchTime)return;
+         if(ITEM_META[this._propInfo.itemId] != null && Number(ITEM_META[this._propInfo.itemId].hp) > 0 && current.hp >= current.maxHp)
+         {
+            this.lastResult = "体力已满，无需用药；未消耗道具。";
+            this.renderRepeat();
+            return;
+         }
          this._propInfo.petInfo = current;
          this.requestItem = this._propInfo.itemId;
          this.requestPet = current.catchTime;
@@ -254,26 +269,26 @@ package com.robot.app.petbag.petPropsBag.ui
          this.requestName = PetXMLInfo.getName(current.id);
          var reroll:Boolean = REROLL_TYPES[this.requestItem] != null;
          this.requestBefore = reroll ? this.describe(current,String(REROLL_TYPES[this.requestItem])) : "";
-         if(reroll)this.confirmedKey = this.requestPet + ":" + this.requestItem;
+         if(this.canRepeat(this.requestItem))this.confirmedKey = this.requestPet + ":" + this.requestItem;
+         else this.confirmedKey = "";
+         var meta:Object = ITEM_META[this.requestItem];
+         this.useCommands = meta != null && meta.commands is Array && meta.commands.length > 0 ? meta.commands as Array : [CommandID.USE_PET_ITEM_OUT_OF_FIGHT,CommandID.USE_PET_ITEM_FULL_ABILITY_OF_STUDY,CommandID.PET_RESET_NATURE];
          busyOwner = this;
-         this.phase = reroll ? "using" : "legacy";
+         this.phase = "using";
          this.errorDispatcher = SocketDispatcher.getInstance();
          this.errorDispatcher.addEventListener(SocketErrorEvent.ERROR,this.onUseError);
-         SocketConnection.addCmdListener(CommandID.USE_PET_ITEM_FULL_ABILITY_OF_STUDY,this.onUpDate);
-         SocketConnection.addCmdListener(CommandID.USE_PET_ITEM_OUT_OF_FIGHT,this.onUpDate);
+         for each(var command:uint in this.useCommands)SocketConnection.addCmdListener(command,this.onUpDate);
          this.requestTimer = setTimeout(this.onRequestTimeout,8000);
          this.renderRepeat();
          try
          {
             var definition:Object = getDefinitionByName("com.robot.app.petbag.petPropsBag.petPropClass.PetPropClass_" + this.requestItem);
-            if(!reroll)this.hide();
             new definition(this._propInfo);
          }
          catch(error:Error)
          {
             if(!reroll && this.requestItem == 300700)
             {
-               this.hide();
                SocketConnection.send(CommandID.USE_PET_ITEM_OUT_OF_FIGHT,this.requestPet,this.requestItem);
                return;
             }
@@ -286,21 +301,8 @@ package com.robot.app.petbag.petPropsBag.ui
       
       private function onUpDate(param1:SocketEvent) : void
       {
-         if(busyOwner != this || this.phase != "using" && this.phase != "legacy")return;
-         if(this.phase == "using")
-         {
-            this.beginSync("success");
-            return;
-         }
-         this.releaseRequest();
-         if(owner == this && !this.disposed)this.hide();
-         PetManager.upDate();
-         this.refreshStock();
-         if(this.requestItem >= 300037 && this.requestItem <= 300042 &&
-            PetBagController.panel.curretItem.info.catchTime == this.requestPet)
-         {
-            PetBagController.panel.curretItem.showClear();
-         }
+         if(busyOwner != this || this.phase != "using")return;
+         this.beginSync("success");
       }
       
       private function onShowItemInfo(param1:MouseEvent) : void
@@ -335,6 +337,66 @@ package com.robot.app.petbag.petPropsBag.ui
       public function get clickItemID() : uint
       {
          return this._clickItemID;
+      }
+
+      private function canRepeat(id:uint):Boolean
+      {
+         return REROLL_TYPES[id] != null || ITEM_META[id] != null && ITEM_META[id].safeRepeat === true;
+      }
+
+      public function matchesItem(id:uint):Boolean
+      {
+         var meta:Object = ITEM_META[id];
+         var group:String = meta == null ? "其他" : String(meta.group);
+         var query:String = this.queryText.replace(/^\s+|\s+$/g,"").toLowerCase();
+         return (query == "" || ItemXMLInfo.getName(id).toLowerCase().indexOf(query) >= 0 || String(id) == query) &&
+            (this.category == "全部" || this.category == group || this.category == "常用" && this.favorites.indexOf(id) >= 0);
+      }
+
+      private function createFilters():void
+      {
+         this.filterPanel = new Sprite();
+         this.petPropsPanel.addChild(this.filterPanel);
+         this.search = PetWorkflowUI.input(this.filterPanel,this.queryText,this._listCon.x,12,this._listCon.width);
+         this.search.addEventListener(Event.CHANGE,this.onFilterChanged);
+         this.renderFilterButtons();
+      }
+
+      private function renderFilterButtons():void
+      {
+         if(this.filterPanel == null)return;
+         DisplayUtil.removeForParent(this.categoryButton);
+         DisplayUtil.removeForParent(this.favoriteButton);
+         this.categoryButton = PetWorkflowUI.button(this.filterPanel,this.category + " ▾",this._listCon.x,46,98,function():void
+         {
+            if(busyOwner != null)return;
+            var groups:Array = ["全部","恢复","洗练","学习力","其他","常用"];
+            category = groups[(groups.indexOf(category)+1)%groups.length];
+            rememberedPage = 1;
+            renderFilterButtons();
+            dispatchEvent(new Event(FILTER_CHANGED));
+         });
+         this.favoriteButton = PetWorkflowUI.button(this.filterPanel,this.repeatItem == 0 ? "选道具后置顶" : this.favorites.indexOf(this.repeatItem) >= 0 ? "★ 取消置顶" : "☆ 常用置顶",
+            this._listCon.x+105,46,100,function():void
+         {
+            if(busyOwner != null || repeatItem == 0)return;
+            var index:int = favorites.indexOf(repeatItem);
+            if(index >= 0)favorites.splice(index,1);else favorites.push(repeatItem);
+            saveView();renderFilterButtons();dispatchEvent(new Event(FILTER_CHANGED));
+         },this.repeatItem != 0);
+      }
+
+      private function onFilterChanged(event:Event):void
+      {
+         this.queryText = this.search.text;
+         this.rememberedPage = 1;
+         dispatchEvent(new Event(FILTER_CHANGED));
+      }
+
+      private function saveView():void
+      {
+         if(!PetWorkflowUI.saveLocal("petItems",{query:this.queryText,category:this.category,page:this.rememberedPage,favorites:this.favorites}) && this.repeatText != null)
+            this.lastResult = "本机存储不可用，筛选和置顶仅在本次保留。";
       }
 
       private function createRepeatControls():void
@@ -391,6 +453,7 @@ package com.robot.app.petbag.petPropsBag.ui
       private function renderRepeat():void
       {
          if(this.disposed || this.repeatPanel == null)return;
+         this.renderFilterButtons();
          this.repeatPanel.visible = this.repeatItem != 0 && this._petInfo != null;
          if(!this.repeatPanel.visible)return;
          var stock:SingleItemInfo = ItemManager.getPetItemInfo(this.repeatItem);
@@ -400,10 +463,10 @@ package com.robot.app.petbag.petPropsBag.ui
          if(this.phase == "using")message = "正在为" + this.requestName + "使用，请稍候…";
          else if(this.phase == "sync")message = "正在同步实际结果与药水余量…";
          else if(this.phase == "sync-error")message = "同步超时；点刷新，不会用药。";
-         else if(message == "")message = "每次一瓶，不满意可手动继续。";
+         else if(message == "")message = "每次使用一份，按需手动继续。";
          this.repeatText.text = PetXMLInfo.getName(this._petInfo.id) + " · " + ItemXMLInfo.getName(this.repeatItem) + "\n" + message;
          this.stockText.text = this.phase == "sync-error" ? "余量未同步" : this.phase == "using" || this.phase == "sync" ? "余量同步中" : "余量 " + count;
-         this.repeatLabel.text = this.phase == "sync-error" ? "刷新结果" : this.phase == "using" ? "使用中…" : this.phase == "sync" ? "同步中…" : count == 0 ? "已用尽" : this.confirmedKey == currentKey ? "继续使用" : "使用药水";
+         this.repeatLabel.text = this.phase == "sync-error" ? "刷新结果" : this.phase == "using" ? "等待结果…" : this.phase == "sync" ? "同步中…" : count == 0 ? "已用尽" : this.confirmedKey == currentKey ? "继续使用" : "确认使用";
          var enabled:Boolean = busyOwner == null && (this.phase == "sync-error" || count > 0 && PetManager.getPetInfo(this.repeatPet) != null);
          this.repeatButton.mouseEnabled = enabled;
          this.repeatButton.mouseChildren = enabled;
@@ -429,7 +492,7 @@ package com.robot.app.petbag.petPropsBag.ui
          this._propInfo.petInfo = pet;
          this._propInfo.itemId = this.itemID;
          this._propInfo.itemName = this.itemName;
-         if(this.confirmedKey == this.repeatPet + ":" + this.repeatItem)this.onsureHandler();
+         if(this.canRepeat(this.repeatItem) && this.confirmedKey == this.repeatPet + ":" + this.repeatItem)this.onsureHandler();
          else Alert.show("你确定要为你的" + TextFormatUtil.getRedTxt(PetXMLInfo.getName(pet.id)) + "使用" + TextFormatUtil.getRedTxt(this.itemName) + "吗？",this.onsureHandler);
       }
 
@@ -487,6 +550,7 @@ package com.robot.app.petbag.petPropsBag.ui
          if(this.repeatPet != this.requestPet || this.repeatItem != this.requestItem)
             this.lastResult = "上一瓶已处理，当前目标尚未使用。";
          else if(pet == null)this.lastResult = "目标已不在背包，请在仓库查看结果。";
+         else if(REROLL_TYPES[this.requestItem] == null)this.lastResult = this.outcome == "success" ? "已使用，精灵与库存已刷新。" : "未确认使用结果，已刷新实际状态；继续使用需重新确认。";
          else if(this.outcome == "success")this.lastResult = label + " " + this.requestBefore + " → " + this.describe(pet,kind);
          else this.lastResult = (this.outcome == "unknown" ? "回包未确认；" : "未成功；") + label + " " + this.describe(pet,kind);
          if(this.outcome != "success")this.confirmedKey = "";
@@ -496,25 +560,13 @@ package com.robot.app.petbag.petPropsBag.ui
 
       private function onUseError(event:SocketErrorEvent):void
       {
-         if(busyOwner != this || event.headInfo == null || event.headInfo.cmdID != CommandID.USE_PET_ITEM_OUT_OF_FIGHT && event.headInfo.cmdID != CommandID.USE_PET_ITEM_FULL_ABILITY_OF_STUDY)return;
+         if(busyOwner != this || event.headInfo == null || this.useCommands.indexOf(event.headInfo.cmdID) < 0)return;
          if(this.phase == "using")this.beginSync("error");
-         else if(this.phase == "legacy")
-         {
-            this.releaseRequest();
-            PetManager.upDate();
-            this.refreshStock();
-         }
       }
 
       private function onRequestTimeout():void
       {
          if(this.phase == "using")this.beginSync("unknown");
-         else if(this.phase == "legacy")
-         {
-            this.releaseRequest();
-            PetManager.upDate();
-            this.refreshStock();
-         }
          else if(this.phase == "sync")
          {
             this.releaseRequest();
@@ -526,8 +578,7 @@ package com.robot.app.petbag.petPropsBag.ui
       private function removeUseListeners():void
       {
          clearTimeout(this.requestTimer);
-         SocketConnection.removeCmdListener(CommandID.USE_PET_ITEM_FULL_ABILITY_OF_STUDY,this.onUpDate);
-         SocketConnection.removeCmdListener(CommandID.USE_PET_ITEM_OUT_OF_FIGHT,this.onUpDate);
+         for each(var command:uint in this.useCommands)SocketConnection.removeCmdListener(command,this.onUpDate);
          if(this.errorDispatcher != null)this.errorDispatcher.removeEventListener(SocketErrorEvent.ERROR,this.onUseError);
          this.errorDispatcher = null;
       }
@@ -550,6 +601,7 @@ package com.robot.app.petbag.petPropsBag.ui
       {
          if(this.disposed)return;
          this.disposed = true;
+         this.saveView();
          this.confirmedKey = "";
          if(owner == this)owner = null;
          this.petPropsPanel["prev_btn"].removeEventListener(MouseEvent.CLICK,this.prevHandler);
@@ -559,6 +611,8 @@ package com.robot.app.petbag.petPropsBag.ui
          DisplayUtil.removeForParent(this._listCon);
          if(this.repeatButton != null)this.repeatButton.removeEventListener(MouseEvent.CLICK,this.onRepeat);
          DisplayUtil.removeForParent(this.repeatPanel);
+         if(this.search != null)this.search.removeEventListener(Event.CHANGE,this.onFilterChanged);
+         DisplayUtil.removeForParent(this.filterPanel);
          dispatchEvent(new Event(Event.CLOSE));
          if(busyOwner != this)this.releaseRequest();
          ItemInfoTip.hide();

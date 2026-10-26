@@ -43,6 +43,7 @@ package com.robot.core.ui.nono
       public static function begin():void
       {
          install();end();clearTimeout(requestTimer);wanted="";lastId="";lastSeq=0;value=null;
+         PetWorkflowClient.inBattle=true;HatchStatusPanel.battleChanged();
          key=new NonoShortcutKeyItem();
          key.setInfo("qx_skills","战况详情：效果、剩余回合和失败原因；查看不会暂停选招倒计时",showDetails);
          key.x=862;key.y=90;LevelManager.fightLevel.addChild(key);
@@ -55,6 +56,7 @@ package com.robot.core.ui.nono
       public static function end():void
       {
          hideBattleDialog();
+         PetWorkflowClient.inBattle=false;HatchStatusPanel.battleChanged();
          if(key!=null){key.destroy();DisplayUtil.removeForParent(key);key=null;}
          if(banner!=null){DisplayUtil.removeForParent(banner);banner=null;}
       }
