@@ -5,7 +5,6 @@ package com.robot.core.ui.nono
    import com.robot.core.manager.MainManager;
    import flash.display.Sprite;
    import flash.display.SimpleButton;
-   import flash.display.DisplayObject;
    import flash.events.Event;
    import flash.events.MouseEvent;
    import flash.filters.GlowFilter;
@@ -64,12 +63,21 @@ package com.robot.core.ui.nono
          if(numeric)field.restrict="0-9";
          return field;
       }
+      private static function buttonSkin(w:Number,color:uint):Sprite
+      {
+         var skin:Sprite=new Sprite();
+         skin.graphics.lineStyle(1,0x165786);
+         skin.graphics.beginFill(color);
+         skin.graphics.drawRoundRect(0,0,w,30,8,8);
+         skin.graphics.endFill();
+         skin.graphics.lineStyle(1,0xDDF5FF,0.8);
+         skin.graphics.drawRoundRect(2,2,w-4,26,6,6);
+         return skin;
+      }
       public static function button(parent:Sprite,value:String,x:Number,y:Number,w:Number,callback:Function,enabled:Boolean=true):Sprite
       {
          var item:Sprite=new Sprite();item.x=x;item.y=y;parent.addChild(item);
-         var up:DisplayObject=UIManager.getDisplayObject("Button_upSkin");var over:DisplayObject=UIManager.getDisplayObject("Button_overSkin");var down:DisplayObject=UIManager.getDisplayObject("Button_downSkin");
-         up.width=over.width=down.width=w;up.height=over.height=down.height=30;
-         item.addChild(new SimpleButton(up,over,down,up));
+         item.addChild(new SimpleButton(buttonSkin(w,0x187AB9),buttonSkin(w,0x299BD4),buttonSkin(w,0x115E94),buttonSkin(w,0x187AB9)));
          var label:TextField=text(item,value,4,6,w-8,22,12,true);var format:TextFormat=label.defaultTextFormat;format.align="center";label.setTextFormat(format);
          item.mouseChildren=false;item.mouseEnabled=enabled;item.buttonMode=enabled;item.alpha=enabled?1:0.45;
          if(callback!=null)item.addEventListener(MouseEvent.CLICK,function(event:MouseEvent):void{callback();});

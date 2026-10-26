@@ -352,8 +352,8 @@ package com.robot.core.ui.nono
       public static function showServices():void
       {
          servicePage(["qx_skills","qx_shop","qx_teams","qx_speed","1","qx_skills","qx_shop","qx_back"],
-            ["更换技能","常用道具补货","常用队伍与配招","战斗播放设置","补满体力与PP（免费）","上一场战斗简报","培养、孵化与原生商城","返回NONO功能"],
-            [showSkills,showRestock,requestTeams,showBattleSettings,onCure,showBattleReport,showTrainingServices,backToNono]);
+            ["更换技能","道具商城","常用队伍与配招","战斗播放设置","补满体力与PP（免费）","上一场战斗简报","培养、孵化与原生商城","返回NONO功能"],
+            [showSkills,showShop,requestTeams,showBattleSettings,onCure,showBattleReport,showTrainingServices,backToNono]);
       }
 
       private static function showTrainingServices():void
@@ -364,7 +364,6 @@ package com.robot.core.ui.nono
             [onjn,showHatch,showShop,null,null,null,null,showServices]);
       }
 
-      private static function showRestock():void { hide();ConsumableRestockPanel.show(); }
       private static function showHatch():void { hide();HatchStatusPanel.show(); }
 
       private static function backToNono():void

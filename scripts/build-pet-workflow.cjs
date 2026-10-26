@@ -6,7 +6,7 @@ const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const { parseArgs } = require('node:util');
-const { values: options } = parseArgs({ options: { baseline: { type: 'string' }, out: { type: 'string' }, java: { type: 'string' }, ffdec: { type: 'string' }, 'server-only': { type: 'boolean', default: false }, 'reroll-only': { type: 'boolean', default: false } } });
+const { values: options } = parseArgs({ options: { baseline: { type: 'string' }, out: { type: 'string' }, java: { type: 'string' }, ffdec: { type: 'string' }, 'server-only': { type: 'boolean', default: false }, 'reroll-only': { type: 'boolean', default: false }, 'native-ui-only': { type: 'boolean', default: false } } });
 for (const key of ['baseline', 'out']) assert.ok(options[key], 'Missing --' + key);
 const root = path.resolve(__dirname, '..'), baseline = path.resolve(options.baseline), out = path.resolve(options.out);
 assert.ok(!fs.existsSync(out), 'Choose a fresh output directory');
@@ -142,6 +142,41 @@ function patchRerollSources(sources, exported) {
       }`);
   sources.set(bagName, bag);
 }
+if (options['native-ui-only']) {
+  assert.ok(!options['server-only'] && !options['reroll-only'], 'Choose one build mode');
+  for (const key of ['java', 'ffdec']) assert.ok(options[key], 'Missing --' + key);
+  const relative = 'client/overlay/dll/NieoCore.swf', input = path.join(baseline, relative);
+  const original = parse(fs.readFileSync(input));
+  const names = ['NonoShortcut', 'PetWorkflowUI'].map(name => 'com/robot/core/ui/nono/' + name);
+  const removed = 'com/robot/core/ui/nono/ConsumableRestockPanel';
+  const imports = path.join(out, 'compiler/core/import');
+  for (const name of names) {
+    assert.equal(original.tags.filter(tag => tag.name === name).length, 1, 'Missing installed UI class: ' + name);
+    const file = path.join(imports, 'scripts', name + '.as');
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.copyFileSync(path.join(root, 'compat/client-patches/nono-experience/core/scripts', name + '.as'), file);
+  }
+  const output = path.join(out, 'compiler/core/output.swf');
+  execFileSync(options.java, ['-Djava.awt.headless=true', '-Xmx3g', '-jar', options.ffdec,
+    '-onerror', 'abort', '-importScript', input, output, imports], { stdio: 'inherit', timeout: 300000 });
+  const compiled = parse(fs.readFileSync(output));
+  assert.equal(compiled.tags.length, original.tags.length);
+  const tags = original.tags.filter(tag => tag.name !== removed).map(tag => {
+    if (!names.includes(tag.name)) return tag;
+    const next = compiled.tags.find(value => value.name === tag.name);
+    assert.ok(next && !next.raw.equals(tag.raw), 'Class did not compile: ' + tag.name);
+    classes[tag.name] = { before: sha(tag.payload), after: sha(next.payload) };
+    return next;
+  });
+  const bytes = encode(original, tags);
+  put(relative, bytes); put(relative.replace('client/overlay/', 'client/assets/'), bytes);
+  fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({ files, classes,
+    removedClasses: original.tags.some(tag => tag.name === removed) ? [removed] : [],
+    restartGame: false, restartWeb: false, migration: null, playerDataMigration: false }, null, 2) + '\n');
+  console.log(JSON.stringify({ out, files: files.length, classes: names.length, migration: null }));
+  process.exit(0);
+}
+
 if (options['reroll-only']) {
   assert.ok(!options['server-only'], 'Choose one build mode');
   for (const key of ['java', 'ffdec']) assert.ok(options[key], 'Missing --' + key);
@@ -242,7 +277,7 @@ if (!options['server-only']) {
     metadata[item.ID] = { group, safeRepeat: Number(item.HP) > 0 || Number(item.PP) > 0, hp: Number(item.HP) || 0, pp: Number(item.PP) || 0, commands: commands.map(name => '@COMMAND:' + name + '@') };
   }
   assert.deepEqual([rerolls[300024], rerolls[300025], rerolls[300052], rerolls[300054]], ['dv', 'nature', 'trait', 'trait']);
-  const additions = ['PetWorkflowClient', 'PetWorkflowUI', 'PetTrainingPanel', 'ConsumableRestockPanel', 'HatchStatusPanel'];
+  const additions = ['PetWorkflowClient', 'PetWorkflowUI', 'PetTrainingPanel', 'HatchStatusPanel'];
   const imports = path.join(out, 'compiler/core/import'), sources = new Map();
   for (const name of [...additions, 'NonoShortcut', 'BattleExperiencePanel']) sources.set('com/robot/core/ui/nono/' + name, fs.readFileSync(path.join(root, 'compat/client-patches/nono-experience/core/scripts/com/robot/core/ui/nono/' + name + '.as'), 'utf8'));
   for (const name of ['PetBagModel', 'ui/PetPropsPanel']) sources.set('com/robot/app/petbag/petPropsBag/' + name, fs.readFileSync(path.join(root, 'compat/client-patches/continuous-pet-edit/scripts/com/robot/app/petbag/petPropsBag/' + name + '.as'), 'utf8'));
