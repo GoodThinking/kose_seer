@@ -13,7 +13,8 @@ const load = relative => require(path.join(app,'dist',relative));
 function overlay(relative) {
   const filename = path.join(app,'dist',relative), module = new Module(filename);
   module.filename = filename;module.paths = Module._nodeModulePaths(path.dirname(filename));
-  module._compile(fs.readFileSync(path.join(release,'app/dist',relative),'utf8'),filename);return module.exports;
+  const artifact = path.join(release,'app/dist',relative);
+  module._compile(fs.readFileSync(fs.existsSync(artifact) ? artifact : filename,'utf8'),filename);return module.exports;
 }
 load('DataBase/loaders/DataLoader');
 const {Config} = load('shared/config/ServerConfig');
@@ -72,6 +73,44 @@ const save = async () => {await helper.SavePetData(player.PetManager.PetData,tru
   assert.deepEqual([4,8,12,16].map(offset=>snapshot.body.readUInt32BE(offset)),[7,8,10,13]);
   passed.push('Restart and real handler return durable collection snapshot');
   await assert.rejects(new PetCollectionHandler().Handle({Player:player},{},Buffer.from([1])),/Invalid collection/);
+  const {Migration029CompleteEvolutionCollection} = overlay('DataBase/migrations/scripts/029_complete_evolution_collection.js');
+  const evolution = new Migration029CompleteEvolutionCollection();
+  await db.Execute('INSERT INTO players VALUES (?,0,0),(?,0,0),(?,0,0)',[uid+2,uid+3,uid+4]);
+  await db.Execute('INSERT INTO player_pets (owner_id,pet_list) VALUES (?,?)',[uid+2,JSON.stringify([{petId:301}])]);
+  await db.Execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',[JSON.stringify([{petId:303}]),uid+2]);
+  await db.Execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',['[]',uid+2]);
+  assert.deepEqual(await ids(uid+2),[301,303]);
+  await db.Transaction(async driver=>{for(const sql of evolution.upSQLite())await driver.execute(sql);});
+  assert.deepEqual(await ids(uid+2),[301,302,303]);
+  passed.push('Migration repairs skipped intermediate forms even after the final pet was released');
+  await db.Execute('INSERT INTO player_pets (owner_id,pet_list) VALUES (?,?)',[uid+3,JSON.stringify([{petId:1}])]);
+  await db.Execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',[JSON.stringify([{petId:3}]),uid+3]);
+  assert.deepEqual(await ids(uid+3),[1,2,3]);
+  passed.push('One committed multi-level evolution unlocks the full ordinary chain');
+  await db.Execute('INSERT INTO player_pets (owner_id,pet_list) VALUES (?,?)',[uid+4,JSON.stringify([{petId:144}])]);
+  assert.deepEqual(await ids(uid+4),[144]);
+  passed.push('Direct special-item evolution does not grant unowned prerequisites or other forms');
+  await assert.rejects(db.Transaction(async driver=>{
+    await driver.execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',[JSON.stringify([{petId:303}]),uid+3]);
+    throw Error('evolution rollback probe');
+  }),/evolution rollback probe/);
+  assert.deepEqual(await ids(uid+3),[1,2,3]);
+  await db.Execute('UPDATE player_pets SET pet_list=? WHERE owner_id=?',['[]',uid+3]);
+  assert.deepEqual(await ids(uid+3),[1,2,3]);
+  assert.deepEqual(await ids(uid+4),[144]);
+  passed.push('Evolution history is transactional, durable on release, and account-isolated');
+  assert.equal(await player.PetManager.GivePet(301,1,1900025002),true);
+  await player.PetManager.HandleAddPetExpByCatchTime(1900025002,2000000);await save();
+  const evolved = player.PetManager.PetData.PetList.find(pet=>pet.catchTime===1900025002);
+  assert.equal(evolved.petId,303);assert.equal(evolved.level,100);
+  assert.deepEqual(await ids(uid),[7,8,10,13,301,302,303]);
+  passed.push('Real one-shot level 1-to-100 experience processing records all three forms');
+  await db.Transaction(async driver=>{for(const sql of evolution.upSQLite())await driver.execute(sql);});
+  assert.deepEqual(await ids(uid+2),[301,302,303]);
+  assert.deepEqual(await ids(uid+3),[1,2,3]);
+  for(const sql of evolution.downSQLite())await db.Execute(sql);
+  assert.deepEqual(await ids(uid+2),[301,302,303]);
+  passed.push('Reapplication deduplicates; rollback preserves legitimately collected history');
   passed.push('Snapshot rejects caller-provided account data');
   if(evidenceArgument){const evidence=path.resolve(evidenceArgument);fs.mkdirSync(evidence,{recursive:true});fs.writeFileSync(path.join(evidence,'snapshot.bin'),snapshot.body);fs.writeFileSync(path.join(evidence,'backend-proof.json'),JSON.stringify({passed,species:[7,8,10,13]},null,2)+'\n');}
   console.log(JSON.stringify({passed},null,2));

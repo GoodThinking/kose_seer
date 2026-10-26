@@ -6,8 +6,9 @@ const zlib = require('node:zlib');
 const {execFileSync} = require('node:child_process');
 const {parseArgs} = require('node:util');
 const names = ['baseline', 'context', 'out', 'java', 'ffdec'];
-const {values} = parseArgs({options: Object.fromEntries(names.map(name => [name, {type: 'string'}]))});
-for (const name of names) if (!values[name]) throw Error('Missing --' + name);
+const {values} = parseArgs({options: {...Object.fromEntries(names.map(name => [name, {type: 'string'}])),
+  'evolution-only': {type: 'boolean', default: false}}});
+for (const name of names.filter(name => !values['evolution-only'] || !['java', 'ffdec'].includes(name))) if (!values[name]) throw Error('Missing --' + name);
 const baseline = path.resolve(values.baseline), out = path.resolve(values.out), root = path.resolve(__dirname, '..');
 const ts = require(path.join(path.resolve(values.context), 'node_modules/typescript'));
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -33,15 +34,39 @@ function patch(relative, mutate) {
 }
 const patchRoot = path.join(root, 'compat/server-patches/pet-collection');
 const additions = [
-  ['DataBase/migrations/scripts/025_create_pet_collection', '025_create_pet_collection'],
-  ['GameServer/Server/Packet/Recv/Pet/PetCollectionHandler', 'PetCollectionHandler']
+  ...(!values['evolution-only'] ? [
+    ['DataBase/migrations/scripts/025_create_pet_collection', '025_create_pet_collection'],
+    ['GameServer/Server/Packet/Recv/Pet/PetCollectionHandler', 'PetCollectionHandler']
+  ] : []),
+  ['DataBase/migrations/scripts/029_complete_evolution_collection', '029_complete_evolution_collection']
 ];
 for (const [relative, name] of additions) {
   const source = fs.readFileSync(path.join(patchRoot, name + '.ts'), 'utf8');
   const compiled = ts.transpileModule(source, {fileName: name + '.ts', reportDiagnostics: true,
     compilerOptions: {target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.CommonJS, experimentalDecorators: true}});
   check(!compiled.diagnostics?.some(d => d.category === ts.DiagnosticCategory.Error), 'Cannot compile ' + name);
-  put('app/src/' + relative + '.ts', source);put('app/dist/' + relative + '.js', compiled.outputText);
+  if (!values['evolution-only']) put('app/src/' + relative + '.ts', source);
+  put('app/dist/' + relative + '.js', compiled.outputText);
+}
+if (values['evolution-only']) {
+  input('app/config/data/xml/spt.xml');
+  patch('app/dist/DataBase/migrations/MigrationRunner.js', ast => {
+    check(!ast.text.includes('029_complete_evolution_collection'), 'Evolution collection migration already registered');
+    const list = ast.statements.flatMap(statement => ts.isVariableStatement(statement) ? [...statement.declarationList.declarations] : [])
+      .find(node => node.name.getText(ast) === 'AllMigrations');
+    check(list && ts.isArrayLiteralExpression(list.initializer), 'Unknown migration registry');
+    return [
+      {start: ast.statements[0].end, end: ast.statements[0].end,
+        text: '\nconst { Migration029CompleteEvolutionCollection } = require("./scripts/029_complete_evolution_collection");\n'},
+      {start: list.initializer.elements.end, end: list.initializer.elements.end,
+        text: (list.initializer.elements.hasTrailingComma ? '' : ',') + '\n  new Migration029CompleteEvolutionCollection(),'}
+    ];
+  });
+  put('client/index.html', fs.readFileSync(path.join(root, 'compat/client-patches/versioned-assets/index.html')));
+  fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({files, inputs, restartGame: true,
+    restartWeb: false, migration: 29, playerDataMigration: 'ordinary-evolution-collection-only'}, null, 2) + '\n');
+  console.log(JSON.stringify({files: files.length, migration: 29, out}));
+  process.exit(0);
 }
 for (const extension of ['ts', 'js']) {
   const folder = extension === 'ts' ? 'src' : 'dist';
@@ -58,15 +83,15 @@ for (const extension of ['ts', 'js']) {
       if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'AllMigrations') {
         check(ts.isArrayLiteralExpression(node.initializer), 'Unknown migration registry');
         edits.push({start: node.initializer.elements.end, end: node.initializer.elements.end,
-          text: (node.initializer.elements.hasTrailingComma ? '' : ',') + '\n  new Migration025CreatePetCollection(),'});
+          text: (node.initializer.elements.hasTrailingComma ? '' : ',') + '\n  new Migration025CreatePetCollection(),\n  new Migration029CompleteEvolutionCollection(),'});
       }
       ts.forEachChild(node, visit);
     }
     visit(ast);check(edits.length === 1, 'Expected one migration registry');
     const first = ast.statements[0];
     edits.push({start: first.end, end: first.end, text: extension === 'ts'
-      ? "\nimport { Migration025CreatePetCollection } from './scripts/025_create_pet_collection';\n"
-      : '\nconst { Migration025CreatePetCollection } = require("./scripts/025_create_pet_collection");\n'});
+      ? "\nimport { Migration025CreatePetCollection } from './scripts/025_create_pet_collection';\nimport { Migration029CompleteEvolutionCollection } from './scripts/029_complete_evolution_collection';\n"
+      : '\nconst { Migration025CreatePetCollection } = require("./scripts/025_create_pet_collection");\nconst { Migration029CompleteEvolutionCollection } = require("./scripts/029_complete_evolution_collection");\n'});
     return edits;
   });
 }
