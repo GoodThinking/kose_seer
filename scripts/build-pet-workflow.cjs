@@ -6,7 +6,7 @@ const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const { parseArgs } = require('node:util');
-const { values: options } = parseArgs({ options: { baseline: { type: 'string' }, out: { type: 'string' }, java: { type: 'string' }, ffdec: { type: 'string' }, 'server-only': { type: 'boolean', default: false } } });
+const { values: options } = parseArgs({ options: { baseline: { type: 'string' }, out: { type: 'string' }, java: { type: 'string' }, ffdec: { type: 'string' }, 'server-only': { type: 'boolean', default: false }, 'reroll-only': { type: 'boolean', default: false } } });
 for (const key of ['baseline', 'out']) assert.ok(options[key], 'Missing --' + key);
 const root = path.resolve(__dirname, '..'), baseline = path.resolve(options.baseline), out = path.resolve(options.out);
 assert.ok(!fs.existsSync(out), 'Choose a fresh output directory');
@@ -57,6 +57,136 @@ function stub(template, className) {
   const header = Buffer.alloc(6); header.writeUInt16LE((82 << 6) | 63); header.writeUInt32LE(payload.length, 2);
   return { code: 82, name, payload, raw: Buffer.concat([header, payload]) };
 }
+
+// Keep the live class bodies intact; change only the medicine refresh boundary.
+const rerollClasses = [
+  'com.robot.app.petbag.ui.PetBagPanel', 'com.robot.app.petbag.ui.PetBagListItem',
+  'com.robot.app.bag.BagListItem', 'com.robot.core.manager.PetManager',
+  'com.robot.app.petbag.petPropsBag.PetBagModel', 'com.robot.app.petbag.petPropsBag.ui.PetPropsPanel'
+];
+function patchRerollSources(sources, exported) {
+  const managerName = 'com/robot/core/manager/PetManager';
+  sources.set(managerName, once(exported(managerName), '      public static function upDate() : void', `      public static function updateBagPet(pet:PetInfo) : void
+      {
+         if(!_bagMap.containsKey(pet.catchTime))return;
+         pet.isDefault = pet.catchTime == defaultTime;
+         _bagMap.add(pet.catchTime,pet);
+         if(showInfo != null && showInfo.catchTime == pet.catchTime)showInfo = pet;
+         dispatchEvent(new PetEvent(PetEvent.UPDATE_INFO,pet.catchTime));
+      }
+
+      public static function upDate() : void`));
+  const cardName = 'com/robot/app/petbag/ui/PetBagListItem';
+  sources.set(cardName, once(exported(cardName), '      public function show(param1:PetInfo) : void', `      public function refreshInfo(pet:PetInfo) : void
+      {
+         if(this._info == null || this._info.id != pet.id || this._info.skinID != pet.skinID)
+         {
+            this.show(pet);
+            return;
+         }
+         this._info = pet;
+         var hp:String = pet.hp + "/" + pet.maxHp;
+         var level:String = "lv." + pet.level;
+         if(this._barTxt.text != hp)this._barTxt.text = hp;
+         if(this._lvTxt.text != level)this._lvTxt.text = level;
+         this._markMc.width = pet.hp / pet.maxHp * this._barMc.width;
+      }
+
+      public function show(param1:PetInfo) : void`));
+  const itemName = 'com/robot/app/bag/BagListItem';
+  sources.set(itemName, once(exported(itemName), '      public function setInfo(param1:SingleItemInfo, param2:Boolean = false) : void', `      public function refreshPetItem(info:SingleItemInfo) : void
+      {
+         if(this._info == null || this._info.itemID != info.itemID || this._info.itemLevel != info.itemLevel ||
+            this._info.leftTime != info.leftTime || this._info.itemNum == 0 || info.itemNum == 0)
+         {
+            this.clear();
+            this.setInfo(info);
+            return;
+         }
+         this._info = info;
+         var count:String = info.itemNum > 1 ? String(info.itemNum) : "";
+         if(this._txt.text != count)this._txt.text = count;
+      }
+
+      public function setInfo(param1:SingleItemInfo, param2:Boolean = false) : void`));
+  const bagName = 'com/robot/app/petbag/ui/PetBagPanel';
+  let bag = sources.get(bagName);
+  bag = once(bag, '         this._infoMc.show(this._curretItem.info);',
+    '         if((_mainUI["itemMC"] as MovieClip).visible)this._infoMc.hide();\n         else this._infoMc.show(this._curretItem.info);');
+  bag = once(bag, '         this._petPropsPanel.getPetInfo(this._curretItem.info);\n         if((_mainUI["itemMC"] as MovieClip).visible)\n         {\n            this._infoMc.hide();\n         }',
+    '         this._petPropsPanel.getPetInfo(this._curretItem.info);');
+  bag = once(bag, '         (_mainUI["itemMC"] as MovieClip).visible = false;\n      }',
+    '         (_mainUI["itemMC"] as MovieClip).visible = false;\n         if(this._curretItem != null && this._curretItem.info != null)this._infoMc.show(this._curretItem.info);\n      }');
+  bag = once(bag, `      private function onUpDate(param1:PetEvent) : void
+      {
+         this.refreshItem();
+      }`, `      private function onUpDate(param1:PetEvent) : void
+      {
+         var catchTime:uint = param1.catchTime();
+         if(catchTime != 0)
+         {
+            for(var i:int = 0;i < this._listCon.numChildren;i++)
+            {
+               var item:PetBagListItem = this._listCon.getChildAt(i) as PetBagListItem;
+               if(item.info != null && item.info.catchTime == catchTime)
+               {
+                  var pet:PetInfo = PetManager.getPetInfo(catchTime);
+                  if(pet == null)break;
+                  item.refreshInfo(pet);
+                  if(item == this._curretItem)this.setSelect(item);
+                  return;
+               }
+            }
+         }
+         this.refreshItem();
+      }`);
+  sources.set(bagName, bag);
+}
+if (options['reroll-only']) {
+  assert.ok(!options['server-only'], 'Choose one build mode');
+  for (const key of ['java', 'ffdec']) assert.ok(options[key], 'Missing --' + key);
+  const java = args => execFileSync(options.java, ['-Djava.awt.headless=true', '-Xmx3g', '-jar', options.ffdec, ...args], { stdio: ['ignore','pipe','inherit'], timeout: 300000 });
+  const relative = 'client/overlay/dll/NieoCore.swf', input = path.join(baseline, relative);
+  const original = parse(fs.readFileSync(input));
+  const exportRoot = path.join(out, 'native-source'), imports = path.join(out, 'compiler/core/import');
+  java(['-selectclass', rerollClasses.join(','), '-export', 'script', exportRoot, input]);
+  const exported = name => fs.readFileSync(path.join(exportRoot, 'scripts', name + '.as'), 'utf8').replace(/\r\n/g, '\n');
+  const sources = new Map([['com/robot/app/petbag/ui/PetBagPanel', exported('com/robot/app/petbag/ui/PetBagPanel')]]);
+  for (const name of ['PetBagModel', 'ui/PetPropsPanel']) {
+    const fullName = 'com/robot/app/petbag/petPropsBag/' + name;
+    let source = fs.readFileSync(path.join(root, 'compat/client-patches/continuous-pet-edit/scripts', fullName + '.as'), 'utf8');
+    if (name === 'ui/PetPropsPanel') {
+      for (const key of ['ITEM_META', 'REROLL_TYPES']) {
+        const declaration = exported(fullName).match(new RegExp('private static const ' + key + ':Object = [\\s\\S]*?;\\n'));
+        assert.ok(declaration, 'Missing live medicine metadata: ' + key);
+        source = once(source, 'private static const ' + key + ':Object = {}; // @' + key + '@', declaration[0].trim());
+      }
+    }
+    sources.set(fullName, source);
+  }
+  patchRerollSources(sources, exported);
+  for (const [name, source] of sources) {
+    const file = path.join(imports, 'scripts', name + '.as');
+    fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, source);
+  }
+  const compiledFile = path.join(out, 'compiler/core/output.swf');
+  java(['-onerror', 'abort', '-importScript', input, compiledFile, imports]);
+  const compiled = parse(fs.readFileSync(compiledFile));
+  assert.equal(compiled.tags.length, original.tags.length);
+  const bytes = encode(original, original.tags.map((tag, position) => {
+    if (!sources.has(tag.name)) return tag;
+    const next = compiled.tags[position];
+    assert.equal(next.name, tag.name); assert.ok(!next.raw.equals(tag.raw), 'Class did not compile: ' + tag.name);
+    classes[tag.name] = { before: sha(tag.payload), after: sha(next.payload) };
+    return next;
+  }));
+  assert.equal(Object.keys(classes).length, sources.size);
+  put(relative, bytes); put(relative.replace('client/overlay/', 'client/assets/'), bytes);
+  fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({ files, classes, restartGame: false, restartWeb: false, migration: null, playerDataMigration: false }, null, 2) + '\n');
+  console.log(JSON.stringify({ out, files: files.length, classes: sources.size, migration: null }));
+  process.exit(0);
+}
+
 const handlerRelative = 'app/dist/GameServer/Server/Packet/Recv/NoNo/PetWorkflowHandlers.js';
 put(handlerRelative, fs.readFileSync(path.join(root, 'compat/server-patches/pet-workflow/PetWorkflowHandlers.js')));
 const indexRelative = 'app/dist/GameServer/Server/Packet/Recv/NoNo/index.js';
@@ -87,7 +217,7 @@ if (!options['server-only']) {
   const coreRelative = 'client/overlay/dll/NieoCore.swf', original = parse(fs.readFileSync(path.join(baseline, coreRelative)));
   const originalNames = new Set(original.tags.filter(tag => tag.code === 82).map(tag => tag.name));
   const exportRoot = path.join(out, 'native-source');
-  java(['-selectclass', 'com.robot.app.petbag.ui.PetBagPanel,org.taomee.manager.TaomeeManager,com.robot.app.petbag.petPropsBag.petPropClass.*', '-export', 'script', exportRoot, path.join(baseline, coreRelative)]);
+  java(['-selectclass', [...rerollClasses, 'org.taomee.manager.TaomeeManager', 'com.robot.app.petbag.petPropsBag.petPropClass.*'].join(','), '-export', 'script', exportRoot, path.join(baseline, coreRelative)]);
   const exported = name => fs.readFileSync(path.join(exportRoot, 'scripts', name + '.as'), 'utf8');
   const itemXml = fs.readFileSync(path.join(baseline, 'app/config/data/xml/items.xml'), 'utf8');
   const metadata = {}, rerolls = {}, commandsByClass = new Map();
@@ -122,8 +252,9 @@ if (!options['server-only']) {
   props = once(props, 'private static const ITEM_META:Object = {}; // @ITEM_META@', 'private static const ITEM_META:Object = ' + metaSource + ';');
   sources.set('com/robot/app/petbag/petPropsBag/ui/PetPropsPanel', props);
   let bag = exported('com/robot/app/petbag/ui/PetBagPanel');
-  bag = once(bag, '         this._petPropsPanel.getPetInfo(this._curretItem.info);', '         this._petPropsPanel.getPetInfo(this._curretItem.info);\n         if((_mainUI["itemMC"] as MovieClip).visible)this._infoMc.hide();');
+  bag = once(bag, '         this._petPropsPanel.getPetInfo(this._curretItem.info);', '         this._petPropsPanel.getPetInfo(this._curretItem.info);\n         if((_mainUI["itemMC"] as MovieClip).visible)\n         {\n            this._infoMc.hide();\n         }');
   sources.set('com/robot/app/petbag/ui/PetBagPanel', bag);
+  patchRerollSources(sources, exported);
   let taomee = exported('org/taomee/manager/TaomeeManager');
   taomee = once(taomee, '         _stage = param2;', '         _stage = param2;\n         com.robot.core.ui.nono.HatchStatusPanel.install();');
   sources.set('org/taomee/manager/TaomeeManager', taomee);

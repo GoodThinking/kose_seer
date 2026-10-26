@@ -138,22 +138,10 @@ function compile(relative, group, names, core) {
   }
   const compiler = path.join(out, 'compiler', group), imports = path.join(compiler, 'import');
   for (const name of group === 'skills' ? ['com/robot/module/app/skill/SkillReplacePanel'] : names) {
-    const sourceRoot = name.startsWith('com/robot/module/app/skill/') || name.startsWith('com/robot/app/petbag/') ? 'continuous-pet-edit' : name.startsWith('com/robot/petFightModule/') ? 'star-arena/battle' : name === 'com/robot/app/mapProcess/MapProcess_326' ? 'map-mechanisms' : name.startsWith('com/robot/app/') ? 'gathering-speed' : 'nono-experience/core';
+    const sourceRoot = name.startsWith('com/robot/module/app/skill/') ? 'continuous-pet-edit' : name.startsWith('com/robot/petFightModule/') ? 'star-arena/battle' : name === 'com/robot/app/mapProcess/MapProcess_326' ? 'map-mechanisms' : name.startsWith('com/robot/app/') ? 'gathering-speed' : 'nono-experience/core';
     const target = path.join(imports, 'scripts', name + '.as'); fs.mkdirSync(path.dirname(target), { recursive: true });
     const source = name === 'com/robot/app/mapProcess/MapProcess_13' ? path.join(root, 'compat/client-patches/material-sources/MapProcess_13.as') : path.join(root, 'compat/client-patches', sourceRoot, 'scripts', name + '.as');
-    let contents = fs.readFileSync(source, 'utf8');
-    if (name === 'com/robot/app/petbag/petPropsBag/ui/PetPropsPanel') {
-      const types = {}, xml = fs.readFileSync(path.join(baseline, 'app/config/data/xml/items.xml'), 'utf8');
-      for (const match of xml.matchAll(/<Item\b([^>]*)>/g)) {
-        const attrs = Object.fromEntries([...match[1].matchAll(/(\w+)="([^"]*)"/g)].map(value => [value[1], value[2]]));
-        const kind = Number(attrs.RandomDv) === 1 ? 'dv' : Number(attrs.MonNatureReset) === 1 ? 'nature' : Number(attrs.NewSeReset) === 1 || Number(attrs.NonFuseResetNewse) === 1 ? 'trait' : null;
-        if (kind) types[attrs.ID] = kind;
-      }
-      assert.deepEqual([types[300024], types[300025], types[300052], types[300054]], ['dv', 'nature', 'trait', 'trait']);
-      const marker = 'private static const REROLL_TYPES:Object = {}; // @REROLL_TYPES@';
-      assert.equal(contents.split(marker).length, 2);
-      contents = contents.replace(marker, 'private static const REROLL_TYPES:Object = ' + JSON.stringify(types) + ';');
-    }
+    const contents = fs.readFileSync(source, 'utf8');
     fs.writeFileSync(target, contents);
   }
   const input = path.join(compiler, 'input.swf'), output = path.join(compiler, 'output.swf'); fs.writeFileSync(input, encode(original, inputTags));
@@ -209,7 +197,8 @@ function compileGallery() {
 }
 if (!options['server-only']) {
   for (const key of ['java', 'ffdec']) assert.ok(options[key], 'Missing --' + key);
-  const core = compile('client/overlay/dll/NieoCore.swf', 'core', ['com/robot/core/ui/nono/TeamPresetPanel', 'com/robot/core/ui/nono/BattleExperiencePanel', 'com/robot/core/ui/nono/NonoShortcut', 'com/robot/app/energy/utils/EnergyController', 'com/robot/app/mapProcess/MapProcess_13', 'com/robot/app/mapProcess/MapProcess_56', 'com/robot/app/mapProcess/MapProcess_59', 'com/robot/app/mapProcess/MapProcess_326', 'com/robot/app/petbag/petPropsBag/PetBagModel', 'com/robot/app/petbag/petPropsBag/ui/PetPropsPanel']);
+  // Medicine panels and their refresh dependencies are compiled together by build-pet-workflow.cjs.
+  const core = compile('client/overlay/dll/NieoCore.swf', 'core', ['com/robot/core/ui/nono/TeamPresetPanel', 'com/robot/core/ui/nono/BattleExperiencePanel', 'com/robot/core/ui/nono/NonoShortcut', 'com/robot/app/energy/utils/EnergyController', 'com/robot/app/mapProcess/MapProcess_13', 'com/robot/app/mapProcess/MapProcess_56', 'com/robot/app/mapProcess/MapProcess_59', 'com/robot/app/mapProcess/MapProcess_326']);
   compile('client/overlay/resource/module/PetFightDLL.swf', 'battle', ['com/robot/petFightModule/PetFightEntry'], core);
   compileGallery();
   compile('client/overlay/module/com/robot/module/app/PetSelectPanel.swf', 'skills', ['frame1'], core);

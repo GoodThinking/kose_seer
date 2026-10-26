@@ -49,7 +49,11 @@ package com.robot.app.petbag.petPropsBag
       private function onPetItemList(event:ItemEvent):void
       {
          ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,onPetItemList);
-         ids=ItemManager.getPetItemIDs();rebuild();
+         var next:Array=ItemManager.getPetItemIDs();
+         var unchanged:Boolean=next.length==ids.length;
+         for(var i:int=0;unchanged&&i<next.length;i++)unchanged=next[i]==ids[i];
+         ids=next;
+         if(unchanged)showPage();else rebuild();
       }
       private function onFilter(event:Event):void { currentPage=view.rememberedPage;rebuild(); }
       private function rebuild():void

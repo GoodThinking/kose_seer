@@ -54,6 +54,7 @@ package com.robot.app.petbag.petPropsBag.ui
       private var search:TextField;
       private var categoryButton:Sprite;
       private var favoriteButton:Sprite;
+      private var filterButtonsKey:String = "";
       private var useCommands:Array = [];
       private static const REROLL_TYPES:Object = {}; // @REROLL_TYPES@
       private static var owner:PetPropsPanel;
@@ -127,25 +128,26 @@ package com.robot.app.petbag.petPropsBag.ui
       
       public function showItem(param1:Array) : void
       {
-         var _loc2_:* = 0;
-         var _loc3_:BagListItem = null;
-         var _loc4_:SingleItemInfo = null;
-         var _loc5_:Boolean = false;
-         this.clearItemPanel();
-         var _loc6_:int = int(param1.length);
-         var _loc7_:int = 0;
-         while(_loc7_ < _loc6_)
+         for(var i:int = 0;i < this._listCon.numChildren;i++)
          {
-            _loc2_ = uint(param1[_loc7_]);
-            _loc3_ = this._listCon.getChildAt(_loc7_) as BagListItem;
-            _loc4_ = ItemManager.getPetItemInfo(_loc2_);
-            _loc5_ = false;
-            _loc3_.buttonMode = true;
-            _loc3_.setInfo(_loc4_,_loc5_);
-            _loc3_.addEventListener(MouseEvent.ROLL_OVER,this.onShowItemInfo);
-            _loc3_.addEventListener(MouseEvent.ROLL_OUT,this.onHideItemInfo);
-            _loc3_.addEventListener(MouseEvent.CLICK,this.onPetPropsUsed);
-            _loc7_++;
+            var cell:BagListItem = this._listCon.getChildAt(i) as BagListItem;
+            var info:SingleItemInfo = i < param1.length ? ItemManager.getPetItemInfo(uint(param1[i])) : null;
+            if(info == null)
+            {
+               if(cell.info != null)cell.clear();
+               cell.removeEventListener(MouseEvent.ROLL_OVER,this.onShowItemInfo);
+               cell.removeEventListener(MouseEvent.ROLL_OUT,this.onHideItemInfo);
+               cell.removeEventListener(MouseEvent.CLICK,this.onPetPropsUsed);
+               cell.buttonMode = false;
+            }
+            else
+            {
+               cell.refreshPetItem(info);
+               cell.buttonMode = true;
+               cell.addEventListener(MouseEvent.ROLL_OVER,this.onShowItemInfo);
+               cell.addEventListener(MouseEvent.ROLL_OUT,this.onHideItemInfo);
+               cell.addEventListener(MouseEvent.CLICK,this.onPetPropsUsed);
+            }
          }
       }
       
@@ -209,7 +211,8 @@ package com.robot.app.petbag.petPropsBag.ui
       
       public function setPageNum(param1:uint, param2:uint) : void
       {
-         this.petPropsPanel["page_txt"].text = param1 + "/" + param2;
+         var text:String = param1 + "/" + param2;
+         if(this.petPropsPanel["page_txt"].text != text)this.petPropsPanel["page_txt"].text = text;
       }
       
       public function onPetPropsUsed(param1:MouseEvent) : void
@@ -365,6 +368,10 @@ package com.robot.app.petbag.petPropsBag.ui
       private function renderFilterButtons():void
       {
          if(this.filterPanel == null)return;
+         var favoriteLabel:String = this.repeatItem == 0 ? "选道具后置顶" : this.favorites.indexOf(this.repeatItem) >= 0 ? "★ 取消置顶" : "☆ 常用置顶";
+         var key:String = this.category + ":" + favoriteLabel;
+         if(this.filterButtonsKey == key)return;
+         this.filterButtonsKey = key;
          DisplayUtil.removeForParent(this.categoryButton);
          DisplayUtil.removeForParent(this.favoriteButton);
          this.categoryButton = PetWorkflowUI.button(this.filterPanel,this.category + " ▾",this._listCon.x,46,98,function():void
@@ -376,7 +383,7 @@ package com.robot.app.petbag.petPropsBag.ui
             renderFilterButtons();
             dispatchEvent(new Event(FILTER_CHANGED));
          });
-         this.favoriteButton = PetWorkflowUI.button(this.filterPanel,this.repeatItem == 0 ? "选道具后置顶" : this.favorites.indexOf(this.repeatItem) >= 0 ? "★ 取消置顶" : "☆ 常用置顶",
+         this.favoriteButton = PetWorkflowUI.button(this.filterPanel,favoriteLabel,
             this._listCon.x+105,46,100,function():void
          {
             if(busyOwner != null || repeatItem == 0)return;
@@ -464,9 +471,12 @@ package com.robot.app.petbag.petPropsBag.ui
          else if(this.phase == "sync")message = "正在同步实际结果与药水余量…";
          else if(this.phase == "sync-error")message = "同步超时；点刷新，不会用药。";
          else if(message == "")message = "每次使用一份，按需手动继续。";
-         this.repeatText.text = PetXMLInfo.getName(this._petInfo.id) + " · " + ItemXMLInfo.getName(this.repeatItem) + "\n" + message;
-         this.stockText.text = this.phase == "sync-error" ? "余量未同步" : this.phase == "using" || this.phase == "sync" ? "余量同步中" : "余量 " + count;
-         this.repeatLabel.text = this.phase == "sync-error" ? "刷新结果" : this.phase == "using" ? "等待结果…" : this.phase == "sync" ? "同步中…" : count == 0 ? "已用尽" : this.confirmedKey == currentKey ? "继续使用" : "确认使用";
+         var text:String = PetXMLInfo.getName(this._petInfo.id) + " · " + ItemXMLInfo.getName(this.repeatItem) + "\n" + message;
+         var stockLabel:String = this.phase == "sync-error" ? "余量未同步" : this.phase == "using" || this.phase == "sync" ? "余量同步中" : "余量 " + count;
+         var buttonLabel:String = this.phase == "sync-error" ? "刷新结果" : this.phase == "using" ? "等待结果…" : this.phase == "sync" ? "同步中…" : count == 0 ? "已用尽" : this.confirmedKey == currentKey ? "继续使用" : "确认使用";
+         if(this.repeatText.text != text)this.repeatText.text = text;
+         if(this.stockText.text != stockLabel)this.stockText.text = stockLabel;
+         if(this.repeatLabel.text != buttonLabel)this.repeatLabel.text = buttonLabel;
          var enabled:Boolean = busyOwner == null && (this.phase == "sync-error" || count > 0 && PetManager.getPetInfo(this.repeatPet) != null);
          this.repeatButton.mouseEnabled = enabled;
          this.repeatButton.mouseChildren = enabled;
@@ -515,10 +525,13 @@ package com.robot.app.petbag.petPropsBag.ui
          this.phase = "sync";
          this.stockReady = this.petReady = false;
          ItemManager.addEventListener(ItemEvent.PET_ITEM_LIST,this.onStockReady);
-         PetManager.addEventListener(PetEvent.UPDATE_INFO,this.onPetReady);
+         if(this.canRepeat(this.requestItem))
+            SocketConnection.addCmdListener(CommandID.GET_PET_INFO,this.onSinglePetReady);
+         else PetManager.addEventListener(PetEvent.UPDATE_INFO,this.onPetReady);
          this.requestTimer = setTimeout(this.onRequestTimeout,8000);
          this.refreshStock();
-         PetManager.upDate();
+         if(this.canRepeat(this.requestItem))SocketConnection.send(CommandID.GET_PET_INFO,this.requestPet);
+         else PetManager.upDate();
          this.renderRepeat();
       }
 
@@ -532,6 +545,16 @@ package com.robot.app.petbag.petPropsBag.ui
       private function onStockReady(event:ItemEvent):void
       {
          this.stockReady = true;
+         this.finishSync();
+      }
+
+      private function onSinglePetReady(event:SocketEvent):void
+      {
+         var pet:PetInfo = event.data as PetInfo;
+         if(this.phase != "sync" || pet == null || pet.catchTime != this.requestPet)return;
+         SocketConnection.removeCmdListener(CommandID.GET_PET_INFO,this.onSinglePetReady);
+         PetManager.updateBagPet(pet);
+         this.petReady = true;
          this.finishSync();
       }
 
@@ -588,6 +611,7 @@ package com.robot.app.petbag.petPropsBag.ui
          this.removeUseListeners();
          ItemManager.removeEventListener(ItemEvent.PET_ITEM_LIST,this.onStockReady);
          PetManager.removeEventListener(PetEvent.UPDATE_INFO,this.onPetReady);
+         SocketConnection.removeCmdListener(CommandID.GET_PET_INFO,this.onSinglePetReady);
          if(busyOwner == this)busyOwner = null;
          this.phase = "";
       }
