@@ -554,6 +554,19 @@ node scripts/build-pet-workflow.cjs --reroll-only \
 
 静音后台隔离账号完成个体 450 次、性格 300 次、融合特性 300 次、普通特性 100 次连续使用；另验证首次使用、切宠确认、取消、药剂从 2 到 1 到 0、用尽禁用、详情重开和重登持久化。数据库读回验证扣药数量精确。主动丢弃一次目标精灵回包后，界面进入同步超时；手动刷新只读回结果，没有多扣一瓶，恢复后可以继续使用。个体前 50 次中位耗时由原版约 397ms 降至约 104ms，后续 400 次约 109ms；不据此宣称消除了所有长期游玩的内存问题。证据位于 `outputs/pet-reroll-lag-20261026/fixed-results.json`、协议记录与截图。
 
+### 首选精灵即时刷新（2026-10-26）
+
+`SET_DEFAULT` 事件同样携带 `catchTime`，此前误入只更新单卡数值的分支，首选虽已保存，列表顺序和橙色首选标记却要重开才刷新。现仅允许 `UPDATE_INFO` 且目标非零时走局部刷新；首选、增删和其他事件继续走原生完整列表刷新。不取消连续用药的局部刷新优化。
+
+```bash
+node scripts/build-pet-workflow.cjs --default-refresh-only \
+  --baseline /path/to/current-capture --out /path/to/fresh-release \
+  --java /path/to/java --ffdec /path/to/ffdec.jar
+```
+
+增量模式从当前 Core 导出并只修改 `PetBagPanel.onUpDate` 的分支条件，其他 ABC 和资源标签保留原字节，输出 assets／overlay 两份 Core。无服务端更新、迁移或服务重启。真实隔离账号验证同一面板连续将索拉、末位王之哈莫设为首选，卡片立即置首并显示橙色首选背景；普通恢复药仍在原位更新血量 20→70、库存 15→14，首选顺序不变。截图位于 `outputs/default-pet-refresh-20261026/`。
+
+
 ### 恢复原生道具图标列表（2026-10-26）
 
 按用户要求撤下新增的文字补货页，原入口改为调用 `BuyPetPropsController.show()`，恢复原生道具图片、名称、价格和购买按钮。删除 `ConsumableRestockPanel` 客户端类及构建引用；服务端现有接口不在本次客户端发布中替换。共用按钮不再横向缩放位图皮肤，改用固定圆角和细边框，覆盖培养、孵化、仓库快捷操作及药剂筛选等现有调用。
