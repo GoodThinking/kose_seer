@@ -5,6 +5,7 @@ import { ConfigLoader } from '../../../shared/config/ConfigLoader';
 export class Migration029CompleteEvolutionCollection implements IMigration {
   version = 29;
   name = 'complete_evolution_collection';
+  atomicSQLite = true;
 
   private ancestrySql(): string {
     const config = ConfigLoader.Instance.LoadXmlSync<any>('data/xml/spt.xml');

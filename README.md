@@ -536,6 +536,8 @@ node scripts/test-pet-collection.cjs /path/to/isolated-app /path/to/fresh-releas
 增量基线需要现网 `app/dist/DataBase/migrations/MigrationRunner.js`、`app/config/data/xml/spt.xml` 和 `client/index.html`。该模式只生成迁移29、保留其他注册项的迁移注册器和网页入口；无需重编 SWF 或替换原版地图、精灵资源。发布前核对清单中的基线哈希与迁移号，重启游戏服务执行迁移，网页服务无需重启。生产使用 SQLite；MySQL 分支未做运行验证。
 
 真实隔离游戏已复现修复前 `ni → nihao → 你好` 写成 `ninihao你好`；修复后候选不写入，提交得到一次 `你好`，字母数字、退格、取消组合及全选中文替换通过。原生收藏馆中文搜索「布布」后，黄金布布、蒙娜布布、丽莎布布均显示已收集。组合事件由 Chromium 原生 CDP 输入协议驱动，不等同于人工逐款验证 macOS 输入法。证据位于 `outputs/collection-ime-20261027/evidence/`，诊断 Core 仅用于隔离环境，不随发布上传。
+真实迁移运行器也已注入损坏的精灵 JSON：迁移失败后，原触发器、收藏记录和迁移版本完整保留；有效旧存档则成功补齐301／302／303并仅登记一次迁移29。迁移通过 `atomicSQLite=true` 使用现网运行器的整事务路径。
+
 
 ## 养成操作与综合培养榜（2026-10-26）
 
