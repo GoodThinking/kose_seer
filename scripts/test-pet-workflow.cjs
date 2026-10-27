@@ -73,6 +73,32 @@ async function test(name, action) { await action(); results.push(name); }
   const youngster = await pet(p, 1, 14);
   await update(p, youngster, { exp: PetCalculator.ExpForNextLevel(14, 1) - 7 });
   await DataSaver.Instance.SaveUser(p.Uid);
+  await test('Read-only state repairs a stale client with the complete authoritative bag, not a captured storage pet', async () => {
+    const context = await account('CatchSnapshot'), player = context.player;
+    while (player.PetManager.GetPetsInBag().length < 6) await pet(player, 1, 10);
+    const bag = player.PetManager.GetPetsInBag();
+    await update(player, bag[0], { hp: 17, skillPP: Object.fromEntries(bag[0].skillArray.map(id => [id, 0])) });
+    const captured = await pet(player, 105, 16);
+    assert.equal(captured.isInBag, false);
+    const before = JSON.stringify(await storedPets(player));
+    const view = await call(context, 91020, { operation: 'state' });
+    assert.equal(view.ok, true);
+    assert.deepEqual(view.bag.map(entry => entry.catchTime), bag.map(entry => entry.catchTime));
+    const body = context.packets.at(-1).body, length = body.readUInt32BE(0);
+    const count = body.readUInt32BE(4 + length);
+    assert.equal(count, 6, 'Native client needs a full binary snapshot, not just JSON metadata');
+    let offset = 8 + length;
+    const decoded = [];
+    for (let index = 0; index < count; index++) {
+      decoded.push({ id: body.readUInt32BE(offset), hp: body.readUInt32BE(offset + 44), catchTime: body.readUInt32BE(offset + 132),
+        pp: Array.from({ length: body.readUInt32BE(offset + 96) }, (_, slot) => body.readUInt32BE(offset + 104 + slot * 8)) });
+      offset += 154 + body.readUInt16BE(offset + 148) * 24;
+    }
+    assert.equal(offset, body.length);
+    assert.deepEqual(decoded.map(entry => [entry.id, entry.catchTime]), bag.map(entry => [entry.petId, entry.catchTime]));
+    assert.equal(decoded[0].hp, 17); assert.ok(decoded[0].pp.every(value => value === 0));
+    assert.equal(JSON.stringify(await storedPets(player)), before, 'State sync must not heal or move pets');
+  });
   await test('Training preview does not mutate pet or experience pool', async () => {
     const before = JSON.stringify(p.PetManager.PetData.PetList), pool = p.Data.allocatableExp;
     const view = await call(owner, 91021, { operation: 'preview', catchTime: youngster.catchTime, target: 20 });

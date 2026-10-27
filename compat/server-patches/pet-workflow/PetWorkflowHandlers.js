@@ -45,7 +45,7 @@ function storageState(player) {
   return { ok: true, revision: bagRevision(data), bag: data.GetPetsInBag().map(petBrief) };
 }
 async function storage(player, input) {
-  if (input.operation === 'state') return reply(player, 91020, storageState(player));
+  if (input.operation === 'state') return reply(player, 91020, storageState(player), player.PetManager.GetPetsInBag());
   if (input.operation !== 'swap' || !integer(input.catchTime, 1, 0xffffffff) || !integer(input.slot, 0, 5)) throw new WorkflowError('请选择仓库精灵和背包位置。');
   const recovery = player.BattleManager.BeginOutOfBattleRecovery();
   if (!recovery) throw new WorkflowError('战斗或精灵操作尚未结束，请稍后调队。');
