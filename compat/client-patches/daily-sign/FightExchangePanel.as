@@ -34,215 +34,7 @@ package com.robot.module.app
    public class FightExchangePanel extends Sprite implements IModule
    {
 
-      private const PETS:Array = [{
-         "id":108,
-         "name":"布鲁",
-         "type":"水",
-         "hp":105,
-         "atk":44,
-         "def":40,
-         "spAtk":115,
-         "spDef":46,
-         "spd":96,
-         "move":"海洋之心",
-         "moveDes":"强制扣除对手当前体力的 1/4！经典攻坚第一神技，打 BOSS 核心绝技。",
-         "evol":"布鲁克克 (满级形态)"
-      },{
-         "id":62,
-         "name":"格林",
-         "type":"地面",
-         "hp":100,
-         "atk":48,
-         "def":42,
-         "spAtk":112,
-         "spDef":46,
-         "spd":95,
-         "move":"地系绝版",
-         "moveDes":"经典地面系高威力特攻亲本，布鲁克克宿敌，融合核心母体。",
-         "evol":"格林奇 (满级形态)"
-      },{
-         "id":378,
-         "name":"凯奴",
-         "type":"光",
-         "hp":110,
-         "atk":50,
-         "def":45,
-         "spAtk":118,
-         "spDef":55,
-         "spd":105,
-         "move":"极光之幕",
-         "moveDes":"光芒护体，稀有特攻光系绝版亲本。",
-         "evol":"凯尔奴斯 (满级形态)"
-      },{
-         "id":445,
-         "name":"兰妮",
-         "type":"超能",
-         "hp":108,
-         "atk":45,
-         "def":46,
-         "spAtk":116,
-         "spDef":48,
-         "spd":102,
-         "move":"精神轰炸",
-         "moveDes":"超能念力冲击，稀有控制与融合亲本。",
-         "evol":"兰特 (满级形态)"
-      },{
-         "id":448,
-         "name":"卡拉",
-         "type":"草",
-         "hp":115,
-         "atk":45,
-         "def":110,
-         "spAtk":105,
-         "spDef":100,
-         "spd":92,
-         "move":"绿芒守护",
-         "moveDes":"草系高防回复特攻亲本，融合卡拉巨龙核心。",
-         "evol":"卡拉巨龙 (满级形态)"
-      },{
-         "id":469,
-         "name":"米奈",
-         "type":"龙",
-         "hp":112,
-         "atk":45,
-         "def":49,
-         "spAtk":118,
-         "spDef":55,
-         "spd":108,
-         "move":"疾风龙爪",
-         "moveDes":"高速龙系特殊亲本，进化米奈希尔。",
-         "evol":"米奈希尔 (满级形态)"
-      },{
-         "id":515,
-         "name":"奈落",
-         "type":"龙",
-         "hp":120,
-         "atk":115,
-         "def":95,
-         "spAtk":80,
-         "spDef":85,
-         "spd":100,
-         "move":"终极龙尊",
-         "moveDes":"龙威震慑，高阶超绝版龙尊终极亲本母体！",
-         "evol":"奈落达尔 (满级形态)"
-      },{
-         "id":526,
-         "name":"托克",
-         "type":"火",
-         "hp":110,
-         "atk":112,
-         "def":54,
-         "spAtk":59,
-         "spDef":47,
-         "spd":100,
-         "move":"烈焰吐息",
-         "moveDes":"火系速攻亲本，托克尔初级形态。",
-         "evol":"托克尔 (满级形态)"
-      },{
-         "id":560,
-         "name":"沃特",
-         "type":"地面",
-         "hp":115,
-         "atk":49,
-         "def":105,
-         "spAtk":116,
-         "spDef":54,
-         "spd":92,
-         "move":"岩突崩塌",
-         "moveDes":"坚实地面特攻亲本，沃特雷初级形态。",
-         "evol":"沃特雷 (满级形态)"
-      },{
-         "id":576,
-         "name":"德普",
-         "type":"龙",
-         "hp":116,
-         "atk":118,
-         "def":90,
-         "spAtk":40,
-         "spDef":43,
-         "spd":95,
-         "move":"狂暴龙牙",
-         "moveDes":"强力龙系物攻亲本，德普拉初级形态。",
-         "evol":"德普拉 (满级形态)"
-      },{
-         "id":596,
-         "name":"史克",
-         "type":"战斗",
-         "hp":118,
-         "atk":116,
-         "def":92,
-         "spAtk":48,
-         "spDef":50,
-         "spd":98,
-         "move":"霸者重拳",
-         "moveDes":"强力格斗亲本，史克鲁初级形态。",
-         "evol":"史克鲁 (满级形态)"
-      },{
-         "id":598,
-         "name":"米娅",
-         "type":"火",
-         "hp":110,
-         "atk":50,
-         "def":48,
-         "spAtk":115,
-         "spDef":55,
-         "spd":104,
-         "move":"红莲火环",
-         "moveDes":"火系特殊亲本，米娅斯初级形态。",
-         "evol":"米娅斯 (满级形态)"
-      },{
-         "id":604,
-         "name":"莎莉",
-         "type":"飞行",
-         "hp":105,
-         "atk":40,
-         "def":42,
-         "spAtk":114,
-         "spDef":48,
-         "spd":108,
-         "move":"疾风花羽",
-         "moveDes":"飞行系优雅绝版亲本，莎莉花初级形态。",
-         "evol":"莎莉花 (满级形态)"
-      },{
-         "id":618,
-         "name":"嘟拉",
-         "type":"冰",
-         "hp":112,
-         "atk":114,
-         "def":85,
-         "spAtk":52,
-         "spDef":49,
-         "spd":102,
-         "move":"冰霜风暴",
-         "moveDes":"极地冰系强力亲本，嘟拉拉初级形态。",
-         "evol":"嘟拉拉 (满级形态)"
-      },{
-         "id":677,
-         "name":"草莓多多",
-         "type":"火",
-         "hp":105,
-         "atk":55,
-         "def":55,
-         "spAtk":110,
-         "spDef":56,
-         "spd":95,
-         "move":"甜甜炸弹",
-         "moveDes":"经典节日美食限定专属技能，草莓甜甜初级形态。",
-         "evol":"草莓甜甜 (满级形态)"
-      },{
-         "id":682,
-         "name":"苹果多多",
-         "type":"草",
-         "hp":110,
-         "atk":114,
-         "def":80,
-         "spAtk":40,
-         "spDef":44,
-         "spd":96,
-         "move":"果香冲击",
-         "moveDes":"经典节日美食限定专属技能，苹果脆脆初级形态。",
-         "evol":"苹果脆脆 (满级形态)"
-      }];
+      private const PETS:Array = []; // @PET_ACQUISITION_CATALOG@
 
       private var _modalBg:Sprite;
 
@@ -259,6 +51,7 @@ package com.robot.module.app
       private var _selectedPet:Object;
 
       private var _currentMode:String = "schedule";
+      private var _page:int = 0;
 
       private var _totalDays:int = 0;
 
@@ -343,7 +136,7 @@ package com.robot.module.app
          _rightArea.x = 344;
          _rightArea.y = 56;
          _panel.addChild(_rightArea);
-         selectPet(PETS[0]);
+         if(PETS.length > 0) selectPet(PETS[0]);
          renderRightArea();
       }
 
@@ -366,7 +159,7 @@ package com.robot.module.app
          _panel.addChild(bar);
          var title:TextField = createLabel(_panel,250,24,360,26,18,0xFFFFFF,true,"center");
          title.filters = [new GlowFilter(676248,0.8,4,4,10)];
-         title.text = "绝版神宠 · 每日签到";
+         title.text = "收藏精灵 · 每日签到";
          var closeBtn:SimpleButton = UIManager.getButton("Close_Btn");
          closeBtn.width = closeBtn.height = 26;
          closeBtn.x = 817; closeBtn.y = 11;
@@ -400,7 +193,7 @@ package com.robot.module.app
          moveBox.graphics.endFill();
          s.addChild(moveBox);
          var tagTf:TextField = createLabel(s,24,296,68,18,11,16748544,true);
-         tagTf.text = "招牌神技";
+         tagTf.text = "收藏签到";
          _moveNameText = createLabel(s,92,296,195,20,13,16769625,true);
          _moveDesText = createLabel(s,24,318,262,36,11,10536424,false);
          _statsText = createLabel(s,16,366,278,20,11,9222629,false,"center");
@@ -413,10 +206,10 @@ package com.robot.module.app
       {
          _selectedPet = p;
          _petNameText.text = p.name;
-         _petTypeText.text = "【" + p.type + "系】· 全服零产出绝版亲本";
-         _moveNameText.text = "【" + p.move + "】";
-         _moveDesText.text = p.moveDes;
-         _statsText.text = "种族值：体 " + p.hp + " · 攻 " + p.atk + " · 防 " + p.def + " · 特攻 " + p.spAtk + " · 速 " + p.spd;
+         _petTypeText.text = "收藏签到精灵";
+         _moveNameText.text = "签到说明";
+         _moveDesText.text = "每日可选择一只，领取后存入仓库。";
+         _statsText.text = "";
          _evolText.text = "形态进阶：" + p.evol;
          while(_bodyHolder.numChildren > 0)
          {
@@ -515,7 +308,7 @@ package com.robot.module.app
          var t2:Sprite;
          var progTxt:TextField;
          var t1:Sprite = new Sprite();
-         drawSingleTab(t1,0,0,110,28,"【每日排期】",_currentMode == "schedule");
+         drawSingleTab(t1,0,0,110,28,"【签到进度】",_currentMode == "schedule");
          t1.buttonMode = true;
          t1.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
          {
@@ -524,7 +317,7 @@ package com.robot.module.app
          });
          _rightArea.addChild(t1);
          t2 = new Sprite();
-         drawSingleTab(t2,115,0,130,28,"【自选绝版库】",_currentMode == "choose");
+         drawSingleTab(t2,115,0,130,28,"【收藏自选】",_currentMode == "choose");
          t2.buttonMode = true;
          t2.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
          {
@@ -565,6 +358,7 @@ package com.robot.module.app
          var i:int = 0;
          while(i < cycleDays)
          {
+            if(PETS.length == 0) return;
             var pIndex:int = (startDay + i) % PETS.length;
             var petObj:Object = PETS[pIndex];
             var dayNum:int = startDay + i + 1;
@@ -619,9 +413,9 @@ package com.robot.module.app
          else
          {
             bigName = createLabel(card,96,40,134,22,14,16766720,true);
-            bigName.text = p.name + "【" + p.type + "系】";
+            bigName.text = p.name;
             bigDes = createLabel(card,96,64,134,36,11,10536424,false);
-            bigDes.text = p.move + "\n高阶绝版神宠";
+            bigDes.text = "收藏签到";
          }
          if(isClaimed)
          {
@@ -669,12 +463,13 @@ package com.robot.module.app
          var cell:Sprite;
          var n:TextField;
          var ty:TextField;
-         var i:int = 0;
-         while(i < PETS.length)
+         var start:int = _page * 12;
+         var i:int = start;
+         while(i < Math.min(start + 12,PETS.length))
          {
             p = PETS[i];
-            col = i % 4;
-            row = Math.floor(i / 4);
+            col = (i - start) % 4;
+            row = Math.floor((i - start) / 4);
             cell = new Sprite();
             cell.x = col * 122;
             cell.y = 36 + row * 88;
@@ -686,7 +481,7 @@ package com.robot.module.app
             n = createLabel(cell,52,16,56,20,12,16777215,true);
             n.text = p.name;
             ty = createLabel(cell,52,38,56,20,11,6600182);
-            ty.text = p.type + "系";
+            ty.text = "收藏";
             cell.buttonMode = true;
             (function(targetPet:Object):void
             {
@@ -699,12 +494,30 @@ package com.robot.module.app
             _rightArea.addChild(cell);
             i++;
          }
+         if(_page > 0)
+         {
+            var prev:Sprite = new Sprite();
+            prev.x = 110;
+            prev.y = 312;
+            nativeButton(prev,100,26,"上一页");
+            prev.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void { _page--; renderRightArea(); });
+            _rightArea.addChild(prev);
+         }
+         if((_page + 1) * 12 < PETS.length)
+         {
+            var next:Sprite = new Sprite();
+            next.x = 270;
+            next.y = 312;
+            nativeButton(next,100,26,"下一页");
+            next.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void { _page++; renderRightArea(); });
+            _rightArea.addChild(next);
+         }
       }
 
       private function drawBottomBar() : void
       {
          var info:TextField = createLabel(_rightArea,0,396,490,22,11,0x163F62,false,"center");
-         info.text = "★ 每日免费领取 1 只绝版亲本，精灵直接入仓；北京时间 00:00 刷新。";
+         info.text = "★ 每日免费领取 1 只收藏精灵，直接入仓；北京时间 00:00 刷新。";
          _signBtn = new Sprite();
          _signBtn.x = 165;
          _signBtn.y = 425;
@@ -717,18 +530,18 @@ package com.robot.module.app
       private function updateSignButton() : void
       {
          if(_signBtn == null || _signBtnText == null)return;
-         _signBtn.mouseEnabled = _statusReady && !_todayClaimed && !_waitingResponse;
+         _signBtn.mouseEnabled = _selectedPet != null && _statusReady && !_todayClaimed && !_waitingResponse;
          _signBtn.mouseChildren = _signBtn.mouseEnabled;
          _signBtn.alpha = _signBtn.mouseEnabled ? 1 : 0.55;
-         _signBtnText.text = !_statusReady ? "正在读取…" : (_waitingResponse ? "正在签到…" : (_todayClaimed ? "今日已签到" : "签到领取" + _selectedPet.name));
+         _signBtnText.text = !_statusReady ? "正在读取…" : (_waitingResponse ? "正在签到…" : (_todayClaimed ? "今日已签到" : (_selectedPet == null ? "暂无可领取精灵" : "签到领取" + _selectedPet.name)));
       }
 
       private function onSignClick(e:MouseEvent) : void
       {
-         if(!_statusReady)return;
+         if(!_statusReady || _selectedPet == null)return;
          if(_todayClaimed)
          {
-            Alarm.show("你今天已经签到领取过绝版精灵了，明天 00:00 刷新后再来吧！");
+            Alarm.show("你今天已经签到领取过精灵了，明天 00:00 刷新后再来吧！");
             return;
          }
          if(_waitingResponse)
@@ -739,6 +552,7 @@ package com.robot.module.app
          var targetPetName:String = String(_selectedPet.name);
          Alert.show("今日签到免费领取 1 级【" + targetPetName + "】？精灵将直接存入仓库。",function():void
          {
+            if(!_statusReady || _todayClaimed || _waitingResponse) return;
             _waitingResponse = true;
             updateSignButton();
             SocketConnection.addCmdListener(CommandID.PET_COLLECT,onCollectResponse);
@@ -752,7 +566,7 @@ package com.robot.module.app
          updateSignButton();
          SocketConnection.removeCmdListener(CommandID.PET_COLLECT,onCollectResponse);
          var body:ByteArray = e.data as ByteArray;
-         if(!body)
+         if(!body || body.bytesAvailable < 16)
          {
             return;
          }
@@ -762,7 +576,7 @@ package com.robot.module.app
          var error:uint = body.readUnsignedInt();
          if(error != 0)
          {
-            Alarm.show(error == 5002 ? "你今天已经签到领取过绝版精灵了，明天再来吧！" : "签到未完成，请重试。");
+            Alarm.show(error == 5002 ? "你今天已经签到领取过精灵了，明天再来吧！" : (error == 5001 ? "该精灵不再提供签到领取。" : "签到未完成，请重试。"));
             if(error == 5002)queryStatus();
             return;
          }

@@ -109,10 +109,11 @@ export class SeerMapUserInfoProto extends BaseProto {
     writer.WriteUInt32(this.teamId);
     writer.WriteUInt32(this.teamCoreCount);
     writer.WriteUInt32(this.teamIsShow);
-    writer.WriteUInt32(this.teamLogoBg);
-    writer.WriteUInt32(this.teamLogoIcon);
-    writer.WriteUInt32(this.teamLogoColor);
-    writer.WriteUInt32(this.teamTxtColor);
+    // UserInfo.setForPeoleInfo reads four 16-bit team logo fields.
+    writer.WriteUInt16(this.teamLogoBg);
+    writer.WriteUInt16(this.teamLogoIcon);
+    writer.WriteUInt16(this.teamLogoColor);
+    writer.WriteUInt16(this.teamTxtColor);
     writer.WriteBytes(this.buildString(this.teamLogoWord, 4));
     
     // 8. 服装列表

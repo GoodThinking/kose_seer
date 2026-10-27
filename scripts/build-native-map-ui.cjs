@@ -31,10 +31,6 @@ const sources = {
     'com/robot/app/petbag/ui/PetBagPanel': 'compat/client-patches/countermark/PetBagPanel.as'
 };
 const modules = [
-    {name: 'com/robot/module/app/FightExchangePanel', source: 'compat/client-patches/daily-sign/FightExchangePanel.as', catalog: 'PETS', inputs: {
-        'client/assets/module/com/robot/module/app/FightExchangePanel.swf': 'cb125db953dc3a82e9873c67eeb4cd0146b077a13914ed4a04a526eb2d04cde4',
-        'client/overlay/resource/module/com/robot/module/app/FightExchangePanel.swf': '84bb96d3482143fd289af872854588f367d21c90e4cccaf56a9eb04ad55c013e'
-    }},
     {name: 'com/robot/module/app/SptPanel', source: 'compat/client-patches/spt-all-bosses/SptPanel.as', catalog: 'BOSSES', inputs: {
         'client/assets/module/com/robot/module/app/SptPanel.swf': '55925c832de8d162b2dffed43eddbe7c26567640410fe3c3d57ce10d6dd9f5f3'
     }},
@@ -77,23 +73,12 @@ for (const [name, hash] of Object.entries(expected)) {
     assert.equal(tags.length, 1, 'Missing unique class: ' + name);
     assert.equal(sha(tags[0].raw), hash, 'Client class changed; reconcile native UI source: ' + name);
 }
-const laboratoryExport = path.join(out, 'compiler/baseline-laboratory');
-execFileSync(v.java, ['-Djava.awt.headless=true', '-jar', v.ffdec, '-selectclass', 'com.robot.app.mapProcess.MapProcess_5', '-export', 'script', laboratoryExport, path.join(baseline, paths[0])], {stdio: 'inherit', timeout: 120000});
-const laboratorySource = fs.readFileSync(path.join(laboratoryExport, 'scripts/com/robot/app/mapProcess/MapProcess_5.as'), 'utf8');
-const laboratoryPattern = /private const exchangeGroups:Array = \[[\s\S]*?\];/;
-const laboratoryDeclaration = laboratorySource.match(laboratoryPattern);
-assert.ok(laboratoryDeclaration, 'Missing captured laboratory exchange catalog');
-const laboratoryGroups = JSON.parse(laboratoryDeclaration[0].replace('private const exchangeGroups:Array = ', '').slice(0, -1));
 const arenaRoot = path.join(root, 'compat/server-patches/star-arena');
 const read = name => JSON.parse(fs.readFileSync(path.join(arenaRoot, name)));
 const arenas = [{...read('catalog.json'), id: 1, name: '帕诺', title: '星系擂台', rewardName: '圣霆雷伊', rewardSpeciesTotal: 710, rewardSkills: [30944, 25581, 25582, 30948], backgroundMapId: 102, theme: 'pano'}, read('catalog-kalan.json'), read('catalog-rogg.json')];
 const imports = path.join(out, 'compiler/import');
 for (const name of Object.keys(expected)) {
     let source = fs.readFileSync(path.join(root, sources[name]), 'utf8');
-    if (name.endsWith('/MapProcess_5')) {
-        assert.ok(laboratoryPattern.test(source), 'Laboratory catalog declaration changed');
-        source = source.replace(laboratoryPattern, laboratoryDeclaration[0]);
-    }
     if (name.endsWith('/GalaxyArenaMap')) {
         const marker = 'private static const ARENAS:Array = []; // @GALAXY_ARENAS@';
         assert.equal(source.split(marker).length, 2, 'Arena catalog marker changed');
@@ -155,5 +140,5 @@ for (const module of modules) {
         files.push({path: relative, before: module.inputs[relative], after: sha(bytes)});
     }
 }
-fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({classes: changed, files, preservedLaboratoryCatalogSha256: sha(Buffer.from(JSON.stringify(laboratoryGroups))), preservedModuleCatalogs, serverChanges: false, databaseChanges: false, restartServices: false}, null, 2) + '\n');
+fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({classes: changed, files, preservedModuleCatalogs, serverChanges: false, databaseChanges: false, restartServices: false}, null, 2) + '\n');
 console.log(JSON.stringify({classes: changed, files: files.length, coreSha256: sha(compiled)}, null, 2));

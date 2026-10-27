@@ -66,7 +66,7 @@ package com.robot.module.app
 
       private const AVATAR_IMG:Number = 34;
 
-      private const GALAXIES:Array = ["全部","帕诺星系","卡兰星系","罗格星系","裂空星系","神兽空间","太空站挑战","暗黑武斗场"];
+      private const GALAXIES:Array = ["全部","帕诺星系","卡兰星系","罗格星系","裂空星系","神兽空间","太空站挑战","暗黑武斗场","其他区域"];
       
       public function SptPanel()
       {
@@ -202,7 +202,7 @@ package com.robot.module.app
             gName = GALAXIES[i];
             btn = new Sprite();
             btn.x = curX;
-            w = 91;
+            w = (772 - (GALAXIES.length - 1) * 6) / GALAXIES.length;
             drawTabBtn(btn,w,26,gName,_currentGalaxy == gName);
             btn.buttonMode = true;
             (function(targetGalaxy:String):void
@@ -449,6 +449,13 @@ package com.robot.module.app
          mechTxt.multiline = true;
          mechTxt.wordWrap = true;
          mechTxt.text = b.mech;
+         mechTxt.mouseEnabled = true;
+         mechTxt.addEventListener(MouseEvent.MOUSE_WHEEL,function(e:MouseEvent):void
+         {
+            var field:TextField = e.currentTarget as TextField;
+            field.scrollV -= e.delta;
+            e.stopPropagation();
+         });
          c.addChild(mechBox);
          goBtn = new Sprite();
          goBtn.x = 143;

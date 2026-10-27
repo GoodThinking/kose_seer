@@ -37,6 +37,7 @@ export interface IMapOgreSlot {
   
   // BOSS标识
   isBoss?: boolean;                // 是否为BOSS（默认false）
+  standingOnly?: boolean;          // 仅生成独立Boss模型，普通野怪仍避让该槽位
   
   // 野怪属性
   level?: number;                  // 野怪等级（默认从配置读取或随机）

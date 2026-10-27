@@ -62,12 +62,6 @@ function compile(relative, group, core) {
     fs.writeFileSync(guide, replaceOnce(fs.readFileSync(guide, 'utf8'),
       'private static const WILD_LOCATIONS:Object = {}; // @WILD_LOCATIONS@',
       'private static const WILD_LOCATIONS:Object = ' + JSON.stringify(encounters.locations) + ';'));
-    const laboratory = path.join(importRoot, 'scripts/com/robot/app/mapProcess/MapProcess_5.as');
-    const text = fs.readFileSync(laboratory, 'utf8');
-    const declaration = text.match(/private const exchangeGroups:Array = \[[\s\S]*?\];/);
-    assert.ok(declaration, 'Missing native laboratory catalog');
-    fs.writeFileSync(laboratory, replaceOnce(text, declaration[0],
-      'private const exchangeGroups:Array = ' + JSON.stringify(encounters.laboratoryGroups) + ';'));
   }
   const originalNames = new Set(source.tags.filter(t => t.code === 82).map(t => t.name));
   const linkedTags = core ? [...source.tags.filter(t => t.code !== 0), ...core.tags.filter(t => t.code === 82 && !originalNames.has(t.name)), ...source.tags.filter(t => t.code === 0)] : source.tags;

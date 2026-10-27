@@ -55,6 +55,7 @@ package
       private var detailTab:String="overview";
       private var detailPage:int=0;
       private var detailPages:int=1;
+      private var routeIndex:int=0;
       private var menu:Sprite;
       private var menuKind:String="";
       private var menuPage:int=0;
@@ -129,10 +130,12 @@ package
       {
          var command:String=event.target.name;
          if(command.indexOf("view:")==0){ratingView=command.substr(5);pageIndex=0;detailPage=0;render();return;}
-         if(command.indexOf("pet:")==0){selected=find(int(command.substr(4)));detailTab="overview";detailPage=0;viewMode="detail";render();return;}
+         if(command.indexOf("pet:")==0){selected=find(int(command.substr(4)));detailTab="overview";detailPage=0;routeIndex=0;viewMode="detail";render();return;}
          if(command.indexOf("compare:")==0){toggleCompare(int(command.substr(8)));return;}
          if(command.indexOf("tier:")==0){tierFilter=int(command.substr(5));pageIndex=0;viewMode="list";render();return;}
          if(command.indexOf("tab:")==0){detailTab=command.substr(4);detailPage=0;render();return;}
+         if(command=="routePrev"||command=="routeNext"){routeIndex=Math.max(0,Math.min(selected.acquisition.length-1,routeIndex+(command=="routeNext"?1:-1)));detailPage=0;render();return;}
+         if(command=="routeGo"){var target:Object=selected.acquisition[routeIndex].target;if(target&&int(target.mapId)>0){var mapId:int=int(target.mapId);closeBtn.dispatchEvent(new MouseEvent(MouseEvent.CLICK));var manager:Class=ApplicationDomain.currentDomain.getDefinition("com.robot.core.manager.MapManager") as Class;manager.changeMap(mapId);}return;}
          if(command.indexOf("menu:")==0){openMenu(command.substr(5));return;}
          if(command.indexOf("pick:")==0){pick(int(command.substr(5)));return;}
          if(command=="menuPrev"||command=="menuNext"){menuPage+=command=="menuNext"?1:-1;drawMenu();return;}
@@ -263,8 +266,15 @@ package
             if(current.fifth!=null)content+="独立第五技能（不占四个常规位）\n"+current.fifth.name+"\n"+current.fifth.description+"\n";
             content+="\n按实际对局替换，不要求四招固定不变。";
          } else if(detailTab=="training")content=current.training.join("\n\n")+"\n\n个体特性建议："+pet.ability.name+"\n"+pet.ability.description;
-         else content=pet.acquisition.join("\n\n");
-         pagedText(content,280,105,575,195,10);
+         else {
+            routeIndex=Math.max(0,Math.min(pet.acquisition.length-1,routeIndex));
+            var route:Object=pet.acquisition[routeIndex];
+            content="路线 "+(routeIndex+1)+"/"+pet.acquisition.length+"\n"+route.text;
+            if(routeIndex>0)action(body,"上一条路线",280,270,110,26,"routePrev");
+            if(routeIndex+1<pet.acquisition.length)action(body,"下一条路线",397,270,110,26,"routeNext");
+            if(route.target&&int(route.target.mapId)>0)action(body,"前往获取",520,270,110,26,"routeGo");
+         }
+         pagedText(content,280,105,575,detailTab=="acquisition"?155:195,detailTab=="acquisition"?8:10);
          pager(detailPage+1,detailPages,detailPage>0,detailPage+1<detailPages);
          footer.text="返回列表保留原筛选和页码 · 当前形态独立评级 · 不执行培养或购买";
       }

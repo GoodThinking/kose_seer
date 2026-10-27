@@ -1,18 +1,13 @@
 'use strict';
-// Build the boss notes release from a captured live root (client/ and app/):
-// - Server: the six newbie bosses get a starter mechanic and every other boss without a description gets one, from
-//   compat/server-patches/boss-locks/notes.json; afterwards every boss in boss_abilities.json has a hint.
-// - Core (assets and overlay copies): FightInviteManager shows every boss's mechanic before the challenge (the dark
-//   portal doors keep theirs in DarkPortalModel).
-// - SptPanel (先锋队终端): the boss list is generated from boss_abilities.json and the Core's own map tables, with level, HP,
-//   location, galaxy and the mechanic; both client tables must equal what this build generates.
-// Usage: node build-boss-notes.cjs --baseline <live root> --out <dir> --java <java> --ffdec <ffdec.jar>
+// Default builds the historical boss notes release. --spt-only builds only the
+// SPT directory from the final configuration, without changing Core or server.
+// Usage: node build-boss-notes.cjs --baseline <live root> --out <dir> --java <java> --ffdec <ffdec.jar> [--spt-only]
 const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto'), zlib = require('node:zlib');
 const assert = require('node:assert/strict');
 const {execFileSync} = require('node:child_process');
 const {parseArgs} = require('node:util');
 const names = ['baseline', 'out', 'java', 'ffdec'];
-const {values: v} = parseArgs({options: Object.fromEntries(names.map(n => [n, {type: 'string'}]))});
+const {values: v} = parseArgs({options: {...Object.fromEntries(names.map(n => [n, {type: 'string'}])), 'spt-only': {type:'boolean'}}});
 for (const n of names) if (!v[n]) throw Error('Missing --' + n);
 const baseline = path.resolve(v.baseline), out = path.resolve(v.out), root = path.resolve(__dirname, '..');
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
@@ -62,24 +57,24 @@ const {gates} = JSON.parse(fs.readFileSync(path.join(root, 'compat/server-patche
 const bossRel = 'app/config/data/json/boss_abilities.json';
 const bossText = fs.readFileSync(path.join(baseline, bossRel), 'utf8');
 const bosses = JSON.parse(bossText);
-assert.equal(JSON.stringify(bosses, null, 2) + '\n', bossText, 'boss_abilities.json formatting changed');
-const find = key => {
-  const [mapId, param2] = key.split('/').map(Number);
-  const list = bosses.bossConfigs.filter(b => b.mapId === mapId && b.param2 === param2);
-  assert.equal(list.length, 1, 'One boss at ' + key);
-  return list[0];
-};
-for (const note of [...notes.mechanics, ...notes.describe]) {
-  const boss = find(note.boss);
-  assert.equal(boss.petName, note.petName, 'Boss at ' + note.boss);
-  assert.ok(!boss.hint, 'Boss already described: ' + note.boss);
-  boss.hint = note.hint;
-  if (note.mechanics) boss.mechanics = {...(boss.mechanics || {}), ...note.mechanics};
-  if (note.customHP) boss.customHP = note.customHP;
+if (!v['spt-only']) {
+  assert.equal(JSON.stringify(bosses, null, 2) + '\n', bossText, 'boss_abilities.json formatting changed');
+  const find = key => {
+    const [mapId, param2] = key.split('/').map(Number);
+    return only(bosses.bossConfigs.filter(b => b.mapId === mapId && b.param2 === param2), 'boss at ' + key);
+  };
+  for (const note of [...notes.mechanics, ...notes.describe]) {
+    const boss = find(note.boss);
+    assert.equal(boss.petName, note.petName, 'Boss at ' + note.boss);
+    assert.ok(!boss.hint, 'Boss already described: ' + note.boss);
+    boss.hint = note.hint;
+    if (note.mechanics) boss.mechanics = {...(boss.mechanics || {}), ...note.mechanics};
+    if (note.customHP) boss.customHP = note.customHP;
+  }
+  const missing = bosses.bossConfigs.filter(b => !b.hint).map(b => `${b.mapId}/${b.param2} ${b.petName}`);
+  assert.deepEqual(missing, [], 'Every boss needs a mechanic description');
+  put(bossRel, JSON.stringify(bosses, null, 2) + '\n');
 }
-const missing = bosses.bossConfigs.filter(b => !b.hint).map(b => `${b.mapId}/${b.param2} ${b.petName}`);
-assert.deepEqual(missing, [], 'Every boss needs a mechanic description');
-put(bossRel, JSON.stringify(bosses, null, 2) + '\n');
 
 // ==================== 客户端数据 ====================
 const coreRel = 'client/assets/dll/NieoCore.swf', overlayCoreRel = 'client/overlay/dll/NieoCore.swf';
@@ -98,13 +93,25 @@ const binary = name => {
   return only(core.tags.filter(t => t.code === 87 && t.payload.readUInt16LE(0) === id), name).payload.subarray(6).toString('utf8');
 };
 const attrs = text => Object.fromEntries([...text.matchAll(/(\w+)="([^"]*)"/g)].map(m => [m[1], m[2]]));
-const maps = new Map([...binary('com.robot.core.config.xml.MapXMLInfo_xmlClass').matchAll(/<map ([^>]*)>/g)].map(m => attrs(m[1])).map(a => [+a.id, a]));
+const itemInfo = new Map([...fs.readFileSync(path.join(baseline,'app/config/data/xml/items.xml'),'utf8').matchAll(/<Item\b([^>]*?)\/?\s*>/g)].map(m => {const a=attrs(m[1]);return [+a.ID,a];}));
+const maps = new Map([...binary('com.robot.core.manager.map.config.MapConfig_xmlCls').matchAll(/<map ([^>]*)>/g)].map(m => attrs(m[1])).map(a => [+a.id, a]));
 const planets = new Map([...binary('com.robot.core.config.xml.SuperMapXMLInfo_xmlClass').matchAll(/<maps ([^>]*)\/>/g)].map(m => attrs(m[1])).map(a => [+a.id, a]));
 // 分组沿用终端原有的星系标签；其余按地图所属星球的星系
-const GALAXIES = ['帕诺星系', '卡兰星系', '罗格星系', '裂空星系', '神兽空间', '太空站挑战', '暗黑武斗场'];
+const GALAXIES = ['帕诺星系', '卡兰星系', '罗格星系', '裂空星系', '神兽空间', '太空站挑战', '暗黑武斗场', '其他区域'];
 const GALAXY_OF_MAP = {110: '暗黑武斗场', 102: '太空站挑战', 405: '太空站挑战', 502: '太空站挑战', 514: '神兽空间', 401: '神兽空间', 318: '神兽空间',
   // 星球表里没有星系的地图
-  733: '帕诺星系', 9507: '裂空星系', 932: '卡兰星系', 445: '裂空星系', 450: '裂空星系', 495: '卡兰星系'};
+  733: '帕诺星系', 9507: '裂空星系', 932: '卡兰星系', 445: '裂空星系', 450: '裂空星系', 495: '卡兰星系', 484: '裂空星系'};
+function galaxyOfMap(id, seen = new Set()) {
+  if (GALAXY_OF_MAP[id]) return GALAXY_OF_MAP[id];
+  if (seen.has(id)) return '其他区域';
+  seen.add(id);
+  const map = maps.get(id), planet = planets.get(+map?.super);
+  const named = ['', '帕诺星系', '卡兰星系', '罗格星系', '裂空星系'][+planet?.galaxy || 0];
+  if (named) return named;
+  // Later playable maps have no galaxy in the captured planet table.
+  // Keep them reachable without inventing a galaxy or dropping the encounter.
+  return maps.has(+map?.super) ? galaxyOfMap(+map.super, seen) : '其他区域';
+}
 // 勇者之塔神秘领域是本地地图，从太空站左翼的勇者之塔进入
 const TRAVEL = {514: 108};
 const alias = new Set(Object.keys(bosses.mapAlias || {}).map(Number));
@@ -114,35 +121,42 @@ const nonSptPets = new Set([83, 153, 166, 178]);
 const sptBosses = [];
 for (const b of bosses.bossConfigs) {
   if (nonSptPets.has(b.petId)) continue;
+  if (b.mapId === 6 && b.param2 === 1) continue; // Task 98, not a standalone challenge.
   if (alias.has(b.mapId)) continue;
   if (schedule.some(([pet, at]) => pet === b.petId && !at.has(b.mapId))) continue;
   const map = maps.get(b.mapId);
   assert.ok(map, 'Client map table lacks ' + b.mapId);
   const planet = planets.get(+map.super);
-  const galaxy = GALAXY_OF_MAP[b.mapId] || ['', '帕诺星系', '卡兰星系', '罗格星系', '裂空星系'][+planet?.galaxy || 0];
+  const galaxy = galaxyOfMap(b.mapId);
   assert.ok(GALAXIES.includes(galaxy), `No galaxy for ${b.mapId}/${b.param2}`);
   // 地图名不以星球名开头时补上星球名（只比较首字：星球表把云霄星写成了“云宵星”）
   let loc = planet && map.name[0] !== planet.name[0] ? planet.name + '·' + map.name : map.name;
   if (b.mapId === 110 && b.param2 >= 1000) loc = `暗黑武斗场·第${Math.floor((b.param2 - 1000) / 6) + 1}门`;
   if (b.mapId === 102) loc = `训练师之门（${only(gates.filter(g => g.param2 === b.param2), 'gate ' + b.param2).type}系）`;
   if (b.mapId === 514) loc = b.param2 === 8 ? '勇者之塔神秘领域·谱尼真身' : `勇者之塔神秘领域·第${b.param2}封印`;
-  sptBosses.push({galaxy, door: b.mapId === 110 ? b.param2 : 0, entry: {id: b.petId, name: b.petName, galaxy, loc, mapId: TRAVEL[b.mapId] || b.mapId, lv: b.level, hp: b.customHP || 0, sptId: b.spt?.sptId || 0, mech: b.hint}});
+  const rewardItem=itemInfo.get(b.spt?.rewardItemId);
+  const reward = b.spt?.rewardItemId ? `；首胜奖励${rewardItem?.Name || '道具#'+b.spt.rewardItemId}${Number(rewardItem?.BreedMonID) ? '，在基地分子转化仪孵化30分钟' : ''}` : b.spt?.rewardPetId ? `；首胜奖励精灵#${b.spt.rewardPetId}` : '';
+  sptBosses.push({galaxy, door: b.mapId === 110 ? b.param2 : 0, entry: {id: b.petId, name: b.petName, galaxy, loc, mapId: TRAVEL[b.mapId] || b.mapId, lv: b.level, hp: b.customHP || 0, sptId: b.spt?.sptId || 0, mech: v['spt-only'] ? (b.hint || '具体机制请查看挑战提示') + reward : b.hint}});
 }
 sptBosses.sort((p, q) => GALAXIES.indexOf(p.galaxy) - GALAXIES.indexOf(q.galaxy) || p.door - q.door);
 const sptLiteral = '[' + sptBosses.map(x => JSON.stringify(x.entry)).join(', ') + ']';
-const doors = read('dark-portal.json').locks.filter(l => l.boss.startsWith('110/10')).map(l => l.boss);
-const inviteHints = bosses.bossConfigs.filter(b => !doors.includes(`${b.mapId}/${b.param2}`)).map(b => `"${b.mapId}/${b.param2}":"${b.hint}"`);
-const inviteTable = '{' + inviteHints.join(',') + '}';
-const sources = {
-  invite: 'compat/client-patches/boss-locks/FightInviteManager.as',
-  spt: 'compat/client-patches/spt-all-bosses/SptPanel.as'
-};
-const expect = {invite: `private static const BOSS_HINTS:Object = ${inviteTable};`, spt: `private const BOSSES:Array = ${sptLiteral};`};
-assert.ok(fs.readFileSync(path.join(root, sources.spt), 'utf8').includes(`private const GALAXIES:Array = ${JSON.stringify(['全部', ...GALAXIES])};`), 'SptPanel tabs differ from GALAXIES');
-fs.mkdirSync(out, {recursive: true});
-const stale = Object.keys(expect).filter(k => !fs.readFileSync(path.join(root, sources[k]), 'utf8').includes(expect[k]));
-for (const k of stale) fs.writeFileSync(path.join(out, `expected-${k}.txt`), expect[k] + '\n');
-assert.deepEqual(stale.map(k => sources[k]), [], `Client tables differ from the boss table; expected lines written to ${out}/expected-*.txt`);
+const source = 'compat/client-patches/spt-all-bosses/SptPanel.as';
+let sptSource=fs.readFileSync(path.join(root,source),'utf8');
+assert.ok(sptSource.includes(`private const GALAXIES:Array = ${JSON.stringify(['全部', ...GALAXIES])};`), 'SptPanel tabs differ from GALAXIES');
+assert.match(sptSource,/private const BOSSES:Array = \[[^\n]*\];/);
+if(v['spt-only']) sptSource=sptSource.replace(/private const BOSSES:Array = \[[^\n]*\];/,`private const BOSSES:Array = ${sptLiteral};`);
+else {
+  const doors=read('dark-portal.json').locks.filter(l=>l.boss.startsWith('110/10')).map(l=>l.boss);
+  const inviteHints=bosses.bossConfigs.filter(b=>!doors.includes(`${b.mapId}/${b.param2}`)).map(b=>`"${b.mapId}/${b.param2}":"${b.hint}"`);
+  const inviteSource=fs.readFileSync(path.join(root,'compat/client-patches/boss-locks/FightInviteManager.as'),'utf8');
+  const expectedInvite=`private static const BOSS_HINTS:Object = {${inviteHints.join(',')}};`;
+  const expectedSpt=`private const BOSSES:Array = ${sptLiteral};`;
+  fs.mkdirSync(out,{recursive:true});
+  const stale=[];
+  if(!inviteSource.includes(expectedInvite)){fs.writeFileSync(path.join(out,'expected-invite.txt'),expectedInvite+'\n');stale.push('compat/client-patches/boss-locks/FightInviteManager.as');}
+  if(!sptSource.includes(expectedSpt)){fs.writeFileSync(path.join(out,'expected-spt.txt'),expectedSpt+'\n');stale.push(source);}
+  assert.deepEqual(stale,[],`Client tables differ from the boss table; expected lines written to ${out}/expected-*.txt`);
+}
 
 // ==================== 编译 ====================
 // key：要替换的 DoABC 名称（Core 每个类一个 DoABC，模块 SWF 只有一个无名 DoABC）；cls：导入脚本的类路径
@@ -151,7 +165,7 @@ function recompile(swf, key, cls, source, dir) {
   only(original.tags.filter(t => t.name === key), 'DoABC ' + key);
   const target = path.join(dir, 'import/scripts', cls + '.as');
   fs.mkdirSync(path.dirname(target), {recursive: true});
-  fs.copyFileSync(path.join(root, source), target);
+  fs.writeFileSync(target, source);
   fs.writeFileSync(path.join(dir, 'original.swf'), swf);
   execFileSync(v.java, ['-Djava.awt.headless=true', '-jar', v.ffdec, '-onerror', 'abort', '-importScript',
     path.join(dir, 'original.swf'), path.join(dir, 'compiled.swf'), path.join(dir, 'import')], {stdio: 'inherit', timeout: 300000});
@@ -164,14 +178,16 @@ function recompile(swf, key, cls, source, dir) {
   return encode(original, compiled.tags.map(t => t.raw));
 }
 const compiler = path.join(out, 'compiler');
-const invite = 'com/robot/app/fightNote/FightInviteManager';
-const coreBytes = recompile(coreRaw, invite, invite, sources.invite, path.join(compiler, 'core'));
-put(coreRel, coreBytes);
-put(overlayCoreRel, coreBytes);
+if(!v['spt-only']) {
+  const invite='com/robot/app/fightNote/FightInviteManager';
+  const inviteSource=fs.readFileSync(path.join(root,'compat/client-patches/boss-locks/FightInviteManager.as'),'utf8');
+  const coreBytes=recompile(coreRaw,invite,invite,inviteSource,path.join(compiler,'core'));
+  put(coreRel,coreBytes);put(overlayCoreRel,coreBytes);
+}
 const sptRel = 'client/assets/module/com/robot/module/app/SptPanel.swf';
-put(sptRel, recompile(fs.readFileSync(path.join(baseline, sptRel)), '', 'com/robot/module/app/SptPanel', sources.spt, path.join(compiler, 'spt')));
+put(sptRel, recompile(fs.readFileSync(path.join(baseline, sptRel)), '', 'com/robot/module/app/SptPanel', sptSource, path.join(compiler, 'spt')));
 
 fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({files, restartGame: true, restartWeb: false, databaseMigration: false,
-  recompiled: ['com/robot/app/fightNote/FightInviteManager', 'com/robot/module/app/SptPanel'],
-  newbieMechanics: notes.mechanics.map(n => [n.boss, n.petName]), sptBosses: sptBosses.length, unrelatedTagsPreserved: true}, null, 2) + '\n');
-console.log(JSON.stringify({out, files: files.length, sptBosses: sptBosses.length, hints: inviteHints.length}));
+  recompiled: v['spt-only'] ? ['com/robot/module/app/SptPanel'] : ['com/robot/app/fightNote/FightInviteManager','com/robot/module/app/SptPanel'],
+  ...(!v['spt-only'] ? {newbieMechanics:notes.mechanics.map(n=>[n.boss,n.petName])} : {}), sptBosses: sptBosses.length, unrelatedTagsPreserved: true}, null, 2) + '\n');
+console.log(JSON.stringify({out, files: files.length, sptBosses: sptBosses.length}));

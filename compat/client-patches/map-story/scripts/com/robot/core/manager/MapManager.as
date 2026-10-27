@@ -92,7 +92,12 @@ package com.robot.core.manager
       
       public static function isPublicMap(mapID:uint) : Boolean
       {
-         return mapID <= ID_MAX || MapConfig.XML_DATA.elements("map").(@id == mapID && @publicMap == "1").length() > 0;
+         if(mapID <= ID_MAX) return true;
+         for each(var map:XML in MapConfig.XML_DATA.elements("map"))
+         {
+            if(uint(map.attribute("id")) == mapID && String(map.attribute("publicMap")) == "1") return true;
+         }
+         return false;
       }
 
       public static function getResMapID(param1:uint) : uint

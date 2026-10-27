@@ -62,27 +62,6 @@ module.exports = function prepareEncounters({ baseline, root, parse, encode }) {
   // This field is an explicit user-approved private-server habitat, not a historical claim.
   spawn.maps[550].name = original.maps[550].name;
   assert.deepEqual(spawn.maps[550], original.maps[550], 'Approved capture field changed');
-  for (const id of plan.laboratoryAdditions) {
-    assert.ok(species.has(id), 'Unknown laboratory species ' + id);
-    if (!acquisition.exchange.petIds.includes(id)) acquisition.exchange.petIds.push(id);
-  }
-  const baseSpecies = id => {
-    const seen = new Set();
-    while (Number(species.get(id)?.EvolvesFrom)) {
-      assert.ok(!seen.has(id), 'Cyclic evolution ancestry ' + id);
-      seen.add(id);
-      id = Number(species.get(id).EvolvesFrom);
-    }
-    return id;
-  };
-  const relocatedFamilies = new Set(plan.changes.filter(change => change.to === null).flatMap(change => change.pets).map(baseSpecies));
-  for (const id of relocatedFamilies) assert.ok(acquisition.exchange.petIds.includes(id), 'Missing relocated acquisition ' + id);
-  const correctedBook = bookXml.text.replace(/<Monster\b[^>]*>/g, tag => {
-    const id = Number(attrs(tag).ID), base = baseSpecies(id);
-    if (!relocatedFamilies.has(base)) return tag;
-    const location = id === base ? '实验室兑换' : '实验室兑换' + species.get(base).DefName + '后进化';
-    return tag.replace(/\bFoundin="[^"]*"/, 'Foundin="' + location + '"');
-  });
   const ogreXml = xml('com.robot.core.config.xml.OgreXMLInfo_xmlClass');
   const ogreSection = ogreXml.text.match(/<ogre>[\s\S]*?<\/ogre>/);
   assert.ok(ogreSection, 'Missing ordinary encounter position section');
@@ -95,7 +74,7 @@ module.exports = function prepareEncounters({ baseline, root, parse, encode }) {
     positionsXml = pattern.test(positionsXml) ? positionsXml.replace(pattern, item) : positionsXml.replace('</ogre>', item + '</ogre>');
     assert.ok(positionsXml.includes(item));
   }
-  const replacements = new Map([[ogreXml.tag, ogreXml.text.replace(ogreSection[0], positionsXml)], [bookXml.tag, correctedBook]]);
+  const replacements = new Map([[ogreXml.tag, ogreXml.text.replace(ogreSection[0], positionsXml)]]);
   const coreBytes = encode(source, source.tags.map(tag => {
     const text = replacements.get(tag);
     if (text === undefined) return tag;
@@ -130,16 +109,5 @@ module.exports = function prepareEncounters({ baseline, root, parse, encode }) {
       source: evidence?.source || (Number(id) === 550 ? 'user-approved private capture field' : actual ? 'native:MapConfig/PetBookXMLInfo; ' + plan.legacySource : 'native:MapConfig (unregistered)'),
       reason: evidence?.reason || (!actual ? '客户端未登记；不作为可见野怪或导航来源。' : '保留既有分布及大小同场；未以图鉴星球名称扩增地点。') };
   }));
-  const labSource = fs.readFileSync(path.join(root, 'compat/client-patches/nono-experience/core/scripts/com/robot/app/mapProcess/MapProcess_5.as'), 'utf8');
-  const groupMatch = labSource.match(/private const exchangeGroups:Array = (\[[\s\S]*?\]);/);
-  assert.ok(groupMatch, 'Missing native laboratory catalog');
-  const groups = JSON.parse(groupMatch[1]);
-  const byType = new Map();
-  for (const group of groups) for (const id of group[1]) if (species.has(id)) byType.set(species.get(id).Type, group);
-  for (const id of plan.laboratoryAdditions) {
-    const group = byType.get(species.get(id).Type); assert.ok(group, 'Missing laboratory type');
-    if (!group[1].includes(id)) group[1].push(id);
-  }
-  assert.deepEqual(new Set(groups.flatMap(g => g[1])), new Set(acquisition.exchange.petIds), 'Laboratory UI/server catalogs differ');
-  return { spawn, acquisition, coreBytes, locations, audit, laboratoryGroups: groups };
+  return { spawn, acquisition, coreBytes, locations, audit };
 };

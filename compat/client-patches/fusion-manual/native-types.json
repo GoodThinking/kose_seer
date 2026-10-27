@@ -1,6 +1,7 @@
 {
   "source": "NieoCore.swf / SkillXMLInfo.dict",
-  "coreSha256": "d8048e515c4f5661dea5e44d88c3eeadb9cfc0fff71a5cfd17edbeb2bb1d56da",
+  "typeClassTagSha256": "2ffe0faecd77a4510a9436a06eeef7cffde64bddab9291d25923246d22b7a071",
+  "typesSha256": "26be9db40452bdec87218e38066524d43680ecfa98d66c1bbfb4309fcf63f8ab",
   "types": {
     "1": "草",
     "2": "水",

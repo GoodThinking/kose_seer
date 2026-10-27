@@ -1,0 +1,5023 @@
+{
+  "routes": [
+    {
+      "petId": 108,
+      "name": "布鲁",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingWild",
+      "source": {
+        "kind": "wild",
+        "mapId": 550,
+        "mapName": "克洛斯星的湿地",
+        "petId": 108
+      },
+      "skillEvidence": [
+        {
+          "id": 10325,
+          "name": "暴风雨",
+          "category": "2",
+          "power": "120",
+          "sideEffect": "5",
+          "sideEffectArg": "3 15 -1",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        },
+        {
+          "id": 10322,
+          "name": "破浪冲击",
+          "category": "1",
+          "power": "100",
+          "sideEffect": "5",
+          "sideEffectArg": "1 15 -1",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 15 -1）"
+        },
+        {
+          "id": 10326,
+          "name": "蓝光水泵",
+          "category": "2",
+          "power": "150",
+          "sideEffect": "",
+          "sideEffectArg": "",
+          "meaning": "无配置附加效果"
+        },
+        {
+          "id": 20143,
+          "name": "海洋之心",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "28",
+          "sideEffectArg": "4",
+          "meaning": "削减对方1/X的HP（配置参数：4）"
+        }
+      ],
+      "skillEvidencePetId": 110
+    },
+    {
+      "petId": 150,
+      "name": "查克",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingWild",
+      "source": {
+        "kind": "wild",
+        "mapId": 400,
+        "mapName": "时空裂缝",
+        "petId": 150
+      },
+      "skillEvidence": [
+        {
+          "id": 10526,
+          "name": "集合炮",
+          "category": "2",
+          "power": "85",
+          "sideEffect": "",
+          "sideEffectArg": "",
+          "meaning": "无配置附加效果"
+        },
+        {
+          "id": 10356,
+          "name": "空旋斩",
+          "category": "1",
+          "power": "100",
+          "sideEffect": "",
+          "sideEffectArg": "",
+          "meaning": "无配置附加效果"
+        },
+        {
+          "id": 20227,
+          "name": "恢复",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "43",
+          "sideEffectArg": "2",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：2）"
+        },
+        {
+          "id": 10527,
+          "name": "回转射线",
+          "category": "2",
+          "power": "100",
+          "sideEffect": "5",
+          "sideEffectArg": "3 15 -1",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        }
+      ],
+      "skillEvidencePetId": 152
+    },
+    {
+      "petId": 360,
+      "name": "艾米",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 30,
+        "mapName": "赫尔卡星",
+        "param2": 8,
+        "bossPetId": 361,
+        "sptId": 82,
+        "rewardItemId": 403025,
+        "hatchPetId": 360,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 10871,
+          "name": "电能污染",
+          "meaning": "X回合内，令对手每回合受到Y点[固定伤害]（配置参数：5 25）"
+        },
+        {
+          "id": 20392,
+          "name": "浓缩电池",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力；X%令自身陷入疲惫状态，Y回合无法行动（配置参数：1 100 1）"
+        },
+        {
+          "id": 10872,
+          "name": "蟒状雷光束",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 20 -1）"
+        },
+        {
+          "id": 20391,
+          "name": "静电场",
+          "meaning": "削减对方1/X的HP（配置参数：5）"
+        }
+      ],
+      "skillEvidencePetId": 361,
+      "battleGuide": "静电场削减最大体力的五分之一，浓缩电池回复满体力；开场特防+2。优先压制回复，使用物攻或消强化技能。"
+    },
+    {
+      "petId": 366,
+      "name": "呆呆蛹",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 20,
+        "mapName": "海洋星",
+        "param2": 8,
+        "bossPetId": 367,
+        "sptId": 83,
+        "rewardItemId": 403026,
+        "hatchPetId": 366,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 10901,
+          "name": "碎碎念",
+          "meaning": "X%几率令对方陷入疲惫状态，Y回合无法行动（配置参数：10 1）"
+        },
+        {
+          "id": 10898,
+          "name": "意志爆发",
+          "meaning": "命中时，有X%的几率减少对方所有技能Y点PP值（配置参数：10 3）"
+        },
+        {
+          "id": 20408,
+          "name": "坚守阵地",
+          "meaning": "X回合内，自身受到[物理攻击]伤害减少50%（配置参数：5）"
+        },
+        {
+          "id": 20409,
+          "name": "冬眠",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力；X%几率令自身的[能力]等级±Y（配置参数：1 0 100 -1 2 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 367,
+      "battleGuide": "坚守阵地降低物理伤害，冬眠回满体力但降低双攻。使用特攻，趁其弱化后持续压血。"
+    },
+    {
+      "petId": 505,
+      "name": "阿瑞斯",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 36,
+        "mapName": "精灵圣殿",
+        "param2": 8,
+        "bossPetId": 505,
+        "sptId": 84,
+        "rewardItemId": 403027,
+        "hatchPetId": 505,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 21895,
+          "name": "六道轮回",
+          "meaning": "X%几率令自身的[能力]等级±Y；X%的几率恢复自身体力的1/Y（配置参数：0 100 1 1 100 1 2 100 1 3 100 1 4 100 1 30 3）"
+        },
+        {
+          "id": 13554,
+          "name": "苍茫永麟绝",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 21894,
+          "name": "魂之再生",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力；减少X点下回合所受的伤害（配置参数：1 150）"
+        },
+        {
+          "id": 13550,
+          "name": "天启诛魔印",
+          "meaning": "无视对手所有防御能力提升效果"
+        }
+      ],
+      "skillEvidencePetId": 505,
+      "battleGuide": "六道轮回强化五维，苍茫永麟绝消除我方强化，魂之再生回满体力。开场攻击+2、速度+1；先消强化，避免依赖单次强化。"
+    },
+    {
+      "petId": 618,
+      "name": "嘟拉",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingWild",
+      "source": {
+        "kind": "wild",
+        "mapId": 550,
+        "mapName": "克洛斯星的湿地",
+        "petId": 618
+      },
+      "skillEvidence": [
+        {
+          "id": 20590,
+          "name": "暴食",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "43 20",
+          "sideEffectArg": "1 100 1",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力；X%令自身陷入疲惫状态，Y回合无法行动（配置参数：1 100 1）"
+        },
+        {
+          "id": 11554,
+          "name": "强力喷吐",
+          "category": "2",
+          "power": "125",
+          "sideEffect": "33",
+          "sideEffectArg": "",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 20770,
+          "name": "追猎技巧",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "4 4",
+          "sideEffectArg": "0 100 2 5 100 2",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 5 100 2）"
+        },
+        {
+          "id": 11552,
+          "name": "灵光一闪",
+          "category": "1",
+          "power": "140",
+          "sideEffect": "15",
+          "sideEffectArg": "10",
+          "meaning": "命中时，有X%几率令对方陷入害怕状态（配置参数：10）"
+        }
+      ],
+      "skillEvidencePetId": 619
+    },
+    {
+      "petId": 688,
+      "name": "符娅",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingFusion",
+      "source": {
+        "kind": "fusion",
+        "petId": 688,
+        "description": "以魔花仙子为主宠的奇迹融合随机结果；完整副宠条件、材料与概率见融合手册"
+      },
+      "skillEvidence": [
+        {
+          "id": 11684,
+          "name": "狂乱叶舞",
+          "category": "1",
+          "power": "135",
+          "sideEffect": "76",
+          "sideEffectArg": "10 3 30",
+          "meaning": "X%几率令对手在Y回合内，每回合受到Z点固定伤害（配置参数：10 3 30）"
+        },
+        {
+          "id": 11687,
+          "name": "异界藤蔓",
+          "category": "2",
+          "power": "120",
+          "sideEffect": "22",
+          "sideEffectArg": "5 1",
+          "meaning": "X%几率令对方陷入疲惫状态，Y回合无法行动（配置参数：5 1）"
+        },
+        {
+          "id": 20836,
+          "name": "生命之力",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "4",
+          "sideEffectArg": "2 100 2",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2）"
+        },
+        {
+          "id": 11688,
+          "name": "绿叶元气弹",
+          "category": "2",
+          "power": "145",
+          "sideEffect": "66",
+          "sideEffectArg": "6",
+          "meaning": "直接击败对方出战精灵时，回复相当于自身[最大体力]1/X的HP（配置参数：6）"
+        }
+      ],
+      "skillEvidencePetId": 689
+    },
+    {
+      "petId": 754,
+      "name": "斯林德",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 495,
+        "param2": 0,
+        "bossPetId": 755,
+        "sptId": 76,
+        "rewardItemId": 400195,
+        "hatchPetId": 754,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 20933,
+          "name": "黑暗遮蔽",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "106",
+          "sideEffectArg": "2",
+          "meaning": "X回合内，特殊攻击对自身必定miss（配置参数：2）"
+        },
+        {
+          "id": 11836,
+          "name": "黑冰",
+          "category": "1",
+          "power": "140",
+          "sideEffect": "14",
+          "sideEffectArg": "10",
+          "meaning": "命中时，有X%几率令对方陷入冻伤状态（配置参数：10）"
+        },
+        {
+          "id": 20934,
+          "name": "虚空之身",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "78",
+          "sideEffectArg": "2",
+          "meaning": "X回合内，物理攻击对自身必定miss（配置参数：2）"
+        },
+        {
+          "id": 11841,
+          "name": "紫雾霜冻",
+          "category": "2",
+          "power": "150",
+          "sideEffect": "107",
+          "sideEffectArg": "100 2",
+          "meaning": "若本次攻击造成的伤害小于X，则自身Y能力提升1个等级（配置参数：100 2）"
+        }
+      ],
+      "skillEvidencePetId": 755
+    },
+    {
+      "petId": 858,
+      "name": "佐洛",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 21,
+        "mapName": "海洋星深水区",
+        "param2": 8,
+        "bossPetId": 858,
+        "sptId": 85,
+        "rewardItemId": 400205,
+        "hatchPetId": 858,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12066,
+          "name": "强攻之力",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 10 1）"
+        },
+        {
+          "id": 12064,
+          "name": "蟹锤重击",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 10 -1）"
+        },
+        {
+          "id": 20714,
+          "name": "偏激防守",
+          "meaning": "X~Y回合内，将自身所受伤害的1/Z反弹给对方（配置参数：2 2 2）"
+        },
+        {
+          "id": 21061,
+          "name": "横行无忌",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 858,
+      "battleGuide": "偏激防守反弹伤害，横行无忌强化速度。反弹期间减少强攻，并用消强化限制速度。"
+    },
+    {
+      "petId": 887,
+      "name": "彼得",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 334,
+        "mapName": "几米塔",
+        "param2": 8,
+        "bossPetId": 888,
+        "sptId": 86,
+        "rewardItemId": 400368,
+        "hatchPetId": 887,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12131,
+          "name": "冰冻弹",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：4 15 -1）"
+        },
+        {
+          "id": 12134,
+          "name": "火箭导弹",
+          "meaning": "X%几率令对方陷入疲惫状态，Y回合无法行动（配置参数：15 1）"
+        },
+        {
+          "id": 21101,
+          "name": "先进武器",
+          "meaning": "X回合内，自身击中目标要害几率提升100%（配置参数：2）"
+        },
+        {
+          "id": 21102,
+          "name": "机械战盔",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2 3 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 888,
+      "battleGuide": "机械战盔强化双防，先进武器提高致命一击率；火箭导弹可能造成疲惫。先消强化，再留意疲惫回合。"
+    },
+    {
+      "petId": 897,
+      "name": "赛特",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 424,
+        "mapName": "空间补给站",
+        "param2": 8,
+        "bossPetId": 898,
+        "sptId": 87,
+        "rewardItemId": 403028,
+        "hatchPetId": 897,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 21113,
+          "name": "机械改良",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 1 1 100 1 2 100 1 3 100 1 4 100 1 5 100 1）"
+        },
+        {
+          "id": 12153,
+          "name": "净化之光",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 21112,
+          "name": "机甲修复",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：2）"
+        },
+        {
+          "id": 12155,
+          "name": "超能电磁炮",
+          "meaning": "属性相同时，X%几率让对方麻痹（配置参数：40）"
+        }
+      ],
+      "skillEvidencePetId": 898,
+      "battleGuide": "机械改良强化五维，净化之光消除我方强化，机甲修复回复半血。开场攻击+1、防御+2；先消强化，以特攻施压。"
+    },
+    {
+      "petId": 911,
+      "name": "哈克",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 25,
+        "mapName": "云霄星",
+        "param2": 8,
+        "bossPetId": 912,
+        "sptId": 88,
+        "rewardItemId": 403029,
+        "hatchPetId": 911,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12184,
+          "name": "幻光击",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 12183,
+          "name": "浮空利袭",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 15 -1）"
+        },
+        {
+          "id": 21126,
+          "name": "翱翔之翼",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2）"
+        },
+        {
+          "id": 21127,
+          "name": "昏睡之舞",
+          "meaning": "命中时，有X%几率令对方陷入睡眠状态（配置参数：100）"
+        }
+      ],
+      "skillEvidencePetId": 912,
+      "battleGuide": "幻光击消除我方强化，翱翔之翼提高攻击，昏睡之舞使对方睡眠。先消其强化，准备应对睡眠。"
+    },
+    {
+      "petId": 924,
+      "name": "古迪",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 55,
+        "mapName": "露希欧泥潭",
+        "param2": 8,
+        "bossPetId": 925,
+        "sptId": 89,
+        "rewardItemId": 400225,
+        "hatchPetId": 924,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12215,
+          "name": "乱石风暴",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 15 -2）"
+        },
+        {
+          "id": 12213,
+          "name": "大地之怒",
+          "meaning": "命中时，有X%几率令对方陷入害怕状态（配置参数：10）"
+        },
+        {
+          "id": 21144,
+          "name": "毁灭之志",
+          "meaning": "X回合内，自身击中目标要害几率提升100%（配置参数：2）"
+        },
+        {
+          "id": 21145,
+          "name": "巨石身躯",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 1 100 1 2 100 2 3 100 1 4 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 925,
+      "battleGuide": "巨石身躯强化攻击和双防但降低速度，毁灭之志提高致命率。消除强化，抓住速度下降窗口进攻。"
+    },
+    {
+      "petId": 941,
+      "name": "维克",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 11,
+        "mapName": "克洛斯星沼泽",
+        "param2": 8,
+        "bossPetId": 943,
+        "sptId": 90,
+        "rewardItemId": 400413,
+        "hatchPetId": 941,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12249,
+          "name": "致命叶片",
+          "meaning": "X回合内，自身击中目标要害几率提升6.25%（配置参数：2）"
+        },
+        {
+          "id": 12252,
+          "name": "绿光风暴",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -2）"
+        },
+        {
+          "id": 20588,
+          "name": "花草丛生",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2）"
+        },
+        {
+          "id": 21166,
+          "name": "绿色气息",
+          "meaning": "X回合内，自身Y系技能的[威力]增加Z%（配置参数：2 1 2）"
+        }
+      ],
+      "skillEvidencePetId": 943,
+      "battleGuide": "花草丛生强化特攻，绿色气息提升草系技能威力。消除其特攻强化，使用抗草属性应战。"
+    },
+    {
+      "petId": 975,
+      "name": "巴尔",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 22,
+        "mapName": "海洋星海底",
+        "param2": 8,
+        "bossPetId": 976,
+        "sptId": 91,
+        "rewardItemId": 400270,
+        "hatchPetId": 975,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12323,
+          "name": "泡泡摆尾",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 5 -2）"
+        },
+        {
+          "id": 12326,
+          "name": "炫彩泡泡弹",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 10 1）"
+        },
+        {
+          "id": 21208,
+          "name": "水源补给",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：2）"
+        },
+        {
+          "id": 21209,
+          "name": "魔法气泡",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2 5 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 976,
+      "battleGuide": "水源补给回复半血，魔法气泡强化特攻和命中。先消强化，集中输出压制回复。"
+    },
+    {
+      "petId": 982,
+      "name": "塔尔多",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 102,
+        "param2": 201,
+        "bossPetId": 983,
+        "sptId": 67,
+        "rewardItemId": 400236,
+        "hatchPetId": 982,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 21216,
+          "name": "强化蔓藤",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "4",
+          "sideEffectArg": "0 100 2",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2）"
+        },
+        {
+          "id": 12339,
+          "name": "山林怒踏",
+          "category": "1",
+          "power": "130",
+          "sideEffect": "33",
+          "sideEffectArg": "",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 21217,
+          "name": "迷幻森林",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "5 5 5",
+          "sideEffectArg": "1 100 -1 3 100 -1 5 100 -1",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 100 -1 3 100 -1 5 100 -1）"
+        },
+        {
+          "id": 12340,
+          "name": "千藤万蔓",
+          "category": "1",
+          "power": "150",
+          "sideEffect": "11",
+          "sideEffectArg": "15",
+          "meaning": "命中时，有X%几率令对方陷入中毒状态（配置参数：15）"
+        }
+      ],
+      "skillEvidencePetId": 983
+    },
+    {
+      "petId": 1024,
+      "name": "莫卡",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 64,
+        "mapName": "沙漠窑洞",
+        "param2": 8,
+        "bossPetId": 1025,
+        "sptId": 92,
+        "rewardItemId": 400245,
+        "hatchPetId": 1024,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12424,
+          "name": "尘土笼罩",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 15 -1）"
+        },
+        {
+          "id": 12422,
+          "name": "晶石旋风击",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 10 -1）"
+        },
+        {
+          "id": 20279,
+          "name": "固若金汤",
+          "meaning": "效果编号 49（配置参数：150）"
+        },
+        {
+          "id": 21264,
+          "name": "能量汇聚",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 1025,
+      "battleGuide": "能量汇聚强化双攻，固若金汤提供防护。消除双攻强化，并避免把输出集中在防护回合。"
+    },
+    {
+      "petId": 1054,
+      "name": "佩里",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 550,
+        "mapName": "克洛斯星的湿地",
+        "param2": 8,
+        "bossPetId": 1055,
+        "sptId": 93,
+        "rewardItemId": 400251,
+        "hatchPetId": 1054,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12477,
+          "name": "合金风暴",
+          "meaning": "解除自身所有的能力下降状态"
+        },
+        {
+          "id": 12480,
+          "name": "离子加农炮",
+          "meaning": "命中时，有X%几率令对方陷入麻痹状态（配置参数：10）"
+        },
+        {
+          "id": 21288,
+          "name": "干扰弹",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：0 100 -1 1 100 -1 2 100 -1 3 100 -1 4 100 -1 5 100 -1）"
+        },
+        {
+          "id": 21289,
+          "name": "机甲升级",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2 1 100 1 3 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1055,
+      "battleGuide": "机甲升级强化特攻与双防，干扰弹削弱对方能力，合金风暴解除自身弱化。优先消强化，不依赖持续弱化。"
+    },
+    {
+      "petId": 1060,
+      "name": "莎尔",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 56,
+        "mapName": "NoNo之洋",
+        "param2": 8,
+        "bossPetId": 1061,
+        "sptId": 94,
+        "rewardItemId": 400256,
+        "hatchPetId": 1060,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12491,
+          "name": "藤蔓抽打",
+          "meaning": "命中时，有X%几率令对方陷入害怕状态（配置参数：15）"
+        },
+        {
+          "id": 12495,
+          "name": "花雨漫天",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 15 1）"
+        },
+        {
+          "id": 21295,
+          "name": "荆棘陷阱",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 100 -1 3 100 -1 4 100 -1）"
+        },
+        {
+          "id": 21296,
+          "name": "魔幻花种",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 1 4 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1061,
+      "battleGuide": "魔幻花种强化特攻和速度，荆棘陷阱削弱双防和速度。先消强化，及时替换被削弱的精灵。"
+    },
+    {
+      "petId": 1132,
+      "name": "可丽",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 330,
+        "mapName": "斯科尔浮岛",
+        "param2": 8,
+        "bossPetId": 1134,
+        "sptId": 95,
+        "rewardItemId": 400351,
+        "hatchPetId": 1132,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12663,
+          "name": "种子叶刃",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 10 1）"
+        },
+        {
+          "id": 12665,
+          "name": "绿叶飘舞",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 10 -1）"
+        },
+        {
+          "id": 21385,
+          "name": "干扰粉",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：4 100 -1 5 100 -1）"
+        },
+        {
+          "id": 11686,
+          "name": "宁静之雨",
+          "meaning": "消除对方所有的能力提升状态"
+        }
+      ],
+      "skillEvidencePetId": 1134,
+      "battleGuide": "干扰粉削弱速度和命中，宁静之雨消除对方强化。避免依赖长期强化，命中下降时考虑替换精灵。"
+    },
+    {
+      "petId": 1144,
+      "name": "古古",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 404,
+        "mapName": "比格星",
+        "param2": 8,
+        "bossPetId": 1145,
+        "sptId": 96,
+        "rewardItemId": 400386,
+        "hatchPetId": 1144,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12691,
+          "name": "不屈守护",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：5）"
+        },
+        {
+          "id": 12694,
+          "name": "麦田旋风",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 15 -1）"
+        },
+        {
+          "id": 21401,
+          "name": "祈愿",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2）"
+        },
+        {
+          "id": 21402,
+          "name": "麦田卫士",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 100 -1 3 100 -1 4 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 1145,
+      "battleGuide": "祈愿强化特攻，麦田卫士削弱双防与速度，不屈守护回复体力。消除强化并持续压制回复。"
+    },
+    {
+      "petId": 1145,
+      "name": "麦古古",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 404,
+        "mapName": "比格星",
+        "param2": 8,
+        "bossPetId": 1145,
+        "sptId": 96,
+        "rewardItemId": 400386,
+        "hatchPetId": 1144,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12691,
+          "name": "不屈守护",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：5）"
+        },
+        {
+          "id": 12694,
+          "name": "麦田旋风",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 15 -1）"
+        },
+        {
+          "id": 21401,
+          "name": "祈愿",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2）"
+        },
+        {
+          "id": 21402,
+          "name": "麦田卫士",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：1 100 -1 3 100 -1 4 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 1145,
+      "battleGuide": "祈愿强化特攻，麦田卫士削弱双防与速度，不屈守护回复体力。消除强化并持续压制回复。"
+    },
+    {
+      "petId": 1190,
+      "name": "哈普",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 326,
+        "mapName": "暮色之城",
+        "param2": 8,
+        "bossPetId": 1191,
+        "sptId": 97,
+        "rewardItemId": 400313,
+        "hatchPetId": 1190,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12793,
+          "name": "虚空魔刺",
+          "meaning": "命中时，有X%几率令对方陷入中毒状态（配置参数：15）"
+        },
+        {
+          "id": 12796,
+          "name": "混沌绿光",
+          "meaning": "命中时，有X%几率令对方陷入睡眠状态（配置参数：10）"
+        },
+        {
+          "id": 21450,
+          "name": "藤蔓守护",
+          "meaning": "X回合内，自身受到[物理攻击]伤害减少50%（配置参数：5）"
+        },
+        {
+          "id": 21451,
+          "name": "灵光缠绕",
+          "meaning": "X%几率令对方的[能力]等级±Y；命中时，有X%几率令对方陷入睡眠状态（配置参数：4 100 -1 5 100 -1 40）"
+        }
+      ],
+      "skillEvidencePetId": 1191,
+      "battleGuide": "藤蔓守护减半物理伤害，灵光缠绕可能造成睡眠，虚空魔刺可能中毒。使用特攻并准备解除异常。"
+    },
+    {
+      "petId": 1191,
+      "name": "普兰特",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 326,
+        "mapName": "暮色之城",
+        "param2": 8,
+        "bossPetId": 1191,
+        "sptId": 97,
+        "rewardItemId": 400313,
+        "hatchPetId": 1190,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12793,
+          "name": "虚空魔刺",
+          "meaning": "命中时，有X%几率令对方陷入中毒状态（配置参数：15）"
+        },
+        {
+          "id": 12796,
+          "name": "混沌绿光",
+          "meaning": "命中时，有X%几率令对方陷入睡眠状态（配置参数：10）"
+        },
+        {
+          "id": 21450,
+          "name": "藤蔓守护",
+          "meaning": "X回合内，自身受到[物理攻击]伤害减少50%（配置参数：5）"
+        },
+        {
+          "id": 21451,
+          "name": "灵光缠绕",
+          "meaning": "X%几率令对方的[能力]等级±Y；命中时，有X%几率令对方陷入睡眠状态（配置参数：4 100 -1 5 100 -1 40）"
+        }
+      ],
+      "skillEvidencePetId": 1191,
+      "battleGuide": "藤蔓守护减半物理伤害，灵光缠绕可能造成睡眠，虚空魔刺可能中毒。使用特攻并准备解除异常。"
+    },
+    {
+      "petId": 1203,
+      "name": "蒙塔",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 315,
+        "mapName": "神秘空间",
+        "param2": 8,
+        "bossPetId": 1204,
+        "sptId": 98,
+        "rewardItemId": 400395,
+        "hatchPetId": 1203,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12906,
+          "name": "圣光弹",
+          "meaning": "X%几率额外附加Y点固定伤害（配置参数：10 200）"
+        },
+        {
+          "id": 12902,
+          "name": "乾坤圣灵绝",
+          "meaning": "命中时，有X%的几率减少对方所有技能Y点PP值（配置参数：100 1）"
+        },
+        {
+          "id": 21510,
+          "name": "八荒",
+          "meaning": "解除自身所有的能力下降状态；消除对方所有的能力提升状态"
+        },
+        {
+          "id": 21511,
+          "name": "圣光觉醒",
+          "meaning": "X回合内，自身使用属性技能时能较快出手（配置参数：5）"
+        }
+      ],
+      "skillEvidencePetId": 1204,
+      "battleGuide": "八荒解除自身弱化并消除对方强化，乾坤圣灵绝减少对方技能PP。避免依赖强化和弱化，准备多只精灵轮换。"
+    },
+    {
+      "petId": 1211,
+      "name": "巴洛里",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 43,
+        "mapName": "赫尔卡飞船",
+        "param2": 8,
+        "bossPetId": 1212,
+        "sptId": 99,
+        "rewardItemId": 400314,
+        "hatchPetId": 1211,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 12827,
+          "name": "雷霆烈焰闪",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 12831,
+          "name": "怒雷天火",
+          "meaning": "命中时，有X%几率令对方陷入烧伤状态；命中时，有X%几率令对方陷入麻痹状态（配置参数：10 10）"
+        },
+        {
+          "id": 21469,
+          "name": "苍雷之阵",
+          "meaning": "X回合内，若受到攻击则有Y%几率令对手Z异常状态（配置参数：2 50 0）"
+        },
+        {
+          "id": 21470,
+          "name": "雷炎之怒",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2 4 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1212,
+      "battleGuide": "雷霆烈焰闪消除对方强化，雷炎之怒强化特攻与速度，怒雷天火可能烧伤或麻痹。消除其强化并准备解除异常。"
+    },
+    {
+      "petId": 1216,
+      "name": "魔域仙子",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newWild",
+      "source": {
+        "kind": "wild",
+        "mapId": 56,
+        "mapName": "NoNo之洋",
+        "petId": 1216,
+        "slot": 3,
+        "repeatable": true
+      },
+      "skillEvidence": [
+        {
+          "id": 21471,
+          "name": "藤蔓生长",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "57 165",
+          "sideEffectArg": "3 10 3 1",
+          "meaning": "X回合内，自身每回合回复[最大体力]的1/Y；X回合内，每回合防御和特防等级+Y（配置参数：3 10 3 1）"
+        },
+        {
+          "id": 12833,
+          "name": "藤蔓乱舞",
+          "category": "1",
+          "power": "20",
+          "sideEffect": "31",
+          "sideEffectArg": "6 10",
+          "meaning": "连续进行X~Y次攻击（配置参数：6 10）"
+        },
+        {
+          "id": 21472,
+          "name": "究极能量",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "4 4",
+          "sideEffectArg": "0 100 2 2 100 2",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        },
+        {
+          "id": 12834,
+          "name": "魔域之藤",
+          "category": "1",
+          "power": "150",
+          "sideEffect": "105",
+          "sideEffectArg": "6",
+          "meaning": "给予对象损伤的1/X，会回复自己的HP（配置参数：6）"
+        }
+      ],
+      "skillEvidencePetId": 1216
+    },
+    {
+      "petId": 1307,
+      "name": "袋袋",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 313,
+        "mapName": "闭锁空间",
+        "param2": 8,
+        "bossPetId": 1308,
+        "sptId": 100,
+        "rewardItemId": 400367,
+        "hatchPetId": 1307,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13046,
+          "name": "大地斗气",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 13044,
+          "name": "开山裂地",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 15 1）"
+        },
+        {
+          "id": 20888,
+          "name": "聚力",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        },
+        {
+          "id": 21595,
+          "name": "地魂护体",
+          "meaning": "X%几率令自身的[能力]等级±Y；X回合内，若对手使用属性技能，则自身恢复1/Y最大体力值（配置参数：1 100 1 3 100 1 3 3）"
+        }
+      ],
+      "skillEvidencePetId": 1308,
+      "battleGuide": "聚力强化双攻，大地斗气消除对方强化，地魂护体在对手使用属性技能时回复体力。先消强化，避免连续使用属性技能。"
+    },
+    {
+      "petId": 1318,
+      "name": "罗比",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 32,
+        "mapName": "赫尔卡星荒地",
+        "param2": 8,
+        "bossPetId": 1319,
+        "sptId": 101,
+        "rewardItemId": 400379,
+        "hatchPetId": 1318,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13063,
+          "name": "机械利刃",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 10 1）"
+        },
+        {
+          "id": 13066,
+          "name": "光谱震荡波",
+          "meaning": "X%几率令对方陷入疲惫状态，Y回合无法行动（配置参数：10 1）"
+        },
+        {
+          "id": 21603,
+          "name": "急速回旋",
+          "meaning": "X回合内，物理攻击对自身必定miss（配置参数：2）"
+        },
+        {
+          "id": 21604,
+          "name": "机甲改造",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：1 100 1 3 100 1 4 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1319,
+      "battleGuide": "急速回旋使物理攻击暂时无法命中，机甲改造强化双防和速度。使用特攻并消除强化。"
+    },
+    {
+      "petId": 1324,
+      "name": "玛尔",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 328,
+        "mapName": "斯科尔星",
+        "param2": 8,
+        "bossPetId": 1325,
+        "sptId": 102,
+        "rewardItemId": 403030,
+        "hatchPetId": 1324,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13089,
+          "name": "沙石阵",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 15 -2）"
+        },
+        {
+          "id": 13088,
+          "name": "大地冲撞",
+          "meaning": "X%几率额外附加Y点固定伤害（配置参数：15 100）"
+        },
+        {
+          "id": 21618,
+          "name": "倔强",
+          "meaning": "X回合内，若受到攻击，对手攻击等级-1、特攻等级-1（配置参数：3）"
+        },
+        {
+          "id": 21619,
+          "name": "发怒",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 1 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 1325,
+      "battleGuide": "发怒强化攻击和防御，倔强使攻击者双攻下降。消除强化，必要时替换被弱化的精灵。"
+    },
+    {
+      "petId": 1325,
+      "name": "玛可",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 328,
+        "mapName": "斯科尔星",
+        "param2": 8,
+        "bossPetId": 1325,
+        "sptId": 102,
+        "rewardItemId": 403030,
+        "hatchPetId": 1324,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13089,
+          "name": "沙石阵",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：5 15 -2）"
+        },
+        {
+          "id": 13088,
+          "name": "大地冲撞",
+          "meaning": "X%几率额外附加Y点固定伤害（配置参数：15 100）"
+        },
+        {
+          "id": 21618,
+          "name": "倔强",
+          "meaning": "X回合内，若受到攻击，对手攻击等级-1、特攻等级-1（配置参数：3）"
+        },
+        {
+          "id": 21619,
+          "name": "发怒",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 1 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 1325,
+      "battleGuide": "发怒强化攻击和防御，倔强使攻击者双攻下降。消除强化，必要时替换被弱化的精灵。"
+    },
+    {
+      "petId": 1337,
+      "name": "机械塔克林",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 46,
+        "mapName": "海盗能源站",
+        "param2": 8,
+        "bossPetId": 1337,
+        "sptId": 103,
+        "rewardItemId": 400402,
+        "hatchPetId": 1337,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 21632,
+          "name": "进攻武装",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 5 100 2）"
+        },
+        {
+          "id": 13117,
+          "name": "破碎龙吟",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 20337,
+          "name": "龙性图腾",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：1）"
+        },
+        {
+          "id": 13118,
+          "name": "铁甲龙啸闪",
+          "meaning": "后出手时，X%使自身Y能力提升Z个等级（配置参数：1 50 1）"
+        }
+      ],
+      "skillEvidencePetId": 1337,
+      "battleGuide": "进攻武装强化攻击，破碎龙吟消除对方强化，龙性图腾回满体力。开场双防+2，体力低于30%时攻击必定致命；先消强化并保留爆发收尾。"
+    },
+    {
+      "petId": 1346,
+      "name": "格鲁斯特",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 49,
+        "mapName": "贝塔星荒原",
+        "param2": 8,
+        "bossPetId": 1346,
+        "sptId": 104,
+        "rewardItemId": 403031,
+        "hatchPetId": 1346,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13141,
+          "name": "雪舞狂沙",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 13142,
+          "name": "天崩地裂",
+          "meaning": "命中时，有X%几率令对方陷入害怕状态（配置参数：15）"
+        },
+        {
+          "id": 21645,
+          "name": "地心引力",
+          "meaning": "X%几率令自身的[能力]等级±Y；X回合内，令对手每回合受到Y点[固定伤害]（配置参数：5 100 2 2 200）"
+        },
+        {
+          "id": 21646,
+          "name": "流沙阵",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：0 100 -1 2 100 -1 4 100 -2）"
+        }
+      ],
+      "skillEvidencePetId": 1346,
+      "battleGuide": "雪舞狂沙消除对方强化，地心引力强化命中并造成持续固定伤害，流沙阵削弱双攻和速度。避免依赖强化，及时替换被弱化精灵。"
+    },
+    {
+      "petId": 1353,
+      "name": "哈鲁",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 41,
+        "mapName": "寒冰溶洞",
+        "param2": 8,
+        "bossPetId": 1354,
+        "sptId": 105,
+        "rewardItemId": 400411,
+        "hatchPetId": 1353,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13158,
+          "name": "冰封时刻",
+          "meaning": "命中时，有X%几率令对方陷入冻伤状态（配置参数：50）"
+        },
+        {
+          "id": 13156,
+          "name": "寒冰破碎拳",
+          "meaning": "对方处于冻伤状态时，附加X点伤害（配置参数：50）"
+        },
+        {
+          "id": 21667,
+          "name": "极寒之志",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        },
+        {
+          "id": 21653,
+          "name": "冰之领悟",
+          "meaning": "X%几率令自身的[能力]等级±Y；X回合内受到物理攻击时，有Y%几率将对手冻伤（配置参数：1 100 2 3 50）"
+        }
+      ],
+      "skillEvidencePetId": 1354,
+      "battleGuide": "极寒之志强化双攻，冰封时刻可能冻伤，寒冰破碎拳对冻伤目标追加伤害。消除强化并及时解除冻伤。"
+    },
+    {
+      "petId": 1359,
+      "name": "尤拉",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 429,
+        "mapName": "拓梯星",
+        "param2": 8,
+        "bossPetId": 1360,
+        "sptId": 106,
+        "rewardItemId": 403032,
+        "hatchPetId": 1359,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13163,
+          "name": "破岩强击",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        },
+        {
+          "id": 13166,
+          "name": "地震碎裂波",
+          "meaning": "X%几率令对方陷入疲惫状态，Y回合无法行动（配置参数：10 1）"
+        },
+        {
+          "id": 21659,
+          "name": "大地尘封",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 1 1 100 1 3 100 1）"
+        },
+        {
+          "id": 21660,
+          "name": "干涸之地",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：0 100 -1 2 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 1360,
+      "battleGuide": "大地尘封强化特攻与双防，干涸之地削弱双攻。消除强化，必要时替换被弱化精灵。"
+    },
+    {
+      "petId": 1370,
+      "name": "小珊",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 333,
+        "mapName": "普雷空间站",
+        "param2": 8,
+        "bossPetId": 1371,
+        "sptId": 107,
+        "rewardItemId": 400412,
+        "hatchPetId": 1370,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13190,
+          "name": "凌风冲刺",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 15 1）"
+        },
+        {
+          "id": 13193,
+          "name": "登云破空闪",
+          "meaning": "X%令对方Y能力等级Z；若先出手，则W%使对方V能力等级U（配置参数：5 10 -1 5 20 -2）"
+        },
+        {
+          "id": 21677,
+          "name": "羽之舞",
+          "meaning": "解除自身所有的能力下降状态；恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：3）"
+        },
+        {
+          "id": 21678,
+          "name": "踏云振翅",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 1 4 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1371,
+      "battleGuide": "羽之舞解除自身弱化并回复体力，踏云振翅强化特攻与速度。用消强化和持续输出应对，不依赖弱化。"
+    },
+    {
+      "petId": 1404,
+      "name": "迪迪",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 62,
+        "mapName": "暗之迷城",
+        "param2": 8,
+        "bossPetId": 1405,
+        "sptId": 108,
+        "rewardItemId": 400429,
+        "hatchPetId": 1404,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13243,
+          "name": "黑魔利爪",
+          "meaning": "命中时，有X%几率令对方陷入害怕状态（配置参数：10）"
+        },
+        {
+          "id": 13246,
+          "name": "黑翼断空破",
+          "meaning": "先出手时，额外附加X点固定伤害（配置参数：30）"
+        },
+        {
+          "id": 21705,
+          "name": "回声定位",
+          "meaning": "X%几率令自身的[能力]等级±Y；X回合内，令自身的攻击伤害增加Y%（配置参数：5 100 2 1 2）"
+        },
+        {
+          "id": 21706,
+          "name": "幽暗之风",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：0 100 -1 2 100 -1 4 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 1405,
+      "battleGuide": "回声定位强化命中并提高攻击伤害，幽暗之风削弱双攻和速度。消除强化，替换被削弱的精灵。"
+    },
+    {
+      "petId": 1415,
+      "name": "珊奇",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 21,
+        "mapName": "海洋星深水区",
+        "param2": 7,
+        "bossPetId": 1416,
+        "sptId": 109,
+        "rewardItemId": 400433,
+        "hatchPetId": 1415,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13286,
+          "name": "波纹强击",
+          "meaning": "攻击技能，无配置附加效果"
+        },
+        {
+          "id": 13289,
+          "name": "水舞天翔",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        },
+        {
+          "id": 21734,
+          "name": "贮能聚水",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力；X%令自身陷入疲惫状态，Y回合无法行动（配置参数：1 100 1）"
+        },
+        {
+          "id": 21735,
+          "name": "弱化水泡",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：0 100 -1 2 100 -1 4 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 1416,
+      "battleGuide": "贮能聚水回满体力但令自身疲惫，弱化水泡削弱双攻和速度。趁疲惫回合进攻，必要时替换被弱化精灵。"
+    },
+    {
+      "petId": 1423,
+      "name": "玛尔科",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "existingWild",
+      "source": {
+        "kind": "wild",
+        "mapId": 793,
+        "mapName": "梦幻空间",
+        "petId": 1423
+      },
+      "skillEvidence": [
+        {
+          "id": 13311,
+          "name": "酸蚀触手",
+          "category": "2",
+          "power": "115",
+          "sideEffect": "11",
+          "sideEffectArg": "15",
+          "meaning": "命中时，有X%几率令对方陷入中毒状态（配置参数：15）"
+        },
+        {
+          "id": 21748,
+          "name": "螺栓增压器",
+          "category": "4",
+          "power": "0",
+          "sideEffect": "4 4",
+          "sideEffectArg": "0 100 1 2 100 1 5 100 1",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 1 2 100 1 5 100 1）"
+        },
+        {
+          "id": 13309,
+          "name": "脉冲强袭",
+          "category": "1",
+          "power": "130",
+          "sideEffect": "",
+          "sideEffectArg": "",
+          "meaning": "无配置附加效果"
+        },
+        {
+          "id": 13312,
+          "name": "集束火箭弹",
+          "category": "2",
+          "power": "140",
+          "sideEffect": "",
+          "sideEffectArg": "",
+          "meaning": "无配置附加效果"
+        }
+      ],
+      "skillEvidencePetId": 1424
+    },
+    {
+      "petId": 1425,
+      "name": "维恩",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 446,
+        "mapName": "炫彩山岩",
+        "param2": 8,
+        "bossPetId": 1427,
+        "sptId": 110,
+        "rewardItemId": 400436,
+        "hatchPetId": 1425,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13317,
+          "name": "烈火爆炎",
+          "meaning": "解除自身所有的能力下降状态"
+        },
+        {
+          "id": 13315,
+          "name": "狂火天裂击",
+          "meaning": "连续使用时，每次威力增加X，最高增加Y（配置参数：20 60）"
+        },
+        {
+          "id": 21750,
+          "name": "火之神韵",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：2）"
+        },
+        {
+          "id": 21751,
+          "name": "火舞天行",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 1 4 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1427,
+      "battleGuide": "火之神韵回复半血，火舞天行强化攻击与速度，烈火爆炎解除自身弱化。消除强化并压制回复，不依赖弱化。"
+    },
+    {
+      "petId": 1429,
+      "name": "哈德莱斯",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 329,
+        "mapName": "潘迪拉宝盒",
+        "param2": 8,
+        "bossPetId": 1429,
+        "sptId": 111,
+        "rewardItemId": 400452,
+        "hatchPetId": 1429,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13321,
+          "name": "万花拳",
+          "meaning": "命中时，有X%几率令对方陷入睡眠状态（配置参数：15）"
+        },
+        {
+          "id": 13323,
+          "name": "狂战荆棘刺",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 15 1）"
+        },
+        {
+          "id": 21754,
+          "name": "战意激增",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2 5 100 2）"
+        },
+        {
+          "id": 21755,
+          "name": "战能吞噬",
+          "meaning": "X%几率令对方的[能力]等级±Y；X%几率令自身的[能力]等级±Y（配置参数：0 100 -1 2 100 -1 4 100 -1 0 100 1 2 100 1 4 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1429,
+      "battleGuide": "战意激增强化特攻和命中，战能吞噬削弱对方双攻与速度并强化自身。及时消强化，替换被削弱的精灵。"
+    },
+    {
+      "petId": 1430,
+      "name": "洛达尔",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 437,
+        "mapName": "墨杜萨星",
+        "param2": 8,
+        "bossPetId": 1431,
+        "sptId": 112,
+        "rewardItemId": 400450,
+        "hatchPetId": 1430,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13327,
+          "name": "地崩山摧",
+          "meaning": "X%几率额外附加Y点固定伤害（配置参数：10 150）"
+        },
+        {
+          "id": 13326,
+          "name": "巨岩开山击",
+          "meaning": "后出手时，X%使自身Y能力提升Z个等级（配置参数：1 30 1）"
+        },
+        {
+          "id": 21757,
+          "name": "超强耐力",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力；X%令自身陷入疲惫状态，Y回合无法行动（配置参数：1 100 1）"
+        },
+        {
+          "id": 21758,
+          "name": "岩石武装",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 1 1 100 1 2 100 1 3 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1431,
+      "battleGuide": "岩石武装强化双攻和双防，超强耐力回满体力但令自身疲惫。消除强化，趁疲惫回合集中输出。"
+    },
+    {
+      "petId": 1438,
+      "name": "丽娜",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 447,
+        "mapName": "云水洞",
+        "param2": 8,
+        "bossPetId": 1439,
+        "sptId": 113,
+        "rewardItemId": 400456,
+        "hatchPetId": 1438,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13341,
+          "name": "水之律动",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        },
+        {
+          "id": 13344,
+          "name": "水舞终乐章",
+          "meaning": "命中时，有X%几率令对方陷入睡眠状态（配置参数：15）"
+        },
+        {
+          "id": 21768,
+          "name": "英勇颂歌",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        },
+        {
+          "id": 21769,
+          "name": "咏叹调",
+          "meaning": "X%几率令自身的[能力]等级±Y；恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：1 100 1 3 100 1 4）"
+        }
+      ],
+      "skillEvidencePetId": 1439,
+      "battleGuide": "英勇颂歌强化双攻，咏叹调强化双防并回复体力，水舞终乐章可能造成睡眠。消除强化并准备解除睡眠。"
+    },
+    {
+      "petId": 1439,
+      "name": "丽娜丝",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 447,
+        "mapName": "云水洞",
+        "param2": 8,
+        "bossPetId": 1439,
+        "sptId": 113,
+        "rewardItemId": 400456,
+        "hatchPetId": 1438,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13341,
+          "name": "水之律动",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        },
+        {
+          "id": 13344,
+          "name": "水舞终乐章",
+          "meaning": "命中时，有X%几率令对方陷入睡眠状态（配置参数：15）"
+        },
+        {
+          "id": 21768,
+          "name": "英勇颂歌",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        },
+        {
+          "id": 21769,
+          "name": "咏叹调",
+          "meaning": "X%几率令自身的[能力]等级±Y；恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：1 100 1 3 100 1 4）"
+        }
+      ],
+      "skillEvidencePetId": 1439,
+      "battleGuide": "英勇颂歌强化双攻，咏叹调强化双防并回复体力，水舞终乐章可能造成睡眠。消除强化并准备解除睡眠。"
+    },
+    {
+      "petId": 1457,
+      "name": "师师",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 439,
+        "mapName": "海兹尔星",
+        "param2": 8,
+        "bossPetId": 1458,
+        "sptId": 114,
+        "rewardItemId": 400470,
+        "hatchPetId": 1457,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13383,
+          "name": "巨沙飞石",
+          "meaning": "解除自身所有的能力下降状态"
+        },
+        {
+          "id": 13381,
+          "name": "黄土地石击",
+          "meaning": "X%令自身陷入疲惫状态，Y回合无法行动（配置参数：10 1）"
+        },
+        {
+          "id": 21790,
+          "name": "风沙帐幕",
+          "meaning": "X%的概率，Y回合内受到的伤害减半（配置参数：100 3）"
+        },
+        {
+          "id": 21791,
+          "name": "浮沙之力",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 100 1 0 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1458,
+      "battleGuide": "风沙帐幕暂时减半伤害，浮沙之力强化攻击与速度，巨沙飞石解除自身弱化。等待防护结束后进攻并消强化。"
+    },
+    {
+      "petId": 1473,
+      "name": "亚梅迪丝",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 60,
+        "mapName": "塔克星",
+        "param2": 8,
+        "bossPetId": 1473,
+        "sptId": 115,
+        "rewardItemId": 403033,
+        "hatchPetId": 1473,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13412,
+          "name": "异动之光",
+          "meaning": "攻击技能，无配置附加效果"
+        },
+        {
+          "id": 13413,
+          "name": "圣域魔动光",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 21811,
+          "name": "万法归尘",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：2 3）"
+        },
+        {
+          "id": 21812,
+          "name": "重生之力",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：4 100 1 1 100 1 3 100 1 5 100 1）"
+        }
+      ],
+      "skillEvidencePetId": 1473,
+      "battleGuide": "圣域魔动光消除对方强化，万法归尘回复体力，重生之力强化双防、速度和命中。先消强化，持续输出压制回复。"
+    },
+    {
+      "petId": 1476,
+      "name": "弗西",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 48,
+        "mapName": "海盗要塞废墟",
+        "param2": 8,
+        "bossPetId": 1477,
+        "sptId": 116,
+        "rewardItemId": 400482,
+        "hatchPetId": 1476,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13420,
+          "name": "黑叶针尖",
+          "meaning": "命中时，有X%几率令对方陷入害怕状态（配置参数：10）"
+        },
+        {
+          "id": 13423,
+          "name": "残影叶刃闪",
+          "meaning": "若对手处于能力下降状态则附加X点伤害（配置参数：30）"
+        },
+        {
+          "id": 21817,
+          "name": "自然之怒",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 2 2 100 2）"
+        },
+        {
+          "id": 21818,
+          "name": "盘绕根茎",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：4 100 -2 0 100 -1 2 100 -1）"
+        }
+      ],
+      "skillEvidencePetId": 1477,
+      "battleGuide": "自然之怒强化双攻，盘绕根茎削弱对方速度及双攻，残影叶刃闪对弱化目标追加伤害。消除强化并替换被弱化精灵。"
+    },
+    {
+      "petId": 1483,
+      "name": "合金赛特",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 31,
+        "mapName": "赫尔卡星遗迹",
+        "param2": 8,
+        "bossPetId": 1484,
+        "sptId": 117,
+        "rewardItemId": 400478,
+        "hatchPetId": 1483,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 21113,
+          "name": "机械改良",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：0 100 1 1 100 1 2 100 1 3 100 1 4 100 1 5 100 1）"
+        },
+        {
+          "id": 12153,
+          "name": "净化之光",
+          "meaning": "消除对方所有的能力提升状态"
+        },
+        {
+          "id": 21112,
+          "name": "机甲修复",
+          "meaning": "恢复自身最大体力的1/n，取整后不超过缺失体力（配置参数：2）"
+        },
+        {
+          "id": 12155,
+          "name": "超能电磁炮",
+          "meaning": "属性相同时，X%几率让对方麻痹（配置参数：40）"
+        }
+      ],
+      "skillEvidencePetId": 1484,
+      "battleGuide": "需先击败赛伯斯特（SPT87）。机械改良强化五维，净化之光消除我方强化，机甲修复回复半血。开场双防+2、受到伤害减免20%，低于30%体力时攻击必定致命；先消强化并保留爆发收尾。"
+    },
+    {
+      "petId": 1493,
+      "name": "奥斯克",
+      "entryVerification": "pending",
+      "acquisitionVerification": "pending",
+      "disposition": "newBoss",
+      "source": {
+        "kind": "boss",
+        "mapId": 316,
+        "mapName": "精灵舱",
+        "param2": 8,
+        "bossPetId": 1494,
+        "sptId": 118,
+        "rewardItemId": 400485,
+        "hatchPetId": 1493,
+        "hatchLevel": 1
+      },
+      "skillEvidence": [
+        {
+          "id": 13455,
+          "name": "灵光之剑",
+          "meaning": "解除自身所有的能力下降状态"
+        },
+        {
+          "id": 13458,
+          "name": "日落天英",
+          "meaning": "X%几率令对方的[能力]等级±Y（配置参数：3 15 -1）"
+        },
+        {
+          "id": 21838,
+          "name": "光之守护",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：1 100 2 3 100 2）"
+        },
+        {
+          "id": 21839,
+          "name": "黎明曙光",
+          "meaning": "X%几率令自身的[能力]等级±Y（配置参数：2 100 2 5 100 2）"
+        }
+      ],
+      "skillEvidencePetId": 1494,
+      "battleGuide": "光之守护强化双防，黎明曙光强化特攻和命中，灵光之剑解除自身弱化。优先消强化，不依赖持续弱化。"
+    }
+  ],
+  "newBosses": [
+    {
+      "mapId": 30,
+      "param2": 8,
+      "petId": 361,
+      "petName": "艾丝柏",
+      "level": 65,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        10871,
+        20392,
+        10872,
+        20391
+      ],
+      "customHP": 2200,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 82,
+        "rewardItemId": 403025,
+        "noStand": true
+      },
+      "comment": "本服挑战：赫尔卡星击败艾丝柏，首次胜利获得精元403025，孵化360。 本服挑战机制与技能应对见提示。",
+      "hint": "【艾丝柏挑战】静电场削减最大体力的五分之一，浓缩电池回复满体力；开场特防+2。优先压制回复，使用物攻或消强化技能。",
+      "mechanics": {
+        "startStages": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 20,
+      "param2": 8,
+      "petId": 367,
+      "petName": "海纹蝶",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        10901,
+        10898,
+        20408,
+        20409
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 83,
+        "rewardItemId": 403026,
+        "noStand": true
+      },
+      "comment": "本服挑战：海洋星击败海纹蝶，首次胜利获得精元403026，孵化366。 本服挑战机制与技能应对见提示。",
+      "hint": "【海纹蝶挑战】坚守阵地降低物理伤害，冬眠回满体力但降低双攻。使用特攻，趁其弱化后持续压血。"
+    },
+    {
+      "mapId": 36,
+      "param2": 8,
+      "petId": 505,
+      "petName": "阿瑞斯",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        21895,
+        13554,
+        21894,
+        13550
+      ],
+      "customHP": 5000,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 84,
+        "rewardItemId": 403027,
+        "noStand": true
+      },
+      "comment": "本服挑战：精灵圣殿击败阿瑞斯，首次胜利获得精元403027，孵化505。 本服挑战机制与技能应对见提示。",
+      "hint": "【阿瑞斯挑战】六道轮回强化五维，苍茫永麟绝消除我方强化，魂之再生回满体力。开场攻击+2、速度+1；先消强化，避免依赖单次强化。",
+      "mechanics": {
+        "startStages": [
+          2,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 21,
+      "param2": 8,
+      "petId": 858,
+      "petName": "佐洛",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12066,
+        12064,
+        20714,
+        21061
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 85,
+        "rewardItemId": 400205,
+        "noStand": true
+      },
+      "comment": "本服挑战：海洋星深水区击败佐洛，首次胜利获得精元400205，孵化858。 本服挑战机制与技能应对见提示。",
+      "hint": "【佐洛挑战】偏激防守反弹伤害，横行无忌强化速度。反弹期间减少强攻，并用消强化限制速度。"
+    },
+    {
+      "mapId": 334,
+      "param2": 8,
+      "petId": 888,
+      "petName": "彼得华",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12131,
+        12134,
+        21101,
+        21102
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 86,
+        "rewardItemId": 400368,
+        "noStand": true
+      },
+      "comment": "本服挑战：几米塔击败彼得华，首次胜利获得精元400368，孵化887。 本服挑战机制与技能应对见提示。",
+      "hint": "【彼得华挑战】机械战盔强化双防，先进武器提高致命一击率；火箭导弹可能造成疲惫。先消强化，再留意疲惫回合。"
+    },
+    {
+      "mapId": 424,
+      "param2": 8,
+      "petId": 898,
+      "petName": "赛伯斯特",
+      "level": 75,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        21113,
+        12153,
+        21112,
+        12155
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 87,
+        "rewardItemId": 403028,
+        "noStand": true
+      },
+      "comment": "本服挑战：空间补给站击败赛伯斯特，首次胜利获得精元403028，孵化897。 本服挑战机制与技能应对见提示。",
+      "hint": "【赛伯斯特挑战】机械改良强化五维，净化之光消除我方强化，机甲修复回复半血。开场攻击+1、防御+2；先消强化，以特攻施压。",
+      "mechanics": {
+        "startStages": [
+          1,
+          2,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mapId": 25,
+      "param2": 8,
+      "petId": 912,
+      "petName": "哈尔克",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12184,
+        12183,
+        21126,
+        21127
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 88,
+        "rewardItemId": 403029,
+        "noStand": true
+      },
+      "comment": "本服挑战：云霄星击败哈尔克，首次胜利获得精元403029，孵化911。 本服挑战机制与技能应对见提示。",
+      "hint": "【哈尔克挑战】幻光击消除我方强化，翱翔之翼提高攻击，昏睡之舞使对方睡眠。先消其强化，准备应对睡眠。"
+    },
+    {
+      "mapId": 55,
+      "param2": 8,
+      "petId": 925,
+      "petName": "古尔扎迪",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12215,
+        12213,
+        21144,
+        21145
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 89,
+        "rewardItemId": 400225,
+        "noStand": true
+      },
+      "comment": "本服挑战：露希欧泥潭击败古尔扎迪，首次胜利获得精元400225，孵化924。 本服挑战机制与技能应对见提示。",
+      "hint": "【古尔扎迪挑战】巨石身躯强化攻击和双防但降低速度，毁灭之志提高致命率。消除强化，抓住速度下降窗口进攻。"
+    },
+    {
+      "mapId": 11,
+      "param2": 8,
+      "petId": 943,
+      "petName": "维尔克",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12249,
+        12252,
+        20588,
+        21166
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 90,
+        "rewardItemId": 400413,
+        "noStand": true
+      },
+      "comment": "本服挑战：克洛斯星沼泽击败维尔克，首次胜利获得精元400413，孵化941。 本服挑战机制与技能应对见提示。",
+      "hint": "【维尔克挑战】花草丛生强化特攻，绿色气息提升草系技能威力。消除其特攻强化，使用抗草属性应战。"
+    },
+    {
+      "mapId": 22,
+      "param2": 8,
+      "petId": 976,
+      "petName": "巴伯洛",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12323,
+        12326,
+        21208,
+        21209
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 91,
+        "rewardItemId": 400270,
+        "noStand": true
+      },
+      "comment": "本服挑战：海洋星海底击败巴伯洛，首次胜利获得精元400270，孵化975。 本服挑战机制与技能应对见提示。",
+      "hint": "【巴伯洛挑战】水源补给回复半血，魔法气泡强化特攻和命中。先消强化，集中输出压制回复。"
+    },
+    {
+      "mapId": 64,
+      "param2": 8,
+      "petId": 1025,
+      "petName": "莫拉坦",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12424,
+        12422,
+        20279,
+        21264
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 92,
+        "rewardItemId": 400245,
+        "noStand": true
+      },
+      "comment": "本服挑战：沙漠窑洞击败莫拉坦，首次胜利获得精元400245，孵化1024。 本服挑战机制与技能应对见提示。",
+      "hint": "【莫拉坦挑战】能量汇聚强化双攻，固若金汤提供防护。消除双攻强化，并避免把输出集中在防护回合。"
+    },
+    {
+      "mapId": 550,
+      "param2": 8,
+      "petId": 1055,
+      "petName": "佩罗姆",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12477,
+        12480,
+        21288,
+        21289
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 93,
+        "rewardItemId": 400251,
+        "noStand": true
+      },
+      "comment": "本服挑战：克洛斯星的湿地击败佩罗姆，首次胜利获得精元400251，孵化1054。 本服挑战机制与技能应对见提示。",
+      "hint": "【佩罗姆挑战】机甲升级强化特攻与双防，干扰弹削弱对方能力，合金风暴解除自身弱化。优先消强化，不依赖持续弱化。"
+    },
+    {
+      "mapId": 56,
+      "param2": 8,
+      "petId": 1061,
+      "petName": "阿加莎",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12491,
+        12495,
+        21295,
+        21296
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 94,
+        "rewardItemId": 400256,
+        "noStand": true
+      },
+      "comment": "本服挑战：NoNo之洋击败阿加莎，首次胜利获得精元400256，孵化1060。 本服挑战机制与技能应对见提示。",
+      "hint": "【阿加莎挑战】魔幻花种强化特攻和速度，荆棘陷阱削弱双防和速度。先消强化，及时替换被削弱的精灵。"
+    },
+    {
+      "mapId": 330,
+      "param2": 8,
+      "petId": 1134,
+      "petName": "丽丽苗",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12663,
+        12665,
+        21385,
+        11686
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 95,
+        "rewardItemId": 400351,
+        "noStand": true
+      },
+      "comment": "本服挑战：斯科尔浮岛击败丽丽苗，首次胜利获得精元400351，孵化1132。 本服挑战机制与技能应对见提示。",
+      "hint": "【丽丽苗挑战】干扰粉削弱速度和命中，宁静之雨消除对方强化。避免依赖长期强化，命中下降时考虑替换精灵。"
+    },
+    {
+      "mapId": 404,
+      "param2": 8,
+      "petId": 1145,
+      "petName": "麦古古",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12691,
+        12694,
+        21401,
+        21402
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 96,
+        "rewardItemId": 400386,
+        "noStand": true
+      },
+      "comment": "本服挑战：比格星击败麦古古，首次胜利获得精元400386，孵化1144。 本服挑战机制与技能应对见提示。",
+      "hint": "【麦古古挑战】祈愿强化特攻，麦田卫士削弱双防与速度，不屈守护回复体力。消除强化并持续压制回复。"
+    },
+    {
+      "mapId": 326,
+      "param2": 8,
+      "petId": 1191,
+      "petName": "普兰特",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12793,
+        12796,
+        21450,
+        21451
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 97,
+        "rewardItemId": 400313,
+        "noStand": true
+      },
+      "comment": "本服挑战：暮色之城击败普兰特，首次胜利获得精元400313，孵化1190。 本服挑战机制与技能应对见提示。",
+      "hint": "【普兰特挑战】藤蔓守护减半物理伤害，灵光缠绕可能造成睡眠，虚空魔刺可能中毒。使用特攻并准备解除异常。"
+    },
+    {
+      "mapId": 315,
+      "param2": 8,
+      "petId": 1204,
+      "petName": "迈尔斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12906,
+        12902,
+        21510,
+        21511
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 98,
+        "rewardItemId": 400395,
+        "noStand": true
+      },
+      "comment": "本服挑战：神秘空间击败迈尔斯，首次胜利获得精元400395，孵化1203。 本服挑战机制与技能应对见提示。",
+      "hint": "【迈尔斯挑战】八荒解除自身弱化并消除对方强化，乾坤圣灵绝减少对方技能PP。避免依赖强化和弱化，准备多只精灵轮换。"
+    },
+    {
+      "mapId": 43,
+      "param2": 8,
+      "petId": 1212,
+      "petName": "巴里修斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        12827,
+        12831,
+        21469,
+        21470
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 99,
+        "rewardItemId": 400314,
+        "noStand": true
+      },
+      "comment": "本服挑战：赫尔卡飞船击败巴里修斯，首次胜利获得精元400314，孵化1211。 本服挑战机制与技能应对见提示。",
+      "hint": "【巴里修斯挑战】雷霆烈焰闪消除对方强化，雷炎之怒强化特攻与速度，怒雷天火可能烧伤或麻痹。消除其强化并准备解除异常。"
+    },
+    {
+      "mapId": 313,
+      "param2": 8,
+      "petId": 1308,
+      "petName": "袋拉拉",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13046,
+        13044,
+        20888,
+        21595
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 100,
+        "rewardItemId": 400367,
+        "noStand": true
+      },
+      "comment": "本服挑战：闭锁空间击败袋拉拉，首次胜利获得精元400367，孵化1307。 本服挑战机制与技能应对见提示。",
+      "hint": "【袋拉拉挑战】聚力强化双攻，大地斗气消除对方强化，地魂护体在对手使用属性技能时回复体力。先消强化，避免连续使用属性技能。"
+    },
+    {
+      "mapId": 32,
+      "param2": 8,
+      "petId": 1319,
+      "petName": "罗伯特",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13063,
+        13066,
+        21603,
+        21604
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 101,
+        "rewardItemId": 400379,
+        "noStand": true
+      },
+      "comment": "本服挑战：赫尔卡星荒地击败罗伯特，首次胜利获得精元400379，孵化1318。 本服挑战机制与技能应对见提示。",
+      "hint": "【罗伯特挑战】急速回旋使物理攻击暂时无法命中，机甲改造强化双防和速度。使用特攻并消除强化。"
+    },
+    {
+      "mapId": 328,
+      "param2": 8,
+      "petId": 1325,
+      "petName": "玛可",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13089,
+        13088,
+        21618,
+        21619
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 102,
+        "rewardItemId": 403030,
+        "noStand": true
+      },
+      "comment": "本服挑战：斯科尔星击败玛可，首次胜利获得精元403030，孵化1324。 本服挑战机制与技能应对见提示。",
+      "hint": "【玛可挑战】发怒强化攻击和防御，倔强使攻击者双攻下降。消除强化，必要时替换被弱化的精灵。"
+    },
+    {
+      "mapId": 46,
+      "param2": 8,
+      "petId": 1337,
+      "petName": "机械塔克林",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        21632,
+        13117,
+        20337,
+        13118
+      ],
+      "customHP": 4500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 103,
+        "rewardItemId": 400402,
+        "noStand": true
+      },
+      "comment": "本服挑战：海盗能源站击败机械塔克林，首次胜利获得精元400402，孵化1337。 本服挑战机制与技能应对见提示。",
+      "hint": "【机械塔克林挑战】进攻武装强化攻击，破碎龙吟消除对方强化，龙性图腾回满体力。开场双防+2，体力低于30%时攻击必定致命；先消强化并保留爆发收尾。",
+      "mechanics": {
+        "startStages": [
+          0,
+          2,
+          0,
+          2,
+          0,
+          0
+        ],
+        "lowHpCritPercent": 30
+      }
+    },
+    {
+      "mapId": 49,
+      "param2": 8,
+      "petId": 1346,
+      "petName": "格鲁斯特",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13141,
+        13142,
+        21645,
+        21646
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 104,
+        "rewardItemId": 403031,
+        "noStand": true
+      },
+      "comment": "本服挑战：贝塔星荒原击败格鲁斯特，首次胜利获得精元403031，孵化1346。 本服挑战机制与技能应对见提示。",
+      "hint": "【格鲁斯特挑战】雪舞狂沙消除对方强化，地心引力强化命中并造成持续固定伤害，流沙阵削弱双攻和速度。避免依赖强化，及时替换被弱化精灵。"
+    },
+    {
+      "mapId": 41,
+      "param2": 8,
+      "petId": 1354,
+      "petName": "斯克鲁",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13158,
+        13156,
+        21667,
+        21653
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 105,
+        "rewardItemId": 400411,
+        "noStand": true
+      },
+      "comment": "本服挑战：寒冰溶洞击败斯克鲁，首次胜利获得精元400411，孵化1353。 本服挑战机制与技能应对见提示。",
+      "hint": "【斯克鲁挑战】极寒之志强化双攻，冰封时刻可能冻伤，寒冰破碎拳对冻伤目标追加伤害。消除强化并及时解除冻伤。"
+    },
+    {
+      "mapId": 429,
+      "param2": 8,
+      "petId": 1360,
+      "petName": "米尤拉",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13163,
+        13166,
+        21659,
+        21660
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 106,
+        "rewardItemId": 403032,
+        "noStand": true
+      },
+      "comment": "本服挑战：拓梯星击败米尤拉，首次胜利获得精元403032，孵化1359。 本服挑战机制与技能应对见提示。",
+      "hint": "【米尤拉挑战】大地尘封强化特攻与双防，干涸之地削弱双攻。消除强化，必要时替换被弱化精灵。"
+    },
+    {
+      "mapId": 333,
+      "param2": 8,
+      "petId": 1371,
+      "petName": "珊珊",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13190,
+        13193,
+        21677,
+        21678
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 107,
+        "rewardItemId": 400412,
+        "noStand": true
+      },
+      "comment": "本服挑战：普雷空间站击败珊珊，首次胜利获得精元400412，孵化1370。 本服挑战机制与技能应对见提示。",
+      "hint": "【珊珊挑战】羽之舞解除自身弱化并回复体力，踏云振翅强化特攻与速度。用消强化和持续输出应对，不依赖弱化。"
+    },
+    {
+      "mapId": 62,
+      "param2": 8,
+      "petId": 1405,
+      "petName": "迪维拉",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13243,
+        13246,
+        21705,
+        21706
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 108,
+        "rewardItemId": 400429,
+        "noStand": true
+      },
+      "comment": "本服挑战：暗之迷城击败迪维拉，首次胜利获得精元400429，孵化1404。 本服挑战机制与技能应对见提示。",
+      "hint": "【迪维拉挑战】回声定位强化命中并提高攻击伤害，幽暗之风削弱双攻和速度。消除强化，替换被削弱的精灵。"
+    },
+    {
+      "mapId": 21,
+      "param2": 7,
+      "petId": 1416,
+      "petName": "珊克斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13286,
+        13289,
+        21734,
+        21735
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 109,
+        "rewardItemId": 400433,
+        "noStand": true
+      },
+      "comment": "本服挑战：海洋星深水区击败珊克斯，首次胜利获得精元400433，孵化1415。 本服挑战机制与技能应对见提示。",
+      "hint": "【珊克斯挑战】贮能聚水回满体力但令自身疲惫，弱化水泡削弱双攻和速度。趁疲惫回合进攻，必要时替换被弱化精灵。"
+    },
+    {
+      "mapId": 446,
+      "param2": 8,
+      "petId": 1427,
+      "petName": "格维恩",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13317,
+        13315,
+        21750,
+        21751
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 110,
+        "rewardItemId": 400436,
+        "noStand": true
+      },
+      "comment": "本服挑战：炫彩山岩击败格维恩，首次胜利获得精元400436，孵化1425。 本服挑战机制与技能应对见提示。",
+      "hint": "【格维恩挑战】火之神韵回复半血，火舞天行强化攻击与速度，烈火爆炎解除自身弱化。消除强化并压制回复，不依赖弱化。"
+    },
+    {
+      "mapId": 329,
+      "param2": 8,
+      "petId": 1429,
+      "petName": "哈德莱斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13321,
+        13323,
+        21754,
+        21755
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 111,
+        "rewardItemId": 400452,
+        "noStand": true
+      },
+      "comment": "本服挑战：潘迪拉宝盒击败哈德莱斯，首次胜利获得精元400452，孵化1429。 本服挑战机制与技能应对见提示。",
+      "hint": "【哈德莱斯挑战】战意激增强化特攻和命中，战能吞噬削弱对方双攻与速度并强化自身。及时消强化，替换被削弱的精灵。"
+    },
+    {
+      "mapId": 437,
+      "param2": 8,
+      "petId": 1431,
+      "petName": "洛拉斯克",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13327,
+        13326,
+        21757,
+        21758
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 112,
+        "rewardItemId": 400450,
+        "noStand": true
+      },
+      "comment": "本服挑战：墨杜萨星击败洛拉斯克，首次胜利获得精元400450，孵化1430。 本服挑战机制与技能应对见提示。",
+      "hint": "【洛拉斯克挑战】岩石武装强化双攻和双防，超强耐力回满体力但令自身疲惫。消除强化，趁疲惫回合集中输出。"
+    },
+    {
+      "mapId": 447,
+      "param2": 8,
+      "petId": 1439,
+      "petName": "丽娜丝",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13341,
+        13344,
+        21768,
+        21769
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 113,
+        "rewardItemId": 400456,
+        "noStand": true
+      },
+      "comment": "本服挑战：云水洞击败丽娜丝，首次胜利获得精元400456，孵化1438。 本服挑战机制与技能应对见提示。",
+      "hint": "【丽娜丝挑战】英勇颂歌强化双攻，咏叹调强化双防并回复体力，水舞终乐章可能造成睡眠。消除强化并准备解除睡眠。"
+    },
+    {
+      "mapId": 439,
+      "param2": 8,
+      "petId": 1458,
+      "petName": "阿切尔",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13383,
+        13381,
+        21790,
+        21791
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 114,
+        "rewardItemId": 400470,
+        "noStand": true
+      },
+      "comment": "本服挑战：海兹尔星击败阿切尔，首次胜利获得精元400470，孵化1457。 本服挑战机制与技能应对见提示。",
+      "hint": "【阿切尔挑战】风沙帐幕暂时减半伤害，浮沙之力强化攻击与速度，巨沙飞石解除自身弱化。等待防护结束后进攻并消强化。"
+    },
+    {
+      "mapId": 60,
+      "param2": 8,
+      "petId": 1473,
+      "petName": "亚梅迪丝",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13412,
+        13413,
+        21811,
+        21812
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 115,
+        "rewardItemId": 403033,
+        "noStand": true
+      },
+      "comment": "本服挑战：塔克星击败亚梅迪丝，首次胜利获得精元403033，孵化1473。 本服挑战机制与技能应对见提示。",
+      "hint": "【亚梅迪丝挑战】圣域魔动光消除对方强化，万法归尘回复体力，重生之力强化双防、速度和命中。先消强化，持续输出压制回复。"
+    },
+    {
+      "mapId": 48,
+      "param2": 8,
+      "petId": 1477,
+      "petName": "弗希斯",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13420,
+        13423,
+        21817,
+        21818
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 116,
+        "rewardItemId": 400482,
+        "noStand": true
+      },
+      "comment": "本服挑战：海盗要塞废墟击败弗希斯，首次胜利获得精元400482，孵化1476。 本服挑战机制与技能应对见提示。",
+      "hint": "【弗希斯挑战】自然之怒强化双攻，盘绕根茎削弱对方速度及双攻，残影叶刃闪对弱化目标追加伤害。消除强化并替换被弱化精灵。"
+    },
+    {
+      "mapId": 31,
+      "param2": 8,
+      "petId": 1484,
+      "petName": "合金赛伯斯特",
+      "level": 85,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        21113,
+        12153,
+        21112,
+        12155
+      ],
+      "customHP": 5500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 117,
+        "rewardItemId": 400478,
+        "noStand": true
+      },
+      "comment": "本服挑战：赫尔卡星遗迹击败合金赛伯斯特，首次胜利获得精元400478，孵化1483。 本服挑战机制与技能应对见提示。",
+      "hint": "【合金赛伯斯特】先胜赛伯斯特。双防+2、减伤20%，体力低于30%必暴击；会强化五维、清强、回半血。先消强，留爆发收尾。",
+      "mechanics": {
+        "startStages": [
+          0,
+          2,
+          0,
+          2,
+          0,
+          0
+        ],
+        "damageReductionPercent": 20,
+        "lowHpCritPercent": 30
+      },
+      "requiredBosses": [
+        {
+          "sptId": 87,
+          "name": "赛伯斯特"
+        }
+      ]
+    },
+    {
+      "mapId": 316,
+      "param2": 8,
+      "petId": 1494,
+      "petName": "奥克威",
+      "level": 80,
+      "dv": 31,
+      "ev": 0,
+      "nature": 0,
+      "abilities": [],
+      "skills": [
+        13455,
+        13458,
+        21838,
+        21839
+      ],
+      "customHP": 3500,
+      "drops": [],
+      "rewards": {
+        "exp": 2500,
+        "coins": 1000
+      },
+      "spt": {
+        "sptId": 118,
+        "rewardItemId": 400485,
+        "noStand": true
+      },
+      "comment": "本服挑战：精灵舱击败奥克威，首次胜利获得精元400485，孵化1493。 本服挑战机制与技能应对见提示。",
+      "hint": "【奥克威挑战】光之守护强化双防，黎明曙光强化特攻和命中，灵光之剑解除自身弱化。优先消强化，不依赖持续弱化。"
+    }
+  ],
+  "newEssences": [
+    {
+      "ID": "403025",
+      "Name": "艾丝柏的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "360",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403026",
+      "Name": "海纹蝶的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "366",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403027",
+      "Name": "阿瑞斯的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "505",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403028",
+      "Name": "赛伯斯特的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "897",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403029",
+      "Name": "哈尔克的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "911",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403030",
+      "Name": "玛可的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "1324",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403031",
+      "Name": "格鲁斯特的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "1346",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403032",
+      "Name": "米尤拉的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "1359",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    },
+    {
+      "ID": "403033",
+      "Name": "亚梅迪丝的精元",
+      "Price": "0",
+      "Max": "99",
+      "Tradability": "0",
+      "VipTradability": "0",
+      "BreedTime": "1800",
+      "VipBreedTime": "1800",
+      "BreedMonID": "1473",
+      "BreedMonLv": "1",
+      "wd": "1",
+      "UseMax": "1",
+      "LifeTime": "0",
+      "purpose": "1",
+      "Bean": "0",
+      "Hide": "0",
+      "Sort": "8"
+    }
+  ],
+  "bossSpawns": [
+    {
+      "mapId": 30,
+      "entry": {
+        "slot": 8,
+        "petId": 361,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 65,
+        "maxLevel": 65,
+        "level": 65,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 20,
+      "entry": {
+        "slot": 8,
+        "petId": 367,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 36,
+      "entry": {
+        "slot": 8,
+        "petId": 505,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 85,
+        "maxLevel": 85,
+        "level": 85,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 21,
+      "entry": {
+        "slot": 8,
+        "petId": 858,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 334,
+      "entry": {
+        "slot": 8,
+        "petId": 888,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 424,
+      "entry": {
+        "slot": 8,
+        "petId": 898,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 75,
+        "maxLevel": 75,
+        "level": 75,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 25,
+      "entry": {
+        "slot": 8,
+        "petId": 912,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 55,
+      "entry": {
+        "slot": 8,
+        "petId": 925,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 11,
+      "entry": {
+        "slot": 8,
+        "petId": 943,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 22,
+      "entry": {
+        "slot": 8,
+        "petId": 976,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 64,
+      "entry": {
+        "slot": 8,
+        "petId": 1025,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 550,
+      "entry": {
+        "slot": 8,
+        "petId": 1055,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 56,
+      "entry": {
+        "slot": 8,
+        "petId": 1061,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 330,
+      "entry": {
+        "slot": 8,
+        "petId": 1134,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 404,
+      "entry": {
+        "slot": 8,
+        "petId": 1145,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 326,
+      "entry": {
+        "slot": 8,
+        "petId": 1191,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 315,
+      "entry": {
+        "slot": 8,
+        "petId": 1204,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 43,
+      "entry": {
+        "slot": 8,
+        "petId": 1212,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 313,
+      "entry": {
+        "slot": 8,
+        "petId": 1308,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 32,
+      "entry": {
+        "slot": 8,
+        "petId": 1319,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 328,
+      "entry": {
+        "slot": 8,
+        "petId": 1325,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 46,
+      "entry": {
+        "slot": 8,
+        "petId": 1337,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 49,
+      "entry": {
+        "slot": 8,
+        "petId": 1346,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 41,
+      "entry": {
+        "slot": 8,
+        "petId": 1354,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 429,
+      "entry": {
+        "slot": 8,
+        "petId": 1360,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 333,
+      "entry": {
+        "slot": 8,
+        "petId": 1371,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 62,
+      "entry": {
+        "slot": 8,
+        "petId": 1405,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 21,
+      "entry": {
+        "slot": 7,
+        "petId": 1416,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 446,
+      "entry": {
+        "slot": 8,
+        "petId": 1427,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 329,
+      "entry": {
+        "slot": 8,
+        "petId": 1429,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 437,
+      "entry": {
+        "slot": 8,
+        "petId": 1431,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 447,
+      "entry": {
+        "slot": 8,
+        "petId": 1439,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 439,
+      "entry": {
+        "slot": 8,
+        "petId": 1458,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 60,
+      "entry": {
+        "slot": 8,
+        "petId": 1473,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 48,
+      "entry": {
+        "slot": 8,
+        "petId": 1477,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 31,
+      "entry": {
+        "slot": 8,
+        "petId": 1484,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 85,
+        "maxLevel": 85,
+        "level": 85,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    },
+    {
+      "mapId": 316,
+      "entry": {
+        "slot": 8,
+        "petId": 1494,
+        "shiny": 0,
+        "weight": 100,
+        "refreshConfig": {
+          "enabled": true,
+          "refreshInterval": 10,
+          "refreshOnEmpty": false,
+          "refreshAtNight": true,
+          "refreshAtDay": true,
+          "startTime": "00:00",
+          "endTime": "23:59",
+          "useInterval": true,
+          "useSchedule": false,
+          "scheduleTime": [],
+          "shinyRate": 0,
+          "shinyPetId": -1
+        },
+        "minLevel": 80,
+        "maxLevel": 80,
+        "level": 80,
+        "expReward": 2500,
+        "catchRate": 0,
+        "expMultiplier": 1,
+        "catchable": false,
+        "dropItems": [],
+        "isBoss": true
+      }
+    }
+  ],
+  "checks": {
+    "priorityRoutes": 49,
+    "familyBosses": 37,
+    "newEssences": 9,
+    "sptAllocation": {
+      "compatMaximum": 81,
+      "sptXml": "spt.xml为Monsters精灵表，无sptId属性；未发现历史SPT号",
+      "first": 82,
+      "last": 118,
+      "limit": 200
+    },
+    "itemAllocation": {
+      "source": "items.xml全表及compat文本物品编号扫描",
+      "newIds": [
+        403025,
+        403026,
+        403027,
+        403028,
+        403029,
+        403030,
+        403031,
+        403032,
+        403033
+      ],
+      "reusedBreedMonID": "精元优先匹配BreedMonID与BreedMonLv=1"
+    },
+    "mapSlots": {
+      "method": "基线Core MapConfig与MapXML已注册、OgreXMLInfo有对应坐标；排除已有及本批Boss region冲突。海洋星深水区使用region7和8，其余每图一个新增Boss，保留普通最大刷新槽位。",
+      "ordinarySlots": "扣除Boss槽后仍能满足普通maxCount",
+      "entryVerification": "pending"
+    },
+    "fusionParent1216": "56普通野外可重复捕捉，由普通路线文件提供；618保留550湿地普通捕捉",
+    "entryVerification": "pending",
+    "acquisitionVerification": "pending",
+    "essenceHatching": "新增精元普通及会员孵化时间均1800秒",
+    "bossMechanics": "五个重点挑战使用明确机制；其余挑战区别来自各自已配置的技能，不按序号轮换机制或血量",
+    "bossPositions": "37组分布36图；Core须追加对应boss region坐标，海洋星深水区珊克斯使用region7，其他使用region8。实际可达和点击由独立证据记录；地图550使用滚动地图世界坐标。"
+  },
+  "bossPositions": [
+    {
+      "mapId": 30,
+      "region": 8,
+      "x": 448,
+      "y": 341,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 20,
+      "region": 8,
+      "x": 760,
+      "y": 445,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 36,
+      "region": 8,
+      "x": 727,
+      "y": 158,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 21,
+      "region": 8,
+      "x": 704,
+      "y": 429,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 334,
+      "region": 8,
+      "x": 410,
+      "y": 70,
+      "baselinePoint": "829,409",
+      "source": "原生地图上层入口平台，距出生点370,30小于60；避开下层隔断",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 424,
+      "region": 8,
+      "x": 850,
+      "y": 194,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 25,
+      "region": 8,
+      "x": 405,
+      "y": 201,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 55,
+      "region": 8,
+      "x": 613,
+      "y": 329,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 11,
+      "region": 8,
+      "x": 700,
+      "y": 260,
+      "baselinePoint": "655,455",
+      "source": "原生地图上层入口平台，距出生点735,240小于60；避开沼泽下层",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 22,
+      "region": 8,
+      "x": 796,
+      "y": 267,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 64,
+      "region": 8,
+      "x": 739,
+      "y": 340,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 550,
+      "region": 8,
+      "x": 834,
+      "y": 833,
+      "baselinePoint": "1775,565",
+      "source": "原生实测：从地图出生点可步行到达的湿地通道；保留原始远端站位作为基线校验",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 56,
+      "region": 8,
+      "x": 730,
+      "y": 427,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 330,
+      "region": 8,
+      "x": 655,
+      "y": 456,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 404,
+      "region": 8,
+      "x": 520,
+      "y": 400,
+      "baselinePoint": "450,570",
+      "source": "原生地图入口附近，距出生点470,420小于60；避开底部工具栏",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 326,
+      "region": 8,
+      "x": 817,
+      "y": 314,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 315,
+      "region": 8,
+      "x": 770,
+      "y": 322,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 43,
+      "region": 8,
+      "x": 792,
+      "y": 337,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 313,
+      "region": 8,
+      "x": 795,
+      "y": 245,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 32,
+      "region": 8,
+      "x": 385,
+      "y": 315,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 328,
+      "region": 8,
+      "x": 848,
+      "y": 405,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 46,
+      "region": 8,
+      "x": 200,
+      "y": 350,
+      "baselinePoint": "720,185",
+      "source": "原生实测：左侧入口地面可达；原第九点位于被地形隔开的上层平台",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 49,
+      "region": 8,
+      "x": 745,
+      "y": 345,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 41,
+      "region": 8,
+      "x": 590,
+      "y": 457,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 429,
+      "region": 8,
+      "x": 300,
+      "y": 329,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 333,
+      "region": 8,
+      "x": 200,
+      "y": 200,
+      "baselinePoint": "838,272",
+      "source": "原生地图左侧平台，已实走到达200,200；避开右侧隔断",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 62,
+      "region": 8,
+      "x": 839,
+      "y": 375,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 21,
+      "region": 7,
+      "x": 688,
+      "y": 232,
+      "source": "基线Core OgreXMLInfo <ogre> pList[7]；距入口663,217小于60。原926原生点击不可用，改到同水系地图独立区域。",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 446,
+      "region": 8,
+      "x": 427,
+      "y": 168,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 329,
+      "region": 8,
+      "x": 848,
+      "y": 405,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 437,
+      "region": 8,
+      "x": 550,
+      "y": 360,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 447,
+      "region": 8,
+      "x": 69,
+      "y": 357,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 439,
+      "region": 8,
+      "x": 193,
+      "y": 382,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 60,
+      "region": 8,
+      "x": 900,
+      "y": 335,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 48,
+      "region": 8,
+      "x": 479,
+      "y": 365,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 31,
+      "region": 8,
+      "x": 820,
+      "y": 157,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    },
+    {
+      "mapId": 316,
+      "region": 8,
+      "x": 770,
+      "y": 322,
+      "source": "基线Core OgreXMLInfo <ogre> pList[8]",
+      "entryVerification": "pending"
+    }
+  ]
+}

@@ -24,9 +24,9 @@ package com.robot.app.mapProcess
    import com.robot.core.ui.*;
    import com.robot.core.ui.alert.*;
    import com.robot.core.utils.CommonUI;
-   import flash.filters.GlowFilter;
    import flash.display.*;
    import flash.events.*;
+   import flash.filters.GlowFilter;
    import flash.net.SharedObject;
    import flash.text.TextField;
    import flash.text.TextFormat;
@@ -85,18 +85,8 @@ package com.robot.app.mapProcess
       
       private var docPlayGrapeMC:MovieClip;
 
-      private const exchangeGroups:Array = [["草",[243,387,682,688,722,799,809,840,919,982,1060,1100,1132,1144,1145,1146,1172,1190,1191,1192,1198,1199,1202,1216,1233,1271,1299,1300,1344,1345,1374,1375,1428,1429,1468,1469,1476,1495,1497]],["水",[108,289,497,502,544,574,615,642,684,729,744,761,785,814,847,858,866,872,899,905,960,975,988,1004,1030,1046,1072,1116,1117,1128,1129,1130,1139,1140,1180,1200,1218,1230,1283,1297,1303,1304,1338,1339,1415,1438,1439,1478,1480,1491]],["火",[364,526,598,635,677,740,773,820,889,922,926,963,991,1017,1018,1019,1088,1150,1152,1174,1178,1179,1201,1205,1206,1237,1238,1259,1293,1298,1322,1323,1376,1377,1386,1425,1454,1456,1485]],["飞行",[521,583,612,618,680,742,751,818,864,911,939,969,993,996,1013,1048,1050,1070,1141,1142,1157,1165,1166,1167,1231,1257,1258,1261,1269,1305,1306,1309,1362,1364,1370,1401,1403,1406,1446,1487,1488]],["电",[360,486,503,531,602,644,686,708,734,791,816,908,984,1108,1207,1208,1211,1285,1295,1355,1356,1380,1448,1449,1462]],["机械",[80,143,201,213,287,362,459,539,541,610,724,807,887,897,1054,1074,1082,1195,1209,1220,1273,1277,1318,1329,1330,1337,1388,1392,1421,1423,1483]],["地面",[62,298,376,482,560,653,662,764,789,822,856,884,924,951,1024,1056,1078,1079,1096,1118,1119,1120,1121,1135,1143,1159,1193,1228,1235,1236,1246,1255,1267,1307,1311,1324,1325,1346,1349,1359,1367,1394,1430,1440,1457,1465,1481]],["普通",[150,230,325,328,330,366,383,456,484,567,604,652,718,746,756,870,878,901,953,986,1028,1067,1103,1123,1148,1186,1241,1301,1347,1378,1417,1461]],["冰",[378,445,448,476,555,562,588,592,637,754,845,893,936,973,1011,1012,1020,1026,1032,1034,1036,1038,1040,1062,1064,1110,1111,1176,1177,1213,1215,1251,1252,1275,1276,1291,1292,1315,1316,1317,1342,1353,1361,1432,1442,1470]],["超能",[139,196,246,351,381,416,594,646,694,696,710,829,852,891,895,913,930,932,977,1007,1015,1042,1052,1053,1080,1161,1183,1224,1225,1239,1243,1253,1278,1279,1280,1320,1331,1332,1382,1390,1391,1398,1434,1459,1473,1474,1475,4149,4150]],["战斗",[122,124,125,126,141,148,397,432,451,488,580,596,620,648,673,675,736,771,812,842,868,881,928,956,958,1002,1009,1044,1084,1106,1107,1114,1115,1155,1170,1226,1313,1314,1351,1396,1419,1420,1444,1452,1453,1460,1489,1490,1498,1499]],["光",[219,281,370,461,505,564,590,665,833,857,903,934,971,980,998,1065,1069,1092,1122,1126,1222,1264,1265,1289,1372,1373,1408,1450,1463,1464,1493]],["暗影",[217,506,509,667,726,749,794,875,915,944,966,1022,1058,1076,1086,1098,1188,1217,1287,1335,1357,1358,1365,1366,1384,1404,1411,1413,1414,1436,1437]],["神秘",[1000]],["龙",[414,469,515,576,825,917,1137,1138,1163,1168,1169,1266,1326]],["圣灵",[1203]],["次元",[1333]]];
-
-      private var exchangePending:Boolean = false;
-
-      private var exchangeTypePage:uint = 0;
-
-      private var exchangeGroup:uint = 0;
-
-      private var exchangePage:uint = 0;
 
       private var beidouButton:Sprite;
-
       
       public function MapProcess_5()
       {
@@ -219,7 +209,6 @@ package com.robot.app.mapProcess
          this.beidouButton.removeEventListener(MouseEvent.CLICK,this.onBeidou);
          ToolTipManager.remove(this.beidouButton);
          this.beidouButton = null;
-         SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onPermanentExchange);
          this.petbook_btn.removeEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
          this.petbook_btn = null;
          BookManager.destroy();
@@ -280,14 +269,13 @@ package com.robot.app.mapProcess
          WeekMonsterMain.loadMonster();
       }
       
-      // 当前实验室缺少北斗入口美术，使用客户端已有的引导箭头标识原通路。
       private function initBeidou() : void
       {
          var label:TextField = new TextField();
          var format:TextFormat = new TextFormat();
          this.beidouButton = new Sprite();
          this.beidouButton.name = "beidouEntrance";
-         this.beidouButton.graphics.beginFill(0xffffff,0.01);
+         this.beidouButton.graphics.beginFill(16777215,0.01);
          this.beidouButton.graphics.drawEllipse(-38,-28,76,56);
          this.beidouButton.graphics.endFill();
          CommonUI.addYellowArrow(this.beidouButton);
@@ -301,7 +289,7 @@ package com.robot.app.mapProcess
          label.height = 22;
          label.x = -65;
          label.y = -24;
-         label.filters = [new GlowFilter(0x182f3b,1,3,3,4)];
+         label.filters = [new GlowFilter(1584955,1,3,3,4)];
          label.selectable = false;
          label.mouseEnabled = false;
          this.beidouButton.addChild(label);
@@ -343,21 +331,7 @@ package com.robot.app.mapProcess
       {
          if(TasksManager.isComNoviceTask())
          {
-            if(this.exchangePending)
-            {
-               Alarm.show("兑换正在结算，请稍候。");
-               return;
-            }
-            NpcDialog.show(NPC.DOCTOR,["【绝版精灵每日签到】每天来找我签到，都可以免费在绝版精灵库中挑选一只存入仓库！（每日限领一次）"],["原版收集奖励","今日签到领精灵","暂时离开"],[function():void
-            {
-               curIndex = 1;
-               _infoA = [];
-               check();
-            },function():void
-            {
-               exchangeTypePage = 0;
-               showExchangeTypes();
-            }]);
+            this.check();
          }
          else
          {
@@ -365,103 +339,6 @@ package com.robot.app.mapProcess
          }
       }
 
-      private function showExchangeTypes() : void
-      {
-         var options:Array = [];
-         var handlers:Array = [];
-         // Leave room for one text line, two entries, next page and exit.
-         var pages:uint = Math.ceil(this.exchangeGroups.length / 2);
-         var start:uint = this.exchangeTypePage * 2;
-         var i:uint = start;
-         while(i < Math.min(start + 2,this.exchangeGroups.length))
-         {
-            options.push(this.exchangeGroups[i][0] + "系（" + this.exchangeGroups[i][1].length + "只）");
-            handlers.push(this.exchangeGroupChoice(i));
-            i++;
-         }
-         options.push("下一页");
-         handlers.push(function():void
-         {
-            exchangeTypePage = (exchangeTypePage + 1) % pages;
-            showExchangeTypes();
-         });
-         options.push("离开");
-         NpcDialog.show(NPC.DOCTOR,["【每日签到】请选择属性（" + (this.exchangeTypePage + 1) + "/" + pages + "页）。每次签到免费领取1只入仓。"],options,handlers);
-      }
-
-      private function exchangeGroupChoice(group:uint) : Function
-      {
-         return function():void
-         {
-            exchangeGroup = group;
-            exchangePage = 0;
-            showExchangeGroup();
-         };
-      }
-
-      private function showExchangeGroup() : void
-      {
-         var pets:Array = this.exchangeGroups[this.exchangeGroup][1];
-         var pages:uint = Math.ceil(pets.length / 2);
-         var options:Array = [];
-         var handlers:Array = [];
-         var start:uint = this.exchangePage * 2;
-         var i:uint = start;
-         while(i < Math.min(start + 2,pets.length))
-         {
-            options.push(PetXMLInfo.getName(pets[i]) + "（签到领取）");
-            handlers.push(this.exchangeChoice(pets[i]));
-            i++;
-         }
-         if(pages > 1)
-         {
-            options.push("下一页");
-            handlers.push(function():void
-            {
-               exchangePage = (exchangePage + 1) % pages;
-               showExchangeGroup();
-            });
-         }
-         options.push("返回属性");
-         handlers.push(showExchangeTypes);
-         NpcDialog.show(NPC.DOCTOR,[this.exchangeGroups[this.exchangeGroup][0] + "系（" + (this.exchangePage + 1) + "/" + pages + "页）。请选择精灵，1级入仓。"],options,handlers);
-      }
-
-      private function exchangeChoice(petId:uint) : Function
-      {
-         return function():void
-         {
-            Alert.show("今日签到领取1级" + PetXMLInfo.getName(petId) + "？精灵将直接存入仓库。",function():void
-            {
-               if(exchangePending || MapManager.currentMap.id != 5)
-               {
-                  return;
-               }
-               exchangePending = true;
-               SocketConnection.addCmdListener(CommandID.PET_COLLECT,onPermanentExchange);
-               SocketConnection.send(CommandID.PET_COLLECT,900001,petId);
-            });
-         };
-      }
-
-      private function onPermanentExchange(event:SocketEvent) : void
-      {
-         SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onPermanentExchange);
-         this.exchangePending = false;
-         var data:ByteArray = event.data as ByteArray;
-         var petId:uint = data.readUnsignedInt();
-         var catchTime:uint = data.readUnsignedInt();
-         MainManager.actorInfo.coins = data.readUnsignedInt();
-         var error:uint = data.readUnsignedInt();
-         if(error != 0)
-         {
-            Alarm.show(error == 5002 ? "你今天已经签到领取过绝版精灵了，明天再来吧！" : "签到未完成，请留在实验室后重试。");
-            return;
-         }
-         PetManager.addStorage(petId,catchTime);
-         Alarm.show("签到成功！1级" + PetXMLInfo.getName(petId) + "已存入你的精灵仓库！明天记得继续来签到哦！");
-         Alarm.show("兑换成功！1级" + PetXMLInfo.getName(petId) + "已存入精灵仓库。");
-      }
       
       public function check() : void
       {

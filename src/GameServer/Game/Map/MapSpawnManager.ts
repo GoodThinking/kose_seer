@@ -271,8 +271,8 @@ export class MapSpawnManager extends BaseManager {
             continue;
           }
 
-          // BOSS固定槽位
-          bosses.push({
+          // 独立Boss仍占槽位，但不重复生成普通野怪模型。
+          if (ogre.standingOnly !== true) bosses.push({
             petId: ogre.petId,
             shiny: ogre.shiny,
             originalPetId: ogre.petId,

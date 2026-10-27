@@ -67,25 +67,27 @@ function buildCatalogue({base, fusionBase = base, seaVortex}) {
   const name = id => pets.get(Number(id))?.DefName || '精灵#'+id;
   const mapName = id => maps[id]?.name || '地图#'+id;
   const direct = new Map();
-  const add = (id, text) => { id=Number(id); if(!direct.has(id))direct.set(id,[]); if(!direct.get(id).includes(text))direct.get(id).push(text); };
-  const giveItem = (id,text) => { const item=items.get(Number(id)); if(Number(item?.BreedMonID)) add(item.BreedMonID,text+'获得'+item.Name+'，在基地分子转化仪孵化'); };
+  const add = (id, text, kind='task', target=null) => { id=Number(id); if(!direct.has(id))direct.set(id,[]); if(!direct.get(id).some(r=>r.text===text))direct.get(id).push({kind,text,...(target?{target}: {})}); };
+  const giveItem = (id,text,kind='task',target=null) => { const item=items.get(Number(id)); if(Number(item?.BreedMonID)) add(item.BreedMonID,text+'获得'+item.Name+'，在基地分子转化仪孵化30分钟',kind,target); };
   const farms = Array.from({length:6},()=>[]);
   for(const [mid,map] of Object.entries(maps)) for(const o of map.ogres || []) {
     if(o.isBoss || Number(o.weight ?? 1)<=0)continue;
-    if(o.catchable!==false)add(o.petId,map.name+'捕捉'+name(o.petId));
+    if(o.catchable!==false)add(o.petId,map.name+'捕捉'+name(o.petId),'wild',{mapId:Number(mid)});
     const yields=numbers(pets.get(o.petId)?.YieldingEV);
     yields.forEach((v,i)=>{if(v>0&&yields.filter(n=>n>0).length===1)farms[i].push({level:o.level || o.minLevel || 100,text:map.name+' · '+name(o.petId)+'（基础每只+'+v+'）'});});
     for(const d of o.dropItems || []) if(d.dropRate>0)giveItem(d.itemId,map.name+'击败'+name(o.petId)+'掉落');
   }
-  for(const id of acquisition.exchange.petIds)add(id,'实验室博士「精灵常驻兑换」，'+acquisition.exchange.coins+'赛尔豆');
-  for(const o of acquisition.wild || [])add(o.petId,(o.name || mapName(o.mapId))+'稀有野外遭遇后捕捉');
-  for(const o of acquisition.mechanisms || [])add(o.petId,mapName(o.mapId)+'场景机关触发后捕捉'+(o.petId===153?'（寒流枪）':o.petId===178?'（堵住洞口）':''));
-  for(const o of acquisition.disguises || [])add(o.petId,'与'+o.hostIds.slice(0,3).map(name).join('、')+'等指定宿主对战时可能出现，出现后捕捉');
+  for(const id of acquisition.exchange.petIds)add(id,'每日签到：每天可选1只收藏精灵，1级入仓，北京时间00:00刷新','collection');
+  for(const o of acquisition.wild || [])add(o.petId,(o.name || mapName(o.mapId))+'稀有野外遭遇后捕捉','wild',{mapId:Number(o.mapId)});
+  for(const o of acquisition.mechanisms || [])add(o.petId,mapName(o.mapId)+'场景机关触发后捕捉'+(o.petId===153?'（寒流枪）':o.petId===178?'（堵住洞口）':''),'wild',{mapId:Number(o.mapId)});
+  for(const o of acquisition.disguises || [])add(o.petId,'与'+o.hostIds.slice(0,3).map(name).join('、')+'等指定宿主对战时可能出现，出现后捕捉','wild');
   for(const boss of bosses) {
-    const where=mapName(boss.mapId)+'击败'+boss.petName;
-    if(boss.spt?.rewardPetId)add(boss.spt.rewardPetId,where+'，首次胜利奖励');
-    if(boss.spt?.rewardItemId)giveItem(boss.spt.rewardItemId,where+'，首次胜利');
-    for(const d of boss.drops || [])if((d.dropRate ?? d.rate ?? 1)>0)giveItem(d.itemId,where+'掉落');
+    const location=boss.mapId===514?'太空站左翼勇者之塔进入神秘领域':boss.mapId===110&&boss.param2>=1000?'暗黑武斗场第'+(Math.floor((boss.param2-1000)/6)+1)+'门':mapName(boss.mapId);
+    const where=location+'击败'+boss.petName+(boss.comment?'；'+boss.comment:'')+(boss.hint?'；机制与前置：'+boss.hint:'');
+    const target={mapId:boss.mapId===514?108:Number(boss.mapId)};
+    if(boss.spt?.rewardPetId)add(boss.spt.rewardPetId,where+'，首次胜利奖励','boss',target);
+    if(boss.spt?.rewardItemId)giveItem(boss.spt.rewardItemId,where+'，首次胜利','boss',target);
+    for(const d of boss.drops || [])if((d.dropRate ?? d.rate ?? 1)>0)giveItem(d.itemId,where+'掉落','boss',target);
   }
   const tasks=json('tasks.json').tasks;
   for(const [id,t] of Object.entries(tasks)) {
@@ -133,8 +135,9 @@ function buildCatalogue({base, fusionBase = base, seaVortex}) {
       const branch=(branches[prev.EvolvFlag] || []).find(b=>b.petId===id);
       const ordinary=Number(prev.EvolvesTo)===id && Number(prev.EvolvFlag||0)===0;
       if(ordinary || branch) {
-        const origin=route(Number(prev.ID),seen);
-        result.push(name(prev.ID)+'达到'+prev.EvolvingLv+'级'+(branch?.count?'，消耗'+(items.get(branch.itemId)?.Name || '道具#'+branch.itemId)+'×'+branch.count:'')+'后进化。'+(origin.length?'前置获取：'+origin[0]:'前置形态获取尚未确认。'));
+        const origin=route(Number(prev.ID),new Set(seen));
+        const evolution=name(prev.ID)+'达到'+prev.EvolvingLv+'级'+(branch?.count?'，消耗'+(items.get(branch.itemId)?.Name || '道具#'+branch.itemId)+'×'+branch.count:'')+'后进化。';
+        for(const source of origin)result.push({...source,kind:'evolution',text:evolution+'前置获取：'+source.text});
       }
     }
     return result;
@@ -209,7 +212,7 @@ function buildCatalogue({base, fusionBase = base, seaVortex}) {
     if(Number(p.EvolvesTo)>0)training.push('优先完成进化，再投入完整培养资源。');
     const ability=abilities.find(a=>a.name===((percent||relay||heal)?'坚硬':chosen.some(s=>Number(s.Accuracy || 100)<95)?'精准':types[p.Type] && Number(p.Type)<=16?abilities.find(a=>a.args?.[0]===Number(p.Type)&&a.effectId===2028)?.name:'坚硬')) || abilities.find(a=>a.name==='坚硬');
     const routes=route(id);
-    result.push({id,name:p.DefName,type:types[p.Type] || '属性#'+p.Type,typeId:Number(p.Type),tier,featured:Boolean(c),score,role,summary:c?.summary || '规则初评 · '+role+'。'+(tier>=3?'优先比较同系完整技能组，再决定投入。':'具备可用于Boss战的技能组合。'),reasons,caveats,stats:{hp:stats[0],atk:stats[1],def:stats[2],spAtk:stats[3],spDef:stats[4],spd:stats[5],total},acquisition:routes.length?routes:['当前配置尚未确认获取途径；仅收录战斗数据，不代表已开放获取。'],training,moves:chosen.map(s=>({id:Number(s.ID),name:s.Name,level:s.level,description:description(s)})),ability:{name:ability.name,description:ability.description+'。个体随机特性，非本物种专属；不保证能主动选择。'},search:[id,p.DefName,types[p.Type],role,...chosen.map(s=>s.Name)].join(' ')});
+    result.push({id,name:p.DefName,type:types[p.Type] || '属性#'+p.Type,typeId:Number(p.Type),tier,featured:Boolean(c),score,role,summary:c?.summary || '规则初评 · '+role+'。'+(tier>=3?'优先比较同系完整技能组，再决定投入。':'具备可用于Boss战的技能组合。'),reasons,caveats,stats:{hp:stats[0],atk:stats[1],def:stats[2],spAtk:stats[3],spDef:stats[4],spd:stats[5],total},acquisition:routes.length?routes:[{kind:'unknown',text:'当前配置尚未确认获取途径；仅收录战斗数据，不代表已开放获取。'}],training,moves:chosen.map(s=>({id:Number(s.ID),name:s.Name,level:s.level,description:description(s)})),ability:{name:ability.name,description:ability.description+'。个体随机特性，非本物种专属；不保证能主动选择。'},search:[id,p.DefName,types[p.Type],role,...chosen.map(s=>s.Name)].join(' ')});
   }
   applyRankings(result,{read,pets,learnById,effectList,describe:description,farms});
   for(let tier=0;tier<5;tier++) {

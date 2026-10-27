@@ -25,7 +25,7 @@ const item=id=>{check(items[id]&&items[id].Name,'Missing item '+id);return items
 const types=['','草','水','火','飞行','电','机械','地面','普通','冰','超能','战斗','光','暗影','神秘','龙'];
 const common='1  每条消耗主宠、副宠、对应精华 1 个、1000 赛尔豆。\n2  主宠必须是最终形态。副宠用斜杠分隔时，任选一只。\n3  材料槽只放对应精华 1 个，放入其他融合材料也会被消耗。';
 const catalogue=[];
-function acquisition(names){const lines=[];for(const [name,content] of Object.entries(copy.acquisition)){if(names.includes(name)||(name==='吉尔'&&names.includes('里诺')))lines.push((name==='吉尔'?'吉尔、里诺':name)+'：'+content);}return lines.join('\n');}
+function acquisition(){return '';}
 function accent(soul){const name=item(soul),color=name.replace('元神珠','');check(copy.orbColors[color],'Unknown bead color '+name);return parseInt(copy.orbColors[color].slice(1),16);}
 function entry(rule,index){
   check(rule.main.length===1,'Multiple fixed main pets need UI review');
@@ -52,8 +52,12 @@ for(const id of [...new Set(rules.RECIPES.filter(r=>r.rare).map(r=>r.rare.pet))]
   catalogue.push({id:'rare-'+id,kind:'rare',name:pet(id),petId:id,soul:'粉色元神珠',accent:0xF49ACC,sources:sources.map(({i})=>'fixed-'+(i+1)),acquisition:'',notes:common});
 }
 const nativeTypes=JSON.parse(fs.readFileSync(path.join(sourceDir,'native-types.json'),'utf8'));
-check(nativeTypes.coreSha256===hash(fs.readFileSync(path.join(base,corePath))),'Native type names need review against the new Core');
+const typeTags=parse(fs.readFileSync(path.join(base,corePath))).tags.filter(t=>t.code===82&&t.payload.subarray(4,t.payload.indexOf(0,4)).toString()==='com/robot/core/config/xml/SkillXMLInfo');
+check(typeTags.length===1&&hash(typeTags[0].raw)===nativeTypes.typeClassTagSha256,'Native type class changed; review the type mapping');
+check(hash(JSON.stringify(nativeTypes.types))===nativeTypes.typesSha256,'Native type mapping changed; review against the type class');
 const sources=require('./fusion-manual-acquisition.cjs')({base,pets,pet,item,rules});
+const handbook=require('./pet-boss-handbook-data.cjs').buildCatalogue({base});
+const petRoutes=new Map(handbook.pets.map(p=>[p.id,p.acquisition]));
 for(const r of catalogue){
  r.typeId=Number(pets[r.petId??r.mainId]?.Type)||0;
  r.type=r.typeId?nativeTypes.types[r.typeId]:"";
@@ -62,11 +66,12 @@ for(const r of catalogue){
  check(r.typeParts.every(id=>id>0),'Unknown badge component');
  const extra=[];
  for(const id of [r.mainId,...(r.secondaryIds||[])].filter(Boolean)){
-  if(copy.acquisition[pet(id)]||(pet(id)==='里诺'&&copy.acquisition['吉尔']))continue;
-  const source=sources.petSource(id);if(source)extra.push(pet(id)+'：'+source.text+'。');
+  const routes=petRoutes.get(id)||[];
+  const available=routes.filter(route=>route.kind!=='unknown');
+  if(available.length)extra.push(pet(id)+'：'+available.map(route=>route.text).join('；')+'。');
  }
- if(r.essenceId&&!copy.acquisition[r.essence]){const source=sources.itemSource(r.essenceId);if(source)extra.push(r.essence+'：'+source.text+'。');}
- r.acquisition=[r.acquisition,...extra].filter(Boolean).join('\n');
+ if(r.essenceId){const source=sources.itemSource(r.essenceId);if(source)extra.push(r.essence+'：'+source.text+'。');}
+ r.acquisition=extra.join('\n');
 }
 for(const r of catalogue)r.search=[r.name,r.main,r.secondary,r.essence,r.soul,r.type,...(r.outcomes||[]).map(o=>o.name)].filter(Boolean).join(' ');
 fs.mkdirSync(out,{recursive:true});
@@ -101,6 +106,6 @@ const final=parse(result);
 check(final.tags.length===original.tags.length&&final.tags.every((t,i)=>t.code===82||t.raw.equals(original.tags[i].raw)),'Non-code native tags changed');
 const target=path.join(out,'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf');
 fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,result);
-const manifest={sourceBaseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),files:[{path:'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf',sha256:hash(result)}],inputs:{acquisition:Object.fromEntries(sources.inputFiles.map(file=>[file,hash(fs.readFileSync(path.join(base,file)))])),module:hash(original.raw),core:hash(core.raw),fusionHandler:hash(handler),pets:hash(fs.readFileSync(path.join(base,'app/config/data/xml/pets.xml'))),items:hash(fs.readFileSync(path.join(base,'app/config/data/xml/items.xml')))},counts:{fixed:33,miracle:12,rare:2,fallback:1},nativeEntry:'实验室 > 精灵融合手册 > BookId.BOOK_1',nonCodeTagsPreserved:true,coreChanged:false,serverChanged:false,playerDataChanged:false,networkWrites:false};
+const manifest={sourceBaseline:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),files:[{path:'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf',before:hash(fs.readFileSync(path.join(base,'client/overlay/module/com/robot/module/book/PetAmalgamationBookPanel.swf'))),after:hash(result)}],inputs:{acquisition:Object.fromEntries([...sources.inputFiles.map(file=>path.join(base,file)),...handbook.inputs].map(file=>[file,hash(fs.readFileSync(file))])),module:hash(original.raw),core:hash(core.raw),fusionHandler:hash(handler),pets:hash(fs.readFileSync(path.join(base,'app/config/data/xml/pets.xml'))),items:hash(fs.readFileSync(path.join(base,'app/config/data/xml/items.xml')))},counts:{fixed:33,miracle:12,rare:2,fallback:1},nativeEntry:'实验室 > 精灵融合手册 > BookId.BOOK_1',nonCodeTagsPreserved:true,coreChanged:false,serverChanged:false,playerDataChanged:false,networkWrites:false};
 fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify(manifest));

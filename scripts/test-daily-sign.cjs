@@ -16,7 +16,8 @@ function overlay(relative) {
   patched.filename = filename;
   patched.paths = Module._nodeModulePaths(path.dirname(filename));
   require.cache[filename] = patched;
-  patched._compile(fs.readFileSync(path.join(release, 'app/dist', relative), 'utf8'), filename);
+  const source = app === release ? path.join(app, 'dist', relative) : path.join(release, 'app/dist', relative);
+  patched._compile(fs.readFileSync(source, 'utf8'), filename);
   patched.loaded = true;
 }
 load('DataBase/loaders/DataLoader');
@@ -24,6 +25,7 @@ const { Config } = load('shared/config/ServerConfig');
 const { ConfigLoader } = load('shared/config/ConfigLoader');
 const { ConfigRegistry } = load('shared/config/ConfigRegistry');
 const { ConfigKeys, ConfigPaths, ConfigType } = load('shared/config/ConfigDefinitions');
+const { DataSaver } = load('DataBase/savers/DataSaver');
 const { DatabaseManager } = load('DataBase/DatabaseManager');
 const { DatabaseHelper } = load('DataBase/DatabaseHelper');
 const { PlayerData } = load('DataBase/models/PlayerData');
@@ -43,6 +45,9 @@ const realNow = Date.now;
 let clock = Date.parse('2031-10-21T04:00:00Z') / 1000;
 let uid = 970000;
 Date.now = () => clock * 1000;
+const catalog = JSON.parse(fs.readFileSync(path.join(app, 'config/data/json/pet-acquisition.json'), 'utf8'));
+const dailyPet = catalog.exchange.petIds[0];
+assert.ok(Number.isInteger(dailyPet), 'Daily sign whitelist must contain a pet');
 const period = () => Math.floor((clock + 28800) / 86400) * 86400 - 28800;
 async function fixture(mapID = 105) {
   const id = ++uid;
@@ -71,7 +76,7 @@ async function status(player, group = 900001) {
   assert.equal(packet.command, 2313);
   return packet.body;
 }
-async function claim(player, petId = 108) {
+async function claim(player, petId = dailyPet) {
   const body = Buffer.alloc(8); body.writeUInt32BE(900001); body.writeUInt32BE(petId, 4);
   await new PetCollectHandler().Handle(player.Session, {}, body);
   const packet = player.packets.at(-1);
@@ -121,7 +126,7 @@ async function run(name, scenario) {
     const p = await fixture();
     assert.equal(await claim(p), 0);
     const state = await saved(p);
-    assert.deepEqual(state.pets.map(pet => [pet.petId, pet.level, pet.isInBag]), [[108, 1, false]]);
+    assert.deepEqual(state.pets.map(pet => [pet.petId, pet.level, pet.isInBag]), [[dailyPet, 1, false]]);
     assert.deepEqual(state.wallet, { coins: 10000, gold: 7, allocatable_exp: 123, pet_all_num: 1, pet_max_lev: 1 });
     assert.equal(state.claims.length, 1);
     const body = await status(p);
@@ -135,7 +140,7 @@ async function run(name, scenario) {
   });
   await run('Concurrent daily claims grant exactly once', async () => {
     const p = await fixture(30);
-    await Promise.all([claim(p, 108), claim(p, 108)]);
+    await Promise.all([claim(p, dailyPet), claim(p, dailyPet)]);
     assert.deepEqual(p.packets.filter(packet => packet.command === 2311).map(packet => packet.body.readUInt32BE(12)).sort((a, b) => a - b), [0, 5002]);
     const state = await saved(p);
     assert.equal(state.pets.length, 1);
@@ -167,13 +172,24 @@ async function run(name, scenario) {
     assert.deepEqual(decoded(await status(p)), [900001, 1, 2]);
     assert.equal((await saved(p)).pets.length, 2);
   });
+  await run('Every removed claim rejects without consuming daily eligibility or changing assets', async () => {
+    const p = await fixture();
+    const before = await saved(p);
+    const policies = ['boss-routes.json','ordinary-routes.json'].map(name => require('../compat/server-patches/pet-acquisition/' + name));
+    const ids = policies.flatMap(policy => policy.routes.map(route => route.petId));
+    assert.equal(new Set(ids).size,538);
+    for (const id of ids.filter(id => !catalog.exchange.petIds.includes(id))) assert.equal(await claim(p,id),5001,'Removed claim ' + id);
+    assert.deepEqual(await saved(p), before);
+    assert.deepEqual(decoded(await status(p)), [900001, 0, 0]);
+    assert.equal(await claim(p), 0);
+  });
   await run('Invalid catalog pet and destroyed or replaced sessions remain rejected', async () => {
     for (const kind of ['pet', 'destroyed', 'replaced']) {
       const p = await fixture();
       if (kind === 'destroyed') p.Session.Socket.destroyed = true;
       const before = await saved(p);
       const unlock = kind === 'replaced' ? await p.PetManager.PetData.AcquireMutation() : null;
-      const pending = claim(p, kind === 'pet' ? 0 : 108);
+      const pending = claim(p, kind === 'pet' ? 0 : dailyPet);
       if (unlock) { p.Session.Player = {}; unlock(); }
       assert.equal(await pending, 5001);
       assert.deepEqual(await saved(p), before);
@@ -191,7 +207,9 @@ async function run(name, scenario) {
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => {
   Date.now = realNow;
   for (const player of players) { player.Data.cleanup(); helper.RemoveCache(player.Uid); player.EventBus.Destroy(); }
+  await new Promise(resolve => setTimeout(resolve, 300));
+  await DataSaver.Instance.WaitForSaves();
+  await db.WithConnection(async () => {});
   await db.Shutdown();
   fs.rmSync(temporary, { recursive: true, force: true });
-  process.exit(process.exitCode || 0);
 });
