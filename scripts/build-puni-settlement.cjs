@@ -1,0 +1,23 @@
+'use strict';
+// Patch the captured live runtime; never compile the older repository BattleManager over it.
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const {parseArgs} = require('node:util');
+const {values} = parseArgs({options: {baseline: {type: 'string'}, out: {type: 'string'}}});
+if (!values.baseline || !values.out) throw Error('Usage: --baseline <captured root> --out <fresh directory>');
+const baseline = path.resolve(values.baseline), out = path.resolve(values.out);
+if (fs.existsSync(out)) throw Error('Choose a fresh output directory');
+const relative = 'app/dist/GameServer/Game/Battle/BattleManager.js';
+const source = fs.readFileSync(path.join(baseline, relative), 'utf8');
+const oldText = 'this._currentBattleMapId === 514';
+const pieces = source.split(oldText);
+if (pieces.length !== 3) throw Error('Unexpected Puni settlement baseline');
+const updated = pieces.join('battle.bossMapId === 514');
+const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+const destination = path.join(out, relative);
+fs.mkdirSync(path.dirname(destination), {recursive: true});
+fs.writeFileSync(destination, updated);
+const manifest = {files: [{path: relative, before: digest(source), after: digest(updated)}], databaseMigration: false, playerDataMutation: false};
+fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+console.log(JSON.stringify(manifest));
