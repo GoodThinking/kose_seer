@@ -1,0 +1,496 @@
+{
+  "purpose": "Unchanged official native art linkage and timeline source closure; preserve original DoABC/art tags rather than recompiling these sources.",
+  "sourceDirectory": "scripts",
+  "sourceMovieSha256": "3b77ce1bcf1e482e190f88c8969bbf58f81647de4701fbcee90812d8cc65a384",
+  "classes": [
+    {
+      "class": "GpFightWinPanel",
+      "sourceSha256": "27de6a72b1031e8854df5e242c99c9824dea978f9c196f2f7af59a054a117515",
+      "originalAbcPayloadSha256": "f73d74484360e88450c272977e5f0be0bf591947b26020c13dd073fd04b18b8f",
+      "symbolCharacterIds": [
+        34
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpOpenningMovie_mc",
+      "sourceSha256": "8362f9a044be1164cb30ff0f12435933deb18d03a151c46fd38e9809673287cc",
+      "originalAbcPayloadSha256": "c9d2e08824bdafc8260a6c385f508a2bee880543afb72ce187ed245d52f55fe5",
+      "symbolCharacterIds": [
+        75
+      ],
+      "compile": false
+    },
+    {
+      "class": "LoadPercentItem",
+      "sourceSha256": "429f8cc6013ee897ce6a601977bce186b2326e4fd9c88fd05d04dfc7bb9d335e",
+      "originalAbcPayloadSha256": "4491aa99ed6da6ae93d8049d0eacdd914cbb98c21ea5012c1d97aa6f2afc4cd4",
+      "symbolCharacterIds": [
+        92
+      ],
+      "compile": false
+    },
+    {
+      "class": "gp_attack_crit_effect",
+      "sourceSha256": "222b174773acb09cc31cf7cd1798a7c80ded7c42591536e24f3db7bce7ca3080",
+      "originalAbcPayloadSha256": "820ad69c4a17aceb54da499c714bb007e5d208d50e39d80537e2b4d9a85a8bda",
+      "symbolCharacterIds": [
+        103
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_gp_PetChangePanel",
+      "sourceSha256": "d6245fce983c17cd44e88f910a0f7dbd6ca68b9ffc937e921584150e8bac3b74",
+      "originalAbcPayloadSha256": "bc84155bad8b14411910b2e17c16fc0c088bdd5f68e2466435855fcb2ff47693",
+      "symbolCharacterIds": [
+        199
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Stone_Icon",
+      "sourceSha256": "2c734c5da496f4694cb9f02fef247fdfb68e7fdb292cf6d0d2d6f4b39dccc119",
+      "originalAbcPayloadSha256": "d9697d0123436a41fcb3ae5e1b1f2fdd0a137336bd9c525be8d5810ff1525053",
+      "symbolCharacterIds": [
+        203
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Tired_Mc",
+      "sourceSha256": "ec87309bef26608fccf51a06f423216fd5c7f38ac67c141acdbea74ebe87eabd",
+      "originalAbcPayloadSha256": "594285bcab78df66b1ef8e57a080f188efd7231e3bd071cf9aa61c42d7e5444c",
+      "symbolCharacterIds": [
+        211
+      ],
+      "compile": false
+    },
+    {
+      "class": "SkillNameMC",
+      "sourceSha256": "045ea68216306409352f1addf567fe2b576f33e13baaf25ee68cde58e5326bc6",
+      "originalAbcPayloadSha256": "db69488214d11c907725c3924d34f5eee32f3c81a6a600c4b738d1fe096e804c",
+      "symbolCharacterIds": [
+        215
+      ],
+      "compile": false
+    },
+    {
+      "class": "Gp_Item_PP_Effect",
+      "sourceSha256": "ea2b7107e0fac77fe2ab3a4c0c74bfbcbaf6f2bcaacbc069a02d579bad0fa210",
+      "originalAbcPayloadSha256": "d775d0a534c7c4a844fe93319293ae41ac15a93a08729b79dbbfebfeeeb312c3",
+      "symbolCharacterIds": [
+        218
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpFightLostPanel",
+      "sourceSha256": "eb9358818fac5c197b63f37bebee9f662fcd2c12ffe7b7d7326972327f94f719",
+      "originalAbcPayloadSha256": "d7a62810780e0ba8d89e507cac6862b4dfd78a95deffed46067f5ba972a30793",
+      "symbolCharacterIds": [
+        232
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_gp_SkillPanel",
+      "sourceSha256": "a23f58b53c4e3398a1cb553d7a5802fee0f357d2dbead1906f1472fdf6cfc13d",
+      "originalAbcPayloadSha256": "e3469b89561356712acc86ca69e78e8c1263cfaf54fe9a1ae50beb96d6fed9b4",
+      "symbolCharacterIds": [
+        236
+      ],
+      "compile": false
+    },
+    {
+      "class": "mainPanel_fla/MainTimeline",
+      "sourceSha256": "b9aa6effb6c29b18bf4604f0c981364134348e9eb0ab4665e97f7a553d7d935d",
+      "originalAbcPayloadSha256": "ca3078c5c217499817184544e5312683ebe344e743b44aa9ffa187c655da75de",
+      "symbolCharacterIds": [],
+      "compile": false
+    },
+    {
+      "class": "Effect_Poisoning_Icon",
+      "sourceSha256": "9904dd64d7dad7c96b7345a3ba560ead8cd3391c97980d777f7b030154e914b9",
+      "originalAbcPayloadSha256": "bcd5c5eafc4f57acd5c866efae64892b3eb3ea379bb939806910359dbbcaa3c0",
+      "symbolCharacterIds": [
+        238
+      ],
+      "compile": false
+    },
+    {
+      "class": "otherAsset_fla/sprite7_23",
+      "sourceSha256": "6ea7bb58d8a3f9aa10bc39ad277a6cd2a5b40f7eb6a3906f719ea8a54309c33c",
+      "originalAbcPayloadSha256": "3ec03f5729f88e012f5acca1133e51c8c615703bcf40b02f7fa894ed67f791bf",
+      "symbolCharacterIds": [
+        241
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Sleep_Icon",
+      "sourceSha256": "872241f3c9f3284897d116ec14221680613232d649c084e81c754336b9d9249b",
+      "originalAbcPayloadSha256": "68753df3bb991cb6b36c5d23eb7e36266513b2d130d4eb881184d66080c6c462",
+      "symbolCharacterIds": [
+        243
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Afraid_Icon",
+      "sourceSha256": "1b41a9a9e88b42accab52fb827d9349594be1f9691d28649df50185e7d283beb",
+      "originalAbcPayloadSha256": "d6483a0fcdbcd7caf9c8eb215c88f91155f2a2b0988c5c5d7d3efab8531e9468",
+      "symbolCharacterIds": [
+        245
+      ],
+      "compile": false
+    },
+    {
+      "class": "Gp_Item_Blood_Bottom",
+      "sourceSha256": "af0074ea30d7c1265ac9763ac487d59d6adb4cb45d59efe89ad222d716d8a2ce",
+      "originalAbcPayloadSha256": "b46b9a85215c53ea3cdc3d19765d66ec6111b13a260cab256b083014633e807e",
+      "symbolCharacterIds": [
+        249
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Poisoning_Mc",
+      "sourceSha256": "5d51012d918481b08c6c5c34379b46057a8c04ec2194b7adef44cc15908ce8c9",
+      "originalAbcPayloadSha256": "94afc83009156dcf9dd5e6f9e0627278aa110e96ff5ab919e7e5754dd5d3e721",
+      "symbolCharacterIds": [
+        253
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Parasitic_Mc",
+      "sourceSha256": "5aad8445fe86fc1b0eb54429aeb3954d8462d6715f7465cb3b08ed1301fc0aef",
+      "originalAbcPayloadSha256": "dba55662b16ffcf30d87005286d8eff9a1fd0f36c6daadee3ce00369f7617177",
+      "symbolCharacterIds": [
+        266
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Ten_Icon",
+      "sourceSha256": "593c00ea9c32b3e031223adb292b9a481d7a104acbd6020ad29f323325f6e6aa",
+      "originalAbcPayloadSha256": "fe541628565d8df8eeb4a2f6a17fdd7b53764be2ea0b899716fe3fb5a59e7286",
+      "symbolCharacterIds": [
+        268
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Tired_Icon",
+      "sourceSha256": "545efff854a294d0dce2d19d66d1efa8d3f9a2664bc4ec276d405ab5035975f5",
+      "originalAbcPayloadSha256": "5c35244e08743bbe9d7f8371c0a1286004a00e22e8f1ac1945d476353ad3e442",
+      "symbolCharacterIds": [
+        270
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Freeze_Icon",
+      "sourceSha256": "5c003fd6d3170a41bb9716e80248243ae63bf7e0911ca9ac706f850e4dba31cd",
+      "originalAbcPayloadSha256": "35a77040cea0113097f5f92dcced97d715f28eb5fe428e4439139778136ef0df",
+      "symbolCharacterIds": [
+        272
+      ],
+      "compile": false
+    },
+    {
+      "class": "Gp_Item_PP_Bottom",
+      "sourceSha256": "c36cd843886c8ba5efe04b2070a82c7c5fbe36e5e48b2b364a04bff08eb3c5d8",
+      "originalAbcPayloadSha256": "32da5fba8e0b934d74cec3ff7d33de069310b4cbbdef654be374f9d90b44c90f",
+      "symbolCharacterIds": [
+        277
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Fire_Icon",
+      "sourceSha256": "3e93c653e99a5073de3059272511b2a6f9dadd6bdc4d96017ca15782dd679b40",
+      "originalAbcPayloadSha256": "31672f7df55e1164ad9c8cd3755fd359b9e75ac7f413610608c17bf5c921e95d",
+      "symbolCharacterIds": [
+        279
+      ],
+      "compile": false
+    },
+    {
+      "class": "mainPanel_fla/Timeline_17",
+      "sourceSha256": "702eb85ac06d3d759654f466703b2da86c157bcfc22be7767564088c947badc2",
+      "originalAbcPayloadSha256": "9faa5bb57aeb1d021a28b81f1a7486671ab486db8646947e1bd318681f97806c",
+      "symbolCharacterIds": [
+        285
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Freeze_Mc",
+      "sourceSha256": "5a2ebe9f005bcc8ad50e87c9e4e454a6c6a55fee3aae32c282c423e9323b0892",
+      "originalAbcPayloadSha256": "9ae689a740d2a14ffd77306fe66b787978915f8ca0b94416a7bf5aac9a4b78e3",
+      "symbolCharacterIds": [
+        300
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_gp_ItemPanel",
+      "sourceSha256": "194b8219ec1b475e307d28927e7a3553747b93f64bc03978baf5b396c4d7dbfe",
+      "originalAbcPayloadSha256": "a5023eb8759a3fc04c0a93ff848278ca8f12242427e065689f1bbbed54fa04cb",
+      "symbolCharacterIds": [
+        312
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Fire_Mc",
+      "sourceSha256": "69915a6140d1f284e3db28ff53ee841170d0a02e5430751375fc5ed1f2b07600",
+      "originalAbcPayloadSha256": "370359a914a965300bb52ac298e29e1e48066f6ff118f987ffbe4e9f9f3620e2",
+      "symbolCharacterIds": [
+        322
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Afraid_Mc",
+      "sourceSha256": "048f31732b79e595d960782e870c9d453d7bfb7405a9b68c283059afff1ca50c",
+      "originalAbcPayloadSha256": "8f9ad5bc78c9053549496ccf13e147a7852ba63283f2c7201f3d3f7afccc5ba4",
+      "symbolCharacterIds": [
+        327
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpFightBoss_Sound",
+      "sourceSha256": "e7035348cf480c81b62068df51cb46c693fd92a1e36815ebaf187f247159f43c",
+      "originalAbcPayloadSha256": "1f710ddb3d6521104f826dea64841f0b71ec6a9703095dc34dab029e5c86a5fa",
+      "symbolCharacterIds": [
+        328
+      ],
+      "compile": false
+    },
+    {
+      "class": "Tooltip_Background_2",
+      "sourceSha256": "e5925a882dfe7115106e9544f6c4c2fa8c9c6d4ccd3bebada86530a3a4a0e392",
+      "originalAbcPayloadSha256": "51d093e2093790b57c0a022dc3863f832a61286c1536bac0ba09a03ef7cc3dd6",
+      "symbolCharacterIds": [
+        330
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_PetIconMC",
+      "sourceSha256": "652e6e007c3e88be164316dea02f80cf0e2a6d1be8aea718e58b402fa2773475",
+      "originalAbcPayloadSha256": "983714c90deb67e2c622a0afb78f08be53d6e4a41312813be66c9913ba5968e5",
+      "symbolCharacterIds": [
+        333
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpSkillTipPanel",
+      "sourceSha256": "5be0ed2cc6413b53d4700cb6e8465be23414a53eb8a1cf07e1e6aabe1292be2d",
+      "originalAbcPayloadSha256": "4292fb4928904e5b7a6f50d7c8ddc732bf9afe41a2784e4480653e1e66e5fb42",
+      "symbolCharacterIds": [
+        335
+      ],
+      "compile": false
+    },
+    {
+      "class": "_04955068d19ffd78c52223ead648099bc0a38d36b68735087b24d2cca57ec8af_flash_display_Sprite",
+      "sourceSha256": "b9c3ff6988a1c52e95f3ed3e2d306a08326581a1c6870de1db4bab9fc99db407",
+      "originalAbcPayloadSha256": "94e842a3cf2f273947b93df783eb7e740c57690f35bf9ee93e85e52e85eb5648",
+      "symbolCharacterIds": [],
+      "compile": false
+    },
+    {
+      "class": "RenewPPEffect_fla/buff123_3",
+      "sourceSha256": "20b4c6ee35f3752f574e30fe4d96e5ea7cbe51c7f5d63c85840b43aaba0b1f23",
+      "originalAbcPayloadSha256": "2bd97538e465c1fd3d855a4e20f46940aa717a86b03422bf84379de666cd8c7c",
+      "symbolCharacterIds": [
+        276
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_gp_mainPanel",
+      "sourceSha256": "c90a0d69721cc610492f1e43cc17d1459d9bd12867467474fe7b52c190a49e6d",
+      "originalAbcPayloadSha256": "95d8f12bb030d3f25f9417aab64c82edc4c91eaf7748e161e3491fbba4da7513",
+      "symbolCharacterIds": [
+        427
+      ],
+      "compile": false
+    },
+    {
+      "class": "ChatClewMC",
+      "sourceSha256": "7d70caf46281e9b558bd94fac9fa55f6522831b70fd31eea25c43dd41c9bd4a0",
+      "originalAbcPayloadSha256": "7deb3f8852106ce6e99a7a8d62ffda59b32618f95becf55e2544ce54fa7664ea",
+      "symbolCharacterIds": [
+        429
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Sleep_Mc",
+      "sourceSha256": "1ccc0d9b348258b9f8730d213e2a61c7f03e0c1f65b07ceb535d447522abbad1",
+      "originalAbcPayloadSha256": "3b8c4be66ec4e7d4a32bd3640d094980620f4fc11cd9f20e371808acf09c2c1a",
+      "symbolCharacterIds": [
+        431
+      ],
+      "compile": false
+    },
+    {
+      "class": "otherAsset_fla/Timeline_30",
+      "sourceSha256": "86016439bb079c8feb422b86d52a8ec48234b41b27a3f6353ec8c8b229893178",
+      "originalAbcPayloadSha256": "9b58d7e128cabef9b0953d6f9134c8f7eee294157e48175895f86abcd3759d4a",
+      "symbolCharacterIds": [
+        102
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpSkillGankMC",
+      "sourceSha256": "5764bf92c4ce4370ece213b0d884c6ff8745cc3ad665f65ff920ff0fc819ef03",
+      "originalAbcPayloadSha256": "21bb5cea603d99b31740c725c39adda9199295b7a5fc3b83ce844c4ccbedecc8",
+      "symbolCharacterIds": [
+        449
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_gp_itemBg",
+      "sourceSha256": "3c436724bb9d985ffd4402057f66ca782abd91d021c13b968bd81c2a57979755",
+      "originalAbcPayloadSha256": "e14a0c8646b55000ce377288afedd347215668f752838ccdf283c5b8dda16da9",
+      "symbolCharacterIds": [
+        452
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Parasitic_Icon",
+      "sourceSha256": "60922c449277b3b72411da5d18fe234dfa6bc5cd18017b44d526e0a9594b4187",
+      "originalAbcPayloadSha256": "6b08310443cd643fcf5b3488440468e5a5f343f04dc9f56836658e266333d2a6",
+      "symbolCharacterIds": [
+        455
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpSkillProIcon",
+      "sourceSha256": "d1014f6441290ac7866f9aca4a702c04fd9f973a536859f1a35e76f5156a33dd",
+      "originalAbcPayloadSha256": "9f73bbacea23b781f90129f9e191f381929634ea97bebfa23f9c313075e920c0",
+      "symbolCharacterIds": [
+        177
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Narcosis_Icon",
+      "sourceSha256": "8277e2bb4ca9ae1c7d4c529de3457f367e2691515953e3a56865579c9decfbd7",
+      "originalAbcPayloadSha256": "5c34b9935fb3bbb6d2cbd3fc5bc7e6581e216da0f7c81d1e28c7cd7ceccf9bec",
+      "symbolCharacterIds": [
+        458
+      ],
+      "compile": false
+    },
+    {
+      "class": "ui_gp_skillMC",
+      "sourceSha256": "47ad560ae6287259d28d49dadb44ff77ebe18ac20256fa28a98bf9a795f788ae",
+      "originalAbcPayloadSha256": "7d8dc6c5f965278a28f6813e09eee0f0e87d2b3d228fc0b9f4738d81c0908223",
+      "symbolCharacterIds": [
+        465
+      ],
+      "compile": false
+    },
+    {
+      "class": "SkillMouseMC",
+      "sourceSha256": "644d45369dfd86e015d48409511f2619632b2b07cd2a69d8ef818d9311e1e152",
+      "originalAbcPayloadSha256": "d94768f092845165b979ee35f98721e8ea4793dcea008b0423cd5a7b44695fce",
+      "symbolCharacterIds": [
+        474
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_Narcosis_Mc",
+      "sourceSha256": "5bbcd402dee97953655ce3ba3c291edabfe29f72c41ce94cf3679828b71190cd",
+      "originalAbcPayloadSha256": "0a742623749d6728993294b56e4905adbfeafbd909392529941c35c9ab16078c",
+      "symbolCharacterIds": [
+        515
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpFightBg_Sound",
+      "sourceSha256": "1200dbc574d0f45bc0e3bb02934a7a952a865bc1cae40f8652fb04f8aa6a45ba",
+      "originalAbcPayloadSha256": "551f49f7e16cb1020a6254a0e0c6dfddec99621af9993cd746bd430248d33bf3",
+      "symbolCharacterIds": [
+        516
+      ],
+      "compile": false
+    },
+    {
+      "class": "GpFightLoadingMC",
+      "sourceSha256": "e49cd90f5dbf29cf02f7da681a1f6e864cb39cea3b8525ad3288eb0a2d7737d7",
+      "originalAbcPayloadSha256": "fbb5a131e8b21b055c4e7a688c05d1d0c85fbde2b35220b5afd1de989c59036a",
+      "symbolCharacterIds": [
+        530
+      ],
+      "compile": false
+    },
+    {
+      "class": "mainPanel_fla/_90909_16",
+      "sourceSha256": "755c6fecba44fe36403af01dae13f0340c519778b349bda97ddea939928ab202",
+      "originalAbcPayloadSha256": "0a7526bb8af3315ee0ed6b97fa2af9f62b63ef6c5a63c614864ee7fc26ecdee9",
+      "symbolCharacterIds": [
+        375
+      ],
+      "compile": false
+    },
+    {
+      "class": "WaitClockMC",
+      "sourceSha256": "cae4aee510f2b1db081808a34e30549b08d82ab59c1cbb32520e66d4d7ea969a",
+      "originalAbcPayloadSha256": "f2e291286816d6c7c6d5491617deebbe5e01b349501a0e2f1fcdb5c887de2513",
+      "symbolCharacterIds": [
+        535
+      ],
+      "compile": false
+    },
+    {
+      "class": "Gp_Item_Blood_Effect",
+      "sourceSha256": "7e4305156e0e31dc7469792d80bc591409e72a44c29bff954ac2163b17881c6a",
+      "originalAbcPayloadSha256": "a1f5ae292a071decabfacab5413febefb7dbadabfd8083d8cda54d08da9ac741",
+      "symbolCharacterIds": [
+        538
+      ],
+      "compile": false
+    },
+    {
+      "class": "Effect_11_Icon",
+      "sourceSha256": "ed18bc7b5d45159d441bd28d1715051390a5be315db50e773aae11d2820545cf",
+      "originalAbcPayloadSha256": "4d7d4ac256745c972b3161db0a8fe7b7a168db24bdc639cb49e11fe1d4cab229",
+      "symbolCharacterIds": [
+        545
+      ],
+      "compile": false
+    },
+    {
+      "class": "mainPanel_fla/ui_rightPanel_18",
+      "sourceSha256": "00a0cac20369ff937053e9556f659c7c90ea9138422e18dc6f7991aa01f4b929",
+      "originalAbcPayloadSha256": "2daad795dae02b7b2a8f55a0e83cd6d8bb78479f359aca5761af9dbbcc55ba0d",
+      "symbolCharacterIds": [
+        402
+      ],
+      "compile": false
+    },
+    {
+      "class": "_CompiledResourceBundleInfo",
+      "sourceSha256": "14b0e2faca64a89f45adb4ca93a8f438bd113dd384d2ed4b14403eccebe8e2e3",
+      "originalAbcPayloadSha256": "1a9313bb51836624b6d35f105e8c7277edda51d70e3804895943860d141112b2",
+      "symbolCharacterIds": [],
+      "compile": false
+    }
+  ]
+}

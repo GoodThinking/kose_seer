@@ -50,6 +50,7 @@ package com.robot.core.manager.map.config
       
       private static function onMapChange(param1:MapEvent) : void
       {
+         delEnterFrame();
          var _loc2_:MovieClip = null;
          for each(_loc2_ in compArray)
          {
@@ -173,14 +174,7 @@ package com.robot.core.manager.map.config
                {
                   mc.removeEventListener(Event.ENTER_FRAME,autoEnterFrame);
                }
-               try
-               {
-                  MapProcessConfig.currentProcessInstance[hitMC["fun"]]();
-               }
-               catch(e:Error)
-               {
-                  MapProcessConfig.currentProcessInstance[hitMC["fun"]](mc);
-               }
+               callComponent(hitMC,mc);
             }
          }
          else
@@ -304,19 +298,39 @@ package com.robot.core.manager.map.config
          currentComp.addEventListener(Event.ENTER_FRAME,checkHit);
       }
       
+      private static function callComponent(hitMC:MovieClip, component:MovieClip) : void
+      {
+         var handler:Function = MapProcessConfig.currentProcessInstance[hitMC["fun"]] as Function;
+         if(handler.length == 0)
+         {
+            handler();
+         }
+         else
+         {
+            handler(component);
+         }
+      }
+
       private static function checkHit(param1:Event) : void
       {
          var event:Event = param1;
          var current:MovieClip = event.currentTarget as MovieClip;
+         if(current != currentComp)
+         {
+            return;
+         }
          var compMC:MovieClip = current["compMC"];
          var pp:Point = MainManager.actorModel.sprite.localToGlobal(ORIGIN);
          // Camera scrolling changes the target's stage coordinate while the actor walks.
          var hitPoint:Point = current.localToGlobal(ORIGIN);
          if(Point.distance(pp,hitPoint) < 15)
          {
-            if(currentComp["fun"] == "")
+            // Release the old scene's listener before a callback can switch maps or start another walk.
+            delEnterFrame();
+            MainManager.actorModel.skeleton.stop();
+            if(current["fun"] == "")
             {
-               if(getIsFB(currentComp["targetID"]))
+               if(getIsFB(current["targetID"]))
                {
                   if(MainManager.actorInfo.teamInfo.id < 50000)
                   {
@@ -324,29 +338,20 @@ package com.robot.core.manager.map.config
                   }
                   else
                   {
-                     MapManager.styleID = currentComp["targetID"];
-                     MapManager.changeMap(MainManager.actorInfo.teamInfo.id,currentComp["dir"],MapType.getFbTypeID(currentComp["targetID"]));
+                     MapManager.styleID = current["targetID"];
+                     MapManager.changeMap(MainManager.actorInfo.teamInfo.id,current["dir"],MapType.getFbTypeID(current["targetID"]));
                   }
                }
                else
                {
-                  MapManager.dispatchEvent(new MapConfigEvent(MapConfigEvent.HIT_MAP_COMPONENT,currentComp));
-                  MapManager.changeMap(currentComp["targetID"],currentComp["dir"]);
+                  MapManager.dispatchEvent(new MapConfigEvent(MapConfigEvent.HIT_MAP_COMPONENT,current));
+                  MapManager.changeMap(current["targetID"],current["dir"]);
                }
             }
             else
             {
-               try
-               {
-                  MapProcessConfig.currentProcessInstance[currentComp["fun"]](compMC);
-               }
-               catch(e:Error)
-               {
-                  MapProcessConfig.currentProcessInstance[currentComp["fun"]]();
-               }
+               callComponent(current,compMC);
             }
-            MainManager.actorModel.skeleton.stop();
-            delEnterFrame();
          }
       }
    }

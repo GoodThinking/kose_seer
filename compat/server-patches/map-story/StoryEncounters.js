@@ -10,6 +10,7 @@ function GetStoryEncounter(player, mapId, region) {
     if (!encounter) return undefined;
     if (player.Data.mapID !== mapId) return null;
     if (encounter.activity === true) {
+        if (encounter.requiredCompletedTask && !player.TaskManager.TaskData.IsTaskCompleted(encounter.requiredCompletedTask)) return null;
         if (player.Data.actionType === 1 || player.BattleManager.GetCurrentBattle()) return null;
         if (encounter.requiresSuperNoNo && !player.Data.superNono) return null;
         if (encounter.requiredClothId && !player.Data.clothIds.includes(encounter.requiredClothId)) return null;

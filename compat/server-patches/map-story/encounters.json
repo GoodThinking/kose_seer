@@ -10,6 +10,15 @@
     "source": "原任务面板指向火山星深处 map 17；当年攻略确认三场海盗战斗及 100 级尼布：https://news.7k7k.com/content/20101112/21749.html 。三个能源分支可任意顺序完成，不修改常规 SPT Boss 配置。"
   },
   {
+    "mapId": 329,
+    "region": 0,
+    "petId": 287,
+    "level": 29,
+    "activity": true,
+    "capture": true,
+    "source": "MapProcess_329.onFightBossHandler 的原生厄斯遭遇；官方客户端三次历史战斗画面均为29级：https://www.bilibili.com/video/BV1jy4y1R7Zo/?t=80 、https://www.bilibili.com/video/BV17e411R7Sk/?t=80 、https://www.bilibili.com/video/BV1Qg411E7Le/?t=100 。未证明其他等级不存在；沿用本服普通捕捉规则，不改现有Boss配置或捕捉概率。"
+  },
+  {
     "mapId": 425,
     "region": 0,
     "petId": 499,

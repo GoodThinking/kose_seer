@@ -82,6 +82,11 @@ package com.robot.core.controller
          return this._newMapID;
       }
       
+      public function get isSoloScene() : Boolean
+      {
+         return this.isChangeLocal || this._newMapID == MapManager.TOWER_MAP || this._newMapID == MapManager.FRESH_TRIALS;
+      }
+      
       public function changeLocalMap(param1:uint, param2:uint = 0) : void
       {
          if(param1 > MapManager.ID_MAX && MapManager.isPublicMap(param1))
@@ -229,7 +234,7 @@ package com.robot.core.controller
       private function initMapFunction(param1:Boolean = true) : void
       {
          var mte:MapTransEffect = null;
-         var isGetUser:Boolean = param1;
+         var isGetUser:Boolean = param1 && !this.isSoloScene;
          var pinfo:PetShowInfo = null;
          MapManager.removeEventListener(MapEvent.MAP_LOADER_CLOSE,this.onMapFail);
          LevelManager.openMouseEvent();
@@ -298,7 +303,7 @@ package com.robot.core.controller
          var _loc2_:ByteArray = param1.data as ByteArray;
          _loc2_.position = 0;
          var _loc3_:uint = _loc2_.readUnsignedInt();
-         if(this.isChangeLocal)
+         if(this.isSoloScene)
          {
             return;
          }
@@ -325,17 +330,7 @@ package com.robot.core.controller
       private function onEnterMap(param1:SocketEvent) : void
       {
          var _loc2_:PeopleModel = null;
-         if(this._newMapID == MapManager.TOWER_MAP)
-         {
-            MapManager.changeMap(108);
-            return;
-         }
-         if(this._newMapID == MapManager.FRESH_TRIALS)
-         {
-            MapManager.changeMap(101);
-            return;
-         }
-         if(this.isChangeLocal)
+         if(this.isSoloScene)
          {
             return;
          }

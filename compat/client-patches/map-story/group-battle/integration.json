@@ -1,0 +1,929 @@
+{
+  "purpose": "Native cooperative training client source and parent integration contract. Source recovery is not build or gameplay acceptance.",
+  "source": {
+    "groupFight": {
+      "path": "dll/GroupFightDLL.swf",
+      "url": "https://seer.61.com/dll/GroupFightDLL.swf",
+      "bytes": 3518564,
+      "sha256": "3b77ce1bcf1e482e190f88c8969bbf58f81647de4701fbcee90812d8cc65a384",
+      "format": "CWS",
+      "stagedPath": "/Users/wuyunfan/Code/saierhao/outputs/world-experience-20261025/restored-resources/dll/GroupFightDLL.swf"
+    },
+    "officialCore": {
+      "path": "/Users/wuyunfan/Code/saierhao/outputs/world-experience-20261025/official-RobotCoreDLL70.swf",
+      "sha256": "2514ffebc35a380fa74c9a4ef4aaffb74062c2d4913a659accd8d2b1472a632a",
+      "exportDirectory": "/Users/wuyunfan/Code/saierhao/outputs/world-experience-20261025/native-official-api90",
+      "note": "Genuine official helper exports, not modified reference source. Status/relation XML inlined from original binary assets; child-MC helper owns and clears deferred listeners."
+    },
+    "currentCore": {
+      "path": "/Users/wuyunfan/Code/saierhao/outputs/world-experience-20261025/baseline-world-current-main-f536697/client/assets/dll/NieoCore.swf",
+      "sha256": "82b3285b98e36f7be730a1f681af7b4b540771a0ccf5a2198bb8606e0d9b9eea",
+      "apiExportDirectory": "/Users/wuyunfan/Code/saierhao/outputs/world-experience-20261025/native-production-api90",
+      "preserve": "Keep unrelated captured production classes and assets, including the current acquisition routes. MapManager overlaps this feature and is reconciled in build-world-experience.cjs; unchanged API exports remain in native-production-api90."
+    },
+    "referenceCore": {
+      "path": "/Users/wuyunfan/Code/saierhao/outputs/world-experience-20261025/reference-core89.swf",
+      "sha256": "e5359e1556f602700ef4a13cfa67cc504e6b25cda7ef59294da2140a82391e7a",
+      "usage": "Compiler shells only for the four new Core helpers, then import genuine adapted sources. Never publish reference implementations."
+    }
+  },
+  "coreClasses": {
+    "com/robot/app/ogre/OgreController": "a0d12517dedb93f0dba01fde2d979f8b671dece7567ec62758340cf7385f07c7",
+    "com/robot/app/ogre/OgreCmdListener": "2d939733798e69b830218d525ad7ba1da171aa85d073217fb170fb1e77335180",
+    "com/robot/app/mapProcess/MapProcess_100": "ff0e793f4b9e04332bd66c757693be414783b80635548836f6618e300bce9a9b",
+    "com/robot/app/mapProcess/MapProcess_102": "f9d86d2247071e28622c9edbdc76927fc982c6b3efe8d4344d21615f68fa91e3",
+    "com/robot/app/task/control/TaskController_131": "796e1d031da6deca418a56dfa2c4258dc46054288362f6140caee74eed2f6dca",
+    "com/robot/core/config/xml/SkillXMLInfo": "25fa36329388900468b167d2ac655a4008fdcf6930bca92cb2c86c5a14501edf",
+    "com/robot/core/animate/MCStopPlayManager": null,
+    "com/robot/core/config/PetStatusEffectConfig": null,
+    "com/robot/core/config/xml/GpFtRelationXMLInfo": null,
+    "com/robot/core/info/fightInfo/PetStatusEffectType": null
+  },
+  "coreSourceDirectory": "scripts",
+  "alreadyRegisteredCoreClasses": [
+    "com/robot/app/mapProcess/MapProcess_336",
+    "com/robot/app/mapProcess/MapProcess_337",
+    "com/robot/app/group/cmd/GroupFightCmdListener",
+    "com/robot/app/group/manager/GroupFightInviteManager",
+    "com/robot/core/group/fightInfo/fighting/skill/SkillHurtInfo"
+  ],
+  "coreSourceSha256": {
+    "com/robot/core/animate/MCStopPlayManager": "b18a79ae81bd1291528f17163f31f62800bb54e6f74881526ca83f7df8240eb9",
+    "com/robot/core/config/PetStatusEffectConfig": "07cf67b1005e62ea21323b1765da641197a2a5c9f006b68cfe3e47f5ceebf01f",
+    "com/robot/core/config/xml/GpFtRelationXMLInfo": "45facd1a6db9474f1eedfc1ae40b12f2aeec2c706766b2f0595872da90dd72c4",
+    "com/robot/core/info/fightInfo/PetStatusEffectType": "8f2bfe1faf2203f3ce554374941e2387c21e5ff6a0fc62e860506f58d3dec2d6",
+    "com/robot/app/ogre/OgreController": "603331efffc6ceabb0c07051e159f1592982f1b301df267876f2f02f072180ce",
+    "com/robot/app/ogre/OgreCmdListener": "d565f5ea3205ef80ffde637e3105b054da12651e091c688f5795e9fc55a31fa2",
+    "com/robot/app/mapProcess/MapProcess_100": "5691d0e42645d3145a4c31110690c2ca5cb77fa787068fcfe4198209c574b97f",
+    "com/robot/app/mapProcess/MapProcess_102": "51f5329f565a8be62793a21c0f96b698c0d6a11df13a693e6ba6aa344b2dbf52",
+    "com/robot/app/task/control/TaskController_131": "d89c1d4bacfe45c2054cabdd826dae9756e1361e21ecd804bb785d262ea6e063",
+    "com/robot/core/config/xml/SkillXMLInfo": "53773507ef91eba1f0ffea357189a1d5d859b6b50206a43931ae8b7d5b7cceb9",
+    "com/robot/app/mapProcess/MapProcess_336": "d6403f132cd40a2b0c63a4deb903a639578f82384263b5296779eef1460f8ab9",
+    "com/robot/app/mapProcess/MapProcess_337": "2bfca0a9ba3615b7cdece9b887a1927823f2623db72c72a67c35114c4699da30",
+    "com/robot/app/group/cmd/GroupFightCmdListener": "ea019b8a00c996266a0e617d4753cd9483e334d6ccc1ae784c25d880adc8ef56",
+    "com/robot/app/group/manager/GroupFightInviteManager": "2fa30768e85b8af495448a8453a27c06fe40b9466a0ee8ee63812d2a78810125",
+    "com/robot/core/group/fightInfo/fighting/skill/SkillHurtInfo": "11c814509c6137d0a2aa1139fbce721a2dd3388c03e9f112f5116166fa1be1f4"
+  },
+  "originalDependencyXml": [
+    {
+      "symbol": "com.robot.core.config.PetStatusEffectConfig_xmlClass",
+      "bytes": 9823,
+      "sha256": "6ae170c2a588cb634780b5d9934ddc926bfb4c6bcfb88b1876b8ae7ca39b080c"
+    },
+    {
+      "symbol": "com.robot.core.config.xml.GpFtRelationXMLInfo_xmlClass",
+      "bytes": 1038,
+      "sha256": "a26787f72c6476f9ce4a914b9df6de9c4a859e4c671d90a4691da5e5463d2d24"
+    }
+  ],
+  "nativeSourceDirectory": "group-battle/scripts",
+  "nativeAssetSourceManifest": "group-battle/asset-sources.json",
+  "nativeSources": [
+    {
+      "class": "com/robot/groupFight/GroupFightDLL",
+      "originalSourceSha256": "12cbe7b372f4c92ce71831e289f79fac8c8544c510c10bda205f3971477ff2ce",
+      "sourceSha256": "bd64c8e8580a4cf4d7a470b471e30ebfa34b62bd33fc5d582a1bad80a8522650",
+      "originalAbcPayloadSha256": "0e1e0c78bbbebfa5a35119e86f1bd85198fb8f1fed16797661106f278bf45d9a",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/SpriteDieController",
+      "originalSourceSha256": "69b3ad0126e45e058fbf3ff34182d8992b17041e5578602a00f8e62599ae5e43",
+      "sourceSha256": "67168607cf159749982e3939fe309ce3f87927dd4f4bfb6f58a9ce1db229250c",
+      "originalAbcPayloadSha256": "8440170603acefbeaa73bb6d7e677bb736b8685e6c3bbfe295dcf98cf2a70290",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/manager/GroupFightOverManager",
+      "originalSourceSha256": "a11eb0fd4ee6bb4946869ed58d4f03f60efeeb9281fc58b14cbf5b6abb9bd2c6",
+      "sourceSha256": "50b62c2b0a5dad79b692e8d6d4b2064bf3d4907212a5af231843172ab5480172",
+      "originalAbcPayloadSha256": "aa239e49853bb04eb064052c78919d271d3bf0918f6a8b0f017be50c066a37f7",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/data/FighterModelFactory",
+      "originalSourceSha256": "560a5b31682859c924c06c927149befcea13dfbc7bbe28920a8894cf8bd5efb9",
+      "sourceSha256": "8a6ccc23413171b3e832e6c7937b9af4a389eab1183a6fff915b3efd1c7a99cd",
+      "originalAbcPayloadSha256": "6a79a2de2e6213d77e4b726fd822b413dc06d5fc2ff5a97c6e427a70b4d61a28",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/manager/TimerManager",
+      "originalSourceSha256": "717c309eecf75a50bb53b922cf3e9798b08bb6fe1e7bda857926bac883724be1",
+      "sourceSha256": "8d87b51478679a7cbd3ca98994c76ba17bae1264c0a52198f74dfb022ff21a42",
+      "originalAbcPayloadSha256": "6ad6ba3309498e5f0a84212bbbe95a9b1de6560fdaa00bd10514991e1e41f19d",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/view/loading/LoadingItem",
+      "originalSourceSha256": "f6dd2ceee393ebb34bf86644b3ae6ee406ed35b6b531b7b449674bc1abf0b009",
+      "sourceSha256": "468b747fc617b4dbd5dda656c5020b940bd985f5f20ef559eddc7794bc235c3d",
+      "originalAbcPayloadSha256": "4ee3e0f19aa5e6321b6c4f51593e778f72a8733ee8815c70a2812047ec7e5266",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/manager/assetManager/AssetsLoadManager",
+      "originalSourceSha256": "9859cb93e8df95bb41b7558ef9faaa2375892f941e2cba2555458bf338e49c9b",
+      "sourceSha256": "1eb12752cfc762ca100196f0d296b28c5b173903324b844fff4b036f92dc13bc",
+      "originalAbcPayloadSha256": "fde114f022f5374308eef93649f7032c533eddf3da23541cda89a56f493d05f4",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/GroupFightController",
+      "originalSourceSha256": "4a31486bc58179473d9cc24070a0543393933acb5686c4856359f76590917c42",
+      "sourceSha256": "ece3bcd9a932833965b9e3fcb739a0a7e06c84decdcbd4a8705947057adc994e",
+      "originalAbcPayloadSha256": "9a18935b45b481108f94fc4f2e599ce6214185a7aa79158deec0eaa0e8a1cee3",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/manager/assetManager/AssetsEvent",
+      "originalSourceSha256": "5a72467a2ba9993a4d482090609417aae3ea2810dc19599d023b07693743be4a",
+      "sourceSha256": "5a72467a2ba9993a4d482090609417aae3ea2810dc19599d023b07693743be4a",
+      "originalAbcPayloadSha256": "db9d608824e0670b1d02e8e729dd47b6005c9108610b0c809c34d62b957b1bb4",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/mode/BaseGroupFighterModel",
+      "originalSourceSha256": "a09caf2e416ba2db281e7b82816cc73e3c898d856850a4de93c714e692d2de12",
+      "sourceSha256": "d4c22ec972b22a89e2e1f92aa70eb13b5b41d78e13e40c0fbb4eacb2f9afd5ab",
+      "originalAbcPayloadSha256": "910ce5cc84eac16cb9ec89431492cd65922a791ab36820942fa163846a3126d0",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/view/IFighterView",
+      "originalSourceSha256": "05cfdcb95cf63bdf615b982ebf0a99d791c9947c50b417542b0b86840cd51763",
+      "sourceSha256": "05cfdcb95cf63bdf615b982ebf0a99d791c9947c50b417542b0b86840cd51763",
+      "originalAbcPayloadSha256": "ae31262dcd93361068fc18f3d3954cd2ec9719fbedb7aee5e452688e66512e04",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/view/BaseFighterPetWin",
+      "originalSourceSha256": "15e048c21ae61e703c7ca55557eca163fb47baf94d2bafd8b704c597dfcb239f",
+      "sourceSha256": "70577ae6fe067385e8af366b659ca5b8f81d4f2b6a13cecb756a592bd16ad914",
+      "originalAbcPayloadSha256": "303ad1393cd71253482c4152f45a8c1a8eefb60e5ce9adb6c25a5ab973fe0cd2",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/mode/PlayerGroupFighterModel",
+      "originalSourceSha256": "db9a24d53a54346b3dfd4c646bbfb72be56e5a9305d5cc2bf97037b301018704",
+      "sourceSha256": "db9713bfddf2895ac4804d695ddba95f8dccab1846bb678b8ee6c31d79cbc110",
+      "originalAbcPayloadSha256": "0254b5e5b16490852402fa67aba6c3e5be105829b7356dc1c43ced1ad4940b76",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/data/FighterPetInfoFactory",
+      "originalSourceSha256": "eb8199b9b141836b31d3483a75141f3855515ce24fe50bd6480e717edc2cdf84",
+      "sourceSha256": "8951fda5008ee3e4f3c9b0b623fe1c2eba150fb21a25c867fea13f6b2609854e",
+      "originalAbcPayloadSha256": "24111b22346a1a46080c46832525d51c8689c72d148880f3be3c6f7fd20d7229",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/view/PlayerFighterPetWin",
+      "originalSourceSha256": "894cfbb1b3ab7f62b1f8f735d58e0d0514243f59aca425633ca7f9d3660fe2d3",
+      "sourceSha256": "894cfbb1b3ab7f62b1f8f735d58e0d0514243f59aca425633ca7f9d3660fe2d3",
+      "originalAbcPayloadSha256": "4e7a457eb51cc042cb1bdb2be1f62bc0f2c149a36125596f55dc4bc032457999",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/FightOverPanel",
+      "originalSourceSha256": "9437ac6d0b1c25dc479f0c3c3e6c92c01727a538e3827ba5b95774d164455ef2",
+      "sourceSha256": "dd8ac2271eb9964b2ab35edd2455c47852e34d62acdf67a7b8b4e808bf21d633",
+      "originalAbcPayloadSha256": "dc819bece3bacbf6e76563e0418f5dc8e4d10f83b689fefdf9f209c86502cc37",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/IAutoActionPanel",
+      "originalSourceSha256": "adce99181c91e980e8b231240662173023d967f48b5fe25f1c4ccdfe0d4159f1",
+      "sourceSha256": "adce99181c91e980e8b231240662173023d967f48b5fe25f1c4ccdfe0d4159f1",
+      "originalAbcPayloadSha256": "47ab098bd505251d9a0aaa5793662faae01824e4bd7aad391ec384f39453b10e",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/data/DoubleSkillTypeAssertXmlInfo",
+      "originalSourceSha256": "7d44c0d294d63b37dbefa1d3e0f7fab5cb68b476d764f5d19454080238a671cc",
+      "sourceSha256": "7d44c0d294d63b37dbefa1d3e0f7fab5cb68b476d764f5d19454080238a671cc",
+      "originalAbcPayloadSha256": "fb57fe2c7e7bd9e2eb385c994b695d859e173f7a26dc8b4fd26661decdf19fdf",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/assetManager/PetAssetsManager",
+      "originalSourceSha256": "a575e21b3fae8dcbcf8c09e850b9b47816ed51724cb998a11cb5e747a8581d94",
+      "sourceSha256": "a575e21b3fae8dcbcf8c09e850b9b47816ed51724cb998a11cb5e747a8581d94",
+      "originalAbcPayloadSha256": "8ad6067e019c626eb9d0e8f57320f81e3cc105814cfd4fcb4aad29a76886a65b",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/assetManager/SkillAssetsManager",
+      "originalSourceSha256": "121f3ae5214bfe5f193ed2e9a54a403e6ec4ffdfbb0fb9f8d4b399cdbbe272b3",
+      "sourceSha256": "121f3ae5214bfe5f193ed2e9a54a403e6ec4ffdfbb0fb9f8d4b399cdbbe272b3",
+      "originalAbcPayloadSha256": "5949a605f7f45860e4a4ee2f0344cc19c2d56bdcbc7e0171d0a9901c8f828fe6",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/GpSkillWaiteManager",
+      "originalSourceSha256": "13e1f85c695c1889b4fb1c60b210bb39c39ba4b3f05491f7d0772d3e4f5cb902",
+      "sourceSha256": "b706f2ac427aacbb901786c90e5689aedbe1c45bcf7f06ec5ad6b74fdfa21334",
+      "originalAbcPayloadSha256": "6b1b56d9ff2996a8394e76ba503df0f81135c114eba41e205f59879bc9d1e1ec",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/manager/GroupChatManager",
+      "originalSourceSha256": "ff492c60949147fc52f2281e9af7dce9e73ee9e9575f870429c3e91cd7dc6b70",
+      "sourceSha256": "e1b2e4ea0dcfd24c21deaac2093354572bc50103291a2c631fb9f2a00c0944d1",
+      "originalAbcPayloadSha256": "96b4a50ce910e993f08555ff8e8dd77137ad82dcaac9e854e5fb3efeb09b9056",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/SkillPlayController",
+      "originalSourceSha256": "9c726715f93aa4d53f5828125ed43273665f25b9ecf5b53347225e1ac30ce373",
+      "sourceSha256": "631a7ad4630b4f926127e669409249829ce684164a5b8307e479ec1f2614d45e",
+      "originalAbcPayloadSha256": "bc820a2ff01b81b44f1972e2d0fd7573247a1c2c27b24b2c4b7b8af99cd9e1f9",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/petItemCon/UsePetItemController",
+      "originalSourceSha256": "603f894c93db6482bae9deea10ea7d0f0f27b4fb61d8043a138c8d92598c30ef",
+      "sourceSha256": "603f894c93db6482bae9deea10ea7d0f0f27b4fb61d8043a138c8d92598c30ef",
+      "originalAbcPayloadSha256": "afa15b89226f8d8b6c7fc04b9f02382f9557ad08216fdd44ebbb0c04e328d499",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/view/BaseFighterHPView",
+      "originalSourceSha256": "3b017620db089adc936a16c87ea4a12dd672761cd1aeb13dea0df9e7de1b59a2",
+      "sourceSha256": "b4af5b72f8a19b48e2c97d37386f1d12119d069e21c635577507c3f6fb517500",
+      "originalAbcPayloadSha256": "7e4a00c1d085497e9a1622d36ea9b7993e2df0e58f33160fed6db1fabacf956f",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/view/BaseFighterBloodWin",
+      "originalSourceSha256": "3ec0fcc3a7454040b567ef565ae9349cffd0126eb3ee8006a669bcdd581da54a",
+      "sourceSha256": "3ec0fcc3a7454040b567ef565ae9349cffd0126eb3ee8006a669bcdd581da54a",
+      "originalAbcPayloadSha256": "06d0596cc66a7e7f2f8e1682adbdbeb3fd8c98ddec2d4f616bfb7fac5477b478",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/view/interfaces/IPetRelation",
+      "originalSourceSha256": "640ff8a3a240c0268ca9673f04bb63e464f6defe29dd0f55f36bf6c837f9840e",
+      "sourceSha256": "640ff8a3a240c0268ca9673f04bb63e464f6defe29dd0f55f36bf6c837f9840e",
+      "originalAbcPayloadSha256": "bce71f62fc24e20fc82cd36568114659428c92549f12ce9c05d91c86074868db",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/view/relation/PetRelationEffect",
+      "originalSourceSha256": "fb30af5eb2dfb8e96825a66e082552759ecc1f2b0a8f605a5acdea60f6368acb",
+      "sourceSha256": "fb30af5eb2dfb8e96825a66e082552759ecc1f2b0a8f605a5acdea60f6368acb",
+      "originalAbcPayloadSha256": "6e93e81558f16b777cefcca4c1c5bae8469251576bce13ae686ebca60f9198eb",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/SkillAnimateManager",
+      "originalSourceSha256": "bb812715edce6f59e9451beb3ab642948a24c2b9bdd4241e0907feb517e9bd2b",
+      "sourceSha256": "013258ba97d6f6d950f1b3084f034921649a6e3524719874b980d98146ddb893",
+      "originalAbcPayloadSha256": "6be230b432a3c4235170c8318aaca8abd91d7a5be73a2e331d7cac585c35b8f7",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/IActivePanelObserver",
+      "originalSourceSha256": "430a86e91c43f0bd4a26c6f0471527be27acdd88319962d97f098330b7ca8927",
+      "sourceSha256": "430a86e91c43f0bd4a26c6f0471527be27acdd88319962d97f098330b7ca8927",
+      "originalAbcPayloadSha256": "196c6ea04ad9e4fbd172a4ac2fee0d962959e5f04b10f25a8820879546e96266",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/BasePanelObserver",
+      "originalSourceSha256": "a31f727bad02fa4376c9df4567bf685fd834f3ed6cdd5e793bed519ede813c9d",
+      "sourceSha256": "a31f727bad02fa4376c9df4567bf685fd834f3ed6cdd5e793bed519ede813c9d",
+      "originalAbcPayloadSha256": "9aae6875263d473f67a6f1a4a2bcd4075e878925ea9fe085a9fda754b1de1862",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ToolBtnPanelObserver",
+      "originalSourceSha256": "9e47e9583cf0f98dc4eab8c0926b6be1845882c344bda3da0782925d94bc1e33",
+      "sourceSha256": "59dc2c5008b28bc8dab45adf899553ee96f3ccabd30ee42587a9c6023e9fdd46",
+      "originalAbcPayloadSha256": "07d17615a09bddea23d23c81dc71505bfc191d2e6883c78ebda55a6fcc6e79a4",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/FightToolSubject",
+      "originalSourceSha256": "210ff14977d88274ad7622244b1332c710eaf8254459d0feaa3487eb070600dd",
+      "sourceSha256": "210ff14977d88274ad7622244b1332c710eaf8254459d0feaa3487eb070600dd",
+      "originalAbcPayloadSha256": "24a6447ba54e3d0b2f016f562596147e091ce1ee92c5f0621bb23cc708bd8179",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ControlPanelObserver",
+      "originalSourceSha256": "4146effb21f01c86fbe49c322fdda47b035f3d4e129a0a3bede3816ce5433bd3",
+      "sourceSha256": "4146effb21f01c86fbe49c322fdda47b035f3d4e129a0a3bede3816ce5433bd3",
+      "originalAbcPayloadSha256": "fcfe83beb69c2f997ffd343a6f989c492248a764609e39b00257d62961e22ffd",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/data/GroupFightUserInfo",
+      "originalSourceSha256": "4410e9b0aca566755e9b96563e2882ac7bb408cc82cfd71fb9d4a3c1eed7bff2",
+      "sourceSha256": "4410e9b0aca566755e9b96563e2882ac7bb408cc82cfd71fb9d4a3c1eed7bff2",
+      "originalAbcPayloadSha256": "0e9177258a7fb9df00b72400a541f46d64b4a5e2e556642c500959dd445c7d8a",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/GroupArrayManager",
+      "originalSourceSha256": "6a8b3b037aa32d914ef23f0e76f9375883de7e51a2277a393d31e651403457f9",
+      "sourceSha256": "6a8b3b037aa32d914ef23f0e76f9375883de7e51a2277a393d31e651403457f9",
+      "originalAbcPayloadSha256": "dd4f14690a214ff6ab02dea1314b956e9dab0810efd1ffc2ea284cba40f5d80a",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/data/DoubleSkillTypeAssertXmlInfo_SkillAssert",
+      "originalSourceSha256": "a700e0fad69b2d575416b78c5d6e146c687aeee327969a652390f2a37b21fa41",
+      "sourceSha256": "a700e0fad69b2d575416b78c5d6e146c687aeee327969a652390f2a37b21fa41",
+      "originalAbcPayloadSha256": "617d619dde50477adf0eb48bd78683945884de187a4bca28e0cbb66452fd8a0d",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/GroupFightMsgManager",
+      "originalSourceSha256": "896e7806e0cf332bd4313a8015d1e8d9596c4b1207f0c0dce6800d8fe5f1655d",
+      "sourceSha256": "896e7806e0cf332bd4313a8015d1e8d9596c4b1207f0c0dce6800d8fe5f1655d",
+      "originalAbcPayloadSha256": "937cf63b75a3b1ac44ef08d2430b5861f192ec9967872dbcbc1a1da24465a5ca",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/manager/GpFtSpriteNoticeManager",
+      "originalSourceSha256": "c1a472ccd78460620d0c927d8fd18c6753e578b797697349188ad04e50b12ae0",
+      "sourceSha256": "c1a472ccd78460620d0c927d8fd18c6753e578b797697349188ad04e50b12ae0",
+      "originalAbcPayloadSha256": "90e778bee1ef4a3c723c2986f9d8ea2d8abfe6590192c5478b2026b7b9012bd7",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/SkillMouseController",
+      "originalSourceSha256": "30dd4b74f5809f866db29d7eabc1d5966b69172f7a9643e94228340ded97168a",
+      "sourceSha256": "334964d46410e98bba9d24a767a010fe943cbc788a2625b9099968fc8d6fa6a5",
+      "originalAbcPayloadSha256": "35f70a708202760d0ff62bac7b4eadc38a50d2bae40e59a50d1df13a5083212d",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/SkillPlayInfo",
+      "originalSourceSha256": "273e2a92e3a0ece5e23bdf15217e1b5bce134f1698025318fac2e9e09a50c0a0",
+      "sourceSha256": "273e2a92e3a0ece5e23bdf15217e1b5bce134f1698025318fac2e9e09a50c0a0",
+      "originalAbcPayloadSha256": "2bd18b7e659535731f233faa46feafd82c2231db7dbcbe236267868f3a8fef58",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/SkillActionPase",
+      "originalSourceSha256": "7b406d9e4ed3c3e4345bea10cd83758b81a4fd4361c3693c80c4070126444ffd",
+      "sourceSha256": "7b406d9e4ed3c3e4345bea10cd83758b81a4fd4361c3693c80c4070126444ffd",
+      "originalAbcPayloadSha256": "8c8acf66d388157e98aec2f0878890844e3e27e1b593d76cf43893d0197229c1",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/SkillTimerManager",
+      "originalSourceSha256": "efb228a81741f35d727a921db7fd08df893c0ee037ed0298dcab74bc7b49b29d",
+      "sourceSha256": "9d2690c360e4198077b73145e8f9e7fcf4c4b7ff9e06eeedb40b135d585a95e5",
+      "originalAbcPayloadSha256": "bc53957fa60082dfcfb4a66195be5e918b12cc7e0441a9bde09dc33def7ec703",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/ISkillAction",
+      "originalSourceSha256": "76b518d9d4bc83d2aaefae6d69c3b0cc8904640fe9a2b915996c2b24a839648f",
+      "sourceSha256": "76b518d9d4bc83d2aaefae6d69c3b0cc8904640fe9a2b915996c2b24a839648f",
+      "originalAbcPayloadSha256": "24693bf2ca58c2705bb383487a189ae120842774090c58eb08c6b481eeca94aa",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/petItemCon/IUseItemEffect",
+      "originalSourceSha256": "d76a9147388727cbd15e6b477241166b0c811384159b9aa9e654c1015c14605e",
+      "sourceSha256": "d76a9147388727cbd15e6b477241166b0c811384159b9aa9e654c1015c14605e",
+      "originalAbcPayloadSha256": "ba8a3b5f9867eec165614da73d450f90ec89dd334b3980d03a636a21302ccdcc",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/petItemCon/UseItemEffect",
+      "originalSourceSha256": "feb16aa157ea0a87889eb0b94c677789152213a40944bc97277347b42f6a88f7",
+      "sourceSha256": "195ffdf520b6f11bf939fb436857adb23452cb2aece7b74fda5fbbbf14ffa11b",
+      "originalAbcPayloadSha256": "a64a1b1e9e0e5ba6726170a29fb20ac369b30873d5bcb3f90bd5a0fee435eda5",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/petItemCon/RenewBloodEffect",
+      "originalSourceSha256": "ba081cfb444aba50bfad12fcc3a54a64eb2722f18aafd03d62bd255e0f96b988",
+      "sourceSha256": "ba081cfb444aba50bfad12fcc3a54a64eb2722f18aafd03d62bd255e0f96b988",
+      "originalAbcPayloadSha256": "09ea3175c46eb833a0adbf766fb50cb0e1c296436ffd14800f0a1221da232464",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/petItemCon/RenewPPEffect",
+      "originalSourceSha256": "184f38f8815332b193fd5cd677e240edea977b4565bf9d8de94b27b73d7dda4a",
+      "sourceSha256": "d2d8cbeae4ab5bb902ac91da657a7fdb78af528f8cdbca5a232b2ac07979f820",
+      "originalAbcPayloadSha256": "fe8e85b256ec6e4687f9250d5d889b595625ac0a9fb06f82f3f08956b505fd65",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/btns/IControlBtns",
+      "originalSourceSha256": "9b14919574430a0ea0cd934bbae6b9dfc722b3a65d5d5122a6454fadd1d9c500",
+      "sourceSha256": "9b14919574430a0ea0cd934bbae6b9dfc722b3a65d5d5122a6454fadd1d9c500",
+      "originalAbcPayloadSha256": "1a3c0c11208984acb10fa49a56054c7ab6b12166ba7b63fe7b456171e3ff4296",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/btns/ControlBtn",
+      "originalSourceSha256": "b71b17ffbc8a3f2a5f79cbe9ca252e8b83e264a1f750dbc0c866ce6822a2c098",
+      "sourceSha256": "b71b17ffbc8a3f2a5f79cbe9ca252e8b83e264a1f750dbc0c866ce6822a2c098",
+      "originalAbcPayloadSha256": "e661d75406280aa541aef539dbcc9b4b5428e095df7005ced257c768dfd2eb7e",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/btns/FightBtn",
+      "originalSourceSha256": "debb80dce71552d2c0e94a5984c200b5ccc38fe52f40cdbb106612d2de5d59ae",
+      "sourceSha256": "debb80dce71552d2c0e94a5984c200b5ccc38fe52f40cdbb106612d2de5d59ae",
+      "originalAbcPayloadSha256": "7eac85fd5cbe7a1522c6898f6912242a8cf46e894c075c5856ae2ac31baf9053",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/btns/ItemBtn",
+      "originalSourceSha256": "ea2e5dac710fc1beb5d8c2677701c1b4929f31964926e204953a8dc65ba536af",
+      "sourceSha256": "ea2e5dac710fc1beb5d8c2677701c1b4929f31964926e204953a8dc65ba536af",
+      "originalAbcPayloadSha256": "3520ebc0f0c661167ebd5be01361b2e98572a1553667c18c876c8926a70f870f",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/btns/EscapeBtn",
+      "originalSourceSha256": "79da335fd0ccc5a853d18d74fb2a6b3e23121ff1a125ebe1e5ce001c83ff1af0",
+      "sourceSha256": "84a3b0a533eecdc7a9bacc94aa3d37c1c97757962d7f0e7ca32961f7bdf76962",
+      "originalAbcPayloadSha256": "e92b5598d314c6908066ae5e54407428307a8b02a1ba105d8c614cbc7b3f4834",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/btns/PetBtn",
+      "originalSourceSha256": "3562d997a97ea2ef85a1b0735c534455ce7caffd9045f3d0eb64816132aab702",
+      "sourceSha256": "3562d997a97ea2ef85a1b0735c534455ce7caffd9045f3d0eb64816132aab702",
+      "originalAbcPayloadSha256": "a5c7290df315b5a12f3f06f5907c7e9c2c1d2e201918fd7abfe95c7861fac84b",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/IControlPanel",
+      "originalSourceSha256": "a5645ba2ad50697e061453fcfbedf8e70767982b295ce05dee9ed56f2fbad350",
+      "sourceSha256": "a5645ba2ad50697e061453fcfbedf8e70767982b295ce05dee9ed56f2fbad350",
+      "originalAbcPayloadSha256": "02d30a89f711fd5d37afdca07bfe80bd786e812ecc05a637a7d1f988a9f9dcd1",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/BaseControlPanel",
+      "originalSourceSha256": "01bfd30390ca9dc9cb05da11a706721609d291d10082f84c4e0106c86ee8d2d3",
+      "sourceSha256": "01bfd30390ca9dc9cb05da11a706721609d291d10082f84c4e0106c86ee8d2d3",
+      "originalAbcPayloadSha256": "951099b8f681b463684fd34b9f74161f796cd804e2ac0ad6308da89344afd760",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/FightItemPanel",
+      "originalSourceSha256": "0c4f19152d6a154c40c5c72481bfed03de31608dc60f6ac426d62d0e3f9c7b0d",
+      "sourceSha256": "0c4f19152d6a154c40c5c72481bfed03de31608dc60f6ac426d62d0e3f9c7b0d",
+      "originalAbcPayloadSha256": "c02de093d08cd60e269915ee1b501acac50713c1f24e477c184f324463fb313a",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/SelectPetPanel",
+      "originalSourceSha256": "90eb01c5459034a7d50c3b102e839cb3ea122a5c0cd352f02b5b302fcec64f4b",
+      "sourceSha256": "e6acc7a278429c5acfd8e3597e45cfb178b307fa066a5f11d06bf71a5e146ed6",
+      "originalAbcPayloadSha256": "9a14518e8f8905d1d43e79b18e341efe7bb5c47bc064b6bfcaac96c3841262d6",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/PetSkillPanel",
+      "originalSourceSha256": "57afaad7a22e7f2c3ef12992244d7264a33fecae528dddea1bcfbecfd9ca4344",
+      "sourceSha256": "4f01d3ad9df35f62513af3f232205f40e66e7c27d6481393b509fc0e143b8d65",
+      "originalAbcPayloadSha256": "c99c0048dec84ddf127f42fd18118b5b878498397ab70f2e1844bf925ac2ad57",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/GankSkillAction",
+      "originalSourceSha256": "d3caef6d5d51d9063812be82341c364131918fb145a37635245f19c10ce93886",
+      "sourceSha256": "d3caef6d5d51d9063812be82341c364131918fb145a37635245f19c10ce93886",
+      "originalAbcPayloadSha256": "1c4d4ac56c1de20c84c5f2788a955000579d7aac89662d99a64d2f4d7fe07ca6",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/SingleSkillAction",
+      "originalSourceSha256": "f24282c8ea042ad26f9b9b2938113b5e84031902ed3028f8911bd95e82f67723",
+      "sourceSha256": "f24282c8ea042ad26f9b9b2938113b5e84031902ed3028f8911bd95e82f67723",
+      "originalAbcPayloadSha256": "6732d2fdaee679987e88835622c1178095ae1f47c47dd17e0a85985d772cb519",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/MassSkillAction",
+      "originalSourceSha256": "046c9356abdde91542cce60b35a311257eb4ba62a91566500ca2cbedab169a19",
+      "sourceSha256": "046c9356abdde91542cce60b35a311257eb4ba62a91566500ca2cbedab169a19",
+      "originalAbcPayloadSha256": "1de73a27d607b321235bc351bdeb522db4962ef16fc74909520fe3ea2432b404",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/fightPanel/SkillBtnView",
+      "originalSourceSha256": "1859517300a17faa7ecc986cfbca04538c05addfb7f9f6f810b8cd2cf58b60b5",
+      "sourceSha256": "b0da205daf6c137e08ae55d1e5f8f6e50f5f10d6ca6d8061d508ec1929305615",
+      "originalAbcPayloadSha256": "d25b2bef056eccc3cea8a20956278d6b58d400ba47ba73e26155bd10707050e9",
+      "compile": true
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/category/IPetItem",
+      "originalSourceSha256": "dd9cefe2dd11770fbb0163086d458c131c96eb6bff0dc4cbd833e30942bc4d99",
+      "sourceSha256": "dd9cefe2dd11770fbb0163086d458c131c96eb6bff0dc4cbd833e30942bc4d99",
+      "originalAbcPayloadSha256": "2454e480791c0432116d6a0b196e62d779f226411696c55ee321d3cec86b679c",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/panel/ui/petItem/category/PetItemItem",
+      "originalSourceSha256": "5e43f21640597903993fef5de14f5773cca35545366430702cd0a5c8d1ac917c",
+      "sourceSha256": "5e43f21640597903993fef5de14f5773cca35545366430702cd0a5c8d1ac917c",
+      "originalAbcPayloadSha256": "db5edb365f7bc0e2e07685b463f1d4977b10d69542dd3518743678ac455e2578",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/action/IAction",
+      "originalSourceSha256": "5d36e05fe8c2ad15fd9c77328ead34a52d81c5512553981d933649d1ca491b35",
+      "sourceSha256": "5d36e05fe8c2ad15fd9c77328ead34a52d81c5512553981d933649d1ca491b35",
+      "originalAbcPayloadSha256": "7ca592a257848dd46fb4501b058ad0a3edc7485d1ed6b0391b53bda07155cceb",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/action/AttackedAction",
+      "originalSourceSha256": "c1d5c5d38dbb004734089d2493078b57ad6d13f414f4ee8449f56e0212b3948e",
+      "sourceSha256": "c1d5c5d38dbb004734089d2493078b57ad6d13f414f4ee8449f56e0212b3948e",
+      "originalAbcPayloadSha256": "14d5bffbf2e354c6dda377adaabe23e7d45e4cb9081ca92aae6951c36d9d6736",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/action/HpAttackAction",
+      "originalSourceSha256": "93c2ef120bc82055f234522e531fa641554210a8aff96321a323cc02b9fad5ab",
+      "sourceSha256": "93c2ef120bc82055f234522e531fa641554210a8aff96321a323cc02b9fad5ab",
+      "originalAbcPayloadSha256": "b15f1fb0ccecafc5d5475c72b145b3249b1baf5630b0c00ab790d92481e236e9",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/action/PlaySkillMCAction",
+      "originalSourceSha256": "ea5cee019514e5fa3008d73d15f5c9112c892c96d4011560294174eeb647829e",
+      "sourceSha256": "ea5cee019514e5fa3008d73d15f5c9112c892c96d4011560294174eeb647829e",
+      "originalAbcPayloadSha256": "b2c316a2d200cdb8c1e0fcbaddc4b914117d12b01cdf44b52082b75e8267e70f",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/action/AttackAction",
+      "originalSourceSha256": "1dc0aa9003a814cbf58e39cc53568675b796f1587a82e8b481a722badcaeee33",
+      "sourceSha256": "1dc0aa9003a814cbf58e39cc53568675b796f1587a82e8b481a722badcaeee33",
+      "originalAbcPayloadSha256": "d6b4ba20422e01e785a6b301ab4aeb8fc8e71e00b3c9c2ede4af2a92fe44c86c",
+      "compile": false
+    },
+    {
+      "class": "com/robot/groupFight/control/skill/action/SkillNameAction",
+      "originalSourceSha256": "93f063a34985ac72472a2bd7bcdce5cee6c2101c44b4d55dca9d96e63d94c377",
+      "sourceSha256": "93f063a34985ac72472a2bd7bcdce5cee6c2101c44b4d55dca9d96e63d94c377",
+      "originalAbcPayloadSha256": "c3fce7c45831316f585edbee7f569881cdc4f1e6cd429dadd4a230a70b0ecba8",
+      "compile": false
+    }
+  ],
+  "nativeAssetAbcNames": [
+    "GpFightWinPanel",
+    "GpOpenningMovie_mc",
+    "LoadPercentItem",
+    "gp_attack_crit_effect",
+    "ui_gp_PetChangePanel",
+    "Effect_Stone_Icon",
+    "Effect_Tired_Mc",
+    "SkillNameMC",
+    "Gp_Item_PP_Effect",
+    "GpFightLostPanel",
+    "ui_gp_SkillPanel",
+    "mainPanel_fla/MainTimeline",
+    "Effect_Poisoning_Icon",
+    "otherAsset_fla/sprite7_23",
+    "Effect_Sleep_Icon",
+    "Effect_Afraid_Icon",
+    "Gp_Item_Blood_Bottom",
+    "Effect_Poisoning_Mc",
+    "Effect_Parasitic_Mc",
+    "Effect_Ten_Icon",
+    "Effect_Tired_Icon",
+    "Effect_Freeze_Icon",
+    "Gp_Item_PP_Bottom",
+    "Effect_Fire_Icon",
+    "mainPanel_fla/Timeline_17",
+    "Effect_Freeze_Mc",
+    "ui_gp_ItemPanel",
+    "Effect_Fire_Mc",
+    "Effect_Afraid_Mc",
+    "GpFightBoss_Sound",
+    "Tooltip_Background_2",
+    "ui_PetIconMC",
+    "GpSkillTipPanel",
+    "_04955068d19ffd78c52223ead648099bc0a38d36b68735087b24d2cca57ec8af_flash_display_Sprite",
+    "RenewPPEffect_fla/buff123_3",
+    "ui_gp_mainPanel",
+    "ChatClewMC",
+    "Effect_Sleep_Mc",
+    "otherAsset_fla/Timeline_30",
+    "GpSkillGankMC",
+    "ui_gp_itemBg",
+    "Effect_Parasitic_Icon",
+    "GpSkillProIcon",
+    "Effect_Narcosis_Icon",
+    "ui_gp_skillMC",
+    "SkillMouseMC",
+    "Effect_Narcosis_Mc",
+    "GpFightBg_Sound",
+    "GpFightLoadingMC",
+    "mainPanel_fla/_90909_16",
+    "WaitClockMC",
+    "Gp_Item_Blood_Effect",
+    "Effect_11_Icon",
+    "mainPanel_fla/ui_rightPanel_18",
+    "_CompiledResourceBundleInfo"
+  ],
+  "nativeAssetAbcPayloadSha256": {
+    "GpFightWinPanel": "f73d74484360e88450c272977e5f0be0bf591947b26020c13dd073fd04b18b8f",
+    "GpOpenningMovie_mc": "c9d2e08824bdafc8260a6c385f508a2bee880543afb72ce187ed245d52f55fe5",
+    "LoadPercentItem": "4491aa99ed6da6ae93d8049d0eacdd914cbb98c21ea5012c1d97aa6f2afc4cd4",
+    "gp_attack_crit_effect": "820ad69c4a17aceb54da499c714bb007e5d208d50e39d80537e2b4d9a85a8bda",
+    "ui_gp_PetChangePanel": "bc84155bad8b14411910b2e17c16fc0c088bdd5f68e2466435855fcb2ff47693",
+    "Effect_Stone_Icon": "d9697d0123436a41fcb3ae5e1b1f2fdd0a137336bd9c525be8d5810ff1525053",
+    "Effect_Tired_Mc": "594285bcab78df66b1ef8e57a080f188efd7231e3bd071cf9aa61c42d7e5444c",
+    "SkillNameMC": "db69488214d11c907725c3924d34f5eee32f3c81a6a600c4b738d1fe096e804c",
+    "Gp_Item_PP_Effect": "d775d0a534c7c4a844fe93319293ae41ac15a93a08729b79dbbfebfeeeb312c3",
+    "GpFightLostPanel": "d7a62810780e0ba8d89e507cac6862b4dfd78a95deffed46067f5ba972a30793",
+    "ui_gp_SkillPanel": "e3469b89561356712acc86ca69e78e8c1263cfaf54fe9a1ae50beb96d6fed9b4",
+    "mainPanel_fla/MainTimeline": "ca3078c5c217499817184544e5312683ebe344e743b44aa9ffa187c655da75de",
+    "Effect_Poisoning_Icon": "bcd5c5eafc4f57acd5c866efae64892b3eb3ea379bb939806910359dbbcaa3c0",
+    "otherAsset_fla/sprite7_23": "3ec03f5729f88e012f5acca1133e51c8c615703bcf40b02f7fa894ed67f791bf",
+    "Effect_Sleep_Icon": "68753df3bb991cb6b36c5d23eb7e36266513b2d130d4eb881184d66080c6c462",
+    "Effect_Afraid_Icon": "d6483a0fcdbcd7caf9c8eb215c88f91155f2a2b0988c5c5d7d3efab8531e9468",
+    "Gp_Item_Blood_Bottom": "b46b9a85215c53ea3cdc3d19765d66ec6111b13a260cab256b083014633e807e",
+    "Effect_Poisoning_Mc": "94afc83009156dcf9dd5e6f9e0627278aa110e96ff5ab919e7e5754dd5d3e721",
+    "Effect_Parasitic_Mc": "dba55662b16ffcf30d87005286d8eff9a1fd0f36c6daadee3ce00369f7617177",
+    "Effect_Ten_Icon": "fe541628565d8df8eeb4a2f6a17fdd7b53764be2ea0b899716fe3fb5a59e7286",
+    "Effect_Tired_Icon": "5c35244e08743bbe9d7f8371c0a1286004a00e22e8f1ac1945d476353ad3e442",
+    "Effect_Freeze_Icon": "35a77040cea0113097f5f92dcced97d715f28eb5fe428e4439139778136ef0df",
+    "Gp_Item_PP_Bottom": "32da5fba8e0b934d74cec3ff7d33de069310b4cbbdef654be374f9d90b44c90f",
+    "Effect_Fire_Icon": "31672f7df55e1164ad9c8cd3755fd359b9e75ac7f413610608c17bf5c921e95d",
+    "mainPanel_fla/Timeline_17": "9faa5bb57aeb1d021a28b81f1a7486671ab486db8646947e1bd318681f97806c",
+    "Effect_Freeze_Mc": "9ae689a740d2a14ffd77306fe66b787978915f8ca0b94416a7bf5aac9a4b78e3",
+    "ui_gp_ItemPanel": "a5023eb8759a3fc04c0a93ff848278ca8f12242427e065689f1bbbed54fa04cb",
+    "Effect_Fire_Mc": "370359a914a965300bb52ac298e29e1e48066f6ff118f987ffbe4e9f9f3620e2",
+    "Effect_Afraid_Mc": "8f9ad5bc78c9053549496ccf13e147a7852ba63283f2c7201f3d3f7afccc5ba4",
+    "GpFightBoss_Sound": "1f710ddb3d6521104f826dea64841f0b71ec6a9703095dc34dab029e5c86a5fa",
+    "Tooltip_Background_2": "51d093e2093790b57c0a022dc3863f832a61286c1536bac0ba09a03ef7cc3dd6",
+    "ui_PetIconMC": "983714c90deb67e2c622a0afb78f08be53d6e4a41312813be66c9913ba5968e5",
+    "GpSkillTipPanel": "4292fb4928904e5b7a6f50d7c8ddc732bf9afe41a2784e4480653e1e66e5fb42",
+    "_04955068d19ffd78c52223ead648099bc0a38d36b68735087b24d2cca57ec8af_flash_display_Sprite": "94e842a3cf2f273947b93df783eb7e740c57690f35bf9ee93e85e52e85eb5648",
+    "RenewPPEffect_fla/buff123_3": "2bd97538e465c1fd3d855a4e20f46940aa717a86b03422bf84379de666cd8c7c",
+    "ui_gp_mainPanel": "95d8f12bb030d3f25f9417aab64c82edc4c91eaf7748e161e3491fbba4da7513",
+    "ChatClewMC": "7deb3f8852106ce6e99a7a8d62ffda59b32618f95becf55e2544ce54fa7664ea",
+    "Effect_Sleep_Mc": "3b8c4be66ec4e7d4a32bd3640d094980620f4fc11cd9f20e371808acf09c2c1a",
+    "otherAsset_fla/Timeline_30": "9b58d7e128cabef9b0953d6f9134c8f7eee294157e48175895f86abcd3759d4a",
+    "GpSkillGankMC": "21bb5cea603d99b31740c725c39adda9199295b7a5fc3b83ce844c4ccbedecc8",
+    "ui_gp_itemBg": "e14a0c8646b55000ce377288afedd347215668f752838ccdf283c5b8dda16da9",
+    "Effect_Parasitic_Icon": "6b08310443cd643fcf5b3488440468e5a5f343f04dc9f56836658e266333d2a6",
+    "GpSkillProIcon": "9f73bbacea23b781f90129f9e191f381929634ea97bebfa23f9c313075e920c0",
+    "Effect_Narcosis_Icon": "5c34b9935fb3bbb6d2cbd3fc5bc7e6581e216da0f7c81d1e28c7cd7ceccf9bec",
+    "ui_gp_skillMC": "7d8dc6c5f965278a28f6813e09eee0f0e87d2b3d228fc0b9f4738d81c0908223",
+    "SkillMouseMC": "d94768f092845165b979ee35f98721e8ea4793dcea008b0423cd5a7b44695fce",
+    "Effect_Narcosis_Mc": "0a742623749d6728993294b56e4905adbfeafbd909392529941c35c9ab16078c",
+    "GpFightBg_Sound": "551f49f7e16cb1020a6254a0e0c6dfddec99621af9993cd746bd430248d33bf3",
+    "GpFightLoadingMC": "fbb5a131e8b21b055c4e7a688c05d1d0c85fbde2b35220b5afd1de989c59036a",
+    "mainPanel_fla/_90909_16": "0a7526bb8af3315ee0ed6b97fa2af9f62b63ef6c5a63c614864ee7fc26ecdee9",
+    "WaitClockMC": "f2e291286816d6c7c6d5491617deebbe5e01b349501a0e2f1fcdb5c887de2513",
+    "Gp_Item_Blood_Effect": "a1f5ae292a071decabfacab5413febefb7dbadabfd8083d8cda54d08da9ac741",
+    "Effect_11_Icon": "4d7d4ac256745c972b3161db0a8fe7b7a168db24bdc639cb49e11fe1d4cab229",
+    "mainPanel_fla/ui_rightPanel_18": "2daad795dae02b7b2a8f55a0e83cd6d8bb78479f359aca5761af9dbbcc55ba0d",
+    "_CompiledResourceBundleInfo": "1a9313bb51836624b6d35f105e8c7277edda51d70e3804895943860d141112b2"
+  },
+  "dllCompilation": {
+    "keepAbcNames": [
+      "com/robot/groupFight/GroupFightDLL",
+      "com/robot/groupFight/control/SpriteDieController",
+      "com/robot/groupFight/manager/GroupFightOverManager",
+      "com/robot/groupFight/data/FighterModelFactory",
+      "com/robot/groupFight/manager/TimerManager",
+      "com/robot/groupFight/view/loading/LoadingItem",
+      "com/robot/groupFight/manager/assetManager/AssetsLoadManager",
+      "com/robot/groupFight/control/GroupFightController",
+      "com/robot/groupFight/manager/assetManager/AssetsEvent",
+      "com/robot/groupFight/mode/BaseGroupFighterModel",
+      "com/robot/groupFight/view/IFighterView",
+      "com/robot/groupFight/view/BaseFighterPetWin",
+      "com/robot/groupFight/mode/PlayerGroupFighterModel",
+      "com/robot/groupFight/data/FighterPetInfoFactory",
+      "com/robot/groupFight/view/PlayerFighterPetWin",
+      "com/robot/groupFight/control/panel/FightOverPanel",
+      "com/robot/groupFight/control/panel/ui/fightPanel/IAutoActionPanel",
+      "com/robot/groupFight/data/DoubleSkillTypeAssertXmlInfo",
+      "com/robot/groupFight/manager/assetManager/PetAssetsManager",
+      "com/robot/groupFight/manager/assetManager/SkillAssetsManager",
+      "com/robot/groupFight/manager/GpSkillWaiteManager",
+      "com/robot/groupFight/manager/GroupChatManager",
+      "com/robot/groupFight/control/SkillPlayController",
+      "com/robot/groupFight/control/panel/ui/petItem/petItemCon/UsePetItemController",
+      "com/robot/groupFight/view/BaseFighterHPView",
+      "com/robot/groupFight/view/BaseFighterBloodWin",
+      "com/robot/groupFight/view/interfaces/IPetRelation",
+      "com/robot/groupFight/view/relation/PetRelationEffect",
+      "com/robot/groupFight/manager/SkillAnimateManager",
+      "com/robot/groupFight/control/panel/IActivePanelObserver",
+      "com/robot/groupFight/control/panel/BasePanelObserver",
+      "com/robot/groupFight/control/panel/ToolBtnPanelObserver",
+      "com/robot/groupFight/control/panel/FightToolSubject",
+      "com/robot/groupFight/control/panel/ControlPanelObserver",
+      "com/robot/groupFight/data/GroupFightUserInfo",
+      "com/robot/groupFight/manager/GroupArrayManager",
+      "com/robot/groupFight/data/DoubleSkillTypeAssertXmlInfo_SkillAssert",
+      "com/robot/groupFight/manager/GroupFightMsgManager",
+      "com/robot/groupFight/manager/GpFtSpriteNoticeManager",
+      "com/robot/groupFight/control/SkillMouseController",
+      "com/robot/groupFight/control/skill/SkillPlayInfo",
+      "com/robot/groupFight/control/SkillActionPase",
+      "com/robot/groupFight/control/SkillTimerManager",
+      "com/robot/groupFight/control/skill/ISkillAction",
+      "com/robot/groupFight/control/panel/ui/petItem/petItemCon/IUseItemEffect",
+      "com/robot/groupFight/control/panel/ui/petItem/petItemCon/UseItemEffect",
+      "com/robot/groupFight/control/panel/ui/petItem/petItemCon/RenewBloodEffect",
+      "com/robot/groupFight/control/panel/ui/petItem/petItemCon/RenewPPEffect",
+      "com/robot/groupFight/control/panel/ui/btns/IControlBtns",
+      "com/robot/groupFight/control/panel/ui/btns/ControlBtn",
+      "com/robot/groupFight/control/panel/ui/btns/FightBtn",
+      "com/robot/groupFight/control/panel/ui/btns/ItemBtn",
+      "com/robot/groupFight/control/panel/ui/btns/EscapeBtn",
+      "com/robot/groupFight/control/panel/ui/btns/PetBtn",
+      "com/robot/groupFight/control/panel/ui/fightPanel/IControlPanel",
+      "com/robot/groupFight/control/panel/ui/fightPanel/BaseControlPanel",
+      "com/robot/groupFight/control/panel/ui/fightPanel/FightItemPanel",
+      "com/robot/groupFight/control/panel/ui/fightPanel/SelectPetPanel",
+      "com/robot/groupFight/control/panel/ui/fightPanel/PetSkillPanel",
+      "com/robot/groupFight/control/skill/GankSkillAction",
+      "com/robot/groupFight/control/skill/SingleSkillAction",
+      "com/robot/groupFight/control/skill/MassSkillAction",
+      "com/robot/groupFight/control/panel/ui/fightPanel/SkillBtnView",
+      "com/robot/groupFight/control/panel/ui/petItem/category/IPetItem",
+      "com/robot/groupFight/control/panel/ui/petItem/category/PetItemItem",
+      "com/robot/groupFight/control/skill/action/IAction",
+      "com/robot/groupFight/control/skill/action/AttackedAction",
+      "com/robot/groupFight/control/skill/action/HpAttackAction",
+      "com/robot/groupFight/control/skill/action/PlaySkillMCAction",
+      "com/robot/groupFight/control/skill/action/AttackAction",
+      "com/robot/groupFight/control/skill/action/SkillNameAction",
+      "GpFightWinPanel",
+      "GpOpenningMovie_mc",
+      "LoadPercentItem",
+      "gp_attack_crit_effect",
+      "ui_gp_PetChangePanel",
+      "Effect_Stone_Icon",
+      "Effect_Tired_Mc",
+      "SkillNameMC",
+      "Gp_Item_PP_Effect",
+      "GpFightLostPanel",
+      "ui_gp_SkillPanel",
+      "mainPanel_fla/MainTimeline",
+      "Effect_Poisoning_Icon",
+      "otherAsset_fla/sprite7_23",
+      "Effect_Sleep_Icon",
+      "Effect_Afraid_Icon",
+      "Gp_Item_Blood_Bottom",
+      "Effect_Poisoning_Mc",
+      "Effect_Parasitic_Mc",
+      "Effect_Ten_Icon",
+      "Effect_Tired_Icon",
+      "Effect_Freeze_Icon",
+      "Gp_Item_PP_Bottom",
+      "Effect_Fire_Icon",
+      "mainPanel_fla/Timeline_17",
+      "Effect_Freeze_Mc",
+      "ui_gp_ItemPanel",
+      "Effect_Fire_Mc",
+      "Effect_Afraid_Mc",
+      "GpFightBoss_Sound",
+      "Tooltip_Background_2",
+      "ui_PetIconMC",
+      "GpSkillTipPanel",
+      "_04955068d19ffd78c52223ead648099bc0a38d36b68735087b24d2cca57ec8af_flash_display_Sprite",
+      "RenewPPEffect_fla/buff123_3",
+      "ui_gp_mainPanel",
+      "ChatClewMC",
+      "Effect_Sleep_Mc",
+      "otherAsset_fla/Timeline_30",
+      "GpSkillGankMC",
+      "ui_gp_itemBg",
+      "Effect_Parasitic_Icon",
+      "GpSkillProIcon",
+      "Effect_Narcosis_Icon",
+      "ui_gp_skillMC",
+      "SkillMouseMC",
+      "Effect_Narcosis_Mc",
+      "GpFightBg_Sound",
+      "GpFightLoadingMC",
+      "mainPanel_fla/_90909_16",
+      "WaitClockMC",
+      "Gp_Item_Blood_Effect",
+      "Effect_11_Icon",
+      "mainPanel_fla/ui_rightPanel_18",
+      "_CompiledResourceBundleInfo"
+    ],
+    "omitBinaryCharacterIds": [
+      456
+    ],
+    "omitSymbolClassNames": [
+      "com.robot.app2.control.PandoraBoxController__xmlClass"
+    ],
+    "preserveBinaryCharacters": [
+      {
+        "characterId": 546,
+        "symbol": "com.robot.groupFight.data.DoubleSkillTypeAssertXmlInfo_SkillAssert",
+        "payloadSha256": "e471a826303e9f68172717df02bf0327612129a5812a6170bc52f2b53646c6fe"
+      }
+    ],
+    "documentClass": "com.robot.groupFight.GroupFightDLL",
+    "steps": [
+      "Read pinned raw dll/GroupFightDLL.swf from restored-resources. It starts with CWS at byte0; never strip a wrapper.",
+      "Parse with existing parent parse/encode. Retain only listed126 DoABC tags (71 battle +55 asset classes). Drop all1032 app2 ABCs. Drop DefineBinaryData character456 and its SymbolClass and ExportAssets bindings. Keep other tags, character IDs, geometry, sounds, bitmaps, clips, native embedded skill XML and document binding unchanged.",
+      "Create compiler context by inserting the newly compiled current Core DoABC tags before the first retained native DoABC. Copy only nativeSources entries with compile=true into a dedicated import/scripts directory.",
+      "Run existing Java/FFDec -onerror abort -importScript context.swf compiled.swf imports. Do not import reference Core sources or root asset sources.",
+      "Remove context Core tags from output. Preserve every uncompiled native and asset DoABC byte-for-byte. Permit changed native DoABC tags only for nativeSources entries with compile=true; preserve retained non-ABC tags apart from the deliberate removed bindings.",
+      "Publish encoded native DLL to client/assets/dll/GroupFightDLL.swf and client/overlay/dll/GroupFightDLL.swf after resource staging. Never ship unfiltered official DLL, newer app2 classes, or a replacement global UI/Core."
+    ],
+    "outputPaths": [
+      "client/assets/dll/GroupFightDLL.swf",
+      "client/overlay/dll/GroupFightDLL.swf"
+    ],
+    "nativeOriginalAbcCount": 71,
+    "assetAbcCount": 55,
+    "unrelatedApp2AbcCount": 1032,
+    "fontAdaptation": "Use current system _sans for HP text with embedFonts=false; keep original colors, placement and all movie artwork. Do not add modified-reference MoreFont or global font shims."
+  },
+  "parentBuilderHooks": {
+    "classes": "Merge coreClasses into parent classes table before class import loop. Existing null-class donor logic uses reference shells; all nine listed sources live in scripts/. alreadyRegisteredCoreClasses remain registered through existing map/group metadata and must compile updated source.",
+    "restoredInputsAdd": [
+      "dll/GroupFightDLL.swf",
+      "module/com/robot/module/task/MonsterShow.swf",
+      "resource/bounsMovie/groupguide.swf"
+    ],
+    "questsInsert": [
+      131
+    ],
+    "questsNote": "Add131 to existing missing-quest insertion loop (33,1247). Four pros; isDir=0,isEnd=0. TasksManager.getTaskPorCount counts all four; final index3. Do not reset player tasks.",
+    "modules": "Existing compileRestoredTaskModule handles updated TaskPanel_131 patch rule and new MonsterShow patch rule. Both original resources have a single frame1 ABC; compile only named controller while preserving every art tag.",
+    "dll": "Dedicated DLL compilation after current Core compilation. Prefer keepAbcNames whitelist rather than a broad app2 exclusion. Include DLL compile record and retained-art fingerprints in final manifest."
+  },
+  "task131": {
+    "requiredProgress": 4,
+    "stages": [
+      {
+        "index": 0,
+        "trigger": "Accepted by Justin, then complete original AI dialogue in map100."
+      },
+      {
+        "index": 1,
+        "trigger": "Map336 original AI explanation; optional original groupguide movie; genuine MonsterShow close event; final AI dialogue."
+      },
+      {
+        "index": 2,
+        "trigger": "Server-confirmed normal native group victory in map337 only. Client echo cannot manufacture victory."
+      },
+      {
+        "index": 3,
+        "trigger": "Return to Justin map102 and finish original three completion dialogues; authoritative server claims once."
+      }
+    ],
+    "reward": {
+      "coins": 3000,
+      "accumulatedExperience": 3000
+    },
+    "entry": "Current MapProcess_102.hitNpc gains initial cooperative-training choice; all current star-arena/training choices remain. Accepted tasks open original progression panel unless server-earned stage2 permits final Justin dialogue.",
+    "metadataNameNote": "Use original panel objective 寄生岩 instead of unfinished source XML label 击败XXXX. Four original stage meanings unchanged.",
+    "reconnect": "Map100/336/337 asynchronous callbacks guard active map ownership. Map336 removes shared panel listeners before destroying module. TaskPanel_131 cleans tooltip/close listeners; MonsterShow removes its owned top-level panel. No saved task state reset."
+  },
+  "runtimeContracts": {
+    "mode": "7553 type3 sets NPC status. 7555 model5/6 changes mode only, not NPC status.",
+    "bag": "Wait for production PetManager.UPDATE_INFO catchTime()=0; upDate() takes no callback. Load real roster assets and send7556 only after actual asset completion.",
+    "results": "Use original GpFightWinPanel/GpFightLostPanel and EventManager.PET_UPDATE_PROP for real current PetUpdatePropController. No CountExpPanelManager shim. ALARM_CLICK preserves MapManager refresh and task result hooks; WIN_CLOSE follows actual user close for normal outcomes and successful escape. Those closed reservations discard well-formed in-flight actions until each actor confirms or leaves; other cancellations release immediately.",
+    "map": "Keep current map instance and task listener alive; use current LevelManager.showOrRemoveMapLevelandToolslevel(false/true). Do not call obsolete LevelManager.removeContentLevel/addLevel, MainManager.actorState or two-argument MapManager.refMap.",
+    "pp": "RenewPPEffect requests normal GET_PET_INFO, GroupFightController replaces authoritative bag/skill PP via current production PetManager.updateBagPet. Zero PP can recover. No synthetic attack packet or guessed PP increase.",
+    "playback": "7586 empty after each native action and once at drained queue. Retain every actor7573 through queue drain. Actual30s movie failure exits7587 rather than fabricating playback completion. Server opens next turn only after real queue completion.",
+    "emptyPP": "Native auto sends skill0 only when every displayed learned skill has zero PP. Server treats this as exhausted idle, not an invented struggle attack.",
+    "cleanup": "Cancel pending Core DLL loads on map/logout/7560; release current mouse, child animation handlers, tweens, countdown/playback timers, wait-progress/socket/chat listeners, result bitmap/panel ownership and asset domains. Disconnect cannot emit later victory/reward close callbacks."
+  },
+  "remainingParentEvidence": [
+    "Compile current Core, both patched task modules and dedicated native DLL once after both agents land; confirm no undefined/missing native APIs or compiler errors.",
+    "Run genuine dual-client party battle in337 and343 using actual carried rosters, original battle controls and native pet/skill SWFs. Observe ready assets before7556 and real7586 action/queue ACKs.",
+    "Exercise attack, target selection, HP/status/effect changes, voluntary switch, faint reserve selection, HP/PP medicine, zero-PP idle, escape, disconnect, loading failure and repeated battle re-entry; confirm timers/mouse/result ownership cleaned.",
+    "Exercise task131 Justin accept→map100 AI→map336 movie/MonsterShow→real337 victory→Justin reward, including relogin between stages, defeat/escape no-stage2, forged completion rejected and reward once. Preserve existing data and balances.",
+    "Observe original layout at960x560 and800x620, party UI unchanged, real XP/skill/reward panels and map return. Verify ordinary PVE/bosses and current19 production Core updates remain intact.",
+    "Actual dynamic assets remain roster-dependent: resource/groupFightResource/pet/{species}.swf and resource/groupFightResource/skill/{SkillXMLInfo.getUrl(skill), native dual-type alias}.swf. Use existing real asset provider; resource failure exits, never fake readiness. Record actual requested resources/bytes in smoke evidence."
+  ],
+  "checksRun": {
+    "build": false,
+    "tests": false,
+    "lint": false,
+    "formatter": false,
+    "nativeUiSmoke": false
+  },
+  "safety": {
+    "productionWrites": false,
+    "serverFilesEdited": false,
+    "parentBuilderEdited": false,
+    "READMEEdited": false,
+    "playerDataReset": false,
+    "bossValuesOrProbabilitiesChanged": false
+  }
+}

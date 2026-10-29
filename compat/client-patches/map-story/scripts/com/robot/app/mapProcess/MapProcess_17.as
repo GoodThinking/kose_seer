@@ -53,6 +53,12 @@ package com.robot.app.mapProcess
       private var catchTimer:Timer;
       
       private var isCacthing:Boolean = false;
+      private var harvestPending:Boolean = false;
+      private var harvestDestroyed:Boolean = false;
+      private var harvestToken:uint = 0;
+      private var harvestActor:ActorModel;
+      private var harvestScaleX:Number;
+      private var harvestActorID:uint;
       private var treasureStoryActive:Boolean = false;
       
       public function MapProcess_17()
@@ -120,6 +126,8 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
+         this.harvestDestroyed = true;
+         this.cancelHarvest();
          Task532.destroy(this);
          AimatController.removeEventListener(AimatEvent.PLAY_END,this.onAimat);
          if(Boolean(this.timer))
@@ -147,8 +155,6 @@ package com.robot.app.mapProcess
          this.catchTimer.stop();
          this.catchTimer.removeEventListener(TimerEvent.TIMER,this.onCatchTimer);
          this.catchTimer = null;
-         var _loc1_:ActorModel = MainManager.actorModel;
-         _loc1_.removeEventListener(RobotEvent.WALK_START,this.onWalkStart);
       }
 
       public function setTreasureStoryActive(active:Boolean) : void
@@ -298,30 +304,44 @@ package com.robot.app.mapProcess
          mc = conLevel["brumeMC"];
          var mode:ActorModel = MainManager.actorModel;
          var petMode:PetModel = mode.pet;
-         if(Boolean(petMode))
+         if(!petMode || PetXMLInfo.getType(petMode.info.petID) != "2")
          {
-            if(PetXMLInfo.getType(petMode.info.petID) == "2")
+            Alarm.show("需要让水系精灵跟随，才能驱散雾气。");
+            return;
+         }
+         mc.mouseEnabled = false;
+         mc.mouseChildren = false;
+         var innerMc:MovieClip = mc["mc"] as MovieClip;
+         if(innerMc != null)
+         {
+            innerMc.gotoAndPlay(3);
+            innerMc.addFrameScript(62,function():void
             {
-               mc.mouseEnabled = false;
-               mc.mouseChildren = false;
-               mc["mc"].gotoAndPlay(3);
-               mc.addFrameScript(62,function():void
-               {
-                  DisplayUtil.removeForParent(mc);
-               });
-            }
+               DisplayUtil.removeForParent(mc);
+            });
+         }
+         else
+         {
+            DisplayUtil.removeForParent(mc);
          }
       }
       
       public function catchStone() : void
       {
-      }
-      
-      private function onCheckTask(param1:Boolean) : void
-      {
-         if(param1)
+         if(this.harvestDestroyed || this.harvestPending || this.isCacthing) return;
+         if(TasksManager.getTaskStatus(7) == TasksManager.COMPLETE)
          {
             Alarm.show("你已经收集过炎晶了");
+            return;
+         }
+         if(TasksManager.getTaskStatus(7) != TasksManager.ALR_ACCEPT)
+         {
+            Alarm.show("请先领取赛尔号防寒服任务，再来收集炎晶。");
+            return;
+         }
+         if(conLevel["brumeMC"] != null && conLevel["brumeMC"].parent != null && conLevel["brumeMC"].mouseEnabled)
+         {
+            Alarm.show("这里还有雾气，先让水系精灵跟随并驱散雾气吧。");
             return;
          }
          if(MainManager.actorInfo.clothIDs.indexOf(100014) == -1)
@@ -329,32 +349,89 @@ package com.robot.app.mapProcess
             Alarm.show("矿石挖掘需要专业工具挖矿钻头，若你已从机械室找到它，快把它装备上吧！");
             return;
          }
-         this.catchTimer.stop();
-         this.catchTimer.reset();
-         this.catchTimer.start();
-         this.isCacthing = true;
-         var _loc2_:ActorModel = MainManager.actorModel;
-         _loc2_.addEventListener(RobotEvent.WALK_START,this.onWalkStart);
-         _loc2_.specialAction(100014);
-         _loc2_.parent.addChild(_loc2_);
-         _loc2_.skeleton.getBodyMC().scaleX = -1;
+         this.harvestPending = true;
+         this.harvestActor = MainManager.actorModel;
+         this.harvestActorID = MainManager.actorID;
+         this.harvestActor.addEventListener(RobotEvent.WALK_START,this.onWalkStart);
+         var token:uint = ++this.harvestToken;
+         TasksManager.getProStatus(7,1,function(done:Boolean):void
+         {
+            if(harvestDestroyed || token != harvestToken || MainManager.actorID != harvestActorID) return;
+            if(TasksManager.getTaskStatus(7) != TasksManager.ALR_ACCEPT)
+            {
+               cancelHarvest();
+               return;
+            }
+            if(done)
+            {
+               cancelHarvest();
+               Alarm.show("你已经收集过炎晶了");
+               return;
+            }
+            if(MainManager.actorInfo.clothIDs.indexOf(100014) == -1)
+            {
+               cancelHarvest();
+               Alarm.show("矿石挖掘需要专业工具挖矿钻头，若你已从机械室找到它，快把它装备上吧！");
+               return;
+            }
+            harvestPending = false;
+            isCacthing = true;
+            harvestScaleX = harvestActor.skeleton.getBodyMC().scaleX;
+            harvestActor.specialAction(100014);
+            if(harvestActor.parent != null) harvestActor.parent.addChild(harvestActor);
+            harvestActor.skeleton.getBodyMC().scaleX = -1;
+            catchTimer.reset();
+            catchTimer.start();
+         });
       }
-      
+
+      private function cancelHarvest() : void
+      {
+         ++this.harvestToken;
+         if(this.catchTimer != null) this.catchTimer.stop();
+         if(this.harvestActor != null)
+         {
+            this.harvestActor.removeEventListener(RobotEvent.WALK_START,this.onWalkStart);
+            if(this.isCacthing)
+            {
+               this.harvestActor.stopSpecialAct();
+               this.harvestActor.skeleton.getBodyMC().scaleX = this.harvestScaleX;
+            }
+         }
+         this.harvestActor = null;
+         this.isCacthing = false;
+         this.harvestPending = false;
+      }
+
       private function onCatchTimer(param1:TimerEvent) : void
       {
+         if(!this.isCacthing || this.harvestDestroyed) return;
+         if(MainManager.actorID != this.harvestActorID || TasksManager.getTaskStatus(7) != TasksManager.ALR_ACCEPT ||
+            MainManager.actorInfo.clothIDs.indexOf(100014) == -1)
+         {
+            this.cancelHarvest();
+            return;
+         }
+         this.harvestActor.stopSpecialAct();
+         this.harvestActor.skeleton.getBodyMC().scaleX = this.harvestScaleX;
          this.isCacthing = false;
+         this.harvestPending = true;
+         var token:uint = this.harvestToken;
+         TasksManager.complete(7,1,function(success:Boolean):void
+         {
+            if(harvestDestroyed || token != harvestToken || MainManager.actorID != harvestActorID) return;
+            cancelHarvest();
+            if(success) Alarm.show("恭喜你找到了<font color='#ff0000'>炎晶</font>");
+            else Alarm.show("这次采集似乎失败了，再尝试一次吧！");
+         });
       }
-      
+
       private function onWalkStart(param1:RobotEvent) : void
       {
-         var _loc2_:ActorModel = null;
-         if(this.isCacthing)
+         if(this.isCacthing || this.harvestPending)
          {
+            this.cancelHarvest();
             Alarm.show("随便走动是无法收集炎晶的哦！");
-            this.isCacthing = false;
-            _loc2_ = MainManager.actorModel;
-            _loc2_.skeleton.getBodyMC().scaleX = 1;
-            this.catchTimer.stop();
          }
       }
    }

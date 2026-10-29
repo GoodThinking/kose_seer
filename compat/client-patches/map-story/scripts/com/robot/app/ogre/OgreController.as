@@ -1,6 +1,8 @@
 package com.robot.app.ogre
 {
    import com.robot.app.fightNote.FightInviteManager;
+   import com.robot.app.group.manager.GroupFightInviteManager;
+   import com.robot.core.group.manager.GroupManager;
    import com.robot.app.task.control.TaskController_81;
    import com.robot.core.config.xml.OgreXMLInfo;
    import com.robot.core.event.MapEvent;
@@ -55,23 +57,21 @@ package com.robot.app.ogre
             MapManager.addEventListener(MapEvent.MAP_DESTROY,onMapSwitchOpen);
             MapManager.addEventListener(MapEvent.MAP_MOUSE_DOWN,onMapDown);
          }
-         if(_list.length > 3)
+         _loc3_ = _list.getValue(param1) as OgreModel;
+         if(Boolean(_loc3_))
          {
-            return;
+            if(_loc3_.id == param2)
+            {
+               return;
+            }
+            remove(param1);
          }
-         if(_list.containsKey(param1))
+         if(_list.length > 3)
          {
             return;
          }
          if(Boolean(_pList))
          {
-            _loc3_ = _list.getValue(param1) as OgreModel;
-            if(Boolean(_loc3_))
-            {
-               _loc3_.removeEventListener(RobotEvent.OGRE_CLICK,onClick);
-               _loc3_.destroy();
-               _loc3_ = null;
-            }
             _loc3_ = new OgreModel(param1);
             if(MapManager.currentMap.id == 58)
             {
@@ -160,6 +160,11 @@ package com.robot.app.ogre
          var _loc2_:OgreModel = _list.remove(param1) as OgreModel;
          if(Boolean(_loc2_))
          {
+            if(_currObj == _loc2_)
+            {
+               MainManager.actorModel.removeEventListener(RobotEvent.WALK_ENTER_FRAME,onEnter);
+               _currObj = null;
+            }
             _loc2_.removeEventListener(RobotEvent.OGRE_CLICK,onClick);
             _loc2_.destroy();
             _loc2_ = null;
@@ -171,6 +176,7 @@ package com.robot.app.ogre
          var _loc1_:OgreModel = null;
          MapManager.removeEventListener(MapEvent.MAP_MOUSE_DOWN,onMapDown);
          MainManager.actorModel.removeEventListener(RobotEvent.WALK_ENTER_FRAME,onEnter);
+         _currObj = null;
          var _loc2_:Array = _list.getValues();
          for each(_loc1_ in _loc2_)
          {
@@ -206,9 +212,21 @@ package com.robot.app.ogre
                if(_loc3_.hp > 0 && _loc4_ > 0)
                {
                   MainManager.actorModel.stop();
-                  LevelManager.closeMouseEvent();
-                  PetFightModel.defaultNpcID = param1.id;
-                  FightInviteManager.fightWithNpc(param1.index);
+                  if(MapManager.currentMap.id == 337 || MapManager.currentMap.id == 343)
+                  {
+                     if(!GroupManager.isInGroup)
+                     {
+                        Alarm.show("你需要组成队伍才能挑战训练室里的精灵。");
+                        return true;
+                     }
+                     GroupFightInviteManager.fightWithNpc(param1.index);
+                  }
+                  else
+                  {
+                     LevelManager.closeMouseEvent();
+                     PetFightModel.defaultNpcID = param1.id;
+                     FightInviteManager.fightWithNpc(param1.index);
+                  }
                   return true;
                }
             }

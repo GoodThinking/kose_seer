@@ -196,4 +196,27 @@
     <pro name="实战战胜封印投影" parent="" isMat="0" doc="" alert="" />
     <pro name="领取首通奖励" parent="" isMat="0" doc="" alert="" />
 </task>
+<task ID="1247" name="深海漩涡下的入侵" parent="" isMat="0" type="0" isDir="0" doc="在怀特星湖面帮助阿布救回精灵蛋，再进入海之子神殿守护水系伙伴。" isEnd="0" alert="">
+    <pro name="帮助阿布救回精灵蛋" parent="" isMat="0" doc="前往怀特星湖面，点击求救的皮特萨罗。" alert="" />
+    <pro name="了解海盗的阴谋" parent="" isMat="0" doc="进入漩涡，与海之子神殿的鱼龙王交谈。" alert="" />
+</task>
+<task ID="33" name="解救被困的精灵们" parent="" isMat="0" type="0" isDir="0" doc="进入海盗要塞，击败三个守卫与佐格，关闭电网并救出被困精灵。" isEnd="0" alert="">
+    <pro name="击败机械系守卫" parent="" isMat="0" doc="三个守卫可以任意顺序挑战。" alert="" />
+    <pro name="击败地面系守卫" parent="" isMat="0" doc="守卫战斗胜利后保存进度。" alert="" />
+    <pro name="击败冰系守卫" parent="" isMat="0" doc="三个守卫被击败后，佐格现身。" alert="" />
+    <pro name="战胜佐格的尼斯克" parent="" isMat="0" doc="挑战60级尼斯克。" alert="" />
+    <pro name="阻止佐格的实验" parent="" isMat="0" doc="继续佐格逃离的原始剧情演出。" alert="" />
+    <pro name="关闭牢笼电网" parent="" isMat="0" doc="点击牢笼右侧红色开关，走近后救出精灵。" alert="" />
+    <pro name="带走神秘身影并完成营救" parent="" isMat="0" doc="点击神秘身影，结算天枰装与海盗战斗奖章。" alert="" />
+</task>
+<task ID="131" name="初级编队训练" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="与AI对话" parent="" isMat="0" doc="" alert="" />
+    <pro name="去训练室与AI对话" parent="" isMat="0" doc="" alert="" />
+    <pro name="击败寄生岩" parent="" isMat="0" doc="" alert="" />
+    <pro name="提交任务" parent="" isMat="0" doc="" alert="" />
+</task>
+<!-- Task 134 is referenced by the original map controller. Its missing label is descriptive, not a recovered historical title. -->
+<task ID="134" name="遗忘领域的精元" parent="" isMat="0" type="0" isDir="0" doc="" isEnd="0" alert="">
+    <pro name="领取机关中的精元" parent="" isMat="0" doc="" alert="" />
+</task>
 </tasks>

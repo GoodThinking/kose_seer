@@ -37,7 +37,7 @@ const curated = {
   '卡鲁克斯': {scores:[27,19,17,11],role:'弱化物攻',summary:'破攻与破甲配合强化，是地面系攻坚选手。',moves:['破攻','破甲','大地之力','爆裂极突刺'],ev:[0,1],why:'先压低敌方攻击，再强化自身进攻；可兼任物攻队的破甲辅助。',limit:'能力下降免疫会削弱核心价值；地面系面对飞行等无效属性不要硬打。'},
   '丘波': {scores:[8,7,4,8],role:'进化前培养',summary:'当前形态缺少核心攻坚技能，不把进化后技能算给它。',moves:[],ev:[0,3],why:'种族值与技能池都处于早期阶段；先培养进化，再评价成型能力。',limit:'网上俗称的低级工具用法不能直接套到本服：当前可学表没有斜转以外的完整终形技能组。'}
 };
-function buildCatalogue({base, fusionBase = base, seaVortex}) {
+function buildCatalogue({base, fusionBase = base, seaVortex, darkPortalReview, kingTower}) {
   const inputs = [];
   function read(rel, dir = base) { const file = path.join(dir, rel); inputs.push(file); return fs.readFileSync(file, 'utf8'); }
   const json = rel => JSON.parse(read('app/config/data/json/' + rel));
@@ -72,7 +72,7 @@ function buildCatalogue({base, fusionBase = base, seaVortex}) {
   const farms = Array.from({length:6},()=>[]);
   for(const [mid,map] of Object.entries(maps)) for(const o of map.ogres || []) {
     if(o.isBoss || Number(o.weight ?? 1)<=0)continue;
-    if(o.catchable!==false)add(o.petId,map.name+'捕捉'+name(o.petId),'wild',{mapId:Number(mid)});
+    if(o.catchable!==false)add(o.petId,map.name+'捕捉'+name(o.petId)+(Number(mid)===36?'。先让电系精灵在身边跟随，再点击四根电能柱，野怪才会显现；同次进图的战斗回场保留机关，离图或重登后需重新启动。':''),'wild',{mapId:Number(mid)});
     const yields=numbers(pets.get(o.petId)?.YieldingEV);
     yields.forEach((v,i)=>{if(v>0&&yields.filter(n=>n>0).length===1)farms[i].push({level:o.level || o.minLevel || 100,text:map.name+' · '+name(o.petId)+'（基础每只+'+v+'）'});});
     for(const d of o.dropItems || []) if(d.dropRate>0)giveItem(d.itemId,map.name+'击败'+name(o.petId)+'掉落');
@@ -88,6 +88,17 @@ function buildCatalogue({base, fusionBase = base, seaVortex}) {
     if(boss.spt?.rewardPetId)add(boss.spt.rewardPetId,where+'，首次胜利奖励','boss',target);
     if(boss.spt?.rewardItemId)giveItem(boss.spt.rewardItemId,where+'，首次胜利','boss',target);
     for(const d of boss.drops || [])if((d.dropRate ?? d.rate ?? 1)>0)giveItem(d.itemId,where+'掉落','boss',target);
+  }
+  for(const door of darkPortalReview?.doors || []) {
+    const boss=bosses.find(row=>row.mapId===110&&row.param2===door.sourceParam2&&row.petId===door.petId);
+    if(!boss?.spt?.rewardItemId)throw Error('Missing review essence source '+door.sourceParam2);
+    giveItem(boss.spt.rewardItemId,'暗黑武斗场第十一门·破防研习「'+door.name+'」，超级NONO进入后击败'+boss.petName+'；与原守门挑战共享首胜精元，不重复领取。');
+  }
+  const kingFile=path.join(base,'app/config/data/json/king_tower.json');
+  if(kingTower===undefined && fs.existsSync(kingFile))kingTower=json('king_tower.json');
+  if(kingTower)for(const milestone of kingTower.milestones) {
+    const mode=milestone.mode===1?'普通':'极限',required=milestone.mode===1?kingTower.normalRequiredLevel100Pets:kingTower.heroRequiredLevel100Pets;
+    for(const reward of milestone.items)giveItem(reward.itemId,'王者之塔（'+kingTower.entranceMapId+'）'+mode+'模式：携带至少'+required+'只100级精灵，首次打通第'+milestone.floor+'层后');
   }
   const tasks=json('tasks.json').tasks;
   for(const [id,t] of Object.entries(tasks)) {

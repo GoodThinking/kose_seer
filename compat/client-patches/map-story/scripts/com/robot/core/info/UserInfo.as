@@ -3,6 +3,7 @@ package com.robot.core.info
    import com.robot.core.info.clothInfo.PeopleItemInfo;
    import com.robot.core.info.team.TeamInfo;
    import com.robot.core.info.teamPK.TeamPKInfo;
+   import com.robot.core.group.info.GroupInfo;
    import com.robot.core.manager.MainManager;
    import com.robot.core.manager.PetManager;
    import com.robot.core.manager.TasksManager;
@@ -16,6 +17,9 @@ package com.robot.core.info
    {
       
       public var priorLevel:uint;
+      // Session-local party state does not add bytes to the existing user-info protocol.
+      public var groupInfo:GroupInfo;
+
       
       public var bufferRecordArr:Array = [];
       

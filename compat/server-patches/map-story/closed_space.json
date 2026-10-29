@@ -1,0 +1,13 @@
+{
+  "command": 2106,
+  "rooms": [
+    {"mapId": 309, "prizeIndex": 0, "reward": {"itemId": 300003, "count": 3}},
+    {"mapId": 304, "prizeIndex": 1, "reward": {"itemId": 300003, "count": 3}}
+  ],
+  "provenance": {
+    "mechanism": "https://news.4399.com/seer/saierwenda/200911-21-48403.html",
+    "map": "https://m.news.4399.com/seer/jingyanxinde/200911-23-48509.html",
+    "protocol": "Current client CommandID.PRIZE_OF_ATRESIASPACE=2106 and AresiaSpacePrize decoder; original MapProcess_304 sends prize index 1.",
+    "projectPolicy": "Exact matching-version treasure quantities are unavailable. Each room grants three existing advanced capsules once per account. This is a project-authored completion policy, not a claim about original reward amounts or probabilities. Puzzle progress resets on entry as a room mechanism; committed treasure claims persist. Existing prices, drops and Boss numbers are unchanged."
+  }
+}

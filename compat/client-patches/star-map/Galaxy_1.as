@@ -39,6 +39,8 @@ package com.robot.module.app.subMap
 
       private var isHited:Boolean = false;
 
+      private var isPlanetHovered:Boolean = false;
+
       private var mapMC:MovieClip;
 
       public function Galaxy_1()
@@ -59,6 +61,7 @@ package com.robot.module.app.subMap
       {
          DisplayUtil.removeForParent(mc,false);
          isHited = false;
+         isPlanetHovered = false;
       }
 
       public function show() : void
@@ -157,6 +160,10 @@ package com.robot.module.app.subMap
 
       private function onMapEnter(event:Event) : void
       {
+         if(isPlanetHovered)
+         {
+            return;
+         }
          // Use the fixed viewport, including empty space between moving planets.
          var mousex:Number = mc.parent.mouseX - mc.x;
          var mousey:Number = mc.parent.mouseY - mc.y;
@@ -191,6 +198,7 @@ package com.robot.module.app.subMap
       {
          var id:uint = 0;
          var btn:SimpleButton = evt.currentTarget as SimpleButton;
+         isPlanetHovered = true;
          id = uint(btn.name.split("_")[1]);
          intervalId = setTimeout(function():void
          {
@@ -266,6 +274,7 @@ package com.robot.module.app.subMap
 
       private function onMosOut(evt:MouseEvent) : void
       {
+         isPlanetHovered = false;
          clearTimeout(intervalId);
          MapTip.hide();
       }

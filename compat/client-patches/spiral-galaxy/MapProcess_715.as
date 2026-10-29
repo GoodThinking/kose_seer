@@ -15,6 +15,8 @@ package com.robot.app.mapProcess
       {
          conLevel["task961mc"].visible = false;
          conLevel["task961shoot"].visible = false;
+         // Foreground lighting is decorative; preserve the authored collision layer.
+         topLevel.mouseChildren = false;
       }
    }
 }

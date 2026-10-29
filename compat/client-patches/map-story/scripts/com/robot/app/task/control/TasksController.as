@@ -2,6 +2,7 @@ package com.robot.app.task.control
 {
    import com.robot.app.mapProcess.*;
    import com.robot.app.task.taskscollection.ITask;
+   import com.robot.app.task.skeeClothTask.SkeeClothTaskController;
    import com.robot.core.*;
    import com.robot.core.config.*;
    import com.robot.core.event.*;
@@ -19,9 +20,10 @@ package com.robot.app.task.control
       
       private static const TASK_STATUS_QUERY:uint = 5;
       
-      private static const TASK_STATUS_TIMEOUT:uint = 3000;
+      // Initial map decoding can defer the native socket flush before the reply is read.
+      private static const TASK_STATUS_TIMEOUT:uint = 15000;
       
-      private static const TRACKED_TASK_IDS:Array = [530,532,535,534,540,549,558,560,561,616,619,620,624,626,628,633,637,641,642,643,648,653,655,658,647,649,654,656,662,663,669,673,678,683,687,695,705,715,730,737,741,746,753,698,707,716,735,739,743,748,755,764,768,775,788,796,801,811,816,819,758,759,760,761,762,763,10039];
+      private static const TRACKED_TASK_IDS:Array = [7,28,33,85,86,87,88,530,532,535,534,540,549,558,560,561,616,619,620,624,626,628,633,637,641,642,643,648,653,655,658,647,649,654,656,662,663,669,673,678,683,687,695,705,715,730,737,741,746,753,698,707,716,735,739,743,748,755,764,768,775,788,796,801,811,816,819,758,759,760,761,762,763,10039,1247];
       
       private static const KAXIUSI_ENABLED_TASK_IDS:Array = [616,619,624,626,628,633,637,641,642,648,653,655,658];
       
@@ -170,6 +172,9 @@ package com.robot.app.task.control
          if(_loc7_ == TRACKED_TASK_IDS.length)
          {
             _kaxiusiStatusReady = true;
+            TaskController_33.setup();
+            SkeeClothTaskController.setup();
+            TaskController_28.start();
             flushTrackedTaskStatusCallbacks();
             SocketConnection.removeCmdListener(CommandID.XIN_GET_QUADRUPLE_EXE_TIME,onTaskStatus);
             if(_statusTimeoutId != 0)
@@ -343,11 +348,20 @@ package com.robot.app.task.control
          _continuationOwner = owner;
          switch(MapManager.currentMap.id)
          {
+            case 31:
+            case 34:
+               TaskController_28.enterScene(owner);
+               break;
+            case 48:
+            case 50:
+               TaskController_33.enterScene(owner);
+               break;
             case 4:
                com.robot.app.task.taskscollection.Task816.initTaskForMap4(owner);
                com.robot.app.task.taskscollection.Task819.initTaskForMap4(owner);
                break;
             case 5:
+               TaskController_28.enterScene(owner);
                com.robot.app.task.taskscollection.Task811.initTaskForMap5(owner);
                break;
             case 57:
@@ -361,6 +375,7 @@ package com.robot.app.task.control
                break;
             case 684:
                com.robot.app.task.taskscollection.Task811.initTaskForMap684(owner);
+               com.robot.app.task.taskscollection.Task1143.initFor684(owner);
                break;
             case 685:
                com.robot.app.task.taskscollection.Task811.initTaskForMap685(owner);
@@ -370,6 +385,7 @@ package com.robot.app.task.control
                break;
             case 687:
                com.robot.app.task.taskscollection.Task811.initTaskForMap687(owner);
+               com.robot.app.task.taskscollection.Task1143.initFor687(owner);
                break;
             case 693:
                com.robot.app.task.taskscollection.Task819.initTaskForMap693(owner);
@@ -532,6 +548,8 @@ package com.robot.app.task.control
             com.robot.app.task.taskscollection.Task811.destroy(owner);
             com.robot.app.task.taskscollection.Task816.destroy(owner);
             com.robot.app.task.taskscollection.Task819.destroy(owner);
+            TaskController_33.destroy(owner);
+            TaskController_28.destroy(owner);
          }
          _continuationOwner = null;
          if(_setupFinished && MapManager.currentMap != null)

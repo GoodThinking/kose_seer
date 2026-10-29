@@ -40,6 +40,29 @@
     { "mapId": 56, "gameId": 1, "itemId": 400027, "pointsPerItem": 100, "maxCount": 1, "probability": 0.45 },
     { "mapId": 107, "gameId": 1, "itemId": 400015, "pointsPerItem": 100, "maxCount": 1, "probability": 1, "superNono": true }
   ],
+  "lookoutGame": { "pointsPerCoin": 100, "maxCoins": 350, "note": "Project rule; original server conversion is unavailable." },
+  "standardGames": { "mapIds": [4, 6, 9], "coinsPerPercent": 1, "maxCoins": 100, "note": "Project rule; original server conversion is unavailable." },
+  "clothExchanges": {
+    "1": {
+      "input": { "itemId": 400051, "count": 1 },
+      "outputs": [
+        { "itemId": 100016, "count": 1, "max": 1 },
+        { "itemId": 100017, "count": 1, "max": 1 },
+        { "itemId": 100018, "count": 1, "max": 1 },
+        { "itemId": 100019, "count": 1, "max": 1 }
+      ]
+    },
+    "2": {
+      "input": { "itemId": 400052, "count": 1 },
+      "outputs": [
+        { "itemId": 100087, "count": 1, "max": 1 },
+        { "itemId": 100088, "count": 1, "max": 1 },
+        { "itemId": 100089, "count": 1, "max": 1 },
+        { "itemId": 100090, "count": 1, "max": 1 },
+        { "itemId": 100091, "count": 1, "max": 1 }
+      ]
+    }
+  },
   "gameRewardNotes": "Native normalized score is 0..100; zero awards nothing. Positive score rounds up by pointsPerItem, capped at maxCount. These reward tiers are private-server choices because original server reward thresholds are unavailable.",
   "darkGate": { "mapId": 110, "door": 0, "petId": 171, "level": 50 },
   "bossDrops": [

@@ -1,0 +1,21 @@
+{
+  "taskId": 33,
+  "mapId": 50,
+  "mapSha256": "dc285b710d5719bfe8d39cb828ffb60bc6590f31b4fb2bf6bff28821999724cd",
+  "encounters": [
+    {"mapId": 50, "region": 0, "petId": 60, "level": 35, "taskId": 33, "stage": 0, "orderedProgress": false},
+    {"mapId": 50, "region": 1, "petId": 106, "level": 35, "taskId": 33, "stage": 1, "orderedProgress": false},
+    {"mapId": 50, "region": 2, "petId": 117, "level": 35, "taskId": 33, "stage": 2, "orderedProgress": false},
+    {"mapId": 50, "region": 3, "petId": 96, "level": 60, "taskId": 33, "stage": 3}
+  ],
+  "provenance": {
+    "task": "Current client TaskController_33.TASK_ID=33 and its original opening instruction/tooltip identify 解救被困的精灵们; baseline client task XML and server task catalogue omit33.",
+    "activity": "https://news.4399.com/seer/youxixinwen/200910-16-40396.html",
+    "walkthrough": "https://zhidao.baidu.com/question/121652559/answer/382433843.html",
+    "zogSpecies": "https://zhidao.baidu.com/question/121987131.html",
+    "currentAssets": "Map50 contains piratePawn_0/1/2, ailixunMC, zogMC with70 original frames, countMC with11 numeral frames, the original rescueBtn SimpleButton, an empty rescueBtnMC XML approach marker, blackShadow and110-frame rescueAnimateMC. Body-only hit areas must not intercept the door/window scenery in the same NPC movies.",
+    "originalEnding": "The current client already contains com.robot.app.task.tc.TaskClass_33. Preserve its original instructor closing speech and two suit-storage prompts unchanged; do not overlay a second completion dialogue.",
+    "rewards": "Current items.xml100159天枰魔盔,100160天枰魔盾,100161天枰底座 and500813海盗战斗奖章. Historical walkthroughs confirm the suit and medal; no existing prices, drops or Boss balance rows are changed.",
+    "projectPolicy": "Restore the existing33 identity as a permanent seven-stage quest: three unordered guard victories, Zog victory, original escape movie, original rescue-switch movie, final turn-in. Sources confirm level35 mechanical/ground/ice guards but do not identify all guard species; use current-client铁达斯60/丁加鲁106/利兹117 as explicit project-authored lineups, not a claim about the original species. Zog uses current尼斯克96 at the documented level60. These are new task-specific encounters, never edits to existing SPT or world-ogre values. Conflicting community claims about losing to Zog and the unavailable hypnosis-ball branch are not asserted as implemented; victory advances this restored quest. The original ten-second warning is visual urgency, not an invented progress-destroying failure penalty; leaving/re-entering preserves all completed battles. A short project-authored turn-in connects the rescued cage to the existing original TaskClass_33 ending without inventing the mysterious figure's identity. The original rescue and escape movies are played, not replaced with fake completion. Three unique clothing pieces and the unique medal are guaranteed by final atomic task settlement; a previously granted or already owned unique item is not added twice."
+  }
+}

@@ -1,6 +1,8 @@
 package com.robot.app.mapProcess
 {
+   import com.robot.core.manager.MapManager;
    import com.robot.core.manager.map.config.BaseMapProcess;
+   import flash.display.DisplayObjectContainer;
    
    public class MapProcess_704 extends BaseMapProcess
    {
@@ -18,6 +20,10 @@ package com.robot.app.mapProcess
          conLevel["trigger2"].visible = false;
          conLevel["NPClani"].visible = false;
          conLevel["NPClaqi"].visible = false;
+         // The foreground lighting is decoration, not a scene input surface.
+         var effect:DisplayObjectContainer = MapManager.currentMap.root["effect"];
+         effect.mouseEnabled = false;
+         effect.mouseChildren = false;
       }
    }
 }

@@ -1,7 +1,6 @@
 package com.robot.app.mapProcess
 {
-   import com.robot.core.config.ClientConfig;
-   import com.robot.core.manager.ModuleManager;
+   import com.robot.app.task.taskscollection.Task1143;
    import com.robot.core.manager.map.config.BaseMapProcess;
    import flash.events.MouseEvent;
 
@@ -25,12 +24,13 @@ package com.robot.app.mapProcess
 
       private function onPosterClick(event:MouseEvent) : void
       {
-         ModuleManager.showModule(ClientConfig.getAppModule("SeaVortexActivity"),"正在加载...","旧活动 9/11–17 18–20时");
+         Task1143.showPoster(this);
       }
 
       override public function destroy() : void
       {
          conLevel["poster"].removeEventListener(MouseEvent.CLICK,onPosterClick);
+         Task1143.destroy(this);
       }
    }
 }

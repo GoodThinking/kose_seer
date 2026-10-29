@@ -5,6 +5,7 @@ const { DecodeTask96Buffer } = require("../Task/Task96Buffer");
 const { SendForestAlert } = require("./ForestMechanisms");
 const { PacketEmpty } = require("../../Server/Packet/Send/PacketEmpty");
 const { CommandID } = require("../../../shared/protocol/CommandID");
+const { RecordSeaPirateVictory } = require("./SeaVortexActivity");
 
 function compassCalibrated(tasks) {
     const buffer = tasks.TaskBuffers.get(10039);
@@ -28,6 +29,7 @@ async function ValidateCompassEntry(player, mapId, region, config) {
 }
 
 async function GrantMapVictory(player, battle) {
+    await RecordSeaPirateVictory(player, battle);
     if (battle.bossMapId === 10039 && battle.bossParam2 === 0 && battle.enemy.id === 804) {
         const tasks = player.TaskManager.TaskData;
         if (tasks.IsTaskAccepted(10039) && !tasks.IsTaskCompleted(10039) && compassCalibrated(tasks)) {

@@ -3,6 +3,7 @@ package com.robot.core.manager
    import com.robot.core.CommandID;
    import com.robot.core.controller.MapController;
    import com.robot.core.event.PetFightEvent;
+   import com.robot.core.event.MapEvent;
    import com.robot.core.manager.map.config.MapConfig;
    import com.robot.core.mode.MapModel;
    import com.robot.core.net.ConnectionType;
@@ -70,12 +71,19 @@ package com.robot.core.manager
       public static function setup() : void
       {
          getMapController();
+         addEventListener(MapEvent.MAP_SWITCH_COMPLETE,onFirstMapReady);
          EventManager.addEventListener(PetFightEvent.ALARM_CLICK,onFightClose);
+      }
+
+      private static function onFirstMapReady(event:MapEvent) : void
+      {
+         removeEventListener(MapEvent.MAP_SWITCH_COMPLETE,onFirstMapReady);
+         com.robot.app.group.GroupController.setup();
       }
       
       private static function onFightClose(param1:PetFightEvent) : void
       {
-         if(!DESTROY_SWITCH)
+         if(!DESTROY_SWITCH && !getMapController().isSoloScene)
          {
             SocketConnection.send(CommandID.LIST_MAP_PLAYER);
          }

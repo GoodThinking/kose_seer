@@ -118,6 +118,12 @@ package com.robot.app.task.taskscollection
          bind(map);
          _mcForMap687 = _map.animatorLevel["task_811_3"];
          _mcForMap687.visible = false;
+         _map.conLevel["dragonTig"].mouseEnabled = false;
+         _map.conLevel["dragonTig"].mouseChildren = false;
+         _map.conLevel["beierTig"].mouseEnabled = false;
+         _map.conLevel["beierTig"].mouseChildren = false;
+         _map.conLevel["baobeiliTig"].mouseEnabled = false;
+         _map.conLevel["baobeiliTig"].mouseChildren = false;
          if(TasksManager.getTaskStatus(TASK_ID) == TasksManager.ALR_ACCEPT)
          {
             TasksManager.getProStatusList(TASK_ID,function(param1:Array):void
@@ -332,6 +338,7 @@ package com.robot.app.task.taskscollection
          if(!isActive()) return;
          initRule(_mcForMap687,true,1);
          _map.conLevel["dragonTig"].buttonMode = true;
+         _map.conLevel["dragonTig"].mouseEnabled = true;
          _map.conLevel["dragonTig"].addEventListener(MouseEvent.CLICK,talkWithDragon);
       }
       
@@ -347,6 +354,7 @@ package com.robot.app.task.taskscollection
             _scene.unlockInput();
             _map.conLevel["dragonTig"].buttonMode = false;
             _map.conLevel["dragonTig"].removeEventListener(MouseEvent.CLICK,talkWithDragon);
+            _map.conLevel["dragonTig"].mouseEnabled = false;
             _mcForMap687.gotoAndStop(2);
             ToolBarController.showOrHideAllUser(false);
             NpcDialog.show(NPC.SEER,["鱼龙王，你没事吧！怎么会这样，是谁这么心狠手辣！"],null,null,false,function():void
@@ -363,6 +371,7 @@ package com.robot.app.task.taskscollection
             if(_map !== owner || MapProcessConfig.currentProcessInstance !== owner) return;
                         CommonUI.addYellowArrow(_map.conLevel["beierTig"],0,0,300);
                         _map.conLevel["beierTig"].buttonMode = true;
+                        _map.conLevel["beierTig"].mouseEnabled = true;
                         _map.conLevel["beierTig"].addEventListener(MouseEvent.CLICK,onBeierClick);
                      }]);
                   });
@@ -384,6 +393,7 @@ package com.robot.app.task.taskscollection
             CommonUI.removeYellowArrow(_map.conLevel["beierTig"]);
             _map.conLevel["beierTig"].buttonMode = false;
             _map.conLevel["beierTig"].removeEventListener(MouseEvent.CLICK,onBeierClick);
+            _map.conLevel["beierTig"].mouseEnabled = false;
             AnimateManager.playMcAnimate(_mcForMap687,3,"task_812_mc3",function():void
             {
             if(_map !== owner || MapProcessConfig.currentProcessInstance !== owner) return;
@@ -392,6 +402,7 @@ package com.robot.app.task.taskscollection
             if(_map !== owner || MapProcessConfig.currentProcessInstance !== owner) return;
                   CommonUI.addYellowArrow(_map.conLevel["baobeiliTig"],0,0,300);
                   _map.conLevel["baobeiliTig"].buttonMode = true;
+                  _map.conLevel["baobeiliTig"].mouseEnabled = true;
                   _map.conLevel["baobeiliTig"].addEventListener(MouseEvent.CLICK,onBaobeiliClick);
                }]);
             });
@@ -411,6 +422,7 @@ package com.robot.app.task.taskscollection
             CommonUI.removeYellowArrow(_map.conLevel["baobeiliTig"]);
             _map.conLevel["baobeiliTig"].buttonMode = false;
             _map.conLevel["baobeiliTig"].removeEventListener(MouseEvent.CLICK,onBaobeiliClick);
+            _map.conLevel["baobeiliTig"].mouseEnabled = false;
             _scene.hideActors();
             AnimateManager.playMcAnimate(_mcForMap687,4,"task_812_mc4",function():void
             {
@@ -428,6 +440,7 @@ package com.robot.app.task.taskscollection
             if(_map !== owner || MapProcessConfig.currentProcessInstance !== owner) return;
                         CommonUI.addYellowArrow(_map.conLevel["dragonTig"],0,0,300);
                         _map.conLevel["dragonTig"].buttonMode = true;
+                        _map.conLevel["dragonTig"].mouseEnabled = true;
                         _map.conLevel["dragonTig"].addEventListener(MouseEvent.CLICK,onDragonClick);
                      }]);
                   });
@@ -444,6 +457,7 @@ package com.robot.app.task.taskscollection
          CommonUI.removeYellowArrow(_map.conLevel["dragonTig"]);
          _map.conLevel["dragonTig"].buttonMode = false;
          _map.conLevel["dragonTig"].removeEventListener(MouseEvent.CLICK,onDragonClick);
+         _map.conLevel["dragonTig"].mouseEnabled = false;
          AnimateManager.playClassicFullScreenAnimate(ClientConfig.getFullMovie("task_811_3"),function():void
          {
             if(_map !== owner || MapProcessConfig.currentProcessInstance !== owner) return;

@@ -1,5 +1,89 @@
 {
   "tasks": {
+    "7": {
+      "name": "防寒套装制作",
+      "type": "normal",
+      "requiredProgress": 3,
+      "uniqueRewardItems": true,
+      "rewards": {"items": [{"itemId": 400052, "count": 1}]}
+    },
+    "134": {
+      "name": "遗忘领域的精元",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {
+        "items": [{"itemId": 400131, "count": 1}]
+      }
+    },
+    "401": {
+      "name": "每日任务之毛毛",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "402": {
+      "name": "每日任务之小火猴武学梦想",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "403": {
+      "name": "布布种子每日任务",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "404": {
+      "name": "每日任务之伊优环保任务",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "405": {
+      "name": "每日任务之比比鼠的发电能源",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "406": {
+      "name": "每日任务之爱捉迷藏的幽浮",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "407": {
+      "name": "利牙鱼的口腔护理",
+      "type": "daily",
+      "rewards": {"special": [{"type": 3, "value": 2000}]}
+    },
+    "131": {
+      "name": "小队训练",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [{"type": 3, "value": 3000}]
+      }
+    },
+    "33": {
+      "name": "解救被困的精灵们",
+      "type": "normal",
+      "requiredProgress": 7,
+      "orderedProgress": true,
+      "uniqueRewardItems": true,
+      "rewards": {
+        "items": [
+          {"itemId": 100159, "count": 1},
+          {"itemId": 100160, "count": 1},
+          {"itemId": 100161, "count": 1},
+          {"itemId": 500813, "count": 1}
+        ]
+      }
+    },
+    "94": {
+      "name": "能源采集",
+      "type": "normal",
+      "requiredProgress": 4,
+      "rewards": {
+        "coins": 1000,
+        "special": [{"type": 3, "value": 500}]
+      }
+    },
     "530": {
       "name": "活力之匙",
       "type": "normal",
@@ -399,6 +483,13 @@
         "coins": 3000,
         "special": [{"type": 3, "value": 5000}]
       }
+    },
+    "1247": {
+      "name": "深海漩涡下的入侵",
+      "type": "normal",
+      "requiredProgress": 2,
+      "orderedProgress": true,
+      "rewards": {}
     }
   }
 }

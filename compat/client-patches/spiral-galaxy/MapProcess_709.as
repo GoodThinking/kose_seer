@@ -16,6 +16,8 @@ package com.robot.app.mapProcess
          conLevel["anluosi"].visible = false;
          conLevel["task925mc"].visible = false;
          conLevel["task925Trigger"].visible = false;
+         // The two foreground effect clips are decorative, not input surfaces.
+         topLevel.mouseChildren = false;
       }
    }
 }

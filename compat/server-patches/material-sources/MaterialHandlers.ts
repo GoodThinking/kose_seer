@@ -29,7 +29,7 @@ export class MaterialGameOverHandler implements IHandler {
     }
     const score = body.readUInt32BE(0);
     let rewards: { itemId: number; count: number }[];
-    try { rewards = await MaterialGames.Finish(player, score); }
+    try { rewards = await MaterialGames.Finish(player, score, body.readUInt32BE(4)); }
     catch {
       await player.SendPacket(new PacketEmpty(CommandID.GAME_OVER).setResult(5001));
       return;

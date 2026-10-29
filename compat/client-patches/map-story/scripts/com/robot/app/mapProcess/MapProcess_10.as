@@ -51,6 +51,11 @@ package com.robot.app.mapProcess
          SpaceSurveyTool.getInstance().show("克洛斯星");
          this.initMiddleFestivalBoss();
          this.initWetland();
+         var forestDoor:MovieClip = conLevel["door_1"] as MovieClip;
+         forestDoor.graphics.beginFill(0xffffff,0.01);
+         forestDoor.graphics.drawRect(0,0,80,36);
+         forestDoor.graphics.endFill();
+         ToolTipManager.add(forestDoor,"前往克洛斯星沼泽");
          this._pipi_mc = topLevel["pipi_mc"];
          this._pipi_mc.gotoAndStop(1);
          this._pipi_mc.visible = false;
@@ -181,6 +186,7 @@ package com.robot.app.mapProcess
          Task532.destroy(this);
          this.wetlandButton.removeEventListener(MouseEvent.CLICK,this.onWetland);
          ToolTipManager.remove(this.wetlandButton);
+         ToolTipManager.remove(conLevel["door_1"]);
       }
    }
 }

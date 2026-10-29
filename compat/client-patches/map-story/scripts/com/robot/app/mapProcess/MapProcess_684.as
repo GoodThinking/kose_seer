@@ -4,6 +4,7 @@ package com.robot.app.mapProcess
    import com.robot.app.task.control.TasksController;
    import com.robot.app.task.taskscollection.Task788;
    import com.robot.app.task.taskscollection.Task796;
+   import com.robot.app.task.taskscollection.Task1143;
    import com.robot.core.animate.AnimateManager;
    import com.robot.core.manager.*;
    import com.robot.core.manager.map.config.BaseMapProcess;
@@ -186,6 +187,7 @@ package com.robot.app.mapProcess
          _destroyed = true;
          Task788.destroy(this);
          Task796.destroy(this);
+         Task1143.destroy(this);
          conLevel["vortex"].removeEventListener(MouseEvent.CLICK,onVortexClick);
          conLevel["raftTig"].removeEventListener(MouseEvent.CLICK,onRaftClick);
          conLevel["raftTig1"].removeEventListener(MouseEvent.CLICK,onRaft2Click);

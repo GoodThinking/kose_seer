@@ -48,7 +48,7 @@ function encode(movie, tags) {
 }
 
 const moduleBytes = fs.readFileSync(values.module), coreBytes = fs.readFileSync(values.core);
-check(sha(moduleBytes) === 'cd7383aace48e740ff464d1006a068c59acd34361f938811db502bab4f5ccb4c', 'Galaxy module baseline changed');
+check(sha(moduleBytes) === '19222a7500a551f0c518ef53477af92a29b5f5ddc136b462466ea5ce62a8331f', 'Galaxy module baseline changed');
 const moduleMovie = parse(moduleBytes), core = parse(coreBytes);
 const moduleAbcs = moduleMovie.tags.filter(tag => tag.code === 82);
 check(moduleAbcs.length === 1, 'Expected one galaxy module ABC');

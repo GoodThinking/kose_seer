@@ -16,6 +16,8 @@ package com.robot.app.mapProcess
          conLevel["task945mc"].visible = false;
          conLevel["task945Trigger_1"].visible = false;
          conLevel["task945Trigger_2"].visible = false;
+         // The authored foreground contains only water and lighting decoration.
+         topLevel.mouseChildren = false;
       }
    }
 }

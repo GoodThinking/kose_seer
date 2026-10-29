@@ -2,6 +2,7 @@ package com.robot.app.npc.npcClass
 {
    import com.robot.app.mapProcess.MapProcess_5;
    import com.robot.app.task.control.TaskController_811;
+   import com.robot.app.task.control.TaskController_28;
    import com.robot.app.task.noviceGuide.DoctorGuideDialog;
    import com.robot.core.animate.AnimateManager;
    import com.robot.core.config.ClientConfig;
@@ -37,6 +38,11 @@ package com.robot.app.npc.npcClass
          if(e.taskID == 811)
          {
             TaskController_811.start();
+            return;
+         }
+         if(e.taskID == 28)
+         {
+            TaskController_28.onDoctor();
             return;
          }
          this._curNpcModel.refreshTask();
@@ -106,6 +112,7 @@ package com.robot.app.npc.npcClass
       private function onTaskWithoutDes(param1:NpcEvent) : void
       {
          if(param1.taskID == 811) TaskController_811.start();
+         else if(param1.taskID == 28) TaskController_28.onDoctor();
       }
       
       public function get npc() : NpcModel

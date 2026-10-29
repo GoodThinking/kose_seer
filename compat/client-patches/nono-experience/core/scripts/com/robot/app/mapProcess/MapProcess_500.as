@@ -3,6 +3,7 @@ package com.robot.app.mapProcess
    import com.robot.app.fightLevel.FightLevelModel;
    import com.robot.app.fightLevel.FightPetBagController;
    import com.robot.app.fightLevel.SuccessFightRequestInfo;
+   import com.robot.app.fightLevel.ChoiceLevelRequestInfo;
    import com.robot.app.toolBar.ToolBarController;
    import com.robot.core.CommandID;
    import com.robot.core.config.ClientConfig;
@@ -50,6 +51,10 @@ package com.robot.app.mapProcess
       
       private var nextBossId:Array;
       
+      private var _disposed:Boolean;
+      
+      private var _restoreTimer:uint;
+      
       public function MapProcess_500()
       {
          super();
@@ -58,9 +63,47 @@ package com.robot.app.mapProcess
       override protected function init() : void
       {
          this.b1 = true;
+         this._disposed = false;
          LevelManager.iconLevel.visible = false;
          ToolBarController.panel.hide();
+         SocketConnection.addCmdListener(CommandID.CHOICE_FIGHT_LEVEL,this.onRestoreLevel);
+         this._restoreTimer = setTimeout(this.onRestoreFailure,5000);
+         SocketConnection.send(CommandID.CHOICE_FIGHT_LEVEL,0);
+      }
+      
+      private function stopRestoreRequest() : void
+      {
+         if(this._restoreTimer) clearTimeout(this._restoreTimer);
+         this._restoreTimer = 0;
+         SocketConnection.removeCmdListener(CommandID.CHOICE_FIGHT_LEVEL,this.onRestoreLevel);
+      }
+      
+      private function onRestoreLevel(event:SocketEvent) : void
+      {
+         this.stopRestoreRequest();
+         if(this._disposed) return;
+         var info:ChoiceLevelRequestInfo = event.data as ChoiceLevelRequestInfo;
+         if(!info || info.getLevel < 1 || info.getLevel > FightLevelModel.maxLevel || !info.getBossId || info.getBossId.length == 0)
+         {
+            this.onRestoreFailure();
+            return;
+         }
+         FightLevelModel.setBossId = info.getBossId;
+         FightLevelModel.setCurLevel = info.getLevel;
+         MainManager.actorInfo.curStage = info.getLevel;
          this.upDatahandler();
+      }
+      
+      private function onRestoreFailure() : void
+      {
+         this.stopRestoreRequest();
+         if(this._disposed) return;
+         ToolBarController.panel.show();
+         LevelManager.iconLevel.visible = true;
+         Alarm.show("暂时无法读取勇者之塔进度，确认后返回太空站。已保存的挑战层数不会丢失。",function():void
+         {
+            if(!_disposed) MapManager.changeMap(101);
+         });
       }
       
       private function upDatahandler() : void
@@ -150,6 +193,12 @@ package com.robot.app.mapProcess
       override public function destroy() : void
       {
          var _loc1_:int = 0;
+         this._disposed = true;
+         this.stopRestoreRequest();
+         clearTimeout(this.tt);
+         SocketConnection.removeCmdListener(CommandID.START_FIGHT_LEVEL,this.onSuccessHandler);
+         SocketConnection.removeCmdListener(CommandID.LEAVE_FIGHT_LEVEL,this.onLeaveFightHandler);
+         EventManager.removeEventListener(PetFightEvent.FIGHT_CLOSE,this.handle);
          TaomeeManager.unbindTower();
          ToolTipManager.remove(conLevel["mosterMc"]);
          conLevel["mosterMc"].removeEventListener(MouseEvent.CLICK,this.onMonsterHandler);
@@ -182,6 +231,7 @@ package com.robot.app.mapProcess
       
       private function loadComHandler(param1:DisplayObject) : void
       {
+         if(this._disposed) return;
          var mc:MovieClip = null;
          var dis:DisplayObject = param1;
          mc = null;
@@ -270,6 +320,8 @@ package com.robot.app.mapProcess
          if(Boolean(_loc3_.fighterCon.isEscape))
          {
             this.b1 = true;
+            TaomeeManager.prepareTower(500);
+            MapManager.changeMap(500);
             return;
          }
          if(_loc2_.winnerID == MainManager.actorInfo.userID)
@@ -298,15 +350,20 @@ package com.robot.app.mapProcess
       private function onLeaveFightHandler(param1:SocketEvent) : void
       {
          SocketConnection.removeCmdListener(CommandID.LEAVE_FIGHT_LEVEL,this.onLeaveFightHandler);
+         if(this._disposed) return;
          ToolBarController.panel.show();
          LevelManager.iconLevel.visible = true;
          if(this.b1 == false)
          {
-            LevelManager.iconLevel.addChild(Alarm.show("很遗憾，刚才的战斗你没有获胜，你需要重新开始挑战，不要气馁，再接再厉。"));
+            Alarm.show("很遗憾，刚才的战斗你没有获胜，你需要重新开始挑战，不要气馁，再接再厉。",function():void
+            {
+               if(!_disposed) MapManager.changeMap(101);
+            });
          }
          else
          {
             this.b1 = false;
+            MapManager.changeMap(101);
          }
       }
       

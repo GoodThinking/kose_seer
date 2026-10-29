@@ -15,7 +15,11 @@ package com.robot.app.mapProcess
    import flash.events.*;
    import flash.geom.*;
    import flash.utils.*;
+   import flash.filters.GlowFilter;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
    import org.taomee.utils.*;
+   import org.taomee.manager.ToolTipManager;
    
    public class MapProcess_12 extends BaseMapProcess
    {
@@ -23,6 +27,10 @@ package com.robot.app.mapProcess
       private var stoneMC:MovieClip;
       
       private var pullArray:Array = [];
+
+      private var pullHint:TextField;
+
+      private var stonePending:Boolean = false;
       
       private var _yiyiCount:uint;
       
@@ -53,6 +61,7 @@ package com.robot.app.mapProcess
          {
             _loc1_ = depthLevel["sz_" + _loc2_];
             _loc1_.addEventListener(MouseEvent.MOUSE_DOWN,this.downHandler);
+            ToolTipManager.add(_loc1_,"拉动藤条");
             _loc2_++;
          }
          this._yiyiMc = MapLibManager.getMovieClip("UI_yiyi");
@@ -72,11 +81,17 @@ package com.robot.app.mapProcess
          {
             _loc1_ = depthLevel["sz_" + _loc2_];
             _loc1_.removeEventListener(MouseEvent.MOUSE_DOWN,this.downHandler);
+            ToolTipManager.remove(_loc1_);
             _loc2_++;
          }
          this.stoneMC.removeEventListener(MouseEvent.CLICK,this.clickStone);
          this.stoneMC = null;
          this._yiyiPosList = null;
+         if(this.pullHint)
+         {
+            DisplayUtil.removeForParent(this.pullHint);
+            this.pullHint = null;
+         }
          DisplayUtil.removeForParent(this._yiyiMc);
          this._yiyiMc = null;
       }
@@ -94,11 +109,23 @@ package com.robot.app.mapProcess
             this.pullArray.push(_loc3_);
             this.checkPull();
          }
+         else
+         {
+            this.showPullHint("这根藤条已经拉过，请换一根（" + this.pullArray.length + "/5）");
+         }
       }
       
       private function checkPull() : void
       {
          var _loc1_:uint = 0;
+         if(this.pullArray.length < 5)
+         {
+            this.showPullHint("已拉动藤条（" + this.pullArray.length + "/5）");
+         }
+         else
+         {
+            this.showPullHint("石块已降下，点击石块寻找植物纤维");
+         }
          var _loc2_:SimpleButton = null;
          if(this.pullArray.length == 5)
          {
@@ -110,6 +137,7 @@ package com.robot.app.mapProcess
             {
                _loc2_ = depthLevel["sz_" + _loc1_];
                _loc2_.removeEventListener(MouseEvent.MOUSE_DOWN,this.downHandler);
+               ToolTipManager.remove(_loc2_);
                _loc1_++;
             }
          }
@@ -117,6 +145,27 @@ package com.robot.app.mapProcess
          {
             this.stoneMC.y += 8;
          }
+      }
+
+      private function showPullHint(message:String) : void
+      {
+         var format:TextFormat = null;
+         if(this.pullHint == null)
+         {
+            format = new TextFormat("宋体",16,0xffffff,true);
+            format.align = "center";
+            this.pullHint = new TextField();
+            this.pullHint.defaultTextFormat = format;
+            this.pullHint.width = 320;
+            this.pullHint.height = 28;
+            this.pullHint.x = 320;
+            this.pullHint.y = 95;
+            this.pullHint.selectable = false;
+            this.pullHint.mouseEnabled = false;
+            this.pullHint.filters = [new GlowFilter(0x18354a,1,4,4,4)];
+            topLevel.addChild(this.pullHint);
+         }
+         this.pullHint.text = message;
       }
       
       private function addStoneEvent() : void
@@ -126,23 +175,47 @@ package com.robot.app.mapProcess
       
       private function clickStone(param1:MouseEvent) : void
       {
+         var status:uint = TasksManager.getTaskStatus(SkeeClothTaskController.TASK_ID);
+         if(status != TasksManager.ALR_ACCEPT)
+         {
+            Alarm.show(status == TasksManager.COMPLETE ? "你已经收集过植物纤维了！" : "先到船长室接取防寒套装任务，再来寻找植物纤维。");
+            return;
+         }
+         if(this.stonePending)
+         {
+            return;
+         }
+         this.stonePending = true;
          TasksManager.getProStatus(SkeeClothTaskController.TASK_ID,0,this.onCheckTask);
       }
       
       private function onCheckTask(param1:Boolean) : void
       {
          var b:Boolean = param1;
+         if(!this.stoneMC || !this.stoneMC.parent)
+         {
+            this.stonePending = false;
+            return;
+         }
          if(b)
          {
+            this.stonePending = false;
             Alarm.show("你已经收集过植物纤维了！");
          }
          else
          {
             TasksManager.complete(SkeeClothTaskController.TASK_ID,0,function(param1:Boolean):void
             {
+               stonePending = false;
+               if(!stoneMC || !stoneMC.parent)
+               {
+                  return;
+               }
                if(param1)
                {
                   Alarm.show("恭喜你找到了<font color=\'#ff0000\'>植物纤维</font>");
+                  DisplayUtil.removeForParent(pullHint);
+                  pullHint = null;
                   DisplayUtil.removeForParent(stoneMC);
                }
                else

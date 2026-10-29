@@ -1761,5 +1761,250 @@
     "sha256": "4ef9169764a304054e3bff6c88de45bac603c82072d2e1719b06fa1756a4ca1b",
     "bytes": 120431,
     "missingFromLive": true
+  },
+  {
+    "path": "resource/bounsMovie/task_802_1.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/task_802_1.swf",
+    "sha256": "ae5ce8b0879fbf0650033a6d49055162846ad5503c9ce78238c74d17dcbfece5",
+    "bytes": 266435,
+    "missingFromLive": true
+  },
+  {
+    "path": "resource/map/50.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/50.swf?g2o2cmqg",
+    "sha256": "dc285b710d5719bfe8d39cb828ffb60bc6590f31b4fb2bf6bff28821999724cd",
+    "bytes": 732108,
+    "missingFromLive": false,
+    "source": "Current project's already-used map50 resource. Cached bytes match the prior map-ledger asset SHA256. Pin this exact existing movie to preserve original symbols and body-only NPC hit areas; do not claim it was included in the initial8301-file capture."
+  },
+  {
+    "path": "resource/map/48.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/48.swf?g2o2c4zk",
+    "sha256": "305a3c67465fbfced574eb18f98cd67d6b69595950ac6d238f89e78ea95329be",
+    "bytes": 457191,
+    "missingFromLive": false,
+    "source": "Current cached map48 matches the prior map-ledger asset hash. Native exit50->48 spawns at318,158 inside its actual road mask and cannot walk; the default847,120 is valid. Correct only this incoming entry to the visible main road, retain the original asset, default spawn and all other entries.",
+    "entryCorrections": [
+      {"fromMap": 50, "before": {"x": 318, "y": 158}, "after": {"x": 435, "y": 270}}
+    ]
+  },
+  {
+    "path": "resource/map/31.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/31.swf?g2o2bzl4",
+    "sha256": "e4f8c4e94d769fb6008279130c9d2a35c2dee460662b48fa196d10a12b608459",
+    "bytes": 364974,
+    "missingFromLive": false,
+    "source": "Current project map31, verified against the original map ledger. Preserve original125-frame ear animation and separate picture pickup; do not mistake the initially exposed static picture for the ear hit target."
+  },
+  {
+    "path": "resource/map/33.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/33.swf?g2o2c0cw",
+    "sha256": "67c082a371e06ae40665409e8e7890a2131a924f7e29bd69473df5e038a0a807",
+    "bytes": 386258,
+    "missingFromLive": false,
+    "source": "Current project's original map33. Preserve nine randomly rotated wall tiles and eight colored drag keys. Native observation proves an unsolved accepted task10 incorrectly reveals and activates keys after reconnect. Restore the closed state until the original wall puzzle completes; retain the original correct yellow key and door animation, add native wrong-key feedback and clean owned drag/frame listeners."
+  },
+  {
+    "path": "resource/map/34.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/34.swf?g2o2cfsg",
+    "sha256": "d7a06ddc393aa037db2bf87e19cf68ebb32290ad09a2f6d316e4fb0d08a1f593",
+    "bytes": 538818,
+    "missingFromLive": false,
+    "source": "Current project map34, verified against original map ledger. Original stone symbol262 has two frames; frame2 contains unnamed52-frame throw symbol261. Float-box symbol218 has52 frames. Restore task28 around these actual movies without changing task11, task12, routes or encounters."
+  },
+  {
+    "path": "module/com/robot/module/task/VestigeSpriteSingal.swf",
+    "url": "https://seer.61.com/module/com/robot/module/task/VestigeSpriteSingal.swf",
+    "sha256": "a23353ee219a98b8d6e78bde052a2956dc4467e3faaad61775aac3a4a47a6561",
+    "bytes": 25699,
+    "source": "Original official task28 information panel. Retain art and stage text; fix destruction and ignore callbacks after closing. Not present in the initial8301-file input; release preflight must inspect live target presence.",
+    "patch": {
+      "directory": "modules/VestigeSpriteSingal",
+      "classes": ["com.robot.module.task.VestigeSpriteSingal"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/VestigeQitaAssembly.swf",
+    "url": "https://seer.61.com/module/com/robot/module/game/SpritePieceTogether.swf",
+    "sha256": "0893a395c264947fdbc45c1a84737dce2559e77795bf02a66ad8725a531004f8",
+    "bytes": 86278,
+    "source": "Explicit project completion of missing task28 assembly, using official-era factory art, original Qita component shapes and real click/rotate/fit interaction. This task-specific module fits five Qita parts only, never grants Xita, and does not replace the original shared two-pet SpritePieceTogether game. The exact retired2009 selector implementation is not claimed recovered. Existing server task28, original ending and level1 Qita102 reward remain unchanged; no probability or Boss edits.",
+    "patch": {
+      "directory": "modules/VestigeQitaAssembly",
+      "classes": ["com.robot.module.task.VestigeQitaAssembly"],
+      "abcTags": ["frame1"],
+      "renameDocumentFrom": "com.robot.module.game.SpritePieceTogether",
+      "renameDocumentTo": "com.robot.module.task.VestigeQitaAssembly"
+    }
+  },
+  {
+    "path": "resource/map/8.swf",
+    "url": "https://edu.jingxi-tools.com:18761/resource/map/8.swf?g46ntbh4",
+    "sha256": "954a1376ae40f8c0a10f425ca83ea4f7f2650d61650521e39dd956a987e48dfb",
+    "bytes": 255742,
+    "source": "Current project mechanical-room movie, byte-identical to the original map ledger. Preserve native factory door, drill-gift animation, device cabinet and guide arrow. Not part of the initial8301-file input; inspect live presence and hash before release."
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_94.swf",
+    "url": "https://seer.61.com/module/com/robot/module/task/TaskPanel_94.swf",
+    "sha256": "cf04ee4171ce740a743f958a7dbca0cb4e7b02d375777728b41c888ccde63fe9",
+    "bytes": 34824,
+    "source": "Official task94 four-stage information panel, byte-identical to the native-loaded cache. Preserve every original picture and stage instruction; detach owned controls and ignore progress responses after closing or destruction. Inspect live presence before release.",
+    "patch": {
+      "directory": "modules/TaskPanel_94",
+      "classes": ["com.robot.module.task.TaskPanel_94"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/module/clothBook/collectionTools.swf",
+    "url": "https://seer.61.com/resource/module/clothBook/clothBook.swf",
+    "sha256": "516b3db901e5dd9a5d4ae503936c6bd55dd25a79d1156017fc4abe7ea3fec5aa",
+    "bytes": 1862139,
+    "source": "Original official factory book. Reuse its unmodified page13 containing gas collector100055 through the existing native book loader and original buy components. Keep the current factory catalogue and all existing item prices unchanged. The native mechanic category dialogue is an explicit project integration, not claimed to be an original historical menu. No HTML or drawn replacement purchase buttons."
+  },
+  {
+    "path": "resource/map/10038.swf",
+    "url": "https://seer.61.com/resource/map/10038.swf",
+    "sha256": "d8044827a3317481326b5e473015aca48762bdf52d9613c448eae16e92a415b7",
+    "bytes": 372650,
+    "source": "Official original King Tower room. Preserve every art tag, trainer frame, capsule sequence, floor banner, light, exit and road mask. Its map definition is recovered from the reference client's actual XmlLoader resource/xml/210.xml, not guessed from the room image.",
+    "mapDefinition": "<map id=\"10038\" name=\"王者之塔\" x=\"136\" y=\"450\" isLocal=\"1\" sound=\"BGM_093\"><changeMapComp/><funComp><component name=\"door\" hit=\"hit\" fun=\"gotoNext\" des=\"下一层\"/></funComp></map>",
+    "mapDefinitionSource": {
+      "url": "http://61.160.213.26:12346/resource/xml/210.xml",
+      "sha256": "c144c019a869712d7d93537de220bd326d0baee771ee28965e9789bef95c98d7"
+    }
+  },
+  {
+    "path": "module/com/robot/module/app/KingTowerChoicePanel.swf",
+    "url": "https://seer.61.com/module/com/robot/module/app/KingTowerChoicePanel.swf",
+    "sha256": "6c15364963833a450812883b6d3e02cee8b10557e4d4e5c737069faad342f208",
+    "bytes": 45479,
+    "source": "Original native normal-mode panel. Retain original UI bytecode and every art tag; replace only its document controller to read persisted tower progress, enforce original gates, continue or restart, and detach pending listeners on close.",
+    "patch": {
+      "directory": "king-tower-modules",
+      "classes": ["com.robot.module.app.KingTowerChoicePanel"],
+      "abcTags": ["com/robot/module/app/KingTowerChoicePanel","KingTowerChioceUI"],
+      "targetAbc": "com/robot/module/app/KingTowerChoicePanel"
+    }
+  },
+  {
+    "path": "module/com/robot/module/app/KingTowerHeroChoicePanel.swf",
+    "url": "https://seer.61.com/module/com/robot/module/app/KingTowerHeroChoicePanel.swf",
+    "sha256": "e88b679b2035aa5e0bd269e30038d734c7334601f5bfdbd74ff9456478e725bd",
+    "bytes": 97269,
+    "source": "Original native extreme-mode panel. Retain original UI bytecode and art; restore three-pet and normal-mode checkpoint prerequisites. Offer interrupted-segment continuation or an explicit restart through the existing native guard dialogue, never HTML controls.",
+    "patch": {
+      "directory": "king-tower-modules",
+      "classes": ["com.robot.module.app.KingTowerHeroChoicePanel"],
+      "abcTags": ["com/robot/module/app/KingTowerHeroChoicePanel","KingTowerHeroChioceUI"],
+      "targetAbc": "com/robot/module/app/KingTowerHeroChoicePanel"
+    }
+  },
+  {
+    "path": "module/com/robot/module/app/honorsHall/SpaceGuard.swf",
+    "url": "https://seer.61.com/module/com/robot/module/app/honorsHall/SpaceGuard.swf",
+    "sha256": "d3257a869d29ca3784e704e7b6ad57de83b173664e1ea4d84a50c7cee1f91f0f",
+    "bytes": 7035,
+    "source": "Original native station guard art at the recovered map465 position325,208. Add contextual short rule hints and persisted challenge-record dialogue; stop its owned timer and click listener on hide or destruction.",
+    "patch": {
+      "directory": "king-tower-modules",
+      "classes": ["com.robot.module.app.honorsHall.SpaceGuard"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/groupTrainingUI.swf",
+    "url": "https://seer.61.com/dll/UI.swf",
+    "sha256": "91dd1363f037a440f17aabc884d89a32310ca606c893fae1edd0c8afc0cd36dd",
+    "bytes": 4822234,
+    "source": "Official native UI library containing GpMembItemList_mc, GpMembItem_mc, GpMembItem_mc_vip, GroupInviteMC and the leader icons. Load on demand in a separate ApplicationDomain; do not replace the current global UI, redraw member cards or silently substitute missing artwork."
+  },
+  {
+    "path": "module/com/robot/module/app/GroupListPanel.swf",
+    "url": "https://seer.61.com/module/com/robot/module/app/GroupListPanel.swf",
+    "sha256": "b425050a77400783f72127d3edf67f4486625f2d28a7d01553cefe426a43e77d",
+    "bytes": 17092,
+    "source": "Verified original native party panel and embedded artwork; preserve original controls and show the native selection prompt before leadership transfer.",
+    "patch": {
+      "directory": "party-modules",
+      "classes": ["com.robot.module.app.GroupListPanel"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/TaskPanel_131.swf",
+    "url": "https://seer.61.com/module/com/robot/module/task/TaskPanel_131.swf",
+    "sha256": "65e869088ff38f7c9dbcca8e5c0052a326c2c78ff7db3537ad60020653c65868",
+    "bytes": 157573,
+    "source": "Verified original four-stage initial cooperative training panel. Preserve native text, four stage icons and artwork; only clean owned close and tooltip listeners.",
+    "patch": {
+      "directory": "modules/TaskPanel_131",
+      "classes": ["com.robot.module.task.TaskPanel_131"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/map/337.swf",
+    "url": "https://seer.61.com/resource/map/337.swf",
+    "sha256": "66940362b6f3d905185fc2597c674aa90951aae004e3b8dc9d62b35c9094abc2",
+    "bytes": 131732,
+    "source": "Verified original cooperative training room. The official337 and343 resources share these exact bytes; original map controllers and registered return door distinguish their behavior.",
+    "mapDefinition": "<map id=\"337\" name=\"组队野怪场景\" x=\"466\" y=\"86\" super=\"100\" sound=\"BGM_018\"><funComp><component name=\"door_0\" hit=\"hit0\" fun=\"leaveFight\" /></funComp></map>"
+  },
+  {
+    "path": "resource/map/343.swf",
+    "url": "https://seer.61.com/resource/map/343.swf",
+    "sha256": "66940362b6f3d905185fc2597c674aa90951aae004e3b8dc9d62b35c9094abc2",
+    "bytes": 131732,
+    "source": "Verified original special cooperative training room; retain the original397/398/432 carried-pet prerequisite in MapProcess_336. Identical artwork does not imply identical encounter configuration.",
+    "mapDefinition": "<map id=\"343\" name=\"组队野怪场景\" x=\"466\" y=\"86\" super=\"100\" sound=\"BGM_018\"><funComp><component name=\"door_0\" hit=\"hit0\" fun=\"leaveFight\" /></funComp></map>"
+  },
+  {
+    "path": "dll/GroupFightDLL.swf",
+    "url": "https://seer.61.com/dll/GroupFightDLL.swf",
+    "sha256": "3b77ce1bcf1e482e190f88c8969bbf58f81647de4701fbcee90812d8cc65a384",
+    "bytes": 3518564,
+    "source": "Verified CWS original source. Build only the 71 native groupFight classes and 55 native asset classes listed in group-battle/integration.json. Strip unrelated app2 ABCs, Pandora binary and its symbol binding; compile the adapted native sources against current Core. Never publish this unfiltered source DLL."
+  },
+  {
+    "path": "module/com/robot/module/task/MonsterShow.swf",
+    "url": "https://seer.61.com/module/com/robot/module/task/MonsterShow.swf",
+    "sha256": "3395844df0e927c74242a2218cdfaacb367cc280b99f1d29c155dc8585b5299f",
+    "bytes": 52774,
+    "source": "Verified original task131 monster presentation panel. Keep original MONSTERSHOWCLOSE event before stage1 dialogue and persistence; remove its owned top-level panel on map destruction.",
+    "patch": {
+      "directory": "modules/MonsterShow",
+      "classes": ["com.robot.module.task.MonsterShow"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "resource/bounsMovie/groupguide.swf",
+    "url": "https://seer.61.com/resource/bounsMovie/groupguide.swf",
+    "sha256": "4d8254ac4a88913e8235471506da83bdf475551f3dfbd470da7135c5d0716016",
+    "bytes": 132240,
+    "source": "Verified original cooperative party tutorial movie, resolved through the current ClientConfig.getFullMovie API. Preserve original animation and native AI dialogue choice."
+  },
+  {
+    "path": "module/com/robot/module/game/ElectricGame.swf",
+    "url": "https://seer.61.com/module/com/robot/module/game/ElectricGame.swf",
+    "sha256": "4f72e2e4f16100d1d05ae318714f03886485a1c8bea7ee79fefa44f823eb3fe9",
+    "bytes": 54171,
+    "source": "Official original generator game, byte-identical to the existing served module. Preserve artwork, pointer speeds, scoring bands, score increments and the3000 completion threshold. Route active-game keyboard events through the stage and symmetrically stop owned listeners, timers and delayed completion on exit.",
+    "patch": {
+      "directory": "modules/ElectricGame",
+      "classes": ["com.robot.module.game.ElectricGame"],
+      "abcTags": ["frame1"]
+    }
+  },
+  {
+    "path": "module/com/robot/module/task/SkeeCloth.swf",
+    "url": "https://seer.61.com/module/com/robot/module/task/SkeeCloth.swf",
+    "sha256": "6de214f43293e55c74b74504bb5afc764a9297329373fb923e91a62c3ba9b546",
+    "bytes": 23235,
+    "missingFromLive": true,
+    "source": "Official task 7 material-progress panel; retains original graphics and stage display."
   }
 ]

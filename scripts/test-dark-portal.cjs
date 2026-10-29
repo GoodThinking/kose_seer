@@ -1,5 +1,5 @@
 'use strict';
-// 暗黑门 doors 9–10 through the real packet handlers and BattleManager on a temporary database (never a live account).
+// 暗黑门原生协议、研习门真实战斗及共享首胜奖励；只使用临时SQLite。
 // Usage: node scripts/test-dark-portal.cjs <runtime app dir with dist/config/node_modules>
 const assert = require('node:assert/strict');
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path');
@@ -28,6 +28,8 @@ const {createDefaultPlayerInfo} = load('shared/models/PlayerModel');
 const {PetCalculator} = load('GameServer/Game/Pet/PetCalculator');
 const {OpenDarkPortalHandler, FightDarkPortalHandler} = load('GameServer/Server/Packet/Recv/Battle/DarkPortalHandler');
 const {CommandID} = load('shared/protocol/CommandID');
+const {ChallengeProgressManager} = load('GameServer/Game/Challenge/ChallengeProgressManager');
+const {BattleRewardService} = load('GameServer/Game/Battle/services/BattleRewardService');
 
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'kose-dark-portal-'));
 const db = DatabaseManager.Instance, helper = DatabaseHelper.Instance;
@@ -46,6 +48,7 @@ let player;
   const petSQL = new (load('DataBase/migrations/scripts/012_fix_all_tables').Migration012FixAllTables)().upSQLite().find(sql => sql.startsWith('CREATE TABLE IF NOT EXISTS player_pets'));
   await db.Execute(petSQL);
   for (const sql of new (load('DataBase/migrations/scripts/006_create_items').Migration006CreateItems)().upSQLite()) await db.Execute(sql);
+  for (const sql of new (load('DataBase/migrations/scripts/018_create_challenge_progress_table').Migration018CreateChallengeProgressTable)().upSQLite()) await db.Execute(sql);
   const uid = 417075, now = Math.floor(Date.now() / 1000);
   await db.Execute('INSERT INTO players VALUES (?, 10000, 7, 123, 1, 100)', [uid]);
   const packets = [];
@@ -53,7 +56,8 @@ let player;
   Object.assign(player, {Uid: uid, Data: new PlayerData(Object.assign(createDefaultPlayerInfo(uid, 'DarkPortal'), {coins: 10000, mapID: 110, superNono: 1})),
     EventBus: new GameEventBus(), SendPacket: async packet => { packets.push({command: packet.getCmdId(), result: packet.getResult(), body: packet.serialize('xin-20261013')}); }});
   player._session = {Socket: {destroyed: false}, Player: player};
-  player.ChallengeProgressManager = {HasDefeatedSPTBoss: () => false, GetPuniLevel: () => 0};
+  player.ChallengeProgressManager = new ChallengeProgressManager(player);
+  await player.ChallengeProgressManager.Initialize();
   player.PetManager = new PetManager(player);
   player.ItemManager = new ItemManager(player);
   player.MapSpawnManager = new MapSpawnManager(player);
@@ -83,18 +87,36 @@ let player;
   results.push('Door 10 slots 54–56 open 鳞甲魔鱼, 艾斯德克, 狂狮迪卡 with their essences');
 
   assert.deepEqual(await open(48), {result: 0, petId: 779}, 'door 9 unchanged');
-  assert.equal((await open(60)).result, 5001, 'door 11 still has no bosses');
-  results.push('Door 9 unchanged; door 11 still closed');
+  assert.deepEqual(await open(60), {result: 0, petId: 171}, 'review attribute door opens');
+  packets.length = 0;
+  await new FightDarkPortalHandler().Handle(player.Session, {}, Buffer.alloc(0));
+  const reviewBattle = player.BattleManager.GetCurrentBattle();
+  assert.equal(reviewBattle?.enemy.id, 171, 'review door creates its real opponent');
+  const rewardService = new BattleRewardService(player);
+  assert.deepEqual(await rewardService.ProcessSPTFirstDefeatReward(reviewBattle, 110), [{itemId: 400110, count: 1}]);
+  assert.deepEqual(await rewardService.ProcessSPTFirstDefeatReward({...reviewBattle, bossParam2: 1000}, 110), [], 'original door shares review first-defeat record');
+  assert.equal(player.ItemManager.ItemData.ItemList.find(item => item.itemId === 400110)?.count, 1);
+  const progress = await helper.GetInstance_ChallengeProgressData(uid);
+  await helper.SaveChallengeProgressData(progress);
+  const saved = await db.Query('SELECT boss_achievement FROM player_challenge_progress WHERE user_id = ?', [uid]);
+  assert.equal(saved[0].boss_achievement[35], 1, 'shared first-defeat record persisted');
+  player.BattleManager.CleanupBattle();
+  packets.length = 0;
+  await new FightDarkPortalHandler().Handle(player.Session, {}, Buffer.alloc(0));
+  assert.equal(packets.find(packet => packet.command === CommandID.FIGHT_DARKPORTAL)?.result, 5001, 'consumed door cannot start another fight');
+  assert.equal(player.BattleManager.GetCurrentBattle(), null);
+  player.Data.superNono = 0;
+  assert.equal((await open(60)).result, 5001, 'review door retains membership requirement');
+  player.Data.superNono = 1;
+  results.push('Review door creates real battle; original and review share one persisted essence; consumed or unauthorized entry rejected');
 
   await open(55);
   packets.length = 0;
   await new FightDarkPortalHandler().Handle(player.Session, {}, Buffer.alloc(0));
   const battle = player.BattleManager.GetCurrentBattle();
   assert.equal(battle?.enemy.id, 1185, 'fight 艾斯德克');
-  assert.equal(battle.enemy.level, 80);
-  assert.equal(battle.enemy.maxHp, 8000);
   player.BattleManager.CleanupBattle();
-  results.push('Door 10 fight starts at level 80 with 8000 HP');
+  results.push('Door 10 still creates its configured opponent');
 
   console.log(JSON.stringify({passed: results.length, results, database: 'temporary-only'}, null, 2));
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => {
