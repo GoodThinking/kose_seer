@@ -1,0 +1,159 @@
+      private static const UI_PAPER:uint = 0xECE5D8;
+      private static const UI_WHITE:uint = 0xF5F0E6;
+      private static const UI_INK:uint = 0x495366;
+      private static const UI_MUTED:uint = 0x857F73;
+      private static const UI_GOLD:uint = 0xC5AD7F;
+      private static const UI_LINE:uint = 0xD2C9B8;
+      private static const UI_NAV:uint = 0x3E485A;
+      private var _uiLoads:Array = [];
+
+      private function uiRect(parent:flash.display.Sprite,x:Number,y:Number,w:Number,h:Number,color:uint,alpha:Number=1,r:Number=0):void
+      {
+         var g:flash.display.Graphics=parent.graphics;
+         g.lineStyle();g.beginFill(color,alpha);
+         if(r>0)g.drawRoundRect(x,y,w,h,r,r);else g.drawRect(x,y,w,h);
+         g.endFill();
+      }
+      private function uiLine(parent:flash.display.Sprite,x:Number,y:Number,w:Number,color:uint=0xD2C9B8,alpha:Number=1):void
+      {
+         parent.graphics.lineStyle(1,color,alpha);parent.graphics.moveTo(x,y);parent.graphics.lineTo(x+w,y);parent.graphics.lineStyle();
+      }
+      private function uiDiamond(parent:flash.display.Sprite,x:Number,y:Number,r:Number,color:uint,alpha:Number=1):void
+      {
+         var g:flash.display.Graphics=parent.graphics;g.lineStyle();g.beginFill(color,alpha);
+         g.moveTo(x,y-r);g.lineTo(x+r*0.58,y);g.lineTo(x,y+r);g.lineTo(x-r*0.58,y);g.lineTo(x,y-r);g.endFill();
+      }
+      private function uiSeal(parent:flash.display.Sprite,x:Number,y:Number,r:Number,color:uint,alpha:Number=0.25):void
+      {
+         var g:flash.display.Graphics=parent.graphics;
+         g.lineStyle(1,color,alpha);g.drawCircle(x,y,r);g.drawCircle(x,y,r*0.81);
+         for(var i:int=0;i<8;i++){
+            var a:Number=i*Math.PI/4;
+            g.moveTo(x+Math.cos(a)*r*0.76,y+Math.sin(a)*r*0.76);
+            g.lineTo(x+Math.cos(a)*r*1.12,y+Math.sin(a)*r*1.12);
+         }
+         g.lineStyle();uiDiamond(parent,x,y,r*0.37,color,alpha);
+         uiDiamond(parent,x-r-8,y,5,color,alpha);uiDiamond(parent,x+r+8,y,5,color,alpha);
+      }
+      private function uiText(parent:flash.display.DisplayObjectContainer,value:String,x:Number,y:Number,w:Number,h:Number,size:int=13,color:uint=0x495366,bold:Boolean=false,align:String="left"):flash.text.TextField
+      {
+         var field:flash.text.TextField=new flash.text.TextField();
+         var format:flash.text.TextFormat=new flash.text.TextFormat(size>=20?"STSong,Songti SC,SimSun":"Microsoft YaHei,PingFang SC,SimHei",size,color,bold);
+         format.leading=4;format.align=align;
+         field.defaultTextFormat=format;field.x=x;field.y=y;field.width=w;field.height=h;
+         field.selectable=false;field.mouseEnabled=false;field.text=value;parent.addChild(field);return field;
+      }
+      private function uiFrame(parent:flash.display.Sprite,w:Number,h:Number,title:String,subtitle:String,rail:Number=178):void
+      {
+         uiRect(parent,0,5,w,h,0x18202E,0.5,10);
+         uiRect(parent,0,0,w,h,UI_PAPER,1,8);
+         if(rail>0){
+            uiRect(parent,0,0,rail,h,UI_NAV,1,6);
+            uiRect(parent,rail-6,0,6,h,UI_NAV);
+            uiSeal(parent,rail/2,49,25,0xD9C89F,0.8);
+            uiText(parent,"星际探索手册",15,83,rail-30,24,14,0xE8DFC9,true,"center");
+            uiLine(parent,22,116,rail-44,0xD5C49D,0.2);
+            uiSeal(parent,rail/2,h-62,50,0xD5C49D,0.08);
+            uiText(parent,"SEER  /  ARCHIVE",10,h-28,rail-20,18,9,0xB5B3AD,false,"center");
+         }
+         var left:Number=rail+25;
+         uiText(parent,title,left,21,w-left-64,35,25,UI_INK,true);
+         uiText(parent,subtitle,left+1,57,w-left-58,22,11,UI_MUTED);
+         uiLine(parent,left,88,w-left-25);
+         var g:flash.display.Graphics=parent.graphics;
+         g.lineStyle(1,UI_GOLD,0.65);
+         var xs:Array=[rail+10,w-10];var ys:Array=[10,h-10];
+         for(var ix:int=0;ix<2;ix++)for(var iy:int=0;iy<2;iy++){
+            var xx:Number=xs[ix];var yy:Number=ys[iy];var dx:Number=ix==0?1:-1;var dy:Number=iy==0?1:-1;
+            g.moveTo(xx+dx*15,yy);g.lineTo(xx,yy);g.lineTo(xx,yy+dy*15);
+         }
+         g.lineStyle();uiDiamond(parent,w/2+rail/2,h-10,3,UI_GOLD,0.7);
+      }
+      private function uiButtonFace(w:Number,h:Number,title:String,primary:Boolean,over:Boolean=false):flash.display.Sprite
+      {
+         var face:flash.display.Sprite=new flash.display.Sprite();
+         var fill:uint=primary?(over?0x59657A:UI_INK):(over?0xF8F4EB:0xE4DDCF);
+         uiRect(face,0,0,w,h,fill,1,Math.min(h,28));
+         face.graphics.lineStyle(1,over?0xD6C293:(primary?0x7B8390:0xD0C5B2));
+         face.graphics.drawRoundRect(1,1,w-2,h-2,Math.min(h-2,26),Math.min(h-2,26));face.graphics.lineStyle();
+         uiText(face,title,w<=20?0:5,Math.max(0,(h-21)/2),w<=20?w:w-10,24,w<=20?8:12,primary?UI_WHITE:UI_INK,true,"center");
+         face.mouseChildren=false;return face;
+      }
+      private function uiButton(parent:flash.display.Sprite,title:String,x:Number,y:Number,w:Number,h:Number,command:String="",primary:Boolean=false,enabled:Boolean=true):flash.display.Sprite
+      {
+         var target:flash.display.Sprite=new flash.display.Sprite();target.x=x;target.y=y;target.name=command;
+         target.addChild(new flash.display.SimpleButton(uiButtonFace(w,h,title,primary),uiButtonFace(w,h,title,primary,true),uiButtonFace(w,h,title,true),uiButtonFace(w,h,title,primary)));
+         target.mouseChildren=false;target.mouseEnabled=enabled;target.buttonMode=enabled;target.alpha=enabled?1:0.42;parent.addChild(target);return target;
+      }
+      private function uiCrossFace(over:Boolean=false):flash.display.Sprite
+      {
+         var face:flash.display.Sprite=new flash.display.Sprite();
+         face.graphics.lineStyle(1,over?UI_GOLD:0xBAAF9C);face.graphics.beginFill(over?UI_WHITE:0xE0D8C9);
+         face.graphics.drawCircle(15,15,14);face.graphics.endFill();face.graphics.lineStyle(2,UI_INK);
+         face.graphics.moveTo(10,10);face.graphics.lineTo(20,20);face.graphics.moveTo(20,10);face.graphics.lineTo(10,20);return face;
+      }
+      private function uiClose(parent:flash.display.Sprite,x:Number,y:Number):flash.display.SimpleButton
+      {
+         var button:flash.display.SimpleButton=new flash.display.SimpleButton(uiCrossFace(),uiCrossFace(true),uiCrossFace(true),uiCrossFace());
+         button.x=x;button.y=y;button.name="close";parent.addChild(button);return button;
+      }
+      private function uiNav(parent:flash.display.Sprite,title:String,x:Number,y:Number,w:Number,h:Number,command:String,active:Boolean,index:int=0):flash.display.Sprite
+      {
+         var item:flash.display.Sprite=new flash.display.Sprite();item.x=x;item.y=y;item.name=command;
+         if(active){uiRect(item,0,0,w,h,UI_PAPER);uiDiamond(item,8,h/2,5,UI_GOLD);}
+         else uiLine(item,16,h-1,w-32,0xD0C7B6,0.08);
+         uiText(item,index>0?(index<10?"0":"")+index:"◇",18,(h-20)/2,28,21,11,active?UI_MUTED:0xBDB7AA);
+         uiText(item,title,48,(h-22)/2,w-54,25,13,active?UI_INK:0xE3DCCC,active);
+         item.mouseChildren=false;item.buttonMode=true;parent.addChild(item);return item;
+      }
+      private function uiProgress(parent:flash.display.Sprite,x:Number,y:Number,w:Number,ratio:Number):void
+      {
+         uiRect(parent,x,y,w,4,0xD4CBB9,1,4);
+         if(ratio>0)uiRect(parent,x,y,w*Math.min(1,ratio),4,UI_GOLD,1,4);
+         uiDiamond(parent,x+w*Math.max(0,Math.min(1,ratio)),y+2,4,UI_GOLD);
+      }
+      private function uiClear(parent:flash.display.Sprite):void
+      {
+         uiRelease(parent);parent.graphics.clear();while(parent.numChildren)parent.removeChildAt(0);
+      }
+      private function uiRelease(parent:flash.display.DisplayObjectContainer):void
+      {
+         for(var i:int=_uiLoads.length-1;i>=0;i--){
+            var record:Object=_uiLoads[i];
+            if(parent==record.holder||parent.contains(record.holder)){
+               record.disposed=true;try{record.loader.close();}catch(error:Error){}
+               record.loader.unloadAndStop(true);_uiLoads.splice(i,1);
+            }
+         }
+      }
+      private function uiArt(parent:flash.display.Sprite,id:uint,x:Number,y:Number,w:Number,h:Number,full:Boolean=false,dim:Boolean=false):void
+      {
+         var holder:flash.display.Sprite=new flash.display.Sprite();holder.x=x;holder.y=y;holder.alpha=dim?0.35:1;
+         holder.mouseEnabled=false;holder.mouseChildren=false;parent.addChild(holder);
+         var loader:flash.display.Loader=new flash.display.Loader();var record:Object={loader:loader,holder:holder,disposed:false};_uiLoads.push(record);
+         var fail:Function=function(event:flash.events.Event):void{if(!record.disposed)uiText(holder,"#"+id,0,h/2-10,w,22,11,UI_MUTED,false,"center");};
+         loader.contentLoaderInfo.addEventListener(flash.events.IOErrorEvent.IO_ERROR,fail);
+         loader.contentLoaderInfo.addEventListener(flash.events.SecurityErrorEvent.SECURITY_ERROR,fail);
+         loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function(event:flash.events.Event):void{
+            if(record.disposed)return;
+            var domain:flash.system.ApplicationDomain=loader.contentLoaderInfo.applicationDomain;
+            var symbol:String=full?"pet":"item";
+            if(!domain.hasDefinition(symbol)){fail(event);return;}
+            var definition:Class=domain.getDefinition(symbol) as Class;var display:flash.display.DisplayObject=new definition();
+            uiStopArt(display);
+            var bounds:flash.geom.Rectangle=display.getBounds(display);
+            if(bounds.width<=0||bounds.height<=0)return;
+            var scale:Number=Math.min(w/bounds.width,h/bounds.height);display.scaleX=display.scaleY=scale;
+            display.x=(w-bounds.width*scale)/2-bounds.x*scale;display.y=(h-bounds.height*scale)/2-bounds.y*scale;holder.addChild(display);
+         });
+         var resource:String=full?(id>500?"groupFightResource/pet/":"pet/swf/"):"pet/head/";
+         loader.load(new flash.net.URLRequest("/resource/"+resource+id+".swf"),new flash.system.LoaderContext(false,new flash.system.ApplicationDomain()));
+      }
+      private function uiStopArt(display:flash.display.DisplayObject):void
+      {
+         if(display is flash.display.MovieClip)flash.display.MovieClip(display).gotoAndStop(1);
+         if(display is flash.display.DisplayObjectContainer){
+            var container:flash.display.DisplayObjectContainer=display as flash.display.DisplayObjectContainer;
+            for(var i:int=0;i<container.numChildren;i++)uiStopArt(container.getChildAt(i));
+         }
+      }

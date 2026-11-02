@@ -4,6 +4,13 @@
 
 ---
 
+## 当前交付：SPT逐只机制（2026-11-02）
+
+- 用户已授权提交、推送`fork/main`并备份后增量部署。当前发布核对进行中，旧生产记忆不当作实时基线。
+- 规范为`docs/SPT_BOSS_{DESIGN,EXEMPTIONS,CUTOVER}.md`。151入口撤六职、35%份额、40%锁血及普通直伤通用封顶，改用属性、专属特性与反制窗口，保留原生机制和奖励。
+- 最终严格校准302条路线、真实控制器304次回放通过，含142条奖励路由和六类原生客户端胜利；完整证据位于`outputs/spt-boss-cutover-20261102/acceptance.json`。
+- 隔离交付分支`feat/spt-boss-cutover-20261102`，工作树`work/spt-boss-release-20261102`。不提交原工作树无关历史改动；发布结果、备份与限制以`HANDOFF.md`当前任务为准。
+
 ## 1. 项目基础架构与核心路径
 
 - **代码根目录**：`/Users/wuyunfan/Code/saierhao`

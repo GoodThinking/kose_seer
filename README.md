@@ -12,6 +12,14 @@
 - 推送目标是 `fork` 的 `main`（https://github.com/GoodThinking/kose_seer）。不要推到 BaiSugar 的 `origin`。
 - 用户已授权本项目默认交付流程：需求完成并验收通过后，直接提交、合并并推送最新`fork/main`，随后备份部署和验证，不再重复等待发布确认。仍须保留其他会话更新；目标、范围或风险发生实质变化，以及数据库或破坏性操作超出已有授权时，停止对应操作并重新确认。
 
+## SPT 属性与专属机制切换（2026-11-02，本地验收完成）
+
+- 128组设计覆盖151个入口及135个非零SPT ID，撤除六职、35%单宠份额、40%锁血与普通直伤通用封顶，保留原生封印、多命、奖励和8004。
+- 规范与验收见`docs/SPT_BOSS_DESIGN.md`、`docs/SPT_BOSS_EXEMPTIONS.md`、`docs/SPT_BOSS_CUTOVER.md`。302条逐设计路线、304次真实控制器回放、142条奖励路由和六类代表性原生客户端胜利已通过。谱尼只验证单宠进入及原生开场，不宣称浏览器通关。
+- 服务端构建：`scripts/build-spt-boss.cjs --baseline <当前捕获基线> --out <新目录>`。客户端构建器本次提交仅包含`spt,battleassets,puniroster`三个目标，避免混入其他会话的界面改版；目录传`--boss-plan`，缺失技能先用`build-spt-skill-client.cjs`组合，再构建`puniroster`。
+- 校准与回归：`spt-boss-lab.cjs <应用目录> <报告> [all|地图/区域,...] [design]`；`test-spt-boss-controller.cjs <应用目录> <完整严格报告> <回执> [all|cures|replays] [A|B]`；`test-spt-boss.cjs <应用目录> <回执>`。只看`complete`不代表动作和胜利通过。
+- 用户已明确授权本轮提交、推送和增量部署；生产安装前须重新核对基线、持双发布锁及建立回滚备份，不修改玩家存档。
+
 ## SPT 首胜获得精灵提示（2026-11-02）
 
 - 首胜发宠成功后，使用现有 `PacketGetBossMonster`（8004）通知真实精灵 ID 和捕获时间，触发客户端原生获得精灵弹窗。背包有空位时入包，满六只时入仓；弹窗展示精灵形象和去向。物品奖励继续沿用原有通知。
