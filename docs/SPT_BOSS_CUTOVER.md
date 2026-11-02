@@ -1,7 +1,7 @@
 # SPT 属性机制迁移与验收清单
 
-> 状态：本地实施与本轮验收完成，2026-11-02。151入口、302条逐设计路线、真实控制器与代表性原生界面均已验证，未发布；验证范围不等于全部养成成本和随机种子的穷举平衡。
-> 本轮仅变更本地源码、候选包与一次性验证库，未提交、推送、修改生产数据或部署。[逐只设计](SPT_BOSS_DESIGN.md)和[豁免边界](SPT_BOSS_EXEMPTIONS.md)共同构成目标行为；SPT109已按用户确认保留机制、拆分现有合法打法。
+> 状态：2026-11-02已提交、推送并完成生产增量部署。151入口、302条逐设计路线、真实控制器与代表性原生界面均已验证；不等于全部养成成本和随机种子的穷举平衡。
+> 用户随后明确授权本轮提交、推送和部署；未修改生产玩家数据。[逐只设计](SPT_BOSS_DESIGN.md)和[豁免边界](SPT_BOSS_EXEMPTIONS.md)共同构成目标行为；SPT109按用户确认保留机制、拆分现有合法打法。
 
 ## 迁移原则
 
@@ -99,6 +99,16 @@
 重建入口：`scripts/build-spt-boss.cjs --baseline <已核对基线> --out <增量包>`；`scripts/spt-boss-lab.cjs <候选应用目录> <报告> [all|地图/区域,...] [design]`；`scripts/test-spt-boss-controller.cjs <候选应用目录> <已完成报告> <证据> [all|cures|replays] [A|B]`。客户端目录使用`build-genshin-panels.cjs --target spt --boss-plan <boss-plan.json>`，不再接受`--team-plan`。技能定义先用`build-spt-skill-client.cjs --baseline <平铺客户端基线> --runtime <应用目录> --calibration <完整严格报告> --out <技能阶段>`，再以该阶段为基线运行`build-genshin-panels.cjs --target puniroster`；应急预载另用`--target battleassets`。通用客户端构建仍需`--baseline/--out/--java/--ffdec`。
 
 用户随后明确授权本轮提交、推送和部署，不沿用旧任务授权。正式发布使用`scripts/deploy-spt-boss.py <暂存目录> <发布号> --manifest-sha256 <清单SHA256>`先预检，再加`--apply`安装。部署器持两把发布锁、核对真实基线与受保护运行文件、备份完整应用和客户端目标，只重启游戏服务；失败仅恢复本批文件，不回退玩家存档。发布回执另行记录，不以本地验收冒充生产账号战斗。
+
+### 正式发布回执
+
+- 功能提交`d5556de974da0b78341fa3b31a673f0926ca4a55`已推送`fork/main`。隔离提交只包含SPT及其必要构建依赖；其他会话未提交改动保持原样，客户端构建目标只提交`spt,battleassets,puniroster`。
+- 当前生产输入重捕获后，从提交源码重建的11个服务端文件、3个唯一客户端产物与验收字节一致。传输改用442202字节稀疏包，远端仅在临时目录按原始tag重组，并核对完整输出哈希。
+- 发布`spt-boss-20261102102221992-d5556de`：双锁内安装15文件、删除旧模块，保护其余4883个运行文件。备份完整应用和客户端目标至`/opt/kose-seer/backups/spt-boss-20261102102221992-d5556de/`，不修改或回退生产玩家存档。
+- 安装哈希、root:kose-seer归属及权限读回通过；151入口、135非零ID、16原生豁免、旧六职标记为0。游戏PID由2108976变为2299306，Web保持1854128；两服务active/running、NRestarts=0，9999可连，新进程启动日志采样未见ERROR/FATAL。
+- 公网Core、SPT、战斗模块及受保护仓库、签到五项资源均200、no-cache、完整哈希一致。后台静音浏览器实际打开欢迎页并点击“开始”进入原生登录表单，无观察到的AVM异常或失败SWF。未输入生产凭据，不冒称生产账号自然战斗、首胜或领奖复测。
+- 发布回执位于证据根目录`deployment-result.json`、`post-deploy-health.json`、`public-verification.json`、`public-native-smoke.json`。远端暂存、验证浏览器和配置目录已清理，见`deployment-cleanup.json`。玩家需刷新整个网页并重新登录。
+
 
 
 ## 本轮已完成的静态检查
