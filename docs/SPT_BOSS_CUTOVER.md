@@ -1,7 +1,30 @@
 # SPT 属性机制迁移与验收清单
 
-> 状态：2026-11-02已提交、推送并完成生产增量部署。151入口、302条逐设计路线、真实控制器与代表性原生界面均已验证；不等于全部养成成本和随机种子的穷举平衡。
-> 用户随后明确授权本轮提交、推送和部署；未修改生产玩家数据。[逐只设计](SPT_BOSS_DESIGN.md)和[豁免边界](SPT_BOSS_EXEMPTIONS.md)共同构成目标行为；SPT109按用户确认保留机制、拆分现有合法打法。
+> 状态：上轮SPT迁移已于2026-11-02发布；2026-11-03战斗与地图热修复已生产发布（`collect-map-battle-hotfix-20261103022602`）。
+> 上轮普通SPT承伤管线存在归零缺陷，302条路线和304次回放不能继续作为正常承伤下的平衡验收。以下历史回执保留事实，不代表修复后的全入口路线已重验。未修改生产玩家数据。
+> [逐只设计](SPT_BOSS_DESIGN.md)和[豁免边界](SPT_BOSS_EXEMPTIONS.md)仍是目标行为；SPT109按用户确认保留机制、拆分现有合法打法。
+
+## 2026-11-03 战斗与地图回归修复（已发布）
+
+- **首领伤害归零**：`ApplyUniverseAbsoluteDefense`仍仅接受`universeBoss`，导致普通SPT正常计算的攻击被归零。守卫改用`UniverseBossBudget.enabled(battle)`，与实际预算作用域一致，不扩大到野怪或PVP。
+- **蘑菇怪地图护罩**：地图生成误用了战斗`customHP=2200`，每发20需110发。仅将精灵47的地图护罩恢复为100，五发火焰破罩；战斗体力仍为2200。
+- **浮字与扣血分离**：新增`IAttackResult.displayDamage`，记录减伤、护盾和专属机制上限之后、剩余体力截断之前的结算值。`BattleConverter`仅对原生2505伤害显示使用该字段；`damage`、实际体力、吸血、反伤及收益判定仍按真实扣血。已死亡目标后未执行的多段不计显示，既有原创比例伤害上限不放开。
+- **规范源与构建**：`universe-budgets/UniverseBossBudget.js`和`UniverseBossSegments.js`共同维护结算；`scripts/patch-attack-damage-display.cjs`供完整SPT构建与本次增量构建复用。类型与协议注释同步在`BattleModel.ts`、`BattleConverter.ts`和`AttackValueProto.ts`，协议字节布局不变。
+- **增量交付**：`scripts/build-collect-map-battle-hotfix.cjs --baseline <捕获的已发布app> --out <目录>`生成六文件清单，包含`SkillEffectRuntime.js`、`MapSpawnManager.js`、上述两个预算模块、`BattleTurnExecutor.js`和`BattleConverter.js`。清单记录逐文件before/after哈希；只需重启游戏服务，不需重启Web或变更数据库。
+
+本轮证据位于`outputs/collect-and-map-hotfix-20261102/`：
+
+| 验证面 | 实际结果 | 证据 |
+|---|---|---|
+| 回归边界 | 36组通过，包含86个普通SPT入口的物理/特殊实际扣血、过量伤害不放大吸血、机制上限与未执行多段 | `regression-after-display.json` |
+| 真实控制器 | SQLite、真实角色与技能：三次呐喊后，里奥斯2505回包显示3555、3319，每命2200，复活一次后结束；回击每次扣34 | `controller-acceptance.json` |
+| 原生地图与战斗 | 实装100044喷射器，五次原生2412请求令护罩80→60→40→20→0；膜消失后实际挑战并胜利，玩家397→132 | `native-mushroom-shield-broken.png`、`native-mushroom-challenge-after-shield.png`、`native-mushroom-victory-hp132.png`、`native-damage.webm` |
+| 构建一致性 | 完整SPT构建与热修复六文件逐字节一致；既有分段伤害套件通过 | `build-parity.json`、`universe-segments-after.log` |
+| 重复领奖调查 | 八并发仅发一只陶诺并写一个标记；原生领取后卡片推进到托达，未观察到同奖重复到账 | `controller-acceptance.json`、`native-collect-before.png`、`native-collect-once.png` |
+
+本轮未重跑302条路线的难度校准，未完成里奥斯溢出浮字的原生截图；3555/3319以真实序列化2505回包为证。未执行全项目TypeScript编译。收集规则和代码未改，等待用户确认“同一陶诺重复到账”还是“卡片切至下一档后继续领取”，不能把未复现写成已修复。
+
+旧`scripts/deploy-spt-boss.py`绑定上轮完整包与验收合同，不用于本次六文件热修复。本轮改用`outputs/collect-and-map-hotfix-20261102/deploy-hotfix.py`：先逐文件核对线上`before`哈希，再在`.release.lock`/`.client-release.lock`下原子替换、保留`root:kose-seer 0640`，回读等于`after`后重启游戏。发布`collect-map-battle-hotfix-20261103022602`；游戏PID`2299306`→`2542031`，Web未重启，双服务active、NRestarts=0，9999接受连接，启动日志0条ERROR/FATAL。备份与回执在`/opt/kose-seer/backups/collect-map-battle-hotfix-20261103022602/`。回滚只恢复该目录六个文件并重启游戏；不得拿旧302/304计数替代当前验证，或重置玩家存档。
 
 ## 迁移原则
 

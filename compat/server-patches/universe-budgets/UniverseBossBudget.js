@@ -52,15 +52,26 @@ function damage(battle, source, target, kind, amount, options = {}) {
     const rules = require('./UniverseBossRules');
     if (typeof rules.modifyIndirectDamage === 'function') amount = Math.max(0, Math.floor(rules.modifyIndirectDamage(battle, source, target, kind, amount)) || 0);
   }
-  if (!enabled(battle, target)) return amount;
   beginTurn(battle);
-  const s = state(battle), l = limits(battle);
-  if (battle.universeBoss && (kind === 'ohko' || kind === 'delayedFatal')) return 0;
-  if (battle.universeBoss && (kind === 'fraction' || kind === 'dot')) amount = Math.min(amount, Math.max(0, limit(battle, l[kind]) - s[kind]));
-  if (battle.universeBoss && kind !== 'direct' && kind !== 'dot' && s.actor === battle.player) amount = Math.min(amount, Math.max(0, limit(battle, l.indirectAction) - s.action));
-  amount = Math.min(amount, Math.max(0, target.hp));
-  if (kind === 'fraction' || kind === 'dot') s[kind] += amount;
-  if (kind !== 'direct' && kind !== 'dot' && s.actor === battle.player) s.action += amount;
+  const s = state(battle), bossTarget = enabled(battle, target);
+  if (bossTarget) {
+    const l = limits(battle);
+    if (battle.universeBoss && (kind === 'ohko' || kind === 'delayedFatal')) return 0;
+    if (battle.universeBoss && (kind === 'fraction' || kind === 'dot')) amount = Math.min(amount, Math.max(0, limit(battle, l[kind]) - s[kind]));
+    if (battle.universeBoss && kind !== 'direct' && kind !== 'dot' && s.actor === battle.player) amount = Math.min(amount, Math.max(0, limit(battle, l.indirectAction) - s.action));
+  }
+  const remainingHp = Math.max(0, Math.min(target.hp, options.remainingHp ?? target.hp));
+  const resolved = remainingHp > 0 ? amount : 0;
+  amount = Math.min(amount, remainingHp);
+  const context = s.actionContext;
+  if (context && source === s.actor && target === (source === battle.player ? battle.enemy : battle.player)) {
+    context.displayDamage = (context.displayDamage || 0) + resolved;
+    context.appliedDamage = (context.appliedDamage || 0) + amount;
+  }
+  if (bossTarget) {
+    if (kind === 'fraction' || kind === 'dot') s[kind] += amount;
+    if (kind !== 'direct' && kind !== 'dot' && s.actor === battle.player) s.action += amount;
+  }
   return amount;
 }
 function healingRemaining(battle) {

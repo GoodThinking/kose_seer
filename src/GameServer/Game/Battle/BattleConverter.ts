@@ -78,7 +78,7 @@ export class BattleConverter {
         .setUserId(attack.userId)
         .setSkillId(attack.skillId)
         .setAtkTimes(attack.atkTimes)
-        .setDamage(attack.damage)
+        .setDamage(attack.displayDamage ?? attack.damage)
         .setGainHP(attack.gainHp)  // 攻击者获得的HP（吸血等）
         .setRemainHp(attack.attackerRemainHp)  // 攻击者的剩余HP（客户端用于更新攻击者HP条）
         .setMaxHp(attack.attackerMaxHp)        // 攻击者的最大HP

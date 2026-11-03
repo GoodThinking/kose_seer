@@ -8,14 +8,14 @@ import { BufferWriter } from '../../utils';
  * 
  * 重要说明：
  * - userId: 攻击者ID
- * - lostHP: 被攻击者失去的HP（伤害值）
+ * - lostHP: 展示用结算伤害，保留减伤与机制上限，不按剩余体力截断；不用于吸血、反伤或奖励统计
  * - gainHP: 攻击者获得的HP（吸血等效果，可为负数表示反伤）
  * - remainHp: 攻击者剩余HP（客户端用此字段更新攻击者的HP条）
  * - maxHp: 攻击者的最大HP
  * - skillList: 攻击者的技能列表
  * 
  * 客户端逻辑：
- * - LOST_HP 事件：更新被攻击者（enemy）的HP，扣除 lostHP
+ * - LOST_HP 事件：播放受击与伤害浮字；最终体力由 remainHp 同步
  * - GAIN_HP 事件：更新攻击者（this）的HP，增加 gainHP
  * - REMAIN_HP 事件：更新攻击者（this）的HP，设置为 remainHp
  * - 客户端计算 changeHp = remainHp - currentHp 来显示HP变化动画
@@ -25,7 +25,7 @@ export class AttackValueProto extends BaseProto {
   userId: number = 0;          // 攻击者ID
   skillId: number = 0;         // 技能ID
   atkTimes: number = 1;        // 攻击次数
-  lostHP: number = 0;          // 被攻击者损失的HP（伤害值）
+  lostHP: number = 0;          // 展示用伤害；可大于被攻击者当前体力
   gainHP: number = 0;          // 攻击者回复的HP（吸血等，可为负数表示反伤）
   remainHp: number = 0;        // 攻击者剩余HP（客户端用于更新攻击者HP条）
   maxHp: number = 0;           // 攻击者最大HP

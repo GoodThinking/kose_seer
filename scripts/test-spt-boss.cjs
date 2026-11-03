@@ -54,6 +54,46 @@ function check(name,fn){const random=Math.random;Math.random=()=>0.1;try{fn();}f
   check('ordinary-burst-and-final-hp-have-no-quota',()=>{const b=fresh(3);start(b);budget.beginAction(b,b.player,move());assert.equal(budget.damage(b,b.player,b.enemy,'direct',2100),2100);b.enemy.hp=1;assert.equal(budget.damage(b,b.player,b.enemy,'direct',100),1);budget.unbind(b);});
   check('universe-burst-uncapped-but-fraction-and-dot-budgets-retained',()=>{const b=fresh(82);start(b);budget.beginAction(b,b.player,move());assert.equal(budget.damage(b,b.player,b.enemy,'direct',5000),5000);assert.equal(budget.damage(b,b.player,b.enemy,'fraction',5000),480);assert.equal(budget.damage(b,b.player,b.enemy,'fraction',5000),0);assert.equal(budget.damage(b,b.player,b.enemy,'dot',5000),240);budget.unbind(b);});
   check('non-boss-and-pvp-unchanged',()=>{const b=fresh(3);delete b.enemy.sptBossProfile;assert.equal(budget.enabled(b),false);assert.equal(budget.damage(b,b.player,b.enemy,'direct',9999),9999);const p=fresh(3);p.isPvp=true;assert.equal(budget.enabled(p),false);});
+  check('ordinary-boss-real-turn-damages-player',()=>{
+    const b=fresh(1),before=b.player.hp,result=service.ExecuteTurn(b,move(8,2,raw=>!raw.SideEffect).id);
+    const enemy=[result.firstAttack,result.secondAttack].find(attack=>attack?.userId===0);
+    assert.ok(enemy.damage>0,'A landed damaging boss attack must not be erased by the Universe-only guard');
+    assert.equal(b.player.hp,before-enemy.damage);
+    assert.equal(enemy.defenderRemainHp,b.player.hp);
+  });
+  check('ordinary-bosses-physical-and-special-attacks-reduce-real-player-hp',()=>{
+    for(const row of cases.filter(row=>!row.sptBoss.native&&!row.universeBossKey))for(const category of[1,2]){
+      const b=fresh(null,row),skill=move(8,category,raw=>!raw.SideEffect);start(b);
+      b.enemy.skills=[skill.id];b.enemy.skillPP=[10];
+      const before=b.player.hp,result=action(b,skill.id,b.enemy);
+      assert.ok(result.damage>0,`${row.mapId}/${row.param2} category ${category} lost its damaging attack`);
+      assert.equal(b.player.hp,before-result.damage);
+      assert.equal(result.defenderRemainHp,b.player.hp);
+      budget.unbind(b);
+    }
+  });
+  check('overkill-float-keeps-resolved-damage-without-inflating-hp-loss-or-lifesteal',()=>{
+    const skill=move(8,2,raw=>!raw.SideEffect),b=fresh(1);start(b);b.enemy.hp=1;
+    const expected=load('GameServer/Game/Battle/BattleCore').BattleCore.CalculateDamage(b.player,b.enemy,skill,false).damage;
+    const outgoing=action(b,skill.id);assert.equal(outgoing.damage,1);assert.equal(outgoing.displayDamage,expected);assert.ok(expected>1);assert.equal(b.enemy.hp,0);
+    const c=fresh(36);start(c);c.player.hp=1;c.enemy.hp-=100;c.enemy.skills=[skill.id];c.enemy.skillPP=[10];
+    const before=c.enemy.hp,incoming=action(c,skill.id,c.enemy);
+    assert.equal(incoming.damage,1);assert.ok(incoming.displayDamage>1);assert.equal(c.player.hp,0);assert.equal(c.enemy.hp,before,'Overkill float must not enlarge boss lifesteal');
+  });
+  check('display-honors-mechanic-caps-and-only-executed-multi-hit-segments',()=>{
+    const skill=move(8,2,raw=>!raw.SideEffect),b=fresh(82);start(b);b.enemy.hp=1;const context=begin(b,b.player,skill);
+    assert.equal(budget.damage(b,b.player,b.enemy,'fraction',5000),1);assert.equal(context.displayDamage,480);assert.equal(context.appliedDamage,1);
+    const c=fresh(39);start(c);c.enemy.hp=1;const segmentContext=begin(c,c.player,skill);
+    const result=load('GameServer/Game/Battle/UniverseBossSegments').settle(c,c.player,c.enemy,skill,1000,100,3,0,true);
+    assert.equal(result.damage,1);assert.equal(segmentContext.displayDamage,133);assert.equal(segmentContext.appliedDamage,1);assert.equal(spt.state(c).layers,2);
+  });
+  check('mushroom-map-shield-breaks-after-five-shots-not-battle-hp',()=>{
+    const {MapSpawnManager}=load('GameServer/Game/Map/MapSpawnManager');
+    const map=new MapSpawnManager({Uid:7});map.OnEnterMap(12);
+    const boss=map.GetMapBosses(12).find(entry=>entry.id===47),hp=[];
+    for(let shot=0;shot<5;shot++)hp.push(map.HitBoss(12,boss.region).hp);
+    assert.deepEqual(hp,[80,60,40,20,0]);
+  });
   check('contact-poison-disabled-by-fire-and-special-bypasses',()=>{const b=fresh(1);start(b);hit(b,move(3));assert.equal(spt.state(b).contactOffThrough,2);const c=fresh(1);start(c);const r=action(c,10034);assert.equal(r.missed,false);assert.equal(c.player.statusDurations[1]||0,0);});
   check('all-layered-armor-break-routes',()=>{
     const rows=[[4,3,8],[8,7,8],[37,2,8],[39,2,8],[44,11,8],[57,2,8],[58,15,8],[59,11,8],[62,1,8],[67,3,8],[70,1,8],[78,15,8],[81,3,8]];

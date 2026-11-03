@@ -61,6 +61,7 @@ const battleRoot='app/dist/GameServer/Game/Battle/';
 put(battleRoot+'SPTBossRules.js',fs.readFileSync(path.join(root,'compat/server-patches/spt-boss/SPTBossRules.js')));
 for(const name of ['UniverseBossRules','UniverseBossBiomes','UniverseBossFrontier'])put(battleRoot+name+'.js',fs.readFileSync(path.join(root,'compat/server-patches/universe-bosses',name+'.js')));
 put(battleRoot+'UniverseBossBudget.js',fs.readFileSync(path.join(root,'compat/server-patches/universe-budgets/UniverseBossBudget.js')));
+put(battleRoot+'UniverseBossSegments.js',fs.readFileSync(path.join(root,'compat/server-patches/universe-budgets/UniverseBossSegments.js')));
 patch(battleRoot+'BossSpecialRules.js',text=>{
   text=replace(text,'        return require("./SPTTeamBattle").decorate(pet, bossConfig);','        if (bossConfig.sptBoss) {\n            pet.sptBossProfile = bossConfig.sptBoss; pet.sptBossWeekday = weekday;\n            if (!bossConfig.sptBoss.native && bossConfig.sptBoss.sptId === 13 && weekday === 0) pet.battleLevels[4] = 1;\n            if (!bossConfig.sptBoss.native && bossConfig.sptBoss.sptId === 14 && [1, 5].includes(weekday)) pet.battleLevels[0] = 1;\n            if (!bossConfig.sptBoss.native && bossConfig.sptBoss.sptId === 14 && [3, 6].includes(weekday)) pet.battleLevels[1] = 1;\n        }\n        return pet;');
   text=replace(text,'        if (defender.sptTeamProfile) return damage;\n','');
@@ -86,6 +87,7 @@ patch(battleRoot+'BattleTurnExecutor.js',text=>{
   text=replace(text,'damage = require("./UniverseBossBudget").enabled(battle) && defender === battle.enemy && universeDamageKind === "ohko" ?', 'damage = battle.universeBoss && defender === battle.enemy && universeDamageKind === "ohko" ?');
   text=replace(text,'acted: !!canAct.canAct, hit: false, actionSerial:', 'acted: !!canAct.canAct, hit: false, isFirst, actionSerial:');
   text=replace(text,"            isCrit = SkillEffectRuntime_1.SkillEffectRuntime.Crit(battle, attacker, defender, skill, () => BattleCore_1.BattleCore.CheckCrit(attacker, defender, skill, isFirst));", "            isCrit = SkillEffectRuntime_1.SkillEffectRuntime.Crit(battle, attacker, defender, skill, () => BattleCore_1.BattleCore.CheckCrit(attacker, defender, skill, isFirst));\n            if (battle.universeBudgetState?.actionContext) battle.universeBudgetState.actionContext.isCrit = isCrit;");
+  text=require('./patch-attack-damage-display.cjs')(text);
   return text;
 });
 patch(battleRoot+'BattleManager.js',text=>{
@@ -120,10 +122,13 @@ patch(battleRoot+'BattleManager.js',text=>{
 });
 patch(battleRoot+'SkillEffectRuntime.js',text=>{
   text=text.replace(/battle\.universeBoss(?![?.\w])/g,'require("./UniverseBossBudget").enabled(battle)');
+  text=replace(text,'if (!battle?.universeBoss || defender.hp <= 0 || !(damage > 0)) return 0;', 'if (!require("./UniverseBossBudget").enabled(battle) || defender.hp <= 0 || !(damage > 0)) return 0;');
   text=replace(text,'        target.statusTurns = Math.max(1, turns);','        if (target.sptBossProfile?.sptId === 13 && target.sptBossWeekday === 1) turns = Math.min(turns, 1);\n        target.statusTurns = Math.max(1, turns);');
   text=replace(text,'// Root crowns count landed hits even when elemental immunity makes damage zero.','// Preserve the multi-hit display count on elemental immunity; zero damage never breaks armor.');
   return text;
 });
+patch(battleRoot+'BattleConverter.js',text=>replace(text,'.setDamage(attack.damage)', '.setDamage(attack.displayDamage ?? attack.damage)'));
+patch('app/dist/GameServer/Game/Map/MapSpawnManager.js',text=>replace(text,'hp: boss.petId === 47 ? (boss.customHP || 100) : (boss.customHP || boss.level || 100),','hp: boss.petId === 47 ? 100 : (boss.customHP || boss.level || 100),'));
 const removed=[battleRoot+'SPTTeamBattle.js'];
 const manifest={generatedAt:new Date().toISOString(),files,removed,restartGame:true,restartWeb:false,databaseChanges:false};
 fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'boss-plan.json'),JSON.stringify({profiles},null,2)+'\n');

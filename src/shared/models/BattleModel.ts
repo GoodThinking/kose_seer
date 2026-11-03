@@ -96,6 +96,7 @@ export interface IAttackResult {
   skillId: number;         // 技能ID
   atkTimes: number;        // 攻击次数
   damage: number;          // 伤害值
+  displayDamage?: number;  // 预算战斗减伤与机制上限结算后、剩余体力截断前的浮字值；不用于吸血、反伤或收益统计
   gainHp: number;          // 回复HP
   attackerRemainHp: number; // 攻击者剩余HP
   attackerMaxHp: number;   // 攻击者最大HP
