@@ -54,16 +54,22 @@ package com.robot.module.book
          if(ui != null) return;
          ui = new Sprite();ui.name="countermarkPanel";
          var frame:Sprite = UIManager.getSprite("Panel_Background");
-         frame.scale9Grid = new Rectangle(16,32,frame.width-32,frame.height-48);
+         frame.scale9Grid = new Rectangle(40,40,frame.width-80,frame.height-80);
          frame.width = 920; frame.height = 520;
          frame.mouseChildren = false;
          ui.addChild(frame);
-         var title:TextField = label(ui,"精灵刻印",31,18,230,29,20,0xFFFFFF,true);
+         var titleBar:Sprite = UIManager.getSprite("Panel_TitleBar");
+         if(titleBar != null) {
+            titleBar.x = 280; titleBar.y = 4; titleBar.width = 360; titleBar.height = 12;
+            titleBar.mouseEnabled = titleBar.mouseChildren = false;
+            ui.addChild(titleBar);
+         }
+         var title:TextField = label(ui,"精灵刻印",52,18,230,29,20,0xFFFFFF,true);
          title.filters = [new GlowFilter(676248,0.8,4,4,10)];
-         label(ui,"为精灵装上专属刻印",261,29,310,25,13,0x163F62);
-         button(ui,"关闭",829,19,65,32,"close");
+         label(ui,"为精灵装上专属刻印",261,24,310,25,13,0x163F62);
+         button(ui,"关闭",838,16,42,26,"close");
          ui.addEventListener(MouseEvent.CLICK,onClick);
-         body=new Sprite();ui.addChild(body);
+         body=new Sprite();body.x=36;body.y=4;body.scaleX=0.92;body.scaleY=0.90;ui.addChild(body);
       }
 
       public function show():void {

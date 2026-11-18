@@ -57,7 +57,6 @@ package com.robot.app.task
          {
             TeamPKManager.showIcon();
          }
-         this.CreateDailySignIcon();
          finish();
          AutomaticFightManager.setup();
          StudyUpManager.setup();
