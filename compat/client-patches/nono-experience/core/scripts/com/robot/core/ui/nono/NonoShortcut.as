@@ -20,6 +20,7 @@ package com.robot.core.ui.nono
    import com.robot.core.npc.NPC;
    import com.robot.core.npc.NpcDialog;
    import com.robot.app.buyPetProps.BuyPetPropsController;
+   import com.robot.app.task.petstory.app.train.TrainGradePanel;
    import org.taomee.events.SocketEvent;
    import org.taomee.manager.TaomeeManager;
    import flash.display.SimpleButton;
@@ -359,10 +360,12 @@ package com.robot.core.ui.nono
       private static function showTrainingServices():void
       {
          // A service ID uses the existing icon and prevents the native app's automatic claim path.
-         servicePage(["3","qx_hatch","qx_shop",null,null,null,null,"qx_back"],
-            ["按目标等级分配经验","孵化倒计时与领取入口","原生道具商城",null,null,null,null,"返回随身服务"],
-            [onjn,showHatch,showShop,null,null,null,null,showServices]);
+         servicePage(["3","qx_skills","qx_hatch","qx_shop",null,null,null,"qx_back"],
+            ["按目标等级分配经验","精灵学院：刷学习力与按属性阶段刷经验","孵化倒计时与领取入口","原生道具商城",null,null,null,"返回随身服务"],
+            [onjn,openAcademyTrain,showHatch,showShop,null,null,null,showServices]);
       }
+
+      private static function openAcademyTrain():void { hide();TrainGradePanel.show(); }
 
       private static function showHatch():void { hide();HatchStatusPanel.show(); }
 

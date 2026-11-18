@@ -1,7 +1,20 @@
 # KOSE 赛尔号多 AI 交接记录 (HANDOFF.md)
 
-> 更新时间：2026-11-18（经典怀旧版第二阶段深度精修 `classic-polish-v2-20261118`；已生产发布）
+> 更新时间：2026-11-18（`classic-polish-v3-20261118` 野怪一阶化+学院训练室；已生产发布）
 > 当前阶段：已完成全服 Boss 四阶战术体系大整改（彻底摒弃死板的“一锁一钥”非指定属性 0 伤害与战前剧透弹窗）、果冻鸭与闪光皮皮恢复可捕捉稀有精灵、三大星系擂台升级原版竞技场美术与原生 HUD（三只冠军精灵调整为 625 种族值与经典平衡特质）、训练师之门完整补齐（含战斗系威里特、双属性普兰特/帕里斯、普通/勇者双模式）、移除北斗七星殿与克洛斯星湿地代码入口，并将 NoNo 随身面板升级为原生金属高光皮肤。
+
+---
+
+## 进行中：野怪一阶化 + 五星系等级带 + 精灵学院训练室（已发布 `classic-polish-v3-20261118`）
+
+- 用户决策：野外只刷一阶（移除二/三阶及错位/暗金怪，雾气石林比比鼠→沃沃尔）；等级带 帕诺 2~25、卡兰 25~40、罗格 35~50、裂空 45~60、螺旋 55~70；精灵学院可选刷学习力或按属性×阶段刷经验。
+- 工作树 `work/classic-cleanup-20261118`（未提交）：`scripts/build-classic-polish-v3.cjs`、`compat/client-patches/academy-train/*.as`、`train-door/MapProcess_102.as`（太空站学院入口）、`NonoShortcut.as`（NoNo 入口）、`scripts/test-academy-train.cjs`。产物 `outputs/classic-polish-v3-20261118/build/`，基于 v2 产物叠加 6 个文件：map-ogres.json、boss_abilities.json、PetManager.js、BattleRewardService.js、NieoCore.swf×2。
+- 规则：星系归属取 Core `MapXMLInfo.super→SuperMapXMLInfo.galaxy`，裂空/螺旋及无 super 场景在脚本 `SUPER_GALAXY/MAP_GALAXY` 补表；每星系按原等级排序铺 5 级窗口；337/343/495/673/679 不动；MapIntro 29 处等级同步。服务端进化为升级时 level≥EvolvingLv 逐阶进化，高等级一阶仍可进化。
+- 训练室：488~493 初级 +5、470~475 高级 +10，只加本室单项（`fixedEv`，单项 255/总 510 截断）；param2=100+系×10+阶(1..5) 为经验特训，陪练 Lv20/40/60/80/100，经验 1800/5400/12000/24000/42000 + 50% 经验池，不加学习力。陪练链已按 pets.xml 校正（战斗 275 链、龙 1326 链、圣灵 1203/1204，替换错链与谱尼）。
+- 验证：现网 6 个目标文件哈希=v2/cleanup 基线（2026-11-18 17:1x）。`test-academy-train.cjs`（Node 22，现网 app 捕获+v3 叠加，隔离 SQLite）通过：12 房定向加点、上限截断、16×5 经验组合、SPT 对照仍按 YieldingEV、全图 6762 次刷怪无进化体。证据 `outputs/classic-polish-v3-20261118/evidence/academy-train.json`。客户端面板未做 Ruffle 实机。
+- 既有问题（未改）：现网 players 表无 `learn_times` 列，学习力倍增次数>0 时结算失败；该值仅 GM 可写，正常玩家不触发。
+- 发布（用户授权“发布吧”）：2026-11-18 17:26，`outputs/classic-polish-v3-20261118/deploy-classic-polish-v3.py` 双锁+6 文件 before 哈希校验后原子替换（保留原权限 644/640 root:kose-seer），只重启游戏：PID 3932095→3974310，Web 3932105 未变，NRestarts=0，9999/18760/18761 监听，启动后 0 条 ERROR/FATAL；公网 NieoCore 200 且哈希 `8d27d2df…`。备份（6 文件+停服时 seer.db）`/opt/kose-seer/backups/classic-polish-v3-20261118/`，回执 `outputs/classic-polish-v3-20261118/deployment-result.json`。回滚：恢复备份 6 文件并重启 kose-seer.service。
+- 下一步：用户刷新重登实机测学院面板/训练室/野怪。源码未提交、未推 fork/main（需另行授权）。
 
 ---
 

@@ -89,6 +89,8 @@ package com.robot.app.mapProcess
       
       private var trainDoor:Sprite;
       
+      private var academyDoor:Sprite;
+      
       public function MapProcess_102()
       {
          super();
@@ -112,6 +114,7 @@ package com.robot.app.mapProcess
          this.timer.addEventListener(TimerEvent.TIMER,this.onTimer);
          this.timer.start();
          this.initTrainDoor();
+         this.initAcademyDoor();
       }
       
       // 原版入口在精灵太空站下方，这版太空站的美术里没有；右下方的环形舱做入口，点舱体或名牌打开训练师之门面板
@@ -148,6 +151,36 @@ package com.robot.app.mapProcess
          this.trainDoor.addEventListener(MouseEvent.CLICK,this.onTrainDoor);
          ToolTipManager.add(this.trainDoor,"挑战训练师之门");
          conLevel.addChild(this.trainDoor);
+      }
+      
+      private function initAcademyDoor() : void
+      {
+         var label:TextField = new TextField();
+         var format:TextFormat = new TextFormat("宋体",14,26367,true);
+         var hit:Sprite = new Sprite();
+         hit.graphics.beginFill(0,0);
+         hit.graphics.drawRoundRect(700,256,150,36,8,8);
+         hit.graphics.endFill();
+         label.defaultTextFormat = format;
+         label.autoSize = TextFieldAutoSize.CENTER;
+         label.text = "精灵学院·刷学习力/经验";
+         label.selectable = false;
+         label.filters = [new GlowFilter(16777215,1,3,3,5)];
+         label.x = 775 - label.width / 2;
+         label.y = 266;
+         this.academyDoor = new Sprite();
+         this.academyDoor.addChild(hit);
+         this.academyDoor.addChild(label);
+         this.academyDoor.buttonMode = true;
+         this.academyDoor.mouseChildren = false;
+         this.academyDoor.addEventListener(MouseEvent.CLICK,this.onAcademyDoor);
+         ToolTipManager.add(this.academyDoor,"前往精灵学院（刷六项学习力 / 按属性与阶段等级刷经验）");
+         conLevel.addChild(this.academyDoor);
+      }
+      
+      private function onAcademyDoor(param1:MouseEvent) : void
+      {
+         MapManager.changeMap(485);
       }
       
       private function onTrainDoor(param1:MouseEvent) : void
@@ -216,6 +249,12 @@ package com.robot.app.mapProcess
          this.trainDoor.removeEventListener(MouseEvent.CLICK,this.onTrainDoor);
          ToolTipManager.remove(this.trainDoor);
          this.trainDoor = null;
+         if(this.academyDoor)
+         {
+            this.academyDoor.removeEventListener(MouseEvent.CLICK,this.onAcademyDoor);
+            ToolTipManager.remove(this.academyDoor);
+            this.academyDoor = null;
+         }
          ToolTipManager.remove(conLevel["enterFight"]);
          ToolTipManager.remove(conLevel["buyMC"]);
          ToolTipManager.remove(conLevel["arenaTouchBtn_1"]);
