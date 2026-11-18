@@ -88,7 +88,8 @@ class RegisterManager {
      */
     async HandleSendEmailCode(session, email) {
         if (ServerConfig_1.Config.Regist.mode === 'invite') {
-            session.Socket.write(this._packetSendEmailCode.Build('', RegisterResult.INVALID_CODE));
+            // Login.swf only fills emailCodeRes from a successful reply; REGISTER throws #2007 without it. No code is issued.
+            session.Socket.write(this._packetSendEmailCode.Build('', RegisterResult.SUCCESS));
             return;
         }
         try {

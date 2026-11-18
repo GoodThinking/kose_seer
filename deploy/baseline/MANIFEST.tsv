@@ -1091,7 +1091,7 @@ app/dist/GameServer/Game/Player/index.js	7c9a5617df5372e84cb0e335ceee3376a213d6c
 app/dist/GameServer/Game/Player/index.js.map	d3f76c7dfbead7ccfdeba5ea8113753b600142c6a864c4a3db3a0e91968c7b2c	640	root:kose-seer
 app/dist/GameServer/Game/Register/RegisterManager.d.ts	9f0ee381af90179f74746099245fe5518a5f21ec82d8d9755165c607bf6696c0	640	root:kose-seer
 app/dist/GameServer/Game/Register/RegisterManager.d.ts.map	ecc35c29356255c65f7f40a813d7d478becfca6ce24dfdafc3e86b01a4615cdf	640	root:kose-seer
-app/dist/GameServer/Game/Register/RegisterManager.js	7d1a124639f28ce854e05cfed330e456abba5a06450a8be6016e5a85b02ec3cf	640	root:kose-seer
+app/dist/GameServer/Game/Register/RegisterManager.js	ebb8b57ed35c27250000927610fe514cbef4f5a659956c3d3887958620d96361	640	root:kose-seer
 app/dist/GameServer/Game/Register/RegisterManager.js.map	e2855552fbe230e0717137312696386bc657a51a26b8061e17b2b6667459a258	640	root:kose-seer
 app/dist/GameServer/Game/Register/index.d.ts	6ec14a4859e194b02f72bbe6ed0132bd98047bbd571bf56b8c4d4147317f5708	640	root:kose-seer
 app/dist/GameServer/Game/Register/index.d.ts.map	d9547b253812518d346cfcccf68d7381055c34f16911e4e0517092b9df7cd7a9	640	root:kose-seer
