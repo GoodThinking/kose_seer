@@ -1,0 +1,7 @@
+{
+  "experience": 2000,
+  "items": {
+    "1": { "itemId": 300001, "count": 2 },
+    "2": { "itemId": 300017, "count": 2 }
+  }
+}

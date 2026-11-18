@@ -1,0 +1,12 @@
+{
+  "policy": "用户授权的保守本服补全，并非声称恢复原版；北京时间零点按类型分别重置，不改变客户端随机分支。",
+  "gifts": {
+    "20": { "mapId": 334, "itemId": 300002, "count": 1, "dailyLimit": 1 },
+    "21": { "mapId": 334, "itemId": 300012, "count": 1, "dailyLimit": 1 },
+    "22": { "mapId": 334, "itemId": 300003, "count": 1, "dailyLimit": 5 },
+    "24": { "mapId": 339, "itemId": 300002, "count": 1, "dailyLimit": 5 },
+    "25": { "mapId": 339, "itemId": 300012, "count": 1, "dailyLimit": 5 },
+    "2059": { "mapId": 339, "itemId": 300003, "count": 1, "dailyLimit": 5, "requiresFollowingSuperNono": true },
+    "2060": { "mapId": 339, "itemId": 300013, "count": 1, "dailyLimit": 5, "requiresFollowingSuperNono": true }
+  }
+}

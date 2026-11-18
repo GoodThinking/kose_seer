@@ -1,0 +1,1 @@
+{"version":3,"file":"PetDefaultReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/pet/PetDefaultReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IAC/C,SAAS,EAAE,MAAM,CAAK;;IAMtB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,kBAAkB;CAOtD"}

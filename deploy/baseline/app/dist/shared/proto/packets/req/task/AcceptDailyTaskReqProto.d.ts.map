@@ -1,0 +1,1 @@
+{"version":3,"file":"AcceptDailyTaskReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/task/AcceptDailyTaskReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,uBAAwB,SAAQ,SAAS;IACpD,MAAM,EAAE,MAAM,CAAK;;IAMnB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAMjC,SAAS,IAAI,MAAM;CAGpB"}

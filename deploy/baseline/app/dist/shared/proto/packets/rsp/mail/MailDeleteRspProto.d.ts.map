@@ -1,0 +1,1 @@
+{"version":3,"file":"MailDeleteRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/mail/MailDeleteRspProto.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD,qBAAa,kBAAmB,SAAQ,SAAS;IACxC,OAAO,EAAE,OAAO,CAAS;IACzB,MAAM,EAAE,MAAM,CAAK;;IAMnB,SAAS,IAAI,MAAM;CAM3B"}

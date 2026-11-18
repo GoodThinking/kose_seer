@@ -1,0 +1,1 @@
+{"version":3,"file":"MailSetReadedRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/mail/MailSetReadedRspProto.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD,qBAAa,qBAAsB,SAAQ,SAAS;IAC3C,OAAO,EAAE,OAAO,CAAS;IACzB,MAAM,EAAE,MAAM,CAAK;;IAMnB,SAAS,IAAI,MAAM;CAM3B"}

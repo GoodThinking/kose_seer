@@ -1,0 +1,1 @@
+{"version":3,"file":"FriendRemoveRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/friend/FriendRemoveRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,oBAAqB,SAAQ,SAAS;;IAK1C,SAAS,IAAI,MAAM;IAInB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;CAGzC"}

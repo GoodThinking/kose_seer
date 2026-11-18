@@ -1,0 +1,1 @@
+{"version":3,"file":"OpenSuperNonoRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/nono/OpenSuperNonoRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAIpD;;;;;GAKG;AACH,qBAAa,qBAAsB,SAAQ,SAAS;IAClD,OAAO,EAAE,MAAM,CAAK;gBAER,OAAO,GAAE,MAAU;IAK/B,SAAS,IAAI,MAAM;CAKpB"}

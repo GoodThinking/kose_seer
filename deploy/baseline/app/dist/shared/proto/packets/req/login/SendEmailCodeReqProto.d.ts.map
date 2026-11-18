@@ -1,0 +1,1 @@
+{"version":3,"file":"SendEmailCodeReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/login/SendEmailCodeReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;;;;GAKG;AACH,qBAAa,qBAAsB,SAAQ,SAAS;IAClD,YAAY,EAAE,MAAM,CAAM;;IAM1B,SAAS,IAAI,MAAM;IAKnB;;OAEG;IACH,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;CAOlC"}

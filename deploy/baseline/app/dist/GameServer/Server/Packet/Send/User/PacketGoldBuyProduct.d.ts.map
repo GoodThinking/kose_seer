@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketGoldBuyProduct.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/User/PacketGoldBuyProduct.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,oBAAqB,SAAQ,SAAS;IACjD,OAAO,CAAC,KAAK,CAAS;gBAEV,OAAO,EAAE,MAAM,EAAE,aAAa,EAAE,MAAM;IAW3C,SAAS,IAAI,MAAM;CAG3B"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"UsePetItemReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/battle/UsePetItemReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IAC/C,MAAM,EAAE,MAAM,CAAK;;IAMnB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,kBAAkB;CAOtD"}

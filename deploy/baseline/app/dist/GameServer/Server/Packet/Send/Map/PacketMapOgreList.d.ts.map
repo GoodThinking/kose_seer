@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketMapOgreList.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Map/PacketMapOgreList.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAEvE,OAAO,EAAuB,SAAS,EAAE,MAAM,iEAAiE,CAAC;AAEjH;;GAEG;AACH,qBAAa,iBAAkB,SAAQ,SAAS;IAC9C,OAAO,CAAC,KAAK,CAAS;gBAEV,KAAK,EAAE,SAAS,EAAE;IAQvB,SAAS,IAAI,MAAM;CAG3B"}

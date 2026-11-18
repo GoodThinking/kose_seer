@@ -1,0 +1,1 @@
+{"version":3,"file":"ClientProtocol.js","sourceRoot":"","sources":["../../../src/shared/protocol/ClientProtocol.ts"],"names":[],"mappings":";;AAGA,sDAIC;AAJD,SAAgB,qBAAqB,CAAC,KAAc;IAClD,IAAI,KAAK,KAAK,SAAS;QAAE,OAAO,MAAM,CAAC;IACvC,IAAI,KAAK,KAAK,MAAM,IAAI,KAAK,KAAK,cAAc;QAAE,OAAO,KAAK,CAAC;IAC/D,MAAM,IAAI,KAAK,CAAC,6CAA6C,MAAM,CAAC,KAAK,CAAC,EAAE,CAAC,CAAC;AAChF,CAAC"}

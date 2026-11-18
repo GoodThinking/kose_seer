@@ -1,0 +1,1148 @@
+{
+  "Client.swf": {
+    "path": "Client.swf",
+    "size": 82806,
+    "git_blob": "3a550644d5b0bea3dbf40508ce86896393b898bd",
+    "sha256": "d64a9e3af813324f6e1f9844e74eee16dee5d76a4c8a26c417585467a3c3e59f"
+  },
+  "version.swf": {
+    "path": "version.swf",
+    "size": 20512,
+    "git_blob": "51d4a81b489218f6411c485f8296a47122f3c18a",
+    "sha256": "e3601421eff406a367ba9237f84154ba1d8a5cc2cd09365a5170c332cdbe1e7d"
+  },
+  "config/dll.xml": {
+    "path": "config/dll.xml",
+    "size": 5404,
+    "git_blob": "82f075b99dccb394b301bda68ac9fe3335e59414",
+    "sha256": "04400c8c50df1c5dc6efbdba5ff87087bd1099bb41c4e61f39935b2d3d176eae"
+  },
+  "dll/NieoCore.swf": {
+    "path": "dll/NieoCore.swf",
+    "size": 1829811,
+    "git_blob": "578310947ca0ad4a3c82aef9c4f5ee4f9ccc9ba7",
+    "sha256": "cccd595b6535981e4bb2c4aa03c8b53e6facf9bf103c188a14611be9b539dcb1"
+  },
+  "dll/Assets.swf": {
+    "path": "dll/Assets.swf",
+    "size": 514087,
+    "git_blob": "8554fb45fcf8a1fcbd0e9a3c4b20f19990e8ef01",
+    "sha256": "8b3b89e84ca4748e6da5f52cc8ec7c6cc3fcad74bc5cd59ca9baff10e515fdd2"
+  },
+  "login/Login.swf": {
+    "path": "login/Login.swf",
+    "size": 2142064,
+    "git_blob": "64f87b7396d1363d7395e7e0653ace6ac382a957",
+    "sha256": "173db7a10059bc6eba9bd4101cdda2a6bd46bf5fdf962c2b9569aa48e457ed0f"
+  },
+  "resource/main_resource.swf": {
+    "path": "resource/main_resource.swf",
+    "size": 36931,
+    "git_blob": "30ea2dbf14ec8e7d54de236d0aae10294063d6ad",
+    "sha256": "442fd680b66f3d838cfb7050f13e8c2d7e5835e2613fc4e13f12f89772b96021"
+  },
+  "resource/ui.swf": {
+    "path": "resource/ui.swf",
+    "size": 1562908,
+    "git_blob": "16c3d1a40c18c6179cf19aba89f95bd0e460ad08",
+    "sha256": "b7f8d7dcc9275366300780689e1442eb1af2f01440be1d22daf6fa1240caec0c"
+  },
+  "resource/taskIcon.swf": {
+    "path": "resource/taskIcon.swf",
+    "size": 343111,
+    "git_blob": "cafd7b1154af7452fa24c62f04f10ef6d0447c54",
+    "sha256": "5d063ed8c04f90a949c359bdfc70cc1420bd33f8ae50bf341205620e120587cd"
+  },
+  "resource/worldMap.swf": {
+    "path": "resource/worldMap.swf",
+    "size": 278507,
+    "git_blob": "f41cbdf4807076f02ea5251141085b8c33404a4f",
+    "sha256": "c86c84f39913f71ca2448f27baa8ae5a2a88a2af2c343c65cabdfde775af4f30"
+  },
+  "crossdomain.xml": {
+    "path": "crossdomain.xml",
+    "size": 195,
+    "git_blob": "02607aad94d93d0d937b9cbc151b729ffb305a22",
+    "sha256": "7bae0342ba24b7557a37a6b4aaa8849192c66b04430a758baaba85ccb4f31914"
+  },
+  "ip.txt": {
+    "path": "ip.txt",
+    "size": 18,
+    "git_blob": "21c3767866ac814f03f6b66e7ac36da2ce6ec25b",
+    "sha256": "ed537371cc774bc5fb0e4571a052511fa7d0cd6f476304bbedb42c1e74814856"
+  },
+  "resource/aimat/aimatUI.swf": {
+    "path": "resource/aimat/aimatUI.swf",
+    "size": 824407,
+    "git_blob": "7b09c09d5a5022e19a6f8125cd00eac00cbbff88",
+    "sha256": "8c33d14ded295419dd948024a4d248b56d15df882f8748fc6d497f3487c1e6ea"
+  },
+  "resource/item/cloth/swf/100003.swf": {
+    "path": "resource/item/cloth/swf/100003.swf",
+    "size": 10478,
+    "git_blob": "f4dadc47d3ba5fe08067d36a5a5e8d7ff1e8b194",
+    "sha256": "1e91773c1a7842f247930e809107ec5106384dac20943f590bd2160bd5935935"
+  },
+  "resource/item/cloth/swf/100001.swf": {
+    "path": "resource/item/cloth/swf/100001.swf",
+    "size": 3227,
+    "git_blob": "3cc14c3da5c674c81783559e7c148aaf3a3494d6",
+    "sha256": "96a74982658ed38ac4c9b5b39c41f8c346844c75907298f870311d5e16df98fd"
+  },
+  "resource/item/cloth/swf/100002.swf": {
+    "path": "resource/item/cloth/swf/100002.swf",
+    "size": 4360,
+    "git_blob": "8aec985acf92666464bf5b507099cc96831bccc8",
+    "sha256": "de011c150dc50e37ab1a71987f89d6027bba3374d9baefa9a3ff02a421b27ddc"
+  },
+  "resource/map/515.swf": {
+    "path": "resource/map/515.swf",
+    "size": 964368,
+    "git_blob": "5dfa8a0e8b5edbf46d7b99c84dbbafa2be62a6fc",
+    "sha256": "75a3d459d45a786cdc91a7fb00b6c86181869fea198555b8102b6570abb71acc"
+  },
+  "resource/newNpc/multi/0.swf": {
+    "path": "resource/newNpc/multi/0.swf",
+    "size": 0,
+    "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "resource/bounsMovie/firstLoginAim_1.swf": {
+    "path": "resource/bounsMovie/firstLoginAim_1.swf",
+    "size": 299379,
+    "git_blob": "f2eb17616212939b28d56ea2c1da1fbe65c1ec17",
+    "sha256": "c0a2ba71c2eec3ea12721e74dda64adeaba98a20ff6ba1f4c259b493686295df"
+  },
+  "module/com/robot/module/task/NewNovieTipPanelOne.swf": {
+    "path": "module/com/robot/module/task/NewNovieTipPanelOne.swf",
+    "size": 150886,
+    "git_blob": "fdcc37a08aa29275c9d53f260de11f0236b6d3d6",
+    "sha256": "2ab130e62a623edfa565b41cd05d97a9a8cd52fcb7882bb1c3d31924a49c7fb8"
+  },
+  "module/com/robot/module/task/NewNoviceTaskGetItemPanel.swf": {
+    "path": "module/com/robot/module/task/NewNoviceTaskGetItemPanel.swf",
+    "size": 7469,
+    "git_blob": "f15aadf12d8fc24c7c2ea0e8a68ff2f8f12fd408",
+    "sha256": "b602fcbf36b9c5abec98dff043145da825b71e4d6e145ae59ae774c94003e167"
+  },
+  "module/com/robot/module/task/NewNoviceTaskChoicePetPanel.swf": {
+    "path": "module/com/robot/module/task/NewNoviceTaskChoicePetPanel.swf",
+    "size": 14459,
+    "git_blob": "bcc701ac5c2cced3068041556e631813f4f2b9fa",
+    "sha256": "04825e75b0e53f242c9c4c7af924f3166083f6f90fde1254cff129f0c7de6a32"
+  },
+  "resource/pet/swf/4.swf": {
+    "path": "resource/pet/swf/4.swf",
+    "size": 11275,
+    "git_blob": "9d734558b5b2bb19918a04a832a870e45bd50de1",
+    "sha256": "c55c7fd921e549596d8ed12bc5c9ef91963c07726594427dac776e28e87c0a21"
+  },
+  "resource/item/petItem/icon/300001.swf": {
+    "path": "resource/item/petItem/icon/300001.swf",
+    "size": 1280,
+    "git_blob": "aae2e469c7ca4bf69dcf273600e08a244e2a9fd4",
+    "sha256": "710cbe6e3d8cfb0af85b2ef771712c602d0cb60702261b34487a6342957934b4"
+  },
+  "resource/item/cloth/swf/100027.swf": {
+    "path": "resource/item/cloth/swf/100027.swf",
+    "size": 3167,
+    "git_blob": "20acd78a809d16d61cfd7bbecb4f3156bfa5dfce",
+    "sha256": "bcc92ec6b5cb8ada60260f0d25fa58c32dabcd585128d46a9f85fceab4401a36"
+  },
+  "resource/item/cloth/swf/100028.swf": {
+    "path": "resource/item/cloth/swf/100028.swf",
+    "size": 1539,
+    "git_blob": "c4c3901280f065028074a37555245af69780f58b",
+    "sha256": "2f3270f3d00078704bed8496242aec5de41f61c5bca6ec17e5c3ed48771306c0"
+  },
+  "resource/fightResource/pet/swf/004.swf": {
+    "path": "resource/fightResource/pet/swf/004.swf",
+    "size": 74818,
+    "git_blob": "f01ca796c30d18e0af53637d8f25c45953e7c735",
+    "sha256": "4d54366a97f4ee008222663dd7e17c8383dd750f4ea2fa1b4a2455f23a2f31be"
+  },
+  "resource/fightResource/skill/swf/20002.swf": {
+    "path": "resource/fightResource/skill/swf/20002.swf",
+    "size": 3177,
+    "git_blob": "efd79f276a946cfb444f287314832c113aea8afc",
+    "sha256": "37f115f45be60cb0a537a4b3b30dd7f4ff73293d43d6a2600c71367bcd0fe120"
+  },
+  "resource/fightResource/skill/swf/10004.swf": {
+    "path": "resource/fightResource/skill/swf/10004.swf",
+    "size": 2112,
+    "git_blob": "af3f573874d9ec6e5ea73e27125a683b6d9b3ccf",
+    "sha256": "7518fa04101c13e212658529ec3237516b745da3053e5e2d7bc889ad6c447798"
+  },
+  "resource/item/doodle/icon/1.swf": {
+    "path": "resource/item/doodle/icon/1.swf",
+    "size": 1609,
+    "git_blob": "4971e13a83b0ab130435a889c3fd939bdc15788a",
+    "sha256": "503bd36c43b04a854020777b8b83ed43b4dfa488dc9ce8b8b77536827deb5f38"
+  },
+  "resource/map/8.swf": {
+    "path": "resource/map/8.swf",
+    "size": 255742,
+    "git_blob": "677d483787749446610779eb16fca2cbfa0b60e4",
+    "sha256": "954a1376ae40f8c0a10f425ca83ea4f7f2650d61650521e39dd956a987e48dfb"
+  },
+  "resource/newNpc/multi/2.swf": {
+    "path": "resource/newNpc/multi/2.swf",
+    "size": 7025,
+    "git_blob": "a68eee367b24e4bb76e108195c47bccf1f39fc85",
+    "sha256": "573cba557e524317429d97b021db4c1fc312b6095869c0cdad14e8efd15999cd"
+  },
+  "module/com/robot/module/app/subMap/Galaxy_1.swf": {
+    "path": "module/com/robot/module/app/subMap/Galaxy_1.swf",
+    "size": 74303,
+    "git_blob": "8dd6b7019583e76cf0766a202c4f27cae3ca4a18",
+    "sha256": "cd7383aace48e740ff464d1006a068c59acd34361f938811db502bab4f5ccb4c"
+  },
+  "resource/map/20.swf": {
+    "path": "resource/map/20.swf",
+    "size": 639724,
+    "git_blob": "5b19d3e62cb088da8c9d46f4eada9b34c1450ff5",
+    "sha256": "4c15acacb453c821d8a755bffb5be52f5d03120044446430cea965a142f4faa9"
+  },
+  "resource/pet/swf/11.swf": {
+    "path": "resource/pet/swf/11.swf",
+    "size": 16144,
+    "git_blob": "4fde15198d5f3bad302c604ffab4c036cd345cb3",
+    "sha256": "cba4754368f8ac0102c41b68e243e10831901e3d45e09da18c3c953dc8efd347"
+  },
+  "resource/module/PetFightDLL.swf": {
+    "path": "resource/module/PetFightDLL.swf",
+    "size": 4186199,
+    "git_blob": "cf1aa604d49886167617dc74b92931f5889461ce",
+    "sha256": "8f9827b56a5071b42bebcd455a3c0b7e84e1c0aadd7789c5302588e668ad9893"
+  },
+  "resource/fightResource/pet/swf/011.swf": {
+    "path": "resource/fightResource/pet/swf/011.swf",
+    "size": 43408,
+    "git_blob": "a9647ed906f4ead8a14af16ba9fba5270c796fdc",
+    "sha256": "f4a9cb7abdbdfa1f8040b5347251f6968221d4f00fd8b34107abbe98ee4db319"
+  },
+  "resource/fightResource/skill/swf/10001.swf": {
+    "path": "resource/fightResource/skill/swf/10001.swf",
+    "size": 10138,
+    "git_blob": "f968fc0a5fb4a860e7041a9c69d64cb1d8556351",
+    "sha256": "4658e8216b5924e6d5272901773d73ddc115e5ce4894cae1bedc79e9bb440d3b"
+  },
+  "resource/fightResource/skill/swf/10008.swf": {
+    "path": "resource/fightResource/skill/swf/10008.swf",
+    "size": 5485,
+    "git_blob": "862ca266c7e5d2a1e0f49ef41e9c0798e99f0c01",
+    "sha256": "e1483c5a51336579ceaa31acb60ad8aaf9e3927fce58dfefe03f803a2026829b"
+  },
+  "resource/item/petItem/icon/300011.swf": {
+    "path": "resource/item/petItem/icon/300011.swf",
+    "size": 1202,
+    "git_blob": "f4b16b0f43ebbe6e4ea2a755e33357f39ec0c5a3",
+    "sha256": "66326ecea08029b5ac765b728aca384fd6832375950eb518671cb2f91dcfa7e3"
+  },
+  "resource/groupFightResource/pet/4.swf": {
+    "path": "resource/groupFightResource/pet/4.swf",
+    "size": 12239,
+    "git_blob": "d24923b3e072f623f4cdf74a7a7fe0e30d6cbda4",
+    "sha256": "923725beae3f54b17158808555417398fe07c14e9b28d1d07a0f14e27c985d98"
+  },
+  "resource/emotion/1.swf": {
+    "path": "resource/emotion/1.swf",
+    "size": 2829,
+    "git_blob": "7960f830b58866afa68c9ce0bdf187cbd6d189e0",
+    "sha256": "4830f8c05735bfcb1d8e0ce4eaa703a0076bca81c0c095a704729097839315fd"
+  },
+  "resource/newNpc/multi/3.swf": {
+    "path": "resource/newNpc/multi/3.swf",
+    "size": 9203,
+    "git_blob": "dfe56e0fe0442d8d92765a3dc8b6f0d23af0504f",
+    "sha256": "294d47e18159682336acb52e9507c1017fab678b08446fe03ce0358db5646327"
+  },
+  "resource/item/cloth/swf/100014.swf": {
+    "path": "resource/item/cloth/swf/100014.swf",
+    "size": 12665,
+    "git_blob": "a50947d370eb5ed70c8f142acf4bce6f773fa44a",
+    "sha256": "8d023b82bb2605564e3fb98c2df4d0fb9c22bcfb1f09748506e2b4ae345b8a5b"
+  },
+  "module/com/robot/module/task/DailyTaskPanel.swf": {
+    "path": "module/com/robot/module/task/DailyTaskPanel.swf",
+    "size": 89650,
+    "git_blob": "dee609d433c2546ff6a1f0a742cb47b0d5dcd412",
+    "sha256": "8eccde057b57879f60663cddf984fb4e71d3fc13efc8d4e07c42ebff50049a45"
+  },
+  "resource/pet/swf/33.swf": {
+    "path": "resource/pet/swf/33.swf",
+    "size": 9282,
+    "git_blob": "0d8b396ceeb5e55014f3832ee92914149582193c",
+    "sha256": "699cb2fb779d536952c40b766f6b5dd4e15e7f7e1c08b16b5bbdc7d115c44c9c"
+  },
+  "resource/item/cloth/prev/100001.swf": {
+    "path": "resource/item/cloth/prev/100001.swf",
+    "size": 786,
+    "git_blob": "0d80202ab24cd2d6d684b73de043a62bd1bc1f3f",
+    "sha256": "b0ff4a1eec8ddd7f053fb076475936159acfb177a7e4bd09f8d079cc03411162"
+  },
+  "resource/item/cloth/prev/100002.swf": {
+    "path": "resource/item/cloth/prev/100002.swf",
+    "size": 1823,
+    "git_blob": "3ce092c671f81cda9609ba0663d49407bdc4bb4f",
+    "sha256": "c56096be1fb98ddb078d8d69d3f4f3506e81fb83499635105a361e9f5d9b9a40"
+  },
+  "resource/item/cloth/prev/100027.swf": {
+    "path": "resource/item/cloth/prev/100027.swf",
+    "size": 2005,
+    "git_blob": "f15f566255c17ee4f6d980bf9a713fcdd52b2d15",
+    "sha256": "3a389bb03f28e4ec252dce79ec57ab2d7917ca05cf56b17064e183cc7b0d7c34"
+  },
+  "resource/item/cloth/prev/100028.swf": {
+    "path": "resource/item/cloth/prev/100028.swf",
+    "size": 987,
+    "git_blob": "305d71d1b60aa4e695b9b6af8b5fed3929845476",
+    "sha256": "7bf73c963be5a8fad414c224227c9998ca94131e3f9e332378052f63f7372eb8"
+  },
+  "resource/item/cloth/prev/100014.swf": {
+    "path": "resource/item/cloth/prev/100014.swf",
+    "size": 6666,
+    "git_blob": "6cc8415cee67df37b4a92ea24137c9891988a6cc",
+    "sha256": "a2f19e6cf092893f1e1fbb632a6bcf24ed48b787f28a27cd400dd148d094342c"
+  },
+  "resource/item/cloth/prev/100003.swf": {
+    "path": "resource/item/cloth/prev/100003.swf",
+    "size": 2940,
+    "git_blob": "fdae4ca3642f526e103476e7fc2ec17c85053a3c",
+    "sha256": "1c89b631becc5f278c05cf1946722685367c8089c886603057123e1f231165f3"
+  },
+  "resource/map/10.swf": {
+    "path": "resource/map/10.swf",
+    "size": 276547,
+    "git_blob": "f699dc3be55cd1f5e1c94268eecaf1164c8e6e30",
+    "sha256": "b4f6959061ee9383f859def24297afd30ee4871cff5f98da62ff120171371936"
+  },
+  "resource/newNpc/multi/50.swf": {
+    "path": "resource/newNpc/multi/50.swf",
+    "size": 7176,
+    "git_blob": "7384143f9c7eeec74b19219e4fb903a5447251af",
+    "sha256": "65ab54b00a43c8730b602aed090e9312f0ee2018f70104af140f770f59514f31"
+  },
+  "resource/pet/swf/10.swf": {
+    "path": "resource/pet/swf/10.swf",
+    "size": 7430,
+    "git_blob": "eaee15e0e530a02af5ec5a1e71a93f2da1c3d2f3",
+    "sha256": "abeeb2c10a353f62c036b11ea02b21443c9f0082631f0a64f344a34301017604"
+  },
+  "resource/pet/swf/164.swf": {
+    "path": "resource/pet/swf/164.swf",
+    "size": 11051,
+    "git_blob": "d85ad4c7fb8cdb5f3a07afb2e3cb8d26dc2c9c04",
+    "sha256": "087be52e051753656f4bc6eb23358152b386c6f85a596a34c50e968e032f3286"
+  },
+  "resource/pet/sound/164.mp3": {
+    "path": "resource/pet/sound/164.mp3",
+    "size": 21360,
+    "git_blob": "d17cf7ec542b29d89a0ed3d570c14780f0c3c4a4",
+    "sha256": "df3a57691e330d79b34b39a2b69f6b365922d9a320fb1d6e6ba60b2aaf6ebf8e"
+  },
+  "resource/groupFightResource/pet/4150.swf": {
+    "path": "resource/groupFightResource/pet/4150.swf",
+    "size": 132678,
+    "git_blob": "7ae017d7935a3efe0b25f17c10444db14e257a28",
+    "sha256": "d815f6ff567dea74d96470c4c703cf1d08b1fe24c2faa346efdd9e18b9c2fda2"
+  },
+  "resource/groupFightResource/pet/892.swf": {
+    "path": "resource/groupFightResource/pet/892.swf",
+    "size": 11001,
+    "git_blob": "0ac88cd553f6d357ffdbac6894ebf4455a58537d",
+    "sha256": "78c7451527db284f80744bddad7ff1204d71e3bb4e8a66ba4438e22ae3e3f9f7"
+  },
+  "resource/groupFightResource/pet/1384.swf": {
+    "path": "resource/groupFightResource/pet/1384.swf",
+    "size": 20611,
+    "git_blob": "247519d09af2f5babddced7bd52e6213319980ac",
+    "sha256": "ddd2b182ee3ee7921d9c9deeae740124582328c0629117244ba8d986ad3fcd8e"
+  },
+  "resource/groupFightResource/pet/1400413.swf": {
+    "path": "resource/groupFightResource/pet/1400413.swf",
+    "size": 208945,
+    "git_blob": "7f39afdc247dab2846cc8618c930fedda045fcae",
+    "sha256": "05142c07dc5187499cde0563c965867f8782a1a7ab2cc99980a2511e2ec925f2"
+  },
+  "resource/map/103.swf": {
+    "path": "resource/map/103.swf",
+    "size": 1102883,
+    "git_blob": "d8e1660009c0581cca8ad1c292dafb6d8d18e95d",
+    "sha256": "74c4c478a203572a1ab3045143e52d0155f57670113acdc8721ab0c9757b3881"
+  },
+  "resource/map/101.swf": {
+    "path": "resource/map/101.swf",
+    "size": 1341901,
+    "git_blob": "d925713a0e041fbad6fc37cd62294d3d6cc17897",
+    "sha256": "3913f9edf42d6b23cdb7af06ff3f7513c54630492d29fc20cc88425cb0c3187f"
+  },
+  "resource/fightResource/skill/swf/20004.swf": {
+    "path": "resource/fightResource/skill/swf/20004.swf",
+    "size": 4502,
+    "git_blob": "744a541f9a58f167ceed70d7cd38b87bb2f91fef",
+    "sha256": "26faf8aba171c18044b8a90bc2551afdf6e62ccefe248e69449c84cc2d7745dd"
+  },
+  "resource/fightResource/pet/swf/001.swf": {
+    "path": "resource/fightResource/pet/swf/001.swf",
+    "size": 30708,
+    "git_blob": "d94a869835beb8e0f4b2883f73dd1ae2ff1d5024",
+    "sha256": "ff97289028ca478e24a3da7773a30cde200de027158c76e92f85a21eea2cfafe"
+  },
+  "resource/fightResource/skill/swf/10002.swf": {
+    "path": "resource/fightResource/skill/swf/10002.swf",
+    "size": 2734,
+    "git_blob": "63bf203d765e3770c36fb95a92273a3d7133e71a",
+    "sha256": "547632344dddc0cd6f762ed0d30c6ca96c09d126a46c9e8c18e1ebf4f4723e05"
+  },
+  "resource/fightResource/skill/swf/10006.swf": {
+    "path": "resource/fightResource/skill/swf/10006.swf",
+    "size": 6321,
+    "git_blob": "bd754db970b28db65d4dfdf05398830717a8f2f7",
+    "sha256": "33bcdfc832d3b0f3e36f38db1a2efb210b3ca2e7210b7423390810efb8de7262"
+  },
+  "resource/fightResource/skill/swf/10042.swf": {
+    "path": "resource/fightResource/skill/swf/10042.swf",
+    "size": 6518,
+    "git_blob": "d6ef3fd484e651652220950e13ebbac3fd742d98",
+    "sha256": "75a54119d2bad053de1c9a0ffded326c2e41669e805d3759e3ac9726a31721dd"
+  },
+  "resource/fightResource/pet/swf/016.swf": {
+    "path": "resource/fightResource/pet/swf/016.swf",
+    "size": 79978,
+    "git_blob": "130666a10fcd6f5247b3885ab4e8083617a3ff57",
+    "sha256": "a3c0aefddd43e8803e9c99904bf9da2b97b2af05b9d112ea6bb1514786325e27"
+  },
+  "resource/fightResource/skill/swf/20019.swf": {
+    "path": "resource/fightResource/skill/swf/20019.swf",
+    "size": 25126,
+    "git_blob": "0ed279793fd56db92f368c0cfe436357ab13cb8c",
+    "sha256": "ce574ad686146890d2ccb4d09a8813aec36595f5a2c35d76a0c756a9681ab37e"
+  },
+  "resource/fightResource/skill/swf/10038.swf": {
+    "path": "resource/fightResource/skill/swf/10038.swf",
+    "size": 2631,
+    "git_blob": "d2418cab88953167377649b34b9c7554cd663b28",
+    "sha256": "6483a3440e5edc2d9daa7d045cd0c892d27d43289b36776a9dd00db96874c3fa"
+  },
+  "resource/fightResource/skill/swf/20001.swf": {
+    "path": "resource/fightResource/skill/swf/20001.swf",
+    "size": 8046,
+    "git_blob": "b3d741adb1b547402467d157be51bb72a1e9497a",
+    "sha256": "8a45f7c5c39949a2faad3938e47092fba1c1a55a80924dc0b1c1b93483568e32"
+  },
+  "resource/fightResource/pet/swf/007.swf": {
+    "path": "resource/fightResource/pet/swf/007.swf",
+    "size": 19131,
+    "git_blob": "404c23eaec4d6e71ef87672c6d21f2f5f6c9434b",
+    "sha256": "adff78a1678e55af70c4b5f6e9c88c6e6a38d09cdfb204d22d35bd3854a47c70"
+  },
+  "resource/fightResource/skill/swf/10009.swf": {
+    "path": "resource/fightResource/skill/swf/10009.swf",
+    "size": 4914,
+    "git_blob": "dc219f437b465d40a3c1bff98094147d1f113ac9",
+    "sha256": "57429a445e5fefeb11516f58a55f6dad70f25e694f08073e38e6cf34b8009110"
+  },
+  "resource/fightResource/skill/swf/10085.swf": {
+    "path": "resource/fightResource/skill/swf/10085.swf",
+    "size": 15606,
+    "git_blob": "17591a87dddb7c85fee23699005bc692992a706b",
+    "sha256": "538f05f156e420798448484e0250ba688762903f75c3b9ae5f35be4a047ccc76"
+  },
+  "resource/fightResource/skill/swf/10035.swf": {
+    "path": "resource/fightResource/skill/swf/10035.swf",
+    "size": 47642,
+    "git_blob": "58e51078074638f4ed1c7ca06359b91a730afd62",
+    "sha256": "75fe2e4b8bc7ae905447f0858746761e79f69e483eae9aba0eee301f00145f8f"
+  },
+  "resource/fightResource/skill/swf/10084.swf": {
+    "path": "resource/fightResource/skill/swf/10084.swf",
+    "size": 49057,
+    "git_blob": "b1cd6adbdac28d72a5493805bd4f7217566b84e7",
+    "sha256": "7bf3856823fcd83e26e226ffcb05b91c405ad1fbee86ca7784d71519a65000fc"
+  },
+  "resource/fightResource/pet/swf/025.swf": {
+    "path": "resource/fightResource/pet/swf/025.swf",
+    "size": 43217,
+    "git_blob": "a2b2f45cdd077334f2721c44307032bd223a3879",
+    "sha256": "b191dc2f31ced58647627835d4681153f9247322b001bccbc903cbdc6ee12b74"
+  },
+  "resource/fightResource/skill/swf/10022.swf": {
+    "path": "resource/fightResource/skill/swf/10022.swf",
+    "size": 5329,
+    "git_blob": "822ec4d3eecd9f1fd9059e1d490dfda73deb2ac4",
+    "sha256": "56934620a86087b2a2431fc2918866698f4885f0d19027a0db6121ca0c55433b"
+  },
+  "resource/fightResource/skill/swf/10058.swf": {
+    "path": "resource/fightResource/skill/swf/10058.swf",
+    "size": 10321,
+    "git_blob": "1754d08bf33e097ca912d362a987ec0520fa8aae",
+    "sha256": "93e647115859982b6867f4b4b77b09bc3acc570de7fdb6997cafe1595cfdcd9d"
+  },
+  "resource/fightResource/pet/swf/037.swf": {
+    "path": "resource/fightResource/pet/swf/037.swf",
+    "size": 198271,
+    "git_blob": "8acbc141c702200cfb213684e7e18df95ea2e469",
+    "sha256": "13ea678e0553308281b23fa9669ce16599e2d25058af2a9cd7bd33e0a5131cc0"
+  },
+  "resource/fightResource/skill/swf/10037.swf": {
+    "path": "resource/fightResource/skill/swf/10037.swf",
+    "size": 2787,
+    "git_blob": "415dde3d43a5f41583af27985baaed3d2e2a6e99",
+    "sha256": "009f6e03f235aa42bec13931605a7ef4ab483d14fa62008aca76e2b3b5d9983b"
+  },
+  "resource/fightResource/skill/swf/20020.swf": {
+    "path": "resource/fightResource/skill/swf/20020.swf",
+    "size": 58590,
+    "git_blob": "9a673af00f482cc7352d4b88eade6440924edc7c",
+    "sha256": "822a3c8bd9ca205b19d04cb5f8f08fb9be11add976d4dafbfefc7938678f40c8"
+  },
+  "resource/groupFightResource/flyPet/504.swf": {
+    "path": "resource/groupFightResource/flyPet/504.swf",
+    "size": 127314,
+    "git_blob": "c50c374ea2e3d8a97f5e7096318465754e1f3a6c",
+    "sha256": "236b0e378d5203da03fdd675b8e56854e2b4a43f292fde36026f2455183cf0fd"
+  },
+  "resource/npc/xita.swf": {
+    "path": "resource/npc/xita.swf",
+    "size": 3313,
+    "git_blob": "c5b1961017cead62050a0bd4b90ae29ea5364435",
+    "sha256": "7de0e36cad5e6acd9bebb20a1f0e1f92b30cbdfa1462ffd98b4f5c1a429cffb9"
+  },
+  "resource/item/doodle/icon/400051.swf": {
+    "path": "resource/item/doodle/icon/400051.swf",
+    "size": 975,
+    "git_blob": "2d150adc8de8faa41bcd24ad29905802677e2775",
+    "sha256": "f8cdcac578d0acb70fd8f81b348a4c3df6b3ed71595a259e7e9fa69defd8c71c"
+  },
+  "resource/pet/sound/27.mp3": {
+    "path": "resource/pet/sound/27.mp3",
+    "size": 20524,
+    "git_blob": "d172e18e3493e6e6f23096f7c630f7e1340f3ef1",
+    "sha256": "b80556401f7b147b8c2fd02997b8e8aee35baff975b1bbff0b3a32ff1f05ee97"
+  },
+  "resource/item/doodle/icon/400104.swf": {
+    "path": "resource/item/doodle/icon/400104.swf",
+    "size": 3651,
+    "git_blob": "03e3ffaeeab2154b4f5e363ed5bf861bbd413b92",
+    "sha256": "801b13381d44793ba0f1b15e8d57f27f9b0124ea64e20aaaca2237006d7faada"
+  },
+  "resource/npc/doctor.swf": {
+    "path": "resource/npc/doctor.swf",
+    "size": 5764,
+    "git_blob": "ca8f2dcb0e5194328f00cd5a54aeab90e02543db",
+    "sha256": "49c54a00676b275cabdb5bfb2e97c60850feb5a259bc1a9376234b524aa71ecc"
+  },
+  "resource/item/doodle/icon/400108.swf": {
+    "path": "resource/item/doodle/icon/400108.swf",
+    "size": 5241,
+    "git_blob": "a8e24d083a3bdbce22a7726582e497b2e66e5f4b",
+    "sha256": "6d278bad46a31cbaded7fd79d9bde3469cd5774f1cd2b9f9fb59e477332c06eb"
+  },
+  "resource/npc/nono.swf": {
+    "path": "resource/npc/nono.swf",
+    "size": 3540,
+    "git_blob": "c0de3b5af2148d577409a0b89ff4dc3d5205b5ce",
+    "sha256": "590758ab64e27229185d1c3504a982b76faeb3aa4e01b5299f3d19f093f96a59"
+  },
+  "resource/item/petItem/icon/300035.swf": {
+    "path": "resource/item/petItem/icon/300035.swf",
+    "size": 3060,
+    "git_blob": "f45ee9968807a2a2a02d918fbff1169f3319a121",
+    "sha256": "694cd832e43b9279cf1b31118baf39cbaf65a69e92907956425968260639a020"
+  },
+  "resource/item/petItem/icon/300650.swf": {
+    "path": "resource/item/petItem/icon/300650.swf",
+    "size": 2736,
+    "git_blob": "657abab43764a83f1b51ac2dfd46c0c7c832112c",
+    "sha256": "a4be68ee6ac8aa62cd2c37180dbff56c7dced5fe9e6c55c1fea86ffec6f09fed"
+  },
+  "resource/item/cloth/prev/100055.swf": {
+    "path": "resource/item/cloth/prev/100055.swf",
+    "size": 9349,
+    "git_blob": "0cfea63a7405bc7010aaf88e8f9c5259352e7905",
+    "sha256": "7878b246ccbaf11475ba894cd80bd92f77ab800b04ad9f1cacd3ab411cfbd915"
+  },
+  "resource/item/cloth/swf/100055.swf": {
+    "path": "resource/item/cloth/swf/100055.swf",
+    "size": 64246,
+    "git_blob": "4b130aa5e6ce51d192febd261937da2257741bcd",
+    "sha256": "c2609deb0bac5815f6f0fba21ab054efdc7f2a2ec57046bb418f87e9ac1cb9ee"
+  },
+  "resource/forApp/GuardBeastPortal.swf": {
+    "path": "resource/forApp/GuardBeastPortal.swf",
+    "size": 19695,
+    "git_blob": "5a5fb67139a8ccec5e33aefc8c8a172eb0ca5c29",
+    "sha256": "e5b302425fd79058f5923735e519f12a728103bde7a09ebe652768d72c08ccea"
+  },
+  "resource/item/cloth/prev/100717.swf": {
+    "path": "resource/item/cloth/prev/100717.swf",
+    "size": 15759,
+    "git_blob": "53f318583cd86d54d73381fd92e4b33afee9c9f1",
+    "sha256": "4c0da122856359392ee65911ebf913ae197d22aebbc161bb630ebe3c64f5fb84"
+  },
+  "resource/item/cloth/swf/100717.swf": {
+    "path": "resource/item/cloth/swf/100717.swf",
+    "size": 40089,
+    "git_blob": "a9b1dfa0f9f17b5d4538f6874d035b66dabaec14",
+    "sha256": "6af9dbf252928d68d113e943422fbfaf8dc5682cbc2d2315a44cca17a7ddf37d"
+  },
+  "resource/emotion/2.swf": {
+    "path": "resource/emotion/2.swf",
+    "size": 2646,
+    "git_blob": "b9aae8c0d4dfe2066e510d33069e55c2a040161b",
+    "sha256": "ad0ef959f296e719161c3a1cb2dbfb8450c842621d74cbf0db2b2247e3e00fb3"
+  },
+  "resource/emotion/7.swf": {
+    "path": "resource/emotion/7.swf",
+    "size": 2916,
+    "git_blob": "cd33fc88ba8ac91f77775ddec842ac00044a98af",
+    "sha256": "29fe590e5530ade79be1ea99369812f933a55750c3d467fd4fd1e687a97b775e"
+  },
+  "resource/npc/shawn.swf": {
+    "path": "resource/npc/shawn.swf",
+    "size": 24136,
+    "git_blob": "e318e114cf5670ecfc587e66222bbc853e535f69",
+    "sha256": "9e45f5753ada95ab235ee40e9eb32e2fbc70ece21ed034c6f59b37156db149e0"
+  },
+  "resource/npc/suke.swf": {
+    "path": "resource/npc/suke.swf",
+    "size": 11321,
+    "git_blob": "46641ae2c03aa14322a8e9e684d7bf4c00a633cf",
+    "sha256": "4f46c0b1d4c31de363383943e7cbc89b733465db74cd742ba6406a518cd68b64"
+  },
+  "resource/npc/xixi.swf": {
+    "path": "resource/npc/xixi.swf",
+    "size": 10154,
+    "git_blob": "9371ac665113552b62f180bbf55a49ce8be2392b",
+    "sha256": "47fe4ce9c9babcd1f1351048d6ca07a802f596129ee9e14a85c0a42c17564615"
+  },
+  "resource/emotion/6.swf": {
+    "path": "resource/emotion/6.swf",
+    "size": 2678,
+    "git_blob": "ed301b20473a34a95d1fa019965bc8651a98b049",
+    "sha256": "26fed699f1e9a86c079b2cbf72f513300413bea702419aa4b3c2764cbd0b3408"
+  },
+  "resource/pet/sound/53.mp3": {
+    "path": "resource/pet/sound/53.mp3",
+    "size": 15927,
+    "git_blob": "603a4d7e2217e04fb11059172976b7d87053ea6b",
+    "sha256": "c2afffe699b7cfc622f2667d353657887504a5245c971eea90f87f5826a354a7"
+  },
+  "resource/item/doodle/icon/400002.swf": {
+    "path": "resource/item/doodle/icon/400002.swf",
+    "size": 2044,
+    "git_blob": "8b70e859bd56670d14ddfb44fed4046a89df1e69",
+    "sha256": "9ef27b1d91bfde544ad7584c637de037888cee113e1ce89b7bb510d43f98df54"
+  },
+  "resource/item/doodle/icon/400001.swf": {
+    "path": "resource/item/doodle/icon/400001.swf",
+    "size": 892,
+    "git_blob": "8ffe268200e0f2856f93e87564a34563102f3130",
+    "sha256": "3f0b75e4c0de8b05a9d3050cdf0224f1fb5f79769b037a67e77e673b127a2bbf"
+  },
+  "resource/npc/shiper.swf": {
+    "path": "resource/npc/shiper.swf",
+    "size": 12219,
+    "git_blob": "ffdea6cfc7c7f96866fd2170d8d75a64706a7691",
+    "sha256": "d0e2eb9f5d8a18645f24b26321890c40e51322352b54bb400a034607989b73f5"
+  },
+  "resource/npc/iris.swf": {
+    "path": "resource/npc/iris.swf",
+    "size": 7994,
+    "git_blob": "4d8ce46499bbabc1cfc8fc4ebb9c07b7a49c499d",
+    "sha256": "089569911c6c5a57e192ace56620e3210d0d2a4db95ad154fbc09b01729f9ee9"
+  },
+  "resource/emotion/3.swf": {
+    "path": "resource/emotion/3.swf",
+    "size": 2857,
+    "git_blob": "758149b25a64024f19af8af7a907dcee11271a32",
+    "sha256": "b6801b4b9cce740231b31f683ce65c25d3bcfd441be4b41c49184de7fa7d9591"
+  },
+  "resource/fitment/icon/500821.swf": {
+    "path": "resource/fitment/icon/500821.swf",
+    "size": 10298,
+    "git_blob": "1574bc6c454a4bf99510428d9318b48705b625b0",
+    "sha256": "a876765e5bf15a1a4f91aa18966111e2fbf34b4842f71219272738c1b2e8d840"
+  },
+  "resource/fitment/icon/500011.swf": {
+    "path": "resource/fitment/icon/500011.swf",
+    "size": 1451,
+    "git_blob": "80be253432411e5075b3ef95138fb75d98a8ff3d",
+    "sha256": "bdfb650723611e2387d78dcd8d25098ddc2692a32759691163e92fd21bd98110"
+  },
+  "resource/emotion/5.swf": {
+    "path": "resource/emotion/5.swf",
+    "size": 2742,
+    "git_blob": "378cf8b944e3d4bde5acb1e826fcd7b785b476f0",
+    "sha256": "2dc681c15739301393990153ba5a5a74467450a00b272d8465c2d8f8775fdc40"
+  },
+  "resource/bounsMovie/openEye.swf": {
+    "path": "resource/bounsMovie/openEye.swf",
+    "size": 74324,
+    "git_blob": "38740028e582fc5dc70410dc69cb9f84b5e1f6d8",
+    "sha256": "d3e97441f7c873a469c0650910ecfe57fa4359e5a5d5df1e7cf33d035439d7d5"
+  },
+  "resource/emotion/4.swf": {
+    "path": "resource/emotion/4.swf",
+    "size": 2807,
+    "git_blob": "b46939f623550add34bc3598935f5fd7ffd52dd1",
+    "sha256": "10a4f074252a58014d1bb9cc4369f725ff29bcd309037f71f29d160a309543b0"
+  },
+  "resource/pet/sound/19.mp3": {
+    "path": "resource/pet/sound/19.mp3",
+    "size": 13419,
+    "git_blob": "b8dc68e51fa8d0797ed0b8350fd4fe7a15b743b6",
+    "sha256": "e7debe6f8e8763f2cbf7a131fff2914791f595b733ffb4946a6299eda74b182c"
+  },
+  "resource/item/cloth/prev/100044.swf": {
+    "path": "resource/item/cloth/prev/100044.swf",
+    "size": 6931,
+    "git_blob": "0f1ca526819ea992d5e28ca857fbdf91fbaf4cc0",
+    "sha256": "3cd3e84c459711a0283a4df118f567c9696e6bff28b01cb6f96af596dca5aefc"
+  },
+  "resource/item/cloth/swf/100044.swf": {
+    "path": "resource/item/cloth/swf/100044.swf",
+    "size": 7203,
+    "git_blob": "6834f82753831603a5b3d0f9207680fe8f901697",
+    "sha256": "d86cec5f8ef49c883f8638f47d170a111042d78cb2c59734d265a5d973b67c97"
+  },
+  "resource/item/doodle/icon/400010.swf": {
+    "path": "resource/item/doodle/icon/400010.swf",
+    "size": 2511,
+    "git_blob": "6f845accb0e7925e523e93939a06a4bffcd5f7c8",
+    "sha256": "d7dccb1ff22b19d4169655e8bed985cf07a8a6ffd8926c62e092fc12f3bc2f68"
+  },
+  "resource/item/doodle/icon/400012.swf": {
+    "path": "resource/item/doodle/icon/400012.swf",
+    "size": 7788,
+    "git_blob": "7d7a02aea352d7395e6306b01a99355581830164",
+    "sha256": "21d6d305d5aabae661dc326b5bc0f03076180cca7c26c21bf738f3dc79ec1f41"
+  },
+  "resource/item/doodle/icon/400011.swf": {
+    "path": "resource/item/doodle/icon/400011.swf",
+    "size": 3657,
+    "git_blob": "86df8c2db22af1173d6b416f5a9bde55f6f31b5a",
+    "sha256": "b6b9af98e7da818a0bde566a05a1a9454fe03c920f30c5c50e60170d55aa6fc6"
+  },
+  "resource/item/doodle/icon/400016.swf": {
+    "path": "resource/item/doodle/icon/400016.swf",
+    "size": 1491,
+    "git_blob": "8cb9050a1447b62ef5bb63bb43ba0b22768df38c",
+    "sha256": "48175c003fa51df73ee418fba6c2a27652e825b99693984f32eb70d8ac344c23"
+  },
+  "resource/eff/film.swf": {
+    "path": "resource/eff/film.swf",
+    "size": 8943,
+    "git_blob": "7dd35fa480f62999ec361a7197f90b542404cf0b",
+    "sha256": "99db330868c9e2201c72fd5f4e7a37cfe730eb513392da10161c9a6e6c6b7f92"
+  },
+  "resource/item/doodle/icon/400019.swf": {
+    "path": "resource/item/doodle/icon/400019.swf",
+    "size": 1326,
+    "git_blob": "217578bda031a36c30a2d3f98b94c65b65856760",
+    "sha256": "91cbbe9e5596531ebb15c1049ad766e32cace702339ef7e589e6b8998463759e"
+  },
+  "resource/item/doodle/icon/400020.swf": {
+    "path": "resource/item/doodle/icon/400020.swf",
+    "size": 1335,
+    "git_blob": "7282a1738b39c5c7c3c27d0d1bd7b7337e2261b7",
+    "sha256": "7378f6c9847fd33a89960d860787d9db1a6a5dbba71761cad20729ed3f9f5176"
+  },
+  "resource/item/doodle/icon/400018.swf": {
+    "path": "resource/item/doodle/icon/400018.swf",
+    "size": 1336,
+    "git_blob": "daf1b2f8572d413598a1e8cef99056f6a407041e",
+    "sha256": "3a811c6df7cd7201321249eee0772ef4c5e8d437fd56eea08b2ae7a2a1a6ea73"
+  },
+  "resource/item/doodle/icon/400024.swf": {
+    "path": "resource/item/doodle/icon/400024.swf",
+    "size": 3002,
+    "git_blob": "ec7e7b2fce619b21845a06cc0c3c71e1062e4c2b",
+    "sha256": "61e7fc5e3faf9a89a6aea7c2e0fc070984d4b79c653cc009728e09bd21efc85b"
+  },
+  "resource/item/doodle/icon/400023.swf": {
+    "path": "resource/item/doodle/icon/400023.swf",
+    "size": 2233,
+    "git_blob": "67e9bb9dd38c11267a7b97b7d92f61d32f3e2d12",
+    "sha256": "8cb77fd14009c31818989ce8e7f6c7013f471f37a8e22ffdaf03cdc9569df59c"
+  },
+  "resource/item/doodle/icon/400025.swf": {
+    "path": "resource/item/doodle/icon/400025.swf",
+    "size": 2882,
+    "git_blob": "4a68577ab06971d15d7bc0cddde9c513d577983e",
+    "sha256": "b7e28dec102d07dd6339e5f6f80623290c8d2dd9a33cb0984f5a0f5f60795b4c"
+  },
+  "resource/item/doodle/icon/400026.swf": {
+    "path": "resource/item/doodle/icon/400026.swf",
+    "size": 2517,
+    "git_blob": "674fcd1af84d589ea232a26d6f65d32b74230687",
+    "sha256": "e2229dfcfda41225fbf1865e24dd9eb92eb00a09eb2c6f9ab49dba7d617842c0"
+  },
+  "resource/npc/blackHole.swf": {
+    "path": "resource/npc/blackHole.swf",
+    "size": 1523,
+    "git_blob": "9b55a3d2955affa3b4d4562dec790607a11b212c",
+    "sha256": "ebf5652a02622e6b6707975b737e4c6492691eebab53943c2feb7d8092f8725a"
+  },
+  "resource/npc/seer_1.swf": {
+    "path": "resource/npc/seer_1.swf",
+    "size": 6360,
+    "git_blob": "35e8e55b62dccb46ca6c8c3e4b7c25c16dfe7a86",
+    "sha256": "122321a30dbd11e5d14c5977c719bc2ce1b373c065c7d55bfc6d784d223560bf"
+  },
+  "resource/bounsMovie/downSeer.swf": {
+    "path": "resource/bounsMovie/downSeer.swf",
+    "size": 45203,
+    "git_blob": "d90b76b3382fd7d5d6b85fe7282bb06fe964c93b",
+    "sha256": "0a905b31928429a8e74266d7f3a427af541507a4f559162d300f2d2d46e6e26b"
+  },
+  "resource/item/cloth/prev/100052.swf": {
+    "path": "resource/item/cloth/prev/100052.swf",
+    "size": 7065,
+    "git_blob": "1d53877deceed838419f59b7b0b72acff258068d",
+    "sha256": "948dad2c420e555452ae08518cfd5d8d2a8ac7ed2bc351d1d27add6d7fb091e8"
+  },
+  "resource/item/cloth/swf/100052.swf": {
+    "path": "resource/item/cloth/swf/100052.swf",
+    "size": 7904,
+    "git_blob": "4cd6a776420a3da9cafe7f671707bcc9a62a0732",
+    "sha256": "14c345cae183c13dce4f0237dfc2c1e43ea0d7be2e2231ca09d185df07f6d4a8"
+  },
+  "resource/npc/badguy.swf": {
+    "path": "resource/npc/badguy.swf",
+    "size": 6988,
+    "git_blob": "64271f1a9d1fa120eba1c04797697b168e899039",
+    "sha256": "a3cec39db815c66245f67fc32e80769a065c5776687302f0be7786829a5b639d"
+  },
+  "resource/item/doodle/icon/400107.swf": {
+    "path": "resource/item/doodle/icon/400107.swf",
+    "size": 11975,
+    "git_blob": "ce1e23ed68f7d6a3ceb25c9729543005fbfea461",
+    "sha256": "2458d4f879be62e630212a9add811846b96aaf34dc8adc50e094f3c28d525d15"
+  },
+  "resource/item/cloth/prev/100181.swf": {
+    "path": "resource/item/cloth/prev/100181.swf",
+    "size": 6589,
+    "git_blob": "c23db60b6c3c4f3390b95adf9a8c54295f89957a",
+    "sha256": "54a0318ab7ec8059b7388972fd81f5d659771ab47c2a5d6241c573e7d17ad338"
+  },
+  "resource/item/cloth/prev/100180.swf": {
+    "path": "resource/item/cloth/prev/100180.swf",
+    "size": 3700,
+    "git_blob": "d9afcb4af0768387604778896107106ee8241430",
+    "sha256": "79f6726a8f38b769450a1d72dff2debd3106ded5d8a643df3ba8e83222382727"
+  },
+  "resource/item/cloth/prev/100179.swf": {
+    "path": "resource/item/cloth/prev/100179.swf",
+    "size": 6805,
+    "git_blob": "bfc8a77812fd67f0ba9c590eafc897647955cec7",
+    "sha256": "92b43a837b89e7849576d9900169e78fa19175854083650e720dc98b7142d58e"
+  },
+  "resource/item/cloth/prev/100178.swf": {
+    "path": "resource/item/cloth/prev/100178.swf",
+    "size": 2695,
+    "git_blob": "ebfee355e25cce7a7ce50a40f3e665ccfcaee586",
+    "sha256": "138514f1599da4e3a78495ab9a6966ce6dd49d9eae864a1c8e1d77374b2c19cf"
+  },
+  "resource/item/cloth/swf/100180.swf": {
+    "path": "resource/item/cloth/swf/100180.swf",
+    "size": 4170,
+    "git_blob": "662a0a4ed7fa1dd18dbe851aaab39defdd7ed2b5",
+    "sha256": "d498d85ffebd2b4cfa9d4f098590757b942ded32d6919ba4bac48417090bdc83"
+  },
+  "resource/item/cloth/swf/100181.swf": {
+    "path": "resource/item/cloth/swf/100181.swf",
+    "size": 5451,
+    "git_blob": "38601e75ef37cc81d712364cca1ba68f6a389536",
+    "sha256": "895eecd4304102af563d89c366062d8977f0cc739062963e9efcd3c82f7537bf"
+  },
+  "resource/item/cloth/swf/100179.swf": {
+    "path": "resource/item/cloth/swf/100179.swf",
+    "size": 3987,
+    "git_blob": "1b6dedf1967c337867e6e825569eaeccee2f63d8",
+    "sha256": "1323a9bb0898fdc6ffd9899915207a60733d97442e287ce830bdbf0ea99d03a4"
+  },
+  "resource/item/cloth/swf/100178.swf": {
+    "path": "resource/item/cloth/swf/100178.swf",
+    "size": 3834,
+    "git_blob": "50e09659ac8d80216c9a8717cf8fba40012f39b6",
+    "sha256": "681d95e16117d79cf248594e1ecbcaa10380a87502f97ed06080870362c038b1"
+  },
+  "resource/item/cloth/prev/100338.swf": {
+    "path": "resource/item/cloth/prev/100338.swf",
+    "size": 7017,
+    "git_blob": "9107420d36da58fa7c3565ab95bf2ae09cd625d5",
+    "sha256": "b115a84b04acb5868a992a7e6136a678fc268255e852c98032e6d56c94c31a79"
+  },
+  "resource/item/cloth/prev/100339.swf": {
+    "path": "resource/item/cloth/prev/100339.swf",
+    "size": 9340,
+    "git_blob": "f3bc73b4c536f7bec8956afcea556a3e8aceca19",
+    "sha256": "67ce11b16dfd5f045f7466e4f534ceaffa95ce61f4ed7725aa7b76dc957b2406"
+  },
+  "resource/item/cloth/prev/100341.swf": {
+    "path": "resource/item/cloth/prev/100341.swf",
+    "size": 5641,
+    "git_blob": "99b3b5d072c7e71850b54f0499b9c009aaa30282",
+    "sha256": "f4d0164a685f45e5c678c0d9fb0dbac94693b504fd900bee6d9c055efec413f3"
+  },
+  "resource/item/cloth/prev/100340.swf": {
+    "path": "resource/item/cloth/prev/100340.swf",
+    "size": 2779,
+    "git_blob": "5d5d3fdbbb4b9135890a0e8c8e6cb191518763de",
+    "sha256": "bef86ad9cbf87605ebfdff9d7ea29bb9139664fd6bf1981130920ec891a58815"
+  },
+  "resource/item/cloth/swf/100341.swf": {
+    "path": "resource/item/cloth/swf/100341.swf",
+    "size": 7910,
+    "git_blob": "95df9dcc7a458dc0c4ee5c808a9896f18bc460e8",
+    "sha256": "44494b248796c70f66015c5e76c3870289057deedfc0b1baa3aaa6cd0ff0fd4b"
+  },
+  "resource/item/cloth/swf/100339.swf": {
+    "path": "resource/item/cloth/swf/100339.swf",
+    "size": 6234,
+    "git_blob": "b35343f32996197421b507f8720fe3f86b2a52fb",
+    "sha256": "17a172c3f9e094de32a4379ec57f6cc510365f01d4f7e83d86143e5e4fe20cb5"
+  },
+  "resource/item/cloth/swf/100338.swf": {
+    "path": "resource/item/cloth/swf/100338.swf",
+    "size": 8697,
+    "git_blob": "f943fafd09407286b3e200c853ef6d96ceba69a3",
+    "sha256": "43524f7c37071817b521d3d6f40929c26743b804f840e14a574fcc2abc152f6f"
+  },
+  "resource/item/cloth/swf/100340.swf": {
+    "path": "resource/item/cloth/swf/100340.swf",
+    "size": 4126,
+    "git_blob": "c49c621d57d9a98b49e0ceb7638d568e2e2ae7b8",
+    "sha256": "18b55e29c4587a0af2f56f560c656d4f07d0c3033c5d474ae1a4dba79ef1bc4f"
+  },
+  "resource/pet/icon/19.swf": {
+    "path": "resource/pet/icon/19.swf",
+    "size": 1713,
+    "git_blob": "7615d25597ee9f3bf86a9f67e45e1a6a98efec6a",
+    "sha256": "6faf548dfe682c74e2aecdbd29796af05baba57fc6dbe11a4c9fca8bdb166837"
+  },
+  "resource/pet/icon/53.swf": {
+    "path": "resource/pet/icon/53.swf",
+    "size": 1841,
+    "git_blob": "01366e6f7e5a9b457d9b96f7ea36a4705caa05a1",
+    "sha256": "ec96414ef7f2ce5b1841b194c21f147324dc8414bf4363275507fc99f99f8193"
+  },
+  "resource/pet/icon/27.swf": {
+    "path": "resource/pet/icon/27.swf",
+    "size": 1820,
+    "git_blob": "248e49294bd14df25826cb99389ba8ac39680216",
+    "sha256": "72b790ab15d6139f54a15b176573ae7f9583a789ec8a9385dd79db922ebbeec3"
+  },
+  "resource/pet/icon/62.swf": {
+    "path": "resource/pet/icon/62.swf",
+    "size": 1672,
+    "git_blob": "34d7a9bcc7404d7456022df0dc4a1cee93bb1802",
+    "sha256": "77a065d0128ef0a2afbea3190b983a07944b6b1b4c35aa4beb59995cd5174864"
+  },
+  "resource/pet/icon/65.swf": {
+    "path": "resource/pet/icon/65.swf",
+    "size": 1811,
+    "git_blob": "0580016b9e779317b8dd62ef630330afbb4671d4",
+    "sha256": "7df254dbcde5567acd4d9e8e23ce85e57a4209202eb695b78fbf9d0eb029c4e7"
+  },
+  "resource/pet/illustration/65.swf": {
+    "path": "resource/pet/illustration/65.swf",
+    "size": 68182,
+    "git_blob": "499e19cfdcbbbfa98693d1cb46bdaa555d721496",
+    "sha256": "fd76aa6c11dfd1ee1286177e3cad0d1fd193e3d9ebe1a66a854ce0174f016ffa"
+  },
+  "resource/pet/sound/65.mp3": {
+    "path": "resource/pet/sound/65.mp3",
+    "size": 11747,
+    "git_blob": "4c7b45e2d449a7e920338b969a33fddb60149848",
+    "sha256": "d7624468088601b0da25ccce7bbf307751d4daf5e41a3cd362dc3b9a5d55b61e"
+  },
+  "resource/pet/illustration/62.swf": {
+    "path": "resource/pet/illustration/62.swf",
+    "size": 8193,
+    "git_blob": "b0c2ebcad7271c7881e6ef340fdb46e07333ad72",
+    "sha256": "d465c33f720af6495affe2bf0d615262a2b0c97063ff52e39cc477d3207d587e"
+  },
+  "resource/pet/icon/74.swf": {
+    "path": "resource/pet/icon/74.swf",
+    "size": 1712,
+    "git_blob": "5e28a54c7dbcfa1160bfe06d54f0386c8b46db4d",
+    "sha256": "64e9bdad994f982615064e28734974cf632b40e7ddb90e7a6db842b468403bde"
+  },
+  "resource/pet/icon/83.swf": {
+    "path": "resource/pet/icon/83.swf",
+    "size": 1480,
+    "git_blob": "1088529c94896d3f9a7a03461fba6bb4516f5051",
+    "sha256": "da52c996bc25a85b7fcf53f69db67eb8969ec2408f215346441e217c8124c8b9"
+  },
+  "resource/pet/icon/77.swf": {
+    "path": "resource/pet/icon/77.swf",
+    "size": 1598,
+    "git_blob": "1e1916bed3dd2b063063cc289bbc0b4e02ca2f11",
+    "sha256": "b5b1b800f89f0cbdeae58f37745eeb8cd0f7fa2266d6b1dcfaf4106a8474b389"
+  },
+  "resource/pet/icon/108.swf": {
+    "path": "resource/pet/icon/108.swf",
+    "size": 1656,
+    "git_blob": "75ba2510d1520726c3556dc945cf8186d0060ede",
+    "sha256": "08e3a2b4a6477da6af1d0b9657bee0abfc9884dcb51fbe06c40060270dda4d93"
+  },
+  "resource/pet/icon/91.swf": {
+    "path": "resource/pet/icon/91.swf",
+    "size": 1290,
+    "git_blob": "b646729e6e9bd7cbcf9239b138986c99df505762",
+    "sha256": "c47c155dcf38cf29ff61e7079af3bbe566aa2c65e591ff4e473047f127ecae80"
+  },
+  "resource/pet/icon/133.swf": {
+    "path": "resource/pet/icon/133.swf",
+    "size": 1308,
+    "git_blob": "16ef402992f761a01eef59a429c42e3002a7952c",
+    "sha256": "960ccebb3e76f4bfde348a49d5e3b5c72cd1b1ba80133bed6b44a424abfa803e"
+  },
+  "resource/pet/icon/136.swf": {
+    "path": "resource/pet/icon/136.swf",
+    "size": 1592,
+    "git_blob": "eaaba93a2c330f6a693c7b96a3d827d4ad2305cc",
+    "sha256": "0d1596f763637676df926bd086cc96103ba230e8cb2120467bd0710c5a7068e8"
+  },
+  "resource/pet/icon/153.swf": {
+    "path": "resource/pet/icon/153.swf",
+    "size": 1430,
+    "git_blob": "bbc51168fd623ad90127e4fcee5aa33ff03aa956",
+    "sha256": "f7b254aca01dd3f6096b1b62b922414e3c2c21a10d6980699c1751f944199dc6"
+  },
+  "resource/pet/icon/158.swf": {
+    "path": "resource/pet/icon/158.swf",
+    "size": 1852,
+    "git_blob": "d66236ef0e255c4a880daf88a471bf9a75544b37",
+    "sha256": "8e74ddb4a329b04a4c72c2390d0aeb87b6652b48cfa0b5506049573ea3e745e6"
+  },
+  "resource/pet/icon/164.swf": {
+    "path": "resource/pet/icon/164.swf",
+    "size": 1970,
+    "git_blob": "bf6105d123ca123aabd123ae1852e985170172d9",
+    "sha256": "2e8892dda09e591ea0b0d97c1839fba00919dd931444a5377dd1ac5872e286ad"
+  },
+  "resource/pet/icon/203.swf": {
+    "path": "resource/pet/icon/203.swf",
+    "size": 1618,
+    "git_blob": "c685139a6876cf6837a7d437f217c67b44df3ff2",
+    "sha256": "d56a09ce789f19fab4445b2ed526bbaf5e1451b3a9c03fb5cf79eddd7895004f"
+  },
+  "resource/pet/illustration/83.swf": {
+    "path": "resource/pet/illustration/83.swf",
+    "size": 3880,
+    "git_blob": "7785378c717eeff0e82f8bc0d8ed451e5d4d6341",
+    "sha256": "db40630d7c69e079f84507985298a2b8a6f914d6aaa2d66e3bbeb2fd9ec268cc"
+  },
+  "resource/npc/darkPet.swf": {
+    "path": "resource/npc/darkPet.swf",
+    "size": 91273,
+    "git_blob": "503b942d4fc95b16183f1cdb773ab303a5517c3a",
+    "sha256": "702853ac6df5467414902e5470c84b00d913a4dd3af6c84d1a847e0eecebe6d1"
+  },
+  "resource/item/cloth/swf/100653.swf": {
+    "path": "resource/item/cloth/swf/100653.swf",
+    "size": 6492,
+    "git_blob": "d9dd8dd4dd7f93c46c6b21630713da52b92944e4",
+    "sha256": "46d677234c568636f2a205c90630df71a5c60411422e1c98f4793d48b729019a"
+  },
+  "resource/item/cloth/swf/100654_1.swf": {
+    "path": "resource/item/cloth/swf/100654_1.swf",
+    "size": 13590,
+    "git_blob": "0b166b3693087a6e9f4c5c299f5bb69041efe166",
+    "sha256": "43478b9c0be0e6385f4c76bc259afd145b5837e13db254064383c3946a6b755d"
+  },
+  "resource/item/cloth/swf/100654_2.swf": {
+    "path": "resource/item/cloth/swf/100654_2.swf",
+    "size": 13590,
+    "git_blob": "1516956fabb1cb3e6e743604ec4cf2a9786d7b87",
+    "sha256": "b2ccc4892e7421cb3e730012a1b63d24ea275eeb53a86903dd6dcb46182c01a8"
+  },
+  "resource/item/cloth/swf/100655.swf": {
+    "path": "resource/item/cloth/swf/100655.swf",
+    "size": 6411,
+    "git_blob": "00084e5b9147269e0834d8edae6cb3abcd5c1f0c",
+    "sha256": "d5246a7ebdd3befcf61a29f95dc58eef78a3921a87d9df6a5c3eea7d5adb2651"
+  },
+  "resource/item/cloth/swf/100656.swf": {
+    "path": "resource/item/cloth/swf/100656.swf",
+    "size": 7215,
+    "git_blob": "5f158e6d4f9d1e26d1c63ebbb17ceaafede43e7f",
+    "sha256": "ef8b3a1134b360d538f7e43862369189ccce704878837c3114574dd8c3d46bd3"
+  },
+  "resource/item/doodle/icon/400006.swf": {
+    "path": "resource/item/doodle/icon/400006.swf",
+    "size": 3077,
+    "git_blob": "64fb013a24094780a7b389967a7db87a70f94cad",
+    "sha256": "920e259059234c8fb72944abaf6aee86db6c5728ef351e617591bf439dac85c9"
+  },
+  "resource/item/doodle/icon/400004.swf": {
+    "path": "resource/item/doodle/icon/400004.swf",
+    "size": 3447,
+    "git_blob": "08964d33c493a1b36e6ea3b551ceb8d9e932ed12",
+    "sha256": "345e7b91e0a4084240499deab18345245f596dcea6d11858c7161a988b0fc918"
+  },
+  "resource/item/doodle/icon/400014.swf": {
+    "path": "resource/item/doodle/icon/400014.swf",
+    "size": 2464,
+    "git_blob": "a8d27836e78e6c67db2d4abacb99d7a8492b7847",
+    "sha256": "2674c9ed6210cb371d67c4576f1b0d00232f8e61d053078a4ecd19b62a2af9e7"
+  },
+  "resource/item/doodle/icon/400038.swf": {
+    "path": "resource/item/doodle/icon/400038.swf",
+    "size": 1201,
+    "git_blob": "1251fb875e37476add993476905c282f10a3f721",
+    "sha256": "74306c50540cadc65b8d8c77ed41d7c23d53b7751981bb7903340c09deca8fd7"
+  },
+  "resource/item/cloth/swf/100342.swf": {
+    "path": "resource/item/cloth/swf/100342.swf",
+    "size": 6286,
+    "git_blob": "6480beacc927670fa999dede8e68a011afd5db58",
+    "sha256": "5e34cfe03b6dfda077bccf6b2e509ad63e8062667fa83d6c4a114f87079ded43"
+  },
+  "resource/item/cloth/swf/100344.swf": {
+    "path": "resource/item/cloth/swf/100344.swf",
+    "size": 6382,
+    "git_blob": "efcb6938bf5f8abfce7e8f40610507d8791b1d96",
+    "sha256": "bf8576b5a83e66202f8f2542c7792d44754d8adb899563da0866ba2096c74e36"
+  },
+  "resource/item/cloth/swf/100345.swf": {
+    "path": "resource/item/cloth/swf/100345.swf",
+    "size": 4132,
+    "git_blob": "ed3153c40caf416e4723201e7b4eda59c15f976c",
+    "sha256": "3c363f6120ced516a1e3f10c60696d284e277d2710e1f863c466f5c1319e69be"
+  },
+  "resource/item/cloth/swf/100343.swf": {
+    "path": "resource/item/cloth/swf/100343.swf",
+    "size": 4359,
+    "git_blob": "cccb25a85c6c5dfa8ecf88390784c49a6f18167a",
+    "sha256": "7ad6ea83e20c483bad728b4f16fde4e558fe19d84690358c0f36c0cd46967fdc"
+  },
+  "resource/map/sound/BGM_228.mp3": {
+    "path": "resource/map/sound/BGM_228.mp3",
+    "size": 467792,
+    "git_blob": "a2d93985106047060485b22ea001ee7bffec55d8",
+    "sha256": "36d208f9802dd6c7d214363ae804dc4195a5c4ba1462fa7c84a3b62cdf667756"
+  },
+  "resource/map/sound/BGM_021B.mp3": {
+    "path": "resource/map/sound/BGM_021B.mp3",
+    "size": 360933,
+    "git_blob": "a074bfa458020dfbbf4002f6e82524e9437e8c23",
+    "sha256": "33db5c67ee5d6fbf0d9e4829ac56b24bace1050f66909e42c9b490666c45a64a"
+  },
+  "resource/pet/sound/422.mp3": {
+    "path": "resource/pet/sound/422.mp3",
+    "size": 9682,
+    "git_blob": "3fb2b0d2c5e8c6b67ac0bc5a2f96cda2e3511a5f",
+    "sha256": "3429c2c49f71f62c2de84a842459ef1231069b904628055fe144dcd267620ce9"
+  },
+  "resource/map/sound/BGM_10088.mp3": {
+    "path": "resource/map/sound/BGM_10088.mp3",
+    "size": 445422,
+    "git_blob": "42a14ed6b33e5b58019f282c8873de1bd00a1629",
+    "sha256": "d832ac909c2132cdc21538794f3042eee323a4bb785f5a935a14efdf8d6d8f3a"
+  }
+}

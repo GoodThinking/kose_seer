@@ -1,0 +1,44 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AddTaskBufReqProto = void 0;
+const BaseProto_1 = require("../../../base/BaseProto");
+const CommandID_1 = require("../../../../protocol/CommandID");
+/**
+ * 添加/更新任务缓存请求
+ * CMD 2204: ADD_TASK_BUF
+ *
+ * 请求格式：taskId(4) + 旧KOSE index(1)/value(4)，或 fixed Nieo/XIN 完整缓存
+ */
+class AddTaskBufReqProto extends BaseProto_1.BaseProto {
+    taskId = 0;
+    bufferIndex = 0;
+    bufferValue = 0;
+    /** taskId 之后的原始任务缓存，由协议处理器按客户端类型解释。 */
+    rawBuffer = Buffer.alloc(0);
+    constructor() {
+        super(CommandID_1.CommandID.ADD_TASK_BUF);
+    }
+    deserialize(buffer) {
+        if (buffer.length >= 4) {
+            this.taskId = buffer.readUInt32BE(0);
+            this.rawBuffer = Buffer.from(buffer.subarray(4));
+        }
+        let offset = 0;
+        if (buffer.length >= 4) {
+            this.taskId = buffer.readUInt32BE(offset);
+            offset += 4;
+        }
+        if (buffer.length >= 5) {
+            this.bufferIndex = buffer.readUInt8(offset);
+            offset += 1;
+        }
+        if (buffer.length >= 9) {
+            this.bufferValue = buffer.readUInt32BE(offset);
+        }
+    }
+    serialize() {
+        return Buffer.alloc(0);
+    }
+}
+exports.AddTaskBufReqProto = AddTaskBufReqProto;
+//# sourceMappingURL=AddTaskBufReqProto.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"NoNoFollowOrHoomReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/nono/NoNoFollowOrHoomReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;GAEG;AACH,qBAAa,wBAAyB,SAAQ,SAAS;IACrD,MAAM,EAAE,MAAM,CAAK;;IAMnB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,wBAAwB;CAO5D"}

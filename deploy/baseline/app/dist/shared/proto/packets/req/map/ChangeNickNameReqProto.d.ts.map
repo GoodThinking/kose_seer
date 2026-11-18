@@ -1,0 +1,1 @@
+{"version":3,"file":"ChangeNickNameReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/map/ChangeNickNameReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,sBAAuB,SAAQ,SAAS;IAC5C,OAAO,EAAE,MAAM,CAAM;;IAMrB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAMjC,SAAS,IAAI,MAAM;CAK3B"}

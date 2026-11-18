@@ -1,0 +1,543 @@
+{
+  "source": "Deployed NieoCore.swf CondEvolves XML; branch order is one-based PET_EVOLVTION evolveIndex.",
+  "branches": {
+    "1": [
+      {
+        "petId": 60,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "2": [
+      {
+        "petId": 61,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "3": [
+      {
+        "petId": 72,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "4": [
+      {
+        "petId": 73,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "5": [
+      {
+        "petId": 81,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "6": [
+      {
+        "petId": 82,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "7": [
+      {
+        "petId": 92,
+        "itemId": 400004,
+        "count": 20
+      },
+      {
+        "petId": 93,
+        "itemId": 400008,
+        "count": 20
+      },
+      {
+        "petId": 94,
+        "itemId": 400003,
+        "count": 20
+      }
+    ],
+    "8": [
+      {
+        "petId": 101,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "9": [
+      {
+        "petId": 103,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "10": [
+      {
+        "petId": 104,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "11": [
+      {
+        "petId": 112,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "12": [
+      {
+        "petId": 113,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "13": [
+      {
+        "petId": 144,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "14": [
+      {
+        "petId": 202,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "15": [
+      {
+        "petId": 124,
+        "itemId": 403022,
+        "count": 50
+      },
+      {
+        "petId": 125,
+        "itemId": 403023,
+        "count": 50
+      }
+    ],
+    "16": [
+      {
+        "petId": 214,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "17": [
+      {
+        "petId": 224,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "18": [
+      {
+        "petId": 270,
+        "itemId": 400033,
+        "count": 30
+      },
+      {
+        "petId": 271,
+        "itemId": 400031,
+        "count": 30
+      },
+      {
+        "petId": 272,
+        "itemId": 400028,
+        "count": 30
+      }
+    ],
+    "19": [
+      {
+        "petId": 288,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "20": [
+      {
+        "petId": 339,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "21": [
+      {
+        "petId": 340,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "22": [
+      {
+        "petId": 363,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "23": [
+      {
+        "petId": 367,
+        "itemId": 400006,
+        "count": 30
+      },
+      {
+        "petId": 368,
+        "itemId": 400007,
+        "count": 30
+      },
+      {
+        "petId": 369,
+        "itemId": 400005,
+        "count": 30
+      }
+    ],
+    "24": [
+      {
+        "petId": 374,
+        "itemId": 400001,
+        "count": 100
+      },
+      {
+        "petId": 375,
+        "itemId": 400002,
+        "count": 25
+      }
+    ],
+    "25": [
+      {
+        "petId": 432,
+        "itemId": 400671,
+        "count": 1
+      }
+    ],
+    "26": [
+      {
+        "petId": 460,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "27": [
+      {
+        "petId": 483,
+        "itemId": 400067,
+        "count": 1
+      }
+    ],
+    "28": [
+      {
+        "petId": 495,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "29": [
+      {
+        "petId": 496,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "30": [
+      {
+        "petId": 540,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "31": [
+      {
+        "petId": 542,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "32": [
+      {
+        "petId": 543,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "33": [
+      {
+        "petId": 611,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "34": [
+      {
+        "petId": 652,
+        "itemId": 400098,
+        "count": 1
+      }
+    ],
+    "35": [
+      {
+        "petId": 672,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "36": [
+      {
+        "petId": 670,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "37": [
+      {
+        "petId": 674,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "38": [
+      {
+        "petId": 676,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "39": [
+      {
+        "petId": 729,
+        "itemId": 400933,
+        "count": 1
+      }
+    ],
+    "40": [
+      {
+        "petId": 725,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "41": [
+      {
+        "petId": 757,
+        "itemId": 400005,
+        "count": 30
+      },
+      {
+        "petId": 758,
+        "itemId": 400007,
+        "count": 30
+      },
+      {
+        "petId": 759,
+        "itemId": 400006,
+        "count": 30
+      }
+    ],
+    "42": [
+      {
+        "petId": 811,
+        "itemId": 400823,
+        "count": 1
+      }
+    ],
+    "43": [
+      {
+        "petId": 808,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "44": [
+      {
+        "petId": 881,
+        "itemId": 400851,
+        "count": 1
+      }
+    ],
+    "45": [
+      {
+        "petId": 888,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "46": [
+      {
+        "petId": 1075,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "47": [
+      {
+        "petId": 1083,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "48": [
+      {
+        "petId": 1143,
+        "itemId": 1200047,
+        "count": 1
+      }
+    ],
+    "49": [
+      {
+        "petId": 1196,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "50": [
+      {
+        "petId": 1197,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "51": [
+      {
+        "petId": 1210,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "52": [
+      {
+        "petId": 1221,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "53": [
+      {
+        "petId": 1274,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "54": [
+      {
+        "petId": 1319,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "55": [
+      {
+        "petId": 1330,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "56": [
+      {
+        "petId": 1389,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "57": [
+      {
+        "petId": 1393,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "58": [
+      {
+        "petId": 1422,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "59": [
+      {
+        "petId": 1424,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "60": [
+      {
+        "petId": 1462,
+        "itemId": 1200467,
+        "count": 1
+      },
+      {
+        "petId": 1463,
+        "itemId": 1200466,
+        "count": 1
+      }
+    ],
+    "61": [
+      {
+        "petId": 1512,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "62": [
+      {
+        "petId": 1548,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "63": [
+      {
+        "petId": 1582,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "64": [
+      {
+        "petId": 1594,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "65": [
+      {
+        "petId": 1641,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "66": [
+      {
+        "petId": 1673,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "67": [
+      {
+        "petId": 1713,
+        "itemId": 0,
+        "count": 0
+      }
+    ],
+    "1000": [
+      {
+        "petId": 4150,
+        "itemId": 400055,
+        "count": 10
+      }
+    ],
+    "1001": [
+      {
+        "petId": 4149,
+        "itemId": 400055,
+        "count": 10
+      }
+    ]
+  }
+}

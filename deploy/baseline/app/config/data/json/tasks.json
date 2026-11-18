@@ -1,0 +1,1111 @@
+{
+  "tasks": {
+    "2": {
+      "name": "新手任务",
+      "type": "novice",
+      "rewards": {}
+    },
+    "3": {
+      "name": "新手任务",
+      "type": "novice",
+      "rewards": {}
+    },
+    "4": {
+      "name": "新手任务",
+      "type": "novice",
+      "rewards": {}
+    },
+    "7": {
+      "name": "防寒套装制作",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {}
+    },
+    "8": {
+      "name": "西塔的珍贵回忆",
+      "type": "normal",
+      "requiredProgress": 8,
+      "rewards": {
+        "fitments": [
+          {
+            "fitmentId": 500510,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "9": {
+      "name": "进入神秘通道",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {
+        "items": [
+          {
+            "itemId": 100059,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "10": {
+      "name": "神秘通道拼图",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {}
+    },
+    "11": {
+      "name": "捕捉到果冻鸭",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {}
+    },
+    "12": {
+      "name": "精灵广场拿石头",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {}
+    },
+    "13": {
+      "name": "救咚咚",
+      "type": "normal",
+      "requiredProgress": 4,
+      "rewards": {}
+    },
+    "14": {
+      "name": "救叮叮",
+      "type": "normal",
+      "requiredProgress": 2,
+      "rewards": {}
+    },
+    "15": {
+      "name": "奇洛",
+      "type": "normal",
+      "rewards": {
+        "pets": [
+          {
+            "petId": 56,
+            "level": 1,
+            "dv": 0,
+            "nature": 0
+          }
+        ]
+      }
+    },
+    "19": {
+      "name": "先锋队招募",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {
+        "pets": [
+          {
+            "petId": 46,
+            "level": 1,
+            "dv": 0,
+            "nature": 0
+          }
+        ]
+      }
+    },
+    "25": {
+      "name": "新船员的考验",
+      "type": "normal",
+      "rewards": {}
+    },
+    "28": {
+      "name": "遗迹中的精灵信号",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {
+        "pets": [
+          {
+            "petId": 102,
+            "level": 1,
+            "dv": 0,
+            "nature": 0
+          }
+        ]
+      }
+    },
+    "29": {
+      "name": "健忘的大发明家",
+      "type": "normal",
+      "requiredProgress": 5,
+      "rewards": {}
+    },
+    "30": {
+      "name": "发明家的小测试",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {}
+    },
+    "37": {
+      "name": "帕诺星系星球测绘",
+      "type": "normal",
+      "requiredProgress": 10,
+      "rewards": {
+        "coins": 3000,
+        "items": [
+          {
+            "itemId": 100178,
+            "count": 1
+          },
+          {
+            "itemId": 100179,
+            "count": 1
+          },
+          {
+            "itemId": 100180,
+            "count": 1
+          },
+          {
+            "itemId": 100181,
+            "count": 1
+          },
+          {
+            "itemId": 700452,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "42": {
+      "name": "卡塔",
+      "type": "normal",
+      "rewards": {
+        "coins": 3000,
+        "fitments": [
+          {
+            "fitmentId": 500570,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "79": {
+      "name": "寻访哈莫雷特的族人",
+      "type": "story",
+      "rewards": {}
+    },
+    "81": {
+      "name": "守候宿命的追随者",
+      "type": "story",
+      "rewards": {}
+    },
+    "83": {
+      "name": "光暗之谜",
+      "type": "story",
+      "rewards": {}
+    },
+    "84": {
+      "name": "星球改造计划",
+      "type": "story",
+      "rewards": {}
+    },
+    "85": {
+      "name": "新手礼物",
+      "type": "normal",
+      "rewards": {
+        "items": [
+          {
+            "itemId": 100027,
+            "count": 1
+          },
+          {
+            "itemId": 100028,
+            "count": 1
+          },
+          {
+            "itemId": 500001,
+            "count": 1
+          },
+          {
+            "itemId": 300650,
+            "count": 3
+          },
+          {
+            "itemId": 300025,
+            "count": 3
+          },
+          {
+            "itemId": 300035,
+            "count": 3
+          },
+          {
+            "itemId": 500502,
+            "count": 1
+          },
+          {
+            "itemId": 500503,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "86": {
+      "name": "初次伙伴",
+      "type": "select_pet",
+      "paramMap": {
+        "1": 1,
+        "2": 7,
+        "3": 4
+      },
+      "rewards": {}
+    },
+    "87": {
+      "name": "初试身手",
+      "type": "normal",
+      "rewards": {
+        "items": [
+          {
+            "itemId": 300001,
+            "count": 5
+          },
+          {
+            "itemId": 300011,
+            "count": 3
+          }
+        ]
+      }
+    },
+    "88": {
+      "name": "治愈伤痛",
+      "type": "normal",
+      "rewards": {
+        "coins": 50000,
+        "special": [
+          {
+            "type": 3,
+            "value": 250000
+          },
+          {
+            "type": 5,
+            "value": 20
+          }
+        ]
+      }
+    },
+    "89": {
+      "name": "试炼之塔的磨练",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {
+        "coins": 1000
+      }
+    },
+    "90": {
+      "name": "克洛斯星的皮皮",
+      "type": "normal",
+      "requiredProgress": 1,
+      "rewards": {
+        "coins": 1000,
+        "special": [
+          {
+            "type": 3,
+            "value": 1000
+          }
+        ]
+      }
+    },
+    "91": {
+      "name": "月光下的约定",
+      "type": "normal",
+      "requiredProgress": 4,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 2000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 400124,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "92": {
+      "name": "站长归来",
+      "type": "normal",
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 2000
+          }
+        ],
+        "pets": [
+          {
+            "petId": 95,
+            "level": 1,
+            "dv": 0,
+            "nature": 0
+          }
+        ]
+      }
+    },
+    "93": {
+      "name": "云霄星的新来客",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {
+        "coins": 500,
+        "special": [
+          {
+            "type": 3,
+            "value": 1000
+          }
+        ]
+      }
+    },
+    "94": {
+      "name": "能源采集",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {
+        "coins": 1000,
+        "special": [
+          {
+            "type": 3,
+            "value": 500
+          }
+        ]
+      }
+    },
+    "95": {
+      "name": "宇宙中的黑色旋涡",
+      "type": "normal",
+      "requiredProgress": 8,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 4000
+          }
+        ]
+      }
+    },
+    "96": {
+      "name": "旅途中的伙伴",
+      "type": "normal",
+      "requiredProgress": 3,
+      "rewards": {
+        "coins": 1000,
+        "special": [
+          {
+            "type": 3,
+            "value": 500
+          }
+        ]
+      }
+    },
+    "97": {
+      "name": "我是音乐小麦霸",
+      "type": "normal",
+      "requiredProgress": 6,
+      "rewards": {
+        "coins": 1000,
+        "special": [
+          {
+            "type": 3,
+            "value": 1000
+          }
+        ]
+      }
+    },
+    "98": {
+      "name": "尼布守卫战",
+      "type": "normal",
+      "requiredProgress": 6,
+      "rewards": {
+        "coins": 1000
+      }
+    },
+    "99": {
+      "name": "Task 99",
+      "type": "client_only",
+      "rewards": {}
+    },
+    "121": {
+      "name": "雷神极限修行之里奥斯",
+      "type": "story",
+      "rewards": {}
+    },
+    "122": {
+      "name": "雷神极限修行之提亚斯",
+      "type": "story",
+      "rewards": {}
+    },
+    "123": {
+      "name": "繁殖任务",
+      "type": "story",
+      "rewards": {}
+    },
+    "133": {
+      "name": "寻找迷失的心",
+      "type": "story",
+      "rewards": {}
+    },
+    "201": {
+      "name": "教官考核",
+      "type": "story",
+      "rewards": {}
+    },
+    "300": {
+      "name": "领普尼真身",
+      "type": "story",
+      "rewards": {}
+    },
+    "401": {
+      "name": "每日任务之毛毛",
+      "type": "daily",
+      "rewards": {}
+    },
+    "402": {
+      "name": "每日任务之小火猴武学梦想",
+      "type": "daily",
+      "rewards": {}
+    },
+    "403": {
+      "name": "布布种子每日任务",
+      "type": "daily",
+      "rewards": {}
+    },
+    "404": {
+      "name": "每日任务之伊优环保任务",
+      "type": "daily",
+      "rewards": {}
+    },
+    "405": {
+      "name": "每日任务之比比鼠的发电能源",
+      "type": "daily",
+      "rewards": {}
+    },
+    "406": {
+      "name": "每日任务之爱捉迷藏的幽浮",
+      "type": "daily",
+      "rewards": {}
+    },
+    "407": {
+      "name": "利牙鱼的口腔护理",
+      "type": "daily",
+      "rewards": {}
+    },
+    "461": {
+      "name": "领NoNo",
+      "type": "daily",
+      "rewards": {}
+    },
+    "462": {
+      "name": "每日任务之领取扭蛋牌",
+      "type": "daily",
+      "requiredProgress": 1,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ]
+      }
+    },
+    "463": {
+      "name": "斯诺星的米鲁",
+      "type": "daily",
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ],
+        "pets": [
+          {
+            "petId": 161,
+            "level": 1,
+            "dv": 0,
+            "nature": 0
+          }
+        ]
+      }
+    },
+    "481": {
+      "name": "每日任务之赛尔打工",
+      "type": "daily",
+      "requiredProgress": 1,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ]
+      }
+    },
+    "530": {
+      "name": "活力之匙",
+      "type": "normal",
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 2500
+          }
+        ],
+        "fitments": [
+          {
+            "fitmentId": 500833,
+            "count": 1
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "532": {
+      "name": "复苏的活力之匙",
+      "type": "normal",
+      "parentTaskId": 530,
+      "requiredProgress": 4,
+      "orderedProgress": false,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 2000
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "534": {
+      "name": "踏访石化之城",
+      "type": "normal",
+      "parentTaskId": 535,
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ],
+        "fitments": [
+          {
+            "fitmentId": 500835,
+            "count": 1
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "535": {
+      "name": "第二把生命之匙",
+      "type": "normal",
+      "parentTaskId": 532,
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 2000
+          }
+        ],
+        "fitments": [
+          {
+            "fitmentId": 500834,
+            "count": 1
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "540": {
+      "name": "孕育力量的钥匙",
+      "type": "normal",
+      "parentTaskId": 534,
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "549": {
+      "name": "寻觅隐身之匙",
+      "type": "normal",
+      "parentTaskId": 540,
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ],
+        "fitments": [
+          {
+            "fitmentId": 500836,
+            "count": 1
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "558": {
+      "name": "封印中的精灵",
+      "type": "normal",
+      "parentTaskId": 549,
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [
+          {
+            "type": 3,
+            "value": 3000
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "560": {
+      "name": "真正的化身之匙",
+      "type": "normal",
+      "parentTaskId": 558,
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 2000,
+        "special": [
+          {
+            "type": 3,
+            "value": 4000
+          }
+        ],
+        "fitments": [
+          {
+            "fitmentId": 500837,
+            "count": 1
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "561": {
+      "name": "探宝大考验",
+      "type": "normal",
+      "parentTaskId": 560,
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [
+          {
+            "type": 3,
+            "value": 4000
+          }
+        ],
+        "bagPetLevelGain": 1
+      }
+    },
+    "616": {
+      "name": "黑色降临",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      }
+    },
+    "619": {
+      "name": "卡茨的爆发",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 616
+    },
+    "620": {
+      "name": "解救康康",
+      "type": "normal",
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 2000
+          }
+        ],
+        "coins": 2000
+      }
+    },
+    "624": {
+      "name": "卡茨迷宫心境",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 619
+    },
+    "626": {
+      "name": "卡茨的劫难",
+      "type": "normal",
+      "requiredProgress": 3,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 624
+    },
+    "628": {
+      "name": "卡茨的逆袭",
+      "type": "normal",
+      "requiredProgress": 2,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 626
+    },
+    "633": {
+      "name": "SUN星大灾难",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 628
+    },
+    "637": {
+      "name": "黑暗力量爆发",
+      "type": "normal",
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 633
+    },
+    "641": {
+      "name": "与魔抗衡",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 637
+    },
+    "642": {
+      "name": "使命的召唤",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 641
+    },
+    "648": {
+      "name": "剧毒的洛兰花",
+      "type": "normal",
+      "requiredProgress": 7,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ]
+      },
+      "parentTaskId": 642
+    },
+    "653": {
+      "name": "穿越云水洞",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      },
+      "parentTaskId": 648
+    },
+    "655": {
+      "name": "海盗研究所",
+      "type": "normal",
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      },
+      "parentTaskId": 653
+    },
+    "658": {
+      "name": "山顶的决战",
+      "type": "normal",
+      "requiredProgress": 4,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ]
+      },
+      "parentTaskId": 655
+    },
+    "788": {
+      "name": "危险！泡泡一族！",
+      "type": "normal",
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 500,
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 300401,
+            "count": 5
+          }
+        ]
+      }
+    },
+    "796": {
+      "name": "暗夜冰狐的天敌",
+      "type": "normal",
+      "parentTaskId": 788,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 500,
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 300401,
+            "count": 5
+          }
+        ]
+      }
+    },
+    "801": {
+      "name": "爆发吧！神狐一族！",
+      "type": "normal",
+      "parentTaskId": 796,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 300428,
+            "count": 1
+          },
+          {
+            "itemId": 300401,
+            "count": 5
+          }
+        ]
+      }
+    },
+    "811": {
+      "name": "九尾的终极力量！",
+      "type": "normal",
+      "parentTaskId": 801,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 300445,
+            "count": 1
+          },
+          {
+            "itemId": 300401,
+            "count": 5
+          },
+          {
+            "itemId": 300451,
+            "count": 1
+          }
+        ]
+      }
+    },
+    "816": {
+      "name": "对决吧！青龙！",
+      "type": "normal",
+      "parentTaskId": 811,
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "rewards": {
+        "special": [
+          {
+            "type": 3,
+            "value": 8000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 300459,
+            "count": 1
+          },
+          {
+            "itemId": 300401,
+            "count": 5
+          }
+        ]
+      }
+    },
+    "819": {
+      "name": "仙境中的顶尖对决",
+      "type": "normal",
+      "parentTaskId": 816,
+      "requiredProgress": 6,
+      "orderedProgress": true,
+      "rewards": {
+        "coins": 500,
+        "special": [
+          {
+            "type": 3,
+            "value": 10000
+          }
+        ],
+        "items": [
+          {
+            "itemId": 300401,
+            "count": 5
+          }
+        ]
+      }
+    },
+    "10039": {
+      "name": "时空罗盘试炼",
+      "type": "normal",
+      "requiredProgress": 5,
+      "orderedProgress": true,
+      "requiresCompassVictory": true,
+      "rewards": {
+        "coins": 3000,
+        "special": [
+          {
+            "type": 3,
+            "value": 5000
+          }
+        ]
+      }
+    },
+    "50001": {
+      "name": "赛尔召集令",
+      "type": "client_only",
+      "rewards": {}
+    },
+    "50002": {
+      "name": "教官任务",
+      "type": "client_only",
+      "rewards": {}
+    }
+  }
+}

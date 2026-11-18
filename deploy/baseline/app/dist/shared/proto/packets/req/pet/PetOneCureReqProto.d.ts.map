@@ -1,0 +1,1 @@
+{"version":3,"file":"PetOneCureReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/pet/PetOneCureReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IACxC,SAAS,EAAE,MAAM,CAAK;IACtB,KAAK,EAAE,MAAM,CAAK;;IAMlB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAOjC,SAAS,IAAI,MAAM;CAG3B"}

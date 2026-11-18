@@ -1,0 +1,1 @@
+{"version":3,"file":"GetSimUserInfoReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/map/GetSimUserInfoReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,sBAAuB,SAAQ,SAAS;IAC5C,QAAQ,EAAE,MAAM,CAAK;;IAMrB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAMjC,SAAS,IAAI,MAAM;CAK3B"}

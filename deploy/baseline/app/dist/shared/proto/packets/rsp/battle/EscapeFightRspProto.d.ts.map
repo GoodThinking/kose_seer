@@ -1,0 +1,1 @@
+{"version":3,"file":"EscapeFightRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/battle/EscapeFightRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAIpD;;GAEG;AACH,qBAAa,mBAAoB,SAAQ,SAAS;IAChD,OAAO,EAAE,MAAM,CAAK;;IAMpB,SAAS,IAAI,MAAM;IASnB,UAAU,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI;CAIhC"}

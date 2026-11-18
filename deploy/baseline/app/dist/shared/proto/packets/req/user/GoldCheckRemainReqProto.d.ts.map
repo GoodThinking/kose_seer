@@ -1,0 +1,1 @@
+{"version":3,"file":"GoldCheckRemainReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/user/GoldCheckRemainReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;;GAGG;AACH,qBAAa,uBAAwB,SAAQ,SAAS;gBACxC,KAAK,EAAE,MAAM;IAIlB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAIjC,SAAS,IAAI,MAAM;CAG3B"}

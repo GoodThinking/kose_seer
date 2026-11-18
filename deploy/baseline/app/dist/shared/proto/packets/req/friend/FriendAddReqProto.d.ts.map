@@ -1,0 +1,1 @@
+{"version":3,"file":"FriendAddReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/friend/FriendAddReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,iBAAkB,SAAQ,SAAS;IACvC,QAAQ,EAAE,MAAM,CAAK;;IAMrB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAMjC,SAAS,IAAI,MAAM;CAG3B"}

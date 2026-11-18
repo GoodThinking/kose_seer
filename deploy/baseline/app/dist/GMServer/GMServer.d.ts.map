@@ -1,0 +1,1 @@
+{"version":3,"file":"GMServer.d.ts","sourceRoot":"","sources":["../../src/GMServer/GMServer.ts"],"names":[],"mappings":"AAQA;;;;;;;;;;;;;;;;;GAiBG;AACH,qBAAa,QAAQ;IACnB,OAAO,CAAC,GAAG,CAAsB;IACjC,OAAO,CAAC,IAAI,CAAS;;IASrB;;OAEG;IACH,OAAO,CAAC,eAAe;IAevB;;OAEG;IACH,OAAO,CAAC,WAAW;IA2DnB;;OAEG;IACI,KAAK,IAAI,IAAI;CAUrB"}

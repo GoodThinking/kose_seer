@@ -1,0 +1,119 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CritRateReducePassive = exports.StatusCritBonusPassive = exports.FixedCritDivisorPassive = exports.CritRateBonusPassive = exports.FixedCritRatePassive = void 0;
+const BaseAtomicEffect_1 = require("../core/BaseAtomicEffect");
+const EffectContext_1 = require("../../core/EffectContext");
+/**
+ * 固定会心率 (2008)
+ * 自身的会心一击率为n/16
+ * effectArgs: [critNumerator]
+ */
+class FixedCritRatePassive extends BaseAtomicEffect_1.BaseAtomicEffect {
+    constructor(params = {}) {
+        super('special', 'FixedCritRatePassive', [EffectContext_1.EffectTiming.BEFORE_CRIT_CHECK]);
+    }
+    validate(params) { return true; }
+    execute(context) {
+        const results = [];
+        const critNumerator = context.effectArgs?.[0] || 0;
+        if (critNumerator > 0) {
+            context.critRate = critNumerator / 16;
+            this.log(`固定会心率: ${critNumerator}/16`, 'info');
+            results.push(this.createResult(true, 'attacker', 'fixed_crit_rate', `会心率固定为 ${critNumerator}/16`, critNumerator));
+        }
+        return results;
+    }
+}
+exports.FixedCritRatePassive = FixedCritRatePassive;
+/**
+ * 会心率提升 (2030)
+ * 所有技能的致命一击率增加n/16
+ * effectArgs: [critBonus]
+ */
+class CritRateBonusPassive extends BaseAtomicEffect_1.BaseAtomicEffect {
+    constructor(params = {}) {
+        super('special', 'CritRateBonusPassive', [EffectContext_1.EffectTiming.BEFORE_CRIT_CHECK]);
+    }
+    validate(params) { return true; }
+    execute(context) {
+        const results = [];
+        const critBonus = context.effectArgs?.[0] || 0;
+        if (critBonus > 0) {
+            context.critRateBonus = (context.critRateBonus || 0) + critBonus / 16;
+            this.log(`会心率提升: +${critBonus}/16`, 'info');
+            results.push(this.createResult(true, 'attacker', 'crit_rate_bonus', `致命一击率增加 ${critBonus}/16`, critBonus));
+        }
+        return results;
+    }
+}
+exports.CritRateBonusPassive = CritRateBonusPassive;
+/**
+ * 固定致命率 (2045)
+ * 自身所有技能致命一击率固定是1/n
+ * effectArgs: [critDivisor]
+ */
+class FixedCritDivisorPassive extends BaseAtomicEffect_1.BaseAtomicEffect {
+    constructor(params = {}) {
+        super('special', 'FixedCritDivisorPassive', [EffectContext_1.EffectTiming.BEFORE_CRIT_CHECK]);
+    }
+    validate(params) { return true; }
+    execute(context) {
+        const results = [];
+        const critDivisor = context.effectArgs?.[0] || 16;
+        if (critDivisor > 0) {
+            context.critRate = 1 / critDivisor;
+            this.log(`固定致命率: 1/${critDivisor}`, 'info');
+            results.push(this.createResult(true, 'attacker', 'fixed_crit_divisor', `致命一击率固定为 1/${critDivisor}`, critDivisor));
+        }
+        return results;
+    }
+}
+exports.FixedCritDivisorPassive = FixedCritDivisorPassive;
+/**
+ * 异常状态暴击 (2057)
+ * 如果对方存在某异常状态，则自己攻击的致命一击率提高n/16
+ * effectArgs: [statusType, critBonus]
+ */
+class StatusCritBonusPassive extends BaseAtomicEffect_1.BaseAtomicEffect {
+    constructor(params = {}) {
+        super('special', 'StatusCritBonusPassive', [EffectContext_1.EffectTiming.BEFORE_CRIT_CHECK]);
+    }
+    validate(params) { return true; }
+    execute(context) {
+        const results = [];
+        const defender = this.getDefender(context);
+        const statusType = context.effectArgs?.[0] || 0;
+        const critBonus = context.effectArgs?.[1] || 0;
+        const hasStatus = defender.statusDurations && defender.statusDurations[statusType] > 0;
+        if (hasStatus && critBonus > 0) {
+            context.critRateBonus = (context.critRateBonus || 0) + critBonus / 16;
+            this.log(`异常暴击: 对方有状态 ${statusType}, 致命率+${critBonus}/16`, 'info');
+            results.push(this.createResult(true, 'attacker', 'status_crit_bonus', `对方异常状态下致命率增加 ${critBonus}/16`, critBonus, { statusType }));
+        }
+        return results;
+    }
+}
+exports.StatusCritBonusPassive = StatusCritBonusPassive;
+/**
+ * 致命率降低 (2064)
+ * 受到致命一击的概率降低n/16
+ * effectArgs: [critReduce]
+ */
+class CritRateReducePassive extends BaseAtomicEffect_1.BaseAtomicEffect {
+    constructor(params = {}) {
+        super('special', 'CritRateReducePassive', [EffectContext_1.EffectTiming.BEFORE_CRIT_CHECK]);
+    }
+    validate(params) { return true; }
+    execute(context) {
+        const results = [];
+        const critReduce = context.effectArgs?.[0] || 0;
+        if (critReduce > 0) {
+            context.critRateBonus = (context.critRateBonus || 0) - critReduce / 16;
+            this.log(`致命率降低: -${critReduce}/16`, 'info');
+            results.push(this.createResult(true, 'defender', 'crit_rate_reduce', `受到致命一击概率降低 ${critReduce}/16`, critReduce));
+        }
+        return results;
+    }
+}
+exports.CritRateReducePassive = CritRateReducePassive;
+//# sourceMappingURL=CritPassives.js.map

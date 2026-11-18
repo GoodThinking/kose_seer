@@ -1,0 +1,1 @@
+{"version":3,"file":"FightNpcMonsterReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/battle/FightNpcMonsterReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,uBAAwB,SAAQ,SAAS;IAC7C,YAAY,EAAE,MAAM,CAAK;;IAMzB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IASjC,SAAS,IAAI,MAAM;CAG3B"}

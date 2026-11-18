@@ -1,0 +1,1 @@
+{"version":3,"file":"GetDiamondRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/nono/GetDiamondRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAIpD;;;GAGG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IAC/C,YAAY,EAAE,MAAM,CAAK;;IAMzB,SAAS,IAAI,MAAM;IAMnB,eAAe,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI;CAIrC"}

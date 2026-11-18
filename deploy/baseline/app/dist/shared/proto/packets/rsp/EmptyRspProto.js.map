@@ -1,0 +1,1 @@
+{"version":3,"file":"EmptyRspProto.js","sourceRoot":"","sources":["../../../../../src/shared/proto/packets/rsp/EmptyRspProto.ts"],"names":[],"mappings":";;;AAAA,oDAAiD;AAEjD;;;GAGG;AACH,MAAa,aAAc,SAAQ,qBAAS;IAC1C,YAAY,KAAa;QACvB,KAAK,CAAC,KAAK,CAAC,CAAC;IACf,CAAC;IAED,SAAS;QACP,0CAA0C;QAC1C,OAAO,MAAM,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC;IACzB,CAAC;CACF;AATD,sCASC"}

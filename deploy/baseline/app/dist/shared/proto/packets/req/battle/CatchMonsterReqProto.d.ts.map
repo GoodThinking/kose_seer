@@ -1,0 +1,1 @@
+{"version":3,"file":"CatchMonsterReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/battle/CatchMonsterReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;GAEG;AACH,qBAAa,oBAAqB,SAAQ,SAAS;IACjD,MAAM,EAAE,MAAM,CAAK;;IAMnB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,oBAAoB;CAOxD"}

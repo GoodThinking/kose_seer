@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketMailDelete.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Mail/PacketMailDelete.ts"],"names":[],"mappings":"AAAA;;;GAGG;AAEH,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE,qBAAa,gBAAiB,SAAQ,SAAS;IAC7C,OAAO,CAAC,KAAK,CAAS;gBAEV,OAAO,EAAE,OAAO,EAAE,MAAM,EAAE,MAAM;IAQrC,SAAS,IAAI,MAAM;CAG3B"}

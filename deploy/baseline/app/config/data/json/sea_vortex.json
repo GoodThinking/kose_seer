@@ -1,0 +1,24 @@
+{
+  "mapId": 687,
+  "introTaskId": 1247,
+  "command": 9067,
+  "shotsRequired": 3,
+  "shotBounds": {"minX": 238.925, "minY": 388, "maxX": 335.497, "maxY": 442.65},
+  "slots": ["drag", "run", "pk"],
+  "guard": {"petId": 95, "level": 100, "regions": [8, 7]},
+  "rewards": [
+    {"itemId": 400033, "count": 1, "weight": 70},
+    {"petId": 1004, "level": 15, "region": 10, "weight": 40},
+    {"petId": 569, "level": 15, "region": 11, "weight": 30},
+    {"petId": 814, "level": 15, "region": 12, "weight": 25},
+    {"petId": 430, "level": 15, "region": 13, "weight": 20},
+    {"petId": 730, "level": 15, "region": 14, "weight": 10},
+    {"petId": 74, "level": 15, "region": 15, "weight": 5}
+  ],
+  "provenance": {
+    "client": "Reference Task1143 uses task 1247, three head shots, two pirate fights and CHECK_BOSS_SEA 9067; current 687 asset SHA256 50dca60984b7e9d4cd6641fcefda3dbfc08a5105abf28550fb72a3fd62df2d6b",
+    "story": "https://news.7k7k.com/content/20111125/105805.html",
+    "rewards": "https://news.7k7k.com/content/20111126/105924.html",
+    "projectPolicy": "Historical calendar expiry is replaced by permanent availability. The guide's inconsistent percentages sum to 200; this project treats 70/40/30/25/20/10/5 only as relative weights, not official probabilities. Missing rescue levels use the existing map-activity level 15 convention. Pirate guards reuse the existing story pirate species 95 at level 100, not the SPT balance table. Existing encounter probabilities and Boss values stay unchanged."
+  }
+}

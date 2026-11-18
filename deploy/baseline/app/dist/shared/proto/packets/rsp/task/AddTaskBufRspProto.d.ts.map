@@ -1,0 +1,1 @@
+{"version":3,"file":"AddTaskBufRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/task/AddTaskBufRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;;IAKxC,SAAS,IAAI,MAAM;IAInB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;CAGzC"}

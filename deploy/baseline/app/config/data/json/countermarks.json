@@ -1,0 +1,79 @@
+{
+  "pricing": "本服定价",
+  "marks": [
+    {
+      "id": 10001,
+      "name": "微型攻击刻印",
+      "kind": "ability",
+      "price": 1000,
+      "minLevel": 100,
+      "description": "攻击+5",
+      "atk": 5
+    },
+    {
+      "id": 10002,
+      "name": "微型防御刻印",
+      "kind": "ability",
+      "price": 1000,
+      "minLevel": 100,
+      "description": "防御+5",
+      "def": 5
+    },
+    {
+      "id": 10003,
+      "name": "微型特攻刻印",
+      "kind": "ability",
+      "price": 1000,
+      "minLevel": 100,
+      "description": "特攻+5",
+      "spAtk": 5
+    },
+    {
+      "id": 10004,
+      "name": "微型特防刻印",
+      "kind": "ability",
+      "price": 1000,
+      "minLevel": 100,
+      "description": "特防+5",
+      "spDef": 5
+    },
+    {
+      "id": 10005,
+      "name": "微型速度刻印",
+      "kind": "ability",
+      "price": 1000,
+      "minLevel": 100,
+      "description": "速度+3",
+      "speed": 3
+    },
+    {
+      "id": 10006,
+      "name": "微型体力刻印",
+      "kind": "ability",
+      "price": 1000,
+      "minLevel": 100,
+      "description": "体力+10",
+      "hp": 10
+    },
+    {
+      "id": 20001,
+      "name": "撞击刻印",
+      "kind": "skill",
+      "price": 3000,
+      "minLevel": 100,
+      "description": "撞击先制+1",
+      "moveId": 10001,
+      "priority": 1
+    },
+    {
+      "id": 20002,
+      "name": "电光火石刻印",
+      "kind": "skill",
+      "price": 3000,
+      "minLevel": 100,
+      "description": "电光火石威力+15",
+      "moveId": 10008,
+      "power": 15
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketBlackAdd.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Friend/PacketBlackAdd.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,cAAe,SAAQ,SAAS;IAC3C,OAAO,CAAC,KAAK,CAAS;gBAEV,MAAM,GAAE,MAAU;IAYvB,SAAS,IAAI,MAAM;CAG3B"}

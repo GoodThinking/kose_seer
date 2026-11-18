@@ -1,0 +1,6495 @@
+{
+  "description": "经典场景按逐图来源名单校正，任务、兑换精灵不填普通池；林间保留原生蘑菇怪和依依特殊交互；等级、常规地图数量及原创宇宙配置沿用本服设定。",
+  "globalSettings": {
+    "defaultShinyRate": 0.05,
+    "defaultRefreshInterval": 10,
+    "comment": "闪光目标占比5%，实际概率由各地图weight占比决定；进图或清空野怪重抽，不按defaultRefreshInterval定时刷新"
+  },
+  "maps": {
+    "10": {
+      "name": "克洛斯星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 10,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 2,
+          "maxLevel": 7,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400004,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "皮皮"
+        },
+        {
+          "slot": 1,
+          "petId": 164,
+          "shiny": 1,
+          "weight": 1.12,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.05,
+            "shinyPetId": -1
+          },
+          "minLevel": 2,
+          "maxLevel": 7,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "闪光皮皮"
+        }
+      ]
+    },
+    "11": {
+      "name": "克洛斯星沼泽",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 16,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 4,
+          "maxLevel": 9,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400005,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "仙人球"
+        },
+        {
+          "slot": 1,
+          "petId": 27,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 4,
+          "maxLevel": 9,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小豆芽"
+        }
+      ]
+    },
+    "12": {
+      "name": "克洛斯星林间",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "13": {
+      "name": "克洛斯星地心",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 348,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 9,
+          "maxLevel": 14,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小犬苗"
+        },
+        {
+          "slot": 1,
+          "petId": 480,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 9,
+          "maxLevel": 14,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "埃尔特"
+        }
+      ]
+    },
+    "15": {
+      "name": "火山星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 38,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 4,
+          "maxLevel": 9,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400007,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "火炎贝"
+        }
+      ]
+    },
+    "16": {
+      "name": "火山星山洞",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 35,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 11,
+          "maxLevel": 16,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400030,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "吉尔"
+        },
+        {
+          "slot": 1,
+          "petId": 133,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 11,
+          "maxLevel": 16,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "巴多"
+        }
+      ]
+    },
+    "17": {
+      "name": "火山星山洞深处",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 335,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 12,
+          "maxLevel": 17,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "赤甲虫"
+        }
+      ]
+    },
+    "20": {
+      "name": "海洋星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 30,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 3,
+          "maxLevel": 8,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400006,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "贝尔"
+        }
+      ]
+    },
+    "21": {
+      "name": "海洋星深水区",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 33,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 13,
+          "maxLevel": 18,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400029,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "利牙鱼"
+        }
+      ]
+    },
+    "22": {
+      "name": "海洋星海底",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 198,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 10,
+          "maxLevel": 15,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小鳍鱼"
+        }
+      ]
+    },
+    "25": {
+      "name": "云霄星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 22,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 3,
+          "maxLevel": 8,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400004,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "毛毛"
+        },
+        {
+          "slot": 1,
+          "petId": 53,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 3,
+          "maxLevel": 8,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "莫比"
+        }
+      ]
+    },
+    "26": {
+      "name": "云霄星高空层",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 25,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 6,
+          "maxLevel": 11,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400028,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "幽浮"
+        }
+      ]
+    },
+    "27": {
+      "name": "云霄星最高层",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 249,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 8,
+          "maxLevel": 13,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "浮空苗"
+        }
+      ]
+    },
+    "30": {
+      "name": "赫尔卡星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 13,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 5,
+          "maxLevel": 10,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400008,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "比比鼠"
+        }
+      ]
+    },
+    "31": {
+      "name": "赫尔卡星遗迹",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 43,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 7,
+          "maxLevel": 12,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "罗奇"
+        },
+        {
+          "slot": 1,
+          "petId": 19,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 7,
+          "maxLevel": 12,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "利利"
+        },
+        {
+          "slot": 2,
+          "petId": 284,
+          "shiny": 1,
+          "weight": 17.79,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.05,
+            "shinyPetId": -1
+          },
+          "minLevel": 7,
+          "maxLevel": 12,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "闪光利利"
+        },
+        {
+          "slot": 3,
+          "petId": 74,
+          "shiny": 0,
+          "weight": 18,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 7,
+          "maxLevel": 12,
+          "level": null,
+          "expReward": 120,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "果冻鸭"
+        }
+      ]
+    },
+    "32": {
+      "name": "赫尔卡星荒地",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 13,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 5,
+          "maxLevel": 10,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400008,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "比比鼠"
+        },
+        {
+          "slot": 1,
+          "petId": 16,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 5,
+          "maxLevel": 10,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400005,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "仙人球"
+        }
+      ]
+    },
+    "36": {
+      "name": "精灵圣殿",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 145,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 18,
+          "maxLevel": 23,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "吉斯"
+        }
+      ]
+    },
+    "40": {
+      "name": "塞西利亚星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 116,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 6,
+          "maxLevel": 11,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "卡卡"
+        }
+      ]
+    },
+    "41": {
+      "name": "寒冰溶洞",
+      "spawnCount": 1,
+      "randomCount": false,
+      "minCount": 1,
+      "maxCount": 1,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 65,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 7,
+          "maxLevel": 12,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "林克"
+        }
+      ],
+      "spawnProbability": 0.05
+    },
+    "43": {
+      "name": "赫尔卡飞船",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 51,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 19,
+          "maxLevel": 24,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400003,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "玄冰兽"
+        }
+      ]
+    },
+    "45": {
+      "name": "流火之地",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "46": {
+      "name": "海盗能源站",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 97,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 14,
+          "maxLevel": 19,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "鲁克"
+        }
+      ]
+    },
+    "47": {
+      "name": "双子贝塔星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 119,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 8,
+          "maxLevel": 13,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400032,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "莱尼"
+        }
+      ]
+    },
+    "48": {
+      "name": "海盗要塞废墟",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 184,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 14,
+          "maxLevel": 19,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "古鲁"
+        }
+      ]
+    },
+    "49": {
+      "name": "贝塔星荒原",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 105,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 10,
+          "maxLevel": 15,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400031,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "丁格"
+        }
+      ]
+    },
+    "51": {
+      "name": "斯诺星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 385,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 13,
+          "maxLevel": 18,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "基摩"
+        }
+      ]
+    },
+    "52": {
+      "name": "斯诺星密林",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 156,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 15,
+          "maxLevel": 20,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "迪度"
+        },
+        {
+          "slot": 1,
+          "petId": 158,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 15,
+          "maxLevel": 20,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "托尼"
+        }
+      ]
+    },
+    "54": {
+      "name": "露希欧星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 699,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 15,
+          "maxLevel": 20,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "瑞特"
+        }
+      ]
+    },
+    "55": {
+      "name": "露希欧泥潭",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 208,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 9,
+          "maxLevel": 14,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "火晶兽"
+        },
+        {
+          "slot": 1,
+          "petId": 203,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 9,
+          "maxLevel": 14,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "晶岩兽"
+        }
+      ]
+    },
+    "56": {
+      "name": "NoNo之洋",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 211,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 17,
+          "maxLevel": 22,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400034,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "水草蛙"
+        }
+      ]
+    },
+    "57": {
+      "name": "尼古尔星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 235,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 28,
+          "maxLevel": 33,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "米隆"
+        }
+      ]
+    },
+    "58": {
+      "name": "尼古尔峭壁",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 228,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 31,
+          "maxLevel": 36,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "查斯"
+        }
+      ]
+    },
+    "60": {
+      "name": "塔克星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 232,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 27,
+          "maxLevel": 32,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400038,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "伊娃"
+        }
+      ]
+    },
+    "61": {
+      "name": "光之迷城",
+      "spawnCount": 1,
+      "randomCount": false,
+      "minCount": 1,
+      "maxCount": 1,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 237,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 26,
+          "maxLevel": 31,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "吉宝"
+        }
+      ],
+      "spawnProbability": 0.05
+    },
+    "62": {
+      "name": "暗之迷城",
+      "spawnCount": 1,
+      "randomCount": false,
+      "minCount": 1,
+      "maxCount": 1,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 240,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 26,
+          "maxLevel": 31,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "斯内克"
+        }
+      ],
+      "spawnProbability": 0.05
+    },
+    "64": {
+      "name": "沙漠窑洞",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 257,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 30,
+          "maxLevel": 35,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "埃闻"
+        }
+      ]
+    },
+    "71": {
+      "name": "精灵狂欢乐园",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "80": {
+      "name": "竹林深处",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "81": {
+      "name": "昨天的发明室",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "86": {
+      "name": "冰火岛",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "91": {
+      "name": "机械迷城",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "105": {
+      "name": "双子阿尔法星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 89,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 12,
+          "maxLevel": 17,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400030,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "迪达"
+        }
+      ]
+    },
+    "106": {
+      "name": "阿尔法星岩地",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 188,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 16,
+          "maxLevel": 21,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400037,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "加格"
+        }
+      ]
+    },
+    "313": {
+      "name": "闭锁空间",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 59,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 19,
+          "maxLevel": 24,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "西塔"
+        },
+        {
+          "slot": 1,
+          "petId": 102,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 19,
+          "maxLevel": 24,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "奇塔"
+        }
+      ]
+    },
+    "314": {
+      "name": "拜伦号",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 831,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 18,
+          "maxLevel": 23,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "隐形蝶"
+        }
+      ]
+    },
+    "315": {
+      "name": "神秘空间",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 128,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 16,
+          "maxLevel": 21,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400039,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "波古"
+        }
+      ]
+    },
+    "316": {
+      "name": "精灵舱",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 136,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 17,
+          "maxLevel": 22,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "卢比"
+        }
+      ]
+    },
+    "323": {
+      "name": "拉姆世界丛林",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 252,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 20,
+          "maxLevel": 25,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "嘟噜噜"
+        },
+        {
+          "slot": 1,
+          "petId": 254,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 20,
+          "maxLevel": 25,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "嘟咕噜"
+        }
+      ]
+    },
+    "325": {
+      "name": "艾迪星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 265,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 28,
+          "maxLevel": 33,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "帕尼"
+        }
+      ]
+    },
+    "326": {
+      "name": "暮色之城",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 267,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 29,
+          "maxLevel": 34,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "乌凯"
+        }
+      ]
+    },
+    "327": {
+      "name": "虚幻的地下城市",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 278,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 30,
+          "maxLevel": 35,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "沙顿"
+        }
+      ]
+    },
+    "328": {
+      "name": "斯科尔星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 291,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 32,
+          "maxLevel": 37,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "弗曼"
+        }
+      ]
+    },
+    "329": {
+      "name": "潘迪拉宝盒",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 100,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 25,
+          "maxLevel": 30,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "卡西"
+        }
+      ]
+    },
+    "330": {
+      "name": "斯科尔浮岛",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 293,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 32,
+          "maxLevel": 37,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "迷你芽"
+        },
+        {
+          "slot": 1,
+          "petId": 422,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 32,
+          "maxLevel": 37,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "里昂"
+        }
+      ]
+    },
+    "331": {
+      "name": "斯科尔高空塔",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 344,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 33,
+          "maxLevel": 38,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "幼镰鸟"
+        }
+      ]
+    },
+    "333": {
+      "name": "普雷空间站",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "petId": 394,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 35,
+          "maxLevel": 40,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 0,
+          "petName": "嗡嗡茧"
+        }
+      ]
+    },
+    "334": {
+      "name": "几米塔",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 373,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 34,
+          "maxLevel": 39,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "莫顿"
+        }
+      ]
+    },
+    "337": {
+      "name": "组队野怪场景-宿主岩",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "petId": 377,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 76,
+          "maxLevel": 76,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 1
+        }
+      ]
+    },
+    "338": {
+      "name": "哈默星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 399,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 34,
+          "maxLevel": 39,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            },
+            {
+              "itemId": 400040,
+              "dropRate": 0.45,
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "isBoss": false,
+          "petName": "萨拉"
+        }
+      ]
+    },
+    "343": {
+      "name": "组队野怪场景-杰拉德",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "petId": 398,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 86,
+          "maxLevel": 86,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 1
+        }
+      ]
+    },
+    "356": {
+      "name": "未来星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 840,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 37,
+          "maxLevel": 42,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "牛牛"
+        }
+      ]
+    },
+    "400": {
+      "name": "时空裂缝",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 56,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 35,
+          "maxLevel": 40,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "奇洛"
+        },
+        {
+          "slot": 1,
+          "petId": 139,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 35,
+          "maxLevel": 40,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "迪卢卡"
+        },
+        {
+          "slot": 2,
+          "petId": 150,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 35,
+          "maxLevel": 40,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "查克"
+        }
+      ]
+    },
+    "404": {
+      "name": "比格星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 491,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 41,
+          "maxLevel": 46,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "洛洛斯"
+        }
+      ]
+    },
+    "411": {
+      "name": "陨石地带",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 463,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 39,
+          "maxLevel": 44,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "鲁格洛"
+        }
+      ]
+    },
+    "423": {
+      "name": "沃尔夫洞穴",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "424": {
+      "name": "空间补给站",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 494,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 40,
+          "maxLevel": 45,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "卡丹"
+        }
+      ]
+    },
+    "425": {
+      "name": "时空罗盘",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 499,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 40,
+          "maxLevel": 45,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "阿零"
+        }
+      ]
+    },
+    "429": {
+      "name": "拓梯星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 523,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 42,
+          "maxLevel": 47,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "咕咕芽"
+        }
+      ]
+    },
+    "432": {
+      "name": "精灵欢乐谷",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 544,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 36,
+          "maxLevel": 41,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "水球"
+        }
+      ]
+    },
+    "434": {
+      "name": "格雷深湖",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 847,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 38,
+          "maxLevel": 43,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "蓝壳蟹"
+        }
+      ]
+    },
+    "435": {
+      "name": "戴斯星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 547,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 43,
+          "maxLevel": 48,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "紫炎虫"
+        }
+      ]
+    },
+    "437": {
+      "name": "墨杜萨星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 553,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 44,
+          "maxLevel": 49,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "丫丫"
+        }
+      ]
+    },
+    "438": {
+      "name": "石化之城",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 827,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 45,
+          "maxLevel": 50,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "尖嘴鸟"
+        }
+      ]
+    },
+    "439": {
+      "name": "海兹尔星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 3,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 557,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 45,
+          "maxLevel": 50,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "波伦"
+        }
+      ]
+    },
+    "445": {
+      "name": "炫彩山山脚",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 766,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 49,
+          "maxLevel": 54,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "多特"
+        }
+      ]
+    },
+    "446": {
+      "name": "炫彩山岩",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 773,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 46,
+          "maxLevel": 51,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "亚丁"
+        }
+      ]
+    },
+    "447": {
+      "name": "云水洞",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 785,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 46,
+          "maxLevel": 51,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "汐汐"
+        }
+      ]
+    },
+    "448": {
+      "name": "海盗深度研究所",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 791,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 47,
+          "maxLevel": 52,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "杜尔"
+        }
+      ]
+    },
+    "449": {
+      "name": "炫彩山",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 801,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 47,
+          "maxLevel": 52,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "马修"
+        }
+      ]
+    },
+    "451": {
+      "name": "黑色星球",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 805,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 47,
+          "maxLevel": 52,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "吉嘟"
+        }
+      ]
+    },
+    "453": {
+      "name": "黯夜地穴",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 822,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 49,
+          "maxLevel": 54,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小蜘蛛"
+        }
+      ]
+    },
+    "454": {
+      "name": "格雷大峡谷",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 827,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 49,
+          "maxLevel": 54,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "尖嘴鸟"
+        }
+      ]
+    },
+    "455": {
+      "name": "黯夜广场",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 842,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 50,
+          "maxLevel": 55,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "托特"
+        }
+      ]
+    },
+    "459": {
+      "name": "菲尔纳星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 3,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 574,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 48,
+          "maxLevel": 53,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "克里"
+        }
+      ]
+    },
+    "460": {
+      "name": "赫鲁卡星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 3,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 574,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 53,
+          "maxLevel": 58,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "克里"
+        }
+      ]
+    },
+    "462": {
+      "name": "赫鲁卡地穴",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 3,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 576,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 53,
+          "maxLevel": 58,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "德普"
+        },
+        {
+          "slot": 1,
+          "petId": 574,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 53,
+          "maxLevel": 58,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "克里"
+        }
+      ]
+    },
+    "476": {
+      "name": "SUN星球第二场景",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 742,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 50,
+          "maxLevel": 55,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "莱克"
+        }
+      ]
+    },
+    "478": {
+      "name": "黑色洞穴",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 764,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 51,
+          "maxLevel": 56,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "依乐"
+        }
+      ]
+    },
+    "481": {
+      "name": "般若星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 3,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 690,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 45,
+          "maxLevel": 50,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "泰达"
+        }
+      ]
+    },
+    "484": {
+      "name": "怀特星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 706,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 54,
+          "maxLevel": 59,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "拉利"
+        }
+      ]
+    },
+    "486": {
+      "name": "怀特矿场",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 716,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 54,
+          "maxLevel": 59,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "康康"
+        }
+      ]
+    },
+    "494": {
+      "name": "麦兹星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 732,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 55,
+          "maxLevel": 60,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "蒙多"
+        }
+      ]
+    },
+    "495": {
+      "name": "地底古迹",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 755,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 85,
+          "maxLevel": 91,
+          "level": 80,
+          "expReward": 2500,
+          "catchRate": 0,
+          "expMultiplier": 1,
+          "catchable": false,
+          "dropItems": [],
+          "isBoss": true
+        }
+      ]
+    },
+    "496": {
+      "name": "麦兹迷境",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 732,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 51,
+          "maxLevel": 56,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "蒙多"
+        }
+      ]
+    },
+    "497": {
+      "name": "SUN星",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 738,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 55,
+          "maxLevel": 60,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "哈喽"
+        }
+      ]
+    },
+    "505": {
+      "name": "暗黑武斗场第三扇门",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "506": {
+      "name": "暗黑武斗场第四扇门",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "507": {
+      "name": "暗黑武斗场第五扇门",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "667": {
+      "name": "牛奶基地",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 852,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 51,
+          "maxLevel": 56,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "妙妙"
+        }
+      ]
+    },
+    "669": {
+      "name": "异能星第二场景",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 884,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 52,
+          "maxLevel": 57,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "达迪拉"
+        }
+      ]
+    },
+    "670": {
+      "name": "未来星第三场景",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 891,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 52,
+          "maxLevel": 57,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "克米尔"
+        }
+      ]
+    },
+    "671": {
+      "name": "异能冰窟",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 893,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 53,
+          "maxLevel": 58,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "艾特"
+        }
+      ]
+    },
+    "673": {
+      "name": "靓号专用地图",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 2,
+          "petId": 509,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 50,
+          "maxLevel": 56,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false
+        }
+      ]
+    },
+    "679": {
+      "name": "梦境之旅(恶梦)",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "petId": 558,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 76,
+          "maxLevel": 76,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 4
+        },
+        {
+          "petId": 548,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 76,
+          "maxLevel": 76,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 5
+        },
+        {
+          "petId": 229,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 76,
+          "maxLevel": 76,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 6
+        },
+        {
+          "petId": 241,
+          "shiny": 0,
+          "weight": 1,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 76,
+          "maxLevel": 76,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "slot": 7
+        }
+      ]
+    },
+    "691": {
+      "name": "斯诺秘洞",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1020,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 57,
+          "maxLevel": 62,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小雪球"
+        }
+      ]
+    },
+    "692": {
+      "name": "暗物质神殿",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1022,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 64,
+          "maxLevel": 69,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "黑格"
+        }
+      ]
+    },
+    "693": {
+      "name": "拉珀尔仙境",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 3,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1048,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 48,
+          "maxLevel": 53,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "伊尔"
+        }
+      ]
+    },
+    "694": {
+      "name": "新泽部落",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1056,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 57,
+          "maxLevel": 62,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小岩怪"
+        }
+      ]
+    },
+    "696": {
+      "name": "结晶岩洞",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1046,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 58,
+          "maxLevel": 63,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "纳克"
+        }
+      ]
+    },
+    "704": {
+      "name": "熔岩大地",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1094,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 58,
+          "maxLevel": 63,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "列特"
+        }
+      ]
+    },
+    "706": {
+      "name": "石源密林",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1100,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 58,
+          "maxLevel": 63,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "阿凯"
+        }
+      ]
+    },
+    "708": {
+      "name": "黑风崖",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1112,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 59,
+          "maxLevel": 64,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "森卡尔"
+        }
+      ]
+    },
+    "709": {
+      "name": "巨石营地",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1118,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 59,
+          "maxLevel": 64,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "安普"
+        }
+      ]
+    },
+    "712": {
+      "name": "水月洞壁",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1135,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 55,
+          "maxLevel": 60,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "沃沃尔"
+        }
+      ]
+    },
+    "713": {
+      "name": "烟水迷阵",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1139,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 55,
+          "maxLevel": 60,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "朵莉"
+        }
+      ]
+    },
+    "717": {
+      "name": "雾气石林",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1135,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 57,
+          "maxLevel": 62,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "沃沃尔"
+        }
+      ]
+    },
+    "718": {
+      "name": "翡翠山谷",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1150,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 56,
+          "maxLevel": 61,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "努努"
+        }
+      ]
+    },
+    "721": {
+      "name": "云层之径",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1157,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 60,
+          "maxLevel": 65,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小尾蝶"
+        }
+      ]
+    },
+    "725": {
+      "name": "蘑菇洞窟",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1172,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 60,
+          "maxLevel": 65,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "阿彩"
+        }
+      ]
+    },
+    "731": {
+      "name": "米娜村落",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1193,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 60,
+          "maxLevel": 65,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "小瑞"
+        }
+      ]
+    },
+    "732": {
+      "name": "海盗集中营",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1209,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 61,
+          "maxLevel": 66,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "道尔"
+        }
+      ]
+    },
+    "736": {
+      "name": "幻梦迷境",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1243,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 63,
+          "maxLevel": 68,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "杰特"
+        }
+      ]
+    },
+    "744": {
+      "name": "恶魔旋涡",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1253,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 65,
+          "maxLevel": 70,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "吉瓦"
+        }
+      ]
+    },
+    "748": {
+      "name": "天空之门",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1269,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 61,
+          "maxLevel": 66,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "霍克"
+        }
+      ]
+    },
+    "750": {
+      "name": "幽暗迷宫",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1273,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 62,
+          "maxLevel": 67,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "卡斯奇"
+        }
+      ]
+    },
+    "759": {
+      "name": "落日泥沼",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1293,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 62,
+          "maxLevel": 67,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "可嘟"
+        }
+      ]
+    },
+    "782": {
+      "name": "九霄魔神殿",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 764,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 65,
+          "maxLevel": 70,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "依乐"
+        }
+      ]
+    },
+    "787": {
+      "name": "南瓜墓场",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1386,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 62,
+          "maxLevel": 67,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "加里"
+        }
+      ]
+    },
+    "793": {
+      "name": "梦幻空间",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1423,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 63,
+          "maxLevel": 68,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "玛尔科"
+        }
+      ]
+    },
+    "797": {
+      "name": "美食工坊",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1444,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0.08,
+            "shinyPetId": -1
+          },
+          "minLevel": 63,
+          "maxLevel": 68,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [
+            {
+              "itemId": 300001,
+              "dropRate": 0.1,
+              "minCount": 1,
+              "maxCount": 2
+            }
+          ],
+          "isBoss": false,
+          "petName": "安科"
+        }
+      ]
+    },
+    "811": {
+      "name": "幽冥沙海",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "817": {
+      "name": "积木城",
+      "spawnCount": 0,
+      "randomCount": false,
+      "minCount": 0,
+      "maxCount": 0,
+      "ogres": []
+    },
+    "925": {
+      "name": "巨石岛",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1090,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 64,
+          "maxLevel": 69,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "吉塔"
+        }
+      ]
+    },
+    "926": {
+      "name": "浅滩海岛",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": [
+        {
+          "slot": 0,
+          "petId": 1112,
+          "shiny": 0,
+          "weight": 100,
+          "refreshConfig": {
+            "enabled": true,
+            "refreshInterval": 10,
+            "refreshOnEmpty": false,
+            "refreshAtNight": true,
+            "refreshAtDay": true,
+            "startTime": "00:00",
+            "endTime": "23:59",
+            "useInterval": true,
+            "useSchedule": false,
+            "scheduleTime": [],
+            "shinyRate": 0,
+            "shinyPetId": -1
+          },
+          "minLevel": 56,
+          "maxLevel": 61,
+          "level": null,
+          "expReward": 100,
+          "catchRate": 1,
+          "expMultiplier": 1,
+          "catchable": true,
+          "dropItems": [],
+          "isBoss": false,
+          "petName": "森卡尔"
+        }
+      ]
+    },
+    "9507": {
+      "name": "光明圣坛",
+      "spawnCount": 4,
+      "randomCount": true,
+      "minCount": 2,
+      "maxCount": 4,
+      "ogres": []
+    },
+    "9508": {
+      "name": "帕诺星系擂台",
+      "spawnCount": 0,
+      "ogres": []
+    },
+    "9509": {
+      "name": "卡兰星系擂台",
+      "spawnCount": 0,
+      "ogres": []
+    },
+    "9510": {
+      "name": "罗格星系擂台",
+      "spawnCount": 0,
+      "ogres": []
+    }
+  }
+}

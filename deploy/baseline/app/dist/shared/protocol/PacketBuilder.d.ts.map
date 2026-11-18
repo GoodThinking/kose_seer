@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketBuilder.d.ts","sourceRoot":"","sources":["../../../src/shared/protocol/PacketBuilder.ts"],"names":[],"mappings":"AAMA,qBAAa,aAAa;IACxB,OAAO,CAAC,QAAQ,CAAS;IACzB,OAAO,CAAC,WAAW,CAAS;gBAEhB,OAAO,GAAE,MAAY;IAM1B,KAAK,CAAC,KAAK,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,EAAE,IAAI,CAAC,EAAE,MAAM,GAAG,MAAM;CA4DnF"}

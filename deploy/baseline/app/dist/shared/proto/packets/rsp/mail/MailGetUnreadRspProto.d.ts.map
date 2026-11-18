@@ -1,0 +1,1 @@
+{"version":3,"file":"MailGetUnreadRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/mail/MailGetUnreadRspProto.ts"],"names":[],"mappings":"AAAA;;;;;GAKG;AAEH,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD,qBAAa,qBAAsB,SAAQ,SAAS;IAC3C,KAAK,EAAE,MAAM,CAAK;;IAMlB,SAAS,IAAI,MAAM;CAK3B"}

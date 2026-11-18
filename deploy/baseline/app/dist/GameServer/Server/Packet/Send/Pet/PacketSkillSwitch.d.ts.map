@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketSkillSwitch.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Pet/PacketSkillSwitch.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,iBAAkB,SAAQ,SAAS;IAC9C,OAAO,CAAC,KAAK,CAAS;gBAEV,KAAK,EAAE,MAAM;IAOlB,SAAS,IAAI,MAAM;IAInB,WAAW,CAAC,OAAO,EAAE,MAAM,GAAG,IAAI;CAG1C"}

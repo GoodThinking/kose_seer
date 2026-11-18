@@ -1,0 +1,1 @@
+{"version":3,"file":"ChallengeBossReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/battle/ChallengeBossReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,qBAAsB,SAAQ,SAAS;IAC3C,MAAM,EAAE,MAAM,CAAK;;IAMnB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAQjC,SAAS,IAAI,MAAM;CAU3B"}

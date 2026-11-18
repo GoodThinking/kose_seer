@@ -1,0 +1,9 @@
+{
+  "sourceNotes": "Map 686, fruit 300451 and original request IDs 2277/2278 follow this project's reference client. Original fruit odds and consumption are unverified. Use the current project's material-sources.dropProbability, one fruit per successful attempt, no daily quota, a two-second attempt cooldown matching the native animation, and possession-based weak-Boss eligibility. No Boss stats are supplied here.",
+  "mapId": 686,
+  "fireFruit": { "itemId": 300451, "count": 1, "cooldownSeconds": 2 },
+  "bosses": [
+    { "mapId": 684, "petId": 997, "name": "皮特萨罗", "regions": [0] },
+    { "mapId": 686, "petId": 1012, "name": "暗夜冰狐", "regions": [0, 1], "fruitRegion": 1 }
+  ]
+}

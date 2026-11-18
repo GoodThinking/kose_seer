@@ -1,0 +1,1 @@
+{"version":3,"file":"CreateRoleRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/login/CreateRoleRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAIpD;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IAC/C,OAAO,EAAE,MAAM,CAAoB;;IAMnC,SAAS,IAAI,MAAM;IAMnB;;OAEG;IACH,UAAU,CAAC,UAAU,EAAE,MAAM,GAAG,SAAS,GAAG,IAAI;CAMjD"}

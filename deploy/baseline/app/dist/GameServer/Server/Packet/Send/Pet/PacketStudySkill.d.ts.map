@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketStudySkill.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Pet/PacketStudySkill.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,gBAAiB,SAAQ,SAAS;IAC7C,OAAO,CAAC,KAAK,CAAS;;IAQf,SAAS,IAAI,MAAM;IAInB,WAAW,CAAC,OAAO,EAAE,MAAM,GAAG,IAAI;CAG1C"}

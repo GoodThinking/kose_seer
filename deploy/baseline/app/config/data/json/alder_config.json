@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "mapId": 677,
+  "trials": [
+    {
+      "doorIndex": 1,
+      "name": "力量试炼",
+      "level": 80,
+      "hp": 2000,
+      "startStages": [
+        2,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      "priority": 6,
+      "statClearImmune": true,
+      "skills": [
+        12264,
+        12260,
+        21171,
+        21172
+      ]
+    },
+    {
+      "doorIndex": 2,
+      "name": "智慧试炼",
+      "level": 100,
+      "hp": 10000,
+      "skills": [
+        12264,
+        12263,
+        12260,
+        21172
+      ],
+      "stealStats": true
+    },
+    {
+      "doorIndex": 3,
+      "name": "勇气试炼",
+      "level": 100,
+      "hp": 10000,
+      "damageCap": 100,
+      "skills": [
+        12264,
+        12260,
+        21171,
+        21172
+      ]
+    },
+    {
+      "doorIndex": 4,
+      "name": "正义试炼",
+      "level": 100,
+      "hp": 10000,
+      "turnStatus": true,
+      "skills": [
+        12264,
+        12260,
+        21172,
+        12263
+      ]
+    },
+    {
+      "doorIndex": 5,
+      "name": "仁慈试炼",
+      "level": 100,
+      "hp": 10000,
+      "lifesteal": true,
+      "skills": [
+        12264,
+        12260,
+        21171,
+        21173
+      ]
+    },
+    {
+      "doorIndex": 6,
+      "name": "坚韧试炼",
+      "level": 100,
+      "hp": 10000,
+      "healPerTurn": 500,
+      "skills": [
+        12264,
+        12263,
+        21171,
+        21173
+      ]
+    }
+  ],
+  "trueForm": {
+    "doorIndex": 7,
+    "name": "奥尔德真身",
+    "lives": [
+      {
+        "hp": 2000,
+        "startStages": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "priority": 6,
+        "skills": [
+          12264,
+          12260,
+          21171,
+          21172
+        ]
+      },
+      {
+        "hp": 8000,
+        "stealStats": true,
+        "skills": [
+          12264,
+          12263,
+          12260,
+          21172
+        ]
+      },
+      {
+        "hp": 20000,
+        "turnStatus": true,
+        "skills": [
+          12264,
+          12260,
+          21172,
+          12263
+        ]
+      },
+      {
+        "hp": 12000,
+        "lifesteal": true,
+        "infinitePP": true,
+        "skills": [
+          12264,
+          12260,
+          21173,
+          12263
+        ]
+      },
+      {
+        "hp": 50000,
+        "stealStats": true,
+        "infinitePP": true,
+        "instantKillImmune": true,
+        "ppCostMultiplier": 2,
+        "skills": [
+          12264,
+          12260,
+          12263,
+          21171,
+          21172,
+          21173
+        ]
+      }
+    ]
+  }
+}

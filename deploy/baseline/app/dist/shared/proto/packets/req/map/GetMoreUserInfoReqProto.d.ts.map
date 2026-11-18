@@ -1,0 +1,1 @@
+{"version":3,"file":"GetMoreUserInfoReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/map/GetMoreUserInfoReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,uBAAwB,SAAQ,SAAS;IAC7C,QAAQ,EAAE,MAAM,CAAK;;IAMrB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAMjC,SAAS,IAAI,MAAM;CAK3B"}

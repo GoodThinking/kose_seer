@@ -1,0 +1,1 @@
+{"version":3,"file":"PetSkillSwitchRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/pet/PetSkillSwitchRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAIpD;;GAEG;AACH,qBAAa,sBAAuB,SAAQ,SAAS;IACnD,KAAK,EAAE,MAAM,CAAK;;IAMlB,SAAS,IAAI,MAAM;IAOnB,QAAQ,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI;CAI9B"}

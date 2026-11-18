@@ -1,0 +1,1 @@
+{"version":3,"file":"LeaveMapReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/map/LeaveMapReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,gBAAiB,SAAQ,SAAS;IACtC,KAAK,EAAE,MAAM,CAAK;IAClB,OAAO,EAAE,MAAM,CAAK;;IAMpB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAUjC,SAAS,IAAI,MAAM;CAM3B"}

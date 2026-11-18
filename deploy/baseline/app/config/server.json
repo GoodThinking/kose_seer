@@ -1,0 +1,61 @@
+{
+  "services": {
+    "game": {
+      "enabled": true,
+      "port": 9999,
+      "host": "127.0.0.1",
+      "defaultSuperNono": true,
+      "cumulativePetExperience": true
+    },
+    "regist": {
+      "enabled": true,
+      "mode": "invite"
+    },
+    "email": {
+      "enabled": false
+    },
+    "gm": {
+      "enabled": false,
+      "port": 3002,
+      "host": "127.0.0.1",
+      "localMode": false
+    },
+    "proxy": {
+      "enabled": false,
+      "listenPort": 9000,
+      "listenHost": "127.0.0.1",
+      "webPort": 8080,
+      "loginServer": {
+        "host": "127.0.0.1",
+        "port": 9999
+      },
+      "gameServer": {
+        "host": "127.0.0.1",
+        "port": 27777
+      }
+    }
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "data/seer.db",
+    "options": {
+      "verbose": false
+    }
+  },
+  "redis": {
+    "enabled": false,
+    "host": "127.0.0.1",
+    "port": 6379,
+    "db": 0
+  },
+  "logging": {
+    "level": "warn",
+    "directory": "logs",
+    "maxFiles": 30
+  },
+  "security": {
+    "sessionTimeout": 3600,
+    "maxLoginAttempts": 5,
+    "lockoutDuration": 300
+  }
+}

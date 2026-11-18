@@ -1,0 +1,1 @@
+{"name":"seer-client-compatibility-lab","private":true,"version":"0.1.0","scripts":{"start":"node server.cjs"},"dependencies":{"@ruffle-rs/ruffle":"0.7.1","ws":"8.18.3"}}

@@ -1,0 +1,1 @@
+{"version":3,"file":"GetPetSkillReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/pet/GetPetSkillReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;;GAGG;AACH,qBAAa,mBAAoB,SAAQ,SAAS;IACzC,SAAS,EAAE,MAAM,CAAK;IAEtB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAKjC,SAAS,IAAI,MAAM;CAG3B"}

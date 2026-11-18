@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketMapBoss.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Map/PacketMapBoss.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAEvE,OAAO,EAAmB,SAAS,EAAE,MAAM,6DAA6D,CAAC;AAEzG;;GAEG;AACH,qBAAa,aAAc,SAAQ,SAAS;IAC1C,OAAO,CAAC,KAAK,CAAS;gBAEV,MAAM,EAAE,SAAS,EAAE;IAS/B,SAAS,IAAI,MAAM;CAGpB"}

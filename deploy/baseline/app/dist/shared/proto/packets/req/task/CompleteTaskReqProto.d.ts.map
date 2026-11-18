@@ -1,0 +1,1 @@
+{"version":3,"file":"CompleteTaskReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/task/CompleteTaskReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,oBAAqB,SAAQ,SAAS;IAC1C,MAAM,EAAE,MAAM,CAAK;IACnB,KAAK,EAAE,MAAM,CAAK;;IAMlB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAWjC,SAAS,IAAI,MAAM;CAG3B"}

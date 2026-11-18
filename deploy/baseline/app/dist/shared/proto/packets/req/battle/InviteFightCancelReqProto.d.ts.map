@@ -1,0 +1,1 @@
+{"version":3,"file":"InviteFightCancelReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/battle/InviteFightCancelReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,yBAA0B,SAAQ,SAAS;IACtD,YAAY,EAAE,MAAM,CAAK;;IAMzB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,yBAAyB;CAO7D"}

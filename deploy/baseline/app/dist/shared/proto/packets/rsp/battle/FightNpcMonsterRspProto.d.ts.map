@@ -1,0 +1,1 @@
+{"version":3,"file":"FightNpcMonsterRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/battle/FightNpcMonsterRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,uBAAwB,SAAQ,SAAS;;IAK7C,SAAS,IAAI,MAAM;IAInB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;CAGzC"}

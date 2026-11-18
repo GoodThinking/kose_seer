@@ -1,0 +1,1 @@
+{"version":3,"file":"AcceptTaskReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/task/AcceptTaskReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;GAGG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IACxC,MAAM,EAAE,MAAM,CAAK;;IAMnB,WAAW,CAAC,MAAM,EAAE,MAAM,GAAG,IAAI;IAMjC,SAAS,IAAI,MAAM;CAG3B"}

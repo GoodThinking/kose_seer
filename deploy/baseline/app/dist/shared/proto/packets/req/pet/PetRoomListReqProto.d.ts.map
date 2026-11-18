@@ -1,0 +1,1 @@
+{"version":3,"file":"PetRoomListReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/pet/PetRoomListReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;GAEG;AACH,qBAAa,mBAAoB,SAAQ,SAAS;IAChD,QAAQ,EAAE,MAAM,CAAK;;IAMrB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,mBAAmB;CAOvD"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"PetShowReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/pet/PetShowReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;;GAGG;AACH,qBAAa,eAAgB,SAAQ,SAAS;IAC5C,SAAS,EAAE,MAAM,CAAK;IACtB,IAAI,EAAE,MAAM,CAAK;;IAMjB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,eAAe;CAQnD"}

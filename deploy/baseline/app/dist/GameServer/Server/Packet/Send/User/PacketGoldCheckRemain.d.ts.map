@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketGoldCheckRemain.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/User/PacketGoldCheckRemain.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,qBAAsB,SAAQ,SAAS;IAClD,OAAO,CAAC,KAAK,CAAS;gBAEV,KAAK,EAAE,MAAM;IASlB,SAAS,IAAI,MAAM;CAG3B"}

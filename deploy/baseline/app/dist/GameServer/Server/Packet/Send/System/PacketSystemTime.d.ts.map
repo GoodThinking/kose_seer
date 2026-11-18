@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketSystemTime.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/System/PacketSystemTime.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,gBAAiB,SAAQ,SAAS;IAC7C,OAAO,CAAC,KAAK,CAAS;gBAEV,SAAS,EAAE,MAAM,EAAE,GAAG,GAAE,MAAU;IAQvC,SAAS,IAAI,MAAM;CAG3B"}

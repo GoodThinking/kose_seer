@@ -1,0 +1,194 @@
+{
+  "natures": [
+    {
+      "id": 0,
+      "name": "孤独",
+      "upStat": 1,
+      "downStat": 2,
+      "category": "攻击强化",
+      "desc": "攻击+ 防御-"
+    },
+    {
+      "id": 1,
+      "name": "固执",
+      "upStat": 1,
+      "downStat": 3,
+      "category": "攻击强化",
+      "desc": "攻击+ 特攻-"
+    },
+    {
+      "id": 2,
+      "name": "调皮",
+      "upStat": 1,
+      "downStat": 4,
+      "category": "攻击强化",
+      "desc": "攻击+ 特防-"
+    },
+    {
+      "id": 3,
+      "name": "勇敢",
+      "upStat": 1,
+      "downStat": 5,
+      "category": "攻击强化",
+      "desc": "攻击+ 速度-"
+    },
+    {
+      "id": 4,
+      "name": "大胆",
+      "upStat": 2,
+      "downStat": 1,
+      "category": "防御强化",
+      "desc": "防御+ 攻击-"
+    },
+    {
+      "id": 5,
+      "name": "顽皮",
+      "upStat": 2,
+      "downStat": 3,
+      "category": "防御强化",
+      "desc": "防御+ 特攻-"
+    },
+    {
+      "id": 6,
+      "name": "无虑",
+      "upStat": 2,
+      "downStat": 4,
+      "category": "防御强化",
+      "desc": "防御+ 特防-"
+    },
+    {
+      "id": 7,
+      "name": "悠闲",
+      "upStat": 2,
+      "downStat": 5,
+      "category": "防御强化",
+      "desc": "防御+ 速度-"
+    },
+    {
+      "id": 8,
+      "name": "保守",
+      "upStat": 3,
+      "downStat": 1,
+      "category": "特攻强化",
+      "desc": "特攻+ 攻击-"
+    },
+    {
+      "id": 9,
+      "name": "稳重",
+      "upStat": 3,
+      "downStat": 2,
+      "category": "特攻强化",
+      "desc": "特攻+ 防御-"
+    },
+    {
+      "id": 10,
+      "name": "马虎",
+      "upStat": 3,
+      "downStat": 4,
+      "category": "特攻强化",
+      "desc": "特攻+ 特防-"
+    },
+    {
+      "id": 11,
+      "name": "冷静",
+      "upStat": 3,
+      "downStat": 5,
+      "category": "特攻强化",
+      "desc": "特攻+ 速度-"
+    },
+    {
+      "id": 12,
+      "name": "沉着",
+      "upStat": 4,
+      "downStat": 1,
+      "category": "特防强化",
+      "desc": "特防+ 攻击-"
+    },
+    {
+      "id": 13,
+      "name": "温顺",
+      "upStat": 4,
+      "downStat": 2,
+      "category": "特防强化",
+      "desc": "特防+ 防御-"
+    },
+    {
+      "id": 14,
+      "name": "慎重",
+      "upStat": 4,
+      "downStat": 3,
+      "category": "特防强化",
+      "desc": "特防+ 特攻-"
+    },
+    {
+      "id": 15,
+      "name": "狂妄",
+      "upStat": 4,
+      "downStat": 5,
+      "category": "特防强化",
+      "desc": "特防+ 速度-"
+    },
+    {
+      "id": 16,
+      "name": "胆小",
+      "upStat": 5,
+      "downStat": 1,
+      "category": "速度强化",
+      "desc": "速度+ 攻击-"
+    },
+    {
+      "id": 17,
+      "name": "急躁",
+      "upStat": 5,
+      "downStat": 2,
+      "category": "速度强化",
+      "desc": "速度+ 防御-"
+    },
+    {
+      "id": 18,
+      "name": "开朗",
+      "upStat": 5,
+      "downStat": 3,
+      "category": "速度强化",
+      "desc": "速度+ 特攻-"
+    },
+    {
+      "id": 19,
+      "name": "天真",
+      "upStat": 5,
+      "downStat": 4,
+      "category": "速度强化",
+      "desc": "速度+ 特防-"
+    },
+    {
+      "id": 20,
+      "name": "害羞",
+      "category": "平衡型",
+      "desc": "平衡发展"
+    },
+    {
+      "id": 21,
+      "name": "实干",
+      "category": "平衡型",
+      "desc": "平衡发展"
+    },
+    {
+      "id": 22,
+      "name": "坦率",
+      "category": "平衡型",
+      "desc": "平衡发展"
+    },
+    {
+      "id": 23,
+      "name": "浮躁",
+      "category": "平衡型",
+      "desc": "平衡发展"
+    },
+    {
+      "id": 24,
+      "name": "认真",
+      "category": "平衡型",
+      "desc": "平衡发展"
+    }
+  ]
+}

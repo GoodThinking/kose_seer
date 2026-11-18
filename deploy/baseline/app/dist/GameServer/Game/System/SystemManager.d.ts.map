@@ -1,0 +1,1 @@
+{"version":3,"file":"SystemManager.d.ts","sourceRoot":"","sources":["../../../../src/GameServer/Game/System/SystemManager.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,qBAAqB,CAAC;AAKlD;;;GAGG;AACH,qBAAa,aAAc,SAAQ,WAAW;IAE5C,OAAO,CAAC,MAAM,CAAC,QAAQ,CAAC,aAAa,CAInC;IAEF;;;OAGG;IACU,YAAY,IAAI,OAAO,CAAC,IAAI,CAAC;CAuB3C"}

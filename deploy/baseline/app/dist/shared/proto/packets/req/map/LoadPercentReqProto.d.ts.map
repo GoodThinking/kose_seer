@@ -1,0 +1,1 @@
+{"version":3,"file":"LoadPercentReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/map/LoadPercentReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;GAEG;AACH,qBAAa,mBAAoB,SAAQ,SAAS;IAChD,OAAO,EAAE,MAAM,CAAK;;IAMpB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,mBAAmB;CAOvD"}

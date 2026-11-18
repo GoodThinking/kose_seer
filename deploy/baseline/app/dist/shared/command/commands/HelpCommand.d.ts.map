@@ -1,0 +1,1 @@
+{"version":3,"file":"HelpCommand.d.ts","sourceRoot":"","sources":["../../../../src/shared/command/commands/HelpCommand.ts"],"names":[],"mappings":"AAAA;;;GAGG;AAEH,OAAO,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAC;AACvC,OAAO,EAAE,UAAU,EAAE,MAAM,eAAe,CAAC;AAI3C,qBAMa,WAAY,YAAW,QAAQ;IAEpC,OAAO,CAAC,GAAG,EAAE,UAAU,GAAG,OAAO,CAAC,IAAI,CAAC;CAiF9C"}

@@ -1,0 +1,337 @@
+{
+  "version": "2.0.0",
+  "description": "精灵可拥有特性配置 - 定义所有客户端可显示的精灵特性，不绑定petId，由个体精灵持有",
+  "lastUpdate": "2026-02-07",
+  "abilities": [
+    {
+      "abilityId": 1006,
+      "name": "叶绿",
+      "description": "草属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [1, 5],
+      "argsDesc": ["属性类型(1=草)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1007,
+      "name": "流水",
+      "description": "水属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [2, 5],
+      "argsDesc": ["属性类型(2=水)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1008,
+      "name": "炎火",
+      "description": "火属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [3, 5],
+      "argsDesc": ["属性类型(3=火)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1009,
+      "name": "飞空",
+      "description": "飞行属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [4, 5],
+      "argsDesc": ["属性类型(4=飞行)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1010,
+      "name": "蓄电",
+      "description": "电属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [5, 5],
+      "argsDesc": ["属性类型(5=电)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1011,
+      "name": "机能",
+      "description": "机械属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [6, 5],
+      "argsDesc": ["属性类型(6=机械)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1012,
+      "name": "碎裂",
+      "description": "地面属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [7, 5],
+      "argsDesc": ["属性类型(7=地面)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1013,
+      "name": "平衡",
+      "description": "普通属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [8, 5],
+      "argsDesc": ["属性类型(8=普通)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1014,
+      "name": "冰霜",
+      "description": "冰属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [9, 5],
+      "argsDesc": ["属性类型(9=冰)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1015,
+      "name": "魔幻",
+      "description": "超能属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [10, 5],
+      "argsDesc": ["属性类型(10=超能)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1016,
+      "name": "战意",
+      "description": "战斗属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [11, 5],
+      "argsDesc": ["属性类型(11=战斗)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1017,
+      "name": "光环",
+      "description": "光属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [12, 5],
+      "argsDesc": ["属性类型(12=光)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1018,
+      "name": "黑夜",
+      "description": "暗影属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [13, 5],
+      "argsDesc": ["属性类型(13=暗影)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1019,
+      "name": "奇异",
+      "description": "神秘属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [14, 5],
+      "argsDesc": ["属性类型(14=神秘)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1020,
+      "name": "威严",
+      "description": "龙属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [15, 5],
+      "argsDesc": ["属性类型(15=龙)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1021,
+      "name": "圣灵",
+      "description": "圣灵属性技能伤害增加5%",
+      "effectId": 2028,
+      "args": [16, 5],
+      "argsDesc": ["属性类型(16=圣灵)", "伤害增加百分比"]
+    },
+    {
+      "abilityId": 1022,
+      "name": "精准",
+      "description": "所有技能命中率增加5%",
+      "effectId": 2029,
+      "args": [5],
+      "argsDesc": ["命中率增加百分比"]
+    },
+    {
+      "abilityId": 1023,
+      "name": "会心",
+      "description": "所有技能的致命一击率增加1/16",
+      "effectId": 2030,
+      "args": [1],
+      "argsDesc": ["致命率增加(n/16)"]
+    },
+    {
+      "abilityId": 1024,
+      "name": "坚硬",
+      "description": "受到的伤害减少5%",
+      "effectId": 1904,
+      "args": [5],
+      "argsDesc": ["伤害减免百分比"]
+    },
+    {
+      "abilityId": 1025,
+      "name": "回避",
+      "description": "被技能命中的几率减少5%",
+      "effectId": 2007,
+      "args": [5],
+      "argsDesc": ["命中率下降百分比"]
+    },
+    {
+      "abilityId": 1026,
+      "name": "顽强",
+      "description": "受到致死攻击时有3%几率余下1点体力",
+      "effectId": 2031,
+      "args": [3, 1],
+      "argsDesc": ["触发概率百分比", "余下体力值"]
+    },
+    {
+      "abilityId": 1027,
+      "name": "瞬杀",
+      "description": "进攻类技能有3%几率秒杀对方",
+      "effectId": 36,
+      "args": [3],
+      "argsDesc": ["秒杀概率百分比"]
+    },
+    {
+      "abilityId": 1028,
+      "name": "回神",
+      "description": "精灵体力降低到1/8时有3%几率体力回满",
+      "effectId": 2033,
+      "args": [8, 3],
+      "argsDesc": ["体力阈值(1/n的n)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1029,
+      "name": "带电",
+      "description": "受到普通攻击时有3%几率使对方麻痹",
+      "effectId": 2006,
+      "args": [0, 3],
+      "argsDesc": ["异常状态类型(0=麻痹)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1030,
+      "name": "中毒",
+      "description": "受到普通攻击时有3%几率使对方中毒",
+      "effectId": 2006,
+      "args": [1, 3],
+      "argsDesc": ["异常状态类型(1=中毒)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1031,
+      "name": "高热",
+      "description": "受到普通攻击时有3%几率使对方烧伤",
+      "effectId": 2006,
+      "args": [2, 3],
+      "argsDesc": ["异常状态类型(2=烧伤)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1032,
+      "name": "冰冷",
+      "description": "受到普通攻击时有3%几率使对方冻伤",
+      "effectId": 2006,
+      "args": [5, 3],
+      "argsDesc": ["异常状态类型(5=冻伤)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1033,
+      "name": "阴森",
+      "description": "受到普通攻击时有3%几率使对方害怕",
+      "effectId": 2006,
+      "args": [6, 3],
+      "argsDesc": ["异常状态类型(6=害怕)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1034,
+      "name": "睡眠",
+      "description": "受到普通攻击时有3%几率使对方睡眠",
+      "effectId": 2006,
+      "args": [8, 3],
+      "argsDesc": ["异常状态类型(8=睡眠)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1035,
+      "name": "反抗",
+      "description": "受到特殊攻击时有5%概率使对面攻击降低1个等级",
+      "effectId": 2034,
+      "args": [0, 5],
+      "argsDesc": ["能力索引(0=攻击)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1036,
+      "name": "反驳",
+      "description": "受到特殊攻击时有5%概率使对面防御降低1个等级",
+      "effectId": 2034,
+      "args": [1, 5],
+      "argsDesc": ["能力索引(1=防御)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1037,
+      "name": "忽略",
+      "description": "受到特殊攻击时有5%概率使对面特攻降低1个等级",
+      "effectId": 2034,
+      "args": [2, 5],
+      "argsDesc": ["能力索引(2=特攻)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1038,
+      "name": "草率",
+      "description": "受到特殊攻击时有5%概率使对面特防降低1个等级",
+      "effectId": 2034,
+      "args": [3, 5],
+      "argsDesc": ["能力索引(3=特防)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1039,
+      "name": "汲取",
+      "description": "攻击技能命中后吸取命中伤害的8%体力",
+      "effectId": 2073,
+      "args": [8],
+      "argsDesc": ["恢复伤害百分比"]
+    },
+    {
+      "abilityId": 1040,
+      "name": "慌张",
+      "description": "受到特殊攻击时有5%概率使对面速度降低1个等级",
+      "effectId": 2034,
+      "args": [4, 5],
+      "argsDesc": ["能力索引(4=速度)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1041,
+      "name": "反击",
+      "description": "受到任何攻击时有5%概率使自身攻击提升1个等级",
+      "effectId": 2035,
+      "args": [0, 5],
+      "argsDesc": ["能力索引(0=攻击)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1042,
+      "name": "抵抗",
+      "description": "受到任何攻击时有5%概率使自身防御提升1个等级",
+      "effectId": 2035,
+      "args": [1, 5],
+      "argsDesc": ["能力索引(1=防御)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1043,
+      "name": "反攻",
+      "description": "受到任何攻击时有5%概率使自身特攻提升1个等级",
+      "effectId": 2035,
+      "args": [2, 5],
+      "argsDesc": ["能力索引(2=特攻)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1044,
+      "name": "坚韧",
+      "description": "受到任何攻击时有5%概率使自身特防提升1个等级",
+      "effectId": 2035,
+      "args": [3, 5],
+      "argsDesc": ["能力索引(3=特防)", "触发概率百分比"]
+    },
+    {
+      "abilityId": 1045,
+      "name": "借风",
+      "description": "受到任何攻击时有5%概率使自身速度提升1个等级",
+      "effectId": 2035,
+      "args": [4, 5],
+      "argsDesc": ["能力索引(4=速度)", "触发概率百分比"]
+    }
+  ],
+  "notes": [
+    "此配置定义所有精灵可拥有的培养特性（客户端ID 1006-1045）",
+    "abilityId: 客户端特性ID，客户端根据此ID显示名称和描述",
+    "effectId: 对应skill_effects_v2.json中的原子效果ID，战斗时触发",
+    "args: 传递给effectId的参数，覆盖skill_effects_v2.json中的默认值",
+    "",
+    "特性不绑定petId，而是存储在个体精灵数据上",
+    "服务端下发abilityId给客户端显示，战斗时根据effectId+args触发效果",
+    "BOSS特性使用boss_abilities.json，与此配置独立"
+  ]
+}

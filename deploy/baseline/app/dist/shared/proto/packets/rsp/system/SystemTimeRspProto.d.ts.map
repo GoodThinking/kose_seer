@@ -1,0 +1,1 @@
+{"version":3,"file":"SystemTimeRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/system/SystemTimeRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAIpD;;GAEG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IAC/C,SAAS,EAAE,MAAM,CAAK;IACtB,GAAG,EAAE,MAAM,CAAK;;IAMhB,SAAS,IAAI,MAAM;IAOnB,YAAY,CAAC,SAAS,EAAE,MAAM,GAAG,IAAI;CAItC"}

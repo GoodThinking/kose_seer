@@ -1,0 +1,59 @@
+{
+  "services": {
+    "game": {
+      "enabled": true,
+      "port": 9999,
+      "host": "0.0.0.0"
+    },
+    "regist": {
+      "enabled": true
+    },
+    "email": {
+      "enabled": true
+    },
+    "gm": {
+      "enabled": true,
+      "port": 3002,
+      "host": "0.0.0.0",
+      "localMode": true
+    },
+    "proxy": {
+      "enabled": false,
+      "listenPort": 9000,
+      "listenHost": "127.0.0.1",
+      "webPort": 8080,
+      "loginServer": {
+        "host": "115.238.192.7",
+        "port": 9999
+      },
+      "gameServer": {
+        "host": "115.238.192.7",
+        "port": 27777
+      }
+    }
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "data/seer.db",
+    "options": {
+      "verbose": false
+    }
+  },
+  "redis": {
+    "enabled": false,
+    "host": "localhost",
+    "port": 6379,
+    "password": "",
+    "db": 0
+  },
+  "logging": {
+    "level": "debug",
+    "directory": "logs",
+    "maxFiles": 30
+  },
+  "security": {
+    "sessionTimeout": 3600,
+    "maxLoginAttempts": 5,
+    "lockoutDuration": 300
+  }
+}

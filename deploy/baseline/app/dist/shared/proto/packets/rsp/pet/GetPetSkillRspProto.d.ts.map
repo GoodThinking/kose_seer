@@ -1,0 +1,1 @@
+{"version":3,"file":"GetPetSkillRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/pet/GetPetSkillRspProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD;;;;;;;GAOG;AACH,qBAAa,mBAAoB,SAAQ,SAAS;IACzC,MAAM,EAAE,MAAM,EAAE,CAAM;IAEtB,SAAS,IAAI,MAAM;CAiB3B"}

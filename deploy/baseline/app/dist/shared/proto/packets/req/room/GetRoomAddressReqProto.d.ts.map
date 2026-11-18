@@ -1,0 +1,1 @@
+{"version":3,"file":"GetRoomAddressReqProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/req/room/GetRoomAddressReqProto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD;;;;;GAKG;AACH,qBAAa,sBAAuB,SAAQ,SAAS;IACnD,YAAY,EAAE,MAAM,CAAK;;IAMzB,SAAS,IAAI,MAAM;IAInB,MAAM,CAAC,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,sBAAsB;CAO1D"}

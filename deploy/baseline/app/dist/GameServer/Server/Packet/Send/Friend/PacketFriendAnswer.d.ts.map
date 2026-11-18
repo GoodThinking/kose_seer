@@ -1,0 +1,1 @@
+{"version":3,"file":"PacketFriendAnswer.d.ts","sourceRoot":"","sources":["../../../../../../src/GameServer/Server/Packet/Send/Friend/PacketFriendAnswer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,4CAA4C,CAAC;AAIvE;;;GAGG;AACH,qBAAa,kBAAmB,SAAQ,SAAS;IAC/C,OAAO,CAAC,KAAK,CAAS;gBAEV,MAAM,EAAE,MAAM,EAAE,MAAM,GAAE,MAAU;IAavC,SAAS,IAAI,MAAM;CAG3B"}

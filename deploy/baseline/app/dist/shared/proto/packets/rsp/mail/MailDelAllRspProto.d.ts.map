@@ -1,0 +1,1 @@
+{"version":3,"file":"MailDelAllRspProto.d.ts","sourceRoot":"","sources":["../../../../../../src/shared/proto/packets/rsp/mail/MailDelAllRspProto.ts"],"names":[],"mappings":"AAAA;;;;;GAKG;AAEH,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAGpD,qBAAa,kBAAmB,SAAQ,SAAS;IACxC,KAAK,EAAE,MAAM,CAAK;;IAMlB,SAAS,IAAI,MAAM;CAK3B"}
