@@ -115,17 +115,7 @@ package com.robot.app.darkPortal
       
       public static function fightDarkProtal(param1:Function = null) : void
       {
-         var func:Function = param1;
-         var hint:String = DARK_HINTS[String(_curDoor)];
-         if(hint == null)
-         {
-            startFight(func);
-            return;
-         }
-         Alert.show(hint + "\r确定挑战吗？",function():void
-         {
-            startFight(func);
-         });
+         startFight(param1);
       }
       
       private static function startFight(param1:Function) : void

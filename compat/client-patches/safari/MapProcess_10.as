@@ -43,8 +43,6 @@ package com.robot.app.mapProcess
       override protected function init() : void
       {
          SpaceSurveyTool.getInstance().show("克洛斯星");
-         this.initMiddleFestivalBoss();
-         this.initWetland();
          this._pipi_mc = topLevel["pipi_mc"];
          this._pipi_mc.gotoAndStop(1);
          this._pipi_mc.visible = false;
@@ -68,75 +66,6 @@ package com.robot.app.mapProcess
                addEventNpc();
             }
          });
-      }
-      
-      // 当前地图缺少湿地入口美术，使用客户端已有的引导箭头标识原通路。
-      private function initWetland() : void
-      {
-         var label:TextField = new TextField();
-         var format:TextFormat = new TextFormat();
-         this.wetlandButton = new Sprite();
-         this.wetlandButton.name = "wetlandEntrance";
-         this.wetlandButton.graphics.beginFill(0xffffff,0.01);
-         this.wetlandButton.graphics.drawEllipse(-38,-28,76,56);
-         this.wetlandButton.graphics.endFill();
-         CommonUI.addYellowArrow(this.wetlandButton);
-         format.size = 14;
-         format.color = 16777215;
-         format.font = "宋体";
-         format.align = "center";
-         label.defaultTextFormat = format;
-         label.text = "克洛斯星湿地";
-         label.width = 130;
-         label.height = 22;
-         label.x = -65;
-         label.y = -24;
-         label.filters = [new GlowFilter(0x182f3b,1,3,3,4)];
-         label.selectable = false;
-         label.mouseEnabled = false;
-         this.wetlandButton.addChild(label);
-         this.wetlandButton.x = 560;
-         this.wetlandButton.y = 55;
-         this.wetlandButton.buttonMode = true;
-         this.wetlandButton.mouseChildren = false;
-         this.wetlandButton.addEventListener(MouseEvent.CLICK,this.onWetland);
-         ToolTipManager.add(this.wetlandButton,"前往克洛斯星湿地");
-         conLevel.addChild(this.wetlandButton);
-      }
-      
-      private function onWetland(param1:MouseEvent) : void
-      {
-         MapManager.changeMap(550);
-      }
-      
-      private function initMiddleFestivalBoss() : void
-      {
-         if(!this._bossMC)
-         {
-            this._bossMC = new BossModel(4150,0);
-            this._bossMC.show(new Point(139,153),0);
-            setTimeout(function():void
-            {
-               _bossMC.direction = "right";
-            },300);
-         }
-         this._bossMC.mouseEnabled = true;
-         this._bossMC.addEventListener(MouseEvent.CLICK,this.onBossClick);
-         ToolTipManager.add(this._bossMC,"拂晓兔");
-      }
-      
-      private function onBossClick(param1:MouseEvent) : void
-      {
-         var _loc2_:MouseEvent = param1;
-         Answer.show("古今共明月，乡心两地同。此刻人间无聚散，天涯一杯中。\r兔兔来找你玩耍啦~(˶╹ꇴ╹˶)~",this.okHandler);
-      }
-      
-      private function okHandler() : void
-      {
-         if(MainManager.actorInfo.mapID == 10)
-         {
-            FightInviteManager.fightWithBoss("拂晓兔");
-         }
       }
       
       private function addEventNpc() : void
@@ -173,8 +102,10 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
-         this.wetlandButton.removeEventListener(MouseEvent.CLICK,this.onWetland);
-         ToolTipManager.remove(this.wetlandButton);
+         if(this._pipi_mc)
+         {
+            this._pipi_mc.removeEventListener(Event.ENTER_FRAME,this.enterFrameHandler);
+         }
       }
    }
 }

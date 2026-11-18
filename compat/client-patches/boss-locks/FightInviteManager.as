@@ -71,11 +71,6 @@ package com.robot.app.fightNote
          {
             return;
          }
-         if(Math.random() < NUM && !AutomaticFightManager.isStart)
-         {
-            KillPluginSys.start();
-            return;
-         }
          PetFightModel.mode = PetFightModel.MULTI_MODE;
          PetFightModel.status = PetFightModel.FIGHT_WITH_NPC;
          PetFightModel.enemyName = "野外精灵";
@@ -86,24 +81,8 @@ package com.robot.app.fightNote
       
       public static function fightWithBoss(param1:String, param2:uint = 0, param3:Boolean = false) : void
       {
-         var key:String = MainManager.actorInfo.mapID + "/" + param2;
-         if(BOSS_HINTS[key] != null && hinted != key)
-         {
-            Alert.show(BOSS_HINTS[key] + "\r确定挑战吗？",function():void
-            {
-               hinted = key;
-               fightWithBoss(param1,param2,param3);
-            });
-            return;
-         }
-         hinted = null;
          if(!fightSwitch)
          {
-            return;
-         }
-         if(Math.random() < NUM && !AutomaticFightManager.isStart && !param3)
-         {
-            KillPluginSys.start();
             return;
          }
          PetFightModel.enemyName = param1;

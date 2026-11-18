@@ -84,9 +84,6 @@ package com.robot.app.mapProcess
       private var mbox:DialogBox;
       
       private var docPlayGrapeMC:MovieClip;
-
-
-      private var beidouButton:Sprite;
       
       public function MapProcess_5()
       {
@@ -154,7 +151,6 @@ package com.robot.app.mapProcess
          this.petbook_btn = conLevel["petBook_btn"];
          ToolTipManager.add(this.petbook_btn,"精灵融合手册");
          this.petbook_btn.addEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
-         this.initBeidou();
          this.initTask_95();
       }
       
@@ -206,9 +202,6 @@ package com.robot.app.mapProcess
       
       override public function destroy() : void
       {
-         this.beidouButton.removeEventListener(MouseEvent.CLICK,this.onBeidou);
-         ToolTipManager.remove(this.beidouButton);
-         this.beidouButton = null;
          this.petbook_btn.removeEventListener(MouseEvent.CLICK,this.clickPetBookHandler);
          this.petbook_btn = null;
          BookManager.destroy();
@@ -267,44 +260,6 @@ package com.robot.app.mapProcess
       public function showWeekMon() : void
       {
          WeekMonsterMain.loadMonster();
-      }
-      
-      private function initBeidou() : void
-      {
-         var label:TextField = new TextField();
-         var format:TextFormat = new TextFormat();
-         this.beidouButton = new Sprite();
-         this.beidouButton.name = "beidouEntrance";
-         this.beidouButton.graphics.beginFill(16777215,0.01);
-         this.beidouButton.graphics.drawEllipse(-38,-28,76,56);
-         this.beidouButton.graphics.endFill();
-         CommonUI.addYellowArrow(this.beidouButton);
-         format.size = 14;
-         format.color = 16777215;
-         format.font = "宋体";
-         format.align = "center";
-         label.defaultTextFormat = format;
-         label.text = "北斗七星殿";
-         label.width = 130;
-         label.height = 22;
-         label.x = -65;
-         label.y = -24;
-         label.filters = [new GlowFilter(1584955,1,3,3,4)];
-         label.selectable = false;
-         label.mouseEnabled = false;
-         this.beidouButton.addChild(label);
-         this.beidouButton.x = 168;
-         this.beidouButton.y = 448;
-         this.beidouButton.buttonMode = true;
-         this.beidouButton.mouseChildren = false;
-         this.beidouButton.addEventListener(MouseEvent.CLICK,this.onBeidou);
-         ToolTipManager.add(this.beidouButton,"前往北斗七星殿");
-         conLevel.addChild(this.beidouButton);
-      }
-
-      private function onBeidou(param1:MouseEvent) : void
-      {
-         MapManager.changeMap(733);
       }
 
       private function onDoorClick(param1:MouseEvent) : void
