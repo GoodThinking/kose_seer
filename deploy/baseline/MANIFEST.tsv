@@ -3415,6 +3415,8 @@ client/overlay/module/com/robot/module/app/MoleculePanel.swf	c784c33475bb45e435a
 client/overlay/module/com/robot/module/app/PetSelectPanel.swf	8048559b7fa2cd647231b4d0003bf421a2a4533c9339e98c1495ceb5d71496a1	644	root:kose-seer
 client/overlay/module/com/robot/module/app/PetStorage.swf	7fe3fc14edc2ca5b1bdee725fa7e768d2de12579fab15f15a0cd77cb33449e80	644	root:kose-seer
 client/overlay/module/com/robot/module/app/SeaVortexActivity.swf	6df9bf7941bef74117e59bd780c70d4c57e02747bcc0d7aa854cb354cd9c885d	644	root:kose-seer
+client/overlay/module/com/robot/module/app/SptChannelPanel.swf	fa11ce602971df67ed1adf5dc96092df3558352e179fe7dcc9359b02b5515c92	644	root:kose-seer
+client/overlay/module/com/robot/module/app/SptPanel.swf	d47fb90a2af219b17259da7883c152d581698a23d37ea43bf28d2e0379209f41	644	root:kose-seer
 client/overlay/module/com/robot/module/app/StoneBook_540.swf	3400f2502e7f0b146de65bf1192d5b8c3a810222caf21953ece31fb159135343	644	root:kose-seer
 client/overlay/module/com/robot/module/app/StoneIntro_540.swf	629142eddb7d9cabee2a18c5b95b0f5744ac899770a99c31e26a2a76929dfbe5	644	root:kose-seer
 client/overlay/module/com/robot/module/app/Task620PwdPanel.swf	7c1d7e42eb007884139d6530c9634532c3e762e0b67ac260fa42c220ab0ae0b1	644	root:kose-seer
