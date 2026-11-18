@@ -1,7 +1,18 @@
 # KOSE 赛尔号多 AI 交接记录 (HANDOFF.md)
 
-> 更新时间：2026-11-18（`classic-polish-v3-20261118` 野怪一阶化+学院训练室；已生产发布）
+> 更新时间：2026-11-18（`classic-polish-v4-20261118` BOSS 难度回调；已生产发布）
 > 当前阶段：已完成全服 Boss 四阶战术体系大整改（彻底摒弃死板的“一锁一钥”非指定属性 0 伤害与战前剧透弹窗）、果冻鸭与闪光皮皮恢复可捕捉稀有精灵、三大星系擂台升级原版竞技场美术与原生 HUD（三只冠军精灵调整为 625 种族值与经典平衡特质）、训练师之门完整补齐（含战斗系威里特、双属性普兰特/帕里斯、普通/勇者双模式）、移除北斗七星殿与克洛斯星湿地代码入口，并将 NoNo 随身面板升级为原生金属高光皮肤。
+
+---
+
+## 当前：BOSS 难度回调（已发布 `classic-polish-v4-20261118`）
+
+- 来源：v2 只读审计 `outputs/audit-v2-20261118/REPORT.md`；用户同意“按这个方向开始”。
+- 改动（`scripts/build-classic-polish-v4.cjs`，基于 v3 产物，仅 2 文件）：暗黑门三阶 Lv80/82/87、HP 3600/3800/3600（三阶仍两命）、回血 120/100/150（新配置项 `mechanics.auraRegen`，BossSpecialRules 读取，缺省保持旧值）、去掉一二阶开场强化、觉醒只强化攻击面；普通系在克制表中无克制属性，6 个首领（伊兰罗尼、帕多尼、狂狮迪卡、迪符特 450/0、瓦尔普 102/212 与 102/312）去掉本系护体并改提示；瓦尔普 HP 3200、去开场强化；雷伊删无实现的 thunderMajesty 键、提示改为与实现一致。
+- 验收：`scripts/spt-boss-lab.cjs` 已修（兼容 `spt` 键、无 collect-plans、缺省克制表由 ElementSystem 补齐）。同一实验室：v4 战术 43/43、暗黑 26/26；v2 对照 42/43、14/26。原版谜题型 19/24 两版相同（尤纳斯、魔狮迪露、哈莫雷特×2、奥尔德光明需专门打法，实验室不会）。胜局回合 p50=15、p90=63，个别长局（加洛德 116、奥尔德坚韧 159）来自实验室回血循环。结果 `outputs/audit-v2-20261118/lab-v4-final.json`、`lab-v2-recount.json`。
+- 发布：2026-11-18，双锁+before 哈希校验，替换 boss_abilities.json（`e3a35352…`）、BossSpecialRules.js（`90a160c9…`），权限保留；游戏 PID 3974310→3981972，Web 3932105 未变，NRestarts=0，9999 监听，journal 无 WARN/ERROR。备份 `/opt/kose-seer/backups/classic-polish-v4-20261118/`，回执 `outputs/classic-polish-v4-20261118/deployment-result.json`。回滚：恢复两文件并重启 kose-seer.service。
+- 审计杂项未处理：4322 个 `._*` 垃圾、约 30 个 644 服务端文件、Universe 64000~64005 死协议、players 缺 learn_times（学习力倍增坏链）。下一步候选：构建基线入库（审计建议 1）、learn_times 迁移（建议 2）。
+- 未做：玩家账号实机打暗黑门；实验室策略非最优。
 
 ---
 

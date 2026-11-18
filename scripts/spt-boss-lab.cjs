@@ -13,7 +13,7 @@ const {BattleManager}=load('GameServer/Game/Battle/BattleManager'),{BattleEffect
 const {PetCalculator}=load('GameServer/Game/Pet/PetCalculator'),{BattleAlgorithm}=load('GameServer/Game/Battle/BattleAlgorithm');
 const {hasElement}=load('GameServer/Game/Battle/UniverseBossElements');
 const init=new BattleInitService({Uid:1}),service=new BattleTurnService(),originalRandom=Math.random;
-const definitions=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/boss_abilities.json')));
+const definitions=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/boss_abilities.json')));definitions.bossConfigs.forEach(b=>{if(b.spt&&!b.sptBoss)b.sptBoss=b.spt;});
 const argCounts=new Map(JSON.parse(fs.readFileSync(path.join(app,'config/data/json/skill_effects_v2.json'))).effects.map(e=>[e.effectId,e.argsNum||0]));
 const entries=skill=>{const ids=String(skill?.SideEffect||'').trim().split(/\s+/).filter(Boolean).map(Number),args=String(skill?.SideEffectArg||'').trim().split(/\s+/).filter(Boolean).map(Number);let offset=0;return ids.map(id=>({id,args:args.slice(offset,offset+=argCounts.get(id)||0)}));};
 const attack=s=>s&&[1,2].includes(s.Category)&&s.Power>0;
@@ -172,14 +172,14 @@ async function run(config,specs,route,variation){
   return {route,seed,won:enemy.hp<=0&&(!evidence||evidence.passed),naturalVictory:enemy.hp<=0,turns:battle.turn,bossHp:enemy.hp,specs,supplies,usedItems,party:roster.map(p=>({id:p.id,hp:p.hp,maxHp:p.maxHp})),trace,...(designMode?{requirements:rule,evidence,events:battle.designEvents}:{})};
 }
 (async()=>{
-  ConfigLoader.Instance._configDir=path.join(app,'config');ConfigRegistry.Instance.RegisterBatch(GetGameConfigRegistrations());await ConfigRegistry.Instance.Initialize();await load('shared/config/game/SkillEffectsConfig').SkillEffectsConfig.Instance.Load();BossAbilityConfig.Instance.Load();load('GameServer/Game/Battle/effects');
-  const species=GameConfig.GetAllPets(),spawn=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/map-ogres.json'))),collection=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/collect-plans.json'))),signing=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/daily-sign.json')));
+  ConfigLoader.Instance._configDir=path.join(app,'config');ConfigRegistry.Instance.RegisterBatch(GetGameConfigRegistrations());await ConfigRegistry.Instance.Initialize();await load('shared/config/game/SkillEffectsConfig').SkillEffectsConfig.Instance.Load();BossAbilityConfig.Instance.Load();load('GameServer/Game/Battle/effects');{const {ElementSystem}=load('GameServer/Game/Battle/ElementSystem');for(const b of definitions.bossConfigs){const id=b.sptBoss?.sptId;if(!id||COUNTERS[id])continue;const t=GameConfig.GetPetById(b.petId)?.Type;const c=[...Array(16)].map((_,i)=>i+1).filter(a=>ElementSystem.GetEffectiveness(a,t)>1);if(c.length)COUNTERS[id]=c;}}
+  const species=GameConfig.GetAllPets(),spawn=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/map-ogres.json'))),collection={plans:[]},signing={pets:[]};
   const available=new Set([...Object.values(spawn.maps).flatMap(m=>(m.ogres||[]).map(p=>p.petId)),...collection.plans.flatMap(p=>p.rewards),...signing.pets]),families=new Set(species.filter(p=>available.has(p.ID)).map(p=>p.PetClass));
   pools=species.filter(p=>families.has(p.PetClass)||['丽莎布布','鲁斯王','魔焰猩猩'].includes(p.DefName)).map(pet=>({pet,moves:learned(pet)})).filter(p=>p.moves.length>=4);
   const selected=definitions.bossConfigs.filter(b=>b.sptBoss&&(scope==='all'||scope.split(',').includes(b.mapId+'/'+b.param2))),results=[];
   const save=()=>{const result={scope,runtime:app,mode:designMode?'design':'candidate',bossConfigHash:crypto.createHash('sha256').update(fs.readFileSync(path.join(app,'config/data/json/boss_abilities.json'))).digest('hex'),policyHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),contractsHash:designMode?crypto.createHash('sha256').update(fs.readFileSync(require.resolve('./spt-boss-route-contracts.cjs'))).digest('hex'):null,complete:results.length===selected.length,encounters:results.length,expectedEncounters:selected.length,winningRoutes:results.reduce((n,r)=>n+Number(r.routeA.won)+Number(r.routeB.won),0),results};fs.writeFileSync(output,JSON.stringify(result,null,2)+'\n');return result;};
   fs.mkdirSync(path.dirname(output),{recursive:true});
-  for(const raw of selected){const boss=BossAbilityConfig.Instance.GetBossConfigByMapAndParam(raw.mapId,raw.param2),routes={};
+  for(const raw of selected){const boss=BossAbilityConfig.Instance.GetBossConfigByMapAndParam(raw.mapId,raw.param2),routes={};if(boss.spt&&!boss.sptBoss)boss.sptBoss=boss.spt;
     for(const route of['A','B']){
       const rule=features(boss,route),ranked=candidates(boss,route);let best=null;
       const relayEnemySpeed=rule.relay?init.BuildBossBattlePet(boss,GameConfig.GetPetById(boss.petId)).speed:0,relayPools=rule.relay?[1,5].map(type=>ranked.filter(spec=>GameConfig.GetSkillById(spec.key).Type===type&&PetCalculator.CalculateStat(spec.id,'speed',100,31,spec.training.speed,0)>relayEnemySpeed)):null;
