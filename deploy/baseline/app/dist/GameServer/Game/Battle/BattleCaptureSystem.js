@@ -172,7 +172,7 @@ class BattleCaptureSystem {
      * 检查是否可以捕获
      * 某些特殊精灵（如BOSS）可能无法捕获
      */
-    /** SPT bosses stay uncatchable. Story fights such as 依依 have no SPT record. */
+    /** SPT bosses and configs marked catchable:false (training rooms, seals, essence bosses) stay uncatchable. Story fights such as 依依 have no SPT record. */
     static BossBlocksCapture(battle) {
         if (battle.universeBoss) return true;
         if (battle.battleType !== BattleModel_1.BattleType.BOSS)
@@ -180,7 +180,7 @@ class BattleCaptureSystem {
         if (battle.bossMapId === undefined || battle.bossParam2 === undefined)
             return true;
         const config = BossAbilityConfig_1.BossAbilityConfig.Instance.GetBossConfigByMapAndParam(battle.bossMapId, battle.bossParam2);
-        return !config || !!config.spt;
+        return !config || !!config.spt || config.catchable === false;
     }
     static CanCapture(target, isBoss = false) {
         // BOSS精灵无法捕获

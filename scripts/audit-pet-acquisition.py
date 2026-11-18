@@ -4,8 +4,8 @@ Usage:
   python3 -I scripts/audit-pet-acquisition.py --core NieoCore.swf --app <captured app root> --out <dir>
       [--wild wild-additions.json] [--exchange-plan <resource-tree.json> <local-resource-list>]
 
-Missing means no path linked by this model. A wild pool counts only on a map the client registers (MapConfig) and
-draws wild pets on (nine OgreXMLInfo positions); registered maps and configured bosses are assumed reachable.
+Missing means no path linked by this model. A wild pool counts only on a registered map with enough
+OgreXMLInfo positions (nine normally, four for original-universe maps); bosses are assumed reachable.
 --wild evaluates planned encounters before release; --exchange-plan prints the smallest exchange list that
 closes the remaining gaps, limited to pets whose battle and head resources exist.
 """
@@ -16,6 +16,7 @@ import json
 import os
 import re
 import struct
+import subprocess
 import zlib
 
 parser = argparse.ArgumentParser()
@@ -74,7 +75,8 @@ map_table = core_xml("com.robot.core.manager.map.config.MapConfig_xmlCls")
 registered = set(re.findall(r'<map id="(\d+)"', map_table))
 ogre_table = core_xml("com.robot.core.config.xml.OgreXMLInfo_xmlClass")
 ogre_section = ogre_table[ogre_table.index("<ogre>"):ogre_table.index("</ogre>")]
-drawn = {i for i, p in re.findall(r'<item id="(\d+)" pList="([^"]*)"', ogre_section) if len(p.split("|")) >= 9}
+drawn = {i for i, p in re.findall(r'<item id="(\d+)" pList="([^"]*)"', ogre_section)
+         if len(p.split("|")) >= (4 if 9700 <= int(i) <= 9794 else 9)}
 
 
 def base_sources(extra_wild=(), extra_exchange=()):
@@ -82,9 +84,11 @@ def base_sources(extra_wild=(), extra_exchange=()):
     give = lambda pid, label: sources[int(pid)].add(label)
     give_item = lambda iid, label: item_sources[int(iid)].add(label)
     for map_id, entry in load("map-ogres.json")["maps"].items():
-        shown = map_id in registered and map_id in drawn
+        shown = (map_id in registered and map_id in drawn and entry.get("spawnCount", 0) > 0
+                 and entry.get("spawnProbability", 1) > 0)
         for ogre in entry.get("ogres", []):
-            if shown and ogre.get("catchable", True) and not ogre.get("isBoss"):
+            if (shown and ogre.get("catchable", True) and not ogre.get("isBoss")
+                    and ogre.get("weight", 1) > 0 and ogre.get("refreshConfig", {}).get("enabled")):
                 give(ogre["petId"], "野外:%s" % map_id)
             for drop in ogre.get("dropItems", []):
                 give_item(drop["itemId"], "野怪掉落:%s" % map_id)
@@ -94,7 +98,8 @@ def base_sources(extra_wild=(), extra_exchange=()):
         where = "%s/%s" % (boss["mapId"], boss["param2"])
         spt = boss.get("spt")
         if not spt:
-            give(boss["petId"], "Boss捕捉:" + where)
+            if boss.get("catchable", True):
+                give(boss["petId"], "Boss捕捉:" + where)
         else:
             if spt.get("rewardPetId"):
                 give(spt["rewardPetId"], "Boss奖励:" + where)
@@ -105,12 +110,15 @@ def base_sources(extra_wild=(), extra_exchange=()):
     acquisition = load("pet-acquisition.json")
     for d in acquisition.get("disguises", []):
         give(d["petId"], "变身遭遇")
-    for w in acquisition.get("wild", []):
-        give(w["petId"], "稀有野外:%s" % w["mapId"])
     for m in acquisition.get("mechanisms", []):
         give(m["petId"], "机关:%s" % m["mapId"])
     for pid in list(acquisition.get("exchange", {}).get("petIds", [])) + list(extra_exchange):
         give(pid, "实验室兑换")
+    arena_file = app("dist/GameServer/Game/Battle/StarArenaCatalog.json")
+    if os.path.exists(arena_file):
+        for arena in json.load(open(arena_file, encoding="utf-8")).get("arenas", []):
+            if arena.get("rewardPetId"):
+                give(arena["rewardPetId"], "星系擂台:%s" % arena.get("name", arena.get("id")))
     for task_id, task in load("tasks.json")["tasks"].items():
         rewards = task.get("rewards") or {}
         for reward in rewards.get("pets", []):
@@ -127,22 +135,61 @@ def base_sources(extra_wild=(), extra_exchange=()):
     for name in ("shop.json", "money-products.json"):
         for iid in set(re.findall(r'"(?:itemId|itemID|id)"\s*:\s*(\d+)', read("config/data/json", name))):
             give_item(iid, "商店")
+    for iid in re.findall(r"itemId:\s*(\d+)", read("dist/GameServer/Game/Map/GameplayRewards.js")):
+        give_item(iid, "首胜精元")
     collect = read("dist/GameServer/Game/Pet/CollectReward.js")
     for ids in re.findall(r"rewardIds:\s*\[([\d,\s]+)\]", collect):
         for pid in re.findall(r"\d+", ids):
             give(pid, "收集奖励")
+    plans_file = app("config/data/json/collect-plans.json")
+    if os.path.exists(plans_file):
+        for plan in load("collect-plans.json")["plans"]:
+            for pid in plan["rewards"]:
+                give(pid, "收集计划:%s" % plan["id"])
     for pid in numbers(r"STARTER_IDS\s*=\s*\[([\d,\s]+)\]", read("dist/GameServer/Game/Battle/FreshTower.js")):
         give(pid, "试炼之塔")
     for pid in (1, 4, 7):
         give(pid, "初始精灵")
+    if os.path.exists(app("config/data/json/universe.json")):
+        universe = load("universe.json")
+        scenes = {scene["key"]: scene for scene in universe["scenes"]}
+        if universe.get("publishable"):
+            for encounter in universe["encounters"]:
+                scene = scenes.get(encounter["scene"], {})
+                if (encounter["kind"] != "fusionOnly" and scene.get("resourceBuilt")
+                        and str(scene.get("mapId")) in registered):
+                    give(encounter["petId"], "远航遭遇:%s/%s" % (scene["mapId"], encounter["id"]))
+    if os.path.exists(app("config/data/json/sea_vortex.json")):
+        rescue = load("sea_vortex.json")
+        if str(rescue["mapId"]) in registered:
+            for reward in rescue["rewards"]:
+                if reward.get("weight", 0) <= 0:
+                    continue
+                if reward.get("petId"):
+                    give(reward["petId"], "深海救援:%s" % rescue["mapId"])
+                if reward.get("itemId"):
+                    give_item(reward["itemId"], "深海救援:%s" % rescue["mapId"])
+    if os.path.exists(app("config/data/json/story_encounters.json")):
+        for encounter in load("story_encounters.json"):
+            if encounter.get("capture") and str(encounter["mapId"]) in registered:
+                give(encounter["petId"], "原生特殊遭遇:%s/%s" % (encounter["mapId"], encounter["region"]))
     return sources, item_sources
 
 
-recipes = []
-for body in re.findall(r"\{\s*main:\s*\[[^\]]*\][^\n]*\}", read("dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js")):
-    recipes.append({"main": numbers(r"main:\s*\[([^\]]*)\]", body), "sub": numbers(r"sub:\s*\[([^\]]*)\]", body),
-                    "outs": [int(x) for x in re.findall(r"\bpet:\s*(\d+)", body)],
-                    "essence": numbers(r"essence:\s*(\d+)", body)[0]})
+fusion_script = r"""
+const fs = require('node:fs'), vm = require('node:vm');
+const text = fs.readFileSync(process.argv[1], 'utf8');
+const start = text.indexOf('const RECIPES = ['), end = text.indexOf('function petConfig(');
+if (start < 0 || end < start) throw Error('Unknown fusion rule layout');
+process.stdout.write(JSON.stringify(vm.runInNewContext(
+    text.slice(start, end) + ';({RECIPES,MIRACLES,NEIL})', {}, {timeout:1000})));
+"""
+fusion = json.loads(subprocess.run(
+    ["node", "-e", fusion_script, app("dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js")],
+    check=True, capture_output=True, text=True).stdout)
+recipes = [{"main": recipe["main"], "sub": recipe["sub"], "essence": recipe["essence"],
+            "outs": [recipe["pet"]] + ([recipe["rare"]["pet"]] if recipe.get("rare") else [])}
+           for recipe in fusion["RECIPES"]]
 branches = load("special-evolutions.json")["branches"]
 
 
@@ -166,6 +213,10 @@ def closure(extra_wild=(), extra_exchange=()):
         for recipe in recipes:
             if any(p in have for p in recipe["main"]) and any(p in have for p in recipe["sub"]) and recipe["essence"] in item_sources:
                 found.extend((out, "融合") for out in recipe["outs"])
+        for recipe in fusion["MIRACLES"]:
+            if (recipe["main"] in have and recipe["essence"] in item_sources
+                    and any(num(pid, "Type") == recipe["type"] or pid in fusion["NEIL"] for pid in have)):
+                found.extend((pid, "奇迹融合:%d" % recipe["main"]) for pid, weight in recipe["weights"] if weight > 0)
         for pid, label in found:
             sources[pid].add(label)
             if pid not in have:
