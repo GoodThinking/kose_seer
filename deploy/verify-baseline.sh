@@ -9,7 +9,7 @@ manifest=$(cd "$(dirname "${2:-$(dirname "$0")/baseline/MANIFEST.tsv}")" && pwd)
 if command -v sha256sum >/dev/null; then sha=(sha256sum); else sha=(shasum -a 256); fi
 
 cd "$root"
-actual=$(find app client \( -path app/node_modules -o -path app/data -o -path app/logs \
+actual=$(find app client \( -path app/node_modules -o -path app/data -o -path app/logs -o -path app/src \
   -o -path client/assets -o -path client/node_modules \) -prune -o -type f ! -name '._*' \
   ! -path client/resource-tree.json -print0 | xargs -0 "${sha[@]}" \
   | awk '{h=$1; $1=""; sub(/^ +/, ""); print $0 "\t" h}' | sort)
