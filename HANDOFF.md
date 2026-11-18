@@ -5,6 +5,16 @@
 
 ---
 
+## 下一任务：构建基线入库（审计建议 1，未开始）
+
+- 目标：现网 app/client 可由 git 唯一重建，后续每版只在该基线上改、可重放；不再从上一版 outputs 目录链式打补丁。
+- 已确认事实：git `src/*.ts` 与现网 `dist` 不一致（如 `PetCalculator.ApplyBattleEV` 仅在 dist）；历次构建链为 `outputs/spt-pet-popup-20261102/runtime` → classic-cleanup → v2 → v3 → v4 → v5 的 build 目录叠加；现网 dist/config 目前与 fork/main `6923bdd` 的构建脚本产物一致（各版 before/after 哈希见各 `deployment-result.json`）。
+- 起点：只读捕获现网 `/opt/kose-seer/app`（排除 data、node_modules 用 package-lock）与 `client/overlay` 作为基线快照，先定方案（入库位置、大文件/二进制 SWF 处理、src 与 dist 的 source of truth）再动手，方案需用户确认。
+- 本地测试环境：Node 22（`~/.nvm/versions/node/v22.17.1/bin/node`，better-sqlite3 ABI 127），mac 版 node_modules 取 `outputs/spt-pet-popup-20261102/runtime/app/node_modules`；现网 app 捕获在 `/tmp/v3work/app`、v5 叠加版 `/tmp/v4app`（临时目录，可能被清）。回归：`scripts/test-academy-train.cjs <app>`、`scripts/spt-boss-lab.cjs <app> <report> all`。
+- 约束：不改真实玩家存档，测试只用临时 SQLite，不起前台浏览器/音频，只推 fork（GoodThinking），不推 upstream BaiSugar。
+
+---
+
 ## 当前：下线遗留 learnTimes（已发布 `classic-polish-v5-20261118`）
 
 - 查明：玩家用的学习力加成是十倍学习力卡 399902（player_reward_boosts），链路正常。learnTimes 是半接线遗留：无 learn_times 列、不读取、`PublishLearnTimes` 不存在、无道具发放，仅 GM 设 >0 时结算报 `no such column: learn_times`。用户选择“下线遗留链路”。
