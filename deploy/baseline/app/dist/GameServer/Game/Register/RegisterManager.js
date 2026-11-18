@@ -234,7 +234,9 @@ class RegisterManager {
             }
             else {
                 const passwordHash = (0, crypto_1.createHash)('md5').update(password).digest('hex');
-                const created = await new InvitationRepository_1.InvitationRepository().Register(email, passwordHash, code);
+                const repository = new InvitationRepository_1.InvitationRepository();
+                const allowed = (ServerConfig_1.Config.Regist.allowEmails ?? []).includes(email.trim().toLowerCase());
+                const created = allowed ? await repository.RegisterAllowed(email, passwordHash) : await repository.Register(email, passwordHash, code);
                 if (created.kind === 'created') {
                     userId = created.userId;
                     result = RegisterResult.SUCCESS;

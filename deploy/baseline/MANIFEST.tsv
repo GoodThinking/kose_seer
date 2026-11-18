@@ -48,7 +48,7 @@ app/config/data/xml/skill_effects.xml	4ffd9195aa6e603c67a3ca48c3603ddd1f9e7b2670
 app/config/data/xml/skills.xml	b512f69da9b37731e01f2819c955ac4511e5b3956fcf57415def8d522e914f7a	640	root:kose-seer
 app/config/data/xml/spt.xml	a1a4bcb981d6694f1e58a4bbd62750c832d825b5c86728eba711fbd1e9fdedd8	640	root:kose-seer
 app/config/data/xml/tasks.xml	bbfcc7678704c6c2848ba84605e716809adf94b9955d58b809c71d11c19c53ca	640	root:kose-seer
-app/config/server.json	803d597f3a386a7d69110a7d17631ec1a4d6eec561ff3fe832fab417a934cdf0	640	root:kose-seer
+app/config/server.json	3b1f33e5fb7f5764b3b7e17e3e88fcabe4aee72c1362659af6681730f8733476	640	root:kose-seer
 app/config/server.json.default	50fa8bc471706f3be76ad65df66160e7c66337013cbdcaec6adfd9c93bac437c	640	root:kose-seer
 app/config/server.json.example	50fa8bc471706f3be76ad65df66160e7c66337013cbdcaec6adfd9c93bac437c	640	root:kose-seer
 app/dist/DataBase/DatabaseConfig.d.ts	65084e37b612915993d47d535c79869ea49fd196b8ae7312294ddf1dd45133c8	640	root:kose-seer
@@ -304,7 +304,7 @@ app/dist/DataBase/repositories/Player/EmailCodeRepository.d.ts	9c2b0c8292e90f4b0
 app/dist/DataBase/repositories/Player/EmailCodeRepository.d.ts.map	b1a4a89a64bb55a636291180b75260040baf9014939bae2d079c1794c4de2024	640	root:kose-seer
 app/dist/DataBase/repositories/Player/EmailCodeRepository.js	c143a30b73ebd49cf9cba0761be39ad98cd7de078d9be2dcfdd11f7eeb50211d	640	root:kose-seer
 app/dist/DataBase/repositories/Player/EmailCodeRepository.js.map	a650f1590f7e1f79f99c23086e358bfee6a6c8978fcd76aa8b8d244517c45584	640	root:kose-seer
-app/dist/DataBase/repositories/Player/InvitationRepository.js	f7531dc964092b397607abdce933a3a6da11dcef7ebdd7c4e5d7535d22bfb71a	640	root:kose-seer
+app/dist/DataBase/repositories/Player/InvitationRepository.js	c408dcd1a8cf87ca13ad6324f9b2b1e93dd1b023b7787e1e0c33e2978bfd9019	640	root:kose-seer
 app/dist/DataBase/repositories/Player/InvitationRepository.js.map	e6a040f37aa68ab490466fb3dd59e8d2d48ad10de2a60c205dd6512aa45f695f	640	root:kose-seer
 app/dist/DataBase/repositories/Player/PlayerRepository.d.ts	65d54302fc97ee7f8828084bafa0aacaef0f9c9057a980e84fe4315bdd1ba01e	640	root:kose-seer
 app/dist/DataBase/repositories/Player/PlayerRepository.d.ts.map	66bc1fc62ccaac2eced58ac1b22250136c63d24bb53f15137b092cc58da3e982	640	root:kose-seer
@@ -1091,7 +1091,7 @@ app/dist/GameServer/Game/Player/index.js	7c9a5617df5372e84cb0e335ceee3376a213d6c
 app/dist/GameServer/Game/Player/index.js.map	d3f76c7dfbead7ccfdeba5ea8113753b600142c6a864c4a3db3a0e91968c7b2c	640	root:kose-seer
 app/dist/GameServer/Game/Register/RegisterManager.d.ts	9f0ee381af90179f74746099245fe5518a5f21ec82d8d9755165c607bf6696c0	640	root:kose-seer
 app/dist/GameServer/Game/Register/RegisterManager.d.ts.map	ecc35c29356255c65f7f40a813d7d478becfca6ce24dfdafc3e86b01a4615cdf	640	root:kose-seer
-app/dist/GameServer/Game/Register/RegisterManager.js	bbb4ec5ea9febeabdf6bdf1a45c6abe18aa2779b674ba66b24ca6e2d466261c0	640	root:kose-seer
+app/dist/GameServer/Game/Register/RegisterManager.js	7d1a124639f28ce854e05cfed330e456abba5a06450a8be6016e5a85b02ec3cf	640	root:kose-seer
 app/dist/GameServer/Game/Register/RegisterManager.js.map	e2855552fbe230e0717137312696386bc657a51a26b8061e17b2b6667459a258	640	root:kose-seer
 app/dist/GameServer/Game/Register/index.d.ts	6ec14a4859e194b02f72bbe6ed0132bd98047bbd571bf56b8c4d4147317f5708	640	root:kose-seer
 app/dist/GameServer/Game/Register/index.d.ts.map	d9547b253812518d346cfcccf68d7381055c34f16911e4e0517092b9df7cd7a9	640	root:kose-seer
@@ -2328,7 +2328,7 @@ app/dist/shared/config/ConfigRegistry.js	cae39d98d3d85b3e62435bba187938f0a105d2e
 app/dist/shared/config/ConfigRegistry.js.map	6e4502d873e348ce28aa5ab173a312c876b87c90b4a9562cd54d4096493d013f	640	root:kose-seer
 app/dist/shared/config/ServerConfig.d.ts	f720933c818c1d0e9eca97a4ebaacd637c8c5698c00fd79f3a547fb9578caf9b	640	root:kose-seer
 app/dist/shared/config/ServerConfig.d.ts.map	0708abce9263c3a9b4893a0207024ca37cd681ceb954437cbb4ac1db1fc185e7	640	root:kose-seer
-app/dist/shared/config/ServerConfig.js	3eb8dbc18a59d691661971805c5aeb961fc0101eede62f89add680036ce64b4e	640	root:kose-seer
+app/dist/shared/config/ServerConfig.js	1427c3b65b04fd255339a121577e27cc96792bbcb1cb9533bfae6dfc2efca53a	640	root:kose-seer
 app/dist/shared/config/ServerConfig.js.map	6556703ce8a796a6629d2b5b7e79b9ff04dbde781d7a82b81bda0cf55290b37d	640	root:kose-seer
 app/dist/shared/config/XmlConfigInterfaces.d.ts	7065e9ce66f822e588f09166bcab177cacfb16fb6e22ca15734160d967e6bad6	640	root:kose-seer
 app/dist/shared/config/XmlConfigInterfaces.d.ts.map	dbb8be756ed60bc5c28aec382d2f7cc7197e2cb079842b3b9929cec9469c335e	640	root:kose-seer

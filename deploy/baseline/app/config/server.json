@@ -9,7 +9,11 @@
     },
     "regist": {
       "enabled": true,
-      "mode": "invite"
+      "mode": "invite",
+      "allowEmails": [
+        "w18270953103@gmail.com",
+        "18270953103@163.com"
+      ]
     },
     "email": {
       "enabled": false

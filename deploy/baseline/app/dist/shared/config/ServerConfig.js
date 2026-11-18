@@ -36,6 +36,11 @@ class ServerConfig {
             config.services.regist.mode !== 'email' && config.services.regist.mode !== 'invite') {
             throw new Error('Invalid registration mode');
         }
+        const allowEmails = config.services.regist.allowEmails;
+        if (allowEmails !== undefined && (!Array.isArray(allowEmails) ||
+            allowEmails.some(e => typeof e !== 'string' || e !== e.trim().toLowerCase() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)))) {
+            throw new Error('Invalid regist.allowEmails: lowercase email strings required');
+        }
         if (config.services.game.defaultSuperNono !== undefined &&
             typeof config.services.game.defaultSuperNono !== 'boolean') {
             throw new Error('Invalid defaultSuperNono setting');

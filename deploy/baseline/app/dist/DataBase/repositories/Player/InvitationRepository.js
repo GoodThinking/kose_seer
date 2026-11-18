@@ -41,21 +41,35 @@ class InvitationRepository {
             if (!invite || invite.used_by !== null || invite.revoked_at !== null || invite.expires_at <= now) {
                 return { kind: 'invalid' };
             }
-            const existing = await driver.query('SELECT id FROM accounts WHERE email = ?', [email]);
-            if (existing.length)
+            const userId = await this.CreateAccount(driver, email, passwordHash, now);
+            if (!userId)
                 return { kind: 'account_exists' };
-            const rows = await driver.query('SELECT COALESCE(MAX(id), 99999999) AS maxId FROM accounts');
-            const userId = Math.max(Number(rows[0].maxId) + 1, 100000000);
-            if (!Number.isSafeInteger(userId) || userId > 0x7FFFFFFF)
-                throw new Error('Account ID exhausted');
-            const account = await driver.execute('INSERT INTO accounts (id, email, password_hash, status, create_time, last_login_time, last_login_ip, role_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [userId, email, passwordHash, models_1.AccountStatus.NORMAL, now, 0, '', 0]);
-            if (account.affectedRows !== 1)
-                throw new Error('Account creation failed');
             const used = await driver.execute('UPDATE invitations SET used_by = ?, used_at = ? WHERE code_hash = ? AND used_by IS NULL AND revoked_at IS NULL AND expires_at > ?', [userId, now, hash, now]);
             if (used.affectedRows !== 1)
                 throw new Error('Invitation changed during registration');
             return { kind: 'created', userId };
         });
+    }
+    /** Allowlisted emails (server.json regist.allowEmails) register without consuming an invitation. */
+    async RegisterAllowed(email, passwordHash) {
+        return this.db.Transaction(async (driver) => {
+            const userId = await this.CreateAccount(driver, email, passwordHash, Math.floor(Date.now() / 1000));
+            return userId ? { kind: 'created', userId } : { kind: 'account_exists' };
+        });
+    }
+    /** Returns the new account ID, or 0 when the email is already registered. */
+    async CreateAccount(driver, email, passwordHash, now) {
+        const existing = await driver.query('SELECT id FROM accounts WHERE email = ?', [email]);
+        if (existing.length)
+            return 0;
+        const rows = await driver.query('SELECT COALESCE(MAX(id), 99999999) AS maxId FROM accounts');
+        const userId = Math.max(Number(rows[0].maxId) + 1, 100000000);
+        if (!Number.isSafeInteger(userId) || userId > 0x7FFFFFFF)
+            throw new Error('Account ID exhausted');
+        const account = await driver.execute('INSERT INTO accounts (id, email, password_hash, status, create_time, last_login_time, last_login_ip, role_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [userId, email, passwordHash, models_1.AccountStatus.NORMAL, now, 0, '', 0]);
+        if (account.affectedRows !== 1)
+            throw new Error('Account creation failed');
+        return userId;
     }
     ValidateHash(hash) {
         if (!/^[0-9a-f]{64}$/.test(hash))
