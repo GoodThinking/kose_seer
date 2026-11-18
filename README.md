@@ -1,5 +1,7 @@
 # KOSE Server - 某童年游戏的怀旧服服务端TS实现版
 
+> 本 fork 的部署内容与修改方式见 [deploy/README.md](deploy/README.md)。下文是上游原始说明，其中的 npm 等命令需在 `deploy/baseline/app` 下执行；TS 源码已移除，`dev`/`build`/`test` 脚本不可用。
+
 > 基于 TypeScript 的某童年游戏的怀旧服服务端赛尔号私服服务端，采用统一架构，所有功能集成在 GameServer 中
 
 ## 发布前先合并
@@ -2218,8 +2220,8 @@ node scripts/build-task90-repair.cjs \
 - 踢出在线玩家
 - 封禁/解封玩家账号
 
-![玩家管理](image/玩家管理.png)
-![玩家管理详情](image/玩家管理1.png)
+![玩家管理](deploy/baseline/app/image/玩家管理.png)
+![玩家管理详情](deploy/baseline/app/image/玩家管理1.png)
 
 #### 2. 精灵管理
 
@@ -2230,8 +2232,8 @@ node scripts/build-task90-repair.cjs \
 - 治疗精灵
 - 删除精灵
 
-![添加精灵](image/添加精灵.png)
-![编辑精灵](image/编辑精灵.png)
+![添加精灵](deploy/baseline/app/image/添加精灵.png)
+![编辑精灵](deploy/baseline/app/image/编辑精灵.png)
 
 #### 3. 地图配置
 
@@ -2241,9 +2243,9 @@ node scripts/build-task90-repair.cjs \
 - 配置 BOSS 刷新
 - 实时热重载配置
 
-![地图配置](image/地图配置.png)
-![地图配置详情](image/地图配置1.png)
-![地图配置编辑](image/地图配置2.png)
+![地图配置](deploy/baseline/app/image/地图配置.png)
+![地图配置详情](deploy/baseline/app/image/地图配置1.png)
+![地图配置编辑](deploy/baseline/app/image/地图配置2.png)
 
 #### 4. 服务器管理
 
@@ -2252,7 +2254,7 @@ node scripts/build-task90-repair.cjs \
 - 查看在线人数
 - 系统日志查看
 
-![服务器管理](image/服务器管理.png)
+![服务器管理](deploy/baseline/app/image/服务器管理.png)
 
 ### 启动 Web 管理后台
 
