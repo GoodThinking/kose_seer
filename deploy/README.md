@@ -10,7 +10,7 @@
 ## 每版流程
 
 1. 在 `deploy/baseline/` 里直接改目标文件（新增 dist 文件要 `git add -f`，因为 `app/.gitignore` 忽略 `dist/`）。
-2. 同一提交里更新 `MANIFEST.tsv` 中对应行。
+2. 同一提交里更新 `MANIFEST.tsv` 中对应行。新文件权限：`app/` 下 640，`client/` 下 644，属主均为 `root:kose-seer`。
 3. 发布前在服务器跑 `deploy/verify-baseline.sh /opt/kose-seer <上一版 MANIFEST>`，确认现网等于上一版基线。
 4. 发布后跑 `deploy/verify-baseline.sh /opt/kose-seer`，确认现网等于本版基线。
 

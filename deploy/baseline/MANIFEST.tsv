@@ -11,8 +11,8 @@ app/LICENSE	4df3c306dddaaf4baffdff5ca820cc679ac8cd6dc263c6a74517783e42fa7a3b	640
 app/README.md	141bf6e2d5584aa18b66ca63ea6a0ed25abb2b66552712f9d0ad6ebac8eed127	640	root:kose-seer
 app/config/README.md	a3cccac2228546cd01b0d54aa716311e92cae0de9072b26b7af147369b9b546a	640	root:kose-seer
 app/config/client.json	3d9657738a2a73d6932d5fb5aea28a7f7ea2d2f1f079950eee521ca8f48b764c	640	root:kose-seer
-app/config/data/json/alder_config.json	9d0544caa3228318b7c1e90795abd6ce7f3306296b1f32e22bd49551f673900f	644	root:kose-seer
-app/config/data/json/boss_abilities.json	e3a353522dcfb94c58c5c78c359339df46d25608c0cdec5bf6863d7ec3017dc4	644	root:kose-seer
+app/config/data/json/alder_config.json	9d0544caa3228318b7c1e90795abd6ce7f3306296b1f32e22bd49551f673900f	640	root:kose-seer
+app/config/data/json/boss_abilities.json	e3a353522dcfb94c58c5c78c359339df46d25608c0cdec5bf6863d7ec3017dc4	640	root:kose-seer
 app/config/data/json/closed_space.json	389d9fe1b343f7c2ad52f254d539340bbd250ced866a826103185365f59135e1	640	root:kose-seer
 app/config/data/json/compass_activity.json	1117d11442bd29bd60be05d796ca3f1589dba259ad672b754cdb91dc30e95995	640	root:kose-seer
 app/config/data/json/countermarks.json	f34d888449ee7f7d257198fc3e81e4cf76ec93fed13cc4879732a6269ffb9f5a	640	root:kose-seer
@@ -24,7 +24,7 @@ app/config/data/json/forest_mechanisms.json	16b3bc514409ae023001d6244c1efc358e7e
 app/config/data/json/gacha_rewards.json	55223a63963e75504c2fecafd0813660c2aff575bf9f714a91540b2e02de09b4	640	root:kose-seer
 app/config/data/json/king_tower.json	c6b985567fa90c0a76f9a3366b6d469f6ee96f4c1814ec1ec095eb6594ef0517	640	root:kose-seer
 app/config/data/json/map-day-gifts.json	6eeae68dd81edf1bd1d6f00955504f19e8eaa0787e9a9897fbd79f29f4bc3aa6	640	root:kose-seer
-app/config/data/json/map-ogres.json	87a32f512ef5a474e08250b126102eea345aeb81a423f8bccef5909efdd0f894	644	root:kose-seer
+app/config/data/json/map-ogres.json	87a32f512ef5a474e08250b126102eea345aeb81a423f8bccef5909efdd0f894	640	root:kose-seer
 app/config/data/json/material-sources.json	9351364d18c273eb7d1ae41004f540d4941d8a4c366d9c9eaea2066d989ddf5e	640	root:kose-seer
 app/config/data/json/mining.json	b05e0e5049deeaa4345f72ce5825fdcdadfc8fd411b7a7b72aa9502363dfbcfc	640	root:kose-seer
 app/config/data/json/money-products.json	87d9b055a51d635def049bf6d64fc33107eadbc5e571b9840e14d1e7a5f59a28	640	root:kose-seer
@@ -43,7 +43,7 @@ app/config/data/json/tasks.json	bbc05f8f569049c78c8390e5d9372e68aba1a32f505f1d91
 app/config/data/json/unique-items.json	618b6fb5b08d395cad99d54469101b69114257e829fd26f729ff1e7e13547066	640	root:kose-seer
 app/config/data/json/universe.json	8bee892efeacaba8347a56fe5f3f63964e9d2c04277233a3bdfaa1d44b05611c	640	root:kose-seer
 app/config/data/xml/items.xml	d2fe04372acf2cab4de264d90a720cf19d213c48f15e5496a1b70c4a2fbc1976	640	root:kose-seer
-app/config/data/xml/pets.xml	a25e12674074e8ce55ff7e78d15d8b91595c5ee666ca93052dad088146544a0c	644	root:kose-seer
+app/config/data/xml/pets.xml	a25e12674074e8ce55ff7e78d15d8b91595c5ee666ca93052dad088146544a0c	640	root:kose-seer
 app/config/data/xml/skill_effects.xml	4ffd9195aa6e603c67a3ca48c3603ddd1f9e7b267059129f23bc3830537bfdbc	640	root:kose-seer
 app/config/data/xml/skills.xml	b512f69da9b37731e01f2819c955ac4511e5b3956fcf57415def8d522e914f7a	640	root:kose-seer
 app/config/data/xml/spt.xml	a1a4bcb981d6694f1e58a4bbd62750c832d825b5c86728eba711fbd1e9fdedd8	640	root:kose-seer
@@ -63,7 +63,7 @@ app/dist/DataBase/DatabaseManager.d.ts	685b0a8c27e6bc093568e87f78ee9fa5bef8c30fa
 app/dist/DataBase/DatabaseManager.d.ts.map	da6d488e07c8aef69d24052c9e69607d649d63254b7727d820c746d3486059b5	640	root:kose-seer
 app/dist/DataBase/DatabaseManager.js	c1b6d482f320c114a7ece86a8085c2e29f2a91949ee8ee81a52c685f5fa3e35b	640	root:kose-seer
 app/dist/DataBase/DatabaseManager.js.map	086ba6ac58e45ad8b560e751cdbb85024f5293f3b43e631de4e8a3d544f8a82e	640	root:kose-seer
-app/dist/DataBase/accessors/AcquisitionProgress.js	f8512e12af1a5eead2804566b8ecc27203d933e73385750d6aa964fafeead63b	644	root:kose-seer
+app/dist/DataBase/accessors/AcquisitionProgress.js	f8512e12af1a5eead2804566b8ecc27203d933e73385750d6aa964fafeead63b	640	root:kose-seer
 app/dist/DataBase/accessors/ChallengeProgressDataAccessor.d.ts	e8e90ecd8d1df8279fef76b8028d43772cd61a09f3fd8fb154959f7d080b34ee	640	root:kose-seer
 app/dist/DataBase/accessors/ChallengeProgressDataAccessor.d.ts.map	dbf2fa54f9741b6940a1f2e2af17c949be51001f3d09b383f2a23505e2fe04b1	640	root:kose-seer
 app/dist/DataBase/accessors/ChallengeProgressDataAccessor.js	d2af74816a4a79cded811a795aa82c8ef0a2d92dcfff10a2ba2eb1bfc4907d46	640	root:kose-seer
@@ -142,7 +142,7 @@ app/dist/DataBase/migrations/IMigration.js	e06aef03d333e1139b044d15b38c0ff5c8b08
 app/dist/DataBase/migrations/IMigration.js.map	d44a095e67b181cea7b1cb1f5aede916407c13093eb0e73f88a9c5ca067faef9	640	root:kose-seer
 app/dist/DataBase/migrations/MigrationRunner.d.ts	9dd584e483f1d87fa356e7524293d46d6c4c120a97169d234ecd2a23c67ef27e	640	root:kose-seer
 app/dist/DataBase/migrations/MigrationRunner.d.ts.map	b6e8fd4db77203c98b437aa9ce8c030dcac1d5ccbb666278fbc24a4cfe816c9a	640	root:kose-seer
-app/dist/DataBase/migrations/MigrationRunner.js	1ea3788468fc265475d46f9d5d2568f4d30802e718f370a4d08a0cefced0f407	644	root:kose-seer
+app/dist/DataBase/migrations/MigrationRunner.js	1ea3788468fc265475d46f9d5d2568f4d30802e718f370a4d08a0cefced0f407	640	root:kose-seer
 app/dist/DataBase/migrations/MigrationRunner.js.map	77a43e417ecf55c9c6a8ebe45293957e7ff8141fedc2f3a4897f412d1309bf0c	640	root:kose-seer
 app/dist/DataBase/migrations/index.d.ts	faf8077e1df9e4830b3be8a65d8ea2e864a79f5dc8b83d3d67767569e43636fd	640	root:kose-seer
 app/dist/DataBase/migrations/index.d.ts.map	ba6ef4e3da8d8d1ca75120d0336f6d6ee8d03d81203cc68d4f413915fd63f0e4	640	root:kose-seer
@@ -249,9 +249,9 @@ app/dist/DataBase/migrations/scripts/027_create_star_arena.js	0243c1ffe6cc91fdb4
 app/dist/DataBase/migrations/scripts/028_split_galaxy_arenas.js	bcffa38b0a38a2fdeee4e26c1fde09d7aae63bf33289101d57854ab7ec49cfea	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/029_complete_evolution_collection.js	42b557d0438c6b52c9141cb3b5403eb677078dbe5b48e10b3dfa18e42811d4a9	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/030_create_universe_encounters.js	b26a4ab6ad185a35dbb5bf77cc04eb5128c400c6a385f558e95a93e03157297e	640	root:kose-seer
-app/dist/DataBase/migrations/scripts/031_add_alder_progress.js	7b2cd685859d015727fcee2154c5d5aa44fdd8f2d9d7781414de7df4347ecba5	644	root:kose-seer
+app/dist/DataBase/migrations/scripts/031_add_alder_progress.js	7b2cd685859d015727fcee2154c5d5aa44fdd8f2d9d7781414de7df4347ecba5	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/032_classic_cleanup.js	e181b6373b29a26c21a5d97d307cf02891e7aa4da997460be15f5083abbfd07a	640	root:kose-seer
-app/dist/DataBase/migrations/scripts/033_classic_polish_v2.js	d000a29550804efd6eb61965fc56d94b74aac5557ae7408d2b0286fc5d05b47d	644	root:kose-seer
+app/dist/DataBase/migrations/scripts/033_classic_polish_v2.js	d000a29550804efd6eb61965fc56d94b74aac5557ae7408d2b0286fc5d05b47d	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/index.d.ts	2238285574e653ae132fa17946185993742c6903b96aea4ee57e7b1b8f866811	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/index.d.ts.map	e027fe13805f42ce103128460899f0e5ff70d7209a5979558b3626a4d09e7627	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/index.js	473bab60f982ca319717f6598c7d53c993936d6ff64d3cb164fbb0a48aded271	640	root:kose-seer
@@ -262,7 +262,7 @@ app/dist/DataBase/models/BaseData.js	a634f8a70c12147ea136ac058cfb66c7060a0cc0ca3
 app/dist/DataBase/models/BaseData.js.map	a040549c68cd0689b4376370223acf6059cced741368f8a31e6c5a34ea7de9f3	640	root:kose-seer
 app/dist/DataBase/models/ChallengeProgressData.d.ts	9ec7873e2d30b9ea6db5645e0b5887afd3ba49b280d868ce6dbf89f21c5df871	640	root:kose-seer
 app/dist/DataBase/models/ChallengeProgressData.d.ts.map	70e0499a5d5f3641ff1b40d88f52a48da055625051763769a8f2835df9c90e4a	640	root:kose-seer
-app/dist/DataBase/models/ChallengeProgressData.js	ed4834b0319ee06f4912ca8c75d3dbc1bd8ba598720e5ae32926a40021a00a8a	644	root:kose-seer
+app/dist/DataBase/models/ChallengeProgressData.js	ed4834b0319ee06f4912ca8c75d3dbc1bd8ba598720e5ae32926a40021a00a8a	640	root:kose-seer
 app/dist/DataBase/models/ChallengeProgressData.js.map	04cdc6548eaabc5c543b1b5ca6cd8c5e6a6c025949585f63d4152d0056af6636	640	root:kose-seer
 app/dist/DataBase/models/FriendData.d.ts	e27b427ad2a9a2779c29e72a3dbfd89246a25d682b1f258f68fa999b197f9adc	640	root:kose-seer
 app/dist/DataBase/models/FriendData.d.ts.map	c901cdba17cb2e9666796757cd1db04a31a7afd0826abaab80b798234b3592a1	640	root:kose-seer
@@ -462,8 +462,8 @@ app/dist/GameServer/Game/Base/BaseManager.d.ts	fa536ac5382fad82a3f0bb5409e8841d2
 app/dist/GameServer/Game/Base/BaseManager.d.ts.map	9a7c38ff53540ed6d6265356feb83c58cb7cd510fcb4cfce8e04544b22a2438f	640	root:kose-seer
 app/dist/GameServer/Game/Base/BaseManager.js	bf3fdd1d5f3014bae6f59fc97d85dc6f25cec65e77796c0eec534afa2fd5129b	640	root:kose-seer
 app/dist/GameServer/Game/Base/BaseManager.js.map	eea4950cbdbb02b20d45f53dbc3ccfab6aa7e18de8e2c840aff847a3bfc0ffe7	640	root:kose-seer
-app/dist/GameServer/Game/Battle/AlderSealBattle.js	39799cd32918554b87ce1118e8d515373fb4feeac316d931cdd6cd522b7db062	644	root:kose-seer
-app/dist/GameServer/Game/Battle/ArenaStrategy.js	bc6dd944a933755f3983901ecb989afc92bda1e30d7e47f61b3c3e2a18e7bbc9	644	root:kose-seer
+app/dist/GameServer/Game/Battle/AlderSealBattle.js	39799cd32918554b87ce1118e8d515373fb4feeac316d931cdd6cd522b7db062	640	root:kose-seer
+app/dist/GameServer/Game/Battle/ArenaStrategy.js	bc6dd944a933755f3983901ecb989afc92bda1e30d7e47f61b3c3e2a18e7bbc9	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleAI.d.ts	14acda0ac48c063cc7534ad56682c41305fe3fb3b4b0544c15c10f77bd7c667f	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleAI.d.ts.map	6f5827195b7537a8ef18256353ca4cb4a88b7763415df6b34f2706c9a29b64e6	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleAI.js	9a4b95fa41ee4eeb82d154ce48cd92bbcce8351b825c899e870d48e50f8e55f6	640	root:kose-seer
@@ -520,12 +520,12 @@ app/dist/GameServer/Game/Battle/BossAbility/index.js	551b27a081002633f51fe870ef1
 app/dist/GameServer/Game/Battle/BossAbility/index.js.map	78c1c42e083fd87cff75ab511381328fe683c7a334c5f2fc2bf05af9ef1211df	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossSpecialRules.d.ts	f2af393c5665b74e51e51da4b3f48775cc2669bd353798709e2904e415a9ea23	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossSpecialRules.d.ts.map	3573a5cff96ef497aebbee9ba50037598c96938780dbe716fe4310805d187b3b	640	root:kose-seer
-app/dist/GameServer/Game/Battle/BossSpecialRules.js	90a160c970cbee37be9ea5581e7323656c75f86741d66dca0061faacf7349a50	644	root:kose-seer
+app/dist/GameServer/Game/Battle/BossSpecialRules.js	90a160c970cbee37be9ea5581e7323656c75f86741d66dca0061faacf7349a50	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossSpecialRules.js.map	8c28f29c3c7baa170f3d28e9f101d3f7b699d6e8e04b2a9b4de03ea62e945e4c	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BraveTower.js	dcd37f17ae11993e32839a54eab43138240a473433670f4cf9f73bc45543825f	640	root:kose-seer
 app/dist/GameServer/Game/Battle/ChampionEffectArguments.json	fbd75e1b0ee8780e321582fc6748e9df91cca1cdf8748eff6173c8a98408a311	640	root:kose-seer
 app/dist/GameServer/Game/Battle/ChampionPetData.json	c959781cbc2ff17bba9868d850219a4662ee144b5e194e52b37d7f51ed5919cd	640	root:kose-seer
-app/dist/GameServer/Game/Battle/ChampionPetRuntime.js	732b0d802ef4f39bafdeab44e984b7f38cbfc84acf39c575669fcb3b90231df6	644	root:kose-seer
+app/dist/GameServer/Game/Battle/ChampionPetRuntime.js	732b0d802ef4f39bafdeab44e984b7f38cbfc84acf39c575669fcb3b90231df6	640	root:kose-seer
 app/dist/GameServer/Game/Battle/ClosedSpaceXita.js	5ed04baeb05779e58d9a2505e57861c7fc1de90d0780173ad5ff53ecd7369795	640	root:kose-seer
 app/dist/GameServer/Game/Battle/EffectApplicator.d.ts	abe55851615b9f3956734302bb69a966f2cf0063d955c3bd0025961d287f8285	640	root:kose-seer
 app/dist/GameServer/Game/Battle/EffectApplicator.d.ts.map	4d3e3c4a126839eaa50359c569e93574886962d58670d471ee0cdd95d5a79d33	640	root:kose-seer
@@ -562,7 +562,7 @@ app/dist/GameServer/Game/Battle/RareEncounters.js	94c8bb93960cd8ee9a1b9d3b671f74
 app/dist/GameServer/Game/Battle/RareEncounters.js.map	4db07dcfbfc7022830dbbe100511853b74ae8f08afb6c9f409e669558648ba85	640	root:kose-seer
 app/dist/GameServer/Game/Battle/SkillEffectRuntime.js	b52bcaeb14c6137352b587490e35bece92ab6e18b875efa57e68db78eb655045	640	root:kose-seer
 app/dist/GameServer/Game/Battle/StarArena.js	c597de2e73068db909575c9502a350691f15cd2394c00a109e2836010e01dcf8	640	root:kose-seer
-app/dist/GameServer/Game/Battle/StarArenaCatalog.json	1184b1344ea6cf080069628a314c7c629540c4ae47dfdd65cf5e82149acd9f26	644	root:kose-seer
+app/dist/GameServer/Game/Battle/StarArenaCatalog.json	1184b1344ea6cf080069628a314c7c629540c4ae47dfdd65cf5e82149acd9f26	640	root:kose-seer
 app/dist/GameServer/Game/Battle/StoryEncounters.js	7b47039103618bba3834055356cbe66bb96dbda6aab1306427efe53b4eb0d55d	640	root:kose-seer
 app/dist/GameServer/Game/Battle/TrainingBattlePackets.js	8e296559caefe6a473e0fc1d9c89f5b6440e052a3485f3557cd7ea05b10b0df9	640	root:kose-seer
 app/dist/GameServer/Game/Battle/TrainingBattleRuntime.js	b6ee74459c9f06a757dda170f5061b33173da6a7870b37dee1b73f4b7dca7478	640	root:kose-seer
@@ -864,7 +864,7 @@ app/dist/GameServer/Game/Battle/effects/atomic/special/TypeEffects.js	c94b9771d1
 app/dist/GameServer/Game/Battle/effects/atomic/special/TypeEffects.js.map	3a74a10df0191c19ce7dc9bc2405eb1639172c211c6ddfec0e2e046d7f541682	640	root:kose-seer
 app/dist/GameServer/Game/Battle/effects/atomic/stat/StatEffects.d.ts	f057247fa36e37d852704b6bfecd3cf6e0f7cba6a71e606f58eb096b79914855	640	root:kose-seer
 app/dist/GameServer/Game/Battle/effects/atomic/stat/StatEffects.d.ts.map	e4e25dc5b840f3cada60f4a82ecf9c86a080df4f94d8563ff767526496ec9ef3	640	root:kose-seer
-app/dist/GameServer/Game/Battle/effects/atomic/stat/StatEffects.js	8c0d01787e0d39ee485476c6bda69df32fae38b3512dd8bacbc3b4556908209d	644	root:kose-seer
+app/dist/GameServer/Game/Battle/effects/atomic/stat/StatEffects.js	8c0d01787e0d39ee485476c6bda69df32fae38b3512dd8bacbc3b4556908209d	640	root:kose-seer
 app/dist/GameServer/Game/Battle/effects/atomic/stat/StatEffects.js.map	9f6d8cc615cdf78244f7f65868617f19b30db440760e45a33b2fd918b5626ba0	640	root:kose-seer
 app/dist/GameServer/Game/Battle/effects/atomic/status/StatusEffects.d.ts	7efc28677bf7dd1b7ca8238afa6c4b777438645fb02e633031b949f187fdd2ce	640	root:kose-seer
 app/dist/GameServer/Game/Battle/effects/atomic/status/StatusEffects.d.ts.map	2060aaa5f46a50d536d6d94d334bf91ec11802b9e6cc3b29ae8a2be412f359bb	640	root:kose-seer
@@ -897,7 +897,7 @@ app/dist/GameServer/Game/Battle/index.js.map	fa3d906e15dd6a70a3fdf7ba7e67aae4a8d
 app/dist/GameServer/Game/Battle/services/AcquisitionRewards.js	b970eb806abc6fe26571fb68dedadc0fad368f1d0f20ba4772a1c54479ec4070	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleInitService.d.ts	287a5b00154a8b94093f814c3c9d6f263e917b1a5dd50d886c8ed5dd7af1bec2	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleInitService.d.ts.map	9e2bce70b1feaf85c160faebd8d0f9c6671826d4443457adcdd061c355189910	640	root:kose-seer
-app/dist/GameServer/Game/Battle/services/BattleInitService.js	7ce80ca80ccd10fe9034453ab0cb1efed06f3f0b0653798ee61b4500edb2a841	644	root:kose-seer
+app/dist/GameServer/Game/Battle/services/BattleInitService.js	7ce80ca80ccd10fe9034453ab0cb1efed06f3f0b0653798ee61b4500edb2a841	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleInitService.js.map	3e686ab84d9c786451b9bd9e2e6c716a50fb22043b9ac793aeaa1eed649ad9e6	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattlePvpService.d.ts	95493b0813ea93d0a4832bbebbbdd2d5dc2c879b0b660c152dcd06133d83feab	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattlePvpService.d.ts.map	a00fcb712009fb1fd41a355d845a3af6439e0aa7600079bb44f72418257f30f6	640	root:kose-seer
@@ -923,7 +923,7 @@ app/dist/GameServer/Game/Broadcast/BroadcastService.js	98a0a7bcc36682ba5e257d08d
 app/dist/GameServer/Game/Broadcast/BroadcastService.js.map	d282b0dc711b9800c255cfb2116cb0ca85e362b36118e98b317514179fd71b9b	640	root:kose-seer
 app/dist/GameServer/Game/Challenge/ChallengeProgressManager.d.ts	1c6ffb23bf85c75b036f5dd39a2deb7d3c3a54c9387cfd9fdad210e8ca62e93a	640	root:kose-seer
 app/dist/GameServer/Game/Challenge/ChallengeProgressManager.d.ts.map	f28a881849cc45417fa64ddd625b6f1ad1b748a21cfbb02ab8fa02a90c608a6d	640	root:kose-seer
-app/dist/GameServer/Game/Challenge/ChallengeProgressManager.js	6fe69ccf0ccef8ace89759da60e183dcb351d1122fb2bf2967b49c013182fe48	644	root:kose-seer
+app/dist/GameServer/Game/Challenge/ChallengeProgressManager.js	6fe69ccf0ccef8ace89759da60e183dcb351d1122fb2bf2967b49c013182fe48	640	root:kose-seer
 app/dist/GameServer/Game/Challenge/ChallengeProgressManager.js.map	6bb7b1377c55b9bec68cd430b30165c75d1e6ec7f6b7b0c004f450f04de4d278	640	root:kose-seer
 app/dist/GameServer/Game/Event/EventDispatcher.d.ts	325f78f2e4b7f4577d1ddd15456c264863656851444099a19611cdb091bef967	640	root:kose-seer
 app/dist/GameServer/Game/Event/EventDispatcher.d.ts.map	6e1de553ea0ae98ab240e0f5810f31b4ac2d3d287a4b964fc96398dc2fb5dea6	640	root:kose-seer
@@ -2334,7 +2334,7 @@ app/dist/shared/config/XmlConfigInterfaces.d.ts	7065e9ce66f822e588f09166bcab177c
 app/dist/shared/config/XmlConfigInterfaces.d.ts.map	dbb8be756ed60bc5c28aec382d2f7cc7197e2cb079842b3b9929cec9469c335e	640	root:kose-seer
 app/dist/shared/config/XmlConfigInterfaces.js	1a8d4e06b90b6e53cb7c3c8b9722519613a0b43d220f0bc8659057b811a757ca	640	root:kose-seer
 app/dist/shared/config/XmlConfigInterfaces.js.map	a75bf7e4845977ee9d27acf7e99b881be76f327d9f9b54bd6d94eff777cc5154	640	root:kose-seer
-app/dist/shared/config/game/AlderConfig.js	d5cb597b8c83f3bd6da6f8c33f422c7734c61c4f980b548ed221d9aa70e5cdae	644	root:kose-seer
+app/dist/shared/config/game/AlderConfig.js	d5cb597b8c83f3bd6da6f8c33f422c7734c61c4f980b548ed221d9aa70e5cdae	640	root:kose-seer
 app/dist/shared/config/game/GachaConfig.d.ts	c70faeec773f1e3ef009ea03f261c4bc2681f76851ab5416cba6b1ebcd749865	640	root:kose-seer
 app/dist/shared/config/game/GachaConfig.d.ts.map	3ebeac9ce36e0cf8b7b90f43e864e96d608ecb6451307390d601aa7c9ed6eae3	640	root:kose-seer
 app/dist/shared/config/game/GachaConfig.js	d3051e9a2a9b97386f0d4077015289ad2b551eeb1aaeff918ff0e8fc464d3507	640	root:kose-seer
@@ -3443,7 +3443,7 @@ app/src/GMServer/services/PetService.ts	6c3e1a4dd90fc237159bd0c8b10da1fa71eda374
 app/src/GMServer/services/PlayerService.ts	2e7d550e8f0a302f96c549d2d9e90f2c85351eafcec7bef4233f5bbe3c84c21f	640	root:kose-seer
 app/src/GMServer/services/ServerService.ts	1e73bee152e6bda23dc2095c4c92434c009ac670e959d2071ace3004d92a3f48	640	root:kose-seer
 app/src/GameServer/Game/Base/BaseManager.ts	521c437688c0559973ac5916b91fc8353005ee95438195a8b22ce9b4bea54536	640	root:kose-seer
-app/src/GameServer/Game/Battle/AlderSealBattle.ts	da647525c04fb4645f7c91b8d8d5e5ccacf29c1e390dffa4bac2c1bd92ea4875	644	root:kose-seer
+app/src/GameServer/Game/Battle/AlderSealBattle.ts	da647525c04fb4645f7c91b8d8d5e5ccacf29c1e390dffa4bac2c1bd92ea4875	640	root:kose-seer
 app/src/GameServer/Game/Battle/BattleAI.ts	e9d404a6c44af63ec89b5c3a8673f4a8731a3fcc97c12b6203865bb5ecb39f64	640	root:kose-seer
 app/src/GameServer/Game/Battle/BattleAlgorithm.ts	386b74f5afd68b1588d438e8cbb80e50033119525edac1ff610ba46ded81b594	640	root:kose-seer
 app/src/GameServer/Game/Battle/BattleCaptureSystem.ts	3b6580ecbf0a5d7081a03daf849e00a2532aaf3e53310834501585d85058ff73	640	root:kose-seer
@@ -3914,7 +3914,7 @@ app/src/shared/config/ConfigLoader.ts	98174d671d6d0e1f07dd79c5861a27c5d22e033fab
 app/src/shared/config/ConfigRegistry.ts	c4feb79bb54efcf49593aeb6c4df09792719cee717deed53aca2bd282cda0bbc	640	root:kose-seer
 app/src/shared/config/ServerConfig.ts	43a4b4dddcd83a99f69a8fddb67509bacafdf6ffac9654b7925f3dc873093bb4	640	root:kose-seer
 app/src/shared/config/XmlConfigInterfaces.ts	930e72cbd87f680e880569e4751979e73970a8eb0b5b69eec1761b9021b1fd43	640	root:kose-seer
-app/src/shared/config/game/AlderConfig.ts	325e5f9ea1a05b6619bc45017863d096c35de4f83efe01b18db6d2b4b9057626	644	root:kose-seer
+app/src/shared/config/game/AlderConfig.ts	325e5f9ea1a05b6619bc45017863d096c35de4f83efe01b18db6d2b4b9057626	640	root:kose-seer
 app/src/shared/config/game/GachaConfig.ts	221132bab6fe8889c0af5cbce957c910f17d9f9fb10ff4bf3c793b7427591383	640	root:kose-seer
 app/src/shared/config/game/GameConfig.ts	cb89d7a714efd6ae71e877f8960db5cec75f4885fab02622a01932265023b1c2	640	root:kose-seer
 app/src/shared/config/game/PuniConfig.ts	190c9b183d87b6f9344f1dbc9267413ffb84f0dbd78b3957010df5489be1ca91	640	root:kose-seer
