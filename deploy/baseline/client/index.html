@@ -54,7 +54,7 @@ window.getSessionID = () => session;
 window.saveSessionID = value => { session = String(value); };
 window.clearSessionID = () => { session = ''; };
 window.debugFlash = () => {};
-window.RufflePlayer = { config: { quality: typeof window.orientation === 'undefined' ? 'medium' : null, publicPath: '/ruffle/', deviceFontRenderer: 'canvas', scale: 'showAll', forceScale: true, autoplay: 'on', unmuteOverlay: 'hidden', allowScriptAccess: true, socketProxy: [{host:'127.0.0.1',port:9999,proxyUrl:location.origin.replace(/^http/,'ws')+'/socket'}] } };
+window.RufflePlayer = { config: { quality: typeof window.orientation === 'undefined' ? 'high' : null, publicPath: '/ruffle/', deviceFontRenderer: 'canvas', scale: 'showAll', forceScale: true, autoplay: 'on', unmuteOverlay: 'hidden', allowScriptAccess: true, socketProxy: [{host:'127.0.0.1',port:9999,proxyUrl:location.origin.replace(/^http/,'ws')+'/socket'}] } };
 window.addEventListener('load', async () => {
  try {
   const response = await fetch('/battle-assets-version.json', { cache: 'no-store' });
