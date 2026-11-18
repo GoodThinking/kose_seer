@@ -1,7 +1,17 @@
 # KOSE 赛尔号多 AI 交接记录 (HANDOFF.md)
 
-> 更新时间：2026-11-18（`classic-polish-v4-20261118` BOSS 难度回调；已生产发布）
+> 更新时间：2026-11-18（`classic-polish-v5-20261118` 下线遗留 learnTimes；已生产发布）
 > 当前阶段：已完成全服 Boss 四阶战术体系大整改（彻底摒弃死板的“一锁一钥”非指定属性 0 伤害与战前剧透弹窗）、果冻鸭与闪光皮皮恢复可捕捉稀有精灵、三大星系擂台升级原版竞技场美术与原生 HUD（三只冠军精灵调整为 625 种族值与经典平衡特质）、训练师之门完整补齐（含战斗系威里特、双属性普兰特/帕里斯、普通/勇者双模式）、移除北斗七星殿与克洛斯星湿地代码入口，并将 NoNo 随身面板升级为原生金属高光皮肤。
+
+---
+
+## 当前：下线遗留 learnTimes（已发布 `classic-polish-v5-20261118`）
+
+- 查明：玩家用的学习力加成是十倍学习力卡 399902（player_reward_boosts），链路正常。learnTimes 是半接线遗留：无 learn_times 列、不读取、`PublishLearnTimes` 不存在、无道具发放，仅 GM 设 >0 时结算报 `no such column: learn_times`。用户选择“下线遗留链路”。
+- 改动：`scripts/build-classic-polish-v5.cjs` 只改 BattleRewardService.js（基线 v3 `ab5ccc93…`，现网一致）：结算不再读 learnTimes，不 ×2、不扣次数。PetManager 的 learningUse 分支因此不可达，未删。
+- 验证：`test-academy-train.cjs` 新增十倍卡（训练室 +100、SPT 产出×10）与遗留 learnTimes=3 不影响结算两例，v5 33 条通过；同测试在旧版复现结算失败。证据 `outputs/classic-polish-v5-20261118/academy-train.json`。
+- 发布（用户“发布吧”）：2026-11-18，双锁+before 哈希校验，替换 BattleRewardService.js（`ab5ccc93…`→`fe402557…`，640 root:kose-seer）；游戏 PID 3981972→3987937，Web 3932105 未变，NRestarts=0，9999 监听，journal 无 WARN/ERROR。备份 `/opt/kose-seer/backups/classic-polish-v5-20261118/`，回执 `outputs/classic-polish-v5-20261118/deployment-result.json`。回滚：恢复该文件并重启 kose-seer.service。
+- 剩余审计项：构建基线入库（建议 1）；杂项 `._*`、644 权限、Universe 死协议。
 
 ---
 

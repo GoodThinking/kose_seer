@@ -77,6 +77,29 @@ function diff(before, after) { return Object.fromEntries(EV.map(k => [k, after[k
     assert.deepEqual(d, { [field]: gain }, `Room ${map} EV gain`);
     results.push({ case: 'ev-room', map, enemy: enemy.id, gain: d });
   }
+  // 2. 十倍学习力卡（player_reward_boosts）：训练室定向加点同样 ×10，普通首领按产出 ×10
+  {
+    const ctx = await account('EvCard', 7, 30);
+    await db.Execute('INSERT INTO player_reward_boosts (owner_id, kind, multiplier, expires_at) VALUES (?, ?, ?, ?)', [ctx.player.Uid, 'learning', 10, Math.floor(Date.now() / 1000) + 3600]);
+    let before = evOf(lead(ctx));
+    await victory(ctx, 474, 0);
+    assert.deepEqual(diff(before, evOf(lead(ctx))), { evSpeed: 100 });
+    before = evOf(lead(ctx));
+    const enemy = await victory(ctx, 12, 0);
+    const yields = String(GameConfig.GetPetById(enemy.id).YieldingEV).trim().split(/\s+/).map(Number);
+    assert.deepEqual(diff(before, evOf(lead(ctx))), Object.fromEntries(EV.map((k, i) => [k, yields[i] * 10]).filter(([, v]) => v)));
+    results.push({ case: 'learning-card-x10', room474: 100, spt: enemy.id });
+  }
+  // 2b. 遗留 learnTimes（仅 GM 可设）不再参与结算：不翻倍、不扣次数、不导致结算失败
+  {
+    const ctx = await account('LegacyLearn', 7, 30);
+    ctx.player.Data.learnTimes = 3;
+    const before = evOf(lead(ctx));
+    await victory(ctx, 470, 0);
+    assert.deepEqual(diff(before, evOf(lead(ctx))), { evAtk: 10 });
+    assert.equal(ctx.player.Data.learnTimes, 3);
+    results.push({ case: 'legacy-learn-times-ignored', gain: 10 });
+  }
   // 3. 上限：单项 255 截断，不转移到其他项
   {
     const ctx = await account('EvCap', 7, 30);
