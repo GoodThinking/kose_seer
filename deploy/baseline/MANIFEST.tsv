@@ -24,7 +24,7 @@ app/config/data/json/forest_mechanisms.json	16b3bc514409ae023001d6244c1efc358e7e
 app/config/data/json/gacha_rewards.json	55223a63963e75504c2fecafd0813660c2aff575bf9f714a91540b2e02de09b4	640	root:kose-seer
 app/config/data/json/king_tower.json	c6b985567fa90c0a76f9a3366b6d469f6ee96f4c1814ec1ec095eb6594ef0517	640	root:kose-seer
 app/config/data/json/map-day-gifts.json	6eeae68dd81edf1bd1d6f00955504f19e8eaa0787e9a9897fbd79f29f4bc3aa6	640	root:kose-seer
-app/config/data/json/map-ogres.json	87a32f512ef5a474e08250b126102eea345aeb81a423f8bccef5909efdd0f894	640	root:kose-seer
+app/config/data/json/map-ogres.json	bb4498669ac2c5896e4d75785f29e0b4209ca97a882b983edb05928afed26d10	640	root:kose-seer
 app/config/data/json/material-sources.json	9351364d18c273eb7d1ae41004f540d4941d8a4c366d9c9eaea2066d989ddf5e	640	root:kose-seer
 app/config/data/json/mining.json	b05e0e5049deeaa4345f72ce5825fdcdadfc8fd411b7a7b72aa9502363dfbcfc	640	root:kose-seer
 app/config/data/json/money-products.json	87d9b055a51d635def049bf6d64fc33107eadbc5e571b9840e14d1e7a5f59a28	640	root:kose-seer
@@ -3402,7 +3402,7 @@ client/overlay/Client.swf	9ad1eabb270b8570628fb7f120cebecbb14ace77bceb4cf3aa0315
 client/overlay/config/ServerR.xml	8255cc4df83c532613d30800715ac679fb658d7f69e9998010096f002d6769a4	644	root:kose-seer
 client/overlay/config/doorConfig.xml	77fd7035cb57e928c1e672891d64ade1746d45f61023ea0568dc7ee7be1b4e10	644	root:kose-seer
 client/overlay/dll/GroupFightDLL.swf	481fab3a2a4e11ccfeeab2cdc73ef4b0b4af643f6b1382dc982ca93c4e6bf233	644	root:kose-seer
-client/overlay/dll/NieoCore.swf	36f32a7b26e542c2726c3b54e789233f334933d37769eebe9bd863f88de4a6c7	644	root:kose-seer
+client/overlay/dll/NieoCore.swf	2bf56a5bf96cae821dc01cbcdeef0c92ece1dced54c75bf5169539eccab20905	644	root:kose-seer
 client/overlay/ip.txt	949936342545e45f63ddc71525cc3d4e33842adbbe35a14238e66801af85b2a0	644	root:kose-seer
 client/overlay/login/Login.swf	1852965ac3353c0e8b6e5b3de1ec575e3f865f087ffc9318ee656bda219f1391	644	root:kose-seer
 client/overlay/module/com/robot/module/app/DienVideo_624.swf	921ec80d3692a47132a8f2b5c0b7e8899503409fe19d54c31c524cddde0bc10b	644	root:kose-seer
@@ -3415,7 +3415,7 @@ client/overlay/module/com/robot/module/app/MaliGame.swf	9fbb102f3e428f6f8837623b
 client/overlay/module/com/robot/module/app/MirrorMaze.swf	7ae3b3f8c50039e0ccbaa3e703796c071b86fcbadaa384ab33d2a8a3b4f210c6	644	root:kose-seer
 client/overlay/module/com/robot/module/app/MoleculePanel.swf	c784c33475bb45e435a39cda5a830a4695f8a02dc91594104856f9788043bcbf	644	root:kose-seer
 client/overlay/module/com/robot/module/app/PetSelectPanel.swf	8048559b7fa2cd647231b4d0003bf421a2a4533c9339e98c1495ceb5d71496a1	644	root:kose-seer
-client/overlay/module/com/robot/module/app/PetStorage.swf	7fe3fc14edc2ca5b1bdee725fa7e768d2de12579fab15f15a0cd77cb33449e80	644	root:kose-seer
+client/overlay/module/com/robot/module/app/PetStorage.swf	fed6f2c1f606565635759e5b20c0206fbfdc421472ad9885e23bc858c3e7bcf7	644	root:kose-seer
 client/overlay/module/com/robot/module/app/SeaVortexActivity.swf	6df9bf7941bef74117e59bd780c70d4c57e02747bcc0d7aa854cb354cd9c885d	644	root:kose-seer
 client/overlay/module/com/robot/module/app/SptChannelPanel.swf	fa11ce602971df67ed1adf5dc96092df3558352e179fe7dcc9359b02b5515c92	644	root:kose-seer
 client/overlay/module/com/robot/module/app/SptPanel.swf	e8b847785cfea56388814bc5a61253e8216004a5436265b58057e932cdc5ff35	644	root:kose-seer

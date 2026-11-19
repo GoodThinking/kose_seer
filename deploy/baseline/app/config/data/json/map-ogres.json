@@ -149,7 +149,7 @@
           "slot": 1,
           "petId": 27,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -240,7 +240,7 @@
           "slot": 1,
           "petId": 480,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -374,7 +374,7 @@
           "slot": 1,
           "petId": 133,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -652,7 +652,7 @@
           "slot": 1,
           "petId": 53,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -885,7 +885,7 @@
           "slot": 1,
           "petId": 19,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -1041,7 +1041,7 @@
           "slot": 1,
           "petId": 16,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -1571,7 +1571,7 @@
           "slot": 1,
           "petId": 158,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -1693,7 +1693,7 @@
           "slot": 1,
           "petId": 203,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -2249,7 +2249,7 @@
           "slot": 1,
           "petId": 102,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -2476,7 +2476,7 @@
           "slot": 1,
           "petId": 254,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -2789,7 +2789,7 @@
           "slot": 1,
           "petId": 422,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -3198,7 +3198,7 @@
           "slot": 1,
           "petId": 139,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -3235,7 +3235,7 @@
           "slot": 2,
           "petId": 150,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -4294,7 +4294,7 @@
           "slot": 0,
           "petId": 576,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -5071,7 +5071,7 @@
         {
           "petId": 548,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -5107,7 +5107,7 @@
         {
           "petId": 229,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,
@@ -5143,7 +5143,7 @@
         {
           "petId": 241,
           "shiny": 0,
-          "weight": 1,
+          "weight": 5,
           "refreshConfig": {
             "enabled": true,
             "refreshInterval": 10,

@@ -50,6 +50,8 @@ package com.robot.core.ui.nono
       
       private static var _petDiscoverBtn:SimpleButton;
       
+      private static var _appModel:AppModel;
+      
       
       private static var _nonoPanel:AppModel;
       
@@ -288,8 +290,21 @@ package com.robot.core.ui.nono
       
       private static function onjn() : void
       {
+         if(_appModel == null)
+         {
+            _appModel = ModuleManager.getModule(ClientConfig.getAppModule("ExpAdmPanel"),"正在打开经验分配器面板...");
+            _appModel.setup();
+            _appModel.sharedEvents.addEventListener(Event.CLOSE,onAppCloseHandler);
+         }
+         _appModel.show();
          hide();
-         PetTrainingPanel.show();
+      }
+
+      private static function onAppCloseHandler(param1:Event) : void
+      {
+         _appModel.sharedEvents.removeEventListener(Event.CLOSE,onAppCloseHandler);
+         _appModel.destroy();
+         _appModel = null;
       }
       
       
@@ -360,7 +375,7 @@ package com.robot.core.ui.nono
       {
          // A service ID uses the existing icon and prevents the native app's automatic claim path.
          servicePage(["3","qx_skills","qx_hatch","qx_shop",null,null,null,"qx_back"],
-            ["按目标等级分配经验","前往精灵学院","孵化倒计时与领取入口","原生道具商城",null,null,null,"返回随身服务"],
+            ["经验分配器","前往精灵学院","孵化倒计时与领取入口","原生道具商城",null,null,null,"返回随身服务"],
             [onjn,openAcademyTrain,showHatch,showShop,null,null,null,showServices]);
       }
 
