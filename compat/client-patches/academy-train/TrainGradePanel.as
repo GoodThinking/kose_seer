@@ -1,348 +1,318 @@
 package com.robot.app.task.petstory.app.train
 {
+   import com.robot.core.config.ClientConfig;
    import com.robot.core.config.xml.PetBookXMLInfo;
    import com.robot.core.config.xml.PetXMLInfo;
+   import com.robot.core.event.MCLoadEvent;
    import com.robot.core.info.pet.PetInfo;
    import com.robot.core.manager.LevelManager;
-   import com.robot.core.manager.MainManager;
    import com.robot.core.manager.MapManager;
    import com.robot.core.manager.PetManager;
    import com.robot.core.manager.UIManager;
+   import com.robot.core.newloader.MCLoader;
+   import flash.display.DisplayObject;
+   import flash.display.DisplayObjectContainer;
+   import flash.display.MovieClip;
+   import flash.display.Shape;
    import flash.display.SimpleButton;
    import flash.display.Sprite;
    import flash.events.MouseEvent;
    import flash.filters.GlowFilter;
    import flash.geom.Rectangle;
+   import flash.system.ApplicationDomain;
    import flash.text.TextField;
+   import flash.text.TextFieldAutoSize;
    import flash.text.TextFormat;
+   import org.taomee.manager.ToolTipManager;
+   import org.taomee.utils.AlignType;
    import org.taomee.utils.DisplayUtil;
 
+   // 精灵学院面板，全部使用原版美术：
+   // tab 0：原版 trainGrade.swf「请选择训练室」，选初级/高级后进入原版 train.swf 六项学习力面板（TrainItemPanel）。
+   // tab 1：经验训练室，底板沿用原版 train.swf 的 Train_UI（边框、院长、说明框、按钮），
+   //        说明框上方标题换成「经验训练室」，16 系用原版属性图标，5 档等级与开始按钮用原版按钮底。
    public class TrainGradePanel
    {
-      private static var _instance:TrainGradePanel;
-      private static var _tab:uint = 0;
+      private static const GRADE_PATH:String = ClientConfig.getResPath("module/ext/app/trainGrade.swf");
+      private static const EXP_PATH:String = ClientConfig.getResPath("module/ext/app/train.swf");
+      private static const TIER_LABELS:Array = ["","Lv.20","Lv.40","Lv.60","Lv.80","Lv.100"];
+      private static const LABEL_GLOW:GlowFilter = new GlowFilter(670348,1,3,3,12);
+      private static const PICK_GLOW:GlowFilter = new GlowFilter(16776960,1,10,10,3);
+      private static const REC_GLOW:GlowFilter = new GlowFilter(65535,0.9,8,8,2);
 
-      private var _root:Sprite;
-      private var _body:Sprite;
+      private static var _instance:TrainGradePanel;
+      private static var _expPicked:Boolean = false;
+
+      private var _isExp:Boolean;
+      private var _loader:MCLoader;
+      private var _ui:MovieClip;
+      private var _desc:TextField;
+      private var _typeIcons:Array = [];
+      private var _tierBtns:Array = [];
+      private var _tierLabels:Array = [];
+      private var _startBtn:SimpleButton;
+
+      public function TrainGradePanel(isExp:Boolean)
+      {
+         super();
+         this._isExp = isExp;
+         this._loader = new MCLoader(isExp ? EXP_PATH : GRADE_PATH,LevelManager.topLevel,1,isExp ? "正在加载经验训练室面板" : "正在加载训练等级面板");
+         this._loader.addEventListener(MCLoadEvent.SUCCESS,this.onComplete);
+         this._loader.doLoad();
+      }
 
       public static function show(defaultTab:int = -1) : void
       {
-         if(defaultTab == 0 || defaultTab == 1)
-         {
-            _tab = uint(defaultTab);
-         }
-         else
-         {
-            _tab = TrainData.mode;
-         }
+         var tab:int = defaultTab == 0 || defaultTab == 1 ? defaultTab : int(TrainData.mode);
          if(_instance != null)
          {
             _instance.close();
          }
-         new TrainGradePanel();
+         _instance = new TrainGradePanel(tab == 1);
       }
 
-      public function TrainGradePanel()
+      private function onComplete(e:MCLoadEvent) : void
       {
-         super();
-         if(_instance != null)
-         {
-            _instance.close();
-         }
-         _instance = this;
-         this.buildUI();
-      }
-
-      private function buildUI() : void
-      {
-         var w:Number = 680;
-         var h:Number = 436;
-         this._root = new Sprite();
-         var bg:Sprite = UIManager.getSprite("Panel_Background");
-         bg.scale9Grid = new Rectangle(40,40,bg.width - 80,bg.height - 80);
-         bg.width = w;
-         bg.height = h;
-         this._root.addChild(bg);
-
-         var titleBar:Sprite = UIManager.getSprite("Panel_TitleBar");
-         if(titleBar)
-         {
-            titleBar.x = 26;
-            titleBar.y = 10;
-            titleBar.width = w - 52;
-            titleBar.mouseEnabled = false;
-            titleBar.mouseChildren = false;
-            this._root.addChild(titleBar);
-         }
-
-         this._root.graphics.lineStyle(1,2321320,0.9);
-         this._root.graphics.beginFill(406878,0.88);
-         this._root.graphics.drawRoundRect(24,48,w - 48,h - 70,10,10);
-         this._root.graphics.endFill();
-
-         var titleTxt:TextField = this.makeText("精灵学院 · 学习力与经验综合特训中心",38,14,480,26,17,16777215,true);
-         titleTxt.filters = [new GlowFilter(676487,0.95,4,4,8)];
-         this._root.addChild(titleTxt);
-
-         var closeBtn:SimpleButton = UIManager.getButton("Close_Btn");
-         if(closeBtn)
-         {
-            closeBtn.x = w - 48;
-            closeBtn.y = 14;
-            closeBtn.width = 24;
-            closeBtn.height = 24;
-            closeBtn.addEventListener(MouseEvent.CLICK,this.onCloseClick);
-            this._root.addChild(closeBtn);
-         }
-
-         this._body = new Sprite();
-         this._body.x = 34;
-         this._body.y = 56;
-         this._root.addChild(this._body);
-
-         this._root.x = int((MainManager.getStage().stageWidth - w) / 2);
-         this._root.y = int((MainManager.getStage().stageHeight - h) / 2);
-         LevelManager.appLevel.addChild(this._root);
-         this.render();
-      }
-
-      private function render() : void
-      {
-         if(!this._body)
+         this._loader.removeEventListener(MCLoadEvent.SUCCESS,this.onComplete);
+         if(_instance != this)
          {
             return;
          }
-         while(this._body.numChildren > 0)
+         var app:ApplicationDomain = e.getApplicationDomain();
+         this._ui = new (app.getDefinition(this._isExp ? "Train_UI" : "TrainGrade_UI") as Class)() as MovieClip;
+         this._ui["closeBtn"].addEventListener(MouseEvent.CLICK,this.onCloseClick);
+         if(this._isExp)
          {
-            this._body.removeChildAt(0);
-         }
-
-         // 顶部双模式切换栏
-         this.makeButton(this._body,(_tab == 0 ? "▶ " : "") + "模式一：刷学习力（六项定向训练）",0,0,296,30,function():void
-         {
-            _tab = 0;
-            render();
-         },_tab == 0 ? 16772252 : 14086655);
-
-         this.makeButton(this._body,(_tab == 1 ? "▶ " : "") + "模式二：刷经验（按属性与阶段等级）",314,0,298,30,function():void
-         {
-            _tab = 1;
-            render();
-         },_tab == 1 ? 16772252 : 14086655);
-
-         var pet:PetInfo = this.getLeadPet();
-         var petSummary:String = "当前首发：未携带精灵（请先在背包放入出战精灵）";
-         if(pet != null)
-         {
-            var totalEv:uint = uint(pet.ev_hp + pet.ev_attack + pet.ev_defence + pet.ev_sa + pet.ev_sd + pet.ev_sp);
-            petSummary = "当前首发：" + PetXMLInfo.getName(pet.id) + " (Lv." + pet.level + " · " + PetXMLInfo.getTypeCN(pet.id) + "系)   |   " +
-               "学习力：体" + pet.ev_hp + " 攻" + pet.ev_attack + " 防" + pet.ev_defence + " 特攻" + pet.ev_sa + " 特防" + pet.ev_sd + " 速" + pet.ev_sp + " (总" + totalEv + "/510)";
-         }
-         var infoBar:TextField = this.makeText(petSummary,0,38,612,22,12,11525887,true);
-         this._body.addChild(infoBar);
-
-         if(_tab == 0)
-         {
-            this.renderEvTab();
+            this.setupExp();
          }
          else
          {
-            this.renderExpTab(pet);
+            (this._ui["grade_0"] as SimpleButton).addEventListener(MouseEvent.CLICK,this.onGrade);
+            (this._ui["grade_1"] as SimpleButton).addEventListener(MouseEvent.CLICK,this.onGrade);
+         }
+         DisplayUtil.align(this._ui,null,AlignType.MIDDLE_CENTER);
+         LevelManager.appLevel.addChild(this._ui);
+         LevelManager.closeMouseEvent();
+      }
+
+      private function onGrade(e:MouseEvent) : void
+      {
+         TrainData.trainGrade = e.currentTarget == this._ui["grade_1"] ? 1 : 0;
+         this.close();
+         new TrainItemPanel();
+      }
+
+      private function setupExp() : void
+      {
+         var i:int = 0;
+         var child:DisplayObject = null;
+         var titleBox:DisplayObject = null;
+         for(i = 0; i < this._ui.numChildren; i++)
+         {
+            child = this._ui.getChildAt(i);
+            if(child is TextField)
+            {
+               this._desc = child as TextField;
+            }
+            else if(child is Shape && child.width > 400 && child.height < 150)
+            {
+               titleBox = child;
+            }
+         }
+         // 原版标题「学习力训练室」与说明框是同一个图形，遮住标题只留说明框
+         if(titleBox)
+         {
+            var mask:Shape = new Shape();
+            mask.graphics.beginFill(0);
+            mask.graphics.drawRect(200,84,440,82);
+            mask.graphics.endFill();
+            this._ui.addChild(mask);
+            titleBox.mask = mask;
+         }
+         this._ui.addChild(this.makeTitle("经验训练室",212,30));
+
+         var pet:PetInfo = this.getLeadPet();
+         var recTypes:Array = pet != null ? TrainData.getRecommendedTargetsForAttackType(uint(PetXMLInfo.getType(pet.id))) : [];
+         if(!_expPicked && pet != null)
+         {
+            _expPicked = true;
+            TrainData.expType = uint(recTypes[0]);
+            TrainData.expTier = pet.level < 25 ? 1 : (pet.level < 45 ? 2 : (pet.level < 65 ? 3 : (pet.level < 82 ? 4 : 5)));
+         }
+
+         for(i = 1; i <= 16; i++)
+         {
+            var icon:SimpleButton = UIManager.getButton("Icon_PetType_" + i);
+            // 按钮的点击区比图标大，按 upState 的实际图形算尺寸
+            var b:Rectangle = icon.upState.getBounds(icon);
+            var s:Number = Math.min(42 / b.width,30 / b.height);
+            icon.scaleX = icon.scaleY = s;
+            icon.name = "type_" + i;
+            icon.x = 236 + ((i - 1) % 8) * 49 + 24 - (b.x + b.width / 2) * s;
+            icon.y = 187 + int((i - 1) / 8) * 42 - (b.y + b.height / 2) * s;
+            icon.addEventListener(MouseEvent.CLICK,this.onType);
+            ToolTipManager.add(icon,TrainData.TYPE_NAMES[i] + (recTypes.indexOf(i) >= 0 ? "（克制）" : ""));
+            this._ui.addChild(icon);
+            this._typeIcons.push(icon);
+         }
+
+         // 原版六个按钮：前五个做等级档位，最后一个做开始训练
+         var btns:Array = [];
+         for(i = 0; i <= 5; i++)
+         {
+            btns.push(this._ui["btn_" + i] as SimpleButton);
+         }
+         for(i = 0; i < 5; i++)
+         {
+            var tb:SimpleButton = btns[i];
+            this.stripLabel(tb);
+            tb.scaleX = 76 / tb.width;
+            tb.scaleY = 0.8;
+            this.place(tb,236 + i * 79,256);
+            tb.addEventListener(MouseEvent.CLICK,this.onTier);
+            this._tierBtns.push(tb);
+            this._tierLabels.push(this.addLabel(tb,TIER_LABELS[i + 1],14));
+         }
+         this._startBtn = btns[5];
+         this.stripLabel(this._startBtn);
+         this.place(this._startBtn,432 - this._startBtn.width / 2,306);
+         this._startBtn.addEventListener(MouseEvent.CLICK,this.onStart);
+         this.addLabel(this._startBtn,"开始训练",17);
+         this.refreshExp(recTypes);
+      }
+
+      // 选中的属性/档位金色光圈，首发精灵克制的属性青色光圈
+      private function refreshExp(recTypes:Array) : void
+      {
+         var i:int = 0;
+         for(i = 0; i < this._typeIcons.length; i++)
+         {
+            (this._typeIcons[i] as SimpleButton).filters = i + 1 == TrainData.expType ? [PICK_GLOW] : (recTypes.indexOf(i + 1) >= 0 ? [REC_GLOW] : []);
+         }
+         for(i = 0; i < this._tierBtns.length; i++)
+         {
+            var picked:Boolean = i + 1 == TrainData.expTier;
+            (this._tierBtns[i] as SimpleButton).filters = picked ? [PICK_GLOW] : [];
+            (this._tierLabels[i] as TextField).textColor = picked ? 16773120 : 16777215;
+         }
+         var petId:uint = TrainData.getExpPetId(TrainData.expType,TrainData.expTier);
+         this._desc.htmlText = "<font face=\'宋体\' size=\'13\' color=\'#ffffff\'>陪练精灵：<font color=\'#00ffff\'>" + this.petName(petId) + "</font>  Lv." + TrainData.TIER_LEVELS[TrainData.expTier] + "（" + TrainData.TYPE_NAMES[TrainData.expType] + "）<br>" +
+            "<font color=\'#ffff00\'>" + TrainData.TIER_EXP_DESC[TrainData.expTier] + "</font></font>";
+      }
+
+      private function onType(e:MouseEvent) : void
+      {
+         TrainData.expType = uint(String(e.currentTarget.name).split("_")[1]);
+         this.refreshFromUi();
+      }
+
+      private function onTier(e:MouseEvent) : void
+      {
+         TrainData.expTier = uint(this._tierBtns.indexOf(e.currentTarget) + 1);
+         this.refreshFromUi();
+      }
+
+      private function refreshFromUi() : void
+      {
+         var pet:PetInfo = this.getLeadPet();
+         this.refreshExp(pet != null ? TrainData.getRecommendedTargetsForAttackType(uint(PetXMLInfo.getType(pet.id))) : []);
+      }
+
+      private function onStart(e:MouseEvent) : void
+      {
+         TrainData.mode = 1;
+         TrainData.times = 0;
+         TrainData.totalTimes = 0;
+         var cur:uint = MapManager.currentMap ? uint(MapManager.currentMap.id) : 0;
+         var inRoom:Boolean = cur >= 488 && cur <= 493 || cur >= 470 && cur <= 475;
+         if(inRoom)
+         {
+            TrainData.roomId = cur;
+         }
+         else if(TrainData.roomId == 0)
+         {
+            TrainData.roomId = 488;
+         }
+         this.close();
+         if(inRoom)
+         {
+            TrainControl.refreshTrainingTarget();
+         }
+         else
+         {
+            MapManager.changeMap(TrainData.roomId);
          }
       }
 
-      private function renderEvTab() : void
+      // 隐藏原版按钮底图上的「训练XX学习力」文字图形，只留按钮底
+      private function stripLabel(btn:SimpleButton) : void
       {
-         var gradeTitle:TextField = this.makeText("第一步：选择学习力训练强度（训练室靶子固定低伤，一招即可击败）",0,68,610,22,14,16772252,true);
-         this._body.addChild(gradeTitle);
-
-         this.makeButton(this._body,(TrainData.trainGrade == 0 ? "★ " : "") + "初级训练室（Lv.15 一阶靶子 · 单场 +5 学习力）",0,96,296,30,function():void
-         {
-            TrainData.trainGrade = 0;
-            render();
-         },TrainData.trainGrade == 0 ? 16772252 : 16777215);
-
-         this.makeButton(this._body,(TrainData.trainGrade == 1 ? "★ " : "") + "高级训练室（Lv.30 三阶靶子 · 单场 +10 学习力）",314,96,298,30,function():void
-         {
-            TrainData.trainGrade = 1;
-            render();
-         },TrainData.trainGrade == 1 ? 16772252 : 16777215);
-
-         var roomTitle:TextField = this.makeText("第二步：点击要刷的单项学习力直接进入对应训练室",0,138,610,22,14,16772252,true);
-         this._body.addChild(roomTitle);
-
-         var rooms:Array = TrainData.trainGrade == 0 ? [488,489,490,491,492,493] : [470,471,472,473,474,475];
-         var labels:Array = [
-            "训练【攻击】学习力 (" + (TrainData.trainGrade == 0 ? "皮皮/比比鼠 +5攻" : "波克尔/天雷鼠 +10攻") + ")",
-            "训练【防御】学习力 (" + (TrainData.trainGrade == 0 ? "查斯/伊达 +5防" : "查尔顿/哈伊卡 +10防") + ")",
-            "训练【特攻】学习力 (" + (TrainData.trainGrade == 0 ? "利利/格林 +5特攻" : "电击兔/洛吉拉斯 +10特攻") + ")",
-            "训练【特防】学习力 (" + (TrainData.trainGrade == 0 ? "伊娃/辛克 +5特防" : "巴拉龟/伊娅丝 +10特防") + ")",
-            "训练【速度】学习力 (" + (TrainData.trainGrade == 0 ? "毛毛/幽浮 +5速度" : "巴洛卡/西萨琉拉 +10速度") + ")",
-            "训练【体力】学习力 (" + (TrainData.trainGrade == 0 ? "奇洛/丁格 +5体力" : "塔奇拉顿/丁鲁特 +10体力") + ")"
-         ];
-
-         var i:uint = 0;
-         while(i < 6)
-         {
-            var col:uint = i % 2;
-            var row:uint = uint(Math.floor(i / 2));
-            var targetMap:uint = uint(rooms[i]);
-            this.makeRoomButton(String(labels[i]),col * 314,168 + row * 44,298,34,targetMap);
-            i++;
-         }
-
-         var tip:TextField = this.makeText("提示：双倍学习力道具或十倍学习力加成卡可在训练室叠加生效，最高单项255、总计510。",0,308,612,22,12,13495295,false);
-         this._body.addChild(tip);
-
-         this.makeButton(this._body,"打开原版院长特瑞选房界面",180,332,250,28,function():void
-         {
-            close();
-            new TrainItemPanel();
-         },14086655);
+         this.hideTextShapes(btn.upState);
+         this.hideTextShapes(btn.overState);
+         this.hideTextShapes(btn.downState);
       }
 
-      private function makeRoomButton(label:String, x:Number, y:Number, w:Number, h:Number, targetMap:uint) : void
+      private function hideTextShapes(d:DisplayObject) : void
       {
-         this.makeButton(this._body,label,x,y,w,h,function():void
+         if(d is Shape && d.height < 30)
          {
-            TrainData.mode = 0;
-            TrainData.roomId = targetMap;
-            TrainData.times = 0;
-            TrainData.totalTimes = 0;
-            close();
-            if(MapManager.currentMap && MapManager.currentMap.id == targetMap)
+            d.visible = false;
+            return;
+         }
+         var c:DisplayObjectContainer = d as DisplayObjectContainer;
+         if(c)
+         {
+            for(var i:int = 0; i < c.numChildren; i++)
             {
-               TrainControl.refreshTrainingTarget();
+               this.hideTextShapes(c.getChildAt(i));
             }
-            else
-            {
-               MapManager.changeMap(targetMap);
-            }
-         },16777215);
+         }
       }
 
-      private function renderExpTab(pet:PetInfo) : void
+      private function place(d:DisplayObject, left:Number, top:Number) : void
       {
-         var atkType:uint = pet != null ? uint(PetXMLInfo.getType(pet.id)) : 0;
-         var recTypes:Array = TrainData.getRecommendedTargetsForAttackType(atkType);
-         var recNames:Array = [];
-         var r:uint = 0;
-         while(r < recTypes.length)
-         {
-            recNames.push(TrainData.TYPE_NAMES[uint(recTypes[r])]);
-            r++;
-         }
-
-         var recStr:String = pet != null
-            ? ("★ 克制推荐：你的【" + PetXMLInfo.getTypeCN(pet.id) + "系】技能打【" + recNames.join(" / ") + "】享 2 倍克制伤害！")
-            : "第一步：选择陪练精灵属性（带 ★ 为你当前首发精灵克制的系别）";
-         var recTxt:TextField = this.makeText(recStr,0,64,418,22,13,16772252,true);
-         this._body.addChild(recTxt);
-
-         this.makeButton(this._body,"一键选克制属性 + 适配等级",424,60,188,26,function():void
-         {
-            if(recTypes.length > 0)
-            {
-               TrainData.expType = uint(recTypes[0]);
-            }
-            if(pet != null)
-            {
-               if(pet.level < 25) TrainData.expTier = 1;
-               else if(pet.level < 45) TrainData.expTier = 2;
-               else if(pet.level < 65) TrainData.expTier = 3;
-               else if(pet.level < 82) TrainData.expTier = 4;
-               else TrainData.expTier = 5;
-            }
-            render();
-         },16772252);
-
-         // 16 大属性 4x4 矩阵
-         var t:uint = 1;
-         while(t <= 16)
-         {
-            var idx:uint = t - 1;
-            var col:uint = idx % 4;
-            var row:uint = uint(Math.floor(idx / 4));
-            var isRec:Boolean = recTypes.indexOf(t) >= 0;
-            var isSelected:Boolean = TrainData.expType == t;
-            var btnLabel:String = (isSelected ? "▶" : (isRec ? "★" : "")) + TrainData.TYPE_NAMES[t];
-            this.makeTypeButton(btnLabel,col * 154,92 + row * 31,146,27,t,isSelected ? 16772252 : (isRec ? 11534255 : 16777215));
-            t++;
-         }
-
-         var tierHeader:TextField = this.makeText("第二步：选择陪练阶段等级（纯经验特训，绝不乱加杂项学习力）",0,220,610,22,13,16772252,true);
-         this._body.addChild(tierHeader);
-
-         var tierLabels:Array = ["Lv.20 初阶","Lv.40 中阶","Lv.60 高阶","Lv.80 精英","Lv.100 满级"];
-         var lvIdx:uint = 1;
-         while(lvIdx <= 5)
-         {
-            var selectedTier:Boolean = TrainData.expTier == lvIdx;
-            var pId:uint = TrainData.getExpPetId(TrainData.expType,lvIdx);
-            var pName:String = PetBookXMLInfo.getName(pId);
-            if(!pName || pName == "")
-            {
-               pName = PetXMLInfo.getName(pId);
-            }
-            var tierText:String = (selectedTier ? "▶ " : "") + tierLabels[lvIdx - 1] + " (" + pName + ")";
-            this.makeTierButton(tierText,(lvIdx - 1) * 123,245,119,30,lvIdx,selectedTier ? 16772252 : 16777215);
-            lvIdx++;
-         }
-
-         var curPetId:uint = TrainData.getExpPetId(TrainData.expType,TrainData.expTier);
-         var curPetName:String = PetBookXMLInfo.getName(curPetId);
-         if(!curPetName || curPetName == "")
-         {
-            curPetName = PetXMLInfo.getName(curPetId);
-         }
-         var summaryText:String = "当前选定陪练：【" + TrainData.TYPE_NAMES[TrainData.expType] + " · " + curPetName + " (Lv." + TrainData.TIER_LEVELS[TrainData.expTier] + ")】\n" +
-            "收益说明：" + TrainData.TIER_EXP_DESC[TrainData.expTier] + "，不增加杂项学习力！";
-         var summaryField:TextField = this.makeText(summaryText,0,282,612,42,13,14086655,true);
-         summaryField.multiline = true;
-         summaryField.wordWrap = true;
-         this._body.addChild(summaryField);
-
-         this.makeButton(this._body,"▶ 进入训练室开始【" + curPetName + " Lv." + TrainData.TIER_LEVELS[TrainData.expTier] + "】经验特训",126,330,360,32,function():void
-         {
-            TrainData.mode = 1;
-            if(TrainData.roomId == 0)
-            {
-               TrainData.roomId = 488;
-            }
-            TrainData.times = 0;
-            TrainData.totalTimes = 0;
-            var targetRoom:uint = TrainData.roomId;
-            if(MapManager.currentMap && ((MapManager.currentMap.id >= 488 && MapManager.currentMap.id <= 493) || (MapManager.currentMap.id >= 470 && MapManager.currentMap.id <= 475)))
-            {
-               targetRoom = MapManager.currentMap.id;
-               TrainData.roomId = targetRoom;
-               close();
-               TrainControl.refreshTrainingTarget();
-            }
-            else
-            {
-               close();
-               MapManager.changeMap(targetRoom);
-            }
-         },16772252);
+         var r:Rectangle = d.getBounds(d.parent);
+         d.x += left - r.x;
+         d.y += top - r.y;
       }
 
-      private function makeTypeButton(label:String, x:Number, y:Number, w:Number, h:Number, typeId:uint, color:uint) : void
+      private function addLabel(btn:SimpleButton, text:String, size:uint) : TextField
       {
-         this.makeButton(this._body,label,x,y,w,h,function():void
-         {
-            TrainData.expType = typeId;
-            render();
-         },color);
+         var r:Rectangle = btn.getBounds(this._ui);
+         var tf:TextField = new TextField();
+         var fmt:TextFormat = new TextFormat("黑体",size,16777215,true,true);
+         fmt.align = "center";
+         tf.defaultTextFormat = fmt;
+         tf.text = text;
+         tf.selectable = false;
+         tf.mouseEnabled = false;
+         tf.width = r.width;
+         tf.height = size + 8;
+         tf.x = r.x;
+         tf.y = r.y + (r.height - tf.height) / 2 - 1;
+         tf.filters = [LABEL_GLOW];
+         this._ui.addChild(tf);
+         return tf;
       }
 
-      private function makeTierButton(label:String, x:Number, y:Number, w:Number, h:Number, tierId:uint, color:uint) : void
+      private function makeTitle(text:String, x:Number, y:Number) : TextField
       {
-         this.makeButton(this._body,label,x,y,w,h,function():void
-         {
-            TrainData.expTier = tierId;
-            render();
-         },color);
+         var tf:TextField = new TextField();
+         tf.defaultTextFormat = new TextFormat("黑体",32,16777215,true,true);
+         tf.autoSize = TextFieldAutoSize.LEFT;
+         tf.text = text;
+         tf.selectable = false;
+         tf.mouseEnabled = false;
+         tf.x = x;
+         tf.y = y;
+         tf.filters = [new GlowFilter(6826948,1,5,5,16),new GlowFilter(16777215,1,4,4,10)];
+         return tf;
+      }
+
+      private function petName(petId:uint) : String
+      {
+         var name:String = PetBookXMLInfo.getName(petId);
+         return name && name != "" ? name : PetXMLInfo.getName(petId);
       }
 
       private function getLeadPet() : PetInfo
@@ -355,62 +325,6 @@ package com.robot.app.task.petstory.app.train
          return info;
       }
 
-      private function makeText(str:String, x:Number, y:Number, w:Number, h:Number, size:uint = 13, color:uint = 16777215, bold:Boolean = false) : TextField
-      {
-         var tf:TextField = new TextField();
-         var fmt:TextFormat = new TextFormat("宋体",size,color,bold);
-         tf.defaultTextFormat = fmt;
-         tf.text = str;
-         tf.setTextFormat(fmt);
-         tf.x = x;
-         tf.y = y;
-         tf.width = w;
-         tf.height = h;
-         tf.selectable = false;
-         tf.mouseEnabled = false;
-         tf.filters = [new GlowFilter(668267,0.85,3,3,4)];
-         return tf;
-      }
-
-      private function makeButton(parent:Sprite, label:String, x:Number, y:Number, w:Number, h:Number, onClick:Function, textColor:uint = 16777215) : Sprite
-      {
-         var holder:Sprite = new Sprite();
-         holder.x = x;
-         holder.y = y;
-         var up:* = UIManager.getDisplayObject("Button_upSkin");
-         var over:* = UIManager.getDisplayObject("Button_overSkin");
-         var down:* = UIManager.getDisplayObject("Button_downSkin");
-         up.width = over.width = down.width = w;
-         up.height = over.height = down.height = h;
-         holder.addChild(new SimpleButton(up,over,down,up));
-
-         var tf:TextField = new TextField();
-         var fmt:TextFormat = new TextFormat("宋体",12,textColor,true);
-         fmt.align = "center";
-         tf.defaultTextFormat = fmt;
-         tf.text = label;
-         tf.setTextFormat(fmt);
-         tf.width = w;
-         tf.height = h - 4;
-         tf.y = Math.max(2,int((h - 18) / 2));
-         tf.selectable = false;
-         tf.mouseEnabled = false;
-         tf.filters = [new GlowFilter(668267,0.9,3,3,4)];
-         holder.addChild(tf);
-
-         holder.buttonMode = true;
-         holder.mouseChildren = false;
-         holder.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
-         {
-            if(onClick != null)
-            {
-               onClick();
-            }
-         });
-         parent.addChild(holder);
-         return holder;
-      }
-
       private function onCloseClick(e:MouseEvent) : void
       {
          this.close();
@@ -418,12 +332,21 @@ package com.robot.app.task.petstory.app.train
 
       public function close() : void
       {
-         if(this._root)
+         if(this._loader)
          {
-            DisplayUtil.removeForParent(this._root);
-            this._root = null;
+            this._loader.removeEventListener(MCLoadEvent.SUCCESS,this.onComplete);
+            this._loader = null;
          }
-         this._body = null;
+         if(this._ui)
+         {
+            for each(var icon:SimpleButton in this._typeIcons)
+            {
+               ToolTipManager.remove(icon);
+            }
+            DisplayUtil.removeForParent(this._ui,false);
+            LevelManager.openMouseEvent();
+            this._ui = null;
+         }
          if(_instance == this)
          {
             _instance = null;

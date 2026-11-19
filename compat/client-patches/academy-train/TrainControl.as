@@ -13,21 +13,14 @@ package com.robot.app.task.petstory.app.train
    import com.robot.core.manager.MapManager;
    import com.robot.core.manager.ModuleManager;
    import com.robot.core.manager.PetManager;
-   import com.robot.core.manager.UIManager;
    import com.robot.core.manager.map.config.BaseMapProcess;
    import com.robot.core.net.SocketConnection;
-   import com.robot.core.ui.alert.Alarm;
    import com.robot.core.ui.alert.Alert;
    import com.robot.core.utils.Direction;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
-   import flash.display.SimpleButton;
-   import flash.display.Sprite;
    import flash.events.MouseEvent;
-   import flash.filters.GlowFilter;
    import flash.geom.Point;
-   import flash.text.TextField;
-   import flash.text.TextFormat;
    import gs.TweenLite;
    import org.taomee.events.SocketEvent;
    import org.taomee.manager.EventManager;
@@ -41,8 +34,6 @@ package com.robot.app.task.petstory.app.train
       private static var _monIndex:uint;
       private static var _monId:uint;
       private static var _pet:MovieClip;
-      private static var _hudBar:Sprite;
-      private static var _hudLabel:TextField;
 
       public function TrainControl()
       {
@@ -70,12 +61,9 @@ package com.robot.app.task.petstory.app.train
          _map.conLevel["btn_2"].addEventListener(MouseEvent.CLICK,onPetStorage);
          _map.conLevel["leaveBtn"].addEventListener(MouseEvent.CLICK,onLeaveHandler);
 
-         buildHudBar();
+         cureBag();
          selectRoomMon();
-         if(_map.conLevel["adMC"])
-         {
-            (_map.conLevel["adMC"] as MovieClip).gotoAndStop(TrainData.ADMCFrame);
-         }
+         showRoomSign();
          if(TrainData.times == 0)
          {
             startGame();
@@ -83,7 +71,6 @@ package com.robot.app.task.petstory.app.train
          else
          {
             createMon();
-            updateHudText();
          }
       }
 
@@ -94,164 +81,22 @@ package com.robot.app.task.petstory.app.train
             return;
          }
          selectRoomMon();
-         if(_map.conLevel["adMC"])
-         {
-            (_map.conLevel["adMC"] as MovieClip).gotoAndStop(TrainData.ADMCFrame);
-         }
+         showRoomSign();
          if(TrainData.times == 0)
          {
             TrainData.times = 1;
          }
          createMon();
-         updateHudText();
       }
 
-      private static function buildHudBar() : void
+      // 房门名牌是该房的学习力项目；经验训练借用房间时不显示，避免误导
+      private static function showRoomSign() : void
       {
-         if(_hudBar)
+         var sign:MovieClip = _map.conLevel["adMC"] as MovieClip;
+         if(sign)
          {
-            DisplayUtil.removeForParent(_hudBar);
-            _hudBar = null;
-         }
-         _hudBar = new Sprite();
-         _hudBar.x = 135;
-         _hudBar.y = 6;
-         var barBg:Sprite = UIManager.getSprite("Panel_TitleBar");
-         if(barBg)
-         {
-            barBg.width = 690;
-            barBg.height = 34;
-            barBg.mouseEnabled = false;
-            barBg.mouseChildren = false;
-            _hudBar.addChild(barBg);
-         }
-         else
-         {
-            _hudBar.graphics.lineStyle(1,3787007,0.9);
-            _hudBar.graphics.beginFill(533598,0.88);
-            _hudBar.graphics.drawRoundRect(0,0,690,34,8,8);
-            _hudBar.graphics.endFill();
-         }
-
-         _hudLabel = new TextField();
-         var fmt:TextFormat = new TextFormat("宋体",12,16772252,true);
-         _hudLabel.defaultTextFormat = fmt;
-         _hudLabel.x = 14;
-         _hudLabel.y = 8;
-         _hudLabel.width = 330;
-         _hudLabel.height = 22;
-         _hudLabel.selectable = false;
-         _hudLabel.mouseEnabled = false;
-         _hudLabel.filters = [new GlowFilter(668267,0.9,3,3,4)];
-         _hudBar.addChild(_hudLabel);
-
-         addHudButton("直接开战",346,4,78,26,function():void
-         {
-            triggerFight();
-         });
-         addHudButton("切换学习力/经验",428,4,112,26,function():void
-         {
-            TrainGradePanel.show();
-         });
-         addHudButton("免费恢复PP",544,4,82,26,function():void
-         {
-            SocketConnection.addCmdListener(CommandID.PET_CURE,onCureDone);
-            SocketConnection.send(CommandID.PET_CURE);
-         });
-         addHudButton("返回学院",630,4,54,26,function():void
-         {
-            MapManager.changeMap(485);
-         });
-
-         _map.topLevel.addChild(_hudBar);
-      }
-
-      private static function addHudButton(label:String, x:Number, y:Number, w:Number, h:Number, onClick:Function) : void
-      {
-         var holder:Sprite = new Sprite();
-         holder.x = x;
-         holder.y = y;
-         var up:* = UIManager.getDisplayObject("Button_upSkin");
-         var over:* = UIManager.getDisplayObject("Button_overSkin");
-         var down:* = UIManager.getDisplayObject("Button_downSkin");
-         up.width = over.width = down.width = w;
-         up.height = over.height = down.height = h;
-         holder.addChild(new SimpleButton(up,over,down,up));
-
-         var tf:TextField = new TextField();
-         var fmt:TextFormat = new TextFormat("宋体",12,16777215,true);
-         fmt.align = "center";
-         tf.defaultTextFormat = fmt;
-         tf.text = label;
-         tf.setTextFormat(fmt);
-         tf.width = w;
-         tf.height = h - 2;
-         tf.y = 4;
-         tf.selectable = false;
-         tf.mouseEnabled = false;
-         tf.filters = [new GlowFilter(668267,0.9,3,3,4)];
-         holder.addChild(tf);
-
-         holder.buttonMode = true;
-         holder.mouseChildren = false;
-         holder.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
-         {
-            if(onClick != null)
-            {
-               onClick();
-            }
-         });
-         _hudBar.addChild(holder);
-      }
-
-      private static function onCureDone(e:SocketEvent) : void
-      {
-         SocketConnection.removeCmdListener(CommandID.PET_CURE,onCureDone);
-         PetManager.upDate();
-         Alarm.show("背包内所有精灵的体力与技能PP已免费补满！");
-      }
-
-      private static function updateHudText() : void
-      {
-         if(!_hudLabel)
-         {
-            return;
-         }
-         var roundNo:uint = TrainData.times > 0 ? TrainData.times : 1;
-         var text:String = "";
-         if(TrainData.mode == 1)
-         {
-            var expId:uint = TrainData.getExpPetId(TrainData.expType,TrainData.expTier);
-            var expName:String = getPetDisplayName(expId);
-            text = "【经验特训】" + TrainData.TYPE_NAMES[TrainData.expType] + "·" + expName + " Lv." + TrainData.TIER_LEVELS[TrainData.expTier] + " (第" + roundNo + "轮 | 不加杂项学习力)";
-         }
-         else
-         {
-            text = "【学习力特训】" + getRoomTitle(TrainData.roomId) + " (第" + roundNo + "轮)";
-         }
-         var fmt:TextFormat = new TextFormat("宋体",12,16772252,true);
-         _hudLabel.defaultTextFormat = fmt;
-         _hudLabel.text = text;
-         _hudLabel.setTextFormat(fmt);
-      }
-
-      private static function getRoomTitle(roomId:uint) : String
-      {
-         switch(roomId)
-         {
-            case 488: return "初级攻击室 (单场+5攻击)";
-            case 489: return "初级防御室 (单场+5防御)";
-            case 490: return "初级特攻室 (单场+5特攻)";
-            case 491: return "初级特防室 (单场+5特防)";
-            case 492: return "初级速度室 (单场+5速度)";
-            case 493: return "初级体力室 (单场+5体力)";
-            case 470: return "高级攻击室 (单场+10攻击)";
-            case 471: return "高级防御室 (单场+10防御)";
-            case 472: return "高级特攻室 (单场+10特攻)";
-            case 473: return "高级特防室 (单场+10特防)";
-            case 474: return "高级速度室 (单场+10速度)";
-            case 475: return "高级体力室 (单场+10体力)";
-            default: return "学习力训练室";
+            sign.gotoAndStop(TrainData.ADMCFrame);
+            sign.visible = TrainData.mode != 1;
          }
       }
 
@@ -289,7 +134,6 @@ package com.robot.app.task.petstory.app.train
 
       private static function showLevel(param1:uint) : void
       {
-         updateHudText();
          var frameIdx:uint = uint(((param1 > 0 ? param1 - 1 : 0) % 30) + 1);
          if(_map && _map.topLevel["level_con"] && _map.topLevel["level_con"]["level_mc"])
          {
@@ -345,7 +189,6 @@ package com.robot.app.task.petstory.app.train
             _monIndex = uint(Math.random() * list.length);
             _monId = uint(list[_monIndex]);
          }
-         updateHudText();
          var reqId:uint = _monId;
          ResourceManager.getResource(ClientConfig.getPetSwfPath(reqId),function(param1:DisplayObject):void
          {
@@ -358,11 +201,7 @@ package com.robot.app.task.petstory.app.train
             var tipText:String = getPetDisplayName(reqId);
             if(TrainData.mode == 1)
             {
-               tipText = "点击挑战【" + tipText + " Lv." + TrainData.TIER_LEVELS[TrainData.expTier] + "】（经验特训）";
-            }
-            else
-            {
-               tipText = "点击挑战【" + tipText + "】（学习力特训）";
+               tipText += " Lv." + TrainData.TIER_LEVELS[TrainData.expTier];
             }
             ToolTipManager.add(_pet,tipText);
             _map.depthLevel.addChild(_pet);
@@ -438,6 +277,19 @@ package com.robot.app.task.petstory.app.train
          GoOnGame();
       }
 
+      // 进入训练室（含每场战斗后回到房间）时免费补满背包精灵的体力与PP
+      private static function cureBag() : void
+      {
+         SocketConnection.addCmdListener(CommandID.PET_CURE,onCureDone);
+         SocketConnection.send(CommandID.PET_CURE);
+      }
+
+      private static function onCureDone(e:SocketEvent) : void
+      {
+         SocketConnection.removeCmdListener(CommandID.PET_CURE,onCureDone);
+         PetManager.upDate();
+      }
+
       private static function selectRoomMon() : void
       {
          switch(TrainData.roomId)
@@ -508,12 +360,6 @@ package com.robot.app.task.petstory.app.train
          ToolBarController.panel.show();
          LevelManager.iconLevel.visible = true;
          ToolBarController.showOrHideAllUser(ToolBarController.panel.panelIsShow);
-         if(_hudBar)
-         {
-            DisplayUtil.removeForParent(_hudBar);
-            _hudBar = null;
-            _hudLabel = null;
-         }
          if(_map)
          {
             ToolTipManager.remove(_map.conLevel["btn_1"]);

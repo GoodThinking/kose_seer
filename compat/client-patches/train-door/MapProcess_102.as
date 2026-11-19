@@ -163,7 +163,7 @@ package com.robot.app.mapProcess
          hit.graphics.endFill();
          label.defaultTextFormat = format;
          label.autoSize = TextFieldAutoSize.CENTER;
-         label.text = "精灵学院·刷学习力/经验";
+         label.text = "精灵学院";
          label.selectable = false;
          label.filters = [new GlowFilter(16777215,1,3,3,5)];
          label.x = 775 - label.width / 2;
@@ -174,7 +174,7 @@ package com.robot.app.mapProcess
          this.academyDoor.buttonMode = true;
          this.academyDoor.mouseChildren = false;
          this.academyDoor.addEventListener(MouseEvent.CLICK,this.onAcademyDoor);
-         ToolTipManager.add(this.academyDoor,"前往精灵学院（刷六项学习力 / 按属性与阶段等级刷经验）");
+         ToolTipManager.add(this.academyDoor,"精灵学院");
          conLevel.addChild(this.academyDoor);
       }
       
