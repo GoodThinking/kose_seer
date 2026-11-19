@@ -12,6 +12,7 @@ package com.robot.app.mapProcess
    /**
     * 朱雀空间：点击菲尼克斯挑战。三分身是服务端同一场战斗里的三个阶段，这里不单独显示；
     * 德拉萨、卡修斯、迪符特三尊像只作提示，挑战前置条件由服务端检查。
+    * 三尊守护兽的形象在地图的 animatorLevel.small 里（pet_0_x 只是透明点击区），直接停在第 2 帧（三兽的静态形象），不播出场动画。
     */
    public class MapProcess_318 extends BaseMapProcess
    {
@@ -32,8 +33,8 @@ package com.robot.app.mapProcess
          {
             (conLevel[name] as DisplayObject).visible = false;
          }
-         (animatorLevel["small"] as DisplayObject).visible = false;
          (animatorLevel["big"] as DisplayObject).visible = false;
+         (animatorLevel["small"] as MovieClip).gotoAndStop(2);
          for each(statue in STATUES)
          {
             ToolTipManager.add(conLevel[statue[0]],statue[1]);
