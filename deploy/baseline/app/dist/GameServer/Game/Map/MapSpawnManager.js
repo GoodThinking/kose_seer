@@ -327,12 +327,9 @@ class MapSpawnManager extends BaseManager_1.BaseManager {
     }
     BuildMapBosses(mapId) {
         const mapConfig = GameConfig_1.GameConfig.GetMapConfigById(mapId);
-        if (!mapConfig) {
-            return [];
-        }
         const bosses = [];
-        // 过滤出BOSS
-        for (const ogre of mapConfig.ogres) {
+        // 过滤出BOSS；没有野怪配置的地图（亚伦斯、罗德利斯等 SPT 地图）照样下发 Boss 表里的站位 BOSS
+        for (const ogre of mapConfig?.ogres || []) {
             if (ogre.isBoss && ogre.petId > 0) {
                 // 获取BOSS的配置信息
                 const petConfig = GameConfig_1.GameConfig.GetPetById(ogre.petId);

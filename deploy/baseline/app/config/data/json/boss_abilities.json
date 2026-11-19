@@ -219,20 +219,12 @@
         20060,
         10218
       ],
-      "hint": "【极度冰点】拥有本系冰霜护体（火、战斗、机械系克制攻击可破除护体造成额外伤害）；半血时触发凝冰觉醒提升特攻与双防。",
+      "hint": "【寒意】每回合寒意+1，满3层时出战精灵被冻住一回合并冻伤。火系技能命中或更换精灵可清空寒意。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "iceDomain",
-        "halfHpAwaken": {
-          "stages": [
-            0,
-            1,
-            2,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "coldSnap",
+          "threshold": 3,
+          "might": 120
         },
         "tacticalAI": true,
         "immune": [
@@ -268,32 +260,26 @@
         10163
       ],
       "mechanics": {
-        "typeHomeTurf": true,
-        "dodgePercent": 25,
+        "signature": {
+          "id": "gale",
+          "dodge": 50,
+          "bonus": 20,
+          "might": 150
+        },
         "startStages": [
           0,
           0,
-          1,
+          0,
           0,
           2,
           0
         ],
-        "halfHpAwaken": {
-          "stages": [
-            0,
-            0,
-            2,
-            0,
-            1,
-            0
-          ]
-        },
         "tacticalAI": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【疾风掠影】出场速度+2并有25%几率闪避普通攻击；使用电、冰系克制技能或必中招式可稳定压制。"
+      "hint": "【疾风对决】出场速度+2。它先出手的回合有50%几率闪开你的攻击（必中技能除外）；你先出手的回合它不闪避，受到的伤害+20%。"
     },
     {
       "mapId": 32,
@@ -304,7 +290,7 @@
       "dv": 31,
       "ev": 0,
       "nature": 0,
-      "customHP": 5500,
+      "customHP": 4500,
       "abilities": [
         2010,
         {
@@ -330,26 +316,21 @@
         10173
       ],
       "mechanics": {
-        "typeHomeTurf": true,
-        "lowHpCritPercent": 40,
-        "halfHpAwaken": {
-          "stages": [
-            2,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "thunderCharge",
+          "max": 5,
+          "perLayer": 20,
+          "skillId": 10176,
+          "might": 120
         },
+        "lowHpCritPercent": 40,
         "tacticalAI": true,
         "statusImmune": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【雷神天威】技能先制+2，体力低于40%时必定致命一击，半血触发雷神觉醒；地面系、神秘系克制攻击增伤25%，非克制攻击被护体减伤32%。"
+      "hint": "【蓄雷】每回合蓄1层雷电，满5层放出瞬雷天闪，每层伤害+20%。先制技能命中减1层，地面系技能命中清空。技能先制+2，体力低于40%时必定致命一击，免疫异常。"
     },
     {
       "mapId": 106,
@@ -364,7 +345,7 @@
         {
           "id": 2041,
           "args": [
-            250
+            100
           ]
         }
       ],
@@ -385,32 +366,18 @@
         10245
       ],
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          0,
-          1,
-          0,
-          1,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            0,
-            1,
-            0,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "sandArmor",
+          "max": 4,
+          "perLayer": 10,
+          "might": 200
         },
         "tacticalAI": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【大地壁垒】出场双防+1且每回合恢复250体力；使用草、水、冰系克制攻击可破除护体并压制回血。"
+      "hint": "【沙甲】每回合加1层沙甲，最多4层，每层让它受到的伤害-10%。连击技能每段剥1层，致命一击清空全部。每回合恢复100体力。"
     },
     {
       "mapId": 49,
@@ -438,20 +405,13 @@
         10336,
         10335
       ],
-      "hint": "【机械过载】半血以下触发过载觉醒（特攻+2、速度+1、暴击率大幅提升）；宜用火、地面、战斗系克制主攻速战速决。",
+      "hint": "【属性复制】每3回合复制你出战精灵的全部能力提升。体力降到一半后进入过载：每回合特攻+1，同时自损5%体力。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "lowHpCritPercent": 45,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            2,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 12
+        "signature": {
+          "id": "statCopy",
+          "every": 3,
+          "burn": 5,
+          "might": 115
         },
         "tacticalAI": true,
         "immune": [
@@ -627,25 +587,10 @@
         "rewardItemId": 400136
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "dragonAwe",
+          "down": 1,
+          "might": 78
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -659,7 +604,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【龙威】每回合结束时，出战精灵的攻击、特攻中较高的一项-1。换精灵重置，也可以用解除弱化的技能。"
     },
     {
       "mapId": 348,
@@ -781,25 +726,12 @@
       ],
       "comment": "塞维尔，击败获得塞维尔的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "undying",
+          "turns": 3,
+          "atk": 2,
+          "healPercent": 20,
+          "might": 78
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -813,7 +745,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【不灭意志】第一次被打到濒死时撑住：3回合内攻击伤害无效、攻击+2。这3回合没击倒任何精灵，它就力竭倒下；击倒了则回复20%体力继续战斗。"
     },
     {
       "mapId": 325,
@@ -844,7 +776,11 @@
         20317
       ],
       "mechanics": {
-        "typeHomeTurf": true,
+        "signature": {
+          "id": "mindMirror",
+          "reduce": 70,
+          "might": 120
+        },
         "startStages": [
           0,
           0,
@@ -853,23 +789,12 @@
           1,
           0
         ],
-        "halfHpAwaken": {
-          "stages": [
-            0,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
-        },
         "tacticalAI": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【超能光障】自带特攻、特防与速度强化，半血触发精神觉醒；使用光、暗影、机械系克制技能可破除护体。"
+      "hint": "【念力镜】记住上一次受到的是物理还是特殊攻击，再受到同一类攻击时伤害-70%。物理、特殊交替出手。出场特攻、特防、速度+1。"
     },
     {
       "mapId": 61,
@@ -1066,6 +991,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
+        2010,
         {
           "id": 1905
         }
@@ -1079,27 +1005,21 @@
         "sptId": 17,
         "rewardItemId": 400127
       },
-      "customHP": 8500,
+      "customHP": 7000,
       "skills": [
         10848,
         10842,
         10847,
         20377
       ],
-      "hint": "【深海祈雨】每回合恢复400体力，半血触发深海觉醒；使用草系、电系克制攻击可破除护体并令其当回合暂停回血。",
+      "hint": "【潮汐】三回合一循环：涨潮回合末回复300体力；满潮必定放出必中的滔天龙汲水；退潮不回血，受到的伤害+50%。免疫中毒、烧伤、冻伤。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "deepSea",
-        "halfHpAwaken": {
-          "stages": [
-            0,
-            1,
-            2,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "tide",
+          "heal": 300,
+          "ebbBonus": 50,
+          "skillId": 10848,
+          "might": 80
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1121,7 +1041,9 @@
       "dv": 31,
       "ev": 0,
       "nature": 0,
-      "abilities": [],
+      "abilities": [
+        2010
+      ],
       "drops": [],
       "rewards": {
         "exp": 3800,
@@ -1131,7 +1053,7 @@
         "sptId": 18,
         "rewardItemId": 400133
       },
-      "customHP": 8000,
+      "customHP": 6500,
       "skills": [
         10984,
         10986,
@@ -1140,23 +1062,13 @@
       ],
       "comment": "上古炎兽，击败获得烈火精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "magma",
-        "onPhysicalHitStatus": {
-          "status": 2,
-          "chance": 30,
-          "turns": 3
-        },
-        "halfHpAwaken": {
-          "stages": [
-            2,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "furnace",
+          "max": 5,
+          "scorch": 3,
+          "blastPercent": 160,
+          "skillId": 10984,
+          "might": 85
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1166,7 +1078,7 @@
           "sameLifeDeath"
         ]
       },
-      "hint": "【熔岩领域】每回合灼烧全场非火系精灵，受物理攻击30%触发烧伤；使用水系、地面系克制攻击可熄灭当回合熔岩并造成破绽伤害。"
+      "hint": "【熔炉】温度每回合+1。到3级后每回合灼伤出战精灵1/8体力；到5级放出伤害+60%的苍炎日无极，然后归零。水系技能命中降2级，冰系技能命中或致命一击降1级。"
     },
     {
       "mapId": 13,
@@ -1187,7 +1099,7 @@
         "sptId": 20,
         "rewardItemId": 400207
       },
-      "customHP": 8500,
+      "customHP": 7500,
       "skills": [
         11958,
         11954,
@@ -1196,18 +1108,10 @@
       ],
       "comment": "始祖灵兽，击败获得始祖灵兽的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "lifeBlessing",
-        "halfHpAwaken": {
-          "stages": [
-            0,
-            1,
-            2,
-            1,
-            0,
-            0
-          ],
-          "healPercent": 20
+        "signature": {
+          "id": "roots",
+          "replant": 3,
+          "healPercent": 5
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1218,7 +1122,7 @@
           "sameLifeDeath"
         ]
       },
-      "hint": "【生灵赐福】每回合恢复350体力并净化1项自身弱化，半血触发古木觉醒；使用火、飞行、冰、机械系克制攻击可压制回血并造成高额伤害。"
+      "hint": "【共生根须】根须缠住出战精灵，每回合吸取它1/8体力，自己回复5%体力。更换精灵或火系技能命中可摆脱，3回合后根须重新缠上。"
     },
     {
       "mapId": 331,
@@ -1250,26 +1154,11 @@
       ],
       "comment": "冰洛伏特，击败获得冰洛伏特的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "iceDomain",
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "dimensionIce",
+          "every": 4,
+          "skillId": 11255,
+          "might": 35
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1283,7 +1172,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【次元冰魄】每4回合使出次元冰魄，伤害等于出战精灵已损失的体力，命中后冻住一回合。放招前把体力回满，或换上满血的精灵。"
     },
     {
       "mapId": 405,
@@ -1315,27 +1204,13 @@
       ],
       "comment": "罗德利斯，击败获得罗德利斯的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "rebirth",
+          "stages": 2,
+          "burn": 8,
+          "might": 85
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -1348,7 +1223,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】拥有两条命；具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【浴火】两条命。第一条命被击倒后浴火重生，攻击、特攻+2，之后每回合结束时自焚8%最大体力。第二条命可以猛攻，也可以守住等它烧尽。"
     },
     {
       "mapId": 405,
@@ -1379,28 +1254,13 @@
         11167
       ],
       "comment": "迪尔科特，击败获得迪尔科特的精元。",
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【连段】连续命中会叠连段，每层伤害+25%（最多6层）。被你先出手命中，或它的攻击落空时连段中断。速度快的精灵更好打。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "dodgePercent": 20,
-        "startStages": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "combo",
+          "perLayer": 25,
+          "max": 6,
+          "might": 70
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1488,26 +1348,10 @@
       ],
       "comment": "石化之城点击挑战。击败获得墨杜萨的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "lowHpCritPercent": 45,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "petrify",
+          "turns": 1,
+          "might": 130
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1521,7 +1365,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【石化凝视】连续两回合使用同一个技能，出战精灵会被石化，下回合无法行动。每回合换着用技能，换精灵也会重新计算。"
     },
     {
       "mapId": 502,
@@ -1846,21 +1690,14 @@
         10043,
         10038
       ],
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。",
+      "hint": "【舍身】每次攻击自损10%当前体力，伤害+50%。体力低于20%后，下一击必中并必定击倒出战精灵，之后它只剩1体力。可以在它跌破20%前一口气打完，或换上替身接这一击。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "sacrifice",
+          "selfPercent": 10,
+          "bonus": 50,
+          "finalAt": 20,
+          "might": 58
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1872,8 +1709,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       }
     },
     {
@@ -1905,27 +1741,14 @@
         11144,
         11148
       ],
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【双层装甲】物理、特殊各3层装甲，每层让对应伤害-20%；同类攻击每命中一次剥1层。每4回合结束时各长回1层。集中一种攻击先打穿。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "dualArmor",
+          "layers": 3,
+          "perLayer": 20,
+          "regen": 4,
+          "might": 57
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -1994,25 +1817,12 @@
         11339
       ],
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "absoluteZero",
+          "delay": 5,
+          "breakAt": 1200,
+          "bonus": 30,
+          "might": 55
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2026,7 +1836,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【绝对零度】读条5回合，到点冻结出战精灵，直接倒下。读条期间累计造成1200伤害可打断：它下回合被冻住不行动，受到的伤害+30%。"
     },
     {
       "mapId": 415,
@@ -2057,28 +1867,13 @@
         10405,
         10193
       ],
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【以小搏大】威力120以上的技能对它伤害减半。多用中等威力、克制属性的技能。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "dodgePercent": 20,
-        "startStages": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "underdog",
+          "power": 120,
+          "percent": 50,
+          "might": 240
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2105,7 +1900,7 @@
       "abilities": [
         2010
       ],
-      "customHP": 10000,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 3000,
@@ -2121,35 +1916,16 @@
         10012,
         10001
       ],
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【扎根】每回合结束时回复300体力，之后每回合多回100，最多800。身上有异常时扎根中断，回复量重置。带上能让它中毒、麻痹、睡眠的技能。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "taproot",
+          "heal": 300,
+          "step": 100,
+          "max": 800,
+          "might": 220
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
@@ -2223,19 +1999,11 @@
       },
       "comment": "暗黑第一门。编号0。魔牙鲨的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "bloodScent",
+          "below": 50,
+          "bonus": 30,
+          "might": 129
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2247,10 +2015,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。"
+      "hint": "【血腥味】你的出战精灵体力低于50%时，它必定先手、伤害+30%。及时回血，或换上满血的精灵。"
     },
     {
       "mapId": 110,
@@ -2270,7 +2037,7 @@
         10498,
         10093
       ],
-      "customHP": 3600,
+      "customHP": 5000,
       "drops": [],
       "rewards": {
         "exp": 4000,
@@ -2283,19 +2050,11 @@
       },
       "comment": "暗黑第二门。编号6。贝鲁基德的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "overheat",
+          "max": 4,
+          "coolBonus": 50,
+          "might": 193
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2307,10 +2066,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。"
+      "hint": "【过热】每用一次火系技能过热+1，满4层后下回合冷却：不行动，受到的伤害+50%。冷却回合集中爆发。"
     },
     {
       "mapId": 110,
@@ -2343,19 +2101,12 @@
       },
       "comment": "暗黑第三门其一。编号12。巴弗洛的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "requiem",
+          "every": 3,
+          "delay": 3,
+          "skillId": 20215,
+          "might": 58
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2367,10 +2118,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。"
+      "hint": "【镇魂歌】第1回合起每3回合给出战精灵唱镇魂歌，3回合后的回合结束时它会倒下；在那之前换下精灵即可解除。"
     },
     {
       "mapId": 110,
@@ -2402,21 +2152,12 @@
         "noStand": true
       },
       "comment": "暗黑第三门其二。编号13。奇拉塔顿的精元。",
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。",
+      "hint": "【震波】它的地面技能命中后再震伤出战精灵1/8体力，速度-1。飞行系精灵不受影响；换精灵可清除降速。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "quake",
+          "div": 8,
+          "might": 153
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2428,8 +2169,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       }
     },
     {
@@ -2463,19 +2203,12 @@
       },
       "comment": "暗黑第四门其一。编号18。西萨拉斯的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "staticCharge",
+          "max": 3,
+          "blastPercent": 200,
+          "skillId": 10111,
+          "might": 105
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2487,10 +2220,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。"
+      "hint": "【电荷】你每用一次特殊攻击，它充能1层；满3层放出必中、伤害翻倍的雷神。多用物理攻击，或在满层时换上抗电的精灵。"
     },
     {
       "mapId": 110,
@@ -2522,21 +2254,13 @@
         "noStand": true
       },
       "comment": "暗黑第四门其二。编号19。克林卡修的精元。",
-      "hint": "【暗黑侵蚀·初阶】本系护体（非克制伤害-32%）、每回合暗黑回血120，半血觉醒攻击/特攻+1；克制属性攻击增伤25%并压制当回合回血。",
+      "hint": "【宝石】带着防御（受伤-30%）、速度（必定先手）、攻击（伤害+40%）三颗宝石，按这个顺序碎裂：体力每降25%碎一颗，被致命一击也碎一颗。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 1,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "gems",
+          "defCut": 30,
+          "atkBonus": 40,
+          "might": 58
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2548,8 +2272,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 120
+        "ohkoImmune": true
       }
     },
     {
@@ -2582,21 +2305,13 @@
         "noStand": true
       },
       "comment": "暗黑第五门其一。编号24。卡库的精元。",
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。",
+      "hint": "【破釜沉舟】双方造成的伤害都+50%。体力低于30%时，下回合放出一次先手必暴的绝招。拼输出，留一只精灵接绝招。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "allIn",
+          "bonus": 50,
+          "lowAt": 30,
+          "might": 105
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2608,8 +2323,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -2642,21 +2356,15 @@
         "noStand": true
       },
       "comment": "暗黑第五门其二。编号25。赫德卡的精元。",
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。",
+      "hint": "【攻防切换】每2回合切换形态：炮台形态伤害+40%、受到的伤害+30%；铁壁形态不攻击，受到的伤害-60%。铁壁回合回血、强化，炮台回合猛攻。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "turret",
+          "every": 2,
+          "cannonOut": 40,
+          "cannonIn": 30,
+          "wallCut": 60,
+          "might": 105
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2668,8 +2376,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -2703,18 +2410,12 @@
       },
       "comment": "暗黑第五门其三。编号26。伊兰罗尼的精元。",
       "mechanics": {
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "hexagram",
+          "max": 6,
+          "percent": 50,
+          "breakType": 11,
+          "might": 58
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2726,10 +2427,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·高阶】普通系无克制属性，本场无本系护体；每回合回血100，每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。"
+      "hint": "【六芒星】每回合点亮一颗星，满6颗时对出战精灵造成50%最大体力的伤害后重置。致命一击或战斗系技能命中熄灭一颗；爆发前也可以换上体力多的精灵。"
     },
     {
       "mapId": 110,
@@ -2761,21 +2461,14 @@
         "noStand": true
       },
       "comment": "暗黑第六门其一。编号30。斯加尔卡的精元。",
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。",
+      "hint": "【定时炸弹】给出战精灵挂上炸弹，2回合后爆炸，扣40%最大体力。爆炸前换精灵，炸弹会转到换上的精灵身上，改为固定600伤害。体力多的精灵扛百分比，体力少的扛固定伤害更亏。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "timeBomb",
+          "delay": 2,
+          "percent": 40,
+          "fixed": 600,
+          "might": 105
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2787,8 +2480,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -2822,19 +2514,9 @@
       },
       "comment": "暗黑第六门其二。编号31。艾尔伊洛的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "dissociate",
+          "might": 105
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2846,10 +2528,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。"
+      "hint": "【星体解离】你出战精灵的攻击与特攻、防御与特防互相对调，换上的精灵同样对调。带两种攻击都有的精灵，或改用另一类招式。"
     },
     {
       "mapId": 110,
@@ -2882,19 +2563,10 @@
       },
       "comment": "暗黑第六门其三，也是第十二扇门。编号32。布林克克的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "acidRain",
+          "max": 4,
+          "might": 34
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -2906,10 +2578,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。"
+      "hint": "【酸雨】每回合交替腐蚀双方的防御、特防，每级让对应伤害+50%（最多4级），不受强化、消强影响。越拖双方越脆，比的是爆发。"
     },
     {
       "mapId": 110,
@@ -2942,29 +2613,12 @@
       },
       "comment": "暗黑第十二扇门。编号66。布林克克的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "acidTide",
+          "max": 4,
+          "might": 34
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -2975,10 +2629,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       },
-      "hint": "【暗黑暴走·终阶】两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。考验消强、续航与克制阵容。"
+      "hint": "【酸雨·暴走】两条命。第一条命：每回合交替腐蚀双方的防御、特防，每级让对应伤害+50%（最多4级）。第二条命：混沌潮汐，每回合结束时双方的能力等级正负反转，强化会变成削弱。"
     },
     {
       "mapId": 110,
@@ -3010,21 +2663,13 @@
         "noStand": true
       },
       "comment": "暗黑第七门其一。编号36。魔花使者的精元。",
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。",
+      "hint": "【魔花绽放】体力降到75%、50%、25%时各开一朵花，每朵每回合回复150体力。单次伤害达到800击碎一朵。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "bloom",
+          "heal": 150,
+          "breakAt": 800,
+          "might": 105
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3036,8 +2681,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -3071,19 +2715,10 @@
       },
       "comment": "暗黑第七门其二。编号37。莫尔加斯的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "sandstorm",
+          "miss": 25,
+          "might": 129
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3095,10 +2730,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。"
+      "hint": "【沙尘暴】你的攻击命中-25%。必中技能和地面系精灵不受影响。"
     },
     {
       "mapId": 110,
@@ -3130,21 +2764,13 @@
         "noStand": true
       },
       "comment": "暗黑第七门其三。编号38。萨诺拉斯的精元。",
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。",
+      "hint": "【燎原】被它的火系攻击命中会留下火种，每层每回合扣1/16体力，最多4层，不会自己熄灭。水系精灵不会着火，上场时熄灭全队的火种。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "wildfire",
+          "max": 4,
+          "div": 16,
+          "might": 129
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3156,8 +2782,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -3190,20 +2815,19 @@
         "noStand": true
       },
       "comment": "暗黑第八门其一。编号42。帕多尼的精元。",
-      "hint": "【暗黑侵蚀·高阶】普通系无克制属性，本场无本系护体；每回合回血100，每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。",
+      "hint": "【演奏会】按固定曲目循环出招：摇篮曲→安可曲→黑暗狂响曲→十万分贝。被安可曲命中后，接下来2回合只能重复上一招（换精灵摆脱），所以安可曲前一回合要用对招。",
       "mechanics": {
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
+        "signature": {
+          "id": "concert",
+          "program": [
+            10730,
+            10729,
+            11634,
+            10726
           ],
-          "healPercent": 10
+          "encoreSkillId": 10729,
+          "encoreTurns": 2,
+          "might": 46
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3215,8 +2839,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -3250,19 +2873,12 @@
       },
       "comment": "暗黑第八门其二。编号43。加洛德的精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "overgrowth",
+          "hp": 300,
+          "atk": 5,
+          "max": 8,
+          "might": 82
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3274,10 +2890,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       },
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。"
+      "hint": "【超能生长】每回合最大体力+300并回复300、伤害+5%，最多8档。被降低能力的回合不生长，并缩回一档。"
     },
     {
       "mapId": 110,
@@ -3309,21 +2924,13 @@
         "noStand": true
       },
       "comment": "暗黑第八门其三。编号44。萨多拉尼的精元。",
-      "hint": "【暗黑侵蚀·高阶】本系护体、每回合回血100；每受2次攻击暗黑反震（扣1/8体力并降双防）；半血觉醒攻击/特攻/速度+1。宜克制主攻、配合消强。",
+      "hint": "【镜影】带着2个镜像，你的攻击有一定几率打中镜像（2个时三分之二，1个时一半），打中一次碎一个；连击技能打碎全部镜像并命中本体。每4回合补满。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 2,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "mirrors",
+          "max": 2,
+          "every": 4,
+          "might": 46
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3335,8 +2942,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 100
+        "ohkoImmune": true
       }
     },
     {
@@ -3369,31 +2975,16 @@
         "noStand": true
       },
       "comment": "暗黑第九门其一。编号48。迪普利德精元。",
-      "hint": "【暗黑暴走·终阶】两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。考验消强、续航与克制阵容。",
+      "hint": "【黑色束带】两条命。被黑色束带命中的精灵3回合内不能换下，每回合特防-1。第二条命起，束带还会每回合吸取5%体力。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "belt",
+          "skillId": 11892,
+          "turns": 3,
+          "drain": 5,
+          "might": 22
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -3404,8 +2995,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       }
     },
     {
@@ -3439,29 +3029,13 @@
       },
       "comment": "暗黑第九门其二。编号49。拜洛亚斯精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "breakBlade",
+          "cut": 20,
+          "floor": 40,
+          "might": 82
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -3472,10 +3046,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       },
-      "hint": "【暗黑暴走·终阶】两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。考验消强、续航与克制阵容。"
+      "hint": "【破兵】两条命。它每命中一次，你刚用的攻击技能本场威力-20（最低四成）。轮换技能。第二条命起，它每回合必定先手。"
     },
     {
       "mapId": 110,
@@ -3508,29 +3081,13 @@
       },
       "comment": "暗黑第九门其三。编号50。阿克诺亚精元。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "frostRule",
+          "freezeChance": 30,
+          "stormChance": 30,
+          "might": 58
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -3541,10 +3098,9 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       },
-      "hint": "【暗黑暴走·终阶】两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。考验消强、续航与克制阵容。"
+      "hint": "【冰冷支配】两条命。它的冰系攻击命中时30%几率冻伤，被冻伤的精灵每回合使出的技能随机。第二条命起，每回合结束时还有30%几率冻伤出战精灵。带解冻手段，或技能栏只放好招。"
     },
     {
       "mapId": 110,
@@ -3576,29 +3132,12 @@
         "noStand": true
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "scales",
+          "percent": 8,
+          "might": 82
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -3609,11 +3148,10 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       },
       "comment": "暗黑第十门其一。编号54。鳞甲魔鱼的精元。本服设计：鳞甲双防高，出场防御、特防+1。",
-      "hint": "【暗黑暴走·终阶】两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。考验消强、续航与克制阵容。"
+      "hint": "【鳞甲】两条命。第一条命：单次伤害低于它最大体力8%会被弹开，要用高威力、克制或致命一击打穿。第二条命鳞甲剥落：门槛消失，它的攻击、速度+2。"
     },
     {
       "mapId": 110,
@@ -3645,31 +3183,14 @@
         "noStand": true
       },
       "comment": "暗黑第十门其二。编号55。艾斯德克的精元。本服设计：高伤害，伤害+30%（同迪普利德）。",
-      "hint": "【暗黑暴走·终阶】两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。考验消强、续航与克制阵容。",
+      "hint": "【念刃回响】两条命。它会在下回合用自己的能力回放你上回合用的攻击技能。用属性技能或它抗性的招式过渡。第二条命起回放伤害加倍。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "echo",
+          "secondPercent": 200,
+          "might": 105
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -3680,8 +3201,7 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       }
     },
     {
@@ -3714,28 +3234,14 @@
         "noStand": true
       },
       "mechanics": {
-        "fieldAura": "darkErosion",
-        "darkTier": 3,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            0,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "meteor",
+          "every": 3,
+          "every2": 2,
+          "percent": 50,
+          "might": 29
         },
+        "extraLives": 1,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -3746,11 +3252,10 @@
         "immune": [
           "sameLifeDeath"
         ],
-        "ohkoImmune": true,
-        "auraRegen": 150
+        "ohkoImmune": true
       },
       "comment": "暗黑第十门其三。编号56。狂狮迪卡的精元。本服设计：高攻高速，出场攻击、速度+1。",
-      "hint": "【暗黑暴走·终阶】普通系无克制属性，本场无本系护体；两条命、开场攻击/特攻+1、每回合回血150并有暗黑反震；半血觉醒再强化攻击面。"
+      "hint": "【陨星】两条命。每3回合结束时陨星落地，扣出战精灵50%最大体力；那回合使用属性技能伤害减半。第二条命起每2回合一次，它的攻击、特攻+2。"
     },
     {
       "mapId": 445,
@@ -3782,25 +3287,12 @@
       ],
       "comment": "裂空星系怀特矿场。精元孵出卡茨。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "peakShadow",
+          "every": 3,
+          "at": 4,
+          "loss": 15,
+          "might": 40
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3814,7 +3306,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【万山绝影】每3回合结束时全能力+1，强化合计达到4级后攻击必中、必定致命一击。每被消除一次强化，它损失15%当前体力。"
     },
     {
       "mapId": 486,
@@ -3845,27 +3337,12 @@
         20879
       ],
       "comment": "裂空星系怀特矿场。精元孵出拉比。",
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【浩劫】每回合结束时双方各损失6%最大体力。拖得越久越亏，轮换精灵分摊损失。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "havoc",
+          "percent": 6,
+          "might": 115
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3910,24 +3387,9 @@
       ],
       "comment": "裂空星系怀特矿场。精元孵出迪符。",
       "mechanics": {
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "tireless",
+          "perLayer": 10
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -3941,7 +3403,7 @@
         ],
         "ohkoImmune": true
       },
-      "hint": "【星系霸主】普通系无克制属性：本场无本系护体；半血二阶段觉醒（清除弱化并全能力+1），宜消强与高爆发正面破局。"
+      "hint": "【不知疲倦】每回合攻势+1层，每层伤害+10%，没有上限。体力每降25%清空一次层数和强化。持续压血线，别让它攒层。"
     },
     {
       "mapId": 318,
@@ -4088,28 +3550,13 @@
         10405,
         10193
       ],
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【以小搏大】威力120以上的技能对它伤害减半。多用中等威力、克制属性的技能。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "dodgePercent": 20,
-        "startStages": [
-          1,
-          0,
-          0,
-          0,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "underdog",
+          "power": 120,
+          "percent": 50,
+          "might": 240
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -4153,27 +3600,14 @@
       "abilities": [
         2010
       ],
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【回旋闪避】每3回合有一个回旋闪避回合，你的攻击全部落空，那回合用强化、回复。你的攻击打空后，它的下一击用破绽打击，伤害+50%。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "spinDodge",
+          "every": 3,
+          "skillId": 10755,
+          "bonus": 50,
+          "might": 70
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -4217,27 +3651,12 @@
         12114
       ],
       "mechanics": {
-        "typeHomeTurf": true,
-        "singlePet": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "duel",
+          "perTier": 15,
+          "might": 48
         },
+        "singlePet": true,
         "tacticalAI": true,
         "statusImmune": [
           1,
@@ -4251,7 +3670,7 @@
         "ohkoImmune": true
       },
       "comment": "裂空星系格雷斯星光明圣坛（地图取自XIN站9507）。一对一对战，首胜得布莱克的精元，孵出布莱克。",
-      "hint": "【星系霸主】只接受单挑决斗；具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。"
+      "hint": "【决斗】只接受单挑。双方每损失20%体力，伤害+15%。残血时双方都很危险，先压低它的体力。"
     },
     {
       "mapId": 102,
@@ -4283,27 +3702,13 @@
         "noStand": true
       },
       "comment": "训练师之门·草系之门守护精灵塔奇多克，首胜得塔奇多克的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【藤蔓缠绕】被它命中的精灵会被藤蔓缠住，每回合速度-1、被吸取1/16体力给它回血。先制技能命中或更换精灵可以挣脱。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "vines",
+          "drainDiv": 16,
+          "speedDown": 1,
+          "might": 65
         },
         "tacticalAI": true,
         "immune": [
@@ -4341,27 +3746,13 @@
         "noStand": true
       },
       "comment": "训练师之门·火系之门守护精灵火噜噜，首胜得火噜噜的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【怒焰】每受到一次攻击怒气+1（最多5层），每层让它的火系伤害+15%；怒气满时放出怒焰火锤并清空。出手次数少、单发高更划算。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "rage",
+          "max": 5,
+          "perLayer": 15,
+          "skillId": 12359
         },
         "tacticalAI": true,
         "immune": [
@@ -4399,27 +3790,12 @@
         "noStand": true
       },
       "comment": "训练师之门·超能系之门守护精灵查德洛，首胜得查德洛的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【念力屏障】你先出手打它时伤害-50%，后出手时全额。慢速高攻的精灵更好打。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "barrier",
+          "reduce": 50,
+          "might": 150
         },
         "tacticalAI": true,
         "immune": [
@@ -4457,27 +3833,16 @@
         "noStand": true
       },
       "comment": "训练师之门·水系之门守护精灵多尔尼，首胜得多尔尼的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【剧毒】被它命中的精灵身中剧毒，毒伤从1/16体力起每回合翻倍，最高1/4；剧毒不会致死。更换精灵会重置倍数，但毒不会解。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
+        "signature": {
+          "id": "toxin",
           "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
+            16,
+            8,
+            4
           ],
-          "healPercent": 10
+          "might": 70
         },
         "tacticalAI": true,
         "immune": [
@@ -4515,27 +3880,13 @@
         "noStand": true
       },
       "comment": "训练师之门·飞行系之门守护精灵加耶罗，首胜得加耶罗的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【浮空】第1回合起每4回合放出浮空连击，被击中的精灵2回合内物理技能都会落空。带特殊技能，或在它放招前换下精灵。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "float",
+          "skillId": 12464,
+          "every": 4,
+          "turns": 2
         },
         "tacticalAI": true,
         "immune": [
@@ -4573,27 +3924,15 @@
         "noStand": true
       },
       "comment": "训练师之门·地面系之门守护精灵岩锤怪，首胜得岩锤怪的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【碎甲连锤】每3回合使出疯狂连锤，每命中一段让出战精灵防御-1（每次最多-3）；防御降到-6时它的下一击必定击倒。更换精灵即可清除。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "smash",
+          "skillId": 12532,
+          "every": 3,
+          "maxPerHammer": 3,
+          "lethalAt": -6,
+          "might": 50
         },
         "tacticalAI": true,
         "immune": [
@@ -4631,27 +3970,13 @@
         "noStand": true
       },
       "comment": "训练师之门·机械系之门守护精灵LYN，首胜得LYN的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【火力压制】某回合你对它造成的伤害不足300，下回合你必定后出手、攻击命中-20%。不要空过回合。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "suppress",
+          "threshold": 300,
+          "accDown": 20,
+          "might": 50
         },
         "tacticalAI": true,
         "immune": [
@@ -4689,27 +4014,13 @@
         "noStand": true
       },
       "comment": "训练师之门·暗影系之门守护精灵达克其，首胜得达克其的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【灵魂深渊】每击倒你一只精灵，它回复30%体力、攻击+1。残血精灵及时撤下，不要送。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "abyss",
+          "healPercent": 30,
+          "atk": 1,
+          "might": 115
         },
         "tacticalAI": true,
         "immune": [
@@ -4747,27 +4058,12 @@
         "noStand": true
       },
       "comment": "训练师之门·冰系之门守护精灵菲尔洛，首胜得菲尔洛的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【冰封技能】你刚用过的技能会被冰封2回合，冰封中使用会落空。需要轮换着用技能。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "iceLock",
+          "turns": 2,
+          "might": 115
         },
         "tacticalAI": true,
         "immune": [
@@ -4805,27 +4101,13 @@
         "noStand": true
       },
       "comment": "训练师之门·光系之门守护精灵卡莱洛，首胜得卡莱洛的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【致盲闪光】奇数回合强光刺眼，你的攻击命中-50%（必中技能除外）；偶数回合它过曝，受到的伤害+30%。强化、回复放在奇数回合。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "blind",
+          "miss": 50,
+          "bonus": 30,
+          "might": 95
         },
         "tacticalAI": true,
         "immune": [
@@ -4863,27 +4145,14 @@
         "noStand": true
       },
       "comment": "训练师之门·龙系之门守护精灵哈尼卡，首胜得哈尼卡的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【逆鳞】被致命一击或克制属性命中后激怒2回合，攻击+2、防御-2。可以趁它防御下降猛攻，也可以避开它的暴怒期。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "scaleRage",
+          "turns": 2,
+          "atk": 2,
+          "def": 2,
+          "might": 80
         },
         "tacticalAI": true,
         "immune": [
@@ -4921,18 +4190,13 @@
         "noStand": true
       },
       "comment": "训练师之门·普通系之门守护精灵瓦尔普，首胜得瓦尔普的精元（简化版）。",
-      "hint": "【普通系守卫】普通系无克制属性，任何属性都能全额造成伤害；半血觉醒强化攻击、特攻与速度。",
+      "hint": "【无相】同一属性的技能连续命中它，伤害逐次-25%（最低40%）；换一种属性立即恢复全额。配招要覆盖多种属性。",
       "mechanics": {
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "formless",
+          "step": 25,
+          "floor": 40,
+          "might": 38
         },
         "tacticalAI": true,
         "immune": [
@@ -4970,27 +4234,14 @@
         "noStand": true
       },
       "comment": "训练师之门·电系之门守护精灵佩吉克，首胜得佩吉克的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【蓄电池】电量12格，大招耗4、中招耗2、小招耗1。电量耗尽后瘫痪2回合，不能行动、受到的伤害+60%，之后重新充满。前几回合稳住，瘫痪时集火。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "battery",
+          "capacity": 12,
+          "down": 2,
+          "downBonus": 60,
+          "might": 170
         },
         "tacticalAI": true,
         "immune": [
@@ -5028,27 +4279,13 @@
         "noStand": true
       },
       "comment": "训练师之门·超能冰系之门守护精灵弗洛斯，首胜得弗洛斯的精元（简化版）。",
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！",
+      "hint": "【星光位】每回合预告你技能栏的一个位置：该位技能对它的伤害×1.5，其余×0.8。看战报里的预告选招，四个技能都要有用。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "starSlot",
+          "boost": 150,
+          "other": 80,
+          "might": 110
         },
         "tacticalAI": true,
         "immune": [
@@ -5078,8 +4315,21 @@
         "exp": 5000,
         "coins": 1200
       },
-      "hint": "常规草系实战。首次战胜皮特萨罗可获得它的精元；重复挑战不重复发放精元。",
-      "catchable": false
+      "hint": "【破空长鸣】怒鸣蓄力3回合后放出必中、伤害×1.8的破空长鸣。蓄力期间被命中3次就会打断。首次战胜皮特萨罗可获得它的精元；重复挑战不重复发放精元。",
+      "catchable": false,
+      "mechanics": {
+        "signature": {
+          "id": "screech",
+          "max": 3,
+          "breakHits": 3,
+          "blastPercent": 180,
+          "skillId": 12373,
+          "might": 190
+        },
+        "immune": [
+          "sameLifeDeath"
+        ]
+      }
     },
     {
       "mapId": 686,
@@ -5103,8 +4353,19 @@
         "exp": 6000,
         "coins": 1500
       },
-      "hint": "冰暗影系实战。持有火之果后可挑战弱化形态；两种形态共享一次首胜精元。",
-      "catchable": false
+      "hint": "【夜幕】开场闪避40%（必中技能除外），每被命中一次-10%，没被打中的回合+10%。持有火之果后可挑战弱化形态；两种形态共享一次首胜精元。",
+      "catchable": false,
+      "mechanics": {
+        "signature": {
+          "id": "nightVeil",
+          "start": 40,
+          "step": 10,
+          "max": 40
+        },
+        "immune": [
+          "sameLifeDeath"
+        ]
+      }
     },
     {
       "mapId": 686,
@@ -5128,8 +4389,19 @@
         "exp": 6000,
         "coins": 1500
       },
-      "hint": "火之果削弱了暗夜冰狐的体力。需要持有火之果；两种形态共享一次首胜精元。",
-      "catchable": false
+      "hint": "【夜幕】火之果驱散了夜幕：开场没有闪避，但没被打中的回合闪避+10%（最高40%），每被命中一次-10%。需要持有火之果；两种形态共享一次首胜精元。",
+      "catchable": false,
+      "mechanics": {
+        "signature": {
+          "id": "nightVeil",
+          "start": 0,
+          "step": 10,
+          "max": 40
+        },
+        "immune": [
+          "sameLifeDeath"
+        ]
+      }
     },
     {
       "mapId": 6,
@@ -5392,28 +4664,12 @@
         20593
       ],
       "comment": "肯佩德，击败获得肯佩德的精元。",
-      "hint": "【星系霸主】具备本系领域护体与半血二阶段觉醒（清除弱化并全能力+1），使用克制属性与消强技能可正面破局。",
+      "hint": "【漩涡】每回合结束时卷走出战精灵最高的一级强化转给自己；没有强化时吸取1/10体力。别堆强化，或用消强技能清掉它卷走的。",
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "lowHpCritPercent": 45,
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "vortex",
+          "drainDiv": 10,
+          "might": 18
         },
         "tacticalAI": true,
         "statusImmune": [
@@ -5457,32 +4713,17 @@
         "rewardItemId": 400293
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "bloodlust",
+          "perTenth": 10,
+          "might": 45
         },
         "tacticalAI": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【本系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！"
+      "hint": "【喋血】体力每损失10%，它的暴击率+10%。越打越危险，留好爆发，压低后一口气打完。"
     },
     {
       "mapId": 102,
@@ -5513,32 +4754,19 @@
         "rewardItemId": 400313
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "chaosGreen",
+          "fieldTurns": 3,
+          "confuseTurns": 2,
+          "bonus": 50,
+          "might": 50
         },
         "tacticalAI": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【双系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！"
+      "hint": "【混沌绿光】你的精灵连续在场3回合就会陷入混乱2回合；它对身负异常的精灵伤害+50%。勤换精灵，或带解除异常的手段。"
     },
     {
       "mapId": 102,
@@ -5569,32 +4797,20 @@
         "rewardItemId": 400365
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "startStages": [
-          1,
-          0,
-          1,
-          0,
-          0,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0
-          ],
-          "healPercent": 10
+        "signature": {
+          "id": "beastForm",
+          "shadowOut": 140,
+          "shadowIn": 125,
+          "waterIn": 75,
+          "regen": 4,
+          "might": 60
         },
         "tacticalAI": true,
         "immune": [
           "sameLifeDeath"
         ]
       },
-      "hint": "【双系主场】任何属性均可造成伤害；使用克制属性攻击可击碎本系护体并造成25%额外破绽伤害！"
+      "hint": "【兽神双形态】被物理攻击打中后化为暗影形态：伤害+40%、受伤+25%；被特殊攻击打中后化为水之形态：受伤-25%、每回合回复4%体力。形态由你的出招决定。"
     },
     {
       "mapId": 102,
@@ -5606,13 +4822,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12340,
@@ -5620,47 +4830,26 @@
         12343,
         12342
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "vines",
+          "drainDiv": 12,
+          "speedDown": 1,
+          "might": 45
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·藤蔓缠绕】被它命中的精灵会被藤蔓缠住，每回合速度-1、被吸取1/12体力给它回血。先制技能命中或更换精灵可以挣脱。",
       "catchable": false
     },
     {
@@ -5673,13 +4862,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12363,
@@ -5687,47 +4870,27 @@
         12362,
         12359
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "rage",
+          "max": 5,
+          "perLayer": 20,
+          "skillId": 12359,
+          "might": 85
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·怒焰】每受到一次攻击怒气+1（最多5层），每层让它的火系伤害+20%；怒气满时放出怒焰火锤并清空。出手次数少、单发高更划算。",
       "catchable": false
     },
     {
@@ -5740,13 +4903,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12388,
@@ -5754,47 +4911,25 @@
         12387,
         12389
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "barrier",
+          "reduce": 60,
+          "might": 190
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·念力屏障】你先出手打它时伤害-60%，后出手时全额。慢速高攻的精灵更好打。",
       "catchable": false
     },
     {
@@ -5807,13 +4942,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12437,
@@ -5821,47 +4950,29 @@
         12436,
         12433
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
+        "signature": {
+          "id": "toxin",
           "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
+            12,
+            6,
+            3
           ],
-          "healPercent": 15
+          "might": 60
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·剧毒】被它命中的精灵身中剧毒，毒伤从1/12体力起每回合翻倍，最高1/3；剧毒不会致死。更换精灵会重置倍数，但毒不会解。",
       "catchable": false
     },
     {
@@ -5874,13 +4985,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12469,
@@ -5888,47 +4993,27 @@
         12468,
         12464
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "float",
+          "skillId": 12464,
+          "every": 3,
+          "turns": 2,
+          "might": 115
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·浮空】第1回合起每3回合放出浮空连击，被击中的精灵2回合内物理技能都会落空。带特殊技能，或在它放招前换下精灵。",
       "catchable": false
     },
     {
@@ -5941,13 +5026,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12533,
@@ -5955,47 +5034,28 @@
         12532,
         12483
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "smash",
+          "skillId": 12532,
+          "every": 3,
+          "maxPerHammer": 3,
+          "lethalAt": -5,
+          "might": 40
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·碎甲连锤】每3回合使出疯狂连锤，每命中一段让出战精灵防御-1（每次最多-3）；防御降到-5时它的下一击必定击倒。更换精灵即可清除。",
       "catchable": false
     },
     {
@@ -6008,13 +5068,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12556,
@@ -6022,47 +5076,26 @@
         12555,
         12557
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "suppress",
+          "threshold": 450,
+          "accDown": 30,
+          "might": 55
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·火力压制】某回合你对它造成的伤害不足450，下回合你必定后出手、攻击命中-30%。不要空过回合。",
       "catchable": false
     },
     {
@@ -6075,13 +5108,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12600,
@@ -6089,47 +5116,26 @@
         12599,
         11584
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "abyss",
+          "healPercent": 40,
+          "atk": 1,
+          "might": 85
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·灵魂深渊】每击倒你一只精灵，它回复40%体力、攻击+1。残血精灵及时撤下，不要送。",
       "catchable": false
     },
     {
@@ -6142,13 +5148,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12618,
@@ -6156,47 +5156,25 @@
         12617,
         10274
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "iceLock",
+          "turns": 3,
+          "might": 85
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·冰封技能】你刚用过的技能会被冰封3回合，冰封中使用会落空。需要轮换着用技能。",
       "catchable": false
     },
     {
@@ -6209,13 +5187,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12652,
@@ -6223,47 +5195,26 @@
         12651,
         12648
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "blind",
+          "miss": 60,
+          "bonus": 25,
+          "might": 98
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·致盲闪光】奇数回合强光刺眼，你的攻击命中-60%（必中技能除外）；偶数回合它过曝，受到的伤害+25%。强化、回复放在奇数回合。",
       "catchable": false
     },
     {
@@ -6276,13 +5227,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12675,
@@ -6290,47 +5235,27 @@
         12674,
         12670
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "scaleRage",
+          "turns": 3,
+          "atk": 2,
+          "def": 1,
+          "might": 90
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·逆鳞】被致命一击或克制属性命中后激怒3回合，攻击+2、防御-1。可以趁它防御下降猛攻，也可以避开它的暴怒期。",
       "catchable": false
     },
     {
@@ -6343,13 +5268,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12702,
@@ -6357,46 +5276,26 @@
         12701,
         12703
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "formless",
+          "step": 30,
+          "floor": 40,
+          "might": 35
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫；普通系无克制属性，无本系护体；半血觉醒强化，考验续航与爆发。",
+      "hint": "【勇者·无相】同一属性的技能连续命中它，伤害逐次-30%（最低40%）；换一种属性立即恢复全额。配招要覆盖多种属性。",
       "catchable": false
     },
     {
@@ -6409,13 +5308,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12819,
@@ -6423,47 +5316,27 @@
         12818,
         12820
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "battery",
+          "capacity": 14,
+          "down": 2,
+          "downBonus": 50,
+          "might": 120
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·蓄电池】电量14格，大招耗4、中招耗2、小招耗1。电量耗尽后瘫痪2回合，不能行动、受到的伤害+50%，之后重新充满。前几回合稳住，瘫痪时集火。",
       "catchable": false
     },
     {
@@ -6476,13 +5349,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         13226,
@@ -6490,47 +5357,26 @@
         13221,
         13225
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "starSlot",
+          "boost": 140,
+          "other": 70,
+          "might": 95
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·星光位】每回合预告你技能栏的一个位置：该位技能对它的伤害×1.4，其余×0.7。看战报里的预告选招，四个技能都要有用。",
       "catchable": false
     },
     {
@@ -6543,13 +5389,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         20490,
@@ -6557,47 +5397,25 @@
         21414,
         12719
       ],
-      "customHP": 6500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 15000,
         "coins": 10000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "bloodlust",
+          "perTenth": 12,
+          "might": 80
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·喋血】体力每损失10%，它的暴击率+12%。越打越危险，留好爆发，压低后一口气打完。",
       "catchable": false
     },
     {
@@ -6610,13 +5428,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         12795,
@@ -6624,47 +5436,27 @@
         12793,
         12796
       ],
-      "customHP": 7500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 18000,
         "coins": 12000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "chaosGreen",
+          "fieldTurns": 2,
+          "confuseTurns": 2,
+          "bonus": 50,
+          "might": 35
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·混沌绿光】你的精灵连续在场2回合就会陷入混乱2回合；它对身负异常的精灵伤害+50%。勤换精灵，或带解除异常的手段。",
       "catchable": false
     },
     {
@@ -6677,13 +5469,7 @@
       "ev": 0,
       "nature": 0,
       "abilities": [
-        2010,
-        {
-          "id": 2042,
-          "args": [
-            1
-          ]
-        }
+        2010
       ],
       "skills": [
         13033,
@@ -6691,47 +5477,28 @@
         21591,
         13034
       ],
-      "customHP": 7500,
+      "customHP": 8000,
       "drops": [],
       "rewards": {
         "exp": 18000,
         "coins": 12000
       },
       "mechanics": {
-        "typeHomeTurf": true,
-        "extraLives": 1,
-        "startStages": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          0
-        ],
-        "halfHpAwaken": {
-          "stages": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            0
-          ],
-          "healPercent": 15
+        "signature": {
+          "id": "beastForm",
+          "shadowOut": 150,
+          "shadowIn": 125,
+          "waterIn": 65,
+          "regen": 3,
+          "might": 55
         },
         "tacticalAI": true,
-        "statusImmune": [
-          1,
-          2,
-          3,
-          5
-        ],
         "immune": [
           "sameLifeDeath"
         ],
         "ohkoImmune": true
       },
-      "hint": "【勇者模式】100级双命精英守卫，具备本系护体与半血觉醒强化；使用克制属性攻击可破除护体！",
+      "hint": "【勇者·兽神双形态】被物理攻击打中后化为暗影形态：伤害+50%、受伤+25%；被特殊攻击打中后化为水之形态：受伤-35%、每回合回复3%体力。形态由你的出招决定。",
       "catchable": false
     },
     {

@@ -3,6 +3,7 @@ const { Migration030CreateUniverseEncounters } = require("./scripts/030_create_u
 const { Migration031AddAlderProgress } = require("./scripts/031_add_alder_progress");
 const { Migration032ClassicCleanup } = require("./scripts/032_classic_cleanup");
 const { Migration033ClassicPolishV2 } = require("./scripts/033_classic_polish_v2");
+const { Migration034CreateSoulBeads } = require("./scripts/034_create_soul_beads");
 const { Migration029CompleteEvolutionCollection } = require("./scripts/029_complete_evolution_collection");
 
 const { Migration025CreatePetCollection } = require("./scripts/025_create_pet_collection");
@@ -73,6 +74,7 @@ const AllMigrations = [
   new Migration031AddAlderProgress(),
   new Migration032ClassicCleanup(),
   new Migration033ClassicPolishV2(),
+  new Migration034CreateSoulBeads(),
 ];
 class MigrationRunner {
     _db;

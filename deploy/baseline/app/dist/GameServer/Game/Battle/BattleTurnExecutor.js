@@ -61,6 +61,9 @@ class BattleTurnExecutor {
             battle.isOver = true;
             return { isOver: true, winner: battle.userId, reason: 0 };
         }
+        // 招牌特性可改写玩家本回合使出的技能（如安可曲、冰冷支配）
+        if (!isPvp && !options.playerIdle && pet1SkillId > 0)
+            pet1SkillId = require("./BossSignatures").playerSkill(battle, pet1SkillId);
         // 获取技能配置
         // PvP中 skillId=0 表示换精灵，使用 GetNoActionSkill
         const pet1Skill = options.playerIdle ? this.GetNoActionSkill() : require("../Pet/Countermarks").Skill(battle.player, pet1SkillId > 0
@@ -94,12 +97,13 @@ class BattleTurnExecutor {
         // ==================== 速度判定前效果 ====================
         const speedMods = BattleEffectIntegration_1.BattleEffectIntegration.OnBeforeSpeedCheck(battle.player, battle.enemy, pet1Skill, pet2Skill);
         // 决定先后手
-        const pet1First = !options.playerIdle && BattleCore_1.BattleCore.CompareSpeed(battle.player, battle.enemy, pet1Skill, pet2Skill, {
+        const pet1First = !options.playerIdle && !require("./BossSignatures").playerLast(battle) && BattleCore_1.BattleCore.CompareSpeed(battle.player, battle.enemy, pet1Skill, pet2Skill, {
             pet1AlwaysFirst: speedMods.playerAlwaysFirst,
             pet2AlwaysFirst: speedMods.enemyAlwaysFirst,
             pet1PriorityMod: speedMods.playerPriorityMod + SkillEffectRuntime_1.SkillEffectRuntime.Priority(battle, battle.player, pet1Skill),
             pet2PriorityMod: speedMods.enemyPriorityMod + SkillEffectRuntime_1.SkillEffectRuntime.Priority(battle, battle.enemy, pet2Skill),
         });
+        require("./BossSignatures").setOrder(battle, pet1First);
         // ==================== 速度判定日志 ====================
         if (!isPvp) {
             const playerPriority = (pet1Skill.priority || 0) + speedMods.playerPriorityMod;
@@ -334,7 +338,7 @@ class BattleTurnExecutor {
         const beforeHitCheckResults = BattleEffectIntegration_1.BattleEffectIntegration.OnBeforeHitCheck(attacker, defender, skill);
         utils_1.Logger.Debug(`[ExecuteAttack] 阶段2 命中判定前效果: ${beforeHitCheckResults.length}个结果`);
         // 命中判定
-        const hit = SkillEffectRuntime_1.SkillEffectRuntime.ResolveHit(battle, attacker, defender, skill, isFirst, () => BattleCore_1.BattleCore.CheckHit(attacker, defender, skill));
+        const hit = SkillEffectRuntime_1.SkillEffectRuntime.ResolveHit(battle, attacker, defender, skill, isFirst, () => require("./BossSignatures").checkHit(battle, attacker, skill) ?? BattleCore_1.BattleCore.CheckHit(attacker, defender, skill));
         if (battle.universeBudgetState?.actionContext) battle.universeBudgetState.actionContext.hit = !!hit;
         // 命中判定后效果
         const afterHitCheckResults = BattleEffectIntegration_1.BattleEffectIntegration.OnAfterHitCheck(attacker, defender, skill, hit);
@@ -345,6 +349,7 @@ class BattleTurnExecutor {
             BossSpecialRules_1.BossSpecialRules.OnAttackMissed(defender, skill);
             SkillEffectRuntime_1.SkillEffectRuntime.OnMiss(battle, attacker, defender, skill);
             require("./UniverseBossRules").onMiss(battle, attacker, defender, skill);
+            require("./BossSignatures").afterAttack(battle, attacker, skill, { hit: false, damage: 0, isCrit: false, hits: 0 });
             // 闪避效果
             const evadeResults = BattleEffectIntegration_1.BattleEffectIntegration.OnEvade(attacker, defender, skill);
             utils_1.Logger.Debug(`[ExecuteAttack] 阶段2 闪避效果: ${evadeResults.length}个结果`);
@@ -395,7 +400,7 @@ class BattleTurnExecutor {
             const beforeCritCheckResults = BattleEffectIntegration_1.BattleEffectIntegration.OnBeforeCritCheck(attacker, defender, skill);
             utils_1.Logger.Debug(`[ExecuteAttack] 阶段4 暴击判定前效果: ${beforeCritCheckResults.length}个结果`);
             // 暴击判定
-            isCrit = SkillEffectRuntime_1.SkillEffectRuntime.Crit(battle, attacker, defender, skill, () => BattleCore_1.BattleCore.CheckCrit(attacker, defender, skill, isFirst));
+            isCrit = require("./BossSignatures").forceCrit(battle, attacker, skill) || SkillEffectRuntime_1.SkillEffectRuntime.Crit(battle, attacker, defender, skill, () => BattleCore_1.BattleCore.CheckCrit(attacker, defender, skill, isFirst));
             // ==================== 阶段5: 造成伤害前 ====================
             // 伤害计算前效果 — "造成伤害前""命中后"效果
             const beforeCalcResults = BattleEffectIntegration_1.BattleEffectIntegration.OnBeforeDamageCalc(attacker, defender, skill);
@@ -546,6 +551,7 @@ class BattleTurnExecutor {
         require("./AlderSealBattle").OnDamageApplied(battle, attacker, defender, hpDamage);
         if (battle.universeBoss ? universeActualDirect > 0 : universeDirect) require("./UniverseBossRules").afterDirectDamage(battle, attacker, defender, skill, battle.universeBoss ? universeActualDirect : oldDefenderHP - defender.hp);
         BossSpecialRules_1.BossSpecialRules.AfterBossDamaged(battle, attacker, defender, skill, actualDamage);
+        require("./BossSignatures").afterAttack(battle, attacker, skill, { hit: true, damage: hpDamage, isCrit, hits: Math.max(1, attacker.effectStates?._hits || 1) });
         SkillEffectRuntime_1.SkillEffectRuntime.AfterAttack(battle, attacker, defender, skill, hpDamage, isFirst);
         (0, PuniSealBattle_1.ResolvePuniSurvival)(battle, defender);
         utils_1.Logger.Debug(`[ExecuteAttack] 阶段6 伤害结算: 伤害=${actualDamage}, ` +

@@ -12,7 +12,7 @@ app/README.md	141bf6e2d5584aa18b66ca63ea6a0ed25abb2b66552712f9d0ad6ebac8eed127	6
 app/config/README.md	a3cccac2228546cd01b0d54aa716311e92cae0de9072b26b7af147369b9b546a	640	root:kose-seer
 app/config/client.json	3d9657738a2a73d6932d5fb5aea28a7f7ea2d2f1f079950eee521ca8f48b764c	640	root:kose-seer
 app/config/data/json/alder_config.json	9d0544caa3228318b7c1e90795abd6ce7f3306296b1f32e22bd49551f673900f	640	root:kose-seer
-app/config/data/json/boss_abilities.json	7fa8f14b15213376f6a006448974cea43ce39a7ee92aa247aac2bdb2e5bd2c0c	640	root:kose-seer
+app/config/data/json/boss_abilities.json	9ef3b928b28ea73fa71fd8282b4ed9e18a8119477b5222cf78fdf7fa33c41bb4	640	root:kose-seer
 app/config/data/json/closed_space.json	389d9fe1b343f7c2ad52f254d539340bbd250ced866a826103185365f59135e1	640	root:kose-seer
 app/config/data/json/compass_activity.json	1117d11442bd29bd60be05d796ca3f1589dba259ad672b754cdb91dc30e95995	640	root:kose-seer
 app/config/data/json/countermarks.json	f34d888449ee7f7d257198fc3e81e4cf76ec93fed13cc4879732a6269ffb9f5a	640	root:kose-seer
@@ -142,7 +142,7 @@ app/dist/DataBase/migrations/IMigration.js	e06aef03d333e1139b044d15b38c0ff5c8b08
 app/dist/DataBase/migrations/IMigration.js.map	d44a095e67b181cea7b1cb1f5aede916407c13093eb0e73f88a9c5ca067faef9	640	root:kose-seer
 app/dist/DataBase/migrations/MigrationRunner.d.ts	9dd584e483f1d87fa356e7524293d46d6c4c120a97169d234ecd2a23c67ef27e	640	root:kose-seer
 app/dist/DataBase/migrations/MigrationRunner.d.ts.map	b6e8fd4db77203c98b437aa9ce8c030dcac1d5ccbb666278fbc24a4cfe816c9a	640	root:kose-seer
-app/dist/DataBase/migrations/MigrationRunner.js	1ea3788468fc265475d46f9d5d2568f4d30802e718f370a4d08a0cefced0f407	640	root:kose-seer
+app/dist/DataBase/migrations/MigrationRunner.js	4c1a9552cb9010d2454b1dd2059915a29eb4bd03aea5ff109fb633a3dab12088	640	root:kose-seer
 app/dist/DataBase/migrations/MigrationRunner.js.map	77a43e417ecf55c9c6a8ebe45293957e7ff8141fedc2f3a4897f412d1309bf0c	640	root:kose-seer
 app/dist/DataBase/migrations/index.d.ts	faf8077e1df9e4830b3be8a65d8ea2e864a79f5dc8b83d3d67767569e43636fd	640	root:kose-seer
 app/dist/DataBase/migrations/index.d.ts.map	ba6ef4e3da8d8d1ca75120d0336f6d6ee8d03d81203cc68d4f413915fd63f0e4	640	root:kose-seer
@@ -252,6 +252,7 @@ app/dist/DataBase/migrations/scripts/030_create_universe_encounters.js	b26a4ab6a
 app/dist/DataBase/migrations/scripts/031_add_alder_progress.js	7b2cd685859d015727fcee2154c5d5aa44fdd8f2d9d7781414de7df4347ecba5	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/032_classic_cleanup.js	e181b6373b29a26c21a5d97d307cf02891e7aa4da997460be15f5083abbfd07a	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/033_classic_polish_v2.js	d000a29550804efd6eb61965fc56d94b74aac5557ae7408d2b0286fc5d05b47d	640	root:kose-seer
+app/dist/DataBase/migrations/scripts/034_create_soul_beads.js	aec2a1368f40be650d5ca84bb2a7289a483f8416686ce4d0f087d553fd2c5a01	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/index.d.ts	2238285574e653ae132fa17946185993742c6903b96aea4ee57e7b1b8f866811	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/index.d.ts.map	e027fe13805f42ce103128460899f0e5ff70d7209a5979558b3626a4d09e7627	640	root:kose-seer
 app/dist/DataBase/migrations/scripts/index.js	473bab60f982ca319717f6598c7d53c993936d6ff64d3cb164fbb0a48aded271	640	root:kose-seer
@@ -496,7 +497,7 @@ app/dist/GameServer/Game/Battle/BattleEscapeSystem.js.map	999860a0139a88279195ea
 app/dist/GameServer/Game/Battle/BattleExperience.js	3c804e266ee40f5d863f599ec3374c36f973d44c4f561dcb955c2c98d60f1bf3	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleManager.d.ts	1f38d4137f28ad7cd62fafbdaff52338b09f6140280eacde3140d9e36a598fd7	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleManager.d.ts.map	d5fd8a1c5418300d24ecbd720be171d0b84c1115da9706242d3c85b1076a5b40	640	root:kose-seer
-app/dist/GameServer/Game/Battle/BattleManager.js	570ab64f0cb50a3627a8b2e91a2b28e155c9f630e910f7eaa4b24fb24feb953d	640	root:kose-seer
+app/dist/GameServer/Game/Battle/BattleManager.js	a75df13dcbe55f2a3253a6e02a267fa9c506bfdfbbd401215474e08bc089a2a2	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleManager.js.map	aa85e8898af2d1562a94804462324e33308b478966a401f65fe15dbe4a934ba8	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattlePetProxy.d.ts	97304b69bad249daeb36727a25b675cd6ff42a94a8c8d6936360bb54087e5830	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattlePetProxy.d.ts.map	33ad16d8ee39f4dcf947b0764191acf6303e2277030bb4e55e9c9d43084f4446	640	root:kose-seer
@@ -504,7 +505,7 @@ app/dist/GameServer/Game/Battle/BattlePetProxy.js	113d21a8e1cc1cb27502583eca8871
 app/dist/GameServer/Game/Battle/BattlePetProxy.js.map	8129a92bffe050bda73e9a70cfb6b2ca3af6d0d42c3743653805a05a2b3b9d16	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleTurnExecutor.d.ts	4809c17a13112b879ea48dfbb8a0a7de15df787422123610c196bba79fe94694	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleTurnExecutor.d.ts.map	14e843e6a47d8501d98f1397f09d4fb8f3eca3523610e39bd97475911afbf60b	640	root:kose-seer
-app/dist/GameServer/Game/Battle/BattleTurnExecutor.js	dea862f272fc9accbd413eec15dc12756c78cbf434f963981ce0b119e8d8fe9b	640	root:kose-seer
+app/dist/GameServer/Game/Battle/BattleTurnExecutor.js	e791a82cf10169e1270aea38fd671111d3557ca512f8cd3bad1969bf2a5a239a	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BattleTurnExecutor.js.map	dad68ee770d7f3450df2e99bf0ef2d6b45e6e3aa5507734e40ccdce9ab59101c	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossAbility/BossAbilityConfig.d.ts	5e6716ebe94ad0585d07c7875efd037613edb04d72d689b810b3838b9520558e	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossAbility/BossAbilityConfig.d.ts.map	d0683d2186176b349aa08e6fef321f4a37e30d09bc170ea46a16de6635b63b21	640	root:kose-seer
@@ -518,9 +519,10 @@ app/dist/GameServer/Game/Battle/BossAbility/index.d.ts	60f6f2f6398c4b11a67d11268
 app/dist/GameServer/Game/Battle/BossAbility/index.d.ts.map	edc9a38f1e7c61e4995bb2302a8920cd3f14a3861f6f97d4e7d884e46b23ba43	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossAbility/index.js	551b27a081002633f51fe870ef1abb0b8721dfb5c853b911fad776f199da8f90	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossAbility/index.js.map	78c1c42e083fd87cff75ab511381328fe683c7a334c5f2fc2bf05af9ef1211df	640	root:kose-seer
+app/dist/GameServer/Game/Battle/BossSignatures.js	90fd19a08fe204e03dcec6fa6b983c562b670c5d597646400c3ab33e2cafcb11	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossSpecialRules.d.ts	f2af393c5665b74e51e51da4b3f48775cc2669bd353798709e2904e415a9ea23	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossSpecialRules.d.ts.map	3573a5cff96ef497aebbee9ba50037598c96938780dbe716fe4310805d187b3b	640	root:kose-seer
-app/dist/GameServer/Game/Battle/BossSpecialRules.js	90a160c970cbee37be9ea5581e7323656c75f86741d66dca0061faacf7349a50	640	root:kose-seer
+app/dist/GameServer/Game/Battle/BossSpecialRules.js	37cde887cfc0c165ae562589f20b10109cd62a72b5b89cf01e8b3634c38975b9	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BossSpecialRules.js.map	8c28f29c3c7baa170f3d28e9f101d3f7b699d6e8e04b2a9b4de03ea62e945e4c	640	root:kose-seer
 app/dist/GameServer/Game/Battle/BraveTower.js	dcd37f17ae11993e32839a54eab43138240a473433670f4cf9f73bc45543825f	640	root:kose-seer
 app/dist/GameServer/Game/Battle/ChampionEffectArguments.json	fbd75e1b0ee8780e321582fc6748e9df91cca1cdf8748eff6173c8a98408a311	640	root:kose-seer
@@ -1015,11 +1017,11 @@ app/dist/GameServer/Game/Map/MapEventTypes.js	21cb4a43c245e782e246bb5ddb6a53f409
 app/dist/GameServer/Game/Map/MapEventTypes.js.map	8c95d50caaeb65875a14b12ceae37b0f4ce8917dd7d5570ddef7b69c1f3f0d34	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapManager.d.ts	c8b9ab25b1935615f450aa2db8602d84186a4764ca9cebf87e85006176ec9fbf	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapManager.d.ts.map	72d91af1931ca0eb4c2a8a2f16259158057a5978d349d98536d69a89d9f5067d	640	root:kose-seer
-app/dist/GameServer/Game/Map/MapManager.js	5e2f4af2d028ec82ef56985a990844cf456f23a0f7e0027ab461e93c8ab44148	640	root:kose-seer
+app/dist/GameServer/Game/Map/MapManager.js	3b62dd458890bcf15f072fb7e5f6b3ddf8c0f265786c3a0343f78e0e8d2f67e0	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapManager.js.map	387748306173aa58134005054b409a1117ba72907f1bde9ac1e001c713983ac8	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapSpawnManager.d.ts	c9780caae5d4ecb8249665a7de50ef2a68447efbb7fba32a433c859785953397	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapSpawnManager.d.ts.map	517e1572855aedf637e1343f26343b76dd3be6fc994143a6762b6636c3b8ec9c	640	root:kose-seer
-app/dist/GameServer/Game/Map/MapSpawnManager.js	771939af076ece7f54122c8f65ac0939a2d21c0cca4bc99880ee514bbc89eacc	640	root:kose-seer
+app/dist/GameServer/Game/Map/MapSpawnManager.js	e2e04ed0af1f0d12294f67338184180f91c17fe64193c47eba68f8bca7af766b	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapSpawnManager.js.map	c0f109a0b305954517302fe2dd3dea89e9de4d7ef36c87692a7f34cec397f125	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapVisibilityService.d.ts	2fe7e8a8f811362c3ba03f201a2a74d683f7e8a996978e4742cc0058c9bad688	640	root:kose-seer
 app/dist/GameServer/Game/Map/MapVisibilityService.d.ts.map	efeace9c691e44420af3cfeb0a8d374cf213eb91534c2bbc2d9cfc0932858a86	640	root:kose-seer
@@ -3400,7 +3402,7 @@ client/overlay/Client.swf	9ad1eabb270b8570628fb7f120cebecbb14ace77bceb4cf3aa0315
 client/overlay/config/ServerR.xml	8255cc4df83c532613d30800715ac679fb658d7f69e9998010096f002d6769a4	644	root:kose-seer
 client/overlay/config/doorConfig.xml	77fd7035cb57e928c1e672891d64ade1746d45f61023ea0568dc7ee7be1b4e10	644	root:kose-seer
 client/overlay/dll/GroupFightDLL.swf	481fab3a2a4e11ccfeeab2cdc73ef4b0b4af643f6b1382dc982ca93c4e6bf233	644	root:kose-seer
-client/overlay/dll/NieoCore.swf	a8057f67c014b1b8cb076f503e965c16be3bef547227b363445a7757b0725911	644	root:kose-seer
+client/overlay/dll/NieoCore.swf	02c841ad75011f1eb00d77d18c10e3208a017eea9c3b9ddb86f36dbeea9a3aeb	644	root:kose-seer
 client/overlay/ip.txt	949936342545e45f63ddc71525cc3d4e33842adbbe35a14238e66801af85b2a0	644	root:kose-seer
 client/overlay/login/Login.swf	1852965ac3353c0e8b6e5b3de1ec575e3f865f087ffc9318ee656bda219f1391	644	root:kose-seer
 client/overlay/module/com/robot/module/app/DienVideo_624.swf	921ec80d3692a47132a8f2b5c0b7e8899503409fe19d54c31c524cddde0bc10b	644	root:kose-seer
@@ -3416,7 +3418,7 @@ client/overlay/module/com/robot/module/app/PetSelectPanel.swf	8048559b7fa2cd6472
 client/overlay/module/com/robot/module/app/PetStorage.swf	7fe3fc14edc2ca5b1bdee725fa7e768d2de12579fab15f15a0cd77cb33449e80	644	root:kose-seer
 client/overlay/module/com/robot/module/app/SeaVortexActivity.swf	6df9bf7941bef74117e59bd780c70d4c57e02747bcc0d7aa854cb354cd9c885d	644	root:kose-seer
 client/overlay/module/com/robot/module/app/SptChannelPanel.swf	fa11ce602971df67ed1adf5dc96092df3558352e179fe7dcc9359b02b5515c92	644	root:kose-seer
-client/overlay/module/com/robot/module/app/SptPanel.swf	d47fb90a2af219b17259da7883c152d581698a23d37ea43bf28d2e0379209f41	644	root:kose-seer
+client/overlay/module/com/robot/module/app/SptPanel.swf	e8b847785cfea56388814bc5a61253e8216004a5436265b58057e932cdc5ff35	644	root:kose-seer
 client/overlay/module/com/robot/module/app/StoneBook_540.swf	3400f2502e7f0b146de65bf1192d5b8c3a810222caf21953ece31fb159135343	644	root:kose-seer
 client/overlay/module/com/robot/module/app/StoneIntro_540.swf	629142eddb7d9cabee2a18c5b95b0f5744ac899770a99c31e26a2a76929dfbe5	644	root:kose-seer
 client/overlay/module/com/robot/module/app/Task620PwdPanel.swf	7c1d7e42eb007884139d6530c9634532c3e762e0b67ac260fa42c220ab0ae0b1	644	root:kose-seer
@@ -3427,7 +3429,7 @@ client/overlay/module/com/robot/module/app/TaskIntro_549.swf	db639af7aa5f32d301c
 client/overlay/module/com/robot/module/app/TaskIntro_796.swf	233df60496982d7fee0e23085ebcfdb12f8b857e65f8fb4594d6e9b1b4eda5a7	644	root:kose-seer
 client/overlay/module/com/robot/module/app/TaskIntro_816.swf	cefba21d5caa90a2f5ce4e6dd4e9f437eb08d1686dc72bb882bf6a6b19896214	644	root:kose-seer
 client/overlay/module/com/robot/module/app/TasksRecordPanel.swf	aed0ed535627bc2d47861f029285ed587e88d72ae23578f6277a8f39fd40a375	644	root:kose-seer
-client/overlay/module/com/robot/module/app/TrainDoorEnterPanel.swf	bd75ffd6b50685bddbebc0b91c0fea56b7b52ac2d1f3f6cbb7bcafd46265b4e1	644	root:kose-seer
+client/overlay/module/com/robot/module/app/TrainDoorEnterPanel.swf	4bd2269ee988a22189f3c306c4e77c64f21a92328a7929625cedaeb19f3a15f4	644	root:kose-seer
 client/overlay/module/com/robot/module/app/honorsHall/SpaceGuard.swf	e0dfa18b953ca4c0dbef559e84520fd294d9d8d46df12a5fefe8245b8452402e	644	root:kose-seer
 client/overlay/module/com/robot/module/app/subMap/Galaxy_1.swf	19222a7500a551f0c518ef53477af92a29b5f5ddc136b462466ea5ce62a8331f	644	root:kose-seer
 client/overlay/module/com/robot/module/app/subMap/Galaxy_3.swf	d497fecaa2b7a785d553fab3c3bbe9c68284aeeb896c150eb55adcac13d2aada	644	root:kose-seer
@@ -4016,7 +4018,7 @@ client/overlay/resource/map/9508.swf	ee47b439fb1f07fc17f4924a83cc8d01508a4f3320b
 client/overlay/resource/map/9509.swf	5e3bc7698a9c282e2602213038be272109aedbeb06e7a701d104315a75e93d7d	644	root:kose-seer
 client/overlay/resource/map/9510.swf	6d8f955571ef926c7ffcd09e7d1ff6fb4af56ff42b554020d8d65961ba1db994	644	root:kose-seer
 client/overlay/resource/map/9515.swf	eae7540afc84f3714a511dfc59f84c80b208a4f6aaf33b862509b3ea661ae316	644	root:kose-seer
-client/overlay/resource/module/PetFightDLL.swf	fb83f6e73f3cec7a84dd7a49e03bf6641ccaad39527b1921e8025f53bca97413	644	root:kose-seer
+client/overlay/resource/module/PetFightDLL.swf	8e267ee1926da156affc0c1481ea68c4a28d595643c1471d29216489d412b670	644	root:kose-seer
 client/overlay/resource/module/clothBook/clothBook.swf	3634af46dd2feaaceeb9eb2a4e4bdf5bc8a1b988fa022b0f6083b5d50897de2a	644	root:kose-seer
 client/overlay/resource/module/clothBook/collectionTools.swf	516b3db901e5dd9a5d4ae503936c6bd55dd25a79d1156017fc4abe7ea3fec5aa	644	root:kose-seer
 client/overlay/resource/module/com/robot/module/app/SptPanel.swf	e31f221384f82c847beeaa4462fac641d196d058829758d338371cfc71de42ec	644	root:kose-seer

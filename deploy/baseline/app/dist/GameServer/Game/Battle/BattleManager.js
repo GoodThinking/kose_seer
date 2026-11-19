@@ -401,6 +401,7 @@ class BattleManager extends BaseManager_1.BaseManager {
         if (!isCurrent())
             return;
         await this.SendUniverseBossTelegraph(this._currentBattle);
+        await this.SendBossNotice(this._currentBattle);
         if (!isCurrent()) return;
         this.UpdatePlayerHPRecord();
         // 回合结束的效果（中毒等）击倒了敌方
@@ -415,6 +416,16 @@ class BattleManager extends BaseManager_1.BaseManager {
         if (!this._currentBattle)
             return null;
         const playerPets = this.Player.PetManager.GetPetsInBag();
+        // 回合末效果（中毒、镇魂歌等）击倒的精灵，客户端背包里的体力不会归零，超时自动补位会选回这只已倒下的当前精灵；
+        // 这时按客户端自动补位的规则换成背包里第一只活着的，否则拒绝后客户端会一直等待补位
+        const current = this._currentBattle.player;
+        if (!isPvp && current.catchTime === catchTime && current.hp <= 0) {
+            const alive = playerPets.find(p => p.catchTime !== catchTime && p.hp > 0);
+            if (alive) {
+                utils_1.Logger.Info(`[BattleManager] 补位选中已倒下的当前精灵，改为 CatchTime=${alive.catchTime}`);
+                catchTime = alive.catchTime;
+            }
+        }
         const newPet = playerPets.find(p => p.catchTime === catchTime);
         if (!newPet) {
             utils_1.Logger.Warn(`[BattleManager] 未找到精灵: CatchTime=${catchTime}`);
@@ -522,6 +533,8 @@ class BattleManager extends BaseManager_1.BaseManager {
         if (this._currentBattle) Champion.RestoreState(this._currentBattle, battlePet, battlePet === this._currentBattle.player ? "player" : "enemy");
         // 个体值取六项平均，与面板一致（按个体计算威力的技能使用）
         battlePet.dv = Math.floor((newPet.dvHp + newPet.dvAtk + newPet.dvDef + newPet.dvSpAtk + newPet.dvSpDef + newPet.dvSpeed) / 6);
+        if (this._currentBattle && battlePet === this._currentBattle.player)
+            require("./BossSignatures").onPlayerSwitch(this._currentBattle);
     }
     /**
      * 同步战斗精灵HP到玩家精灵数据
@@ -736,6 +749,24 @@ class BattleManager extends BaseManager_1.BaseManager {
             utils_1.Logger.Error("[BattleManager] 暗黑之门战斗失败", error);
             await this.Player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.FIGHT_DARKPORTAL).setResult(5000));
         }
+    }
+    /**
+     * 下发 BOSS 招牌特性的提示（64006），客户端追加到战报里。
+     * 包体：模式(1=跟在回合结果之后，等双方战报显示完；2=立即显示)、地图、param2、精灵、下一回合数、文字长度、UTF-8 文字
+     */
+    async SendBossNotice(battle, immediate = false) {
+        if (!battle || battle.universeBoss || !battle.enemy?.bossMechanics?.signature) return;
+        const message = Buffer.from(require("./BossSignatures").drainNotices(battle), "utf8");
+        if (!message.length) return;
+        const body = Buffer.alloc(24 + message.length);
+        body.writeUInt32BE(immediate ? 2 : 1, 0);
+        body.writeUInt32BE(battle.bossMapId || 0, 4);
+        body.writeUInt32BE(battle.bossParam2 || 0, 8);
+        body.writeUInt32BE(battle.enemy.petId, 12);
+        body.writeUInt32BE(battle.turn + 1, 16);
+        body.writeUInt32BE(message.length, 20);
+        message.copy(body, 24);
+        await this.Player.SendPacket({getCmdId: () => 64006, getResult: () => 0, serialize: () => body});
     }
     async SendUniverseBossTelegraph(battle) {
         if (!battle?.universeBoss) return;
@@ -1003,6 +1034,7 @@ class BattleManager extends BaseManager_1.BaseManager {
         const playerPet = BattleConverter_1.BattleConverter.ToFightPetInfo(this._currentBattle.player, this.Player.Uid, 0);
         const enemyPet = BattleConverter_1.BattleConverter.ToFightPetInfo(this._currentBattle.enemy, 0, 1);
         await this.Player.SendPacket(new Battle_1.PacketNoteStartFight(0, playerPet, enemyPet));
+        await this.SendBossNotice(this._currentBattle, true);
         await this.EmitBattleStartEvent();
         utils_1.Logger.Info(`[BattleManager] 准备战斗(PVE): UserID=${this.Player.Uid}`);
     }
@@ -1095,6 +1127,7 @@ class BattleManager extends BaseManager_1.BaseManager {
         if (!isCurrent())
             return;
         await this.SendUniverseBossTelegraph(this._currentBattle);
+        await this.SendBossNotice(this._currentBattle);
         if (!isCurrent()) return;
         this.UpdatePlayerHPRecord();
         await this.EmitAttackResultEvents(result, isCurrent);
@@ -1455,9 +1488,10 @@ class BattleManager extends BaseManager_1.BaseManager {
                 return;
             }
             // PVE模式：立即执行
-            // 一对一的BOSS（布莱克）不能换精灵
-            if (this._currentBattle.enemy.bossMechanics?.singlePet) {
-                const message = Buffer.from(`${this._currentBattle.enemy.name}只接受一对一的决斗，不能更换精灵！`, 'utf8');
+            // 一对一的BOSS（布莱克）不能换精灵；招牌特性（如黑色束带）可暂时禁止主动换精灵
+            const switchBlocked = require("./BossSignatures").blockSwitch(this._currentBattle);
+            if (this._currentBattle.enemy.bossMechanics?.singlePet || switchBlocked) {
+                const message = Buffer.from(switchBlocked || `${this._currentBattle.enemy.name}只接受一对一的决斗，不能更换精灵！`, 'utf8');
                 const body = Buffer.concat([Buffer.alloc(4), message]);
                 body.writeUInt32BE(message.length, 0);
                 await this.Player.SendPacket({ getCmdId: () => CommandID_1.CommandID.ALERT, getResult: () => 0, serialize: () => body });
@@ -1489,6 +1523,7 @@ class BattleManager extends BaseManager_1.BaseManager {
                 await this.CheckPlayerPetDeath();
             } else {
                 await this.SendUniverseBossTelegraph(this._currentBattle);
+                await this.SendBossNotice(this._currentBattle, true);
             }
             utils_1.Logger.Info(`[BattleManager] 更换精灵成功: UserID=${this.UserID}, PetId=${newPet.petId}, CatchTime=${catchTime}`);
         }

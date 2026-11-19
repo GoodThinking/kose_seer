@@ -17,7 +17,7 @@ package com.robot.module.app
    // 训练师之门完整版：
    // 1. 左侧单属性之门 15 扇全部开放（补齐第 13 门「战斗系之门·威里特」），支持普通模式（201–215）与勇者模式（301–315）切换；
    // 2. 右侧双属性之门开放「草超能之门·普兰特」（216/316）与「水暗影之门·帕里斯」（217/317），支持普通模式与勇者模式切换；
-   // 3. 彻底取消生硬的“只受XX属性伤害”死锁，采用原版推荐克制属性展示 + 本系主场/二阶段觉醒战术机制。
+   // 3. 彻底取消生硬的“只受XX属性伤害”死锁；说明区展示每个守卫的招牌特性（HINTS 表）。
    public class TrainDoorEnterPanel extends Sprite implements IModule
    {
       private static const DOORS:Array = [
@@ -42,6 +42,9 @@ package com.robot.module.app
          ["草超能","普兰特",216,88,[3,4,9,12],"普兰特的精元"],
          ["水暗影","帕里斯",217,88,[1,5,12],"帕里斯的精元"]
       ];
+
+      // 每个守卫的招牌特性说明（按 param2，勇者为 3xx），由 scripts/build-boss-signatures.cjs 生成
+      private static const HINTS:Object = {"201":"被命中会被藤蔓缠住，每回合降速、被吸1/16体力；先制技能或换精灵挣脱。","202":"每挨一下怒气+1，每层火系伤害+15%，满5层砸出怒焰火锤后清空。","203":"念力屏障：你先出手时伤害-50%，后出手全额，慢速重炮手的舞台。","204":"被命中会中剧毒，毒伤从1/16起每回合翻倍；换下精灵重置倍数，毒不会解。","205":"每4回合放浮空连击，被浮空的精灵2回合内物理技能落空。","206":"每3回合放疯狂连锤，每段让你防御-1，降到-6时下一击必杀；换精灵清除。","207":"每回合要对它打出300伤害，否则下回合被压制：必后手、命中-20%。","208":"每击倒你一只精灵，它回复30%体力、攻击+1；残血精灵要及时撤下。","209":"你用过的技能会被冰封2回合，冰封中使用会落空；至少要有三招可用。","210":"奇数回合强光，你的攻击命中-50%；偶数回合过曝，它受伤+30%。","211":"被致命一击或克制属性命中会激怒2回合：攻击+2、防御-2。","212":"同一属性连续打它，伤害逐次-25%（最低40%），换属性恢复。","213":"电量12格，出招耗电；耗尽后瘫痪2回合，受伤+60%。","214":"每回合点亮你的一个技能位：该位伤害×1.5，其余×0.8。","215":"体力每损失10%，暴击率+10%；压到四成左右后一波带走。","216":"精灵连续在场3回合会混乱；它对身负异常的精灵伤害+50%。","217":"物理打中它变暗影形态（伤害高、怕打），特殊打中变水之形态（耐打、回血）。","301":"被命中会被藤蔓缠住，每回合降速、被吸1/12体力；先制技能或换精灵挣脱。","302":"每挨一下怒气+1，每层火系伤害+20%，满5层砸出怒焰火锤后清空。","303":"念力屏障：你先出手时伤害-60%，后出手全额，慢速重炮手的舞台。","304":"被命中会中剧毒，毒伤从1/12起每回合翻倍；换下精灵重置倍数，毒不会解。","305":"每3回合放浮空连击，被浮空的精灵2回合内物理技能落空。","306":"每3回合放疯狂连锤，每段让你防御-1，降到-5时下一击必杀；换精灵清除。","307":"每回合要对它打出450伤害，否则下回合被压制：必后手、命中-30%。","308":"每击倒你一只精灵，它回复40%体力、攻击+1；残血精灵要及时撤下。","309":"你用过的技能会被冰封3回合，冰封中使用会落空；至少要有三招可用。","310":"奇数回合强光，你的攻击命中-60%；偶数回合过曝，它受伤+25%。","311":"被致命一击或克制属性命中会激怒3回合：攻击+2、防御-1。","312":"同一属性连续打它，伤害逐次-30%（最低40%），换属性恢复。","313":"电量14格，出招耗电；耗尽后瘫痪2回合，受伤+50%。","314":"每回合点亮你的一个技能位：该位伤害×1.4，其余×0.7。","315":"体力每损失10%，暴击率+12%；压到四成左右后一波带走。","316":"精灵连续在场2回合会混乱；它对身负异常的精灵伤害+50%。","317":"物理打中它变暗影形态（伤害高、怕打），特殊打中变水之形态（耐打、回血）。"};
 
       private static const TYPE_NAMES:Array = ["","草","水","火","飞行","电","机械","地面","普通","冰","超能","战斗","光","暗影","神秘","龙","圣灵"];
 
@@ -139,12 +142,12 @@ package com.robot.module.app
          (this._ui.btns["btn_0"] as SimpleButton).addEventListener(MouseEvent.CLICK,this.onNormalMode);
          (this._ui.btns["btn_1"] as SimpleButton).addEventListener(MouseEvent.CLICK,this.onBraveMode);
          ToolTipManager.add(this._ui.btns["btn_0"],"普通模式：85级守门精灵，首胜奖励专属精元");
-         ToolTipManager.add(this._ui.btns["btn_1"],"勇者模式：100级双命觉醒精英，挑战成功奖励丰厚经验与赛尔豆");
+         ToolTipManager.add(this._ui.btns["btn_1"],"勇者模式：100级精英，特性加强，挑战成功奖励丰厚经验与赛尔豆");
 
          (this._ui.btns1["btn_0"] as SimpleButton).addEventListener(MouseEvent.CLICK,this.onDualNormalMode);
          (this._ui.btns1["btn_1"] as SimpleButton).addEventListener(MouseEvent.CLICK,this.onDualBraveMode);
          ToolTipManager.add(this._ui.btns1["btn_0"],"普通模式：88级双属性守门精灵，首胜奖励专属精元");
-         ToolTipManager.add(this._ui.btns1["btn_1"],"勇者模式：100级双命觉醒精英，挑战成功奖励丰厚经验与赛尔豆");
+         ToolTipManager.add(this._ui.btns1["btn_1"],"勇者模式：100级精英，特性加强，挑战成功奖励丰厚经验与赛尔豆");
 
          this._ui.achieve0.addEventListener(MouseEvent.CLICK,this.onAchieve0);
          this._ui.achieve1.addEventListener(MouseEvent.CLICK,this.onAchieve1);
@@ -228,11 +231,11 @@ package com.robot.module.app
          this._ui.kind.gotoAndStop(index);
          if(this._braveMode)
          {
-            this._txt.htmlText = "<font color=\'#ffffff\'>勇者守卫：<font color=\'#ff6600\'>" + door[1] + "</font>（100级·双命）<br>通关奖励：<font color=\'#ffff00\'>15000积累经验 + 10000赛尔豆</font><br><br><font color=\'#00ffff\'>【勇者试炼】</font>拥有两条命与半血二阶段觉醒，使用" + this.typeNames(door[4],"系") + "等克制属性可破除本系护体并造成额外伤害！</font>";
+            this._txt.htmlText = "<font color=\'#ffffff\'>勇者守卫：<font color=\'#ff6600\'>" + door[1] + "</font>（100级）<br>通关奖励：<font color=\'#ffff00\'>15000经验、10000赛尔豆</font><br><font color=\'#00ffff\'>【勇者试炼】</font>" + HINTS[door[2] + 100] + "</font>";
          }
          else
          {
-            this._txt.htmlText = "<font color=\'#ffffff\'>守护精灵：<font color=\'#00ffff\'>" + door[1] + "</font>（" + door[3] + "级）<br>首胜奖励：<font color=\'#ffff00\'>" + door[5] + "</font><br><br><font color=\'#00ffcc\'>【本系主场】</font>任何属性均可造成伤害；使用" + this.typeNames(door[4],"系") + "克制攻击可击碎护体造成破绽增伤！</font>";
+            this._txt.htmlText = "<font color=\'#ffffff\'>守护精灵：<font color=\'#00ffff\'>" + door[1] + "</font>（" + door[3] + "级）<br>首胜奖励：<font color=\'#ffff00\'>" + door[5] + "</font><br><br><font color=\'#00ffcc\'>【招牌特性】</font>" + HINTS[door[2]] + "</font>";
          }
       }
 
@@ -255,11 +258,11 @@ package com.robot.module.app
          {
             if(this._dualBraveMode)
             {
-               this._dualTxt.htmlText = "<font color=\'#ffffff\'>勇者守卫：<font color=\'#ff6600\'>" + door[1] + "</font>（100级·双命）<br>通关奖励：<font color=\'#ffff00\'>18000积累经验 + 12000赛尔豆</font><br><br><font color=\'#00ffff\'>【双系试炼】</font>双属性精英守卫，半血触发觉醒强化，推荐使用" + this.typeNames(door[4],"系") + "属性破除护体！</font>";
+               this._dualTxt.htmlText = "<font color=\'#ffffff\'>勇者守卫：<font color=\'#ff6600\'>" + door[1] + "</font>（100级）<br>通关奖励：<font color=\'#ffff00\'>18000经验、12000赛尔豆</font><br><font color=\'#00ffff\'>【勇者试炼】</font>" + HINTS[door[2] + 100] + "</font>";
             }
             else
             {
-               this._dualTxt.htmlText = "<font color=\'#ffffff\'>守护精灵：<font color=\'#00ffff\'>" + door[1] + "</font>（" + door[3] + "级）<br>首胜奖励：<font color=\'#ffff00\'>" + door[5] + "</font><br><br><font color=\'#00ffcc\'>【双系主场】</font>兼具双重属性威力，使用" + this.typeNames(door[4],"系") + "克制属性可造成额外破绽伤害！</font>";
+               this._dualTxt.htmlText = "<font color=\'#ffffff\'>守护精灵：<font color=\'#00ffff\'>" + door[1] + "</font>（" + door[3] + "级）<br>首胜奖励：<font color=\'#ffff00\'>" + door[5] + "</font><br><br><font color=\'#00ffcc\'>【招牌特性】</font>" + HINTS[door[2]] + "</font>";
             }
          }
       }

@@ -33,6 +33,7 @@ class BossSpecialRules {
             if (stage)
                 pet.battleLevels[index] = stage;
         });
+        require('./BossSignatures').init(pet);
         utils_1.Logger.Info(`[BossSpecialRules] BOSS规则: ${pet.name} Map=${bossConfig.mapId}/${bossConfig.param2}, ` +
             `特性=[${pet.bossAbilityEntries.map((e) => e.id).join(',')}], 规则=${JSON.stringify(mechanics)}`);
         return pet;
@@ -135,6 +136,9 @@ class BossSpecialRules {
      */
     static ModifyDamageToBoss(battle, attacker, defender, skill, damage, kind, info = {}) {
         if (battle?.universeBoss && defender === battle.enemy) return kind === "ohko" ? 0 : damage;
+        // 招牌特性：BOSS 打出的攻击伤害
+        if (attacker === battle?.enemy && defender === battle.player)
+            return require('./BossSignatures').modifyDamage(battle, attacker, defender, skill, damage, kind);
         const mechanics = this.Mechanics(defender);
         if (!mechanics || defender !== battle.enemy || damage <= 0)
             return damage;
@@ -204,6 +208,7 @@ class BossSpecialRules {
             }
         }
         damage = this.ApplyTacticalDamageModifier(battle, attacker, defender, skill, damage, kind, info);
+        damage = require('./BossSignatures').modifyDamage(battle, attacker, defender, skill, damage, kind);
         return this.ApplyKillCondition(attacker, defender, skill, damage);
     }
     /**
@@ -287,6 +292,7 @@ class BossSpecialRules {
             boss.hp = boss.maxHp;
             utils_1.Logger.Info(`[BossSpecialRules] ${boss.name} 复活，剩余额外命数=${boss.bossState.livesLeft}`);
             this.EnterNextPhase(boss);
+            require('./BossSignatures').revive(battle);
         }
         if (boss.hp > 0) {
             this.RestorePP(boss);
@@ -332,6 +338,7 @@ class BossSpecialRules {
         }
         boss.bossAbilityEntries = (phase.abilities || []).map((a) => typeof a === 'number' ? { id: a } : { id: a.id, args: a.args });
         boss.immuneFlags = {};
+        require('./BossSignatures').init(boss);
         require('./BossAbility/BossAbilityManager').BossAbilityManager.InitializeBossAbilities(boss, boss.bossAbilityEntries);
         utils_1.Logger.Info(`[BossSpecialRules] ${boss.name} 进入形态: ${phase.name || boss.bossState.phase}`);
     }
@@ -344,6 +351,7 @@ class BossSpecialRules {
             require('./PuniSealBattle').HealPuniLifeSeal(battle);
         require('./AlderSealBattle').HealAlder(battle);
         this.ProcessFieldAuraTurnEnd(battle);
+        require('./BossSignatures').turnEnd(battle);
         // 多层护甲：每回合结束恢复一层
         if (mechanics?.layers && boss.hp > 0 && boss.bossState.layers < mechanics.layers) {
             boss.bossState.layers++;
@@ -381,7 +389,7 @@ class BossSpecialRules {
             if (index >= 0 && boss.skillPP[index] > 0 && (battle.player?.level || 0) >= (opening.minFoeLevel || 0))
                 return opening.skillId;
         }
-        skillId = this.ChooseTacticalSkill(battle, skillId);
+        skillId = require('./BossSignatures').selectSkill(battle, this.ChooseTacticalSkill(battle, skillId));
         const lowHp = boss.bossMechanics.lowHpAttackPercent;
         if (lowHp && boss.hp * 100 < boss.maxHp * lowHp && GameConfig_1.GameConfig.GetSkillById(skillId)?.Category === 4) {
             const attack = boss.skills.find((id, i) => boss.skillPP[i] > 0 && GameConfig_1.GameConfig.GetSkillById(id)?.Category !== 4);

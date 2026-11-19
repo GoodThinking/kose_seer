@@ -2,6 +2,10 @@
 // Natural real-turn battles with legal learned moves, finite items and recorded entropy.
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
 const [runtime,destination,scope='all']=process.argv.slice(2);if(!runtime||!destination)throw Error('Usage: node spt-boss-lab.cjs <runtime> <report.json> [all|map/region,...]');
+// 校准用：LAB_LEVEL=boss 让挑战队伍与 BOSS 同级（或给定等级），LAB_EV 为每项学习力上限；缺省保持满级满学习力
+const LAB_LEVEL=process.env.LAB_LEVEL,LAB_EV=Number(process.env.LAB_EV??252),teamLevel=boss=>LAB_LEVEL==='boss'?Math.min(100,boss.level):Number(LAB_LEVEL)||100;
+// LAB_CALIBRATE=N：每个 BOSS 用排名前列的六只队伍打 N 场不同随机种子，输出胜率、回合、阵亡、用药分布；LAB_POTIONS 为体力药数量
+const LAB_CALIBRATE=Number(process.env.LAB_CALIBRATE||0),LAB_POTIONS=Number(process.env.LAB_POTIONS??99);
 const designMode=process.argv[5]==='design',contracts=require('./spt-boss-route-contracts.cjs');
 const app=path.resolve(runtime),output=path.resolve(destination);process.chdir(app);
 const load=f=>require(path.join(app,'dist',f));
@@ -50,7 +54,7 @@ function candidates(boss,route){
   const statusOnly=boss.mechanics?.directDamageImmune;
   const ranked=[];
   for(const row of pools){
-    const all=row.moves;
+    const all=row.moves.filter(m=>row.levels.get(m.ID)<=teamLevel(boss));if(all.length<4)continue;
     if(rule.resist&&BattleAlgorithm.GetTypeEffectiveness(rule.resist,row.pet.Type)>=1)continue;
     if(rule.clear&&!all.some(clear)||rule.boost&&!all.some(boost)||rule.restore&&!all.some(restore)||rule.status!==undefined&&!all.some(s=>inflict(s,rule.status)))continue;
     if(rule.cleanse&&([12,27].includes(id)||rule.antifreeze)&&!all.some(immune))continue;
@@ -87,20 +91,20 @@ function candidates(boss,route){
     const p=row.pet,threat=Math.max(1,...incoming.map(s=>s.Power*BattleAlgorithm.GetTypeEffectiveness(s.Type||8,p.Type)/(s.Category===1?p.Def:p.SpDef)));
     const utility=(kit.some(heal)?3000:0)+(weakened?1500:0)+(kit.some(clear)?1000:0);
     const score=(p.HP+150)*60/threat+scoreMove(key,boss)*(key.Category===1?p.Atk:p.SpAtk)/50+utility+(route==='A'&&types.includes(key.Type)?2000:0);
-    const main=key.Category===1?'atk':'spAtk';const training={hp:rule.fast?6:252,atk:0,def:0,spAtk:0,spDef:0,speed:rule.fast?252:6};training[main]=252;
+    const main=key.Category===1?'atk':'spAtk';const training={hp:rule.fast?6:LAB_EV,atk:0,def:0,spAtk:0,spDef:0,speed:rule.fast?LAB_EV:6};training[main]=LAB_EV;
     ranked.push({score,id:p.ID,key:key.ID,skills:kit.map(s=>s.ID),training});
   }
   return ranked.sort((a,b)=>b.score-a.score);
 }
-function member(spec,index){
-  const p=GameConfig.GetPetById(spec.id),level=100,dv=31,hp=PetCalculator.CalculateHP(spec.id,level,dv,spec.training.hp),stat=name=>PetCalculator.CalculateStat(spec.id,name,level,dv,spec.training[name],0);
+function member(spec,index,level=100){
+  const p=GameConfig.GetPetById(spec.id),dv=31,hp=PetCalculator.CalculateHP(spec.id,level,dv,spec.training.hp),stat=name=>PetCalculator.CalculateStat(spec.id,name,level,dv,spec.training[name],0);
   const result=init.BuildBattlePet(spec.id,p.DefName,level,hp,hp,stat('atk'),stat('def'),stat('spAtk'),stat('spDef'),stat('speed'),p.Type,spec.skills,1700000000+index+spec.id*10,0);
   Object.assign(result,{dv,nature:0,evHp:spec.training.hp,evAtk:spec.training.atk,evDef:spec.training.def,evSpAtk:spec.training.spAtk,evSpDef:spec.training.spDef,evSpeed:spec.training.speed});return result;
 }
 async function run(config,specs,route,variation){
   const seed=(config.mapId*65537+config.param2*257+config.petId+7+variation*104729)>>>0;let randomState=seed;
   Math.random=()=>((randomState=(Math.imul(randomState,1664525)+1013904223)>>>0)/4294967296);
-  const roster=specs.map(member),player=roster[0],enemy=init.BuildBossBattlePet(config,GameConfig.GetPetById(config.petId));
+  const roster=specs.map((spec,index)=>member(spec,index,teamLevel(config))),player=roster[0],enemy=init.BuildBossBattlePet(config,GameConfig.GetPetById(config.petId));
   // UpdateBattlePet mutates the active proxy; keep the first party entry independent.
   roster[0]={...player,skills:player.skills.slice(),skillPP:player.skillPP.slice()};
   const battle={userId:1,player,enemy,turn:0,isOver:false,roundCount:0,lastHitWasCritical:false,battleType:'BOSS',bossMapId:config.mapId,bossParam2:config.param2,startTime:0};
@@ -108,7 +112,7 @@ async function run(config,specs,route,variation){
   if(config.universeBossKey)battle.universeBoss={key:config.universeBossKey,mapId:config.mapId,region:config.param2,petId:config.petId,tier:config.universeTier,spt:config.spt};
   load('GameServer/Game/Battle/PuniSealBattle').InitPuniSeal(battle);await init.TriggerPassiveAbilities(battle.player,enemy);load('GameServer/Game/Battle/AlderSealBattle').InitAlder(battle);BattleEffectIntegration.OnBattleStart(battle);
   const manager=new BattleManager({Uid:1});manager._currentBattle=battle;manager.UpdatePlayerHPRecord();let active=0;
-  const native=config.sptBoss.native,supplies={300015:99,300018:native?60:36,...(rule.cleanse?{300610:12,300611:12,300612:12,300613:12,300614:12,300615:12,300616:12}:{})},remaining={...supplies},usedItems=Object.fromEntries(Object.keys(supplies).map(id=>[id,0])),trace=[];
+  const native=config.sptBoss.native,supplies={300015:LAB_POTIONS,300018:native?60:36,...(rule.cleanse?{300610:12,300611:12,300612:12,300613:12,300614:12,300615:12,300616:12}:{})},remaining={...supplies},usedItems=Object.fromEntries(Object.keys(supplies).map(id=>[id,0])),trace=[];
   const cost=()=>load('GameServer/Game/Battle/ChampionPetRuntime').ChampionPetRuntime.PPCost(battle.player)*load('GameServer/Game/Battle/AlderSealBattle').PPCostMultiplier(battle);
   const usable=id=>{const i=battle.player.skills.indexOf(id);return i>=0&&battle.player.skillPP[i]>=cost();};
   function record(extra){
@@ -175,11 +179,16 @@ async function run(config,specs,route,variation){
   ConfigLoader.Instance._configDir=path.join(app,'config');ConfigRegistry.Instance.RegisterBatch(GetGameConfigRegistrations());await ConfigRegistry.Instance.Initialize();await load('shared/config/game/SkillEffectsConfig').SkillEffectsConfig.Instance.Load();BossAbilityConfig.Instance.Load();load('GameServer/Game/Battle/effects');{const {ElementSystem}=load('GameServer/Game/Battle/ElementSystem');for(const b of definitions.bossConfigs){const id=b.sptBoss?.sptId;if(!id||COUNTERS[id])continue;const t=GameConfig.GetPetById(b.petId)?.Type;const c=[...Array(16)].map((_,i)=>i+1).filter(a=>ElementSystem.GetEffectiveness(a,t)>1);if(c.length)COUNTERS[id]=c;}}
   const species=GameConfig.GetAllPets(),spawn=JSON.parse(fs.readFileSync(path.join(app,'config/data/json/map-ogres.json'))),collection={plans:[]},signing={pets:[]};
   const available=new Set([...Object.values(spawn.maps).flatMap(m=>(m.ogres||[]).map(p=>p.petId)),...collection.plans.flatMap(p=>p.rewards),...signing.pets]),families=new Set(species.filter(p=>available.has(p.ID)).map(p=>p.PetClass));
-  pools=species.filter(p=>families.has(p.PetClass)||['丽莎布布','鲁斯王','魔焰猩猩'].includes(p.DefName)).map(pet=>({pet,moves:learned(pet)})).filter(p=>p.moves.length>=4);
-  const selected=definitions.bossConfigs.filter(b=>b.sptBoss&&(scope==='all'||scope.split(',').includes(b.mapId+'/'+b.param2))),results=[];
+  pools=species.filter(p=>families.has(p.PetClass)||['丽莎布布','鲁斯王','魔焰猩猩'].includes(p.DefName)).map(pet=>({pet,moves:learned(pet),levels:new Map((pet.LearnableMoves?.Move||[]).map(m=>[+(m.ID||m.id),+(m.LearningLv||0)]))})).filter(p=>p.moves.length>=4);
+  // 显式列出的 BOSS 即使不在 SPT 里（如勇者训练师之门）也参与，sptId 记为 0
+const named=b=>scope!=='all'&&scope.split(',').includes(b.mapId+'/'+b.param2);
+  const selected=definitions.bossConfigs.filter(b=>(b.sptBoss||named(b))&&(scope==='all'||named(b))),results=[];selected.forEach(b=>{if(!b.sptBoss)b.sptBoss={sptId:0};});
   const save=()=>{const result={scope,runtime:app,mode:designMode?'design':'candidate',bossConfigHash:crypto.createHash('sha256').update(fs.readFileSync(path.join(app,'config/data/json/boss_abilities.json'))).digest('hex'),policyHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),contractsHash:designMode?crypto.createHash('sha256').update(fs.readFileSync(require.resolve('./spt-boss-route-contracts.cjs'))).digest('hex'):null,complete:results.length===selected.length,encounters:results.length,expectedEncounters:selected.length,winningRoutes:results.reduce((n,r)=>n+Number(r.routeA.won)+Number(r.routeB.won),0),results};fs.writeFileSync(output,JSON.stringify(result,null,2)+'\n');return result;};
   fs.mkdirSync(path.dirname(output),{recursive:true});
-  for(const raw of selected){const boss=BossAbilityConfig.Instance.GetBossConfigByMapAndParam(raw.mapId,raw.param2),routes={};if(boss.spt&&!boss.sptBoss)boss.sptBoss=boss.spt;
+  for(const raw of selected){const boss=BossAbilityConfig.Instance.GetBossConfigByMapAndParam(raw.mapId,raw.param2),routes={};if(boss.spt&&!boss.sptBoss)boss.sptBoss=boss.spt;if(!boss.sptBoss)boss.sptBoss={sptId:0};
+    if(LAB_CALIBRATE){const ranked=candidates(boss,'A'),runs=[];for(let v=0;v<LAB_CALIBRATE;v++){const start=v%3,specs=ranked.slice(start,start+6).map(({score,...spec})=>spec);const r=await run(boss,specs,'A',v);runs.push({won:r.naturalVictory,turns:r.turns,dead:r.party.filter(p=>p.hp<=0).length,potions:r.usedItems[300015],bossHp:r.bossHp,...(v<3?{specs:r.specs,trace:r.trace}:{})});}
+      const wins=runs.filter(r=>r.won),median=a=>a.length?a.slice().sort((x,y)=>x-y)[a.length>>1]:0,row={boss:raw.petName,key:raw.mapId+'/'+raw.param2,level:teamLevel(boss),winRate:Math.round(wins.length*100/runs.length),turns:median(wins.map(r=>r.turns)),dead:+(runs.reduce((n,r)=>n+r.dead,0)/runs.length).toFixed(1),potions:median(runs.map(r=>r.potions)),runs};
+      results.push(row);fs.writeFileSync(output,JSON.stringify({scope,calibrate:LAB_CALIBRATE,level:LAB_LEVEL,ev:LAB_EV,potions:LAB_POTIONS,results},null,2)+'\n');console.log([row.boss,'胜率'+row.winRate+'%','回合'+row.turns,'阵亡'+row.dead,'用药'+row.potions].join(' '));continue;}
     for(const route of['A','B']){
       const rule=features(boss,route),ranked=candidates(boss,route);let best=null;
       const relayEnemySpeed=rule.relay?init.BuildBossBattlePet(boss,GameConfig.GetPetById(boss.petId)).speed:0,relayPools=rule.relay?[1,5].map(type=>ranked.filter(spec=>GameConfig.GetSkillById(spec.key).Type===type&&PetCalculator.CalculateStat(spec.id,'speed',100,31,spec.training.speed,0)>relayEnemySpeed)):null;
@@ -191,5 +200,6 @@ async function run(config,specs,route,variation){
       routes['route'+route]=best||{route,won:false,error:'No eligible legal party'};
     }
     results.push({map:raw.mapId,region:raw.param2,id:raw.petId,sptId:raw.sptBoss.sptId,name:raw.petName,...routes});save();console.log(JSON.stringify({boss:raw.petName,map:raw.mapId,region:raw.param2,A:routes.routeA.won,B:routes.routeB.won,Aturns:routes.routeA.turns,Bturns:routes.routeB.turns}));}
+  if(LAB_CALIBRATE)return;
   const report=save();console.log(JSON.stringify({output,encounters:report.encounters,winningRoutes:report.winningRoutes}));
 })().catch(e=>{console.error(e.stack);process.exitCode=1;}).finally(()=>{Math.random=originalRandom;});

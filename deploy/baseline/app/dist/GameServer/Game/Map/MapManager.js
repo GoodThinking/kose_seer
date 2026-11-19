@@ -173,6 +173,8 @@ class MapManager extends BaseManager_1.BaseManager {
         if (mapId <= 0 || this._onlineTracker.GetPlayerMap(this.UserID) !== mapId || this.Player.Data.mapID !== mapId)
             return;
         await this.Player.SendPacket(new Send_1.PacketMapOgreList(this.Player.MapSpawnManager.GetMapOgres(mapId)));
+        // 登录时随 2001 推送的 BOSS 列表同样会在地图建好之前被丢掉（直接登录在 SPT 地图上看不到 BOSS），这里补发
+        await this.sendMapBossList(mapId);
     }
     /**
      * 澶勭悊鍦板浘鎬墿鍒楄〃
