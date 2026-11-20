@@ -83,7 +83,7 @@ class BattleRewardService {
             // 5. 处理掉落物品（使用originalPetId查找配置，如果没有则使用当前petId）
             stage = 'items';
             const droppedItems = this.ProcessDropItems(mapId, slot, originalPetId || battle.enemy.id);
-droppedItems.push(...require("./BossMaterialDrops").GetBossMaterialDrops(battle));
+droppedItems.push(...require("./BossMaterialDrops").GetBossMaterialDrops(battle, this._player));
             for (const drop of droppedItems) {
                 if (!await this._player.ItemManager.GiveItem(drop.itemId, drop.count, EventTypes_1.ItemGainSource.DROP)) {
                     throw new Error(`Drop reward was not persisted: ${drop.itemId}`);

@@ -101,12 +101,31 @@ async function ResolveSeaRescue(player, slot) {
         const bubble = items.find(item => item.itemId === bubbleRule.itemId), count = bubble?.count || 0;
         if (!Number.isSafeInteger(count) || count < 0) throw new Error("Invalid crystal bubble count");
         if (count + bubbleRule.count > Math.min(ItemSystem.GetMaxStack(bubbleRule.itemId), 0xffffffff)) throw new SeaVortexError("晶化气泡已达到背包上限，请先整理背包再救援。");
-        let roll = Math.random() * totalWeight, selected = 0;
-        for (; selected < rules.rewards.length - 1; selected++) {
-            roll -= rules.rewards[selected].weight;
-            if (roll < 0) break;
+        const ownedIds = new Set((player.PetManager?.PetData?.PetList || []).map(p => p.petId));
+        const unownedPetRewards = rules.rewards.filter(r => r.petId && !ownedIds.has(r.petId));
+        const pity = state.get("pity") || 0;
+        let reward;
+        if (unownedPetRewards.length > 0 && pity >= 1) {
+            // 保底：上一发未出新精灵，本发 100% 从尚未拥有的深海救援精灵中产出
+            const uTotal = unownedPetRewards.reduce((s, r) => s + r.weight, 0);
+            let roll = Math.random() * uTotal;
+            reward = unownedPetRewards[unownedPetRewards.length - 1];
+            for (const cand of unownedPetRewards) {
+                roll -= cand.weight;
+                if (roll < 0) { reward = cand; break; }
+            }
+        } else {
+            const effWeights = rules.rewards.map(r => (r.petId && !ownedIds.has(r.petId)) ? r.weight * 4 : r.weight);
+            const effTotal = effWeights.reduce((s, w) => s + w, 0);
+            let roll = Math.random() * effTotal, selected = 0;
+            for (; selected < rules.rewards.length - 1; selected++) {
+                roll -= effWeights[selected];
+                if (roll < 0) break;
+            }
+            reward = rules.rewards[selected];
         }
-        const reward = rules.rewards[selected];
+        const gotUnowned = !!(reward.petId && !ownedIds.has(reward.petId));
+        await writeState(driver, player, state, "pity", gotUnowned ? 0 : pity + 1);
         await writeState(driver, player, state, key, 0);
         if (reward.petId) {
             await writeState(driver, player, state, "pending", reward.petId);

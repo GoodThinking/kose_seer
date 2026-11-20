@@ -27,6 +27,8 @@ class MapSpawnManager extends BaseManager_1.BaseManager {
     _bosses = [];
     /** 进入地图时间 */
     _enterTime = 0;
+    /** 稀有野怪未刷出连续计数（按地图ID保底：最多连续 2 次未出稀有野怪，第 3 次必刷出） */
+    _rareMissStreak = new Map();
     /** 火焰喷射器打在站桩 BOSS 上的固定伤害。蘑菇怪 100 血，五下破盾。 */
     static BOSS_SHOT_DAMAGE = 20;
     /**
@@ -297,6 +299,30 @@ class MapSpawnManager extends BaseManager_1.BaseManager {
                 spawnTime: Date.now(),
                 isVisible: true
             });
+        }
+        // 6b. 稀有野怪刷新保底：若该地图存在低权重稀有野怪，连续 2 次刷新未出现则第 3 次强制替换 1 个槽位刷出
+        if (availableOgres.length >= 2 && spawnedOgres.length > 0) {
+            const minW = Math.min(...availableOgres.map(o => o.weight || 1));
+            const maxW = Math.max(...availableOgres.map(o => o.weight || 1));
+            if (minW < maxW) {
+                const rareCandidates = availableOgres.filter(o => (o.weight || 1) === minW);
+                const hasRare = spawnedOgres.some(s => rareCandidates.some(r => r.petId === s.petId || r.petId === s.originalPetId));
+                const streak = this._rareMissStreak.get(mapId) || 0;
+                if (hasRare) {
+                    this._rareMissStreak.set(mapId, 0);
+                }
+                else if (streak >= 2) {
+                    const pick = rareCandidates[Math.floor(Math.random() * rareCandidates.length)];
+                    const last = spawnedOgres[spawnedOgres.length - 1];
+                    last.petId = pick.petId;
+                    last.originalPetId = pick.petId;
+                    last.shiny = pick.shiny || 0;
+                    this._rareMissStreak.set(mapId, 0);
+                }
+                else {
+                    this._rareMissStreak.set(mapId, streak + 1);
+                }
+            }
         }
         Logger_1.Logger.Debug(`[MapSpawnManager] 生成野怪: mapId=${mapId}, ` +
             `BOSS数量=${bosses.length}, 野怪数量=${spawnCount}, ` +

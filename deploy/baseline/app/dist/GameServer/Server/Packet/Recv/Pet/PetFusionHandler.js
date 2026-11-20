@@ -177,16 +177,38 @@ function resolveFusion(main, sub) {
     const miracle = MIRACLES.find(item => item.main === main.petId);
     const subInfo = petConfig(sub.petId);
     if (miracle && subInfo && (Number(subInfo.Type) === miracle.type || NEIL.includes(sub.petId)))
-        return { soul: miracle.soul, pet: pickWeighted(miracle.weights), essence: miracle.essence };
+        return { kind: 'miracle', poolKey: `miracle:${miracle.main}`, soul: miracle.soul, weights: miracle.weights, pet: pickWeighted(miracle.weights), essence: miracle.essence };
     const fixed = RECIPES.find(item => item.main.includes(main.petId) && item.sub.includes(sub.petId));
     if (fixed)
-        return fixed;
+        return { kind: 'fixed', poolKey: `fixed:${fixed.pet}`, ...fixed };
     const mainInfo = petConfig(main.petId);
     const essence = ESSENCE_BY_TYPE[Number(mainInfo && mainInfo.Type)] || 0;
     if (subInfo && Number(subInfo.FuseSub || 0) === 1 && essence) {
-        return { soul: BEIGE.soul, pet: BEIGE.pets[Math.floor(Math.random() * BEIGE.pets.length)], essence };
+        return { kind: 'beige', poolKey: 'beige', soul: BEIGE.soul, pets: BEIGE.pets, pet: BEIGE.pets[Math.floor(Math.random() * BEIGE.pets.length)], essence };
     }
     return null;
+}
+function collectFamilyIds(seedIds) {
+    const out = new Set();
+    for (const rawId of seedIds) {
+        let cur = Number(rawId) || 0;
+        const seen = new Set();
+        while (cur > 0 && !seen.has(cur)) {
+            seen.add(cur);
+            out.add(cur);
+            const info = petConfig(cur);
+            cur = Number(info && info.EvolvesFrom) || 0;
+        }
+        cur = Number(rawId) || 0;
+        seen.clear();
+        while (cur > 0 && !seen.has(cur)) {
+            seen.add(cur);
+            out.add(cur);
+            const info = petConfig(cur);
+            cur = Number(info && info.EvolvesTo) || 0;
+        }
+    }
+    return out;
 }
 function u32(value) {
     const buffer = Buffer.alloc(4);
@@ -209,6 +231,13 @@ class PacketBytes extends BaseProto_1.BaseProto {
     }
     serialize() { return this.body; }
 }
+const PITY_TABLE = `CREATE TABLE IF NOT EXISTS player_fusion_pity (
+  owner_id INTEGER NOT NULL,
+  pool_key TEXT NOT NULL,
+  streak INTEGER NOT NULL DEFAULT 0,
+  last_pet INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (owner_id, pool_key)
+)`;
 let tableReady = false;
 function makeChargedBuf(selected = false) {
     const b = Buffer.alloc(20, 1);
@@ -220,12 +249,88 @@ async function ensureTable() {
         return;
     await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
         await driver.execute(TABLE);
+        await driver.execute(PITY_TABLE);
         const cols = await driver.query('PRAGMA table_info(player_soul_beads)');
         if (Array.isArray(cols) && !cols.some(c => c && c.name === 'result_pet')) {
             await driver.execute('ALTER TABLE player_soul_beads ADD COLUMN result_pet INTEGER NOT NULL DEFAULT 0');
         }
     });
     tableReady = true;
+}
+async function resolvePityOutcome(player, recipe) {
+    await ensureTable();
+    return DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
+        const beadRows = await driver.query('SELECT result_pet FROM player_soul_beads WHERE owner_id = ?', [player.Uid]);
+        const pityRows = await driver.query('SELECT streak, last_pet FROM player_fusion_pity WHERE owner_id = ? AND pool_key = ?', [player.Uid, recipe.poolKey]);
+        const streak = Number(pityRows[0]?.streak || 0);
+        const lastPet = Number(pityRows[0]?.last_pet || 0);
+        const ownedSeeds = [
+            ...(player.PetManager.PetData.PetList || []).map(p => p.petId),
+            ...beadRows.map(r => Number(r.result_pet) || 0),
+        ];
+        const ownedFamilies = collectFamilyIds(ownedSeeds);
+        const savePity = async (nextStreak, nextLastPet) => {
+            await driver.execute('INSERT INTO player_fusion_pity (owner_id, pool_key, streak, last_pet) VALUES (?, ?, ?, ?) ON CONFLICT(owner_id, pool_key) DO UPDATE SET streak = excluded.streak, last_pet = excluded.last_pet', [player.Uid, recipe.poolKey, nextStreak, nextLastPet]);
+        };
+
+        if (recipe.kind === 'miracle') {
+            const weights = recipe.weights;
+            const unowned = weights.filter(([pid]) => !ownedFamilies.has(pid));
+            const minW = Math.min(...weights.map(([, w]) => w));
+            const rarePool = weights.filter(([, w]) => w <= minW);
+            let chosenId = recipe.pet;
+            if (unowned.length > 0) {
+                if (streak >= 1) {
+                    // 硬保底：上一发出了已拥有精灵，本发 100% 从尚未拥有的绝版精灵中产出
+                    chosenId = pickWeighted(unowned);
+                }
+                else {
+                    // 未拥有精灵权重 ×4，且排除与上一发完全相同的精灵
+                    const nonRepeat = weights.filter(([pid]) => pid !== lastPet);
+                    const basePool = nonRepeat.length > 0 ? nonRepeat : weights;
+                    const boosted = basePool.map(([pid, w]) => [pid, ownedFamilies.has(pid) ? w : w * 4]);
+                    chosenId = pickWeighted(boosted);
+                }
+                const nextStreak = ownedFamilies.has(chosenId) ? streak + 1 : 0;
+                await savePity(nextStreak, chosenId);
+            }
+            else {
+                // 该池已全收集：若连续 weights.length 发未出最低权重大奖则硬保底必出大奖，且不连续两发重复同一只
+                if (streak >= weights.length - 1 && rarePool.length > 0) {
+                    const nonRepeatRare = rarePool.filter(([pid]) => pid !== lastPet);
+                    chosenId = pickWeighted(nonRepeatRare.length > 0 ? nonRepeatRare : rarePool);
+                }
+                else {
+                    const nonRepeat = weights.filter(([pid]) => pid !== lastPet);
+                    chosenId = pickWeighted(nonRepeat.length > 0 ? nonRepeat : weights);
+                }
+                const isRare = rarePool.some(([pid]) => pid === chosenId);
+                await savePity(isRare ? 0 : streak + 1, chosenId);
+            }
+            return { soul: recipe.soul, petId: chosenId };
+        }
+
+        if (recipe.kind === 'fixed' && recipe.rare) {
+            const needRareOnly = ownedFamilies.has(recipe.pet) && !ownedFamilies.has(recipe.rare.pet);
+            const forceRare = (needRareOnly && streak >= 1) || streak >= 2;
+            const hitRare = forceRare || (Math.random() * recipe.rare.denominator < recipe.rare.numerator);
+            const soul = hitRare ? recipe.rare.soul : recipe.soul;
+            const petId = hitRare ? recipe.rare.pet : recipe.pet;
+            await savePity(hitRare ? 0 : streak + 1, petId);
+            return { soul, petId };
+        }
+
+        if (recipe.kind === 'beige') {
+            const unowned = recipe.pets.filter(pid => !ownedFamilies.has(pid));
+            const pool = unowned.length > 0 ? unowned : recipe.pets.filter(pid => pid !== lastPet);
+            const finalPool = pool.length > 0 ? pool : recipe.pets;
+            const chosenId = finalPool[Math.floor(Math.random() * finalPool.length)];
+            await savePity(0, chosenId);
+            return { soul: recipe.soul, petId: chosenId };
+        }
+
+        return { soul: recipe.soul, petId: recipe.pet };
+    });
 }
 let PetFusionHandler = class PetFusionHandler {
     async Handle(session, _head, body) {
@@ -297,12 +402,7 @@ let PetFusionHandler = class PetFusionHandler {
             await fail(5000);
             return;
         }
-        let soul = recipe.soul;
-        let petId = recipe.pet;
-        if (recipe.rare && Math.random() * recipe.rare.denominator < recipe.rare.numerator) {
-            soul = recipe.rare.soul;
-            petId = recipe.rare.pet;
-        }
+        const { soul, petId } = await resolvePityOutcome(player, recipe);
         const obtainTime = Math.floor(Date.now() / 1000);
         await ensureTable();
         await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('INSERT INTO player_soul_beads (owner_id, obtain_time, item_id, buf, result_pet) VALUES (?, ?, ?, ?, ?)', [player.Uid, obtainTime, soul, makeChargedBuf(false), petId]));

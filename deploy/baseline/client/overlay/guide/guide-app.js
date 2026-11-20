@@ -916,9 +916,9 @@
       const list = DATA.fusion.fixed.filter((r) => !q || `${r.mainName} ${r.subNames.join(' ')} ${r.petName} ${r.soulName} ${r.essenceName} ${r.rare?.petName || ''}`.toLowerCase().includes(q));
       root.innerHTML = `
         <div class="callout">
-          <strong>固定配方本服优化（唯一亲本保护 · 25% 高概率异变 · 免跑图高个体孵化）</strong><br>
+          <strong>固定配方本服优化（唯一亲本保护 · 25% 异变 + 3 发必出保底 · 免跑图高个体孵化）</strong><br>
           1. <strong>唯一亲本自动保护</strong>：使用三主宠（布布花/巴鲁斯/烈焰猩猩）、SPT 首胜孤品（林奇/伊洛花/上古炎兽）、依依或闪光尼尔参与融合时，<strong>原精灵不会被消耗删除，自动安全退回精灵仓库</strong>。<br>
-          2. <strong>异变率提升至 25%</strong>：闪光艾斯菲亚(#313)与闪光格林/埃洛(#639)异变率由 5% 提升至 <strong>25%</strong>。<br>
+          2. <strong>稀有异变 25% + 防脸黑硬保底</strong>：闪光艾斯菲亚(#313)与闪光格林/埃洛(#639)异变率提升至 <strong>25%</strong>；若已拥有普通产物且未拥有异变宠则<strong>第 2 发 100% 必出异变</strong>（常规最多连续 3 发 100% 必出异变）。<br>
           3. <strong>免跑图吸收 & 保底高个体</strong>：合成出的元神珠默认自带满能量，可直接去实验室分子转化仪赋形孵化；孵化精灵<strong>保底个体值 20~31（15% 概率直出 31 满个体）</strong>。
         </div>
         <div class="card-grid">${list.map((r) => `
@@ -950,8 +950,9 @@
       const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
       root.innerHTML = `
         <div class="callout">
-          <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 每组 5~7 只高概率出货 · 免跑图保底高个体）</strong><br>
-          每次投入 <strong>指定野怪终态主宠</strong>（76 组主宠 100% 均由可无限刷取的野怪/深海救援进化，<strong>绝不消耗任何 BOSS 或一次性任务精灵</strong>） + <strong>任意一只对应属性野怪副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应野外掉落材料 + 1000 赛尔豆</strong>，合成出的元神珠<strong>默认已充满能量，无需跑图吸收，可直接去右侧分子转化仪赋形孵化</strong>，随机开出下方 5~7 只绝版精灵中的 1 只（单只概率 <strong>10%~25%</strong>，<strong>保底个体值 20~31、15% 直出 31 满个体</strong>）。
+          <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 未拥有优先 + 隔 1 发必出新绝版硬保底）</strong><br>
+          1. <strong>素材 100% 纯野怪</strong>：投入 <strong>指定野怪终态主宠</strong> + <strong>任意同系野怪副宠（或尼尔）</strong> + <strong>1 个对应材料 + 1000 赛尔豆</strong>，合成的元神珠<strong>默认满能量免跑图，直接去右侧分子转化仪即可赋形孵化</strong>（保底个体值 20~31、15% 直出 31 满个体）。<br>
+          2. <strong>防脸黑出货硬保底</strong>：系统自动识别你背包、仓库与未孵化元神珠中已拥有的家族——奖池内<strong>尚未拥有的绝版精灵权重自动 ×4</strong>，绝不连续两发出同一只；且<strong>若上一发出了已拥有精灵，下一发（第 2 发）100% 强制只从尚未拥有的绝版精灵中产出</strong>（即使某池已全图鉴集齐，连续 N 发未出最低权重大奖也会 100% 触发硬保底必出大奖，绝不会合几十上百次不出！）。
         </div>
         <div class="card-grid">${list.map((m) => `
           <article class="card" style="cursor:default">

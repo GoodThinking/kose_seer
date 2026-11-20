@@ -214,6 +214,8 @@ async function Handle(player, body) {
  * - 能力/属性刻印：按 BOSS 等级所在档位的池子，按 generalChance 掉落一枚。
  * hadDefeated 由调用方在本场首胜登记之前取得。返回获得的刻印。
  */
+const sigStreakByKey = new Map();
+const genStreakByUser = new Map();
 async function GrantBossDrop(player, battle, sptId, hadDefeated) {
     if (battle.universeBoss || !sptId)
         return [];
@@ -222,12 +224,29 @@ async function GrantBossDrop(player, battle, sptId, hadDefeated) {
         throw Error('Countermark drop configuration missing');
     const marks = Catalog(), won = [];
     const signature = hadDefeated && marks.filter(m => m.bossPetId === battle.enemy.id);
-    if (signature?.length && Math.random() < config.signatureChance)
-        won.push(signature[Math.floor(Math.random() * signature.length)]);
+    if (signature?.length && config.signatureChance > 0) {
+        const sKey = `${player.Uid}:${battle.enemy.id}`;
+        const sStreak = sigStreakByKey.get(sKey) || 0;
+        if (sStreak >= 2 || Math.random() < config.signatureChance) {
+            sigStreakByKey.set(sKey, 0);
+            won.push(signature[Math.floor(Math.random() * signature.length)]);
+        }
+        else {
+            sigStreakByKey.set(sKey, sStreak + 1);
+        }
+    }
     const pool = config.pools.find(p => battle.enemy.level <= p.maxLevel);
     const candidates = pool ? marks.filter(m => !m.price && !m.bossPetId && (m.kind === 'ability' ? pool.tiers.includes(m.tier) : pool.element && !!m.skillType)) : [];
-    if (candidates.length && Math.random() < config.generalChance)
-        won.push(candidates[Math.floor(Math.random() * candidates.length)]);
+    if (candidates.length && config.generalChance > 0) {
+        const gStreak = genStreakByUser.get(player.Uid) || 0;
+        if (gStreak >= 3 || Math.random() < config.generalChance) {
+            genStreakByUser.set(player.Uid, 0);
+            won.push(candidates[Math.floor(Math.random() * candidates.length)]);
+        }
+        else {
+            genStreakByUser.set(player.Uid, gStreak + 1);
+        }
+    }
     if (!won.length)
         return [];
     await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (d) => {
