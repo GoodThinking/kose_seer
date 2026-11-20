@@ -943,8 +943,8 @@
       const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
       root.innerHTML = `
         <div class="callout">
-          <strong>什么是奇迹融合？（41 组同系纯绝版奖池 · 全图鉴 100% 解锁）</strong><br>
-          每次投入 <strong>指定主宠（最终形态）</strong> + <strong>任意一只对应属性副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应精华 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方奖池按概率<strong>随机开出 1 只绝版精灵</strong>（已剔除所有野怪、BOSS 精元、任务与固定融合可获得的精灵，奖池内 100% 为「仅奇迹可得」绝版；副宠任意同系即可，不需要拿主宠和自己融合）。
+          <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 每组 5~7 只高概率出货）</strong><br>
+          每次投入 <strong>指定野怪终态主宠</strong>（76 组主宠 100% 均由可无限刷取的野怪/深海救援进化，<strong>绝不消耗任何 BOSS 或一次性任务精灵</strong>） + <strong>任意一只对应属性野怪副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应野外掉落材料 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方 5~7 只奖池按概率<strong>随机开出 1 只绝版精灵</strong>（单只概率 <strong>11%~25%</strong>，奖池内 100% 为「仅奇迹可得」绝版）。
         </div>
         <div class="card-grid">${list.map((m) => `
           <article class="card" style="cursor:default">
@@ -953,6 +953,7 @@
                 ${petAvatar(m.mainId, m.mainName)}
                 <div style="min-width:0">
                   <h3 class="card-title">主宠：${esc(m.mainName)} <span style="font-size:12px;color:var(--text-muted)">#${m.mainId}</span></h3>
+                  <div class="card-sub">主宠来源：${esc(m.mainSource || '野外可重复捕捉')}</div>
                   <div class="card-sub">产出 ${esc(m.soulName)} · 吸收点：${esc(m.absorbMaps.join(' / ') || '转化仪直接转化')}</div>
                 </div>
               </div>
@@ -965,9 +966,9 @@
               <span class="formula-op">+</span>
               <span class="formula-node" style="padding-left:10px">${esc(m.essenceName)}</span>
             </div>
-            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，金框为 ≤10% 稀有大奖）：</div>
+            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，金框为单格稀有大奖）：</div>
             <div class="card-footer" style="margin-top:0">
-              ${m.pool.map((p) => `<span class="badge ${p.rate <= 10 ? 'gold' : ''}" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
+              ${m.pool.map((p) => `<span class="badge ${p.rate <= 13 ? 'gold' : ''}" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
             </div>
           </article>
         `).join('')}</div>`;

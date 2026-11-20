@@ -699,6 +699,23 @@ function build() {
     }
   }
 
+  // Attach wild capture source to each Miracle Fusion main pet
+  for (const m of miracleRecipes) {
+    let cur = m.mainId;
+    const seen = new Set([cur]);
+    while (evolvesFrom[cur]?.length && !seen.has(evolvesFrom[cur][0].from)) {
+      cur = evolvesFrom[cur][0].from;
+      seen.add(cur);
+    }
+    const baseSrcs = petSources.get(cur) || [];
+    const wildSrc = baseSrcs.find((s) => s.kind === 'wild' || s.kind === 'mechanism') || baseSrcs[0];
+    m.mainSource = wildSrc
+      ? cur !== m.mainId
+        ? `${wildSrc.label} 抓「${petName(cur)}」进化`
+        : `${wildSrc.label} 直接捕捉`
+      : '野外可重复捕捉';
+  }
+
   // Helper: trace to final evolution form and compute tailored build guide
   function getFinalForm(pet) {
     let cur = pet;
