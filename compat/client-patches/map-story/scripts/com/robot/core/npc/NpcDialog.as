@@ -2,12 +2,19 @@ package com.robot.core.npc
 {
    import com.robot.core.config.xml.EmotionXMLInfo;
    import com.robot.core.manager.LevelManager;
+   import com.robot.core.manager.MainManager;
    import com.robot.core.manager.TaskIconManager;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
    import flash.display.Sprite;
+   import flash.display.Stage;
+   import flash.events.KeyboardEvent;
    import flash.events.MouseEvent;
    import flash.geom.Point;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
+   import flash.text.TextFormatAlign;
+   import flash.ui.Keyboard;
    import org.taomee.component.containers.Box;
    import org.taomee.component.containers.VBox;
    import org.taomee.component.control.MLabel;
@@ -52,6 +59,8 @@ package com.robot.core.npc
       
       private static var _btnA:Array = [];
       
+      private static var _skipBtn:Sprite;
+      
       setup();
       
       public function NpcDialog()
@@ -80,6 +89,27 @@ package com.robot.core.npc
          _bgMc.addChild(txtBox);
          _bgMc.addChild(_nextBtn);
          _bgMc.addChild(_prevBtn);
+         _skipBtn = new Sprite();
+         _skipBtn.buttonMode = true;
+         _skipBtn.mouseChildren = false;
+         _skipBtn.graphics.lineStyle(1,0x7ED8FF,0.9);
+         _skipBtn.graphics.beginFill(0x0B2E4E,0.88);
+         _skipBtn.graphics.drawRoundRect(0,0,76,22,11,11);
+         _skipBtn.graphics.endFill();
+         var skipTf:TextField = new TextField();
+         skipTf.width = 76;
+         skipTf.height = 20;
+         skipTf.y = 2;
+         skipTf.mouseEnabled = false;
+         skipTf.selectable = false;
+         var skipFmt:TextFormat = new TextFormat("Microsoft YaHei,SimHei,_sans",12,0xE8F8FF,true);
+         skipFmt.align = TextFormatAlign.CENTER;
+         skipTf.defaultTextFormat = skipFmt;
+         skipTf.text = "跳过 »";
+         _skipBtn.addChild(skipTf);
+         _skipBtn.x = 588;
+         _skipBtn.y = -8;
+         _bgMc.addChild(_skipBtn);
       }
       
       public static function show(param1:uint, param2:Array, param3:Array = null, param4:Array = null, param5:Boolean = false, param6:Function = null) : void
@@ -128,6 +158,10 @@ package com.robot.core.npc
          }
          addTxtBtn();
          shwoTxt(_curIndex);
+         if(_skipBtn != null)
+         {
+            _skipBtn.visible = _questionA == null;
+         }
          addEvent();
          LevelManager.appLevel.addChild(_bgMc);
          DisplayUtil.align(_bgMc,null,AlignType.BOTTOM_CENTER,new Point(0,-60));
@@ -203,6 +237,15 @@ package com.robot.core.npc
          _nextBtn.addEventListener(MouseEvent.CLICK,onNextClickHandler);
          _prevBtn.addEventListener(MouseEvent.CLICK,onPrevClickHandler);
          _bgMc.addEventListener(MouseEvent.CLICK,onDialogClickHandler);
+         if(_skipBtn != null)
+         {
+            _skipBtn.addEventListener(MouseEvent.CLICK,onSkipClickHandler);
+         }
+         var stageRef:Stage = MainManager.getStage();
+         if(stageRef != null)
+         {
+            stageRef.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDownHandler);
+         }
       }
       
       private static function removeEvent() : void
@@ -210,6 +253,50 @@ package com.robot.core.npc
          _nextBtn.removeEventListener(MouseEvent.CLICK,onNextClickHandler);
          _prevBtn.removeEventListener(MouseEvent.CLICK,onPrevClickHandler);
          _bgMc.removeEventListener(MouseEvent.CLICK,onDialogClickHandler);
+         if(_skipBtn != null)
+         {
+            _skipBtn.removeEventListener(MouseEvent.CLICK,onSkipClickHandler);
+         }
+         var stageRef:Stage = MainManager.getStage();
+         if(stageRef != null)
+         {
+            stageRef.removeEventListener(KeyboardEvent.KEY_DOWN,onKeyDownHandler);
+         }
+      }
+      
+      private static function onSkipClickHandler(param1:MouseEvent) : void
+      {
+         if(param1 != null)
+         {
+            param1.stopPropagation();
+         }
+         if(_questionA != null)
+         {
+            return;
+         }
+         var callback:Function = _closeHandler;
+         hide();
+         LevelManager.openMouseEvent();
+         if(callback != null)
+         {
+            callback();
+         }
+      }
+      
+      private static function onKeyDownHandler(param1:KeyboardEvent) : void
+      {
+         if(_questionA != null)
+         {
+            return;
+         }
+         if(param1.keyCode == Keyboard.ESCAPE)
+         {
+            onSkipClickHandler(null);
+         }
+         else if(param1.keyCode == Keyboard.SPACE || param1.keyCode == Keyboard.ENTER)
+         {
+            onDialogClickHandler(null);
+         }
       }
       
       private static function onDialogClickHandler(param1:MouseEvent) : void

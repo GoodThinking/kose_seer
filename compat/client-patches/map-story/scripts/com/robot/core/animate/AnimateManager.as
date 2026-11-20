@@ -9,11 +9,19 @@ package com.robot.core.animate
    import com.robot.core.newloader.MCLoader;
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
+   import flash.display.Sprite;
+   import flash.display.Stage;
    import flash.events.Event;
+   import flash.events.KeyboardEvent;
    import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
    import flash.media.Sound;
    import flash.media.SoundChannel;
    import flash.system.ApplicationDomain;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
+   import flash.text.TextFormatAlign;
+   import flash.ui.Keyboard;
    import org.taomee.utils.DisplayUtil;
 
    public class AnimateManager
@@ -124,19 +132,69 @@ package com.robot.core.animate
          playMovieClip(movie,callback,classicMode,stopMapSound,soundChal,mapBound);
       }
 
+      private static function createSkipButton(onSkip:Function) : Sprite
+      {
+         var btn:Sprite = new Sprite();
+         btn.buttonMode = true;
+         btn.mouseChildren = false;
+         var drawBg:Function = function(hover:Boolean):void
+         {
+            btn.graphics.clear();
+            btn.graphics.lineStyle(1.5,hover ? 0xA8ECFF : 0x62C8FF,0.95);
+            btn.graphics.beginFill(hover ? 0x165382 : 0x0A2A48,0.88);
+            btn.graphics.drawRoundRect(0,0,114,30,15,15);
+            btn.graphics.endFill();
+         };
+         drawBg(false);
+         var tf:TextField = new TextField();
+         tf.width = 114;
+         tf.height = 24;
+         tf.y = 4;
+         tf.mouseEnabled = false;
+         tf.selectable = false;
+         var fmt:TextFormat = new TextFormat("Microsoft YaHei,SimHei,_sans",13,0xE8F8FF,true);
+         fmt.align = TextFormatAlign.CENTER;
+         tf.defaultTextFormat = fmt;
+         tf.text = "跳过动画 »";
+         btn.addChild(tf);
+         btn.filters = [new DropShadowFilter(2,45,0x000000,0.65,4,4)];
+         btn.x = 832;
+         btn.y = 14;
+         btn.addEventListener(MouseEvent.ROLL_OVER,function(e:MouseEvent):void
+         {
+            drawBg(true);
+         });
+         btn.addEventListener(MouseEvent.ROLL_OUT,function(e:MouseEvent):void
+         {
+            drawBg(false);
+         });
+         btn.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void
+         {
+            e.stopPropagation();
+            if(onSkip != null)
+            {
+               onSkip();
+            }
+         });
+         return btn;
+      }
+
       private static function playMovieClip(movie:MovieClip, callback:Function, classic:Boolean, restoreSound:Boolean, channel:SoundChannel, mapBound:Boolean) : void
       {
          var started:Boolean = !classic;
          var ended:Boolean = false;
          var closeButton:DisplayObject = classic ? movie.getChildByName("close_btn") : null;
+         var stageRef:Stage = MainManager.getStage();
+         var skipBtn:Sprite = null;
          var onMapChange:Function;
+         var onKeyDown:Function;
          var onEvent:Function = function(event:Event):void
          {
             if(ended)
             {
                return;
             }
-            if(event.type == Event.ENTER_FRAME)
+            if(event != null && event.type == Event.ENTER_FRAME)
             {
                if(!started)
                {
@@ -152,6 +210,15 @@ package com.robot.core.animate
             ended = true;
             movie.removeEventListener(Event.ENTER_FRAME,onEvent);
             movie.removeEventListener(Event.REMOVED_FROM_STAGE,onEvent);
+            if(stageRef != null && onKeyDown != null)
+            {
+               stageRef.removeEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+            }
+            if(skipBtn != null)
+            {
+               DisplayUtil.removeForParent(skipBtn);
+               skipBtn = null;
+            }
             if(onMapChange != null)
             {
                MapManager.removeEventListener(MapEvent.MAP_SWITCH_OPEN,onMapChange);
@@ -175,13 +242,29 @@ package com.robot.core.animate
                LevelManager.showOrRemoveMapLevelandToolslevel(true);
             }
             LevelManager.openMouseEvent();
-            if(event.type != Event.REMOVED_FROM_STAGE && callback != null)
+            if((event == null || event.type != Event.REMOVED_FROM_STAGE) && callback != null)
             {
                callback();
             }
          };
          movie.addEventListener(Event.ENTER_FRAME,onEvent);
          movie.addEventListener(Event.REMOVED_FROM_STAGE,onEvent);
+         if(stageRef != null)
+         {
+            skipBtn = createSkipButton(function():void
+            {
+               onEvent(null);
+            });
+            stageRef.addChild(skipBtn);
+            onKeyDown = function(e:KeyboardEvent):void
+            {
+               if(e.keyCode == Keyboard.ESCAPE || e.keyCode == Keyboard.SPACE)
+               {
+                  onEvent(null);
+               }
+            };
+            stageRef.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+         }
          if(mapBound)
          {
             onMapChange = function(event:MapEvent):void
@@ -239,25 +322,65 @@ package com.robot.core.animate
 
       private static function playFrameMC(movie:MovieClip, callback:Function, toLastFrame:Boolean, restoreMouse:Boolean) : void
       {
+         var ended:Boolean = false;
+         var stageRef:Stage = MainManager.getStage();
+         var skipBtn:Sprite = null;
+         var onKeyDown:Function = null;
+         var finish:Function = function(invokeCallback:Boolean):void
+         {
+            if(ended)
+            {
+               return;
+            }
+            ended = true;
+            movie.removeEventListener(Event.ENTER_FRAME,onFrame);
+            movie.removeEventListener(Event.REMOVED_FROM_STAGE,onFrame);
+            if(stageRef != null && onKeyDown != null)
+            {
+               stageRef.removeEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+            }
+            if(skipBtn != null)
+            {
+               DisplayUtil.removeForParent(skipBtn);
+               skipBtn = null;
+            }
+            if(restoreMouse)
+            {
+               LevelManager.openMouseEvent();
+            }
+            if(invokeCallback && callback != null)
+            {
+               callback();
+            }
+         };
          var onFrame:Function = function(event:Event):void
          {
             if(event.type != Event.REMOVED_FROM_STAGE && movie.currentFrame != movie.totalFrames)
             {
                return;
             }
-            movie.removeEventListener(Event.ENTER_FRAME,onFrame);
-            movie.removeEventListener(Event.REMOVED_FROM_STAGE,onFrame);
-            if(restoreMouse)
-            {
-               LevelManager.openMouseEvent();
-            }
-            if(event.type != Event.REMOVED_FROM_STAGE && callback != null)
-            {
-               callback();
-            }
+            finish(event.type != Event.REMOVED_FROM_STAGE);
          };
          movie.addEventListener(Event.ENTER_FRAME,onFrame);
          movie.addEventListener(Event.REMOVED_FROM_STAGE,onFrame);
+         if(!toLastFrame && movie.totalFrames > 15 && stageRef != null)
+         {
+            var doSkip:Function = function():void
+            {
+               movie.gotoAndStop(movie.totalFrames);
+               finish(true);
+            };
+            skipBtn = createSkipButton(doSkip);
+            stageRef.addChild(skipBtn);
+            onKeyDown = function(e:KeyboardEvent):void
+            {
+               if(e.keyCode == Keyboard.ESCAPE || e.keyCode == Keyboard.SPACE)
+               {
+                  doSkip();
+               }
+            };
+            stageRef.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+         }
          if(toLastFrame)
          {
             movie.gotoAndStop(movie.totalFrames);
