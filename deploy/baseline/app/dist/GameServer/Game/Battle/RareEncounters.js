@@ -13,8 +13,8 @@ function SelectWildOpponent(mapId, petId, level, originalPetId) {
     for (const rule of config?.disguises ?? []) {
         if (rule.hostIds.includes(petId)) {
             const streak = disguiseStreakByPet.get(rule.petId) || 0;
-            // 保底：最多连续打 4 只宿主野怪未触发，第 5 只 100% 必触发变身稀有精灵（如尼尔、闪光皮皮等）
-            if (streak >= 4 || Math.random() < rule.probability) {
+            // 保底：最多连续打 9 只宿主野怪未触发，第 10 只 100% 必触发变身稀有精灵（如尼尔、闪光皮皮等）
+            if (streak >= 9 || Math.random() < rule.probability) {
                 disguiseStreakByPet.set(rule.petId, 0);
                 return [rule.petId, rule.level];
             }
