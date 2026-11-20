@@ -84,6 +84,13 @@ package com.robot.module.app
       private var showAllFlag:Boolean = false;
       private static var _views:Object = {};
       private var _search:TextField;
+      private var _clearBtn:Sprite;
+      private var _finalBtn:Sprite;
+      private var _fuseBtn:Sprite;
+      private var _sortBtn:Sprite;
+      private var _finalOnly:Boolean = false;
+      private var _fuseOnly:Boolean = false;
+      private var _sortById:Boolean = false;
       private var _rememberedPage:uint = 0;
       private var _selectedCatchTime:uint = 0;
       
@@ -211,31 +218,44 @@ package com.robot.module.app
             this.showAllFlag = saved.all;
             this._rememberedPage = saved.page;
             this._selectedCatchTime = saved.selected;
+            this._finalOnly = Boolean(saved.finalOnly);
+            this._fuseOnly = Boolean(saved.fuseOnly);
+            this._sortById = Boolean(saved.sortById);
          }
+         var uiFont:String = this._mainUI["countTxt"].defaultTextFormat.font;
          this._search = new TextField();
          this._search.type = TextFieldType.INPUT;
-         this._search.defaultTextFormat = new TextFormat(this._mainUI["countTxt"].defaultTextFormat.font,12,0x163C50);
+         this._search.defaultTextFormat = new TextFormat(uiFont,12,0xEAF6FF);
          this._search.border = true;
-         this._search.borderColor = 0x5091A5;
+         this._search.borderColor = 0x4FA8DC;
          this._search.background = true;
-         this._search.backgroundColor = 0xE6F7FA;
+         this._search.backgroundColor = 0x0A2438;
          this._search.x = 190;
          this._search.y = 5;
-         this._search.width = 210;
-         this._search.height = 21;
+         this._search.width = 185;
+         this._search.height = 20;
          this._search.maxChars = 30;
          this._search.text = saved == null ? "" : saved.query;
          if(saved != null) this._search.scrollH = saved.scroll;
          this._mainUI.addChild(this._search);
+         this._clearBtn = this.makePill("×",378,5,20,20,uiFont);
+         this._mainUI.addChild(this._clearBtn);
          var searchLabel:TextField = new TextField();
-         searchLabel.defaultTextFormat = new TextFormat(this._mainUI["countTxt"].defaultTextFormat.font,11,0xFFFFFF);
-         searchLabel.text = "名称 / 编号";
-         searchLabel.x = 405;
+         searchLabel.defaultTextFormat = new TextFormat(uiFont,11,0xD7F0FF);
+         searchLabel.text = "全库搜索";
+         searchLabel.x = 402;
          searchLabel.y = 6;
-         searchLabel.width = 75;
+         searchLabel.width = 58;
          searchLabel.height = 20;
          searchLabel.mouseEnabled = false;
          this._mainUI.addChild(searchLabel);
+         this._finalBtn = this.makePill("仅终态",190,29,64,20,uiFont);
+         this._fuseBtn = this.makePill("可融主宠",258,29,76,20,uiFont);
+         this._sortBtn = this.makePill("按最新",338,29,68,20,uiFont);
+         this._mainUI.addChild(this._finalBtn);
+         this._mainUI.addChild(this._fuseBtn);
+         this._mainUI.addChild(this._sortBtn);
+         this.refreshFilterPills();
          this._closeBtn = this._mainUI["closeBtn"];
          this._dragBtn = this._mainUI["dragBtn"];
          this._countTxt = this._mainUI["countTxt"];
@@ -429,7 +449,8 @@ package com.robot.module.app
       public function hide() : void
       {
          _views[MainManager.actorID] = {type:this._type,all:this.showAllFlag,page:this._rememberedPage,
-            selected:this._selectedCatchTime,query:this._search.text,scroll:this._search.scrollH};
+            selected:this._selectedCatchTime,query:this._search.text,scroll:this._search.scrollH,
+            finalOnly:this._finalOnly,fuseOnly:this._fuseOnly,sortById:this._sortById};
          this.removeEvent();
          DisplayUtil.removeForParent(this._mainUI);
       }
@@ -468,11 +489,11 @@ package com.robot.module.app
       private function reItem() : void
       {
          this.clearItem();
-         this._data = this._statusNum == 0 ?
-            (this.showAllFlag ? PetManager.getStorage() : PetManager.getStorageTypeList(this._type)) :
-            PetManager.getRoweiTypeList(this._type);
-         this._countTxt.text = this._data.length.toString();
          var query:String = this._search.text.replace(/^\s+|\s+$/g,"").toLowerCase();
+         var useAll:Boolean = this.showAllFlag || query.length > 0;
+         this._data = this._statusNum == 0 ?
+            (useAll ? PetManager.getStorage() : PetManager.getStorageTypeList(this._type)) :
+            PetManager.getRoweiTypeList(this._type);
          if(query.length > 0)
          {
             this._data = this._data.filter(function(pet:Object,index:int,list:Array):Boolean
@@ -480,7 +501,30 @@ package com.robot.module.app
                return PetXMLInfo.getName(pet.id).toLowerCase().indexOf(query) >= 0 || String(pet.id) == query;
             });
          }
-         this._data.sort(function(a:Object,b:Object):Number { return b.catchTime - a.catchTime; });
+         if(this._finalOnly)
+         {
+            this._data = this._data.filter(function(pet:Object,index:int,list:Array):Boolean
+            {
+               return PetXMLInfo.getEvolvesTo(pet.id) == 0;
+            });
+         }
+         if(this._fuseOnly)
+         {
+            this._data = this._data.filter(function(pet:Object,index:int,list:Array):Boolean
+            {
+               return PetXMLInfo.getEvolvesTo(pet.id) == 0 && PetXMLInfo.fuseMaster(pet.id);
+            });
+         }
+         this._countTxt.text = this._data.length.toString();
+         if(this._sortById)
+         {
+            this._data.sort(function(a:Object,b:Object):Number { return a.id != b.id ? a.id - b.id : b.catchTime - a.catchTime; });
+         }
+         else
+         {
+            this._data.sort(function(a:Object,b:Object):Number { return b.catchTime - a.catchTime; });
+         }
+         this.refreshFilterPills();
          var page:uint = Math.min(this._rememberedPage,Math.max(0,Math.ceil(this._data.length / MAX_LIST) - 1));
          this._pageBar.totalLength = this._data.length;
          this._pageBar.index = page;
@@ -505,6 +549,81 @@ package com.robot.module.app
             this.setBtnVisible(false,false);
             this.setShowHideBtn(false,false);
          }
+      }
+
+      private function makePill(label:String, px:Number, py:Number, pw:Number, ph:Number, fontName:String) : Sprite
+      {
+         var btn:Sprite = new Sprite();
+         btn.x = px;
+         btn.y = py;
+         btn.buttonMode = true;
+         btn.mouseChildren = false;
+         var tf:TextField = new TextField();
+         tf.name = "lbl";
+         tf.width = pw;
+         tf.height = ph;
+         tf.y = 1;
+         tf.selectable = false;
+         var fmt:TextFormat = new TextFormat(fontName,11,0xD7F0FF,true,null,null,null,null,"center");
+         tf.defaultTextFormat = fmt;
+         tf.text = label;
+         btn.addChild(tf);
+         this.drawPill(btn,pw,ph,false);
+         return btn;
+      }
+
+      private function drawPill(btn:Sprite, pw:Number, ph:Number, active:Boolean) : void
+      {
+         btn.graphics.clear();
+         btn.graphics.lineStyle(1,active ? 0x8CE3FF : 0x3E7DA6,0.95);
+         btn.graphics.beginFill(active ? 0x1D6FA5 : 0x0C2B42,0.95);
+         btn.graphics.drawRoundRect(0,0,pw,ph,6,6);
+         btn.graphics.endFill();
+         var tf:TextField = btn.getChildByName("lbl") as TextField;
+         if(tf != null) tf.textColor = active ? 0xFFFFFF : 0xBFE6FF;
+      }
+
+      private function refreshFilterPills() : void
+      {
+         if(this._clearBtn != null) this._clearBtn.visible = this._search != null && this._search.text.length > 0;
+         if(this._finalBtn != null) this.drawPill(this._finalBtn,64,20,this._finalOnly);
+         if(this._fuseBtn != null) this.drawPill(this._fuseBtn,76,20,this._fuseOnly);
+         if(this._sortBtn != null)
+         {
+            var tf:TextField = this._sortBtn.getChildByName("lbl") as TextField;
+            if(tf != null) tf.text = this._sortById ? "按编号" : "按最新";
+            this.drawPill(this._sortBtn,68,20,this._sortById);
+         }
+      }
+
+      private function onClearSearch(event:MouseEvent) : void
+      {
+         this._search.text = "";
+         this._rememberedPage = 0;
+         this.reItem();
+      }
+
+      private function onToggleFinal(event:MouseEvent) : void
+      {
+         this._finalOnly = !this._finalOnly;
+         if(!this._finalOnly) this._fuseOnly = false;
+         this._rememberedPage = 0;
+         this.reItem();
+      }
+
+      private function onToggleFuse(event:MouseEvent) : void
+      {
+         this._fuseOnly = !this._fuseOnly;
+         if(this._fuseOnly) this._finalOnly = true;
+         this._rememberedPage = 0;
+         this.reItem();
+      }
+
+      private function onToggleSort(event:MouseEvent) : void
+      {
+         this._sortById = !this._sortById;
+         this._rememberedPage = 0;
+         this.reItem();
       }
 
       private function onSearch(event:Event):void
@@ -543,6 +662,10 @@ package com.robot.module.app
          PetManager.removeEventListener(PetEvent.STORAGE_LIST,this.onListInfo);
          RoomPetManager.getInstance().removeEventListener(PetEvent.ROOM_PET_SHOW,this.onChange);
          this._search.removeEventListener(Event.CHANGE,this.onSearch);
+         this._clearBtn.removeEventListener(MouseEvent.CLICK,this.onClearSearch);
+         this._finalBtn.removeEventListener(MouseEvent.CLICK,this.onToggleFinal);
+         this._fuseBtn.removeEventListener(MouseEvent.CLICK,this.onToggleFuse);
+         this._sortBtn.removeEventListener(MouseEvent.CLICK,this.onToggleSort);
       }
       
       private function onGetListScucessHandler(param1:PetEvent) : void
@@ -571,6 +694,10 @@ package com.robot.module.app
          PetManager.addEventListener(PetEvent.STORAGE_LIST,this.onListInfo);
          RoomPetManager.getInstance().addEventListener(PetEvent.ROOM_PET_SHOW,this.onChange);
          this._search.addEventListener(Event.CHANGE,this.onSearch);
+         this._clearBtn.addEventListener(MouseEvent.CLICK,this.onClearSearch);
+         this._finalBtn.addEventListener(MouseEvent.CLICK,this.onToggleFinal);
+         this._fuseBtn.addEventListener(MouseEvent.CLICK,this.onToggleFuse);
+         this._sortBtn.addEventListener(MouseEvent.CLICK,this.onToggleSort);
       }
       
       public function destroy() : void

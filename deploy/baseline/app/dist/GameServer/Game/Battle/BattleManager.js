@@ -755,9 +755,21 @@ class BattleManager extends BaseManager_1.BaseManager {
      * 包体：模式(1=跟在回合结果之后，等双方战报显示完；2=立即显示)、地图、param2、精灵、下一回合数、文字长度、UTF-8 文字
      */
     async SendBossNotice(battle, immediate = false) {
-        if (!battle || battle.universeBoss || !battle.enemy?.bossMechanics?.signature) return;
-        const message = Buffer.from(require("./BossSignatures").drainNotices(battle), "utf8");
-        if (!message.length) return;
+        if (!battle || battle.universeBoss) return;
+        const parts = [];
+        if (immediate && battle.turn === 0 && !battle._introNoticeSent && battle.bossMapId !== undefined) {
+            battle._introNoticeSent = true;
+            const cfg = BossAbility_1.BossAbilityConfig.Instance.GetBossConfigByMapAndParam(battle.bossMapId, battle.bossParam2 || 0);
+            if (cfg && cfg.hint) {
+                parts.push(cfg.hint);
+            }
+        }
+        if (battle.enemy?.bossMechanics?.signature) {
+            const drained = require("./BossSignatures").drainNotices(battle);
+            if (drained) parts.push(drained);
+        }
+        if (!parts.length) return;
+        const message = Buffer.from(parts.join("\n"), "utf8");
         const body = Buffer.alloc(24 + message.length);
         body.writeUInt32BE(immediate ? 2 : 1, 0);
         body.writeUInt32BE(battle.bossMapId || 0, 4);

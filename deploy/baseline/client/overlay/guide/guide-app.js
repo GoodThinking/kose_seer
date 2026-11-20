@@ -39,6 +39,7 @@
     petPage: 1,
     fusionTab: 'fixed',
     fusionQuery: '',
+    hideDoneMiracles: false,
     mechTab: 'all',
     markTab: 'all',
     markQuery: '',
@@ -49,6 +50,64 @@
     drawerOpen: false,
     cmdOpen: false,
   };
+
+  /* =========================================================================
+   * 0.5 Local Collection Tracker (localStorage + JSON export/import)
+   * ========================================================================= */
+  const OWNED_KEY = 'seer-guide-owned-v1';
+  const ownedSet = new Set();
+  try {
+    const rawOwned = JSON.parse(localStorage.getItem(OWNED_KEY) || '[]');
+    if (Array.isArray(rawOwned)) rawOwned.forEach((id) => { if (Number(id) > 0) ownedSet.add(Number(id)); });
+  } catch {}
+  function saveOwned() {
+    try { localStorage.setItem(OWNED_KEY, JSON.stringify([...ownedSet].sort((a, b) => a - b))); } catch {}
+  }
+  function toggleOwned(petId) {
+    const id = Number(petId);
+    if (!id) return;
+    if (ownedSet.has(id)) ownedSet.delete(id);
+    else ownedSet.add(id);
+    saveOwned();
+    renderPetTabs();
+    renderPets();
+    renderFusion();
+  }
+  function exportOwned() {
+    const blob = new Blob([JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), owned: [...ownedSet].sort((a, b) => a - b) }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `seer-dex-progress-${ownedSet.size}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  function importOwned() {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = '.json,application/json';
+    inp.onchange = () => {
+      const f = inp.files?.[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(String(reader.result || '{}'));
+          const arr = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.owned) ? parsed.owned : []);
+          ownedSet.clear();
+          arr.forEach((id) => { if (Number(id) > 0) ownedSet.add(Number(id)); });
+          saveOwned();
+          renderPetTabs();
+          renderPets();
+          renderFusion();
+          alert(`已成功导入 ${ownedSet.size} 只精灵收集进度！`);
+        } catch {
+          alert('导入失败：JSON 格式无效。');
+        }
+      };
+      reader.readAsText(f);
+    };
+    inp.click();
+  }
 
   /* =========================================================================
    * 1. Theme Management (Dark Cosmic <-> Light Editorial)
@@ -816,16 +875,29 @@
     ['mechanism', '机关 / 变身'],
     ['collect', '收集 / 擂台'],
     ['evolve', '进化获得'],
+    ['unowned', '未收集'],
+    ['owned', '已收集 ✓'],
   ];
 
   function renderPetTabs() {
-    $('#pet-tabs').innerHTML = PET_TABS.map(([id, label]) => `<button class="pill ${state.petTab === id ? 'active' : ''}" data-pet-tab="${id}">${label}</button>`).join('');
+    const pct = DATA.pets.length ? ((ownedSet.size / DATA.pets.length) * 100).toFixed(1) : '0.0';
+    $('#pet-tabs').innerHTML =
+      PET_TABS.map(([id, label]) => `<button class="pill ${state.petTab === id ? 'active' : ''}" data-pet-tab="${id}">${label}</button>`).join('') +
+      `<span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="badge teal">收集进度 ${ownedSet.size} / ${DATA.pets.length} (${pct}%)</span>
+        <button class="pill" type="button" data-dex-action="export" style="padding:4px 10px;font-size:12px">导出进度</button>
+        <button class="pill" type="button" data-dex-action="import" style="padding:4px 10px;font-size:12px">导入进度</button>
+      </span>`;
   }
 
   function renderPets() {
     const q = state.petQuery.trim().toLowerCase();
     const list = DATA.pets.filter((p) => {
-      if (state.petTab !== 'all') {
+      if (state.petTab === 'owned') {
+        if (!ownedSet.has(p.id)) return false;
+      } else if (state.petTab === 'unowned') {
+        if (ownedSet.has(p.id)) return false;
+      } else if (state.petTab !== 'all') {
         const matchKind = state.petTab === 'collect'
           ? p.sources.some((s) => s.kind === 'collect' || s.kind === 'arena' || s.kind === 'starter' || s.kind === 'task')
           : p.sources.some((s) => s.kind === state.petTab);
@@ -844,8 +916,9 @@
     $('#pet-grid').innerHTML = slice.length
       ? slice.map((p) => {
           const primary = p.sources[0];
+          const isOwned = ownedSet.has(p.id);
           return `
-            <article class="card" data-pet-id="${p.id}">
+            <article class="card" data-pet-id="${p.id}" style="${isOwned ? 'border-color:rgba(20,184,166,.55)' : ''}">
               <div class="card-top">
                 <div class="card-head-row">
                   ${petAvatar(p.id, p.name)}
@@ -854,7 +927,7 @@
                     <div class="card-sub">#${p.id} · ${esc(p.typeName)}系 · 种族 ${p.total}</div>
                   </div>
                 </div>
-                <span class="badge accent">${p.sources.length} 途径</span>
+                <button type="button" class="badge ${isOwned ? 'teal' : ''}" data-toggle-owned="${p.id}" style="cursor:pointer;border:1px solid var(--border)" title="点击标记/取消已收集">${isOwned ? '✓ 已收集' : '+ 标记'}</button>
               </div>
               <div class="card-body"><strong>${esc(primary.label)}</strong><br>${esc(primary.detail)}</div>
             </article>
@@ -870,6 +943,12 @@
   }
 
   $('#pet-tabs').addEventListener('click', (e) => {
+    const act = e.target.closest('[data-dex-action]');
+    if (act) {
+      if (act.dataset.dexAction === 'export') exportOwned();
+      else if (act.dataset.dexAction === 'import') importOwned();
+      return;
+    }
     const btn = e.target.closest('[data-pet-tab]');
     if (!btn) return;
     state.petTab = btn.dataset.petTab;
@@ -889,6 +968,12 @@
     renderPets();
   });
   $('#pet-grid').addEventListener('click', (e) => {
+    const tgl = e.target.closest('[data-toggle-owned]');
+    if (tgl) {
+      e.stopPropagation();
+      toggleOwned(tgl.dataset.toggleOwned);
+      return;
+    }
     const card = e.target.closest('[data-pet-id]');
     if (!card) return;
     const p = petMap.get(Number(card.dataset.petId));
@@ -947,15 +1032,28 @@
         </article>
       `).join('')}</div>`;
     } else if (state.fusionTab === 'miracle') {
-      const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
+      const donePools = DATA.fusion.miracles.filter((m) => m.pool.every((p) => ownedSet.has(p.petId))).length;
+      const list = DATA.fusion.miracles.filter((m) => {
+        if (state.hideDoneMiracles && m.pool.every((p) => ownedSet.has(p.petId))) return false;
+        return !q || `${m.mainName} ${m.mainSource || ''} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q);
+      });
       root.innerHTML = `
         <div class="callout">
-          <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 未拥有优先 + 隔 1 发必出新绝版硬保底）</strong><br>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px">
+            <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 未拥有优先 + 隔 1 发必出新绝版硬保底）</strong>
+            <span style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span class="badge teal">奇迹池毕业 ${donePools} / ${DATA.fusion.miracles.length}</span>
+              <button type="button" class="pill ${state.hideDoneMiracles ? 'active' : ''}" data-toggle-hide-done="1" style="padding:4px 10px;font-size:12px">${state.hideDoneMiracles ? '✓ 已隐藏毕业池' : '隐藏已集齐奖池'}</button>
+            </span>
+          </div>
           1. <strong>素材 100% 纯野怪</strong>：投入 <strong>指定野怪终态主宠</strong> + <strong>任意同系野怪副宠（或尼尔）</strong> + <strong>1 个对应材料 + 1000 赛尔豆</strong>，合成的元神珠<strong>默认满能量免跑图，直接去右侧分子转化仪即可赋形孵化</strong>（保底个体值 20~31、15% 直出 31 满个体）。<br>
           2. <strong>防脸黑出货硬保底</strong>：系统自动识别你背包、仓库与未孵化元神珠中已拥有的家族——奖池内<strong>尚未拥有的绝版精灵权重自动 ×4</strong>，绝不连续两发出同一只；且<strong>若上一发出了已拥有精灵，下一发（第 2 发）100% 强制只从尚未拥有的绝版精灵中产出</strong>（即使某池已全图鉴集齐，连续 N 发未出最低权重大奖也会 100% 触发硬保底必出大奖，绝不会合几十上百次不出！）。
         </div>
-        <div class="card-grid">${list.map((m) => `
-          <article class="card" style="cursor:default">
+        <div class="card-grid">${list.map((m) => {
+          const gotCnt = m.pool.filter((p) => ownedSet.has(p.petId)).length;
+          const allDone = gotCnt === m.pool.length;
+          return `
+          <article class="card" style="cursor:default;${allDone ? 'border-color:rgba(20,184,166,.55)' : ''}">
             <div class="card-top">
               <div class="card-head-row">
                 ${petAvatar(m.mainId, m.mainName)}
@@ -965,7 +1063,10 @@
                   <div class="card-sub">产出 ${esc(m.soulName)} · 吸收点：${esc(m.absorbMaps.join(' / ') || '转化仪直接转化')}</div>
                 </div>
               </div>
-              <span class="badge pink">奇迹 #${m.index}</span>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+                <span class="badge pink">奇迹 #${m.index}</span>
+                <span class="badge ${allDone ? 'teal' : ''}">${allDone ? '✓ 已毕业' : `${gotCnt}/${m.pool.length}`}</span>
+              </div>
             </div>
             <div class="formula-flow">
               <span class="formula-node">${petAvatar(m.mainId, m.mainName, 'pet-avatar-sm')}${esc(m.mainName)}</span>
@@ -974,12 +1075,15 @@
               <span class="formula-op">+</span>
               <span class="formula-node" style="padding-left:10px">${esc(m.essenceName)}</span>
             </div>
-            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，金框为单格稀有大奖）：</div>
+            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，点左侧 ✓ 可打卡已拥有）：</div>
             <div class="card-footer" style="margin-top:0">
-              ${m.pool.map((p) => `<span class="badge ${p.rate <= 13 ? 'gold' : ''}" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
+              ${m.pool.map((p) => {
+                const owned = ownedSet.has(p.petId);
+                return `<span class="badge ${owned ? 'teal' : (p.rate <= 13 ? 'gold' : '')}" data-open-pet="${p.petId}" style="cursor:pointer"><span data-toggle-owned="${p.petId}" title="标记已拥有" style="display:inline-block;padding:0 3px;opacity:${owned ? '1' : '.45'}">${owned ? '✓' : '○'}</span>${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`;
+              }).join('')}
             </div>
-          </article>
-        `).join('')}</div>`;
+          </article>`;
+        }).join('')}</div>`;
     } else {
       const fb = DATA.fusion.beigeFallback;
       const list = DATA.fusion.hatchBeads.filter((b) => !q || `${b.name} ${b.id} ${b.steps.map((s) => `${s.mapName} ${s.mapId}`).join(' ')}`.toLowerCase().includes(q));
@@ -1018,6 +1122,18 @@
 
   const hatchById = new Map(DATA.fusion.hatchBeads.map((b) => [b.id, b]));
   $('#fusion-content').addEventListener('click', (e) => {
+    const hideBtn = e.target.closest('[data-toggle-hide-done]');
+    if (hideBtn) {
+      state.hideDoneMiracles = !state.hideDoneMiracles;
+      renderFusion();
+      return;
+    }
+    const tgl = e.target.closest('[data-toggle-owned]');
+    if (tgl) {
+      e.stopPropagation();
+      toggleOwned(tgl.dataset.toggleOwned);
+      return;
+    }
     const card = e.target.closest('[data-hatch-id]');
     if (!card) return;
     const b = hatchById.get(Number(card.dataset.hatchId));
