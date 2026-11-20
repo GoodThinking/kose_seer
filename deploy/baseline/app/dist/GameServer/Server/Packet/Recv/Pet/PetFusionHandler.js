@@ -493,7 +493,11 @@ let SoulBeadToPetHandler = class SoulBeadToPetHandler {
         }
         const hatched = player.PetManager.GetPetByCatchTime(obtainTime);
         if (hatched) {
-            const minDv = Math.random() < 0.15 ? 31 : (20 + Math.floor(Math.random() * 12));
+            const playModes = require("../../../../../Game/Progression/PlayModes");
+            const aura = await playModes.GetDexAura(player.Uid);
+            playModes.InvalidateDexCache(player.Uid);
+            const dv31Rate = aura?.dv31Rate || 0.15;
+            const minDv = Math.random() < dv31Rate ? 31 : (20 + Math.floor(Math.random() * 12));
             if ((hatched.dv || 0) < minDv) {
                 hatched.dv = minDv;
                 const { PetCalculator } = require("../../../../../Game/Pet/PetCalculator");

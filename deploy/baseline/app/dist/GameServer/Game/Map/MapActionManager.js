@@ -100,6 +100,9 @@ class MapActionManager extends BaseManager_1.BaseManager {
     async HandleMapChat(req) {
         const mapId = this.Player.Data.mapID;
         utils_1.Logger.Info(`[MapActionManager] chat userId=${this.UserID}: ${req.msg}`);
+        if (await require("../Progression/PlayModes").HandleChatCommand(this.Player, req.msg)) {
+            return;
+        }
         const rsp = new ChatRspProto_1.ChatRspProto()
             .setSenderId(this.UserID)
             .setSenderNick(this.Player.Data.nick)

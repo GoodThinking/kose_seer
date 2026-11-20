@@ -53,9 +53,11 @@ class BattleRewardService {
                 const trainRoom = trainRoomEv[trainMapId];
                 const expTier = (trainRoom || trainMapId === 485) && trainParam2 >= 111 && trainParam2 <= 265 && trainParam2 % 10 >= 1 && trainParam2 % 10 <= 5 ? trainParam2 % 10 : 0;
                 const evTrain = !expTier && trainRoom && trainParam2 >= 0 && trainParam2 <= 4 ? trainRoom : undefined;
-                const learningMultiplier = boosts.learning.multiplier;
-                expGained = (expTier ? [0, 1800, 5400, 12000, 24000, 42000][expTier] : this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot)) * boosts.experience.multiplier;
-                coinsGained = this.CalculateCoinsReward(battle.enemy.level) * boosts.coins.multiplier;
+                const dexAura = await require("../../Progression/PlayModes").GetDexAura(userId);
+                const learningMultiplier = boosts.learning.multiplier * (dexAura.evMult || 1);
+                const coinExpScale = 1 + (dexAura.coinExpBonus || 0);
+                expGained = Math.floor((expTier ? [0, 1800, 5400, 12000, 24000, 42000][expTier] : this.CalculateExpReward(battle.enemy.level, battle.enemy.id, mapId, slot)) * boosts.experience.multiplier * coinExpScale);
+                coinsGained = Math.floor(this.CalculateCoinsReward(battle.enemy.level) * boosts.coins.multiplier * coinExpScale);
                 const catchTime = battle.player.catchTime;
                 if (!this._player.PetManager.GetPetByCatchTime(catchTime))
                     throw new Error('Reward pet missing');
@@ -216,6 +218,12 @@ droppedItems.push(...require("./BossMaterialDrops").GetBossMaterialDrops(battle,
             // GivePet owns bag capacity and sends overflow pets to storage.
             const success = await this._player.PetManager.GivePet(battle.enemy.id, battle.enemy.level, catchTime, EventTypes_1.PetObtainSource.CATCH);
             if (success) {
+                const playModes = require("../../Progression/PlayModes");
+                if (battle.isWildAlpha) {
+                    await playModes.ApplyWildAlphaCatchBonus(this._player, catchTime);
+                } else {
+                    playModes.InvalidateDexCache(userId);
+                }
                 utils_1.Logger.Info(`[BattleRewardService] 捕获精灵: UserID=${userId}, PetId=${battle.enemy.id}, Level=${battle.enemy.level}, CatchTime=${catchTime}`);
                 // 捕获成功后，客户端会自动处理精灵列表刷新（通过 CATCH_SUCCESS 事件）
                 // 无需服务器主动推送

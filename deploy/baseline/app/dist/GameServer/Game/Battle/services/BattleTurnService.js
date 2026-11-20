@@ -151,8 +151,8 @@ class BattleTurnService {
                 shakeCount: 0
             };
         }
-        // 计算基础捕获率（可以根据精灵ID从配置中获取）
-        const baseCatchRate = 50; // 默认50%
+        // 计算基础捕获率（叠加图鉴里程碑光环加成）
+        const baseCatchRate = Math.min(100, Math.round(50 * (1 + Number(battle.dexCatchBonus || 0))));
         // 尝试捕获
         const result = BattleCaptureSystem_1.BattleCaptureSystem.AttemptCapture(battle.enemy, ballType, baseCatchRate);
         if (result.success) {

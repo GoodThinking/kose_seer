@@ -43,12 +43,37 @@ function loadAccountGuideProgress(uid) {
         if (id > 0) unhatched.add(id);
       }
     } catch {}
+    let rogueTower = { currentFloor: 1, bestFloor: 0, buffs: [] };
+    try {
+      const rt = db.prepare('SELECT current_floor, best_floor, buffs FROM player_rogue_tower WHERE owner_id = ?').get(uid);
+      if (rt) {
+        let buffs = [];
+        try { buffs = JSON.parse(rt.buffs || '[]'); } catch {}
+        rogueTower = {
+          currentFloor: Math.max(1, Number(rt.current_floor || 1)),
+          bestFloor: Math.max(0, Number(rt.best_floor || 0)),
+          buffs: Array.isArray(buffs) ? buffs : [],
+        };
+      }
+    } catch {}
+    let traitCrystals = 0;
+    try {
+      const tc = db.prepare('SELECT crystals FROM player_trait_crystals WHERE owner_id = ?').get(uid);
+      traitCrystals = Number(tc?.crystals || 0);
+    } catch {}
+    let bountyClears = [];
+    try {
+      bountyClears = db.prepare('SELECT bounty_id FROM player_bounty_clears WHERE owner_id = ?').all(uid).map(r => String(r.bounty_id));
+    } catch {}
     return {
       uid: Number(player.user_id),
       nick: String(player.nick || ''),
       ownedPetIds: [...owned].sort((a, b) => a - b),
       unhatchedPetIds: [...unhatched].sort((a, b) => a - b),
       bagCount,
+      rogueTower,
+      traitCrystals,
+      bountyClears,
       syncedAt: new Date().toISOString(),
     };
   } finally {

@@ -65,7 +65,87 @@
     editingUid: false,
     error: '',
     unhatchedCount: 0,
+    rogueTower: { currentFloor: 1, bestFloor: 0, buffs: [] },
+    traitCrystals: 0,
+    bountyClears: [],
   };
+  const DEX_MILESTONES_UI = [
+    { count: 50, title: '星际见习生', desc: '捕捉率+20%' },
+    { count: 150, title: '精灵猎手', desc: '学习力×2' },
+    { count: 300, title: '融合大师', desc: '满个体孵化30%' },
+    { count: 500, title: '霸主克星', desc: '31霸主概率翻倍' },
+    { count: 800, title: '星海霸主', desc: '豆/经验+30%' },
+    { count: 1200, title: '全图鉴传奇', desc: '捕捉+40%/伤害+10%' },
+  ];
+  const BOUNTIES_UI = [
+    { id: 'speed_3', name: '⚡ 闪电斩杀', desc: '3回合内胜Lv.60+BOSS' },
+    { id: 'grass_win', name: '🌿 草木克星', desc: '草系胜阿克/纳多/里奥斯' },
+    { id: 'solo_boss', name: '🔥 烈焰孤狼', desc: '无阵亡胜Lv.75+BOSS' },
+    { id: 'full_hp', name: '🛡️ 铜墙铁壁', desc: 'HP≥95%胜任意BOSS' },
+    { id: 'underdog', name: '🎯 以弱胜强', desc: '≤500种族胜Lv.70+BOSS' },
+    { id: 'hamo_6', name: '💎 龙族试炼', desc: '6回合内胜哈莫雷特' },
+    { id: 'leiyi_pure', name: '⚡ 雷神降临', desc: '无瞬杀胜雷伊' },
+    { id: 'gaiya_clean', name: '🥊 战神无双', desc: '无阵亡胜盖亚' },
+    { id: 'puni_pure', name: '👑 圣灵破壁', desc: '无瞬杀胜谱尼' },
+    { id: 'rogue_10', name: '🌌 无尽征服者', desc: '无尽爬塔过第10层' },
+  ];
+  function renderProfileBanner() {
+    let box = $('#account-profile-banner');
+    if (!accountSync.synced) {
+      if (box) box.remove();
+      return;
+    }
+    if (!box) {
+      const firstSection = $('#bosses');
+      if (!firstSection || !firstSection.parentNode) return;
+      box = document.createElement('section');
+      box.id = 'account-profile-banner';
+      box.className = 'section';
+      box.style.paddingTop = '8px';
+      box.style.paddingBottom = '8px';
+      firstSection.parentNode.insertBefore(box, firstSection);
+    }
+    const cnt = ownedSet.size;
+    let curTitle = '新手赛尔';
+    let nextM = DEX_MILESTONES_UI[0];
+    const unlockedHtml = DEX_MILESTONES_UI.map((m) => {
+      const ok = cnt >= m.count;
+      if (ok) {
+        curTitle = m.title;
+        nextM = DEX_MILESTONES_UI[DEX_MILESTONES_UI.indexOf(m) + 1] || null;
+      }
+      return `<span class="badge ${ok ? 'teal' : ''}" style="opacity:${ok ? '1' : '.45'}" title="${m.count}只解锁：${m.desc}">${ok ? '✓' : '🔒'} ${m.count}·${m.title}(${m.desc})</span>`;
+    }).join(' ');
+    const clearedSet = new Set(accountSync.bountyClears || []);
+    const bountiesHtml = BOUNTIES_UI.map((b) => {
+      const ok = clearedSet.has(b.id);
+      return `<span class="badge ${ok ? 'gold' : ''}" style="opacity:${ok ? '1' : '.45'}" title="${esc(b.desc)}">${ok ? '🏅' : '○'} ${esc(b.name)}</span>`;
+    }).join(' ');
+    const rt = accountSync.rogueTower || { currentFloor: 1, bestFloor: 0, buffs: [] };
+    box.innerHTML = `
+      <div class="callout" style="border-color:rgba(99,102,241,.45)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div>
+            <strong>✨ 星际养成档案 · ${esc(accountSync.nick || '#' + accountSync.uid)}</strong>
+            <span class="badge indigo" style="margin-left:6px">${esc(curTitle)}</span>
+            <span class="badge teal" style="margin-left:4px">图鉴 ${cnt} / ${DATA.pets.length}</span>
+            <span class="badge gold" style="margin-left:4px">💎 特性晶石 ${accountSync.traitCrystals || 0}</span>
+            <span class="badge pink" style="margin-left:4px">🌌 无尽爬塔 最高第 ${rt.bestFloor} 层（当前第 ${rt.currentFloor} 层）</span>
+          </div>
+          <span style="font-size:12px;color:var(--text-secondary)">${nextM ? `距下一光环「${nextM.title}」还差 ${Math.max(0, nextM.count - cnt)} 只` : '已解锁全部图鉴光环！'}</span>
+        </div>
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+          <strong style="font-size:12px;color:var(--text-secondary)">永久光环：</strong>${unlockedHtml}
+        </div>
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+          <strong style="font-size:12px;color:var(--text-secondary)">极限赏金 (${clearedSet.size}/${BOUNTIES_UI.length})：</strong>${bountiesHtml}
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--text-secondary)">
+          <strong>🎮 游戏内聊天指令：</strong>
+          <code>/tower</code> 无尽爬塔 · <code>/pick 1~3</code> 选肉鸽词条 · <code>/skills</code> &amp; <code>/learn 技能ID</code> 免费技能回忆 · <code>/trait 特性名</code> 5晶石定向觉醒 · <code>/aura</code> 查进度 · <code>/help</code> 帮助
+        </div>
+      </div>`;
+  }
   try {
     const rawOwned = JSON.parse(localStorage.getItem(OWNED_KEY) || '[]');
     if (Array.isArray(rawOwned)) rawOwned.forEach((id) => { if (Number(id) > 0) ownedSet.add(Number(id)); });
@@ -136,7 +216,11 @@
       accountSync.editingUid = false;
       accountSync.error = '';
       accountSync.unhatchedCount = Array.isArray(data.unhatchedPetIds) ? data.unhatchedPetIds.length : 0;
+      accountSync.rogueTower = data.rogueTower || { currentFloor: 1, bestFloor: 0, buffs: [] };
+      accountSync.traitCrystals = Number(data.traitCrystals || 0);
+      accountSync.bountyClears = Array.isArray(data.bountyClears) ? data.bountyClears : [];
       try { localStorage.setItem(UID_KEY, String(accountSync.uid)); } catch {}
+      renderProfileBanner();
       renderPetTabs();
       renderPets();
       renderFusion();

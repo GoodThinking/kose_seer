@@ -211,6 +211,7 @@ class BattleTurnExecutor {
         }
         if (!result.isOver) require("./UniverseBossRules").endTurn(battle);
         if (!result.isOver) require("./UniverseBossBudget").settlePeriodicHeal(battle);
+        if (!result.isOver) require("../Progression/PlayModes").OnBattleTurnEnd(battle);
         require("./ChampionPetRuntime").ChampionPetRuntime.RefreshResult(battle, result);
         // 更新回合数（每个完整回合+1）
         if (battle.roundCount !== undefined) {
@@ -461,6 +462,7 @@ class BattleTurnExecutor {
                     // 伤害计算
                     const damageResult = BattleCore_1.BattleCore.CalculateDamage(attacker, defender, skill, isCrit, skillPower);
                     damage = Math.floor(damageResult.damage * weakenMultiplier);
+                    damage = require("../Progression/PlayModes").ModifyBattleDamage(battle, attacker, defender, skill, damage);
                     utils_1.Logger.Debug(`[ExecuteAttack] 属性克制: 攻击方type=${attacker.type}, 防御方type=${defender.type}, 克制倍率=${damageResult.effectiveness}`);
                     // 伤害计算后效果（伤害上限/下限）
                     const afterCalcResult = BattleEffectIntegration_1.BattleEffectIntegration.OnAfterDamageCalc(attacker, defender, skill, damage);

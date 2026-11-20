@@ -704,6 +704,11 @@ class BattleManager extends BaseManager_1.BaseManager {
             this._currentBattleMapId = mapId;
             this._currentBattleOriginalPetId = battle.enemy.id !== monsterId ? battle.enemy.id : ogres[monsterIndex].originalPetId;
             // 初始化战斗
+            const playModes = require('../Progression/PlayModes');
+            const dexAura = await playModes.GetDexAura(this.UserID);
+            battle.dexCatchBonus = dexAura.catchBonus || 0;
+            battle.dexDmgBonus = dexAura.dmgBonus || 0;
+            await playModes.MaybeMarkWildAlpha(this.UserID, battle);
             require('../Universe/battle').freezeWild(this, battle, mapId, originalPetId > 0 ? originalPetId : monsterId, monsterIndex);
             this.InitializeBattle(battle);
             // 1. 先发送 2408 确认（空响应）
@@ -757,11 +762,16 @@ class BattleManager extends BaseManager_1.BaseManager {
     async SendBossNotice(battle, immediate = false) {
         if (!battle || battle.universeBoss) return;
         const parts = [];
-        if (immediate && battle.turn === 0 && !battle._introNoticeSent && battle.bossMapId !== undefined) {
+        if (immediate && battle.turn === 0 && !battle._introNoticeSent) {
             battle._introNoticeSent = true;
-            const cfg = BossAbility_1.BossAbilityConfig.Instance.GetBossConfigByMapAndParam(battle.bossMapId, battle.bossParam2 || 0);
-            if (cfg && cfg.hint) {
-                parts.push(cfg.hint);
+            if (battle.alphaNotice) {
+                parts.push(battle.alphaNotice);
+            }
+            if (battle.bossMapId !== undefined) {
+                const cfg = BossAbility_1.BossAbilityConfig.Instance.GetBossConfigByMapAndParam(battle.bossMapId, battle.bossParam2 || 0);
+                if (cfg && cfg.hint) {
+                    parts.push(cfg.hint);
+                }
             }
         }
         if (battle.enemy?.bossMechanics?.signature) {
@@ -1189,6 +1199,12 @@ class BattleManager extends BaseManager_1.BaseManager {
         let rewardSettlement;
         if (!isPvp && winnerId === this.UserID && battle.freshTowerLevel) {
             await (0, FreshTower_1.AdvanceFreshTower)(this.UserID, this.Player.Data, battle.freshTowerLevel);
+        }
+        if (!isPvp && battle.rogueTowerFloor) {
+            await require('../Progression/PlayModes').HandleRogueTowerResult(this.Player, battle, winnerId === this.UserID);
+        }
+        if (!isPvp && winnerId === this.UserID && battle.battleType === 'BOSS' && !battle.rogueTowerFloor) {
+            await require('../Progression/PlayModes').EvaluateBossVictoryBounties(this.Player, battle);
         }
         if (!isPvp && winnerId === this.UserID && battle.braveTowerFloor) {
             await (0, BraveTower_1.AdvanceBraveTower)(this.UserID, this.Player.Data, battle.braveTowerFloor);
