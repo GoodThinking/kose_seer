@@ -126,7 +126,7 @@ async function ApplyWildAlphaCatchBonus(player, catchTime) {
         const petName = cfg?.DefName || `#${pet.petId}`;
         const traitId = PetTrait_1.currentTraitId(pet);
         const traitName = traitId ? (GameConfig_1.GameConfig.GetPetAbilityById(traitId)?.name || `#${traitId}`) : "先天特性";
-        await sendAlert(player, `⚡ 霸主捕获成功！【${petName}】已自动强化为 31 满个体 + 极品性格 + 特性「${traitName}」！`);
+        await sendAlert(player, `霸主捕获成功！【${petName}】已强化为 31 满个体 + 极品性格 + 特性「${traitName}」`);
         return pet;
     } catch (e) {
         utils_1.Logger.Error("[PlayModes] ApplyWildAlphaCatchBonus error:", e);
@@ -208,14 +208,14 @@ async function GetTraitCrystals(userId) {
 // 4. 无尽星际爬塔肉鸽模式 (Endless Rogue Tower)
 // ============================================================================
 const ROGUE_BUFFS = [
-    { id: "atk20", name: "⚡ 疾风突袭", desc: "我方伤害 +20%" },
-    { id: "def15", name: "🛡️ 星际护盾", desc: "受到伤害 -15%" },
-    { id: "regen12", name: "💚 生命源泉", desc: "每回合末回复 12% 最大HP" },
-    { id: "lifesteal20", name: "🌟 吸血寄生", desc: "造成伤害的 20% 回复自身HP" },
-    { id: "berserk45", name: "🔥 狂暴输出", desc: "HP低于50%时伤害 +45%" },
-    { id: "opener35", name: "🚀 先声夺人", desc: "前2回合我方伤害 +35%" },
-    { id: "thorns15", name: "❄️ 铁壁反伤", desc: "受击反弹 15% 伤害给对手" },
-    { id: "execute30", name: "💥 斩杀渴望", desc: "对手HP低于40%时伤害 +35%" },
+    { id: "atk20", name: "疾风突袭", desc: "我方伤害 +20%" },
+    { id: "def15", name: "星际护盾", desc: "受到伤害 -15%" },
+    { id: "regen12", name: "生命源泉", desc: "每回合末回复 12% 最大HP" },
+    { id: "lifesteal20", name: "吸血寄生", desc: "造成伤害的 20% 回复自身HP" },
+    { id: "berserk45", name: "狂暴输出", desc: "HP低于50%时伤害 +45%" },
+    { id: "opener35", name: "先声夺人", desc: "前2回合我方伤害 +35%" },
+    { id: "thorns15", name: "铁壁反伤", desc: "受击反弹 15% 伤害给对手" },
+    { id: "execute30", name: "斩杀渴望", desc: "对手HP低于40%时伤害 +35%" },
 ];
 
 const ROGUE_BUFF_MAP = new Map(ROGUE_BUFFS.map(b => [b.id, b]));
@@ -308,7 +308,7 @@ async function StartRogueTowerBattle(player) {
     const buffDesc = st.buffs.length
         ? st.buffs.map(id => ROGUE_BUFF_MAP.get(id)?.name || id).join(" + ")
         : "暂无词条（首层通过后3选1）";
-    battle.alphaNotice = `🌌【无尽星际爬塔 · 第 ${floor} 层】当前词条：${buffDesc}`;
+    battle.alphaNotice = `【无尽星际爬塔 · 第 ${floor} 层】当前词条：${buffDesc}`;
     bm.InitializeBattle(battle);
     await bm.SendReadyToFight(battle, `无尽塔第${floor}层`);
     return true;
@@ -332,13 +332,10 @@ async function HandleRogueTowerResult(player, battle, won) {
         if (floor >= 10) {
             await UnlockBounty(player, "rogue_10");
         }
-        const choiceLines = choices.map((id, idx) => {
-            const b = ROGUE_BUFF_MAP.get(id);
-            return `${idx + 1}. ${b.name}（${b.desc}）`;
-        }).join("  |  ");
-        await sendAlert(
+        await sendPanelState(
             player,
-            `🎉 无尽爬塔第 ${floor} 层通关！获得 ${coins} 赛尔豆 + ${crystals} 特性晶石（现有 ${totalCrystals} 颗）。\n点击「星际试炼」面板即可 3 选 1 装备肉鸽词条并挑战第 ${floor + 1} 层：\n${choiceLines}`
+            `第 ${floor} 层通关！获得 ${coins} 赛尔豆 + ${crystals} 特性晶石（现有 ${totalCrystals} 颗），请选择词条继续挑战`,
+            true
         );
     } else {
         const reached = Math.max(0, floor - 1);
@@ -347,9 +344,10 @@ async function HandleRogueTowerResult(player, battle, won) {
         st.buffs = [];
         st.pendingChoices = [];
         await SaveRogueState(player.Uid, st);
-        await sendAlert(
+        await sendPanelState(
             player,
-            `💀 无尽爬塔止步于第 ${floor} 层（历史最高：第 ${st.bestFloor} 层）。本轮肉鸽词条已重置，打开「星际试炼」面板可随时重新挑战！`
+            `止步第 ${floor} 层（历史最高第 ${st.bestFloor} 层），本轮词条已重置，可随时重新挑战`,
+            true
         );
     }
 }
@@ -448,7 +446,7 @@ async function UnlockBounty(player, bountyId) {
     );
     await AddTraitCrystals(player.Uid, cfg.crystals);
     await player.AddCurrency(undefined, cfg.coins);
-    await sendAlert(player, `🏅 极限赏金达成！【${cfg.name}】(${cfg.desc}) → 奖励 ${cfg.crystals} 特性晶石 + ${cfg.coins} 赛尔豆！`);
+    await sendAlert(player, `极限赏金达成【${cfg.name}】！奖励 ${cfg.crystals} 特性晶石 + ${cfg.coins} 赛尔豆`);
     return true;
 }
 
@@ -677,7 +675,7 @@ function safeField(s) {
     return String(s ?? "").replace(/[\r\n|;,]/g, " ");
 }
 
-async function buildPanelPayload(player, notice = "") {
+async function buildPanelPayload(player, notice = "", autoOpen = false) {
     const aura = await GetDexAura(player.Uid);
     const rogue = await GetRogueState(player.Uid);
     const crystals = await GetTraitCrystals(player.Uid);
@@ -704,6 +702,7 @@ async function buildPanelPayload(player, notice = "") {
     const nextHint = aura.next ? `${aura.next.count}只解锁${safeField(aura.next.title)}` : "已满档";
     const lines = [
         `NOTICE=${safeField(notice)}`,
+        `AUTOOPEN=${autoOpen ? "1" : "0"}`,
         `AURA=${safeField(aura.title)}|${aura.count}|${bounties.length}|${BOUNTIES.length}|${safeField(nextHint)}`,
         `TOWER=${rogue.currentFloor}|${rogue.bestFloor}|${crystals}`,
         `BUFFS=${buffStrs.join(";")}`,
@@ -716,8 +715,8 @@ async function buildPanelPayload(player, notice = "") {
     return lines.join("\n");
 }
 
-async function sendPanelState(player, notice = "") {
-    const text = await buildPanelPayload(player, notice);
+async function sendPanelState(player, notice = "", autoOpen = false) {
+    const text = await buildPanelPayload(player, notice, autoOpen);
     const utf8 = Buffer.from(text, "utf8");
     const body = Buffer.alloc(4 + utf8.length);
     body.writeUInt32BE(utf8.length, 0);

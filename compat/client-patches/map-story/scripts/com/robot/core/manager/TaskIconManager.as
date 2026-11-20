@@ -18,6 +18,7 @@ package com.robot.core.manager
    import flash.text.TextFormat;
    import flash.text.TextFormatAlign;
    import flash.utils.ByteArray;
+   import flash.utils.setTimeout;
    import org.taomee.component.UIComponent;
    import org.taomee.component.containers.HBox;
    import org.taomee.component.control.UIMovieClip;
@@ -137,6 +138,7 @@ package com.robot.core.manager
       {
          try
          {
+            ensureCmdListener();
             if(!_tipsBound)
             {
                _tipsBound = true;
@@ -364,6 +366,25 @@ package com.robot.core.manager
             {
                renderPanelBody();
             }
+            else if(_state.autoOpen)
+            {
+               setTimeout(onAutoOpenPanel,800);
+            }
+         }
+         catch(e:Error)
+         {
+         }
+      }
+      
+      private static function onAutoOpenPanel() : void
+      {
+         try
+         {
+            if(_state != null && _panelOverlay == null)
+            {
+               _activeTab = 0;
+               showPanelShell();
+            }
          }
          catch(e:Error)
          {
@@ -374,6 +395,7 @@ package com.robot.core.manager
       {
          var obj:Object = new Object();
          obj.notice = "";
+         obj.autoOpen = false;
          obj.auraTitle = "新手赛尔";
          obj.dexCount = 0;
          obj.bountyDone = 0;
@@ -404,6 +426,10 @@ package com.robot.core.manager
                if(k == "NOTICE")
                {
                   obj.notice = v;
+               }
+               else if(k == "AUTOOPEN")
+               {
+                  obj.autoOpen = v == "1";
                }
                else if(k == "AURA")
                {
