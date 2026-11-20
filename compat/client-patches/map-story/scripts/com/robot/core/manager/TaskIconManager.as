@@ -3,12 +3,17 @@ package com.robot.core.manager
    import flash.display.DisplayObject;
    import flash.display.InteractiveObject;
    import flash.display.Loader;
+   import flash.events.MouseEvent;
+   import flash.external.ExternalInterface;
    import flash.filters.DropShadowFilter;
+   import flash.net.URLRequest;
+   import flash.net.navigateToURL;
    import org.taomee.component.UIComponent;
    import org.taomee.component.containers.HBox;
    import org.taomee.component.control.UIMovieClip;
    import org.taomee.component.layout.FlowLayout;
    import org.taomee.ds.HashMap;
+   import org.taomee.manager.ToolTipManager;
    import org.taomee.utils.Utils;
    
    public class TaskIconManager
@@ -37,6 +42,29 @@ package com.robot.core.manager
          box.halign = FlowLayout.RIGHT;
          box.valign = FlowLayout.MIDLLE;
          LevelManager.iconLevel.addChild(box);
+         var guideIcon:InteractiveObject = getIcon("new_player_icon");
+         if(guideIcon != null)
+         {
+            ToolTipManager.add(guideIcon,"赛尔号星际攻略档案（新窗口打开）");
+            guideIcon.addEventListener(MouseEvent.CLICK,onOpenGuide);
+            addIcon(guideIcon);
+         }
+      }
+
+      private static function onOpenGuide(param1:MouseEvent) : void
+      {
+         try
+         {
+            if(ExternalInterface.available)
+            {
+               ExternalInterface.call("openSeerGuide");
+               return;
+            }
+         }
+         catch(e:Error)
+         {
+         }
+         navigateToURL(new URLRequest("/guide/index.html"),"_blank");
       }
       
       public static function set rightInset(param1:Number) : void
