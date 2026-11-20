@@ -21,13 +21,16 @@ package com.robot.app.petbag.petPropsBag.ui
    import com.robot.core.ui.alert.Alert;
    import com.robot.core.ui.itemTip.ItemInfoTip;
    import com.robot.core.utils.TextFormatUtil;
+   import flash.display.GradientType;
    import flash.display.SimpleButton;
    import flash.display.Sprite;
    import flash.events.Event;
    import flash.events.MouseEvent;
    import flash.events.EventDispatcher;
    import flash.filters.GlowFilter;
+   import flash.geom.Matrix;
    import flash.text.TextField;
+   import flash.text.TextFieldType;
    import flash.text.TextFormat;
    import flash.utils.clearTimeout;
    import flash.utils.setTimeout;
@@ -360,21 +363,84 @@ package com.robot.app.petbag.petPropsBag.ui
       {
          this.filterPanel = new Sprite();
          this.petPropsPanel.addChild(this.filterPanel);
-         this.search = PetWorkflowUI.input(this.filterPanel,this.queryText,this._listCon.x,12,this._listCon.width);
+         var w:Number = this._listCon.width;
+         var sx:Number = this._listCon.x;
+         // Dark recessed sci-fi search field blending into PetBagMc
+         var searchBg:Sprite = new Sprite();
+         searchBg.x = sx;
+         searchBg.y = 14;
+         searchBg.graphics.lineStyle(1,0x3D80AD,0.9);
+         searchBg.graphics.beginFill(0x0B2744,0.92);
+         searchBg.graphics.drawRoundRect(0,0,w,24,6,6);
+         searchBg.graphics.endFill();
+         this.filterPanel.addChild(searchBg);
+         this.search = new TextField();
+         this.search.defaultTextFormat = new TextFormat("宋体",12,0xE8F7FF,false);
+         this.search.x = sx + 6;
+         this.search.y = 17;
+         this.search.width = w - 12;
+         this.search.height = 20;
+         this.search.text = this.queryText;
+         this.search.setTextFormat(this.search.defaultTextFormat);
+         this.search.type = TextFieldType.INPUT;
+         this.search.selectable = true;
+         this.search.mouseEnabled = true;
+         this.search.maxChars = 30;
+         this.filterPanel.addChild(this.search);
          this.search.addEventListener(Event.CHANGE,this.onFilterChanged);
          this.renderFilterButtons();
+      }
+
+      private function compactButton(parent:Sprite,title:String,x:Number,y:Number,w:Number,h:Number,callback:Function,enabled:Boolean = true):Sprite
+      {
+         var item:Sprite = new Sprite();
+         item.x = x;
+         item.y = y;
+         parent.addChild(item);
+         var up:* = UIManager.getDisplayObject("Button_upSkin");
+         var over:* = UIManager.getDisplayObject("Button_overSkin");
+         var down:* = UIManager.getDisplayObject("Button_downSkin");
+         up.width = over.width = down.width = w;
+         up.height = over.height = down.height = h;
+         item.addChild(new SimpleButton(up,over,down,up));
+         var lbl:TextField = new TextField();
+         lbl.defaultTextFormat = new TextFormat("宋体",11,0xFFFFFF,true);
+         lbl.x = 2;
+         lbl.y = Math.max(1,(h - 18) / 2);
+         lbl.width = w - 4;
+         lbl.height = 18;
+         lbl.text = title;
+         var fmt:TextFormat = lbl.defaultTextFormat;
+         fmt.align = "center";
+         lbl.setTextFormat(fmt);
+         lbl.mouseEnabled = false;
+         lbl.selectable = false;
+         lbl.filters = [new GlowFilter(0x0A3E68,0.85,3,3,8)];
+         item.addChild(lbl);
+         item.mouseChildren = false;
+         item.mouseEnabled = enabled;
+         item.buttonMode = enabled;
+         item.alpha = enabled ? 1 : 0.45;
+         if(callback != null)
+         {
+            item.addEventListener(MouseEvent.CLICK,function(event:MouseEvent):void
+            {
+               callback();
+            });
+         }
+         return item;
       }
 
       private function renderFilterButtons():void
       {
          if(this.filterPanel == null)return;
-         var favoriteLabel:String = this.repeatItem == 0 ? "选道具后置顶" : this.favorites.indexOf(this.repeatItem) >= 0 ? "★ 取消置顶" : "☆ 常用置顶";
+         var favoriteLabel:String = this.repeatItem == 0 ? "☆ 置顶" : this.favorites.indexOf(this.repeatItem) >= 0 ? "★ 已置顶" : "☆ 置顶";
          var key:String = this.category + ":" + favoriteLabel;
          if(this.filterButtonsKey == key)return;
          this.filterButtonsKey = key;
          DisplayUtil.removeForParent(this.categoryButton);
          DisplayUtil.removeForParent(this.favoriteButton);
-         this.categoryButton = PetWorkflowUI.button(this.filterPanel,this.category + " ▾",this._listCon.x,46,98,function():void
+         this.categoryButton = this.compactButton(this.filterPanel,"分类:" + this.category + " ▾",this._listCon.x,44,102,24,function():void
          {
             if(busyOwner != null)return;
             var groups:Array = ["全部","恢复","洗练","学习力","其他","常用"];
@@ -383,8 +449,8 @@ package com.robot.app.petbag.petPropsBag.ui
             renderFilterButtons();
             dispatchEvent(new Event(FILTER_CHANGED));
          });
-         this.favoriteButton = PetWorkflowUI.button(this.filterPanel,favoriteLabel,
-            this._listCon.x+105,46,100,function():void
+         this.favoriteButton = this.compactButton(this.filterPanel,favoriteLabel,
+            this._listCon.x + 108,44,96,24,function():void
          {
             if(busyOwner != null || repeatItem == 0)return;
             var index:int = favorites.indexOf(repeatItem);
@@ -409,50 +475,57 @@ package com.robot.app.petbag.petPropsBag.ui
       private function createRepeatControls():void
       {
          var width:Number = this._listCon.width;
+         var height:Number = 54;
          this.repeatPanel = new Sprite();
          this.repeatPanel.x = this._listCon.x;
-         this.repeatPanel.y = this._listCon.y + this._listCon.height + 8;
-         this.repeatPanel.graphics.lineStyle(1,0x6CDFFF);
-         this.repeatPanel.graphics.beginFill(0x103F68);
-         this.repeatPanel.graphics.drawRoundRect(0,0,width,66,10,10);
+         this.repeatPanel.y = this._listCon.y + this._listCon.height + 10;
+         var matrix:Matrix = new Matrix();
+         matrix.createGradientBox(width,height,Math.PI / 2,0,0);
+         this.repeatPanel.graphics.lineStyle(1.2,0x3E82B0,0.95);
+         this.repeatPanel.graphics.beginGradientFill(GradientType.LINEAR,[0x16426B,0x0D2B4B],[0.95,0.95],[0,255],matrix);
+         this.repeatPanel.graphics.drawRoundRect(0,0,width,height,8,8);
          this.repeatPanel.graphics.endFill();
+         this.repeatPanel.graphics.lineStyle(1,0x7CCAF0,0.32);
+         this.repeatPanel.graphics.moveTo(8,1.5);
+         this.repeatPanel.graphics.lineTo(width - 8,1.5);
          this.petPropsPanel.addChild(this.repeatPanel);
-         this.repeatText = this.footerText(8,3,width-16,30,11);
-         this.repeatText.multiline = true;
-         this.repeatText.wordWrap = true;
-         this.stockText = this.footerText(8,42,width-138,20,11);
+         this.stockText = this.footerText(10,7,width - 114,20,12,0xFFF0AA,true);
+         this.repeatText = this.footerText(10,27,width - 114,22,11,0xB8DDF2,false);
+         this.repeatText.multiline = false;
+         this.repeatText.wordWrap = false;
          this.repeatButton = new Sprite();
-         this.repeatButton.x = width-122;
-         this.repeatButton.y = 34;
+         this.repeatButton.x = width - 98;
+         this.repeatButton.y = 14;
          var up:* = UIManager.getDisplayObject("Button_upSkin");
          var over:* = UIManager.getDisplayObject("Button_overSkin");
          var down:* = UIManager.getDisplayObject("Button_downSkin");
-         up.width = over.width = down.width = 114;
-         up.height = over.height = down.height = 28;
+         up.width = over.width = down.width = 90;
+         up.height = over.height = down.height = 26;
          this.repeatButton.addChild(new SimpleButton(up,over,down,up));
          this.repeatLabel = new TextField();
          this.repeatLabel.defaultTextFormat = new TextFormat("宋体",12,0xFFFFFF,true);
-         this.repeatLabel.width = 114;
-         this.repeatLabel.height = 24;
+         this.repeatLabel.width = 90;
+         this.repeatLabel.height = 20;
          this.repeatLabel.y = 4;
          this.repeatLabel.mouseEnabled = false;
          this.repeatLabel.selectable = false;
          var centered:TextFormat = this.repeatLabel.defaultTextFormat;
          centered.align = "center";
          this.repeatLabel.defaultTextFormat = centered;
-         this.repeatLabel.filters = [new GlowFilter(0x0A5287,0.8,3,3,8)];
+         this.repeatLabel.filters = [new GlowFilter(0x0A3E68,0.85,3,3,8)];
          this.repeatButton.addChild(this.repeatLabel);
          this.repeatButton.addEventListener(MouseEvent.CLICK,this.onRepeat);
          this.repeatPanel.addChild(this.repeatButton);
          this.renderRepeat();
       }
 
-      private function footerText(x:Number,y:Number,width:Number,height:Number,size:int):TextField
+      private function footerText(x:Number,y:Number,width:Number,height:Number,size:int,color:uint = 0xFFFFFF,bold:Boolean = false):TextField
       {
          var field:TextField = new TextField();
-         field.defaultTextFormat = new TextFormat("宋体",size,0xFFFFFF);
+         field.defaultTextFormat = new TextFormat("宋体",size,color,bold);
          field.x = x;field.y = y;field.width = width;field.height = height;
          field.mouseEnabled = false;field.selectable = false;
+         if(bold)field.filters = [new GlowFilter(0x082847,0.85,2,2,6)];
          this.repeatPanel.addChild(field);
          return field;
       }
@@ -467,15 +540,15 @@ package com.robot.app.petbag.petPropsBag.ui
          var count:uint = stock == null ? 0 : stock.itemNum;
          var currentKey:String = this.repeatPet + ":" + this.repeatItem;
          var message:String = this.lastResult;
-         if(this.phase == "using")message = "正在为" + this.requestName + "使用，请稍候…";
-         else if(this.phase == "sync")message = "正在同步实际结果与药水余量…";
-         else if(this.phase == "sync-error")message = "同步超时；点刷新，不会用药。";
-         else if(message == "")message = "每次使用一份，按需手动继续。";
-         var text:String = PetXMLInfo.getName(this._petInfo.id) + " · " + ItemXMLInfo.getName(this.repeatItem) + "\n" + message;
-         var stockLabel:String = this.phase == "sync-error" ? "余量未同步" : this.phase == "using" || this.phase == "sync" ? "余量同步中" : "余量 " + count;
-         var buttonLabel:String = this.phase == "sync-error" ? "刷新结果" : this.phase == "using" ? "等待结果…" : this.phase == "sync" ? "同步中…" : count == 0 ? "已用尽" : this.confirmedKey == currentKey ? "继续使用" : "确认使用";
-         if(this.repeatText.text != text)this.repeatText.text = text;
-         if(this.stockText.text != stockLabel)this.stockText.text = stockLabel;
+         if(this.phase == "using")message = "正在使用，请稍候…";
+         else if(this.phase == "sync")message = "正在同步结果…";
+         else if(this.phase == "sync-error")message = "同步超时，点击右侧刷新";
+         else if(message == "")message = "已选 " + PetXMLInfo.getName(this._petInfo.id) + "，可连续点击使用";
+         var stockSuffix:String = this.phase == "sync-error" ? " (未同步)" : this.phase == "using" || this.phase == "sync" ? " (同步中)" : "  ×" + count;
+         var titleLine:String = ItemXMLInfo.getName(this.repeatItem) + stockSuffix;
+         var buttonLabel:String = this.phase == "sync-error" ? "刷新结果" : this.phase == "using" ? "处理中…" : this.phase == "sync" ? "同步中…" : count == 0 ? "已用尽" : this.confirmedKey == currentKey ? "继续使用" : "确认使用";
+         if(this.stockText.text != titleLine)this.stockText.text = titleLine;
+         if(this.repeatText.text != message)this.repeatText.text = message;
          if(this.repeatLabel.text != buttonLabel)this.repeatLabel.text = buttonLabel;
          var enabled:Boolean = busyOwner == null && (this.phase == "sync-error" || count > 0 && PetManager.getPetInfo(this.repeatPet) != null);
          this.repeatButton.mouseEnabled = enabled;

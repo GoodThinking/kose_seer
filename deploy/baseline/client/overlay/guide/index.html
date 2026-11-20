@@ -1,0 +1,1324 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>赛尔号怀旧服 · 星际攻略档案</title>
+  <style>
+    :root {
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+      /* Dark Cosmic Theme (Default) */
+      --bg: #07090f;
+      --bg-elevated: rgba(16, 21, 34, 0.72);
+      --bg-card: rgba(18, 24, 39, 0.66);
+      --bg-card-hover: rgba(26, 35, 56, 0.84);
+      --bg-pill: rgba(255, 255, 255, 0.06);
+      --bg-drawer: rgba(11, 15, 25, 0.94);
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --text: #f3f6fc;
+      --text-secondary: #9aa8c2;
+      --text-muted: #667591;
+      --accent: #5eead4;
+      --accent-2: #818cf8;
+      --accent-3: #f472b6;
+      --accent-glow: rgba(94, 234, 212, 0.16);
+      --gold: #fbbf24;
+      --danger: #fb7185;
+      --success: #34d399;
+      --shadow-lg: 0 24px 64px -16px rgba(0, 0, 0, 0.65);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --nav-h: 64px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f5f8;
+      --bg-elevated: rgba(255, 255, 255, 0.82);
+      --bg-card: rgba(255, 255, 255, 0.78);
+      --bg-card-hover: rgba(255, 255, 255, 0.98);
+      --bg-pill: rgba(15, 23, 42, 0.055);
+      --bg-drawer: rgba(252, 253, 255, 0.96);
+      --border: rgba(15, 23, 42, 0.09);
+      --border-strong: rgba(15, 23, 42, 0.18);
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #7b8ba1;
+      --accent: #0d9488;
+      --accent-2: #4f46e5;
+      --accent-3: #db2777;
+      --accent-glow: rgba(13, 148, 136, 0.12);
+      --gold: #d97706;
+      --danger: #e11d48;
+      --success: #059669;
+      --shadow-lg: 0 24px 64px -16px rgba(15, 23, 42, 0.16);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.55s var(--ease-out-expo), color 0.45s var(--ease-out-expo);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background: transparent;
+    }
+
+    /* Ambient Lusion-style Interactive Fluid Canvas */
+    #ambient-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Subtle top scroll progress bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    /* Cursor spotlight glow (desktop) */
+    #cursor-glow {
+      position: fixed;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      transform: translate3d(-50%, -50%, 0);
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 68%);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      will-change: transform;
+    }
+
+    /* Floating Glass Header */
+    .site-header {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1240px, calc(100% - 28px));
+      height: var(--nav-h);
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(22px) saturate(150%);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+      box-shadow: 0 10px 36px -12px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 100;
+      transition: background-color 0.45s var(--ease-out-expo), border-color 0.45s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+
+    .brand-orb {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: conic-gradient(from 120deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+      position: relative;
+      box-shadow: 0 0 18px var(--accent-glow);
+      animation: orbSpin 12s linear infinite;
+    }
+    .brand-orb::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: var(--bg);
+      transition: background-color 0.45s var(--ease-out-expo);
+    }
+    @keyframes orbSpin { to { transform: rotate(360deg); } }
+
+    .nav-track {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 4px;
+      border-radius: 999px;
+      background: var(--bg-pill);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-track::-webkit-scrollbar { display: none; }
+
+    .nav-indicator {
+      position: absolute;
+      top: 4px;
+      left: 0;
+      height: calc(100% - 8px);
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(94, 234, 212, 0.18), rgba(129, 140, 248, 0.22));
+      border: 1px solid var(--border-strong);
+      transition: transform 0.55s var(--ease-out-expo), width 0.55s var(--ease-out-expo), opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .nav-link {
+      position: relative;
+      z-index: 1;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--text); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-pill);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.45s var(--ease-out-expo);
+      will-change: transform;
+    }
+    .icon-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-strong);
+    }
+    .kbd {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 5px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    /* Main Container */
+    main {
+      position: relative;
+      z-index: 2;
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding-top: 110px;
+      padding-bottom: 120px;
+    }
+
+    /* Hero Section with Editorial Mask Typography */
+    .hero {
+      padding: 48px 0 64px;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 40px;
+      align-items: end;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--bg-pill);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.45); opacity: 0.5; }
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(38px, 5.4vw, 68px);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      font-weight: 800;
+    }
+    .mask-line {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 4px;
+    }
+    .mask-line > span {
+      display: inline-block;
+      transform: translateY(115%);
+      opacity: 0;
+      animation: maskReveal 1.05s var(--ease-out-expo) forwards;
+    }
+    .mask-line:nth-child(2) > span { animation-delay: 0.12s; }
+    .mask-line:nth-child(3) > span { animation-delay: 0.24s; }
+    @keyframes maskReveal {
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-desc {
+      margin: 22px 0 28px;
+      max-width: 580px;
+      font-size: 15.5px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #061018;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 12px 32px -8px var(--accent-glow);
+      transition: transform 0.45s var(--ease-out-expo), box-shadow 0.4s ease;
+      will-change: transform;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 18px 40px -6px rgba(94, 234, 212, 0.32);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-card);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.45s var(--ease-out-expo);
+      will-change: transform;
+    }
+    .btn-ghost:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent);
+    }
+
+    /* Hero Stats Bento */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .stat-tile {
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      transition: transform 0.5s var(--ease-out-expo), border-color 0.35s ease, background-color 0.35s ease;
+    }
+    .stat-tile:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+      background: var(--bg-card-hover);
+    }
+    .stat-num {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .stat-label {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Section Shell */
+    .guide-section {
+      margin-top: 84px;
+      scroll-margin-top: 96px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-kicker {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -0.025em;
+      font-weight: 750;
+    }
+
+    .section-sub {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Controls Bar (Search + Filter Pills) */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-pill);
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.35s var(--ease-out-expo);
+    }
+    .pill:hover {
+      color: var(--text);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+    .pill.active {
+      background: linear-gradient(135deg, rgba(94, 234, 212, 0.2), rgba(129, 140, 248, 0.2));
+      color: var(--text);
+      border-color: var(--accent);
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 260px;
+      flex: 0 1 320px;
+    }
+    .search-box input {
+      width: 100%;
+      height: 38px;
+      padding: 0 14px 0 36px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: var(--bg-card-hover);
+    }
+    .search-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Interactive Cards with Radial Spotlight */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+    .card-grid.compact {
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+      transition: transform 0.5s var(--ease-out-expo), border-color 0.35s ease, background-color 0.35s ease, box-shadow 0.45s ease;
+      will-change: transform;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), var(--accent-glow), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-lg);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .card-body {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    /* Badges & Tags */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--bg-pill);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .badge.accent { color: var(--accent); border-color: rgba(94, 234, 212, 0.35); background: rgba(94, 234, 212, 0.08); }
+    .badge.indigo { color: var(--accent-2); border-color: rgba(129, 140, 248, 0.35); background: rgba(129, 140, 248, 0.1); }
+    .badge.gold { color: var(--gold); border-color: rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.09); }
+    .badge.pink { color: var(--accent-3); border-color: rgba(244, 114, 182, 0.35); background: rgba(244, 114, 182, 0.09); }
+    .badge.green { color: var(--success); border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.09); }
+
+    /* Pet Avatars & Map Scene Previews */
+    .pet-avatar {
+      width: 52px;
+      height: 52px;
+      flex: none;
+      border-radius: 14px;
+      background: radial-gradient(circle at 35% 30%, rgba(94, 234, 212, 0.16), var(--bg-pill));
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 4px;
+      transition: transform 0.45s var(--ease-out-expo), border-color 0.3s ease;
+    }
+    .pet-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+      transition: transform 0.5s var(--ease-out-expo);
+    }
+    .card:hover .pet-avatar {
+      border-color: var(--accent);
+    }
+    .card:hover .pet-avatar img {
+      transform: scale(1.12);
+    }
+    .pet-avatar-sm {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      padding: 2px;
+      display: inline-grid;
+      vertical-align: middle;
+    }
+    .pet-avatar-lg {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      padding: 6px;
+    }
+    .pet-avatar-fallback {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .card-head-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mech-card {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .mech-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(94, 234, 212, 0.12), rgba(129, 140, 248, 0.14));
+      border-bottom: 1px solid var(--border);
+    }
+    .mech-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.75s var(--ease-out-expo);
+    }
+    .mech-card:hover .mech-thumb img {
+      transform: scale(1.06);
+    }
+    .mech-thumb-badge {
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: rgba(7, 10, 18, 0.76);
+      color: #f3f6fc;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .mech-card-pad {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .drawer-banner {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      background: var(--bg-pill);
+      position: relative;
+    }
+    .drawer-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Exact Soul Bead Absorption Reticle Box */
+    .hatch-reticle {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      transform: translate(-50%, -50%);
+      border: 2.5px solid #fbbf24;
+      border-radius: 12px;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.25), 0 0 20px rgba(251, 191, 36, 0.75), inset 0 0 12px rgba(94, 234, 212, 0.35);
+      pointer-events: none;
+      animation: reticlePulse 2.2s ease-in-out infinite;
+    }
+    .hatch-reticle::after {
+      content: "吸收点";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 5px);
+      transform: translateX(-50%);
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(10, 14, 24, 0.88);
+      border: 1px solid #fbbf24;
+      color: #fde68a;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    }
+    @keyframes reticlePulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    /* Interactive Animated Mechanism Walkthrough Player */
+    .demo-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 960 / 560;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-strong);
+      background: #070b14;
+      margin-bottom: 12px;
+    }
+    .demo-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .demo-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .demo-caption {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 10px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(7, 10, 18, 0.84);
+      border: 1px solid rgba(94, 234, 212, 0.45);
+      color: #f3f6fc;
+      font-size: 13px;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .demo-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    /* Fusion Formula Row */
+    .formula-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+    .formula-node {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px 4px 6px;
+      border-radius: 10px;
+      background: var(--bg-pill);
+      border: 1px solid var(--border);
+      font-weight: 600;
+      color: var(--text);
+    }
+    .formula-op { color: var(--text-muted); font-weight: 700; }
+
+    /* Info Callout Banner */
+    .callout {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(94, 234, 212, 0.08), rgba(129, 140, 248, 0.07));
+      border: 1px solid var(--border-strong);
+      margin-bottom: 18px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .callout strong { color: var(--text); }
+    .callout ul { margin: 6px 0 0 18px; padding: 0; }
+
+    /* Tables (Hatch Beads, Mining, Materials, Natures) */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      background: var(--bg-pill);
+      white-space: nowrap;
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr { transition: background-color 0.25s ease; }
+    tbody tr:hover { background: var(--bg-pill); }
+
+    /* Element Matrix */
+    .matrix-table th, .matrix-table td {
+      padding: 6px 4px;
+      text-align: center;
+      font-size: 12px;
+      min-width: 38px;
+      border-right: 1px solid var(--border);
+    }
+    .matrix-cell-2 { background: rgba(52, 211, 153, 0.22); color: var(--success); font-weight: 700; }
+    .matrix-cell-half { background: rgba(251, 113, 133, 0.16); color: var(--danger); font-weight: 600; }
+    .matrix-cell-0 { background: rgba(100, 116, 139, 0.28); color: var(--text-muted); font-weight: 700; }
+    .matrix-hl { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    /* Pagination */
+    .pager {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.85s var(--ease-out-expo), transform 0.85s var(--ease-out-expo);
+      will-change: opacity, transform;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Silky Slide-Over Detail Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 6, 14, 0.58);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s var(--ease-out-expo);
+    }
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      bottom: 16px;
+      width: min(560px, calc(100vw - 32px));
+      border-radius: var(--radius-lg);
+      background: var(--bg-drawer);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-lg);
+      z-index: 310;
+      display: flex;
+      flex-direction: column;
+      transform: translate3d(calc(100% + 40px), 0, 0);
+      transition: transform 0.62s var(--ease-out-expo);
+      will-change: transform;
+      overflow: hidden;
+    }
+    .drawer.open { transform: translate3d(0, 0, 0); }
+
+    .drawer-head {
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .drawer-body {
+      padding: 20px 24px 32px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .drawer-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-pill);
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 0.35s var(--ease-out-expo), background-color 0.25s ease;
+    }
+    .drawer-close:hover { transform: rotate(90deg); background: var(--bg-card-hover); }
+
+    .detail-block {
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-pill);
+      border: 1px solid var(--border);
+    }
+    .detail-block h4 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+    .stat-bar-row {
+      display: grid;
+      grid-template-columns: 44px 36px 1fr;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 7px;
+      font-size: 12.5px;
+    }
+    .stat-bar-track {
+      height: 7px;
+      border-radius: 999px;
+      background: var(--bg-card);
+      overflow: hidden;
+    }
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform-origin: 0 50%;
+      animation: barGrow 0.75s var(--ease-out-expo) forwards;
+    }
+    @keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    .step-list {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      line-height: 1.75;
+    }
+    .step-list li { margin-bottom: 6px; }
+
+    /* Command Palette (Cmd+K) */
+    .cmd-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: min(14vh, 110px);
+      background: rgba(3, 6, 14, 0.62);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s var(--ease-out-expo);
+    }
+    .cmd-modal.open { opacity: 1; pointer-events: auto; }
+    .cmd-box {
+      width: min(620px, calc(100vw - 28px));
+      border-radius: var(--radius-lg);
+      background: var(--bg-drawer);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transform: translateY(-18px) scale(0.97);
+      transition: transform 0.45s var(--ease-out-expo);
+    }
+    .cmd-modal.open .cmd-box { transform: translateY(0) scale(1); }
+    .cmd-input {
+      width: 100%;
+      padding: 18px 22px;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+    .cmd-results {
+      max-height: min(56vh, 440px);
+      overflow-y: auto;
+      padding: 8px;
+    }
+    .cmd-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .cmd-item:hover { background: var(--bg-pill); }
+
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; padding: 28px 0 36px; }
+      .nav-track { display: none; }
+    }
+    @media (max-width: 600px) {
+      .site-header { padding: 0 12px; height: 56px; }
+      main { padding-top: 88px; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" data-scroll-to="#top">
+      <span class="brand-orb" aria-hidden="true"></span>
+      <span>赛尔号 · 星际档案</span>
+    </a>
+
+    <nav class="nav-track" id="main-nav" aria-label="主导航">
+      <div class="nav-indicator" id="nav-indicator"></div>
+      <a class="nav-link active" href="#bosses" data-section="bosses">BOSS 攻略</a>
+      <a class="nav-link" href="#pets" data-section="pets">精灵获取</a>
+      <a class="nav-link" href="#fusion" data-section="fusion">融合手册</a>
+      <a class="nav-link" href="#mechanisms" data-section="mechanisms">机关遭遇</a>
+      <a class="nav-link" href="#countermarks" data-section="countermarks">精灵刻印</a>
+      <a class="nav-link" href="#reference" data-section="reference">擂台与速查</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn magnetic" id="cmd-trigger" type="button" title="全局搜索">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>速搜</span>
+        <span class="kbd">⌘K</span>
+      </button>
+      <button class="icon-btn magnetic" id="theme-toggle" type="button" title="切换深浅色主题">
+        <span id="theme-icon">☀</span>
+        <span id="theme-label">浅色</span>
+      </button>
+      <a class="icon-btn magnetic" href="/" title="返回游戏">返回游戏</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <div class="hero-eyebrow"><span class="pulse-dot"></span>实时同步现网服务端配置 · 经典怀旧版</div>
+        <h1 class="hero-title">
+          <span class="mask-line"><span>把整个赛尔号</span></span>
+          <span class="mask-line"><span class="gradient-text">装进一页星际档案</span></span>
+        </h1>
+        <p class="hero-desc">
+          所有数据直接由现网服务端配置与核心库自动抽取，告别记忆模糊与过时攻略。随时检索 121 位首领的一 BOSS 一规则、全量精灵获取与培养推荐、融合配方与元神珠吸收地点、87 枚刻印掉落及星球地形机关。
+        </p>
+        <div class="hero-cta-row">
+          <a class="btn-primary magnetic" href="#bosses" data-scroll-to="#bosses">查 BOSS 机制 →</a>
+          <a class="btn-ghost magnetic" href="#pets" data-scroll-to="#pets">查精灵怎么抓</a>
+          <a class="btn-ghost magnetic" href="#fusion" data-scroll-to="#fusion">融合与元神珠</a>
+        </div>
+      </div>
+
+      <div class="hero-stats" id="hero-stats">
+        <div class="stat-tile"><div class="stat-num" data-stat="bossCount">—</div><div class="stat-label">BOSS 招牌规则</div></div>
+        <div class="stat-tile"><div class="stat-num" data-stat="obtainablePets">—</div><div class="stat-label">可获取精灵条目</div></div>
+        <div class="stat-tile"><div class="stat-num" data-stat="fusionCount">—</div><div class="stat-label">固定与奇迹融合</div></div>
+        <div class="stat-tile"><div class="stat-num" data-stat="countermarks">—</div><div class="stat-label">能力与技能刻印</div></div>
+      </div>
+    </section>
+
+    <!-- 1. BOSS 攻略 -->
+    <section class="guide-section reveal" id="bosses">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 / BOSS SIGNATURES</div>
+          <h2 class="section-title">全服 BOSS 招牌特性攻略</h2>
+          <p class="section-sub">一 BOSS 一规则，涵盖经典 SPT、星系霸主、暗黑武斗场、训练师之门、谱尼九关与奥尔德七试炼。点击卡片查看完整机制与刻印掉落。</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="pill-group" id="boss-tabs"></div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="boss-search" type="search" placeholder="搜索 BOSS 名称、地图、机制关键词…">
+        </div>
+      </div>
+      <div class="card-grid" id="boss-grid"></div>
+      <div class="pager" id="boss-pager"></div>
+    </section>
+
+    <!-- 2. 精灵获取 -->
+    <section class="guide-section reveal" id="pets">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 / PET ACQUISITION</div>
+          <h2 class="section-title">精灵获取全检索</h2>
+          <p class="section-sub">涵盖野外分布（含最新稀有刷新权重）、SPT 首胜、融合、特殊进化、场景机关、变身遭遇、收集奖励与星系擂台。</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="pill-group" id="pet-tabs"></div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="pet-search" type="search" placeholder="搜索精灵名、图鉴号、地图名或来源…">
+        </div>
+      </div>
+      <div class="card-grid compact" id="pet-grid"></div>
+      <div class="pager" id="pet-pager"></div>
+    </section>
+
+    <!-- 3. 融合手册 -->
+    <section class="guide-section reveal" id="fusion">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 / FUSION &amp; SOUL BEADS</div>
+          <h2 class="section-title">融合手册与元神珠吸收</h2>
+          <p class="section-sub">主宠需为最终形态，每次融合消耗 1000 赛尔豆 + 对应属性精华。尼尔一族可作奇迹融合万能副宠。</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="pill-group" id="fusion-tabs"></div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="fusion-search" type="search" placeholder="搜索主宠、副宠、目标精灵或元神珠…">
+        </div>
+      </div>
+      <div id="fusion-content"></div>
+    </section>
+
+    <!-- 4. 地图机关与特殊遭遇 -->
+    <section class="guide-section reveal" id="mechanisms">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">04 / MECHANISMS &amp; PUZZLES</div>
+          <h2 class="section-title">地图机关、特殊遭遇与隐藏玩法</h2>
+          <p class="section-sub">护罩破除、变身遭遇、碎片召唤、火之果弱化、深海救援、王者之塔与实验室补领一览。</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="pill-group" id="mech-tabs"></div>
+      </div>
+      <div class="card-grid" id="mech-grid"></div>
+    </section>
+
+    <!-- 5. 精灵刻印 -->
+    <section class="guide-section reveal" id="countermarks">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">05 / COUNTERMARKS</div>
+          <h2 class="section-title">精灵刻印图鉴与 BOSS 掉落</h2>
+          <p class="section-sub">全部 87 枚能力/技能刻印完整收录（Lv.100 生效），低档赛尔豆兑换、高档与 37 位 BOSS 专属技能刻印由 SPT 掉落。</p>
+        </div>
+      </div>
+      <div class="callout" id="mark-rules"></div>
+      <div class="toolbar">
+        <div class="pill-group" id="mark-tabs"></div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="mark-search" type="search" placeholder="搜索刻印名、适用技能、BOSS 或属性…">
+        </div>
+      </div>
+      <div class="card-grid compact" id="mark-grid"></div>
+    </section>
+
+    <!-- 6. 星系擂台与实用速查 -->
+    <section class="guide-section reveal" id="reference">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">06 / ARENA &amp; QUICK REFERENCE</div>
+          <h2 class="section-title">星系擂台、收集奖励与实用速查</h2>
+          <p class="section-sub">三大星系擂台、实验室收集、16 系属性克制矩阵、25 种性格与矿产/融合材料刷取点。</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="pill-group" id="ref-tabs"></div>
+      </div>
+      <div id="ref-content"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>赛尔号怀旧服 · 星际攻略档案（由现网服务端配置自动生成）</span>
+    <span id="footer-meta"></span>
+  </footer>
+
+  <!-- Silky Slide-Over Detail Drawer -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer" id="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-head">
+      <div>
+        <div class="section-kicker" id="drawer-kicker" style="margin-bottom:4px"></div>
+        <h3 id="drawer-title" style="margin:0;font-size:22px;letter-spacing:-0.02em"></h3>
+        <div id="drawer-sub" style="font-size:13px;color:var(--text-secondary);margin-top:4px"></div>
+      </div>
+      <button class="drawer-close" id="drawer-close" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
+
+  <!-- Global Cmd+K Quick Search -->
+  <div class="cmd-modal" id="cmd-modal" role="dialog" aria-modal="true" aria-label="全局搜索">
+    <div class="cmd-box">
+      <input class="cmd-input" id="cmd-input" type="search" placeholder="全局速搜：输入精灵名、BOSS、融合配方、刻印或机关… (Esc 关闭)">
+      <div class="cmd-results" id="cmd-results"></div>
+    </div>
+  </div>
+
+  <script src="./guide-data.js"></script>
+  <script src="./guide-app.js"></script>
+</body>
+</html>

@@ -11,7 +11,7 @@ const port = Number(process.env.PORT || 18760);
 const upstreamPort = Number(process.env.KOSE_TCP_PORT || 49199);
 const origin = process.env.PUBLIC_ORIGIN || `http://127.0.0.1:${port}`;
 const expectedHost = new URL(origin).host;
-const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.wasm': 'application/wasm', '.xml': 'application/xml', '.swf': 'application/x-shockwave-flash', '.txt': 'text/plain' };
+const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.wasm': 'application/wasm', '.xml': 'application/xml', '.swf': 'application/x-shockwave-flash', '.txt': 'text/plain', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
 const server = http.createServer(async (req, res) => {
   if (req.headers.host !== expectedHost) { res.writeHead(403).end(); return; }
   let url, pathname;
