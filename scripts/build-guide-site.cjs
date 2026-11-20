@@ -95,9 +95,16 @@ function build() {
   // 3. Items from items.xml
   const itemsXml = readText('config/data/xml/items.xml');
   const itemsById = {};
+  const breedByItemId = {};
   for (const m of itemsXml.matchAll(/<Item\b[^>]*>/g)) {
     const a = parseAttrs(m[0]);
-    if (a.ID) itemsById[Number(a.ID)] = a.Name || `物品#${a.ID}`;
+    if (a.ID) {
+      const iid = Number(a.ID);
+      itemsById[iid] = a.Name || `物品#${a.ID}`;
+      if (a.BreedMonID && Number(a.BreedMonID) > 0) {
+        breedByItemId[iid] = Number(a.BreedMonID);
+      }
+    }
   }
   const itemName = (id) => itemsById[id] || `道具#${id}`;
 
@@ -554,9 +561,23 @@ function build() {
       addSource(b.spt.rewardPetId, 'boss', `SPT 首胜 · ${b.petName || petName(b.petId)}`, `${mapName(b.mapId)}(${b.mapId}) 击败直接获得`);
     }
     if (b.spt?.rewardItemId) {
-      // Link essence item name back to boss
+      // Link essence item name back to boss and its hatched base form (BreedMonID)
       const iname = itemName(b.spt.rewardItemId);
-      addSource(b.petId, 'boss', `SPT 精元 · ${b.petName || petName(b.petId)}`, `${mapName(b.mapId)}(${b.mapId}) 首胜获「${iname}」孵化`);
+      const bname = b.petName || petName(b.petId);
+      const detail = `${mapName(b.mapId)}(${b.mapId}) 首胜获「${iname}」分子转化仪孵化`;
+      addSource(b.petId, 'boss', `SPT 精元 · ${bname}`, detail);
+      const hatchedId = breedByItemId[b.spt.rewardItemId];
+      if (hatchedId && hatchedId !== b.petId) {
+        addSource(hatchedId, 'boss', `SPT 精元 · ${bname}`, detail);
+      }
+    }
+  }
+  const gpRewardsSrc = readText('dist/GameServer/Game/Map/GameplayRewards.js');
+  for (const m of gpRewardsSrc.matchAll(/itemId:\s*(\d+)/g)) {
+    const iid = Number(m[1]);
+    const hatchedId = breedByItemId[iid];
+    if (hatchedId) {
+      addSource(hatchedId, 'boss', `剧情首领首胜 · ${itemName(iid)}`, `击败对应剧情/特殊首领获「${itemName(iid)}」分子转化仪孵化`);
     }
   }
 

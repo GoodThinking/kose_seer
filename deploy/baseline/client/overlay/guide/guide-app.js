@@ -943,8 +943,8 @@
       const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
       root.innerHTML = `
         <div class="callout">
-          <strong>什么是奇迹融合？（同系稀有奖池 · 本服已精简优化）</strong><br>
-          每次投入 <strong>指定主宠（最终形态）</strong> + <strong>任意一只对应属性副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应精华 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方奖池按概率<strong>随机开出 1 只精灵</strong>（已剔除普通野怪与退化形态，100% 产出稀有/绝版/融合系精灵；副宠任意同系即可，不需要拿主宠和自己融合）。
+          <strong>什么是奇迹融合？（41 组同系纯绝版奖池 · 全图鉴 100% 解锁）</strong><br>
+          每次投入 <strong>指定主宠（最终形态）</strong> + <strong>任意一只对应属性副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应精华 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方奖池按概率<strong>随机开出 1 只绝版精灵</strong>（已剔除所有野怪、BOSS 精元、任务与固定融合可获得的精灵，奖池内 100% 为「仅奇迹可得」绝版；副宠任意同系即可，不需要拿主宠和自己融合）。
         </div>
         <div class="card-grid">${list.map((m) => `
           <article class="card" style="cursor:default">
