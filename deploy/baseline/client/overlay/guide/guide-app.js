@@ -943,8 +943,8 @@
       const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
       root.innerHTML = `
         <div class="callout">
-          <strong>什么是奇迹融合？（同系随机奖池）</strong><br>
-          每次投入 <strong>指定主宠（最终形态）</strong> + <strong>任意一只对应属性副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应精华 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方奖池按概率<strong>随机开出 1 只精灵</strong>（消耗主副两只精灵；副宠任意同系即可，不需要拿主宠和自己融合）。
+          <strong>什么是奇迹融合？（同系稀有奖池 · 本服已精简优化）</strong><br>
+          每次投入 <strong>指定主宠（最终形态）</strong> + <strong>任意一只对应属性副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应精华 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方奖池按概率<strong>随机开出 1 只精灵</strong>（已剔除普通野怪与退化形态，100% 产出稀有/绝版/融合系精灵；副宠任意同系即可，不需要拿主宠和自己融合）。
         </div>
         <div class="card-grid">${list.map((m) => `
           <article class="card" style="cursor:default">
@@ -965,9 +965,9 @@
               <span class="formula-op">+</span>
               <span class="formula-node" style="padding-left:10px">${esc(m.essenceName)}</span>
             </div>
-            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，金框为 ≤5% 稀有大奖）：</div>
+            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，金框为 ≤10% 稀有大奖）：</div>
             <div class="card-footer" style="margin-top:0">
-              ${m.pool.map((p) => `<span class="badge ${p.rate <= 5 ? 'gold' : ''}" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
+              ${m.pool.map((p) => `<span class="badge ${p.rate <= 10 ? 'gold' : ''}" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
             </div>
           </article>
         `).join('')}</div>`;
