@@ -143,6 +143,8 @@ const server = http.createServer(async (req, res) => {
   // Uncached files still revalidate on every use, so a deployment is seen at once while unchanged files answer 304.
   const policy = battleAssetCache.cacheControl(pathname, stat, url.searchParams.get('__battle_v'));
   const etag = `"${stat.dev}-${stat.ino}-${stat.size}-${stat.mtimeNs}"`;
+  // Ruffle's ExternalInterface.call runs JS through new Function, so 'unsafe-eval' is required. Sent before the 304 branch so revalidated pages pick it up.
+  res.setHeader('Content-Security-Policy', `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self' ${origin.replace(/^http/, 'ws')}; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'`);
   res.setHeader('ETag', etag);
   res.setHeader('Cache-Control', policy === 'no-store' ? 'no-cache' : policy);
   if ((req.headers['if-none-match'] || '').split(',').some(tag => tag.trim() === etag)) {
@@ -151,7 +153,6 @@ const server = http.createServer(async (req, res) => {
     return;
   }
   res.setHeader('Content-Length', String(stat.size));
-  res.setHeader('Content-Security-Policy', `default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; connect-src 'self' ${origin.replace(/^http/, 'ws')}; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'`);
   res.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
   // pipeline closes the file when the client aborts a download; pipe() kept those descriptors open.
   pipeline(fs.createReadStream(file, { fd }), res, () => {});

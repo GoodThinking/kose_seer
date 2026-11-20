@@ -1947,12 +1947,20 @@
       firstSection.parentNode.insertBefore(banner, firstSection);
       const closeBtn = banner.querySelector('#close-map-locator');
       if (closeBtn) closeBtn.addEventListener('click', () => banner.remove());
+      banner.addEventListener('click', (e) => {
+        const bossEl = e.target.closest('[data-open-boss]');
+        const boss = bossEl && bossByKey.get(bossEl.dataset.openBoss);
+        if (boss) return showBossDetail(boss);
+        const mechEl = e.target.closest('[data-open-mech]');
+        const mech = mechEl && mechById.get(mechEl.dataset.openMech);
+        if (mech) showMechDetail(mech);
+      });
     }
 
     if (mapBosses.length === 1 && mapMechs.length === 0) {
-      openBossDetail(mapBosses[0].key);
+      showBossDetail(mapBosses[0]);
     } else if (mapMechs.length === 1 && mapBosses.length === 0) {
-      openMechDetail(mapMechs[0].id);
+      showMechDetail(mapMechs[0]);
     } else if (mapBosses.length > 1) {
       state.bossTab = 'all';
       state.bossQuery = String(mapId);

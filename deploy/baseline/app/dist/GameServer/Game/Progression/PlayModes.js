@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const DatabaseManager_1 = require("../../../DataBase/DatabaseManager");
+const DatabaseHelper_1 = require("../../../DataBase/DatabaseHelper");
 const GameConfig_1 = require("../../../shared/config/game/GameConfig");
 const utils_1 = require("../../../shared/utils");
 const PetCalculator_1 = require("../Pet/PetCalculator");
@@ -87,8 +88,8 @@ async function GetDexAura(userId) {
 // 2. 野外 31 满个体霸主精灵奇遇 (Wild Alpha Encounters)
 // ============================================================================
 const alphaPityStreak = new Map(); // userId -> number
-const PHYS_NATURES = [3, 13]; // 固执 / 开朗 (赛尔号常用物攻极品性格: 3固执/13开朗)
-const SPEC_NATURES = [15, 10]; // 保守 / 胆小 (赛尔号常用特攻极品性格: 15保守/10胆小)
+const PHYS_NATURES = [1, 18]; // 固执 / 开朗（natures.json：1 固执、18 开朗）
+const SPEC_NATURES = [8, 16]; // 保守 / 胆小（natures.json：8 保守、16 胆小）
 
 async function MaybeMarkWildAlpha(userId, battle) {
     if (!battle || battle.isPvp || battle.bossMapId !== undefined || battle.universeBoss) return false;
@@ -115,12 +116,12 @@ async function ApplyWildAlphaCatchBonus(player, catchTime) {
         const cfg = GameConfig_1.GameConfig.GetPetById(pet.petId);
         const isPhys = Number(cfg?.Atk || 0) >= Number(cfg?.SpAtk || 0);
         const naturePool = isPhys ? PHYS_NATURES : SPEC_NATURES;
-        pet.dv = 31;
+        for (const k of ["dvHp", "dvAtk", "dvDef", "dvSpAtk", "dvSpDef", "dvSpeed"]) pet[k] = 31;
         pet.nature = naturePool[Math.floor(Math.random() * naturePool.length)];
         PetCalculator_1.PetCalculator.UpdatePetStats(pet);
         pet.hp = pet.maxHp;
         PetTrait_1.assignInnateTrait(pet);
-        await player.PetManager.SavePetData();
+        await DatabaseHelper_1.DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
         InvalidateDexCache(player.Uid);
         const petName = cfg?.DefName || `#${pet.petId}`;
         const traitId = PetTrait_1.currentTraitId(pet);
@@ -624,7 +625,7 @@ async function HandleChatCommand(player, rawMsg) {
         const slot = arg2 ? Math.max(1, Math.min(4, Number(arg2) || 4)) - 1 : (lead.skillArray.length < 4 ? lead.skillArray.length : 3);
         lead.skillArray[slot] = skillId;
         lead.skillPP = PetPP_1.ReconcilePetPP(lead);
-        await player.PetManager.SavePetData();
+        await DatabaseHelper_1.DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
         const cfg = GameConfig_1.GameConfig.GetPetById(lead.petId);
         await sendAlert(player, `✅【${cfg?.DefName || "#" + lead.petId}】已免费回忆技能「${target.name}」至第 ${slot + 1} 技能格！（重开精灵背包可见）`);
         return true;
@@ -658,7 +659,7 @@ async function HandleChatCommand(player, rawMsg) {
         const spent = await SpendTraitCrystals(player.Uid, 5);
         if (!spent) return true;
         PetTrait_1.applyTrait(lead, match);
-        await player.PetManager.SavePetData();
+        await DatabaseHelper_1.DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
         const cfg = GameConfig_1.GameConfig.GetPetById(lead.petId);
         await sendAlert(player, `✨ 定向觉醒成功！【${cfg?.DefName || "#" + lead.petId}】已获得特性「${match.name}」！剩余晶石：${crystals - 5} 颗。`);
         return true;
@@ -785,7 +786,7 @@ function register() {
                     const slot = arg2 >= 1 && arg2 <= 4 ? arg2 - 1 : (lead.skillArray.length < 4 ? lead.skillArray.length : 3);
                     lead.skillArray[slot] = arg1;
                     lead.skillPP = PetPP_1.ReconcilePetPP(lead);
-                    await player.PetManager.SavePetData();
+                    await DatabaseHelper_1.DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
                     await sendPanelState(player, `已免费回忆「${target.name}」至第 ${slot + 1} 格`);
                     return;
                 }
@@ -807,7 +808,7 @@ function register() {
                     }
                     await SpendTraitCrystals(player.Uid, 5);
                     PetTrait_1.applyTrait(lead, match);
-                    await player.PetManager.SavePetData();
+                    await DatabaseHelper_1.DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
                     await sendPanelState(player, `定向觉醒成功：已获得特性「${match.name}」`);
                     return;
                 }

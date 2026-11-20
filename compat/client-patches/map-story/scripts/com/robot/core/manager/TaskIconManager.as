@@ -217,8 +217,8 @@ package com.robot.core.manager
          _portalSp.addChild(tagBg);
          if(mapId == 102)
          {
-            _portalSp.x = 765;
-            _portalSp.y = 325;
+            _portalSp.x = 262;
+            _portalSp.y = 345;
          }
          else
          {

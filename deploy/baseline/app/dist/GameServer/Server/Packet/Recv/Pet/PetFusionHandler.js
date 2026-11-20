@@ -12,6 +12,7 @@ const CommandID_1 = require("../../../../../shared/protocol/CommandID");
 const BaseProto_1 = require("../../../../../shared/proto/base/BaseProto");
 const PacketEmpty_1 = require("../../Send/PacketEmpty");
 const DatabaseManager_1 = require("../../../../../DataBase/DatabaseManager");
+const DatabaseHelper_1 = require("../../../../../DataBase/DatabaseHelper");
 const utils_1 = require("../../../../../shared/utils");
 const GameConfig_1 = require("../../../../../shared/config/game/GameConfig");
 const TABLE = `CREATE TABLE IF NOT EXISTS player_soul_beads (
@@ -502,10 +503,12 @@ let SoulBeadToPetHandler = class SoulBeadToPetHandler {
                 playModes.InvalidateDexCache(player.Uid);
                 const dv31Rate = aura?.dv31Rate || 0.15;
                 const minDv = Math.random() < dv31Rate ? 31 : (20 + Math.floor(Math.random() * 12));
-                if ((hatched.dv || 0) < minDv) {
-                    hatched.dv = minDv;
+                const dvKeys = ["dvHp", "dvAtk", "dvDef", "dvSpAtk", "dvSpDef", "dvSpeed"];
+                if (dvKeys.some(k => (hatched[k] || 0) < minDv)) {
+                    for (const k of dvKeys) hatched[k] = Math.max(hatched[k] || 0, minDv);
                     const { PetCalculator } = require("../../../../Game/Pet/PetCalculator");
                     PetCalculator.UpdatePetStats(hatched);
+                    await DatabaseHelper_1.DatabaseHelper.Instance.SavePetData(player.PetManager.PetData);
                 }
             } catch (e) {
                 utils_1.Logger.Warn("[SoulBeadToPet] DV floor bonus skipped:", e?.message || e);
