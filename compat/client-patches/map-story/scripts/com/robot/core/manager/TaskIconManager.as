@@ -41,6 +41,12 @@ package com.robot.core.manager
       
       private static var filter:DropShadowFilter = new DropShadowFilter(5,45,0,0.6);
       
+      private static var _guideIcon:InteractiveObject;
+      
+      private static var _trialIcon:Sprite;
+      
+      private static var _tipsBound:Boolean = false;
+      
       private static var _portalSp:Sprite;
       
       private static var _portalTick:Number = 0;
@@ -84,19 +90,17 @@ package com.robot.core.manager
          box.halign = FlowLayout.RIGHT;
          box.valign = FlowLayout.MIDLLE;
          LevelManager.iconLevel.addChild(box);
-         var guideIcon:InteractiveObject = getIcon("new_player_icon");
-         if(guideIcon != null)
-         {
-            ToolTipManager.add(guideIcon,"赛尔号星际攻略档案（新窗口打开）");
-            guideIcon.addEventListener(MouseEvent.CLICK,onOpenGuide);
-            addIcon(guideIcon);
-         }
          try
          {
-            var trialIcon:Sprite = createTopTrialIcon();
-            ToolTipManager.add(trialIcon,"星际试炼中心（无尽爬塔 · 技能回忆 · 特性觉醒）");
-            trialIcon.addEventListener(MouseEvent.CLICK,onOpenTrialPanel);
-            addIcon(trialIcon);
+            _guideIcon = getIcon("new_player_icon");
+            if(_guideIcon != null)
+            {
+               _guideIcon.addEventListener(MouseEvent.CLICK,onOpenGuide);
+               addIcon(_guideIcon);
+            }
+            _trialIcon = createTopTrialIcon();
+            _trialIcon.addEventListener(MouseEvent.CLICK,onOpenTrialPanel);
+            addIcon(_trialIcon);
             MapManager.addEventListener(MapEvent.MAP_SWITCH_COMPLETE,onMapSwitchComplete);
          }
          catch(e:Error)
@@ -128,6 +132,18 @@ package com.robot.core.manager
       {
          try
          {
+            if(!_tipsBound)
+            {
+               _tipsBound = true;
+               if(_guideIcon != null)
+               {
+                  ToolTipManager.add(_guideIcon,"赛尔号星际攻略档案（新窗口打开）");
+               }
+               if(_trialIcon != null)
+               {
+                  ToolTipManager.add(_trialIcon,"星际试炼中心（无尽爬塔 · 技能回忆 · 特性觉醒）");
+               }
+            }
             refreshScenePortal();
          }
          catch(e:Error)
