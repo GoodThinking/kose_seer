@@ -24,6 +24,10 @@ function u32(value) {
     buffer.writeUInt32BE(value >>> 0, 0);
     return buffer;
 }
+/** 第 5 组（补领初始精灵）按族记录，每一族各能补领一次；其他组整组只能领一次。 */
+function claimKey(groupId, rewardId) {
+    return groupId === 5 ? 5000 + rewardId : groupId;
+}
 async function claimed(ownerId, groupId) {
     return DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
         await driver.execute(TABLE);
@@ -56,19 +60,19 @@ let IsCollectHandler = class IsCollectHandler {
         const groupId = body.readUInt32BE(0);
         if (groupId === 900003)
             return require("../../../../Game/Map/BeidouSeals").HandleStatus(player);
-        const flag = CollectReward_1.COLLECT_GROUPS[groupId] && await claimed(player.Uid, groupId) ? 1 : 0;
         if (groupId === 5) {
             const owned = new Set(player.PetManager.PetData.PetList.map(pet => pet.petId));
             let missing = 0;
             for (const [rewardId, family] of Object.entries(CollectReward_1.STARTER_FAMILIES)) {
-                if (!family.some(petId => owned.has(petId))) {
+                if (!family.some(petId => owned.has(petId)) && !await claimed(player.Uid, claimKey(5, Number(rewardId)))) {
                     missing = Number(rewardId);
                     break;
                 }
             }
-            await player.SendPacket(new PacketIsCollect(Buffer.concat([u32(groupId), u32(flag), u32(missing)])));
+            await player.SendPacket(new PacketIsCollect(Buffer.concat([u32(groupId), u32(0), u32(missing)])));
             return;
         }
+        const flag = CollectReward_1.COLLECT_GROUPS[groupId] && await claimed(player.Uid, groupId) ? 1 : 0;
         await player.SendPacket(new PacketIsCollect(Buffer.concat([u32(groupId), u32(flag)])));
     }
 };
@@ -95,12 +99,13 @@ let PetCollectHandler = class PetCollectHandler {
             await fail();
             return;
         }
+        const key = claimKey(groupId, rewardId);
         const inserted = await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
             await driver.execute(TABLE);
-            const rows = await driver.query('SELECT 1 AS n FROM player_collect_claims WHERE owner_id = ? AND group_id = ?', [player.Uid, groupId]);
+            const rows = await driver.query('SELECT 1 AS n FROM player_collect_claims WHERE owner_id = ? AND group_id = ?', [player.Uid, key]);
             if (rows.length > 0)
                 return false;
-            await driver.execute('INSERT INTO player_collect_claims (owner_id, group_id) VALUES (?, ?)', [player.Uid, groupId]);
+            await driver.execute('INSERT INTO player_collect_claims (owner_id, group_id) VALUES (?, ?)', [player.Uid, key]);
             return true;
         });
         if (!inserted) {
@@ -110,7 +115,7 @@ let PetCollectHandler = class PetCollectHandler {
         const catchTime = Math.floor(Date.now() / 1000);
         const granted = await player.PetManager.GivePet(rewardId, 1, catchTime);
         if (!granted) {
-            await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('DELETE FROM player_collect_claims WHERE owner_id = ? AND group_id = ?', [player.Uid, groupId]));
+            await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('DELETE FROM player_collect_claims WHERE owner_id = ? AND group_id = ?', [player.Uid, key]));
             await fail();
             return;
         }

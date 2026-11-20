@@ -9,6 +9,7 @@ package com.robot.core.mode
    import flash.display.DisplayObject;
    import flash.display.MovieClip;
    import flash.events.Event;
+   import flash.events.IOErrorEvent;
    import flash.events.MouseEvent;
    import flash.geom.Point;
    import flash.geom.Rectangle;
@@ -31,19 +32,20 @@ package com.robot.core.mode
    
    public class OgreModel extends BobyModel
    {
+      
       private static var _previewTimer:uint;
       
       private static var _previewTimeout:uint;
       
+      public static var isShow:Boolean = true;
+      
+      public var isAutoTalk:Boolean = true;
+      
+      private var _isPurseFlag:Boolean = false;
+      
       private static var _previews:Array = [];
       
       private static var _previewData:Object = {};
-      
-      public static var isShow:Boolean = true;
-
-      public var isAutoTalk:Boolean = true;
-
-      private var _isPurseFlag:Boolean = false;
       
       private var _id:uint;
       
@@ -131,18 +133,25 @@ package com.robot.core.mode
                tip += "\n等级：" + detail.min + (detail.min == detail.max ? "" : "–" + detail.max);
             }
             tip += detail.owned == 1 ? "\n已收集" : "\n尚未收集";
-            if(this._hint == null)
+            if(detail.shiny > 0)
             {
-               this._hint = new TextField();
-               this._hint.mouseEnabled = false;
-               this._hint.width = 100;
-               this._hint.height = 18;
-               this._hint.x = -50;
-               addChild(this._hint);
+               if(this._hint == null)
+               {
+                  this._hint = new TextField();
+                  this._hint.mouseEnabled = false;
+                  this._hint.width = 100;
+                  this._hint.height = 18;
+                  this._hint.x = -50;
+                  addChild(this._hint);
+               }
+               this._hint.defaultTextFormat = new TextFormat("_sans",11,16764742,true,null,null,null,null,"center");
+               this._hint.text = "闪光 ";
+               this._hint.y = -this._obj.height - 16;
             }
-            this._hint.defaultTextFormat = new TextFormat("_sans",11,detail.shiny > 0 ? 16764742 : 10024447,true,null,null,null,null,"center");
-            this._hint.text = (detail.shiny > 0 ? "闪光 " : "") + (detail.owned == 1 ? "" : "未收集");
-            this._hint.y = -this._obj.height - 16;
+            else if(this._hint != null)
+            {
+               this._hint.text = "";
+            }
          }
          ToolTipManager.remove(this._obj);
          ToolTipManager.add(this._obj,tip);
@@ -175,12 +184,12 @@ package com.robot.core.mode
       {
          return this._index;
       }
-
+      
       public function get isPurseFlag() : Boolean
       {
          return this._isPurseFlag;
       }
-
+      
       public function set isPurseFlag(value:Boolean) : void
       {
          this._isPurseFlag = value;
@@ -194,7 +203,7 @@ package com.robot.core.mode
             stopAutoWalk(true);
          }
       }
-
+      
       private function onPursueWalk() : void
       {
          if(MapManager.isInMap && Boolean(this._walk))
@@ -261,8 +270,13 @@ package com.robot.core.mode
             this._sound = null;
          }
          this._sound = new Sound();
+         this._sound.addEventListener(IOErrorEvent.IO_ERROR,this.onSoundError);
          this._sound.load(new URLRequest(this.PATH_STR + this._id + ".mp3"));
          this._sound.play();
+      }
+      
+      private function onSoundError(event:IOErrorEvent) : void
+      {
       }
       
       override public function destroy() : void

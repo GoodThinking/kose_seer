@@ -24,6 +24,8 @@ package com.robot.app.mapProcess
    import com.robot.core.ui.*;
    import com.robot.core.ui.alert.*;
    import com.robot.core.utils.CommonUI;
+   import com.robot.core.event.PetEvent;
+   import com.robot.core.utils.TextFormatUtil;
    import flash.display.*;
    import flash.events.*;
    import flash.filters.GlowFilter;
@@ -241,6 +243,8 @@ package com.robot.app.mapProcess
          ToolTipManager.remove(this._petSkillBtn);
          this._petSkillBtn = null;
          SocketConnection.removeCmdListener(CommandID.GET_LAS_EGG,this.onGetLAS);
+         SocketConnection.removeCmdListener(CommandID.IS_COLLECT,this.onStarterStatus);
+         SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onStarterClaimed);
       }
       
       private function showMonsterBook(param1:MouseEvent) : void
@@ -286,12 +290,66 @@ package com.robot.app.mapProcess
       {
          if(TasksManager.isComNoviceTask())
          {
-            this.check();
+            this.checkStarter();
          }
          else
          {
             NpcTipDialog.show("当你完成了新船员任务后再来这里看看吧。",null,NpcTipDialog.DOCTOR);
          }
+      }
+
+      // 收集奖励第 5 组：身边已经没有某一族初始精灵（如融合掉了）时，每一族可以补领一次 1 级初始精灵
+      private function checkStarter() : void
+      {
+         SocketConnection.addCmdListener(CommandID.IS_COLLECT,this.onStarterStatus);
+         SocketConnection.send(CommandID.IS_COLLECT,5);
+      }
+
+      private function onStarterStatus(param1:SocketEvent) : void
+      {
+         SocketConnection.removeCmdListener(CommandID.IS_COLLECT,this.onStarterStatus);
+         var data:ByteArray = param1.data as ByteArray;
+         data.readUnsignedInt();
+         var claimedBefore:Boolean = data.readUnsignedInt() != 0;
+         var missing:uint = data.readUnsignedInt();
+         if(missing == 0 || claimedBefore)
+         {
+            this.check();
+            return;
+         }
+         var name:String = PetXMLInfo.getName(missing);
+         NpcDialog.show(NPC.DOCTOR,["你身边已经没有" + name + "一族的精灵了。每一族初始精灵都可以在我这里补领一次，要带一只" + name + "回去吗？"],["领取" + name + "。","先看看精灵收集奖励。"],[function():void
+         {
+            claimStarter(missing);
+         },function():void
+         {
+            check();
+         }]);
+      }
+
+      private function claimStarter(petId:uint) : void
+      {
+         SocketConnection.addCmdListener(CommandID.PET_COLLECT,this.onStarterClaimed);
+         SocketConnection.send(CommandID.PET_COLLECT,5,petId);
+      }
+
+      private function onStarterClaimed(param1:SocketEvent) : void
+      {
+         SocketConnection.removeCmdListener(CommandID.PET_COLLECT,this.onStarterClaimed);
+         var data:ByteArray = param1.data as ByteArray;
+         var id:uint = data.readUnsignedInt();
+         var catchTime:uint = data.readUnsignedInt();
+         if(PetManager.length >= 6)
+         {
+            PetInStorageAlert.show(id,"你获得了" + TextFormatUtil.getRedTxt(PetXMLInfo.getName(id)) + "，你可以在你基地的精灵仓库中找到它。");
+            return;
+         }
+         PetManager.addEventListener(PetEvent.ADDED,function(param1:PetEvent):void
+         {
+            PetManager.removeEventListener(PetEvent.ADDED,arguments.callee);
+            PetInBagAlert.show(id,TextFormatUtil.getRedTxt(PetXMLInfo.getName(id)) + "已经放入了你的精灵背包。");
+         });
+         PetManager.setIn(catchTime,1);
       }
 
       

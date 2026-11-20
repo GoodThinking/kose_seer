@@ -177,8 +177,8 @@ package com.robot.app.mapProcess
             {
                _loc4_["pid"] = this.petArr[uint(Math.random() * this.petArr.length)];
             }
-            // 核心库的 OgreModel 没有 isAutoTalk，赋值会抛 #1056，init 中断后加载框不关
             _loc2_ = new OgreModel(_loc3_);
+            _loc2_.isAutoTalk = false;
             _loc2_.show(_loc4_["pid"],_loc5_[_loc8_]);
             _loc2_.addEventListener(RobotEvent.OGRE_CLICK,this.onMonsterClick);
             _loc2_.visible = _loc4_["show"];
