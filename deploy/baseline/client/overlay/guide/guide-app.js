@@ -141,8 +141,8 @@
           <strong style="font-size:12px;color:var(--text-secondary)">极限赏金 (${clearedSet.size}/${BOUNTIES_UI.length})：</strong>${bountiesHtml}
         </div>
         <div style="margin-top:8px;font-size:12px;color:var(--text-secondary)">
-          <strong>🎮 游戏内聊天指令：</strong>
-          <code>/tower</code> 无尽爬塔 · <code>/pick 1~3</code> 选肉鸽词条 · <code>/skills</code> &amp; <code>/learn 技能ID</code> 免费技能回忆 · <code>/trait 特性名</code> 5晶石定向觉醒 · <code>/aura</code> 查进度 · <code>/help</code> 帮助
+          <strong>🎮 游戏内入口：</strong>
+          前往 <strong>精灵太空站（地图 102）</strong> 或 <strong>勇者之塔（地图 500）</strong> 点击场景内的发光传送门「星际试炼塔」，或点击游戏右上角「星际试炼」徽章，即可在图形面板中挑战无尽爬塔、3选1肉鸽词条、免费技能回忆与特性定向觉醒。
         </div>
       </div>`;
   }

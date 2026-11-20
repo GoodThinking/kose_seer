@@ -52,6 +52,7 @@ const DataSaver_1 = require("../DataBase/savers/DataSaver");
 // 导入所有Handler以触发装饰器注册
 require("./Server/Packet/Recv");
 require("./Game/Universe/protocol").register();
+require("./Game/Progression/PlayModes").register();
 /**
  * 游戏服务器
  */

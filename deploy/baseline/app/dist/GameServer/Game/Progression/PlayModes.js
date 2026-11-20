@@ -337,7 +337,7 @@ async function HandleRogueTowerResult(player, battle, won) {
         }).join("  |  ");
         await sendAlert(
             player,
-            `🎉 无尽爬塔第 ${floor} 层通关！获得 ${coins} 赛尔豆 + ${crystals} 特性晶石（现有 ${totalCrystals} 颗）。\n请聊天输入 /pick 1 或 2 或 3 选择肉鸽词条，再输入 /tower 挑战第 ${floor + 1} 层：\n${choiceLines}`
+            `🎉 无尽爬塔第 ${floor} 层通关！获得 ${coins} 赛尔豆 + ${crystals} 特性晶石（现有 ${totalCrystals} 颗）。\n点击「星际试炼」面板即可 3 选 1 装备肉鸽词条并挑战第 ${floor + 1} 层：\n${choiceLines}`
         );
     } else {
         const reached = Math.max(0, floor - 1);
@@ -348,7 +348,7 @@ async function HandleRogueTowerResult(player, battle, won) {
         await SaveRogueState(player.Uid, st);
         await sendAlert(
             player,
-            `💀 无尽爬塔止步于第 ${floor} 层（历史最高：第 ${st.bestFloor} 层）。本轮肉鸽词条已重置，随时输入 /tower 重新开爬！`
+            `💀 无尽爬塔止步于第 ${floor} 层（历史最高：第 ${st.bestFloor} 层）。本轮肉鸽词条已重置，打开「星际试炼」面板可随时重新挑战！`
         );
     }
 }
@@ -667,6 +667,163 @@ async function HandleChatCommand(player, rawMsg) {
     return false;
 }
 
+// ============================================================================
+// 8. 原生图形面板二进制协议 CMD 64020 (Zero Chat Commands)
+// ============================================================================
+const PLAYMODES_CMD = 64020;
+
+function safeField(s) {
+    return String(s ?? "").replace(/[\r\n|;,]/g, " ");
+}
+
+async function buildPanelPayload(player, notice = "") {
+    const aura = await GetDexAura(player.Uid);
+    const rogue = await GetRogueState(player.Uid);
+    const crystals = await GetTraitCrystals(player.Uid);
+    const bounties = await GetClearedBounties(player.Uid);
+    const lead = player.PetManager.GetDefaultPet ? player.PetManager.GetDefaultPet() : player.PetManager.GetPetsInBag()?.[0];
+    const leadCfg = lead ? GameConfig_1.GameConfig.GetPetById(lead.petId) : null;
+    const leadName = lead ? (leadCfg?.DefName || `#${lead.petId}`) : "无首发精灵";
+    const leadTraitId = lead ? PetTrait_1.currentTraitId(lead) : 0;
+    const leadTraitName = leadTraitId ? (GameConfig_1.GameConfig.GetPetAbilityById(leadTraitId)?.name || `#${leadTraitId}`) : "暂无特性";
+    const eqSkills = (lead && Array.isArray(lead.skillArray) ? lead.skillArray : []).map(sid => {
+        const sc = GameConfig_1.GameConfig.GetSkillById(sid);
+        return `${sid}:${safeField(sc?.Name || ("#" + sid))}`;
+    });
+    const recallSkills = lead ? getEvolutionChainLearnSkills(lead.petId).map(s => `${s.id}:${safeField(s.name)}:${s.power}`) : [];
+    const buffStrs = rogue.buffs.map(id => {
+        const b = ROGUE_BUFF_MAP.get(id);
+        return `${id}:${safeField(b?.name || id)}`;
+    });
+    const pendingStrs = rogue.pendingChoices.map(id => {
+        const b = ROGUE_BUFF_MAP.get(id);
+        return `${id}:${safeField(b?.name || id)}:${safeField(b?.desc || "")}`;
+    });
+    const traits = getAllTraits().map(t => `${t.abilityId}:${safeField(t.name)}:${safeField(t.desc || "")}`);
+    const nextHint = aura.next ? `${aura.next.count}只解锁${safeField(aura.next.title)}` : "已满档";
+    const lines = [
+        `NOTICE=${safeField(notice)}`,
+        `AURA=${safeField(aura.title)}|${aura.count}|${bounties.length}|${BOUNTIES.length}|${safeField(nextHint)}`,
+        `TOWER=${rogue.currentFloor}|${rogue.bestFloor}|${crystals}`,
+        `BUFFS=${buffStrs.join(";")}`,
+        `PENDING=${pendingStrs.join(";")}`,
+        `LEAD=${lead ? lead.petId : 0}|${safeField(leadName)}|${leadTraitId}|${safeField(leadTraitName)}`,
+        `EQSKILLS=${eqSkills.join(";")}`,
+        `SKILLS=${recallSkills.join(";")}`,
+        `TRAITS=${traits.join(";")}`,
+    ];
+    return lines.join("\n");
+}
+
+async function sendPanelState(player, notice = "") {
+    const text = await buildPanelPayload(player, notice);
+    const utf8 = Buffer.from(text, "utf8");
+    const body = Buffer.alloc(4 + utf8.length);
+    body.writeUInt32BE(utf8.length, 0);
+    utf8.copy(body, 4);
+    await player.SendPacket({
+        getCmdId: () => PLAYMODES_CMD,
+        getResult: () => 0,
+        serialize: () => body,
+    });
+}
+
+let registered = false;
+function register() {
+    if (registered) return;
+    registered = true;
+    const { Handlers, InjectType } = require("../../../shared/decorators/Opcode");
+    Handlers.set(PLAYMODES_CMD, {
+        handler: {
+            async Handle(session, _head, body) {
+                const player = session.Player;
+                if (!player) return;
+                const action = body.length >= 4 ? body.readUInt32BE(0) : 1;
+                const arg1 = body.length >= 8 ? body.readUInt32BE(4) : 0;
+                const arg2 = body.length >= 12 ? body.readUInt32BE(8) : 0;
+                try {
+                    if (action === 1) {
+                        await sendPanelState(player, "");
+                        return;
+                    }
+                    if (action === 2) {
+                        const ok = await StartRogueTowerBattle(player);
+                        if (!ok) await sendPanelState(player, "请确保背包内至少有 1 只存活精灵");
+                        return;
+                    }
+                    if (action === 3) {
+                        const idx = arg1 - 1;
+                        const st = await GetRogueState(player.Uid);
+                        if (idx >= 0 && idx < st.pendingChoices.length) {
+                            const chosenId = st.pendingChoices[idx];
+                            st.buffs.push(chosenId);
+                            st.pendingChoices = [];
+                            await SaveRogueState(player.Uid, st);
+                            const b = ROGUE_BUFF_MAP.get(chosenId);
+                            await sendPanelState(player, `已装备词条：${b?.name || chosenId}`);
+                        } else {
+                            await sendPanelState(player, "当前没有待选词条");
+                        }
+                        return;
+                    }
+                    if (action === 4) {
+                        const lead = player.PetManager.GetDefaultPet ? player.PetManager.GetDefaultPet() : player.PetManager.GetPetsInBag()?.[0];
+                        if (!lead) {
+                            await sendPanelState(player, "请先将目标精灵设为背包首发");
+                            return;
+                        }
+                        const skills = getEvolutionChainLearnSkills(lead.petId);
+                        const target = skills.find(s => s.id === arg1);
+                        if (!target) {
+                            await sendPanelState(player, "该技能不在当前精灵进化链学习池中");
+                            return;
+                        }
+                        if (!Array.isArray(lead.skillArray)) lead.skillArray = [];
+                        if (lead.skillArray.includes(arg1)) {
+                            await sendPanelState(player, `已装备技能「${target.name}」`);
+                            return;
+                        }
+                        const slot = arg2 >= 1 && arg2 <= 4 ? arg2 - 1 : (lead.skillArray.length < 4 ? lead.skillArray.length : 3);
+                        lead.skillArray[slot] = arg1;
+                        lead.skillPP = PetPP_1.ReconcilePetPP(lead);
+                        await player.PetManager.SavePetData();
+                        await sendPanelState(player, `已免费回忆「${target.name}」至第 ${slot + 1} 格`);
+                        return;
+                    }
+                    if (action === 5) {
+                        const lead = player.PetManager.GetDefaultPet ? player.PetManager.GetDefaultPet() : player.PetManager.GetPetsInBag()?.[0];
+                        if (!lead) {
+                            await sendPanelState(player, "请先将目标精灵设为背包首发");
+                            return;
+                        }
+                        const match = getAllTraits().find(t => Number(t.abilityId) === arg1);
+                        if (!match) {
+                            await sendPanelState(player, "未找到该特性");
+                            return;
+                        }
+                        const crystals = await GetTraitCrystals(player.Uid);
+                        if (crystals < 5) {
+                            await sendPanelState(player, `特性晶石不足（当前 ${crystals}/5 颗），打高阶BOSS或无尽爬塔可获取`);
+                            return;
+                        }
+                        await SpendTraitCrystals(player.Uid, 5);
+                        PetTrait_1.applyTrait(lead, match);
+                        await player.PetManager.SavePetData();
+                        await sendPanelState(player, `定向觉醒成功：已获得特性「${match.name}」`);
+                        return;
+                    }
+                    await sendPanelState(player, "");
+                } catch (err) {
+                    utils_1.Logger.Error("[PlayModes] CMD 64020 error:", err);
+                    await sendPanelState(player, "操作失败，请稍后重试");
+                }
+            },
+        },
+        inject: InjectType.NONE,
+    });
+    utils_1.Logger.Info("[PlayModes] Registered CMD 64020 for native Star Trial UI");
+}
+
 module.exports = {
     DEX_MILESTONES,
     ROGUE_BUFFS,
@@ -685,4 +842,5 @@ module.exports = {
     GetRogueState,
     GetTraitCrystals,
     GetClearedBounties,
+    register,
 };
