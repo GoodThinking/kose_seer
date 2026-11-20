@@ -54,18 +54,28 @@ package com.robot.core.manager
       private static function onOpenGuide(param1:MouseEvent) : void
       {
          var mapId:uint = MainManager.actorInfo != null ? uint(MainManager.actorInfo.mapID) : 0;
+         var uid:uint = uint(MainManager.actorID);
          try
          {
             if(ExternalInterface.available)
             {
-               ExternalInterface.call("openSeerGuide",mapId);
+               ExternalInterface.call("openSeerGuide",mapId,uid);
                return;
             }
          }
          catch(e:Error)
          {
          }
-         navigateToURL(new URLRequest(mapId > 0 ? "/guide/index.html?map=" + mapId : "/guide/index.html"),"_blank");
+         var qs:String = "";
+         if(mapId > 0)
+         {
+            qs += "map=" + mapId;
+         }
+         if(uid > 0)
+         {
+            qs += (qs.length > 0 ? "&" : "") + "uid=" + uid;
+         }
+         navigateToURL(new URLRequest(qs.length > 0 ? "/guide/index.html?" + qs : "/guide/index.html"),"_blank");
       }
       
       public static function set rightInset(param1:Number) : void

@@ -54,7 +54,15 @@ window.getSessionID = () => session;
 window.saveSessionID = value => { session = String(value); };
 window.clearSessionID = () => { session = ''; };
 window.debugFlash = () => {};
-window.openSeerGuide = (mapId) => { const m = Number(mapId) || 0; window.open(m > 0 ? `/guide/index.html?map=${m}` : '/guide/index.html', '_blank', 'noopener'); };
+window.openSeerGuide = (mapId, uid) => {
+ const params = new URLSearchParams();
+ const m = Number(mapId) || 0;
+ const u = Number(uid) || 0;
+ if (m > 0) params.set('map', String(m));
+ if (u > 0) params.set('uid', String(u));
+ const qs = params.toString();
+ window.open(qs ? `/guide/index.html?${qs}` : '/guide/index.html', '_blank', 'noopener');
+};
 window.RufflePlayer = { config: { quality: typeof window.orientation === 'undefined' ? 'high' : null, publicPath: '/ruffle/', deviceFontRenderer: 'canvas', scale: 'showAll', forceScale: true, autoplay: 'on', unmuteOverlay: 'hidden', allowScriptAccess: true, socketProxy: [{host:'127.0.0.1',port:9999,proxyUrl:location.origin.replace(/^http/,'ws')+'/socket'}] } };
 window.addEventListener('load', async () => {
  try {

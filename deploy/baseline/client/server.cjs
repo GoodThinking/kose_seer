@@ -7,6 +7,54 @@ const { pipeline } = require('node:stream');
 const { WebSocketServer } = require('ws');
 const fetchAsset = require('./asset-cache.cjs');
 const battleAssetCache = require('./battle-asset-cache.cjs')(__dirname);
+let BetterSqlite3 = null;
+function loadAccountGuideProgress(uid) {
+  if (!BetterSqlite3) {
+    BetterSqlite3 = require(path.resolve(__dirname, '../app/node_modules/better-sqlite3'));
+  }
+  const dbPath = process.env.SEER_DB_PATH || path.resolve(__dirname, '../app/data/seer.db');
+  const db = new BetterSqlite3(dbPath, { readonly: true, fileMustExist: true });
+  try {
+    const player = db.prepare('SELECT user_id, nick FROM players WHERE user_id = ?').get(uid);
+    if (!player) return null;
+    const owned = new Set();
+    for (const row of db.prepare('SELECT pet_id FROM player_pet_collection WHERE owner_id = ?').all(uid)) {
+      const id = Number(row.pet_id);
+      if (id > 0) owned.add(id);
+    }
+    let bagCount = 0;
+    const petsRow = db.prepare('SELECT pet_list FROM player_pets WHERE owner_id = ?').get(uid);
+    if (petsRow && petsRow.pet_list) {
+      try {
+        const list = JSON.parse(petsRow.pet_list);
+        if (Array.isArray(list)) {
+          bagCount = list.length;
+          for (const p of list) {
+            const id = Number(p && (p.petId || p.id));
+            if (id > 0) owned.add(id);
+          }
+        }
+      } catch {}
+    }
+    const unhatched = new Set();
+    try {
+      for (const row of db.prepare('SELECT result_pet FROM player_soul_beads WHERE owner_id = ? AND result_pet > 0').all(uid)) {
+        const id = Number(row.result_pet);
+        if (id > 0) unhatched.add(id);
+      }
+    } catch {}
+    return {
+      uid: Number(player.user_id),
+      nick: String(player.nick || ''),
+      ownedPetIds: [...owned].sort((a, b) => a - b),
+      unhatchedPetIds: [...unhatched].sort((a, b) => a - b),
+      bagCount,
+      syncedAt: new Date().toISOString(),
+    };
+  } finally {
+    db.close();
+  }
+}
 const port = Number(process.env.PORT || 18760);
 const upstreamPort = Number(process.env.KOSE_TCP_PORT || 49199);
 const origin = process.env.PUBLIC_ORIGIN || `http://127.0.0.1:${port}`;
@@ -18,6 +66,30 @@ const server = http.createServer(async (req, res) => {
   try { url = new URL(req.url, origin); pathname = decodeURIComponent(url.pathname); }
   catch { res.writeHead(400).end(); return; }
   if (pathname.includes('..') || pathname.includes('\\')) { res.writeHead(400).end(); return; }
+  if (pathname === '/api/guide/account') {
+    res.setHeader('Cache-Control', 'no-store');
+    const uid = Number(url.searchParams.get('uid'));
+    if (!Number.isInteger(uid) || uid <= 0 || uid > 2147483647) {
+      const body = JSON.stringify({ error: 'invalid_uid' });
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': Buffer.byteLength(body) }).end(body);
+      return;
+    }
+    try {
+      const data = loadAccountGuideProgress(uid);
+      if (!data) {
+        const body = JSON.stringify({ error: 'not_found' });
+        res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': Buffer.byteLength(body) }).end(body);
+        return;
+      }
+      const body = JSON.stringify(data);
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': Buffer.byteLength(body) }).end(body);
+    } catch (error) {
+      console.error('GUIDE_ACCOUNT_SYNC', error);
+      const body = JSON.stringify({ error: 'internal_error' });
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': Buffer.byteLength(body) }).end(body);
+    }
+    return;
+  }
   if (pathname === '/battle-assets-version.json') {
     res.setHeader('Cache-Control', 'no-store');
     try {

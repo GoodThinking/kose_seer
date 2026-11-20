@@ -52,16 +52,101 @@
   };
 
   /* =========================================================================
-   * 0.5 Local Collection Tracker (localStorage + JSON export/import)
+   * 0.5 Account Sync & Local Collection Tracker
    * ========================================================================= */
   const OWNED_KEY = 'seer-guide-owned-v1';
+  const UID_KEY = 'seer-guide-uid-v1';
   const ownedSet = new Set();
+  const accountSync = {
+    uid: Number(localStorage.getItem(UID_KEY) || 0) || 0,
+    nick: '',
+    synced: false,
+    syncing: false,
+    editingUid: false,
+    error: '',
+    unhatchedCount: 0,
+  };
   try {
     const rawOwned = JSON.parse(localStorage.getItem(OWNED_KEY) || '[]');
     if (Array.isArray(rawOwned)) rawOwned.forEach((id) => { if (Number(id) > 0) ownedSet.add(Number(id)); });
   } catch {}
   function saveOwned() {
     try { localStorage.setItem(OWNED_KEY, JSON.stringify([...ownedSet].sort((a, b) => a - b))); } catch {}
+  }
+  function expandOwnedWithPreEvos(ids) {
+    const expanded = new Set();
+    const queue = [];
+    for (const raw of ids) {
+      const id = Number(raw);
+      if (id > 0 && !expanded.has(id)) {
+        expanded.add(id);
+        queue.push(id);
+      }
+    }
+    while (queue.length) {
+      const cur = queue.shift();
+      const pet = petMap.get(cur);
+      if (!pet || !Array.isArray(pet.evolvesFrom)) continue;
+      for (const prev of pet.evolvesFrom) {
+        const pid = Number(prev && prev.id);
+        if (pid > 0 && !expanded.has(pid)) {
+          expanded.add(pid);
+          queue.push(pid);
+        }
+      }
+    }
+    return expanded;
+  }
+  async function syncAccountProgress(uidInput, { silent = false } = {}) {
+    const uid = Number(String(uidInput || '').trim());
+    if (!Number.isInteger(uid) || uid <= 0) {
+      if (!silent) {
+        accountSync.error = '请输入有效的数字米米号';
+        renderPetTabs();
+      }
+      return false;
+    }
+    if (!/^https?:$/i.test(window.location.protocol)) {
+      if (!silent) {
+        accountSync.error = '本地文件模式无法直连服务器，请通过游戏网页打开';
+        renderPetTabs();
+      }
+      return false;
+    }
+    accountSync.syncing = true;
+    accountSync.error = '';
+    renderPetTabs();
+    try {
+      const res = await fetch(`/api/guide/account?uid=${encodeURIComponent(uid)}`, { cache: 'no-store' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        accountSync.syncing = false;
+        accountSync.error = res.status === 404 ? `未找到米米号 ${uid}` : '同步失败，请稍后重试';
+        renderPetTabs();
+        return false;
+      }
+      const expanded = expandOwnedWithPreEvos(Array.isArray(data.ownedPetIds) ? data.ownedPetIds : []);
+      ownedSet.clear();
+      expanded.forEach((id) => ownedSet.add(id));
+      saveOwned();
+      accountSync.uid = Number(data.uid) || uid;
+      accountSync.nick = String(data.nick || '');
+      accountSync.synced = true;
+      accountSync.syncing = false;
+      accountSync.editingUid = false;
+      accountSync.error = '';
+      accountSync.unhatchedCount = Array.isArray(data.unhatchedPetIds) ? data.unhatchedPetIds.length : 0;
+      try { localStorage.setItem(UID_KEY, String(accountSync.uid)); } catch {}
+      renderPetTabs();
+      renderPets();
+      renderFusion();
+      return true;
+    } catch {
+      accountSync.syncing = false;
+      if (!silent) accountSync.error = '无法连接账号服务';
+      renderPetTabs();
+      return false;
+    }
   }
   function toggleOwned(petId) {
     const id = Number(petId);
@@ -881,10 +966,23 @@
 
   function renderPetTabs() {
     const pct = DATA.pets.length ? ((ownedSet.size / DATA.pets.length) * 100).toFixed(1) : '0.0';
+    const syncUi = accountSync.synced && !accountSync.editingUid
+      ? `<span class="badge indigo" title="已同步服务器实时图鉴">👤 ${esc(accountSync.nick || '米米号 ' + accountSync.uid)} (#${accountSync.uid})${accountSync.unhatchedCount ? ` · ${accountSync.unhatchedCount}颗待孵` : ''}</span>
+         <button class="pill" type="button" data-dex-action="refresh-sync" style="padding:4px 10px;font-size:12px" ${accountSync.syncing ? 'disabled' : ''}>${accountSync.syncing ? '同步中...' : '↻ 刷新同步'}</button>
+         <button class="pill" type="button" data-dex-action="switch-uid" style="padding:4px 10px;font-size:12px">切换账号</button>`
+      : `<form id="dex-sync-form" style="display:inline-flex;align-items:center;gap:6px">
+           <input id="dex-uid-input" type="text" inputmode="numeric" placeholder="输入米米号同步账号" value="${accountSync.uid || ''}" style="width:152px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;outline:none">
+           <button class="pill active" type="submit" style="padding:4px 10px;font-size:12px" ${accountSync.syncing ? 'disabled' : ''}>${accountSync.syncing ? '同步中...' : '🔗 同步账号'}</button>
+         </form>`;
+    const errHtml = accountSync.error
+      ? `<span class="badge pink" style="font-size:12px">${esc(accountSync.error)}</span>`
+      : '';
     $('#pet-tabs').innerHTML =
       PET_TABS.map(([id, label]) => `<button class="pill ${state.petTab === id ? 'active' : ''}" data-pet-tab="${id}">${label}</button>`).join('') +
       `<span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap">
         <span class="badge teal">收集进度 ${ownedSet.size} / ${DATA.pets.length} (${pct}%)</span>
+        ${syncUi}
+        ${errHtml}
         <button class="pill" type="button" data-dex-action="export" style="padding:4px 10px;font-size:12px">导出进度</button>
         <button class="pill" type="button" data-dex-action="import" style="padding:4px 10px;font-size:12px">导入进度</button>
       </span>`;
@@ -947,6 +1045,14 @@
     if (act) {
       if (act.dataset.dexAction === 'export') exportOwned();
       else if (act.dataset.dexAction === 'import') importOwned();
+      else if (act.dataset.dexAction === 'refresh-sync') syncAccountProgress(accountSync.uid);
+      else if (act.dataset.dexAction === 'switch-uid') {
+        accountSync.editingUid = true;
+        accountSync.error = '';
+        renderPetTabs();
+        const inp = $('#dex-uid-input');
+        if (inp) { inp.focus(); inp.select(); }
+      }
       return;
     }
     const btn = e.target.closest('[data-pet-tab]');
@@ -955,6 +1061,13 @@
     state.petPage = 1;
     renderPetTabs();
     renderPets();
+  });
+  $('#pet-tabs').addEventListener('submit', (e) => {
+    if (e.target && e.target.id === 'dex-sync-form') {
+      e.preventDefault();
+      const inp = $('#dex-uid-input');
+      syncAccountProgress(inp ? inp.value : '');
+    }
   });
   $('#pet-search').addEventListener('input', (e) => {
     state.petQuery = e.target.value;
@@ -1582,6 +1695,15 @@
   renderMarks();
   renderRefTabs();
   renderReference();
+
+  (function initAutoAccountSync() {
+    const params = new URLSearchParams(window.location.search);
+    const urlUid = Number(params.get('uid') || 0);
+    const targetUid = urlUid > 0 ? urlUid : accountSync.uid;
+    if (targetUid > 0 && /^https?:$/i.test(window.location.protocol)) {
+      syncAccountProgress(targetUid, { silent: urlUid <= 0 });
+    }
+  })();
 
   (function initCurrentMapLocator() {
     const params = new URLSearchParams(window.location.search);
