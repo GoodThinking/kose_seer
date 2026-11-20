@@ -43,7 +43,7 @@
     mechTab: 'all',
     markTab: 'all',
     markQuery: '',
-    refTab: 'arena',
+    refTab: 'features',
     matQuery: '',
     matrixAtk: 0,
     matrixDef: 0,
@@ -1500,6 +1500,7 @@
    * 13. Module 6: 星系擂台与实用速查
    * ========================================================================= */
   const REF_TABS = [
+    ['features', '✨ 本服特色玩法与保底'],
     ['arena', '星系擂台'],
     ['collect', '实验室收集奖励'],
     ['elements', '属性克制矩阵'],
@@ -1514,7 +1515,110 @@
   function renderReference() {
     const root = $('#ref-content');
 
-    if (state.refTab === 'arena') {
+    if (state.refTab === 'features') {
+      const rogueBuffs = [
+        ['⚡ 疾风突袭', '我方伤害 +20%（可叠加）'],
+        ['🛡️ 星际护盾', '受到伤害 -15%（可叠加）'],
+        ['💚 生命源泉', '每回合末回复 12% 最大 HP'],
+        ['🌟 吸血寄生', '造成伤害的 20% 转化为自身回复'],
+        ['🔥 狂暴输出', 'HP 低于 50% 时伤害 +45%'],
+        ['🚀 先声夺人', '前 2 回合我方伤害 +35%'],
+        ['❄️ 铁壁反伤', '受击反弹 15% 伤害给对手'],
+        ['💥 斩杀渴望', '对手 HP 低于 40% 时伤害 +35%'],
+      ];
+      root.innerHTML = `<div class="card-grid">
+        <article class="card" style="cursor:default">
+          <div class="card-top">
+            <div>
+              <h3 class="card-title">🌌 无尽星际爬塔（肉鸽模式）</h3>
+              <div class="card-sub">入口：精灵太空站(102) / 勇者之塔(500) 发光传送门，或右上角「试炼」徽章</div>
+            </div>
+            <span class="badge indigo">原生图形面板</span>
+          </div>
+          <div style="font-size:13px;color:var(--text-secondary);margin:8px 0">
+            由高阶终态精灵把守的无尽层数，每层通关奖励赛尔豆与<strong>特性晶石</strong>，并在面板弹出 <strong>3 选 1 肉鸽词条</strong>（可无限叠加，战败重置本轮并保留历史最高层）：
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+            ${rogueBuffs.map(([n, d]) => `<span class="badge teal" title="${esc(d)}">${esc(n)}：${esc(d)}</span>`).join('')}
+          </div>
+        </article>
+
+        <article class="card" style="cursor:default">
+          <div class="card-top">
+            <div>
+              <h3 class="card-title">🏆 图鉴里程碑 · 6 档永久账号光环</h3>
+              <div class="card-sub">按账号历史收集图鉴数自动激活，无需手动领取</div>
+            </div>
+            <span class="badge teal">收集反哺养成</span>
+          </div>
+          <ol class="step-list" style="font-size:12.5px;margin-top:8px">
+            <li><strong>50 只（星际见习生）</strong>：野外捕捉率 +20%</li>
+            <li><strong>150 只（精灵猎手）</strong>：战斗学习力获取 ×2</li>
+            <li><strong>300 只（融合大师）</strong>：元神珠孵化 31 满个体概率 15% → <strong>30%</strong></li>
+            <li><strong>500 只（霸主克星）</strong>：野外 31 满个体霸主概率翻倍（10% / 8 场保底）</li>
+            <li><strong>800 只（星海霸主）</strong>：战斗赛尔豆与经验额外 +30%</li>
+            <li><strong>1200 只（全图鉴传奇）</strong>：捕捉 +40%、满个体孵化 45%、全队 PVE 伤害 +10%</li>
+          </ol>
+        </article>
+
+        <article class="card" style="cursor:default">
+          <div class="card-top">
+            <div>
+              <h3 class="card-title">⚡ 野外 31 满个体霸主奇遇</h3>
+              <div class="card-sub">常规 5%（15 场必出保底）｜500 图鉴后 10%（8 场必出保底）</div>
+            </div>
+            <span class="badge gold">极品胚子盲盒</span>
+          </div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:8px;line-height:1.7">
+            • 野外刷怪进战首回合战报会弹出醒目提示<strong>「⚡ 遭遇 31 满个体霸主野怪」</strong>。<br>
+            • 霸主血量略厚（1.35×，方便控血捕捉），成功捕获后自动强化为：<strong>31 满个体 + 智能匹配物/特攻极品性格（固执/开朗或保守/胆小）+ 先天特性</strong>。
+          </div>
+        </article>
+
+        <article class="card" style="cursor:default">
+          <div class="card-top">
+            <div>
+              <h3 class="card-title">🧬 免费技能回忆 &amp; 特性定向觉醒</h3>
+              <div class="card-sub">在「星际试炼中心」面板 Tab 2 / Tab 3 一键操作</div>
+            </div>
+            <span class="badge pink">告别看脸</span>
+          </div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:8px;line-height:1.7">
+            • <strong>免费技能回忆</strong>：自动列出背包首发精灵<strong>全进化链</strong>所有历史技能，点击 <code>[装入1~4]</code> 免费替换，不再怕升级漏学关键技能。<br>
+            • <strong>特性定向觉醒</strong>：击败 Lv.60+ BOSS（+2）、无尽爬塔、极限赏金均可获得<strong>特性晶石</strong>；花费 <strong>5 颗晶石</strong>即可在全部特性中 100% 定向赋予（如瞬杀、会心、坚硬、高热、精神等）。
+          </div>
+        </article>
+
+        <article class="card" style="cursor:default">
+          <div class="card-top">
+            <div>
+              <h3 class="card-title">⚔️ 经典 BOSS · 10 大极限赏金挑战</h3>
+              <div class="card-sub">击败对应 BOSS 自动检测发奖（10~25 特性晶石 + 3000~10000 赛尔豆）</div>
+            </div>
+            <span class="badge gold">策略勋章</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+            ${BOUNTIES_UI.map((b) => `<span class="badge" title="${esc(b.desc)}">${esc(b.name)}：${esc(b.desc)}</span>`).join('')}
+          </div>
+        </article>
+
+        <article class="card" style="cursor:default">
+          <div class="card-top">
+            <div>
+              <h3 class="card-title">🛡️ 全链路防脸黑硬保底 &amp; 体验减负</h3>
+              <div class="card-sub">1501 全图鉴 100% 可获取 · 零绝版死档</div>
+            </div>
+            <span class="badge accent">全服生效</span>
+          </div>
+          <ul class="step-list" style="font-size:12.5px;margin-top:8px">
+            <li><strong>奇迹融合 76 组纯野怪池</strong>：未拥有绝版权重 ×4，<strong>隔 1 发 100% 必出未拥有精灵</strong>；固定融合稀有异变 25% 且最多 2~3 发必出；唯一亲本（三主宠/SPT孤品等）融合自动保护退回仓库不消失。</li>
+            <li><strong>野外稀有 &amp; 变身保底</strong>：同图稀有野怪刷出与变身遭遇均为<strong>连续 9 次未出、第 10 次 100% 必出</strong>；深海漩涡救援隔 1 次必出未拥有精灵。</li>
+            <li><strong>BOSS 掉落保底</strong>：高阶 SPT 8 种超进化道具<strong>最多 2 次必掉</strong>；专属技能刻印最多 3 次、通用高阶刻印最多 4 次必掉。</li>
+            <li><strong>养成与操作减负</strong>：元神珠免跑图吸收直接孵化且保底 20~31 个体；战斗 3× 赛尔豆 / 2× 经验 / 50% 自动存入经验分配器；BOSS 开战首回合战报推送机制简报；<strong>剧情动画与 NPC 对话支持右上角一键跳过（或按 Space/Esc）</strong>。</li>
+          </ul>
+        </article>
+      </div>`;
+    } else if (state.refTab === 'arena') {
       root.innerHTML = `<div class="card-grid">${DATA.starArenas.map((a) => `
         <article class="card" style="cursor:default">
           <div class="card-top">
