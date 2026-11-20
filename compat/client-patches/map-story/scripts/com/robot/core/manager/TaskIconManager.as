@@ -53,18 +53,19 @@ package com.robot.core.manager
 
       private static function onOpenGuide(param1:MouseEvent) : void
       {
+         var mapId:uint = MainManager.actorInfo != null ? uint(MainManager.actorInfo.mapID) : 0;
          try
          {
             if(ExternalInterface.available)
             {
-               ExternalInterface.call("openSeerGuide");
+               ExternalInterface.call("openSeerGuide",mapId);
                return;
             }
          }
          catch(e:Error)
          {
          }
-         navigateToURL(new URLRequest("/guide/index.html"),"_blank");
+         navigateToURL(new URLRequest(mapId > 0 ? "/guide/index.html?map=" + mapId : "/guide/index.html"),"_blank");
       }
       
       public static function set rightInset(param1:Number) : void

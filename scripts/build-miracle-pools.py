@@ -76,11 +76,11 @@ def primary_type(p):
 fixed_outs = {r['pet'] for r in fusion['RECIPES']} | {r['rare']['pet'] for r in fusion['RECIPES'] if r.get('rare')}
 fixed_mains = {x for r in fusion['RECIPES'] for x in r['main']}
 
-# 1. Exact 443 minimal miracle roots
-MISSING_EVO_ITEMS = (400933, 1200047, 403022, 400671, 400098, 400851, 1200467, 1200466)
+# 1. Exact 437 minimal miracle roots (since 400933, 403022, 403023, 400671, 400098, 400851 now drop from high-tier SPT bosses!)
+MISSING_EVO_ITEMS = (1200047, 1200467, 1200466)
 roots = []
 for pid, r in sorted(rows.items()):
-    if r['status'] == '可获得' or pid in fixed_outs:
+    if r['status'] == '可获得' or pid in fixed_outs or pid == 125:
         continue
     prev = num(pid, 'EvolvesFrom')
     if not prev:
@@ -95,7 +95,7 @@ for pid, r in sorted(rows.items()):
         if not ok:
             roots.append(pid)
 
-assert len(roots) == 443, f"Expected 443 roots, got {len(roots)}"
+assert len(roots) == 437, f"Expected 437 roots, got {len(roots)}"
 
 # 2. Gather all 76 strictly wild/repeatable FuseMaster=1 final-form main pets (野外: and 深海救援: only)
 PURE_WILD = ('野外:', '变身遭遇', '机关:', '深海救援:')

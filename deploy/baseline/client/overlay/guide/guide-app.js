@@ -914,7 +914,14 @@
 
     if (state.fusionTab === 'fixed') {
       const list = DATA.fusion.fixed.filter((r) => !q || `${r.mainName} ${r.subNames.join(' ')} ${r.petName} ${r.soulName} ${r.essenceName} ${r.rare?.petName || ''}`.toLowerCase().includes(q));
-      root.innerHTML = `<div class="card-grid">${list.map((r) => `
+      root.innerHTML = `
+        <div class="callout">
+          <strong>固定配方本服优化（唯一亲本保护 · 25% 高概率异变 · 免跑图高个体孵化）</strong><br>
+          1. <strong>唯一亲本自动保护</strong>：使用三主宠（布布花/巴鲁斯/烈焰猩猩）、SPT 首胜孤品（林奇/伊洛花/上古炎兽）、依依或闪光尼尔参与融合时，<strong>原精灵不会被消耗删除，自动安全退回精灵仓库</strong>。<br>
+          2. <strong>异变率提升至 25%</strong>：闪光艾斯菲亚(#313)与闪光格林/埃洛(#639)异变率由 5% 提升至 <strong>25%</strong>。<br>
+          3. <strong>免跑图吸收 & 保底高个体</strong>：合成出的元神珠默认自带满能量，可直接去实验室分子转化仪赋形孵化；孵化精灵<strong>保底个体值 20~31（15% 概率直出 31 满个体）</strong>。
+        </div>
+        <div class="card-grid">${list.map((r) => `
         <article class="card" data-open-pet="${r.petId}">
           <div class="card-top">
             <div class="card-head-row">
@@ -943,8 +950,8 @@
       const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
       root.innerHTML = `
         <div class="callout">
-          <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 每组 5~7 只高概率出货）</strong><br>
-          每次投入 <strong>指定野怪终态主宠</strong>（76 组主宠 100% 均由可无限刷取的野怪/深海救援进化，<strong>绝不消耗任何 BOSS 或一次性任务精灵</strong>） + <strong>任意一只对应属性野怪副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应野外掉落材料 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方 5~7 只奖池按概率<strong>随机开出 1 只绝版精灵</strong>（单只概率 <strong>11%~25%</strong>，奖池内 100% 为「仅奇迹可得」绝版）。
+          <strong>什么是奇迹融合？（76 组纯野怪主宠奖池 · 每组 5~7 只高概率出货 · 免跑图保底高个体）</strong><br>
+          每次投入 <strong>指定野怪终态主宠</strong>（76 组主宠 100% 均由可无限刷取的野怪/深海救援进化，<strong>绝不消耗任何 BOSS 或一次性任务精灵</strong>） + <strong>任意一只对应属性野怪副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应野外掉落材料 + 1000 赛尔豆</strong>，合成出的元神珠<strong>默认已充满能量，无需跑图吸收，可直接去右侧分子转化仪赋形孵化</strong>，随机开出下方 5~7 只绝版精灵中的 1 只（单只概率 <strong>10%~25%</strong>，<strong>保底个体值 20~31、15% 直出 31 满个体</strong>）。
         </div>
         <div class="card-grid">${list.map((m) => `
           <article class="card" style="cursor:default">
@@ -1444,7 +1451,7 @@
   });
 
   /* =========================================================================
-   * 15. Initial Render
+   * 15. Initial Render & Current-Map Smart Locator (?map=<mapId>)
    * ========================================================================= */
   renderBossTabs();
   renderBosses();
@@ -1458,4 +1465,74 @@
   renderMarks();
   renderRefTabs();
   renderReference();
+
+  (function initCurrentMapLocator() {
+    const params = new URLSearchParams(window.location.search);
+    const mapId = Number(params.get('map') || 0);
+    if (!mapId) return;
+
+    const mapBosses = DATA.bosses.filter((b) => b.mapId === mapId);
+    const mapMechs = DATA.mechanisms.filter((m) => m.mapId === mapId || String(m.mapName || '').includes(String(mapId)));
+    const mapWild = (DATA.wildMaps || []).find((w) => w.mapId === mapId);
+    const mapBeads = DATA.fusion.hatchBeads.filter((b) => b.steps.some((s) => s.mapId === mapId));
+    const mapArenas = (DATA.starArenas || []).filter((a) => a.mapId === mapId || a.entryMapId === mapId);
+    const mapName =
+      mapBosses[0]?.mapName ||
+      mapMechs[0]?.mapName ||
+      mapWild?.mapName ||
+      mapBeads[0]?.steps.find((s) => s.mapId === mapId)?.mapName ||
+      mapArenas[0]?.entryMapName ||
+      `地图 ${mapId}`;
+
+    const firstSection = $('#bosses');
+    if (firstSection) {
+      const banner = document.createElement('section');
+      banner.className = 'section';
+      banner.style.paddingTop = '12px';
+      banner.style.paddingBottom = '8px';
+      const rows = [];
+      if (mapBosses.length) {
+        rows.push(`<div style="margin-top:8px"><strong>⚔️ 本图 BOSS (${mapBosses.length})：</strong> ${mapBosses.map((b) => `<span class="badge indigo" data-open-boss="${esc(b.key)}" style="cursor:pointer;margin:2px">${petAvatar(b.petId, b.name, 'pet-avatar-sm')} ${esc(b.name)} Lv.${b.level}</span>`).join('')}</div>`);
+      }
+      if (mapMechs.length) {
+        rows.push(`<div style="margin-top:8px"><strong>⚙️ 本图机关/特殊遭遇 (${mapMechs.length})：</strong> ${mapMechs.map((m) => `<span class="badge teal" data-open-mech="${esc(m.id)}" style="cursor:pointer;margin:2px">${esc(m.title)}</span>`).join('')}</div>`);
+      }
+      if (mapWild && mapWild.pets?.length) {
+        rows.push(`<div style="margin-top:8px"><strong>🌿 本图野生精灵 (${mapWild.pets.length})：</strong> ${mapWild.pets.map((p) => `<span class="badge" data-open-pet="${p.petId}" style="cursor:pointer;margin:2px">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} (${p.pct}%)</span>`).join('')}</div>`);
+      }
+      if (mapBeads.length) {
+        rows.push(`<div style="margin-top:8px"><strong>🔮 本图可吸收元神珠：</strong> ${mapBeads.map((b) => `<span class="badge gold" style="margin:2px">${esc(b.name)}</span>`).join('')}</div>`);
+      }
+      if (mapArenas.length) {
+        rows.push(`<div style="margin-top:8px"><strong>🏆 本图星系擂台：</strong> ${mapArenas.map((a) => `<span class="badge pink" data-open-pet="${a.rewardPetId}" style="cursor:pointer;margin:2px">${esc(a.name)}（冠军奖励：${esc(a.rewardPetName)}）</span>`).join('')}</div>`);
+      }
+      if (!rows.length) {
+        rows.push(`<div style="margin-top:6px;color:var(--text-secondary)">当前地图暂无特殊 BOSS 或机关，可在下方检索全服 121 位 BOSS、1497 只精灵与 76 组奇迹融合。</div>`);
+      }
+      banner.innerHTML = `
+        <div class="callout" style="border-color:var(--accent);background:var(--accent-soft)">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div><strong>📍 当前游戏所在位置：${esc(mapName)}（地图 #${mapId}）实时攻略看板</strong></div>
+            <button class="pill" type="button" id="close-map-locator" style="padding:4px 10px;font-size:12px">收起看板</button>
+          </div>
+          ${rows.join('')}
+        </div>`;
+      firstSection.parentNode.insertBefore(banner, firstSection);
+      const closeBtn = banner.querySelector('#close-map-locator');
+      if (closeBtn) closeBtn.addEventListener('click', () => banner.remove());
+    }
+
+    if (mapBosses.length === 1 && mapMechs.length === 0) {
+      openBossDetail(mapBosses[0].key);
+    } else if (mapMechs.length === 1 && mapBosses.length === 0) {
+      openMechDetail(mapMechs[0].id);
+    } else if (mapBosses.length > 1) {
+      state.bossTab = 'all';
+      state.bossQuery = String(mapId);
+      const bs = $('#boss-search');
+      if (bs) bs.value = String(mapId);
+      renderBossTabs();
+      renderBosses();
+    }
+  })();
 })();

@@ -12,7 +12,7 @@ app/README.md	141bf6e2d5584aa18b66ca63ea6a0ed25abb2b66552712f9d0ad6ebac8eed127	6
 app/config/README.md	a3cccac2228546cd01b0d54aa716311e92cae0de9072b26b7af147369b9b546a	640	root:kose-seer
 app/config/client.json	3d9657738a2a73d6932d5fb5aea28a7f7ea2d2f1f079950eee521ca8f48b764c	640	root:kose-seer
 app/config/data/json/alder_config.json	9d0544caa3228318b7c1e90795abd6ce7f3306296b1f32e22bd49551f673900f	640	root:kose-seer
-app/config/data/json/boss_abilities.json	9ef3b928b28ea73fa71fd8282b4ed9e18a8119477b5222cf78fdf7fa33c41bb4	640	root:kose-seer
+app/config/data/json/boss_abilities.json	df41d0083aedf0d726199403e55d54cb43aab25be9dc2ca0a1834ba67c945250	640	root:kose-seer
 app/config/data/json/closed_space.json	389d9fe1b343f7c2ad52f254d539340bbd250ced866a826103185365f59135e1	640	root:kose-seer
 app/config/data/json/compass_activity.json	1117d11442bd29bd60be05d796ca3f1589dba259ad672b754cdb91dc30e95995	640	root:kose-seer
 app/config/data/json/countermarks.json	345f8ee47f524eecbb66271fe7a21d9f48d79ccd4b162848c2fc6e005d55c0d4	640	root:kose-seer
@@ -25,7 +25,7 @@ app/config/data/json/gacha_rewards.json	55223a63963e75504c2fecafd0813660c2aff575
 app/config/data/json/king_tower.json	c6b985567fa90c0a76f9a3366b6d469f6ee96f4c1814ec1ec095eb6594ef0517	640	root:kose-seer
 app/config/data/json/map-day-gifts.json	6eeae68dd81edf1bd1d6f00955504f19e8eaa0787e9a9897fbd79f29f4bc3aa6	640	root:kose-seer
 app/config/data/json/map-ogres.json	bb4498669ac2c5896e4d75785f29e0b4209ca97a882b983edb05928afed26d10	640	root:kose-seer
-app/config/data/json/material-sources.json	9351364d18c273eb7d1ae41004f540d4941d8a4c366d9c9eaea2066d989ddf5e	640	root:kose-seer
+app/config/data/json/material-sources.json	792787b1d85134b47bc82c30135dec9c96b5a1113ea4a6bf29c41669dc33b604	640	root:kose-seer
 app/config/data/json/mining.json	b05e0e5049deeaa4345f72ce5825fdcdadfc8fd411b7a7b72aa9502363dfbcfc	640	root:kose-seer
 app/config/data/json/money-products.json	87d9b055a51d635def049bf6d64fc33107eadbc5e571b9840e14d1e7a5f59a28	640	root:kose-seer
 app/config/data/json/natures.json	97b83f74c3868745e5a871f186ff4bef52c5dbde67612046d51b7335e2c98332	640	root:kose-seer
@@ -907,7 +907,7 @@ app/dist/GameServer/Game/Battle/services/BattlePvpService.js	ed0276e9e4140349c9e
 app/dist/GameServer/Game/Battle/services/BattlePvpService.js.map	909c9c9cad113a2782a0a1cd9b7cd245cf647d1f802432f4852fcdc3cf413f9a	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleRewardService.d.ts	52424f396e8c8100ed52c6c438c99b8365fa96ebd34331a32a6ffda0fb982c7d	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleRewardService.d.ts.map	7c3cf992b21e381219042984bad500d0dde6a0702f42351eb52bf731895f1af4	640	root:kose-seer
-app/dist/GameServer/Game/Battle/services/BattleRewardService.js	46c09a6777dc06a5896dc72e76c1cde62c9177a886ae07d68c93b3d188c66134	640	root:kose-seer
+app/dist/GameServer/Game/Battle/services/BattleRewardService.js	27d17287301d3b332c5634b392588bd9544d7f5899a0f876d2c66458ccb88066	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleRewardService.js.map	6033331ac4f1f7326b2768da439ee68491d8817e0cfc1868db2b64829b1deb82	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleTurnService.d.ts	0111778a420b8c453e91601a03a2f1104c50b9a537cb414880505eb3c1c87e76	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleTurnService.d.ts.map	7f0c3692f2a78f68f41bbbd5ad3a837a9754e4a2502e2a40538ff2a08602c383	640	root:kose-seer
@@ -1575,7 +1575,7 @@ app/dist/GameServer/Server/Packet/Recv/Pet/PetEvolutionHandler.d.ts	b19ba9e0b958
 app/dist/GameServer/Server/Packet/Recv/Pet/PetEvolutionHandler.d.ts.map	eab305a1ee718c441c7a88c6977dc5bddcd8e9942fb9e1606497ef542e5d7fd3	640	root:kose-seer
 app/dist/GameServer/Server/Packet/Recv/Pet/PetEvolutionHandler.js	f554c74a94c3d3caeb7a32d02c6b8c669adc12abf0d26a23c98d2fe228379065	640	root:kose-seer
 app/dist/GameServer/Server/Packet/Recv/Pet/PetEvolutionHandler.js.map	e55345cc40f377bcaa056e7d6f0e7542d9d7004d95bc8ad13b8b22647156822c	640	root:kose-seer
-app/dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js	18d3cb65ea0d7f68538134c93ebe352a5e49da1b719668d3a110961165dd199b	640	root:kose-seer
+app/dist/GameServer/Server/Packet/Recv/Pet/PetFusionHandler.js	ec0f4744b3c412f437003e378d0b2aa9301a0b6b7c689e487254e57a6bd6f4d0	640	root:kose-seer
 app/dist/GameServer/Server/Packet/Recv/Pet/PetGetExpHandler.d.ts	4a565af47e6de5095b19a7e6ab91e1a1b0f011e93412afd724ca69d430014fe1	640	root:kose-seer
 app/dist/GameServer/Server/Packet/Recv/Pet/PetGetExpHandler.d.ts.map	ef098ae5def51721d3882259a494701e85e5d10cbaeeedf50546b9e82a56063c	640	root:kose-seer
 app/dist/GameServer/Server/Packet/Recv/Pet/PetGetExpHandler.js	f57daea984cb44fa74fe0c2036a2776cbd436cc729c67e1041753603cd0e854f	640	root:kose-seer
@@ -3397,14 +3397,14 @@ app/web/vite.config.ts	cbcdcdac4df5d648ef7ad2130ace7585db975bba374894d531451f271
 client/asset-cache.cjs	3fb0d50624d9543e3e4470e598fb1dee14a75861fcd14cbb75480a9ca16fbf68	644	root:kose-seer
 client/battle-asset-cache.cjs	0faafed90a0ba0e314a2a5fd983586692cc9e6e0dc6843087c00e4a3c764b015	644	root:kose-seer
 client/download-manifest.json	6828e128e76d3e48191df9e0651efca95aebde06ce3108adb64f9461ab69a022	644	root:kose-seer
-client/index.html	552d70e79228ffcb537db5e06c52f2dc8143c1c27969995d717c9fa053560a45	644	root:kose-seer
+client/index.html	cd3f840cf92b530d4fb8ad2bea625f79a54cd74f43220092ba2ec2971f9b79e5	644	root:kose-seer
 client/overlay/Client.swf	9ad1eabb270b8570628fb7f120cebecbb14ace77bceb4cf3aa03155e8923408d	644	root:kose-seer
 client/overlay/config/ServerR.xml	8255cc4df83c532613d30800715ac679fb658d7f69e9998010096f002d6769a4	644	root:kose-seer
 client/overlay/config/doorConfig.xml	77fd7035cb57e928c1e672891d64ade1746d45f61023ea0568dc7ee7be1b4e10	644	root:kose-seer
 client/overlay/dll/GroupFightDLL.swf	481fab3a2a4e11ccfeeab2cdc73ef4b0b4af643f6b1382dc982ca93c4e6bf233	644	root:kose-seer
-client/overlay/dll/NieoCore.swf	764d86269d5182baecf7025bf8af36ec09c4f7e622786fa483b7606fcbcbead9	644	root:kose-seer
-client/overlay/guide/guide-app.js	6a1417061eec8344eebf92e881450f5a72067be9f37f8786aa93113e288e9a1b	644	root:kose-seer
-client/overlay/guide/guide-data.js	8af9dd4eee7f71233a5b0ccd2ab0cd4bf1120815f096aadc719bfee2c446892e	644	root:kose-seer
+client/overlay/dll/NieoCore.swf	596814962535daade1f2f572f94d205dcd95c7d208fe347ead25e03a38bee591	644	root:kose-seer
+client/overlay/guide/guide-app.js	464ab17fc412816d21d290175144169c92831528874ce4c350ef5b73ceb1689a	644	root:kose-seer
+client/overlay/guide/guide-data.js	05ef86e453242d52a3f3f1ce243c13d53c844e1c9f744841b7889e2cb3f6d89b	644	root:kose-seer
 client/overlay/guide/img/maps/10.jpg	e8bd393916722f36b4cc1ebf3b7199da451ceb4dfb05522819e09483e8394dce	644	root:kose-seer
 client/overlay/guide/img/maps/10039.jpg	c7fb580476da3f246f770f0076753c37b262189a8268bd0a0c3ddb16e4e91237	644	root:kose-seer
 client/overlay/guide/img/maps/102.jpg	dab74b010acb95e69c525b7cfb88061ed7e56b88fa6f33ac953472fc03428dc1	644	root:kose-seer

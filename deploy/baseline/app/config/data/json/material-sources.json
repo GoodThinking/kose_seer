@@ -210,6 +210,76 @@
       "itemId": 400015,
       "probability": 0.45,
       "count": 1
+    },
+    {
+      "mapId": 59,
+      "petId": 347,
+      "itemId": 400933,
+      "probability": 0.35,
+      "count": 1
+    },
+    {
+      "mapId": 16,
+      "petId": 393,
+      "itemId": 400851,
+      "probability": 0.35,
+      "count": 1
+    },
+    {
+      "mapId": 13,
+      "petId": 811,
+      "itemId": 400823,
+      "probability": 0.35,
+      "count": 1
+    },
+    {
+      "mapId": 61,
+      "petId": 421,
+      "itemId": 403022,
+      "probability": 0.5,
+      "count": 25
+    },
+    {
+      "mapId": 415,
+      "petId": 474,
+      "itemId": 403023,
+      "probability": 0.5,
+      "count": 25
+    },
+    {
+      "mapId": 9507,
+      "petId": 875,
+      "itemId": 403023,
+      "probability": 0.5,
+      "count": 25
+    },
+    {
+      "mapId": 419,
+      "petId": 261,
+      "itemId": 400671,
+      "probability": 0.35,
+      "count": 1
+    },
+    {
+      "mapId": 15,
+      "petId": 261,
+      "itemId": 400671,
+      "probability": 0.35,
+      "count": 1
+    },
+    {
+      "mapId": 450,
+      "petId": 804,
+      "itemId": 400098,
+      "probability": 0.35,
+      "count": 1
+    },
+    {
+      "mapId": 495,
+      "petId": 755,
+      "itemId": 400055,
+      "probability": 0.5,
+      "count": 5
     }
   ],
   "fortress": {

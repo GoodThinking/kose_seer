@@ -807,7 +807,14 @@
       "nature": 0,
       "abilities": [],
       "customHP": 3000,
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 403022,
+          "dropRate": 0.5,
+          "minCount": 25,
+          "maxCount": 25
+        }
+      ],
       "rewards": {
         "exp": 4500,
         "coins": 4500
@@ -880,7 +887,14 @@
       "nature": 0,
       "abilities": [],
       "customHP": 2000,
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400671,
+          "dropRate": 0.35,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ],
       "rewards": {
         "exp": 4000,
         "coins": 4000
@@ -908,7 +922,14 @@
       "nature": 0,
       "abilities": [],
       "customHP": 2000,
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400671,
+          "dropRate": 0.35,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ],
       "rewards": {
         "exp": 4000,
         "coins": 4000
@@ -996,7 +1017,14 @@
           "id": 1905
         }
       ],
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400933,
+          "dropRate": 0.35,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ],
       "rewards": {
         "exp": 3500,
         "coins": 3500
@@ -1044,7 +1072,14 @@
       "abilities": [
         2010
       ],
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400851,
+          "dropRate": 0.35,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ],
       "rewards": {
         "exp": 3800,
         "coins": 3800
@@ -1090,7 +1125,14 @@
       "ev": 0,
       "nature": 0,
       "abilities": [],
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400823,
+          "dropRate": 0.35,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ],
       "rewards": {
         "exp": 3500,
         "coins": 3500
@@ -1851,7 +1893,14 @@
         2010
       ],
       "customHP": 7000,
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 403023,
+          "dropRate": 0.5,
+          "minCount": 25,
+          "maxCount": 25
+        }
+      ],
       "rewards": {
         "exp": 3000,
         "coins": 3000
@@ -3369,7 +3418,14 @@
       "abilities": [
         2010
       ],
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400098,
+          "dropRate": 0.35,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ],
       "rewards": {
         "exp": 8000,
         "coins": 2000
@@ -3580,7 +3636,14 @@
       "dv": 31,
       "ev": 0,
       "nature": 0,
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 400055,
+          "dropRate": 0.5,
+          "minCount": 5,
+          "maxCount": 5
+        }
+      ],
       "rewards": {
         "exp": 2500,
         "coins": 2500
@@ -3634,7 +3697,14 @@
       "abilities": [
         2010
       ],
-      "drops": [],
+      "drops": [
+        {
+          "itemId": 403023,
+          "dropRate": 0.5,
+          "minCount": 25,
+          "maxCount": 25
+        }
+      ],
       "rewards": {
         "exp": 8000,
         "coins": 2000

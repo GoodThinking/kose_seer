@@ -449,6 +449,11 @@ function build() {
     const rewardText = [];
     if (b.spt?.rewardPetId) rewardText.push(`首胜精灵：${petName(b.spt.rewardPetId)}`);
     if (b.spt?.rewardItemId) rewardText.push(`首胜道具：${itemName(b.spt.rewardItemId)}`);
+    for (const d of b.drops || []) {
+      const pct = Math.round((d.dropRate || d.probability || 0) * 100);
+      const cnt = (d.maxCount || d.count || 1) > 1 ? ` ×${d.maxCount || d.count}` : '';
+      rewardText.push(`重复掉落：${itemName(d.itemId)}${cnt}${pct ? ` (${pct}%)` : ''}`);
+    }
     if (!b.spt && b.catchable !== false) rewardText.push('战斗中可直接捕捉');
 
     // Title override for Puni / Alder / Train / Dark
@@ -599,11 +604,22 @@ function build() {
 
   // 10e. Special evolutions
   const specEvoRaw = readJson('config/data/json/special-evolutions.json');
+  const dropSourceByItem = {};
+  for (const b of bossRaw.bossConfigs) {
+    for (const d of b.drops || []) {
+      const bname = b.petName || petName(b.petId);
+      const pct = Math.round((d.dropRate || 0) * 100);
+      if (!dropSourceByItem[d.itemId]) {
+        dropSourceByItem[d.itemId] = `击败 ${mapName(b.mapId)}(${b.mapId})「${bname}」${pct ? `${pct}% ` : ''}掉落`;
+      }
+    }
+  }
   const specialEvolutions = [];
   for (const [branchId, entries] of Object.entries(specEvoRaw.branches || {})) {
     for (const e of entries) {
-      const need = e.itemId ? `${itemName(e.itemId)} ×${e.count}` : '无额外道具（满足条件/进化舱分支）';
-      addSource(e.petId, 'evolve', `特殊进化分支 #${branchId}`, need);
+      const dropHint = e.itemId && dropSourceByItem[e.itemId] ? `（${dropSourceByItem[e.itemId]}）` : '';
+      const need = e.itemId ? `进化舱需「${itemName(e.itemId)} ×${e.count}」${dropHint}` : '实验室进化舱直接进化（无额外道具）';
+      addSource(e.petId, 'evolve', `实验室进化舱 #${branchId}`, need);
       specialEvolutions.push({
         branchId: Number(branchId),
         petId: e.petId,

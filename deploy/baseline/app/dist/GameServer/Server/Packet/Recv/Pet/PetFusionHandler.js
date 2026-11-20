@@ -31,7 +31,7 @@ const RECIPES = [
     { main: [3], sub: [27, 28, 29, 1216], soul: 1000001, pet: 301, essence: 400005 },
     { main: [6], sub: [198, 199, 200], soul: 1000002, pet: 304, essence: 400006 },
     { main: [9], sub: [35, 36, 37, 1237, 1238], soul: 1000003, pet: 307, essence: 400007 },
-    { main: [79], sub: [164, 165, 166], soul: 1000008, pet: 310, essence: 400008, rare: { soul: 1000009, pet: 313, numerator: 5, denominator: 100 } },
+    { main: [79], sub: [164, 165, 166], soul: 1000008, pet: 310, essence: 400008, rare: { soul: 1000009, pet: 313, numerator: 25, denominator: 100 } },
     { main: [76], sub: [310, 311, 312], soul: 1000008, pet: 1248, essence: 400006 },
     { main: [207], sub: [310, 311, 312], soul: 1000008, pet: 1500, essence: 400028 },
     { main: [683], sub: [677, 678, 679], soul: 1000001, pet: 946, essence: 400005 },
@@ -49,19 +49,27 @@ const RECIPES = [
     { main: [525], sub: [293, 294, 295], soul: 1000001, pet: 533, essence: 400005 },
     { main: [337], sub: [547, 548, 549], soul: 1000003, pet: 550, essence: 400007 },
     { main: [516], sub: [469, 470], soul: 1000001, pet: 517, essence: 400040 },
-    { main: [481], sub: [560, 561], soul: 1000004, pet: 578, essence: 400039, rare: { soul: 1000009, pet: 639, numerator: 5, denominator: 100 } },
+    { main: [481], sub: [560, 561], soul: 1000004, pet: 578, essence: 400039, rare: { soul: 1000009, pet: 639, numerator: 25, denominator: 100 } },
     { main: [67], sub: [604, 605, 606], soul: 1000005, pet: 607, essence: 400003 },
     { main: [717], sub: [378, 379, 380], soul: 1000005, pet: 849, essence: 400003 },
     { main: [554], sub: [203, 204], soul: 1000004, pet: 627, essence: 400031 },
     { main: [511], sub: [463, 464, 465], soul: 1000019, pet: 632, essence: 400039 },
-    { main: [473], sub: [480, 481], soul: 1000015, pet: 571, essence: 400005, rare: { soul: 1000009, pet: 639, numerator: 5, denominator: 100 } },
-    { main: [577], sub: [618, 619], soul: 1000019, pet: 625, essence: 400040, rare: { soul: 1000009, pet: 639, numerator: 5, denominator: 100 } },
+    { main: [473], sub: [480, 481], soul: 1000015, pet: 571, essence: 400005, rare: { soul: 1000009, pet: 639, numerator: 25, denominator: 100 } },
+    { main: [577], sub: [618, 619], soul: 1000019, pet: 625, essence: 400040, rare: { soul: 1000009, pet: 639, numerator: 25, denominator: 100 } },
     { main: [559], sub: [83, 84, 85], soul: 1000001, pet: 629, essence: 400037 },
-    { main: [561], sub: [576, 577], soul: 1000018, pet: 623, essence: 400031, rare: { soul: 1000009, pet: 639, numerator: 5, denominator: 100 } },
+    { main: [561], sub: [576, 577], soul: 1000018, pet: 623, essence: 400031, rare: { soul: 1000009, pet: 639, numerator: 25, denominator: 100 } },
     { main: [234], sub: [310, 311, 312], soul: 1000012, pet: 948, essence: 400008 },
     { main: [393], sub: [526, 527], soul: 1000003, pet: 760, essence: 400007 },
     { main: [597], sub: [598, 599], soul: 1000003, pet: 600, essence: 400037 },
 ];
+const PROTECTED_UNIQUE_PARENTS = new Set([
+    1, 2, 3, 4, 5, 6, 7, 8, 9,
+    83, 84, 85,
+    190, 191, 192,
+    310, 311, 312,
+    392, 393,
+    472, 473,
+]);
 const STARTER_BEAD_PET = {
     1000001: 301,
     1000002: 304,
@@ -88,9 +96,9 @@ const MIRACLES = [
     { main: 739, type: 1, soul: 1000001, essence: 400005, weights: [[1233, 18], [1271, 18], [1299, 18], [1344, 17], [1374, 17], [1216, 12]] },
     { main: 768, type: 1, soul: 1000001, essence: 400005, weights: [[1495, 25], [1468, 23], [1476, 22], [1428, 15], [1429, 15]] },
     { main: 32, type: 2, soul: 1000002, essence: 400006, weights: [[108, 19], [528, 18], [544, 18], [289, 17], [497, 17], [502, 11]] },
-    { main: 34, type: 2, soul: 1000002, essence: 400006, weights: [[703, 19], [761, 19], [642, 17], [684, 17], [744, 17], [729, 11]] },
-    { main: 200, type: 2, soul: 1000002, essence: 400006, weights: [[872, 19], [905, 19], [847, 17], [866, 17], [899, 17], [858, 11]] },
-    { main: 575, type: 2, soul: 1000002, essence: 400006, weights: [[960, 18], [988, 18], [975, 16], [1046, 16], [1072, 16], [1116, 16]] },
+    { main: 34, type: 2, soul: 1000002, essence: 400006, weights: [[703, 18], [761, 18], [642, 16], [684, 16], [744, 16], [847, 16]] },
+    { main: 200, type: 2, soul: 1000002, essence: 400006, weights: [[872, 19], [905, 18], [960, 18], [866, 17], [899, 17], [858, 11]] },
+    { main: 575, type: 2, soul: 1000002, essence: 400006, weights: [[988, 22], [975, 20], [1046, 20], [1072, 19], [1116, 19]] },
     { main: 786, type: 2, soul: 1000002, essence: 400006, weights: [[1128, 19], [1130, 19], [1218, 19], [1283, 19], [1200, 12], [1230, 12]] },
     { main: 815, type: 2, soul: 1000002, essence: 400006, weights: [[1478, 19], [1338, 18], [1415, 17], [1438, 17], [1491, 17], [1297, 12]] },
     { main: 37, type: 3, soul: 1000003, essence: 400007, weights: [[861, 22], [740, 20], [820, 20], [854, 19], [889, 19]] },
@@ -98,15 +106,15 @@ const MIRACLES = [
     { main: 90, type: 3, soul: 1000003, essence: 400007, weights: [[1152, 19], [1088, 18], [1174, 17], [1178, 17], [1205, 17], [1201, 12]] },
     { main: 774, type: 3, soul: 1000003, essence: 400007, weights: [[1259, 25], [1293, 25], [1237, 17], [1238, 17], [1298, 16]] },
     { main: 1095, type: 3, soul: 1000003, essence: 400007, weights: [[1425, 18], [1454, 18], [1322, 16], [1376, 16], [1386, 16], [1485, 16]] },
-    { main: 12, type: 4, soul: 1000014, essence: 400004, weights: [[612, 18], [521, 17], [583, 17], [618, 16], [680, 16], [692, 16]] },
-    { main: 24, type: 4, soul: 1000014, essence: 400004, weights: [[751, 16], [805, 14], [818, 14], [864, 14], [882, 14], [911, 14], [939, 14]] },
-    { main: 26, type: 4, soul: 1000014, essence: 400004, weights: [[993, 18], [969, 17], [1013, 17], [1070, 16], [1141, 16], [1157, 16]] },
-    { main: 166, type: 4, soul: 1000014, essence: 400004, weights: [[1165, 15], [1261, 15], [1231, 14], [1257, 14], [1269, 14], [1305, 14], [1309, 14]] },
-    { main: 268, type: 4, soul: 1000014, essence: 400004, weights: [[1362, 18], [1401, 18], [1370, 16], [1406, 16], [1446, 16], [1487, 16]] },
-    { main: 21, type: 5, soul: 1000012, essence: 400008, weights: [[360, 22], [454, 22], [486, 21], [531, 21], [503, 14]] },
-    { main: 45, type: 5, soul: 1000012, essence: 400008, weights: [[602, 20], [644, 20], [686, 20], [708, 20], [734, 20]] },
-    { main: 99, type: 5, soul: 1000012, essence: 400008, weights: [[908, 18], [816, 17], [984, 17], [1108, 16], [1211, 16], [1285, 16]] },
-    { main: 147, type: 5, soul: 1000012, essence: 400008, weights: [[1295, 22], [1355, 22], [1380, 21], [1448, 21], [1462, 14]] },
+    { main: 12, type: 4, soul: 1000014, essence: 400004, weights: [[612, 22], [521, 20], [583, 20], [618, 19], [680, 19]] },
+    { main: 24, type: 4, soul: 1000014, essence: 400004, weights: [[751, 18], [692, 17], [805, 17], [818, 16], [864, 16], [882, 16]] },
+    { main: 26, type: 4, soul: 1000014, essence: 400004, weights: [[993, 22], [911, 20], [939, 20], [969, 19], [1013, 19]] },
+    { main: 166, type: 4, soul: 1000014, essence: 400004, weights: [[1165, 22], [1070, 20], [1141, 20], [1157, 19], [1231, 19]] },
+    { main: 268, type: 4, soul: 1000014, essence: 400004, weights: [[1261, 18], [1362, 18], [1257, 16], [1269, 16], [1305, 16], [1309, 16]] },
+    { main: 345, type: 4, soul: 1000014, essence: 400004, weights: [[1401, 22], [1370, 20], [1406, 20], [1446, 19], [1487, 19]] },
+    { main: 21, type: 5, soul: 1000012, essence: 400008, weights: [[360, 15], [454, 15], [486, 15], [531, 15], [602, 15], [644, 15], [503, 10]] },
+    { main: 45, type: 5, soul: 1000012, essence: 400008, weights: [[908, 16], [686, 14], [708, 14], [734, 14], [816, 14], [984, 14], [1108, 14]] },
+    { main: 99, type: 5, soul: 1000012, essence: 400008, weights: [[1211, 15], [1285, 15], [1295, 15], [1355, 15], [1380, 15], [1448, 15], [1462, 10]] },
     { main: 101, type: 6, soul: 1000005, essence: 400037, weights: [[143, 20], [201, 20], [213, 20], [80, 14], [287, 13], [362, 13]] },
     { main: 104, type: 6, soul: 1000005, essence: 400037, weights: [[459, 17], [539, 17], [541, 17], [610, 17], [724, 16], [807, 16]] },
     { main: 374, type: 6, soul: 1000005, essence: 400037, weights: [[897, 25], [1054, 25], [887, 17], [1074, 17], [1195, 16]] },
@@ -117,10 +125,10 @@ const MIRACLES = [
     { main: 236, type: 7, soul: 1000004, essence: 400031, weights: [[1235, 17], [1246, 17], [1255, 17], [1267, 17], [1307, 16], [1311, 16]] },
     { main: 259, type: 7, soul: 1000004, essence: 400031, weights: [[1367, 19], [1324, 18], [1340, 17], [1349, 17], [1359, 17], [1346, 12]] },
     { main: 700, type: 7, soul: 1000004, essence: 400031, weights: [[1465, 18], [1394, 17], [1430, 17], [1440, 16], [1457, 16], [1481, 16]] },
-    { main: 121, type: 8, soul: 1000007, essence: 400028, weights: [[456, 19], [330, 18], [383, 17], [484, 17], [567, 17], [366, 12]] },
-    { main: 185, type: 8, soul: 1000007, essence: 400028, weights: [[604, 20], [746, 20], [650, 18], [718, 18], [652, 12], [756, 12]] },
-    { main: 266, type: 8, soul: 1000007, essence: 400028, weights: [[878, 22], [953, 21], [870, 19], [901, 19], [986, 19]] },
-    { main: 691, type: 8, soul: 1000007, essence: 400028, weights: [[1103, 18], [1123, 18], [1028, 16], [1067, 16], [1203, 16], [1241, 16]] },
+    { main: 121, type: 8, soul: 1000007, essence: 400028, weights: [[456, 23], [330, 21], [383, 21], [484, 21], [366, 14]] },
+    { main: 185, type: 8, soul: 1000007, essence: 400028, weights: [[604, 19], [746, 19], [567, 17], [650, 17], [718, 17], [756, 11]] },
+    { main: 266, type: 8, soul: 1000007, essence: 400028, weights: [[878, 18], [953, 18], [870, 16], [901, 16], [986, 16], [1028, 16]] },
+    { main: 691, type: 8, soul: 1000007, essence: 400028, weights: [[1103, 22], [1123, 21], [1067, 19], [1203, 19], [1241, 19]] },
     { main: 1151, type: 8, soul: 1000007, essence: 400028, weights: [[1301, 18], [1333, 18], [1347, 18], [1378, 17], [1417, 17], [1461, 12]] },
     { main: 157, type: 9, soul: 1000005, essence: 400003, weights: [[378, 18], [445, 17], [448, 17], [476, 16], [555, 16], [562, 16]] },
     { main: 160, type: 9, soul: 1000005, essence: 400003, weights: [[936, 18], [588, 17], [592, 17], [637, 16], [845, 16], [893, 16]] },
@@ -128,20 +136,20 @@ const MIRACLES = [
     { main: 431, type: 9, soul: 1000005, essence: 400003, weights: [[1062, 19], [1038, 18], [1040, 17], [1176, 17], [1213, 17], [1215, 12]] },
     { main: 707, type: 9, soul: 1000005, essence: 400003, weights: [[1470, 19], [1342, 18], [1353, 17], [1432, 17], [1442, 17], [1361, 12]] },
     { main: 731, type: 9, soul: 1000005, essence: 400003, weights: [[1251, 20], [1275, 20], [1291, 20], [1315, 14], [1316, 13], [1317, 13]] },
-    { main: 345, type: 10, soul: 1000008, essence: 400008, weights: [[1434, 22], [1474, 22], [1459, 14], [1473, 14], [4149, 14], [4150, 14]] },
+    { main: 396, type: 10, soul: 1000008, essence: 400008, weights: [[1434, 22], [1474, 22], [1459, 14], [1473, 14], [4149, 14], [4150, 14]] },
     { main: 493, type: 10, soul: 1000008, essence: 400008, weights: [[351, 18], [416, 18], [139, 16], [196, 16], [381, 16], [594, 16]] },
     { main: 765, type: 10, soul: 1000008, essence: 400008, weights: [[829, 17], [852, 17], [891, 17], [895, 17], [913, 16], [930, 16]] },
     { main: 802, type: 10, soul: 1000008, essence: 400008, weights: [[696, 18], [710, 18], [646, 16], [694, 16], [720, 16], [769, 16]] },
     { main: 832, type: 10, soul: 1000008, essence: 400008, weights: [[1243, 19], [1161, 18], [1224, 17], [1239, 17], [1253, 17], [1278, 12]] },
     { main: 1102, type: 10, soul: 1000008, essence: 400008, weights: [[1280, 19], [1398, 19], [1320, 17], [1331, 17], [1390, 17], [1279, 11]] },
     { main: 1136, type: 10, soul: 1000008, essence: 400008, weights: [[977, 18], [932, 17], [1015, 17], [1042, 16], [1052, 16], [1080, 16]] },
-    { main: 229, type: 11, soul: 1000013, essence: 400037, weights: [[122, 19], [126, 19], [141, 19], [148, 19], [124, 12], [125, 12]] },
-    { main: 396, type: 11, soul: 1000013, essence: 400037, weights: [[620, 18], [648, 17], [673, 17], [675, 16], [736, 16], [771, 16]] },
-    { main: 743, type: 11, soul: 1000013, essence: 400037, weights: [[842, 19], [812, 18], [868, 17], [928, 17], [956, 17], [881, 12]] },
-    { main: 828, type: 11, soul: 1000013, essence: 400037, weights: [[958, 17], [1002, 17], [1009, 17], [1044, 17], [1084, 16], [1106, 16]] },
-    { main: 1049, type: 11, soul: 1000013, essence: 400037, weights: [[1114, 17], [1170, 17], [1226, 17], [1313, 17], [1351, 16], [1396, 16]] },
-    { main: 1091, type: 11, soul: 1000013, essence: 400037, weights: [[451, 19], [488, 18], [580, 18], [397, 17], [596, 17], [432, 11]] },
-    { main: 1113, type: 11, soul: 1000013, essence: 400037, weights: [[1419, 18], [1444, 18], [1452, 18], [1489, 17], [1498, 17], [1460, 12]] },
+    { main: 147, type: 11, soul: 1000013, essence: 400037, weights: [[1444, 22], [1452, 22], [1489, 21], [1498, 21], [1460, 14]] },
+    { main: 229, type: 11, soul: 1000013, essence: 400037, weights: [[122, 20], [126, 20], [141, 20], [148, 20], [397, 20]] },
+    { main: 743, type: 11, soul: 1000013, essence: 400037, weights: [[673, 20], [675, 20], [736, 20], [771, 20], [812, 20]] },
+    { main: 828, type: 11, soul: 1000013, essence: 400037, weights: [[842, 18], [868, 17], [928, 17], [956, 16], [958, 16], [1002, 16]] },
+    { main: 1049, type: 11, soul: 1000013, essence: 400037, weights: [[1009, 20], [1044, 20], [1084, 20], [1106, 20], [1114, 20]] },
+    { main: 1091, type: 11, soul: 1000013, essence: 400037, weights: [[451, 17], [488, 17], [580, 17], [620, 17], [596, 16], [648, 16]] },
+    { main: 1113, type: 11, soul: 1000013, essence: 400037, weights: [[1170, 17], [1226, 17], [1313, 17], [1351, 17], [1396, 16], [1419, 16]] },
     { main: 286, type: 12, soul: 1000006, essence: 400028, weights: [[934, 22], [971, 22], [998, 21], [1065, 21], [1069, 14]] },
     { main: 733, type: 12, soul: 1000006, essence: 400028, weights: [[564, 19], [590, 18], [665, 17], [833, 17], [903, 17], [857, 12]] },
     { main: 793, type: 12, soul: 1000006, essence: 400028, weights: [[1092, 18], [1222, 18], [1264, 18], [1289, 17], [1372, 17], [1122, 12]] },
@@ -202,18 +210,19 @@ class PacketBytes extends BaseProto_1.BaseProto {
     serialize() { return this.body; }
 }
 let tableReady = false;
+function makeChargedBuf(selected = false) {
+    const b = Buffer.alloc(20, 1);
+    b[19] = selected ? 2 : 0;
+    return b;
+}
 async function ensureTable() {
     if (tableReady)
         return;
     await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
         await driver.execute(TABLE);
-        try {
+        const cols = await driver.query('PRAGMA table_info(player_soul_beads)');
+        if (Array.isArray(cols) && !cols.some(c => c && c.name === 'result_pet')) {
             await driver.execute('ALTER TABLE player_soul_beads ADD COLUMN result_pet INTEGER NOT NULL DEFAULT 0');
-        }
-        catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
-            if (!message.includes('duplicate column'))
-                throw error;
         }
     });
     tableReady = true;
@@ -266,8 +275,24 @@ let PetFusionHandler = class PetFusionHandler {
                 return;
             }
         }
-        const removedMain = await player.PetManager.PetData.RemovePetByCatchTime(mainTime);
-        const removedSub = await player.PetManager.PetData.RemovePetByCatchTime(subTime);
+        const preserveMain = PROTECTED_UNIQUE_PARENTS.has(main.petId);
+        const preserveSub = PROTECTED_UNIQUE_PARENTS.has(sub.petId);
+        let removedMain = true;
+        let removedSub = true;
+        if (preserveMain) {
+            main.isInBag = false;
+            main.isDefault = false;
+        }
+        else {
+            removedMain = await player.PetManager.PetData.RemovePetByCatchTime(mainTime);
+        }
+        if (preserveSub) {
+            sub.isInBag = false;
+            sub.isDefault = false;
+        }
+        else {
+            removedSub = await player.PetManager.PetData.RemovePetByCatchTime(subTime);
+        }
         if (!removedMain || !removedSub) {
             await fail(5000);
             return;
@@ -280,9 +305,9 @@ let PetFusionHandler = class PetFusionHandler {
         }
         const obtainTime = Math.floor(Date.now() / 1000);
         await ensureTable();
-        await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('INSERT INTO player_soul_beads (owner_id, obtain_time, item_id, buf, result_pet) VALUES (?, ?, ?, ?, ?)', [player.Uid, obtainTime, soul, Buffer.alloc(20), petId]));
+        await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('INSERT INTO player_soul_beads (owner_id, obtain_time, item_id, buf, result_pet) VALUES (?, ?, ?, ?, ?)', [player.Uid, obtainTime, soul, makeChargedBuf(false), petId]));
         await player.ItemManager.GiveItem(soul, 1);
-        utils_1.Logger.Info(`[PetFusion] uid=${player.Uid} main=${main.petId} sub=${sub.petId} soul=${soul} pet=${petId}`);
+        utils_1.Logger.Info(`[PetFusion] uid=${player.Uid} main=${main.petId}(preserve=${preserveMain}) sub=${sub.petId}(preserve=${preserveSub}) soul=${soul} pet=${petId}`);
         await player.SendPacket(new PacketFusion(Buffer.concat([
             u32(obtainTime), u32(soul), u32(mainTime), u32(0),
         ])));
@@ -316,10 +341,7 @@ let GetSoulBeadBufHandler = class GetSoulBeadBufHandler {
             return;
         const obtainTime = readU32(body, 0);
         await ensureTable();
-        const rows = await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.query('SELECT buf FROM player_soul_beads WHERE owner_id = ? AND obtain_time = ?', [player.Uid, obtainTime]));
-        const buf = rows[0]?.buf ? Buffer.from(rows[0].buf) : Buffer.alloc(20);
-        const fixed = Buffer.alloc(20);
-        buf.copy(fixed, 0, 0, Math.min(20, buf.length));
+        const fixed = makeChargedBuf(false);
         await player.SendPacket(new PacketBytes(CommandID_1.CommandID.GET_SOUL_BEAD_BUF, Buffer.concat([u32(obtainTime), fixed])));
     }
 };
@@ -336,8 +358,7 @@ let SetSoulBeadBufHandler = class SetSoulBeadBufHandler {
             return;
         }
         const obtainTime = readU32(body, 0);
-        const buf = Buffer.alloc(20);
-        body.copy(buf, 0, 4, 24);
+        const buf = makeChargedBuf(false);
         await ensureTable();
         await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('UPDATE player_soul_beads SET buf = ? WHERE owner_id = ? AND obtain_time = ?', [buf, player.Uid, obtainTime]));
         await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.SET_SOUL_BEAD_BUF));
@@ -356,8 +377,7 @@ let SoulBeadToPetHandler = class SoulBeadToPetHandler {
         await ensureTable();
         const rows = await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.query('SELECT item_id, buf, result_pet FROM player_soul_beads WHERE owner_id = ? AND obtain_time = ?', [player.Uid, obtainTime]));
         const row = rows[0];
-        const buf = row ? Buffer.from(row.buf) : Buffer.alloc(0);
-        if (!row || buf[0] !== 1) {
+        if (!row) {
             await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.SOULBEAD_TO_PET).setResult(103547));
             return;
         }
@@ -370,6 +390,15 @@ let SoulBeadToPetHandler = class SoulBeadToPetHandler {
         if (!granted) {
             await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.SOULBEAD_TO_PET).setResult(5000));
             return;
+        }
+        const hatched = player.PetManager.GetPetByCatchTime(obtainTime);
+        if (hatched) {
+            const minDv = Math.random() < 0.15 ? 31 : (20 + Math.floor(Math.random() * 12));
+            if ((hatched.dv || 0) < minDv) {
+                hatched.dv = minDv;
+                const { PetCalculator } = require("../../../../../Game/Pet/PetCalculator");
+                PetCalculator.UpdatePetStats(hatched);
+            }
         }
         await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('DELETE FROM player_soul_beads WHERE owner_id = ? AND obtain_time = ?', [player.Uid, obtainTime]));
         await player.ItemManager.ItemData.RemoveItem(row.item_id, 1);
@@ -397,10 +426,15 @@ async function activeSoulBead(ownerId) {
     const rows = await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.query('SELECT obtain_time, item_id, buf FROM player_soul_beads WHERE owner_id = ? ORDER BY obtain_time DESC', [ownerId]));
     for (const row of rows) {
         const buf = row.buf ? Buffer.from(row.buf) : Buffer.alloc(0);
+        if (buf.length >= 20 && buf[19] === 2)
+            return row;
+    }
+    for (const row of rows) {
+        const buf = row.buf ? Buffer.from(row.buf) : Buffer.alloc(0);
         if (buf.length > 0 && buf[0] === 1)
             return row;
     }
-    return null;
+    return rows[0] || null;
 }
 let TransformSoulBeadHandler = class TransformSoulBeadHandler {
     async Handle(session, _head, body) {
@@ -418,8 +452,10 @@ let TransformSoulBeadHandler = class TransformSoulBeadHandler {
             await fail(103547);
             return;
         }
-        const charged = Buffer.alloc(20, 1);
-        await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('UPDATE player_soul_beads SET buf = ? WHERE owner_id = ? AND obtain_time = ?', [charged, player.Uid, obtainTime]));
+        await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (driver) => {
+            await driver.execute('UPDATE player_soul_beads SET buf = ? WHERE owner_id = ?', [makeChargedBuf(false), player.Uid]);
+            await driver.execute('UPDATE player_soul_beads SET buf = ? WHERE owner_id = ? AND obtain_time = ?', [makeChargedBuf(true), player.Uid, obtainTime]);
+        });
         utils_1.Logger.Info(`[SoulTransform] uid=${player.Uid} obtain=${obtainTime} item=${rows[0].item_id}`);
         await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.TRANSFORM_SOULBEAD));
     }

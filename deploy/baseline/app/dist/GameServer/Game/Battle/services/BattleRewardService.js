@@ -63,7 +63,7 @@ class BattleRewardService {
                     noEvGain: expTier > 0,
                     fixedEv: evTrain ? { field: evTrain[0], amount: evTrain[1] * learningMultiplier } : undefined,
                     learningMultiplier,
-                    storedExperience: boosts.experience.multiplier > 1 ? expGained : (expTier ? Math.floor(expGained * 0.5) : 0),
+                    storedExperience: boosts.experience.multiplier > 1 ? expGained : Math.floor(expGained * 0.5),
                 });
                 const rewardedPet = this._player.PetManager.GetPetByCatchTime(catchTime);
                 if (!rewardedPet)
@@ -234,10 +234,10 @@ droppedItems.push(...require("./BossMaterialDrops").GetBossMaterialDrops(battle)
     CalculateExpReward(enemyLevel, enemyId, mapId, slot) {
         const yieldExp = GameConfig_1.GameConfig.GetPetById(enemyId)?.YieldingExp;
         const level = Number.isSafeInteger(enemyLevel) && enemyLevel > 0 ? enemyLevel : 1;
-        // 图鉴 YieldingExp 是被击败产出。旧地图把每只都写成 expReward=100，等级被丢掉。
+        // 图鉴 YieldingExp 是被击败产出。怀旧单机版提升 2 倍经验产出，并默认将 50% 存入经验分配器。
         let reward = typeof yieldExp === 'number' && yieldExp > 0
-            ? Math.floor(yieldExp * level / 7)
-            : level * 10;
+            ? Math.floor(yieldExp * level * 2 / 7)
+            : level * 20;
         if (mapId !== undefined && slot !== undefined) {
             const scale = this.GetOgreConfig(mapId, slot, enemyId)?.expMultiplier;
             if (typeof scale === 'number' && scale > 0 && scale !== 1)
@@ -249,8 +249,8 @@ droppedItems.push(...require("./BossMaterialDrops").GetBossMaterialDrops(battle)
      * 计算金币奖励
      */
     CalculateCoinsReward(enemyLevel) {
-        // 金币 = 敌人等级 * 5
-        return enemyLevel * 5;
+        // 怀旧单机版：金币 = 敌人等级 * 15（击败 1 次高阶 BOSS 即可够 1 次精灵融合或基础刻印兑换）
+        return enemyLevel * 15;
     }
     /**
      * 处理掉落物品

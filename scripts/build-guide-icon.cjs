@@ -12,13 +12,22 @@ const { compileClasses, sha, worktreeRoot } = require('./lib/swf-compile.cjs');
 assert.ok(process.argv[3], 'usage: build-guide-icon.cjs <base NieoCore.swf> <out NieoCore.swf>');
 const [basePath, outPath] = process.argv.slice(2, 4).map((p) => path.resolve(p));
 const base = fs.readFileSync(basePath);
-const className = 'com/robot/core/manager/TaskIconManager';
-const source = fs.readFileSync(
-  path.join(worktreeRoot, 'compat/client-patches/map-story/scripts', className + '.as'),
+const taskIconClass = 'com/robot/core/manager/TaskIconManager';
+const hatchMgrClass = 'com/robot/core/manager/HatchTaskManager';
+const taskIconSrc = fs.readFileSync(
+  path.join(worktreeRoot, 'compat/client-patches/map-story/scripts', taskIconClass + '.as'),
   'utf8'
 );
-assert.ok(source.includes('new_player_icon') && source.includes('openSeerGuide'), 'TaskIconManager must register classic guide icon');
-const { bytes, changed } = compileClasses(base, base, { [className]: source });
-assert.deepEqual(changed, [className], 'Expected only TaskIconManager to change');
+const hatchMgrSrc = fs.readFileSync(
+  path.join(worktreeRoot, 'compat/client-patches/map-story/scripts', hatchMgrClass + '.as'),
+  'utf8'
+);
+assert.ok(taskIconSrc.includes('new_player_icon') && taskIconSrc.includes('openSeerGuide'), 'TaskIconManager must register classic guide icon');
+assert.ok(hatchMgrSrc.includes('param2.isComplete = true'), 'HatchTaskManager must mark newly fused beads complete');
+const { bytes, changed } = compileClasses(base, base, {
+  [taskIconClass]: taskIconSrc,
+  [hatchMgrClass]: hatchMgrSrc,
+});
+assert.deepEqual(changed.sort(), [hatchMgrClass, taskIconClass].sort(), 'Expected only TaskIconManager and HatchTaskManager to change');
 fs.writeFileSync(outPath, bytes);
 console.log(JSON.stringify({ base: sha(base), out: sha(bytes), changed }, null, 2));
