@@ -55,7 +55,11 @@ package com.robot.core.manager
       
       private static var _skillPage:int = 0;
       
+      private static var _skillMaxPage:int = 0;
+      
       private static var _traitPage:int = 0;
+      
+      private static var _traitMaxPage:int = 0;
       
       private static var _selectedTraitId:uint = 0;
       
@@ -87,12 +91,17 @@ package com.robot.core.manager
             guideIcon.addEventListener(MouseEvent.CLICK,onOpenGuide);
             addIcon(guideIcon);
          }
-         var trialIcon:Sprite = createTopTrialIcon();
-         ToolTipManager.add(trialIcon,"星际试炼中心（无尽爬塔 · 技能回忆 · 特性觉醒）");
-         trialIcon.addEventListener(MouseEvent.CLICK,onOpenTrialPanel);
-         addIcon(trialIcon);
-         MapManager.addEventListener(MapEvent.MAP_SWITCH_COMPLETE,onMapSwitchComplete);
-         refreshScenePortal();
+         try
+         {
+            var trialIcon:Sprite = createTopTrialIcon();
+            ToolTipManager.add(trialIcon,"星际试炼中心（无尽爬塔 · 技能回忆 · 特性觉醒）");
+            trialIcon.addEventListener(MouseEvent.CLICK,onOpenTrialPanel);
+            addIcon(trialIcon);
+            MapManager.addEventListener(MapEvent.MAP_SWITCH_COMPLETE,onMapSwitchComplete);
+         }
+         catch(e:Error)
+         {
+         }
       }
       
       private static function createTopTrialIcon() : Sprite
@@ -117,7 +126,13 @@ package com.robot.core.manager
       
       private static function onMapSwitchComplete(param1:MapEvent) : void
       {
-         refreshScenePortal();
+         try
+         {
+            refreshScenePortal();
+         }
+         catch(e:Error)
+         {
+         }
       }
       
       private static function refreshScenePortal() : void
@@ -221,13 +236,19 @@ package com.robot.core.manager
       
       private static function onOpenTrialPanel(param1:MouseEvent = null) : void
       {
-         if(param1 != null)
+         try
          {
-            param1.stopPropagation();
+            if(param1 != null)
+            {
+               param1.stopPropagation();
+            }
+            ensureCmdListener();
+            showPanelShell();
+            SocketConnection.send(PLAYMODES_CMD,1,0,0);
          }
-         ensureCmdListener();
-         showPanelShell();
-         SocketConnection.send(PLAYMODES_CMD,1,0,0);
+         catch(e:Error)
+         {
+         }
       }
       
       private static function closeTrialPanel(param1:MouseEvent = null) : void
@@ -271,9 +292,9 @@ package com.robot.core.manager
          var i:int = 0;
          while(i < tabNames.length)
          {
-            var idx:int = i;
-            var isAct:Boolean = _activeTab == idx;
-            var tBtn:Sprite = makePillButton(tabNames[i],136,28,isAct ? 0x1A73B8 : 0x0F2D4B,isAct ? 0xA8F0FF : 0x4E8BB5,makeTabHandler(idx));
+            var isAct:Boolean = _activeTab == i;
+            var tBtn:Sprite = makePillButton(tabNames[i],136,28,isAct ? 0x1A73B8 : 0x0F2D4B,isAct ? 0xA8F0FF : 0x4E8BB5,onTabClick);
+            tBtn.name = "tab:" + i;
             tBtn.x = 18 + i * 146;
             tBtn.y = 58;
             panel.addChild(tBtn);
@@ -295,53 +316,60 @@ package com.robot.core.manager
          }
       }
       
-      private static function makeTabHandler(tabIndex:int) : Function
+      private static function onTabClick(param1:MouseEvent) : void
       {
-         return function(e:MouseEvent):void
+         var tgt:DisplayObject = param1.currentTarget as DisplayObject;
+         if(tgt == null || tgt.name.indexOf("tab:") != 0)
          {
-            _activeTab = tabIndex;
-            showPanelShell();
-         };
+            return;
+         }
+         _activeTab = int(tgt.name.substr(4));
+         showPanelShell();
       }
       
       private static function onPlayModesResp(param1:SocketEvent) : void
       {
-         var raw:ByteArray = param1.data as ByteArray;
-         if(raw == null || raw.bytesAvailable < 4)
+         try
          {
-            return;
+            var raw:ByteArray = param1.data as ByteArray;
+            if(raw == null || raw.bytesAvailable < 4)
+            {
+               return;
+            }
+            var len:uint = raw.readUnsignedInt();
+            var text:String = raw.readUTFBytes(Math.min(len,raw.bytesAvailable));
+            _state = parsePayload(text);
+            if(_panelOverlay != null)
+            {
+               renderPanelBody();
+            }
          }
-         var len:uint = raw.readUnsignedInt();
-         var text:String = raw.readUTFBytes(Math.min(len,raw.bytesAvailable));
-         _state = parsePayload(text);
-         if(_panelOverlay != null)
+         catch(e:Error)
          {
-            renderPanelBody();
          }
       }
       
       private static function parsePayload(text:String) : Object
       {
-         var obj:Object = {
-            "notice":"",
-            "auraTitle":"新手赛尔",
-            "dexCount":0,
-            "bountyDone":0,
-            "bountyTotal":10,
-            "nextHint":"",
-            "curFloor":1,
-            "bestFloor":0,
-            "crystals":0,
-            "buffs":[],
-            "pending":[],
-            "leadId":0,
-            "leadName":"无首发精灵",
-            "leadTraitId":0,
-            "leadTraitName":"暂无特性",
-            "eqSkills":[],
-            "skills":[],
-            "traits":[]
-         };
+         var obj:Object = new Object();
+         obj.notice = "";
+         obj.auraTitle = "新手赛尔";
+         obj.dexCount = 0;
+         obj.bountyDone = 0;
+         obj.bountyTotal = 10;
+         obj.nextHint = "";
+         obj.curFloor = 1;
+         obj.bestFloor = 0;
+         obj.crystals = 0;
+         obj.buffs = [];
+         obj.pending = [];
+         obj.leadId = 0;
+         obj.leadName = "无首发精灵";
+         obj.leadTraitId = 0;
+         obj.leadTraitName = "暂无特性";
+         obj.eqSkills = [];
+         obj.skills = [];
+         obj.traits = [];
          var lines:Array = text.split("\n");
          var i:int = 0;
          while(i < lines.length)
@@ -359,18 +387,18 @@ package com.robot.core.manager
                else if(k == "AURA")
                {
                   var ap:Array = v.split("|");
-                  obj.auraTitle = ap[0] || "新手赛尔";
-                  obj.dexCount = int(ap[1]);
-                  obj.bountyDone = int(ap[2]);
-                  obj.bountyTotal = int(ap[3]) || 10;
-                  obj.nextHint = ap[4] || "";
+                  obj.auraTitle = ap.length > 0 && ap[0] != "" ? ap[0] : "新手赛尔";
+                  obj.dexCount = ap.length > 1 ? int(ap[1]) : 0;
+                  obj.bountyDone = ap.length > 2 ? int(ap[2]) : 0;
+                  obj.bountyTotal = ap.length > 3 && int(ap[3]) > 0 ? int(ap[3]) : 10;
+                  obj.nextHint = ap.length > 4 ? ap[4] : "";
                }
                else if(k == "TOWER")
                {
                   var tp:Array = v.split("|");
-                  obj.curFloor = int(tp[0]) || 1;
-                  obj.bestFloor = int(tp[1]);
-                  obj.crystals = int(tp[2]);
+                  obj.curFloor = tp.length > 0 && int(tp[0]) > 0 ? int(tp[0]) : 1;
+                  obj.bestFloor = tp.length > 1 ? int(tp[1]) : 0;
+                  obj.crystals = tp.length > 2 ? int(tp[2]) : 0;
                }
                else if(k == "BUFFS" && v.length > 0)
                {
@@ -383,10 +411,10 @@ package com.robot.core.manager
                else if(k == "LEAD")
                {
                   var lp:Array = v.split("|");
-                  obj.leadId = int(lp[0]);
-                  obj.leadName = lp[1] || "无首发精灵";
-                  obj.leadTraitId = int(lp[2]);
-                  obj.leadTraitName = lp[3] || "暂无特性";
+                  obj.leadId = lp.length > 0 ? int(lp[0]) : 0;
+                  obj.leadName = lp.length > 1 && lp[1] != "" ? lp[1] : "无首发精灵";
+                  obj.leadTraitId = lp.length > 2 ? int(lp[2]) : 0;
+                  obj.leadTraitName = lp.length > 3 && lp[3] != "" ? lp[3] : "暂无特性";
                }
                else if(k == "EQSKILLS" && v.length > 0)
                {
@@ -416,11 +444,11 @@ package com.robot.core.manager
             if(items[i].length > 0)
             {
                var p:Array = items[i].split(":");
-               out.push({
-                  "a":p[0] || "",
-                  "b":p[1] || "",
-                  "c":cols >= 3 ? (p[2] || "") : ""
-               });
+               var rec:Object = new Object();
+               rec.a = p.length > 0 ? p[0] : "";
+               rec.b = p.length > 1 ? p[1] : "";
+               rec.c = cols >= 3 && p.length > 2 ? p[2] : "";
+               out.push(rec);
             }
             i++;
          }
@@ -429,36 +457,42 @@ package com.robot.core.manager
       
       private static function renderPanelBody() : void
       {
-         if(_panelBody == null || _state == null)
+         try
          {
-            return;
-         }
-         while(_panelBody.numChildren > 0)
-         {
-            _panelBody.removeChildAt(0);
-         }
-         if(_statusTf != null)
-         {
-            if(_state.notice != "")
+            if(_panelBody == null || _state == null)
             {
-               _statusTf.text = "提示：" + _state.notice;
+               return;
+            }
+            while(_panelBody.numChildren > 0)
+            {
+               _panelBody.removeChildAt(0);
+            }
+            if(_statusTf != null)
+            {
+               if(_state.notice != "")
+               {
+                  _statusTf.text = "提示：" + _state.notice;
+               }
+               else
+               {
+                  _statusTf.text = "称号【" + _state.auraTitle + "】 · 图鉴 " + _state.dexCount + " 只（" + _state.nextHint + "） · 赏金 " + _state.bountyDone + "/" + _state.bountyTotal + " · 特性晶石 " + _state.crystals + " 颗";
+               }
+            }
+            if(_activeTab == 0)
+            {
+               renderTowerTab();
+            }
+            else if(_activeTab == 1)
+            {
+               renderSkillsTab();
             }
             else
             {
-               _statusTf.text = "称号【" + _state.auraTitle + "】 · 图鉴 " + _state.dexCount + " 只（" + _state.nextHint + "） · 赏金 " + _state.bountyDone + "/" + _state.bountyTotal + " · 特性晶石 " + _state.crystals + " 颗";
+               renderTraitsTab();
             }
          }
-         if(_activeTab == 0)
+         catch(e:Error)
          {
-            renderTowerTab();
-         }
-         else if(_activeTab == 1)
-         {
-            renderSkillsTab();
-         }
-         else
-         {
-            renderTraitsTab();
          }
       }
       
@@ -500,6 +534,7 @@ package com.robot.core.manager
                var item:Object = _state.pending[pi];
                var pickIdx:int = pi + 1;
                var cBtn:Sprite = drawBox(204,112,0x103B66,0x7EE6FF);
+               cBtn.name = "pick:" + pickIdx;
                cBtn.buttonMode = true;
                cBtn.mouseChildren = false;
                cBtn.x = pi * 220;
@@ -517,7 +552,7 @@ package com.robot.core.manager
                cf.x = 10;
                cf.y = 86;
                cBtn.addChild(cf);
-               cBtn.addEventListener(MouseEvent.CLICK,makePickHandler(pickIdx));
+               cBtn.addEventListener(MouseEvent.CLICK,onPickBuffClick);
                _panelBody.addChild(cBtn);
                pi++;
             }
@@ -539,12 +574,18 @@ package com.robot.core.manager
          _panelBody.addChild(fightBtn);
       }
       
-      private static function makePickHandler(idx:int) : Function
+      private static function onPickBuffClick(param1:MouseEvent) : void
       {
-         return function(e:MouseEvent):void
+         var tgt:DisplayObject = param1.currentTarget as DisplayObject;
+         if(tgt == null || tgt.name.indexOf("pick:") != 0)
+         {
+            return;
+         }
+         var idx:int = int(tgt.name.substr(5));
+         if(idx > 0)
          {
             SocketConnection.send(PLAYMODES_CMD,3,idx,0);
-         };
+         }
       }
       
       private static function onStartTowerFight(param1:MouseEvent) : void
@@ -566,10 +607,10 @@ package com.robot.core.manager
          _panelBody.addChild(head);
          var perPage:int = 7;
          var total:int = _state.skills.length;
-         var maxPage:int = Math.max(0,Math.ceil(total / perPage) - 1);
-         if(_skillPage > maxPage)
+         _skillMaxPage = Math.max(0,Math.ceil(total / perPage) - 1);
+         if(_skillPage > _skillMaxPage)
          {
-            _skillPage = maxPage;
+            _skillPage = _skillMaxPage;
          }
          var start:int = _skillPage * perPage;
          var end:int = Math.min(total,start + perPage);
@@ -587,7 +628,8 @@ package com.robot.core.manager
             var sIdx:int = 1;
             while(sIdx <= 4)
             {
-               var sb:Sprite = makePillButton("装入" + sIdx,54,22,0x145B94,0x7EE6FF,makeLearnHandler(uint(sk.a),sIdx));
+               var sb:Sprite = makePillButton("装入" + sIdx,54,22,0x145B94,0x7EE6FF,onLearnSkillClick);
+               sb.name = "learn:" + sk.a + ":" + sIdx;
                sb.x = 398 + (sIdx - 1) * 60;
                sb.y = 5;
                line.addChild(sb);
@@ -603,43 +645,53 @@ package com.robot.core.manager
             emptyTf.y = 60;
             _panelBody.addChild(emptyTf);
          }
-         if(maxPage > 0)
+         if(_skillMaxPage > 0)
          {
-            var prevB:Sprite = makePillButton("上一页",76,26,0x143A5E,0x7EE6FF,function(e:MouseEvent):void
-            {
-               if(_skillPage > 0)
-               {
-                  _skillPage--;
-                  renderPanelBody();
-               }
-            });
+            var prevB:Sprite = makePillButton("上一页",76,26,0x143A5E,0x7EE6FF,onSkillPageClick);
+            prevB.name = "spage:-1";
             prevB.x = 200;
             prevB.y = 286;
             _panelBody.addChild(prevB);
-            var pgTf:TextField = makeText("第 " + (_skillPage + 1) + " / " + (maxPage + 1) + " 页",12,0xCFEAFF,false,90,22,TextFormatAlign.CENTER);
+            var pgTf:TextField = makeText("第 " + (_skillPage + 1) + " / " + (_skillMaxPage + 1) + " 页",12,0xCFEAFF,false,90,22,TextFormatAlign.CENTER);
             pgTf.x = 280;
             pgTf.y = 290;
             _panelBody.addChild(pgTf);
-            var nextB:Sprite = makePillButton("下一页",76,26,0x143A5E,0x7EE6FF,function(e:MouseEvent):void
-            {
-               if(_skillPage < maxPage)
-               {
-                  _skillPage++;
-                  renderPanelBody();
-               }
-            });
+            var nextB:Sprite = makePillButton("下一页",76,26,0x143A5E,0x7EE6FF,onSkillPageClick);
+            nextB.name = "spage:1";
             nextB.x = 374;
             nextB.y = 286;
             _panelBody.addChild(nextB);
          }
       }
       
-      private static function makeLearnHandler(skillId:uint, slot:int) : Function
+      private static function onLearnSkillClick(param1:MouseEvent) : void
       {
-         return function(e:MouseEvent):void
+         var tgt:DisplayObject = param1.currentTarget as DisplayObject;
+         if(tgt == null || tgt.name.indexOf("learn:") != 0)
          {
-            SocketConnection.send(PLAYMODES_CMD,4,skillId,slot);
-         };
+            return;
+         }
+         var parts:Array = tgt.name.split(":");
+         if(parts.length >= 3)
+         {
+            SocketConnection.send(PLAYMODES_CMD,4,uint(parts[1]),int(parts[2]));
+         }
+      }
+      
+      private static function onSkillPageClick(param1:MouseEvent) : void
+      {
+         var tgt:DisplayObject = param1.currentTarget as DisplayObject;
+         if(tgt == null || tgt.name.indexOf("spage:") != 0)
+         {
+            return;
+         }
+         var delta:int = int(tgt.name.substr(6));
+         var nextP:int = _skillPage + delta;
+         if(nextP >= 0 && nextP <= _skillMaxPage)
+         {
+            _skillPage = nextP;
+            renderPanelBody();
+         }
       }
       
       private static function renderTraitsTab() : void
@@ -648,10 +700,10 @@ package com.robot.core.manager
          _panelBody.addChild(head);
          var perPage:int = 18;
          var total:int = _state.traits.length;
-         var maxPage:int = Math.max(0,Math.ceil(total / perPage) - 1);
-         if(_traitPage > maxPage)
+         _traitMaxPage = Math.max(0,Math.ceil(total / perPage) - 1);
+         if(_traitPage > _traitMaxPage)
          {
-            _traitPage = maxPage;
+            _traitPage = _traitMaxPage;
          }
          var start:int = _traitPage * perPage;
          var end:int = Math.min(total,start + perPage);
@@ -665,6 +717,7 @@ package com.robot.core.manager
             var col:int = idx % 3;
             var row:int = int(idx / 3);
             var cell:Sprite = drawBox(208,34,isSel ? 0x1B6EA8 : 0x0C2A48,isSel ? 0xFFE07D : 0x356D9A);
+            cell.name = "trait:" + tid + ":" + tr.b;
             cell.buttonMode = true;
             cell.mouseChildren = false;
             cell.x = col * 218;
@@ -677,30 +730,18 @@ package com.robot.core.manager
             {
                ToolTipManager.add(cell,tr.b + "：" + tr.c);
             }
-            cell.addEventListener(MouseEvent.CLICK,makeSelectTraitHandler(tid,tr.b));
+            cell.addEventListener(MouseEvent.CLICK,onSelectTraitClick);
             _panelBody.addChild(cell);
             idx++;
             i++;
          }
-         var prevB:Sprite = makePillButton("上一页",72,28,0x143A5E,0x7EE6FF,function(e:MouseEvent):void
-         {
-            if(_traitPage > 0)
-            {
-               _traitPage--;
-               renderPanelBody();
-            }
-         });
+         var prevB:Sprite = makePillButton("上一页",72,28,0x143A5E,0x7EE6FF,onTraitPageClick);
+         prevB.name = "tpage:-1";
          prevB.x = 0;
          prevB.y = 268;
          _panelBody.addChild(prevB);
-         var nextB:Sprite = makePillButton("下一页",72,28,0x143A5E,0x7EE6FF,function(e:MouseEvent):void
-         {
-            if(_traitPage < maxPage)
-            {
-               _traitPage++;
-               renderPanelBody();
-            }
-         });
+         var nextB:Sprite = makePillButton("下一页",72,28,0x143A5E,0x7EE6FF,onTraitPageClick);
+         nextB.name = "tpage:1";
          nextB.x = 80;
          nextB.y = 268;
          _panelBody.addChild(nextB);
@@ -711,14 +752,37 @@ package com.robot.core.manager
          _panelBody.addChild(forgeBtn);
       }
       
-      private static function makeSelectTraitHandler(tid:uint, tname:String) : Function
+      private static function onSelectTraitClick(param1:MouseEvent) : void
       {
-         return function(e:MouseEvent):void
+         var tgt:DisplayObject = param1.currentTarget as DisplayObject;
+         if(tgt == null || tgt.name.indexOf("trait:") != 0)
          {
-            _selectedTraitId = tid;
-            _selectedTraitName = tname;
+            return;
+         }
+         var rest:String = tgt.name.substr(6);
+         var sep:int = rest.indexOf(":");
+         if(sep > 0)
+         {
+            _selectedTraitId = uint(rest.substr(0,sep));
+            _selectedTraitName = rest.substr(sep + 1);
             renderPanelBody();
-         };
+         }
+      }
+      
+      private static function onTraitPageClick(param1:MouseEvent) : void
+      {
+         var tgt:DisplayObject = param1.currentTarget as DisplayObject;
+         if(tgt == null || tgt.name.indexOf("tpage:") != 0)
+         {
+            return;
+         }
+         var delta:int = int(tgt.name.substr(6));
+         var nextP:int = _traitPage + delta;
+         if(nextP >= 0 && nextP <= _traitMaxPage)
+         {
+            _traitPage = nextP;
+            renderPanelBody();
+         }
       }
       
       private static function onConfirmTraitForge(param1:MouseEvent) : void
@@ -772,7 +836,7 @@ package com.robot.core.manager
          tf.text = txt;
          return tf;
       }
-
+      
       private static function onOpenGuide(param1:MouseEvent) : void
       {
          var mapId:uint = MainManager.actorInfo != null ? uint(MainManager.actorInfo.mapID) : 0;
