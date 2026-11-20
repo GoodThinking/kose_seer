@@ -36,6 +36,8 @@ package com.robot.module.book
       private var petTime:uint = 0;
       private var markId:uint = 0;
       private var kind:String = "ability";
+      private var page:int = 0;
+      private static const PAGE_SIZE:int = 6;
       private var pending:Boolean = false;
       private var uncertain:Boolean = false;
       private var requestTimer:Timer = new Timer(15000,1);
@@ -166,9 +168,22 @@ package com.robot.module.book
          return 0;
       }
       // Each identifier has its own original vector emblem; the same drawing is used in inventory, details and equipped sockets.
-      private function badge(parent:Sprite,x:Number,y:Number,id:uint,size:Number):Sprite {
-         var s:Sprite=new Sprite();s.x=x;s.y=y;s.name="badge:"+id;s.scaleX=s.scaleY=size/60;s.mouseEnabled=false;s.mouseChildren=false;
+      // 新增刻印沿用这 8 种图形：能力刻印取第一项加成的属性图形，属性刻印用撞击图形，专属技能刻印用闪电图形；外圈颜色区分档次。
+      private function iconOf(id:uint):uint {
+         var m:XML=findMark(id);
+         if(m==null||(id>=10001&&id<=10006)||id==20001||id==20002) return id;
+         if(String(m.@kind)=="skill") return uint(m.@skillType)>0?20001:20002;
+         var keys:Array=["atk","def","spAtk","spDef","speed","hp"];
+         for(var i:int=0;i<keys.length;i++) if(uint(m.attribute(keys[i]))>0) return 10001+i;
+         return id;
+      }
+      private function badge(parent:Sprite,x:Number,y:Number,markId:uint,size:Number):Sprite {
+         var m:XML=findMark(markId);var tier:uint=m!=null?uint(m.@tier):0;
+         var id:uint=iconOf(markId);
+         var s:Sprite=new Sprite();s.x=x;s.y=y;s.name="badge:"+markId;s.scaleX=s.scaleY=size/60;s.mouseEnabled=false;s.mouseChildren=false;
          var color:uint=id==10001?0xF07B65:id==10002?0x65A9EB:id==10003?0xC396F8:id==10004?0x71DAD9:id==10005?0x91D988:id==10006?0xF29AB8:id==20001?0xF6B862:0xF4DF75;
+         var ring:uint=tier==2?0xD8E6F2:tier==3?0xB57BFF:tier==4?0xFFC93C:tier==5?0x4FE0C0:0x0B3556;
+         if(tier>=2) { s.graphics.lineStyle(5,ring);s.graphics.drawCircle(0,0,30); }
          s.graphics.lineStyle(2.2,0x0B3556);s.graphics.beginFill(color);s.graphics.drawCircle(0,0,27);s.graphics.endFill();
          var matrix:Matrix=new Matrix();matrix.createGradientBox(44,44,Math.PI/2,-22,-22);
          s.graphics.lineStyle(1,0xFFFFFF,0.6);s.graphics.beginGradientFill(GradientType.LINEAR,[color,0x23476B],[1,0.7],[0,255],matrix);s.graphics.drawCircle(0,0,23);s.graphics.endFill();
@@ -243,26 +258,29 @@ package com.robot.module.book
          }
          label(body,"不足100级时，刻印效果停用",32,399,204,22,10,0xB6D6E9);
          button(body,"能力刻印",270,90,139,31,"tab:ability");button(body,"技能刻印",417,90,136,31,"tab:skill");
-         var marks:Array=[];var item:XML;
-         if(state!=null) for each(item in state.catalog.mark) if(String(item.@kind)==kind) marks.push(item);
-         for(i=0;i<marks.length;i++) {
-            var m:XML=marks[i];
-            var x:Number=271+(i%2)*146;var y:Number=136+int(i/2)*86;
+         var marks:Array=kindMarks();
+         var pages:int=Math.max(1,Math.ceil(marks.length/PAGE_SIZE));
+         page=Math.max(0,Math.min(page,pages-1));
+         var tabPet:XML=selectedPet();
+         for(i=page*PAGE_SIZE;i<marks.length&&i<(page+1)*PAGE_SIZE;i++) {
+            var m:XML=marks[i];var slot:int=i-page*PAGE_SIZE;
+            var x:Number=271+(slot%2)*146;var y:Number=136+int(slot/2)*86;
             var tile:Sprite=new Sprite();tile.x=x;tile.y=y;tile.name="mark:"+m.@id;tile.buttonMode=true;tile.mouseChildren=false;
             selected=markId==uint(m.@id);
             plate(tile,0,0,136,78,selected?0x347CA6:0x265C86,selected?0x245E88:0x1A456D,selected?0xFFE58D:0x0C355A,selected?2:1);
             badge(tile,31,28,uint(m.@id),45);
-            var shortEffect:String=String(m.@description).replace("电光火石","").replace("撞击","");
-            label(tile,shortEffect,62,10,69,25,12,selected?0xFFF0AC:0xC7E6F3,true);
+            var shortEffect:String=String(m.@short)!=""?String(m.@short):String(m.@description).replace("电光火石","").replace("撞击","");
+            label(tile,shortEffect,62,10,72,25,12,selected?0xFFF0AC:0xC7E6F3,true);
             centerLabel(tile,String(m.@name),3,53,130,24,12,selected?0xFFF0AC:0xE1F3FF,true);
-            label(tile,"库存×"+count(uint(m.@id)),62,31,70,20,10,count(uint(m.@id))>0?0xFFF0AC:0xAACBDE);
+            label(tile,"库存×"+count(uint(m.@id)),62,31,44,20,10,count(uint(m.@id))>0?0xFFF0AC:0xAACBDE);
+            if(kind=="skill"&&fits(tabPet,m)) label(tile,"适用",104,31,30,20,10,0x9BF0B4,true);
             tile.mouseEnabled=!pending&&!uncertain;tile.alpha=tile.mouseEnabled?1:0.6;body.addChild(tile);
          }
-         if(kind=="skill") {
-            label(body,"技能孔专用",278,256,270,31,18,0xFFF0A7,true);
-            label(body,"刻印效果仅作用于对应技能。\n选择刻印，查看详细效果。",278,300,267,60,13,0xC4DFEF);
+         if(marks.length>PAGE_SIZE) {
+            button(body,"上一页",271,396,76,26,"prev",page>0);
+            centerLabel(body,(page+1)+" / "+pages,349,399,128,22,12,0xE1F3FF,true);
+            button(body,"下一页",479,396,76,26,"next",page<pages-1);
          }
-         label(body,"库存为未装备数量",274,401,275,22,11,0xB6D6E9);
          var pet:XML=selectedPet();var mark:XML=selectedMark();
          if(pet!=null) {
             var petLevel:uint=uint(pet.@level);
@@ -291,12 +309,13 @@ package com.robot.module.book
             label(body,String(mark.@name),652,316,236,28,17,0xFFF0AB,true);
             label(body,String(mark.@description),652,345,235,33,12,0xE2F1FC);
             var same:Boolean=pet!=null&&uint(pet.attribute(kind))==markId;
-            var status:String="库存×"+count(markId)+"  ·  本服兑换："+mark.@price+" 赛尔豆";
+            var price:uint=uint(mark.@price);
+            var status:String="库存×"+count(markId)+"  ·  "+(price>0?"本服兑换："+price+" 赛尔豆":"获取："+mark.@source);
             label(body,status,590,365,297,24,11,0xBDDFE8);
-            button(body,"兑换刻印",590,391,139,29,"buy",state!=null&&uint(state.@coins)>=uint(mark.@price));
+            button(body,"兑换刻印",590,391,139,29,"buy",price>0&&state!=null&&uint(state.@coins)>=price);
             button(body,same?"卸下刻印":(pet!=null&&uint(pet.attribute(kind))!=0?"替换装备":"装备刻印"),740,391,147,29,same?"unequip":"equip",pet!=null&&(same||(count(markId)>0&&petLevel>=100)));
          }
-         label(body,"100级可用；降级后装备保留，效果停用。更换刻印会返还原刻印。",25,443,864,25,12,0x163F62);
+         label(body,"100级可用；降级后装备保留，效果停用。更换刻印会返还原刻印。库存为未装备数量。",25,443,864,25,12,0x163F62);
          label(body,pending?"请求处理中，请稍候…":message,25,481,772,27,13,0x163F62,true);
          button(body,"刷新",817,478,76,30,"refresh");
       }
@@ -322,9 +341,11 @@ package com.robot.module.book
          var action:String=target.name;
          if(action=="close") { hide(); return; }
          if(pending || (uncertain&&action!="refresh")) return;
-         if(action.indexOf("pet:")==0) petTime=uint(action.split(":")[1]);
+         if(action.indexOf("pet:")==0) { petTime=uint(action.split(":")[1]); if(kind=="skill") page=0; }
          else if(action.indexOf("mark:")==0) markId=uint(action.split(":")[1]);
-         else if(action.indexOf("tab:")==0) { kind=action.split(":")[1]; markId=0; chooseMark(); }
+         else if(action.indexOf("tab:")==0) { kind=action.split(":")[1]; markId=0; page=0; chooseMark(); }
+         else if(action=="prev") page--;
+         else if(action=="next") page++;
          else if(action=="refresh") { request(0); return; }
          else if(action=="buy") { request(1); return; }
          else if(action=="equip") { request(2); return; }
@@ -333,7 +354,20 @@ package com.robot.module.book
          draw();
       }
       private function chooseMark():void {
-         if(state!=null&&findMark(markId)==null) for each(var m:XML in state.catalog.mark) if(String(m.@kind)==kind) { markId=uint(m.@id); break; }
+         if(state!=null&&findMark(markId)==null) { var marks:Array=kindMarks(); if(marks.length>0) markId=uint(marks[0].@id); }
+      }
+      // 当前页签的刻印；技能页把当前精灵用得上的排在前面（服务端按 id 顺序下发）。
+      private function kindMarks():Array {
+         var result:Array=[];var later:Array=[];var pet:XML=selectedPet();
+         if(state!=null) for each(var m:XML in state.catalog.mark) if(String(m.@kind)==kind) {
+            if(kind=="skill"&&!fits(pet,m)) later.push(m); else result.push(m);
+         }
+         return result.concat(later);
+      }
+      private function fits(pet:XML,m:XML):Boolean {
+         if(pet==null) return false;
+         if(uint(m.@skillType)>0) return String(pet.@moveTypes).split(",").indexOf(String(m.@skillType))>=0;
+         return String(pet.@moves).split(",").indexOf(String(m.@moveId))>=0;
       }
       private function request(op:uint):void {
          if(pending || (uncertain&&op!=0)) return; pending=true; requestTimer.reset(); requestTimer.start(); draw();

@@ -92,6 +92,13 @@ droppedItems.push(...require("./BossMaterialDrops").GetBossMaterialDrops(battle)
                 utils_1.Logger.Info(`[BattleRewardService] 掉落物品已添加到背包: ItemId=${drop.itemId}, Count=${drop.count}`);
             }
             result.droppedItems.push(...await require("../../Map/MysteryMonActivity").GrantMysteryFragments(this._player, battle, mapId, slot));
+            // 刻印掉落：须在本场首胜登记（下面 spt 阶段）之前判断是否已首胜
+            stage = 'countermarks';
+            const markBoss = battle.bossMapId === undefined || battle.universeBoss ? null : BossAbilityConfig_1.BossAbilityConfig.Instance.GetBossConfigByMapAndParam(battle.bossMapId, battle.bossParam2);
+            const markSptId = markBoss?.spt?.sptId > 0 && markBoss.spt.sptId <= 200 ? markBoss.spt.sptId : 0;
+            const marks = await require("../../Pet/Countermarks").GrantBossDrop(this._player, battle, markSptId, markSptId > 0 && this._player.ChallengeProgressManager.HasDefeatedSPTBoss(markSptId));
+            if (marks.length)
+                await require("../../Map/ForestMechanisms").SendForestAlert(this._player, `获得刻印：${marks.map(m => m.name).join('、')}。可以在精灵刻印面板中装备。`);
             // 6. 处理SPT首次击败奖励（如果是BOSS战斗）
             stage = 'spt';
             sptRewards = await this.ProcessSPTFirstDefeatReward(battle, mapId, result);

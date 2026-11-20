@@ -15,7 +15,7 @@ app/config/data/json/alder_config.json	9d0544caa3228318b7c1e90795abd6ce7f3306296
 app/config/data/json/boss_abilities.json	9ef3b928b28ea73fa71fd8282b4ed9e18a8119477b5222cf78fdf7fa33c41bb4	640	root:kose-seer
 app/config/data/json/closed_space.json	389d9fe1b343f7c2ad52f254d539340bbd250ced866a826103185365f59135e1	640	root:kose-seer
 app/config/data/json/compass_activity.json	1117d11442bd29bd60be05d796ca3f1589dba259ad672b754cdb91dc30e95995	640	root:kose-seer
-app/config/data/json/countermarks.json	f34d888449ee7f7d257198fc3e81e4cf76ec93fed13cc4879732a6269ffb9f5a	640	root:kose-seer
+app/config/data/json/countermarks.json	345f8ee47f524eecbb66271fe7a21d9f48d79ccd4b162848c2fc6e005d55c0d4	640	root:kose-seer
 app/config/data/json/default-player.json	e5ce72f93c6b7405902fe8326ca1a99eef88094fb3930574aa9e6660efa8012c	640	root:kose-seer
 app/config/data/json/elements.json	168be5334df364fc43ef3b9517b68b16ad72a217d17b5a7413121f242bfa1862	640	root:kose-seer
 app/config/data/json/essence-hatching.json	00f84a0a75623aa4d5f32385da5fc39bf486e67de4e48157af6a1edde91ec8cb	640	root:kose-seer
@@ -907,7 +907,7 @@ app/dist/GameServer/Game/Battle/services/BattlePvpService.js	ed0276e9e4140349c9e
 app/dist/GameServer/Game/Battle/services/BattlePvpService.js.map	909c9c9cad113a2782a0a1cd9b7cd245cf647d1f802432f4852fcdc3cf413f9a	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleRewardService.d.ts	52424f396e8c8100ed52c6c438c99b8365fa96ebd34331a32a6ffda0fb982c7d	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleRewardService.d.ts.map	7c3cf992b21e381219042984bad500d0dde6a0702f42351eb52bf731895f1af4	640	root:kose-seer
-app/dist/GameServer/Game/Battle/services/BattleRewardService.js	fe402557a5563db2bb2d5ba8770157790eeb819f4e5f4b9032433650f265c946	640	root:kose-seer
+app/dist/GameServer/Game/Battle/services/BattleRewardService.js	46c09a6777dc06a5896dc72e76c1cde62c9177a886ae07d68c93b3d188c66134	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleRewardService.js.map	6033331ac4f1f7326b2768da439ee68491d8817e0cfc1868db2b64829b1deb82	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleTurnService.d.ts	0111778a420b8c453e91601a03a2f1104c50b9a537cb414880505eb3c1c87e76	640	root:kose-seer
 app/dist/GameServer/Game/Battle/services/BattleTurnService.d.ts.map	7f0c3692f2a78f68f41bbbd5ad3a837a9754e4a2502e2a40538ff2a08602c383	640	root:kose-seer
@@ -1043,7 +1043,7 @@ app/dist/GameServer/Game/NoNo/NoNoManager.js.map	0e3715aff242ba98761a4335d6f591c
 app/dist/GameServer/Game/NoNo/SuperAnalyzer.js	1dd989458316995e49b9d39eeaad43a26ec3885e2be5c34ca038478ef76e62e1	640	root:kose-seer
 app/dist/GameServer/Game/NoNo/SuperNonoCoins.js	6518c1fbcd04e26d66d71482d82fb8a208f10648331e3fccaabb6386322944b6	640	root:kose-seer
 app/dist/GameServer/Game/Pet/CollectReward.js	dc5702b0816e01c0bab253cb14463dafcd45aae577c9a96c55e30661dd5f3104	640	root:kose-seer
-app/dist/GameServer/Game/Pet/Countermarks.js	b56eef009ce37907f3dd5fae6b36bcc902047c7ebc04eefa8610db2a21883229	640	root:kose-seer
+app/dist/GameServer/Game/Pet/Countermarks.js	92b59bf73580809fbf04d838efe369bce6f43ad7b9620bd17acf22e974f2c246	640	root:kose-seer
 app/dist/GameServer/Game/Pet/EssenceHatching.js	657de1eb40dc0bab50963b5f55145777af181e9229b6bf9e2a0e778399e01ed0	640	root:kose-seer
 app/dist/GameServer/Game/Pet/EssenceHatching.js.map	91af3b0d3eca874ed93f689ba3318c80b77b1b0281bc4136c8c867c0860d4346	640	root:kose-seer
 app/dist/GameServer/Game/Pet/PetCalculator.d.ts	42d371faa00a2fdca9d24f5b1ec569951909ac5f0d1b90a248bf6469379a592a	640	root:kose-seer
@@ -3436,7 +3436,7 @@ client/overlay/module/com/robot/module/app/subMap/Galaxy_3.swf	d497fecaa2b7a785d
 client/overlay/module/com/robot/module/app/subMap/Galaxy_4.swf	d2dcc973970daa3a467b0f8dea4d8ba4d81f4430a558ade66682d04f3ce7d5c4	644	root:kose-seer
 client/overlay/module/com/robot/module/app/subMap/Galaxy_5.swf	6e689a345510fdf031f2f048303f9a57fd38961f3586f3db3799823d9e99ee5f	644	root:kose-seer
 client/overlay/module/com/robot/module/book/ElietCoinBookPanel.swf	03b7518f1b91ab1d6c5a243b07ccfe6f89c48756f850c395e7e4f28270ef6518	644	root:kose-seer
-client/overlay/module/com/robot/module/book/PetCountermarkBookPanel.swf	25218a1c87ebdd63aaf31f0181cd4954378157b76d43b9cc306897451f6a105c	644	root:kose-seer
+client/overlay/module/com/robot/module/book/PetCountermarkBookPanel.swf	367cf4964e6262f35ec063105da41b1aa016e8c0f11dbfb7fc676b2d16088081	644	root:kose-seer
 client/overlay/module/com/robot/module/book/ShopingGuidePanel.swf	4d278f78e2af3b16084933092bef4bcc1a2d059241c5d0fc7954f0ae04e78f3b	644	root:kose-seer
 client/overlay/module/com/robot/module/game/CipanPintuPanel.swf	5f5462f13733b4ac7c9de4a16d6e18fc482e2ccaafd615bfc4f3480c334e939a	644	root:kose-seer
 client/overlay/module/com/robot/module/game/ElectricGame.swf	8a2ddaac7d264d715b778595f424e0b0d22e58be0a4c2351584dc371afefa0c2	644	root:kose-seer

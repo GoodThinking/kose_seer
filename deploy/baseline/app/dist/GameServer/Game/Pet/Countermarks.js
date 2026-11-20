@@ -10,6 +10,7 @@ exports.Skill = Skill;
 exports.Snapshot = Snapshot;
 exports.Operate = Operate;
 exports.Handle = Handle;
+exports.GrantBossDrop = GrantBossDrop;
 const DatabaseManager_1 = require("../../../DataBase/DatabaseManager");
 const ConfigLoader_1 = require("../../../shared/config/ConfigLoader");
 const PetCalculator_1 = require("./PetCalculator");
@@ -32,9 +33,11 @@ function Catalog() {
     if (!Array.isArray(marks) || new Set(marks.map(m => m.id)).size !== marks.length)
         throw Error('Invalid countermark catalog');
     for (const m of marks) {
-        if (!Number.isSafeInteger(m.id) || m.id <= 0 || !['ability', 'skill'].includes(m.kind) || !Number.isSafeInteger(m.price) || m.price <= 0)
+        if (!Number.isSafeInteger(m.id) || m.id <= 0 || !['ability', 'skill'].includes(m.kind) || !Number.isSafeInteger(m.price) || m.price < 0)
             throw Error('Invalid countermark');
-        for (const key of ['hp', 'atk', 'def', 'spAtk', 'spDef', 'speed', 'power', 'priority'])
+        if (m.kind === 'skill' && !m.moveId === !m.skillType)
+            throw Error('Skill countermark needs exactly one of moveId / skillType');
+        for (const key of ['hp', 'atk', 'def', 'spAtk', 'spDef', 'speed', 'power', 'priority', 'tier', 'moveId', 'skillType', 'bossPetId'])
             if (m[key] !== undefined && (!Number.isSafeInteger(m[key]) || m[key] < 0))
                 throw Error('Invalid countermark stat');
     }
@@ -65,7 +68,10 @@ function Skill(pet, skill) {
     if (!id)
         return skill;
     const mark = Catalog().find(m => m.id === id && m.kind === 'skill');
-    if (!mark || pet.level < mark.minLevel || mark.moveId !== skill.id || (mark.petIds?.length && !mark.petIds.includes(pet.petId)))
+    if (!mark || pet.level < mark.minLevel || (mark.petIds?.length && !mark.petIds.includes(pet.petId)))
+        return skill;
+    // 属性刻印：该属性的攻击技能（物理/特殊且有威力）；专属刻印：对应技能
+    if (mark.skillType ? !(skill.type === mark.skillType && skill.power > 0 && (skill.category === 1 || skill.category === 2)) : mark.moveId !== skill.id)
         return skill;
     return { ...skill, power: skill.power + (mark.power || 0), priority: (skill.priority || 0) + (mark.priority || 0) };
 }
@@ -74,7 +80,7 @@ function attrs(value) { return Object.entries(value).filter(([, v]) => !Array.is
 async function Snapshot(player, error = 0, message = '') {
     const db = DatabaseManager_1.DatabaseManager.Instance;
     const inventory = await db.WithConnection(async (d) => { await d.execute(TABLE); return d.query('SELECT mark_id, count FROM player_countermarks WHERE owner_id = ? ORDER BY mark_id', [player.Uid]); });
-    return `<countermarks ${attrs({ coins: player.Data.coins, error, message })}><catalog>${Catalog().map(m => `<mark ${attrs({ ...m, hp: m.hp || 0, atk: m.atk || 0, def: m.def || 0, spAtk: m.spAtk || 0, spDef: m.spDef || 0, speed: m.speed || 0, petIds: m.petIds?.join(',') || '' })}/>`).join('')}</catalog><inventory>${inventory.map((m) => `<mark ${attrs({ id: m.mark_id, count: m.count })}/>`).join('')}</inventory><pets>${player.PetManager.PetData.PetList.map((p) => `<pet ${attrs({ catchTime: p.catchTime, id: p.petId, name: p.nick || GameConfig_1.GameConfig.GetPetById(p.petId)?.DefName || String(p.petId), level: p.level, inBag: p.isInBag ? 1 : 0, ...Slots(p), ...PetCalculator_1.PetCalculator.CalculateStatsFromPet(p) })}/>`).join('')}</pets></countermarks>`;
+    return `<countermarks ${attrs({ coins: player.Data.coins, error, message })}><catalog>${Catalog().map(m => `<mark ${attrs({ ...m, hp: m.hp || 0, atk: m.atk || 0, def: m.def || 0, spAtk: m.spAtk || 0, spDef: m.spDef || 0, speed: m.speed || 0, petIds: m.petIds?.join(',') || '' })}/>`).join('')}</catalog><inventory>${inventory.map((m) => `<mark ${attrs({ id: m.mark_id, count: m.count })}/>`).join('')}</inventory><pets>${player.PetManager.PetData.PetList.map((p) => `<pet ${attrs({ catchTime: p.catchTime, id: p.petId, name: p.nick || GameConfig_1.GameConfig.GetPetById(p.petId)?.DefName || String(p.petId), level: p.level, inBag: p.isInBag ? 1 : 0, moves: (p.skillArray || []).join(','), moveTypes: (p.skillArray || []).map(id => GameConfig_1.GameConfig.GetSkillById(id)).filter(s => s && s.Power > 0 && (s.Category === 1 || s.Category === 2)).map(s => s.Type).join(','), ...Slots(p), ...PetCalculator_1.PetCalculator.CalculateStatsFromPet(p) })}/>`).join('')}</pets></countermarks>`;
 }
 async function Operate(player, op, catchTime, markId, slot) {
     if (![0, 1, 2, 3].includes(op))
@@ -129,6 +135,8 @@ async function Operate(player, op, catchTime, markId, slot) {
                 else
                     await d.execute('INSERT INTO player_countermarks(owner_id,mark_id,count) VALUES(?,?,?)', [player.Uid, id, n]); };
                 if (op === 1) {
+                    if (!mark.price)
+                        throw new Rejected(5001, '该刻印不能兑换，' + (mark.source || '请挑战 BOSS 获得'));
                     if (balance[0] < mark.price)
                         throw new Rejected(10016, '赛尔豆不足');
                     balance[0] -= mark.price;
@@ -199,4 +207,45 @@ async function Handle(player, body) {
         message = error instanceof Rejected ? error.message : '刻印操作失败';
     }
     await player.SendPacket(new Packet(await Snapshot(player, code, message), code));
+}
+/**
+ * BOSS 战胜利掉落刻印（只限登记了 SPT 编号的 BOSS，不含宇宙 BOSS）：
+ * - 专属技能刻印：重复挑战（已首胜）对应 BOSS，按 signatureChance 掉落；
+ * - 能力/属性刻印：按 BOSS 等级所在档位的池子，按 generalChance 掉落一枚。
+ * hadDefeated 由调用方在本场首胜登记之前取得。返回获得的刻印。
+ */
+async function GrantBossDrop(player, battle, sptId, hadDefeated) {
+    if (battle.universeBoss || !sptId)
+        return [];
+    const config = ConfigLoader_1.ConfigLoader.Instance.LoadJson('data/json/countermarks.json')?.drops;
+    if (!config)
+        throw Error('Countermark drop configuration missing');
+    const marks = Catalog(), won = [];
+    const signature = hadDefeated && marks.filter(m => m.bossPetId === battle.enemy.id);
+    if (signature?.length && Math.random() < config.signatureChance)
+        won.push(signature[Math.floor(Math.random() * signature.length)]);
+    const pool = config.pools.find(p => battle.enemy.level <= p.maxLevel);
+    const candidates = pool ? marks.filter(m => !m.price && !m.bossPetId && (m.kind === 'ability' ? pool.tiers.includes(m.tier) : pool.element && !!m.skillType)) : [];
+    if (candidates.length && Math.random() < config.generalChance)
+        won.push(candidates[Math.floor(Math.random() * candidates.length)]);
+    if (!won.length)
+        return [];
+    await DatabaseManager_1.DatabaseManager.Instance.WithConnection(async (d) => {
+        await d.execute(TABLE);
+        await d.beginTransaction();
+        try {
+            for (const m of won) {
+                const write = await d.execute('UPDATE player_countermarks SET count = count + 1 WHERE owner_id = ? AND mark_id = ?', [player.Uid, m.id]);
+                if (write.affectedRows !== 1)
+                    await d.execute('INSERT INTO player_countermarks(owner_id,mark_id,count) VALUES(?,?,1)', [player.Uid, m.id]);
+            }
+            await d.commit();
+        }
+        catch (error) {
+            await d.rollback();
+            throw error;
+        }
+    });
+    Logger_1.Logger.Info(`[Countermarks] BOSS 掉落: UserID=${player.Uid}, Boss=${battle.enemy.id}, Marks=${won.map(m => m.id).join(',')}`);
+    return won;
 }
