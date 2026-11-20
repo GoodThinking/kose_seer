@@ -100,9 +100,8 @@ package com.robot.core.ui.nono
          if(PetWorkflowClient.inBattle){clearNotice();return;}
          if(state!=null)for each(var job:Object in state.jobs){
             if(!job.ready&&seconds(job)==0)forceQuery=true;
-            if(job.ready&&seen.indexOf(job.key)<0&&notice==null){
+            if(job.ready&&seen.indexOf(job.key)<0){
                seen.push(job.key);PetWorkflowUI.saveLocal("hatchSeen",seen);
-               notice=PetWorkflowUI.button(LevelManager.appLevel,"孵化已完成 · 点击查看领取入口",330,72,288,function():void{clearNotice();show();});
             }
          }
          if(getTimer()-lastQuery>=60000||forceQuery&&getTimer()-lastQuery>=5000)refresh();

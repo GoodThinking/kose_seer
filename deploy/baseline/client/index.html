@@ -12,13 +12,23 @@ button{cursor:pointer}button:disabled{opacity:.55;cursor:default}
 #game{flex:none;background:#071117;overflow:hidden}
 ruffle-player{display:block;width:100%;height:100%}
 #status{margin:8px 16px;color:#a1b7c0;min-height:20px}
+#guide-modal{position:fixed;inset:0;z-index:9999;background:rgba(4,12,20,.78);display:none;flex-direction:column;padding:18px}
+#guide-modal.open{display:flex}
+#guide-modal-bar{display:flex;align-items:center;justify-content:space-between;background:#0d2538;border:1px solid #3c7fa6;border-bottom:none;border-radius:10px 10px 0 0;padding:8px 14px;color:#e4f6ff}
+#guide-modal-bar a{color:#7ee6ff;text-decoration:none;margin-right:12px}
+#guide-modal-frame{flex:1;width:100%;border:1px solid #3c7fa6;border-radius:0 0 10px 10px;background:#07131d}
 @media(max-width:600px){header{justify-content:center}#stage{margin:0 8px}}
 </style>
 <header><span>怀旧赛尔号 · 客户端验证</span><div class="controls">
+<a id="guide-top-link" href="/guide/index.html" target="_blank" rel="noopener" style="color:#7ee6ff">星际攻略</a>
 <a href="/register.html" style="color:#d1e4ea">邀请码注册</a>
 <label for="display-mode">画面</label><select id="display-mode"><option value="fit">适应窗口</option><option value="native">原始大小</option></select>
 <button id="fullscreen" type="button">全屏</button>
 </div></header><main id="stage"><div id="game" aria-label="游戏画面"></div></main><p id="status" role="status">正在加载客户端</p>
+<div id="guide-modal" role="dialog" aria-label="赛尔号星际攻略档案">
+<div id="guide-modal-bar"><strong>赛尔号星际攻略档案</strong><div><a id="guide-modal-ext" href="/guide/index.html" target="_blank" rel="noopener">新标签页打开 ↗</a><button id="guide-modal-close" type="button">× 关闭</button></div></div>
+<iframe id="guide-modal-frame" title="赛尔号星际攻略档案"></iframe>
+</div>
 <script>
 const stage = document.getElementById('stage');
 const game = document.getElementById('game');
@@ -54,6 +64,15 @@ window.getSessionID = () => session;
 window.saveSessionID = value => { session = String(value); };
 window.clearSessionID = () => { session = ''; };
 window.debugFlash = () => {};
+const guideModal = document.getElementById('guide-modal');
+const guideModalFrame = document.getElementById('guide-modal-frame');
+const guideModalExt = document.getElementById('guide-modal-ext');
+const guideTopLink = document.getElementById('guide-top-link');
+const closeGuideModal = () => {
+ guideModal.classList.remove('open');
+};
+document.getElementById('guide-modal-close').addEventListener('click', closeGuideModal);
+window.addEventListener('keydown', e => { if (e.key === 'Escape' && guideModal.classList.contains('open')) closeGuideModal(); });
 window.openSeerGuide = (mapId, uid) => {
  const params = new URLSearchParams();
  const m = Number(mapId) || 0;
@@ -61,7 +80,16 @@ window.openSeerGuide = (mapId, uid) => {
  if (m > 0) params.set('map', String(m));
  if (u > 0) params.set('uid', String(u));
  const qs = params.toString();
- window.open(qs ? `/guide/index.html?${qs}` : '/guide/index.html', '_blank', 'noopener');
+ const url = qs ? `/guide/index.html?${qs}` : '/guide/index.html';
+ guideTopLink.href = url;
+ guideModalExt.href = url;
+ const win = window.open(url, '_blank');
+ if (win) {
+  try { win.opener = null; } catch {}
+  return;
+ }
+ guideModalFrame.src = url;
+ guideModal.classList.add('open');
 };
 window.RufflePlayer = { config: { quality: typeof window.orientation === 'undefined' ? 'high' : null, publicPath: '/ruffle/', deviceFontRenderer: 'canvas', scale: 'showAll', forceScale: true, autoplay: 'on', unmuteOverlay: 'hidden', allowScriptAccess: true, socketProxy: [{host:'127.0.0.1',port:9999,proxyUrl:location.origin.replace(/^http/,'ws')+'/socket'}] } };
 window.addEventListener('load', async () => {

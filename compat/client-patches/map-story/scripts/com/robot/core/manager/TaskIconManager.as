@@ -95,6 +95,11 @@ package com.robot.core.manager
             _guideIcon = getIcon("new_player_icon");
             if(_guideIcon != null)
             {
+               if(_guideIcon is Sprite)
+               {
+                  Sprite(_guideIcon).buttonMode = true;
+                  Sprite(_guideIcon).mouseChildren = false;
+               }
                _guideIcon.addEventListener(MouseEvent.CLICK,onOpenGuide);
                addIcon(_guideIcon);
             }
