@@ -330,6 +330,8 @@ function build() {
 
   const miracleRecipes = miraclesRaw.map((m, idx) => {
     const totalW = m.weights.reduce((s, [, w]) => s + w, 0);
+    const merged = new Map();
+    for (const [pid, w] of m.weights) merged.set(pid, (merged.get(pid) || 0) + w);
     return {
       index: idx + 1,
       mainId: m.main,
@@ -341,7 +343,7 @@ function build() {
       soulId: m.soul,
       soulName: hatchById[m.soul]?.name || itemName(m.soul),
       absorbMaps: (hatchById[m.soul]?.steps || []).map((s) => `${s.mapName}(${s.mapId})`),
-      pool: m.weights
+      pool: [...merged.entries()]
         .map(([pid, w]) => ({
           petId: pid,
           petName: petName(pid),

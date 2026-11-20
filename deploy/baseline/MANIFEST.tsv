@@ -3403,8 +3403,8 @@ client/overlay/config/ServerR.xml	8255cc4df83c532613d30800715ac679fb658d7f69e999
 client/overlay/config/doorConfig.xml	77fd7035cb57e928c1e672891d64ade1746d45f61023ea0568dc7ee7be1b4e10	644	root:kose-seer
 client/overlay/dll/GroupFightDLL.swf	481fab3a2a4e11ccfeeab2cdc73ef4b0b4af643f6b1382dc982ca93c4e6bf233	644	root:kose-seer
 client/overlay/dll/NieoCore.swf	764d86269d5182baecf7025bf8af36ec09c4f7e622786fa483b7606fcbcbead9	644	root:kose-seer
-client/overlay/guide/guide-app.js	1163fcbe251c8ca4ef1245338e001c74254c42b9d03b0c3ebc8be53c3192262d	644	root:kose-seer
-client/overlay/guide/guide-data.js	21083a5aca52a331471740ddf20401fbb38bccb98c05fbbb446d4a0800c1cd15	644	root:kose-seer
+client/overlay/guide/guide-app.js	af8da30cd9ee92ade553dfc1cab7a99a6a46cda0ecd56b465548a3cf0db53bbb	644	root:kose-seer
+client/overlay/guide/guide-data.js	cfcf336b3f9f542782c694118dffa9d9101509aa81dc83f54e07a37f07836d75	644	root:kose-seer
 client/overlay/guide/img/maps/10.jpg	e8bd393916722f36b4cc1ebf3b7199da451ceb4dfb05522819e09483e8394dce	644	root:kose-seer
 client/overlay/guide/img/maps/10039.jpg	c7fb580476da3f246f770f0076753c37b262189a8268bd0a0c3ddb16e4e91237	644	root:kose-seer
 client/overlay/guide/img/maps/102.jpg	dab74b010acb95e69c525b7cfb88061ed7e56b88fa6f33ac953472fc03428dc1	644	root:kose-seer

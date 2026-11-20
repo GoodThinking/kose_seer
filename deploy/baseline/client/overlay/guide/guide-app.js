@@ -942,21 +942,32 @@
     } else if (state.fusionTab === 'miracle') {
       const list = DATA.fusion.miracles.filter((m) => !q || `${m.mainName} ${m.subTypeName} ${m.essenceName} ${m.pool.map((p) => p.petName).join(' ')}`.toLowerCase().includes(q));
       root.innerHTML = `
-        <div class="callout"><strong>奇迹融合规则：</strong>主宠必须为指定最终形态，副宠为对应属性任意精灵（或万能副宠<strong>尼尔/菲斯利/艾斯菲亚</strong>）+ 对应精华，按权重随机产出池内精灵。</div>
+        <div class="callout">
+          <strong>什么是奇迹融合？（同系随机奖池）</strong><br>
+          每次投入 <strong>指定主宠（最终形态）</strong> + <strong>任意一只对应属性副宠（或万能副宠尼尔一族）</strong> + <strong>1 个对应精华 + 1000 赛尔豆</strong>，合成对应元神珠后，会从下方奖池按概率<strong>随机开出 1 只精灵</strong>（消耗主副两只精灵；副宠任意同系即可，不需要拿主宠和自己融合）。
+        </div>
         <div class="card-grid">${list.map((m) => `
-          <article class="card">
+          <article class="card" style="cursor:default">
             <div class="card-top">
               <div class="card-head-row">
                 ${petAvatar(m.mainId, m.mainName)}
                 <div style="min-width:0">
-                  <h3 class="card-title">${esc(m.mainName)} + ${esc(m.subTypeName)}系 / 尼尔</h3>
-                  <div class="card-sub">${esc(m.soulName)} · 消耗 ${esc(m.essenceName)}</div>
+                  <h3 class="card-title">主宠：${esc(m.mainName)} <span style="font-size:12px;color:var(--text-muted)">#${m.mainId}</span></h3>
+                  <div class="card-sub">产出 ${esc(m.soulName)} · 吸收点：${esc(m.absorbMaps.join(' / ') || '转化仪直接转化')}</div>
                 </div>
               </div>
               <span class="badge pink">奇迹 #${m.index}</span>
             </div>
-            <div class="card-footer" style="margin-top:10px">
-              ${m.pool.map((p) => `<span class="badge" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
+            <div class="formula-flow">
+              <span class="formula-node">${petAvatar(m.mainId, m.mainName, 'pet-avatar-sm')}${esc(m.mainName)}</span>
+              <span class="formula-op">+</span>
+              <span class="formula-node" style="padding-left:10px">任意${esc(m.subTypeName)}系 / 尼尔</span>
+              <span class="formula-op">+</span>
+              <span class="formula-node" style="padding-left:10px">${esc(m.essenceName)}</span>
+            </div>
+            <div style="font-size:11.5px;color:var(--text-muted);margin:10px 0 6px;font-weight:600">▼ 转化随机开出以下 1 只（共 ${m.pool.length} 种，金框为 ≤5% 稀有大奖）：</div>
+            <div class="card-footer" style="margin-top:0">
+              ${m.pool.map((p) => `<span class="badge ${p.rate <= 5 ? 'gold' : ''}" data-open-pet="${p.petId}" style="cursor:pointer">${petAvatar(p.petId, p.petName, 'pet-avatar-sm')} ${esc(p.petName)} <strong>${p.rate}%</strong></span>`).join('')}
             </div>
           </article>
         `).join('')}</div>`;
