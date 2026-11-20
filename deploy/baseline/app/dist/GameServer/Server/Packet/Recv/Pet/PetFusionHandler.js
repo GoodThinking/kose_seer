@@ -486,22 +486,29 @@ let SoulBeadToPetHandler = class SoulBeadToPetHandler {
             await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.SOULBEAD_TO_PET).setResult(103547));
             return;
         }
-        const granted = await player.PetManager.GivePet(petId, 1, obtainTime);
-        if (!granted) {
-            await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.SOULBEAD_TO_PET).setResult(5000));
-            return;
+        let hatched = player.PetManager.GetPetByCatchTime(obtainTime);
+        if (!hatched) {
+            const granted = await player.PetManager.GivePet(petId, 1, obtainTime);
+            if (!granted) {
+                await player.SendPacket(new PacketEmpty_1.PacketEmpty(CommandID_1.CommandID.SOULBEAD_TO_PET).setResult(5000));
+                return;
+            }
+            hatched = player.PetManager.GetPetByCatchTime(obtainTime);
         }
-        const hatched = player.PetManager.GetPetByCatchTime(obtainTime);
         if (hatched) {
-            const playModes = require("../../../../../Game/Progression/PlayModes");
-            const aura = await playModes.GetDexAura(player.Uid);
-            playModes.InvalidateDexCache(player.Uid);
-            const dv31Rate = aura?.dv31Rate || 0.15;
-            const minDv = Math.random() < dv31Rate ? 31 : (20 + Math.floor(Math.random() * 12));
-            if ((hatched.dv || 0) < minDv) {
-                hatched.dv = minDv;
-                const { PetCalculator } = require("../../../../../Game/Pet/PetCalculator");
-                PetCalculator.UpdatePetStats(hatched);
+            try {
+                const playModes = require("../../../../Game/Progression/PlayModes");
+                const aura = await playModes.GetDexAura(player.Uid);
+                playModes.InvalidateDexCache(player.Uid);
+                const dv31Rate = aura?.dv31Rate || 0.15;
+                const minDv = Math.random() < dv31Rate ? 31 : (20 + Math.floor(Math.random() * 12));
+                if ((hatched.dv || 0) < minDv) {
+                    hatched.dv = minDv;
+                    const { PetCalculator } = require("../../../../Game/Pet/PetCalculator");
+                    PetCalculator.UpdatePetStats(hatched);
+                }
+            } catch (e) {
+                utils_1.Logger.Warn("[SoulBeadToPet] DV floor bonus skipped:", e?.message || e);
             }
         }
         await DatabaseManager_1.DatabaseManager.Instance.WithConnection(driver => driver.execute('DELETE FROM player_soul_beads WHERE owner_id = ? AND obtain_time = ?', [player.Uid, obtainTime]));
